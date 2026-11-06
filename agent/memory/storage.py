@@ -149,28 +149,48 @@ class MemoryStorage:
             assert self.conn is not None
             self.vector_backend = SQLiteVectorBackend(self.conn)
     
+    def _log_db_error(self, operation: str, exc: BaseException):
+        from common.log import logger
+        logger.error(
+            "[MemoryStorage] Database operation failed: operation=%s db_path=%s "
+            "sqlite_errorcode=%s sqlite_errorname=%s error=%s",
+            operation, self.db_path.absolute(),
+            getattr(exc, "sqlite_errorcode", None),
+            getattr(exc, "sqlite_errorname", None), exc,
+            exc_info=True,
+        )
+
     def _check_fts5_support(self) -> bool:
-        """Check if SQLite has FTS5 support"""
+        """Check FTS5 support; storage errors must not look like missing FTS5."""
+        operation = "CREATE VIRTUAL TABLE fts5_test"
         try:
             self.conn.execute("CREATE VIRTUAL TABLE IF NOT EXISTS fts5_test USING fts5(test)")
+            operation = "DROP TABLE fts5_test"
             self.conn.execute("DROP TABLE IF EXISTS fts5_test")
             return True
-        except sqlite3.OperationalError as e:
-            if "no such module: fts5" in str(e):
+        except sqlite3.OperationalError as exc:
+            if "no such module: fts5" in str(exc):
                 return False
+            self._log_db_error(operation, exc)
             raise
 
     def _open_conn(self) -> sqlite3.Connection:
-        conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
+        conn = None
+        operation = "sqlite3.connect"
         try:
+            conn = sqlite3.connect(str(self.db_path), check_same_thread=False)
             conn.row_factory = sqlite3.Row
             # WAL and busy_timeout must be set before any long read (notably
             # integrity_check), otherwise a concurrent writer makes it fail with
             # SQLITE_BUSY, which used to be misread as corruption.
+            operation = "PRAGMA journal_mode=WAL"
             conn.execute("PRAGMA journal_mode=WAL")
+            operation = "PRAGMA busy_timeout=5000"
             conn.execute("PRAGMA busy_timeout=5000")
-        except Exception:
-            conn.close()
+        except Exception as exc:
+            self._log_db_error(operation, exc)
+            if conn is not None:
+                conn.close()
             raise
         return conn
 
@@ -346,6 +366,7 @@ class MemoryStorage:
         that don't depend on the size of the database; anything that reads the
         index is left to _schedule_maintenance.
         """
+        operation = "open connection"
         try:
             try:
                 self.conn = self._open_conn()
@@ -360,6 +381,7 @@ class MemoryStorage:
                     )
                 raise
 
+            operation = "check FTS5 support"
             # Check FTS5 support
             self.fts5_available = self._check_fts5_support()
             if not _HAS_UPSERT:
@@ -373,122 +395,138 @@ class MemoryStorage:
             if not self.fts5_available:
                 from common.log import logger
                 logger.debug("[MemoryStorage] FTS5 not available, using LIKE-based keyword search")
-        except Exception as e:
-            from common.log import logger
-            logger.error(f"[MemoryStorage] Unexpected error during database initialization: {e}")
-            raise
-
-        # Create chunks table with embeddings
-        self.conn.execute("""
-            CREATE TABLE IF NOT EXISTS chunks (
-                id TEXT PRIMARY KEY,
-                user_id TEXT,
-                scope TEXT NOT NULL DEFAULT 'shared',
-                source TEXT NOT NULL DEFAULT 'memory',
-                path TEXT NOT NULL,
-                start_line INTEGER NOT NULL,
-                end_line INTEGER NOT NULL,
-                text TEXT NOT NULL,
-                embedding TEXT,
-                hash TEXT NOT NULL,
-                metadata TEXT,
-                created_at INTEGER DEFAULT (strftime('%s', 'now')),
-                updated_at INTEGER DEFAULT (strftime('%s', 'now')),
-                hit_count INTEGER NOT NULL DEFAULT 0,
-                last_hit_at INTEGER
-            )
-        """)
-
-        # Older builds created chunks without hit tracking; add the columns
-        # in place so an existing index keeps working without a rebuild.
-        self._migrate_hit_columns()
-
-        # Create indexes
-        self.conn.execute("""
-            CREATE INDEX IF NOT EXISTS idx_chunks_user 
-            ON chunks(user_id)
-        """)
-
-        self.conn.execute("""
-            CREATE INDEX IF NOT EXISTS idx_chunks_scope 
-            ON chunks(scope)
-        """)
-
-        self.conn.execute("""
-            CREATE INDEX IF NOT EXISTS idx_chunks_hash 
-            ON chunks(path, hash)
-        """)
-
-        # Internal key-value store for persistent flags (e.g. backfill tracking)
-        self.conn.execute("""
-            CREATE TABLE IF NOT EXISTS _meta (
-                key TEXT PRIMARY KEY,
-                value TEXT NOT NULL
-            )
-        """)
-
-        repair_pending = False
-        # Create FTS5 virtual table + triggers (only if supported).
-        # If the previous process crashed mid-rebuild and left triggers
-        # pointing at a missing chunks_fts (or vice versa), the missing side is
-        # created here so chunk writes keep working, and the index is flagged
-        # to be refilled in the background.
-        if self.fts5_available:
-            if self._fts5_state_inconsistent(self.conn):
-                from common.log import logger
-                logger.warning(
-                    "[MemoryStorage] FTS5 state inconsistent (triggers/table mismatch). "
-                    "Rebuilding chunks_fts in the background."
+            operation = "CREATE TABLE chunks"
+            # Create chunks table with embeddings
+            self.conn.execute("""
+                CREATE TABLE IF NOT EXISTS chunks (
+                    id TEXT PRIMARY KEY,
+                    user_id TEXT,
+                    scope TEXT NOT NULL DEFAULT 'shared',
+                    source TEXT NOT NULL DEFAULT 'memory',
+                    path TEXT NOT NULL,
+                    start_line INTEGER NOT NULL,
+                    end_line INTEGER NOT NULL,
+                    text TEXT NOT NULL,
+                    embedding TEXT,
+                    hash TEXT NOT NULL,
+                    metadata TEXT,
+                    created_at INTEGER DEFAULT (strftime('%s', 'now')),
+                    updated_at INTEGER DEFAULT (strftime('%s', 'now')),
+                    hit_count INTEGER NOT NULL DEFAULT 0,
+                    last_hit_at INTEGER
                 )
-                self.conn.execute(
-                    "INSERT OR REPLACE INTO _meta(key, value) VALUES(?, '1')",
-                    (_FTS_REBUILD_PENDING,),
-                )
-                repair_pending = True
-            if self._migrate_legacy_fts_triggers():
-                repair_pending = True
-            self._create_fts5_objects(self.conn)
+            """)
 
-        # Create trigram FTS5 table for CJK / mixed-language search
-        self.trigram_fts5_available = False
-        if self.fts5_available:
-            try:
-                self._create_trigram_objects(self.conn)
-                # CREATE ... IF NOT EXISTS says nothing when the table is
-                # already there: SQLite skips it without loading the module, so
-                # a database written by a build with the trigram tokenizer looks
-                # healthy to one without it, right up until a trigger fires.
-                # Touch the table to find out now.
-                self.conn.execute("SELECT 1 FROM chunks_fts_trigram LIMIT 1").fetchone()
-                self.trigram_fts5_available = True
-                # An empty chunks table has nothing to backfill; its trigram
-                # index is kept complete by the triggers from here on.
-                if not self.conn.execute(
-                    "SELECT 1 FROM chunks LIMIT 1"
-                ).fetchone():
-                    self.conn.execute(
-                        "INSERT OR IGNORE INTO _meta(key, value) VALUES(?, '1')",
-                        (_TRIGRAM_DONE,),
+            # Older builds created chunks without hit tracking; add the columns
+            # in place so an existing index keeps working without a rebuild.
+            operation = "migrate chunks hit columns"
+            self._migrate_hit_columns()
+
+            operation = "CREATE INDEX chunks"
+            # Create indexes
+            self.conn.execute("""
+                CREATE INDEX IF NOT EXISTS idx_chunks_user
+                ON chunks(user_id)
+            """)
+
+            self.conn.execute("""
+                CREATE INDEX IF NOT EXISTS idx_chunks_scope
+                ON chunks(scope)
+            """)
+
+            self.conn.execute("""
+                CREATE INDEX IF NOT EXISTS idx_chunks_hash
+                ON chunks(path, hash)
+            """)
+
+            operation = "CREATE TABLE _meta"
+            # Internal key-value store for persistent flags (e.g. backfill tracking)
+            self.conn.execute("""
+                CREATE TABLE IF NOT EXISTS _meta (
+                    key TEXT PRIMARY KEY,
+                    value TEXT NOT NULL
+                )
+            """)
+
+            operation = "initialize FTS5 tables and triggers"
+            repair_pending = False
+            # Create FTS5 virtual table + triggers (only if supported).
+            # If the previous process crashed mid-rebuild and left triggers
+            # pointing at a missing chunks_fts (or vice versa), the missing side is
+            # created here so chunk writes keep working, and the index is flagged
+            # to be refilled in the background.
+            if self.fts5_available:
+                if self._fts5_state_inconsistent(self.conn):
+                    from common.log import logger
+                    logger.warning(
+                        "[MemoryStorage] FTS5 state inconsistent (triggers/table mismatch). "
+                        "Rebuilding chunks_fts in the background."
                     )
-            except Exception:
-                from common.log import logger
-                logger.warning("[MemoryStorage] trigram FTS5 unavailable, CJK search will use LIKE fallback", exc_info=True)
-                self._disable_trigram_index()
+                    self.conn.execute(
+                        "INSERT OR REPLACE INTO _meta(key, value) VALUES(?, '1')",
+                        (_FTS_REBUILD_PENDING,),
+                    )
+                    repair_pending = True
+                if self._migrate_legacy_fts_triggers():
+                    repair_pending = True
+                self._create_fts5_objects(self.conn)
 
-        # Create files metadata table
-        self.conn.execute("""
-            CREATE TABLE IF NOT EXISTS files (
-                path TEXT PRIMARY KEY,
-                source TEXT NOT NULL DEFAULT 'memory',
-                hash TEXT NOT NULL,
-                mtime INTEGER NOT NULL,
-                size INTEGER NOT NULL,
-                updated_at INTEGER DEFAULT (strftime('%s', 'now'))
-            )
-        """)
+            operation = "initialize trigram FTS5 tables and triggers"
+            # Create trigram FTS5 table for CJK / mixed-language search
+            self.trigram_fts5_available = False
+            if self.fts5_available:
+                try:
+                    self._create_trigram_objects(self.conn)
+                    # CREATE ... IF NOT EXISTS says nothing when the table is
+                    # already there: SQLite skips it without loading the module, so
+                    # a database written by a build with the trigram tokenizer looks
+                    # healthy to one without it, right up until a trigger fires.
+                    # Touch the table to find out now.
+                    self.conn.execute("SELECT 1 FROM chunks_fts_trigram LIMIT 1").fetchone()
+                    self.trigram_fts5_available = True
+                    # An empty chunks table has nothing to backfill; its trigram
+                    # index is kept complete by the triggers from here on.
+                    if not self.conn.execute(
+                        "SELECT 1 FROM chunks LIMIT 1"
+                    ).fetchone():
+                        self.conn.execute(
+                            "INSERT OR IGNORE INTO _meta(key, value) VALUES(?, '1')",
+                            (_TRIGRAM_DONE,),
+                        )
+                except sqlite3.OperationalError as exc:
+                    # Only a missing tokenizer is a capability limitation.
+                    # I/O, locking and corruption errors must abort initialization
+                    # without detaching a working persistent search index.
+                    if "no such tokenizer:" not in str(exc):
+                        raise
+                    from common.log import logger
+                    logger.warning("[MemoryStorage] trigram FTS5 unavailable, CJK search will use LIKE fallback", exc_info=True)
+                    operation = "disable unsupported trigram triggers"
+                    self._disable_trigram_index()
 
-        self.conn.commit()
-        self._schedule_maintenance(repair_pending)
+            operation = "CREATE TABLE files"
+            # Create files metadata table
+            self.conn.execute("""
+                CREATE TABLE IF NOT EXISTS files (
+                    path TEXT PRIMARY KEY,
+                    source TEXT NOT NULL DEFAULT 'memory',
+                    hash TEXT NOT NULL,
+                    mtime INTEGER NOT NULL,
+                    size INTEGER NOT NULL,
+                    updated_at INTEGER DEFAULT (strftime('%s', 'now'))
+                )
+            """)
+
+            operation = "commit initialization"
+            self.conn.commit()
+            operation = "schedule maintenance"
+            self._schedule_maintenance(repair_pending)
+        except Exception as exc:
+            self._log_db_error(operation, exc)
+            if self.conn is not None:
+                self.conn.close()
+                self.conn = None
+            raise
 
     def _disable_trigram_index(self):
         """Detach a trigram index this build cannot open.
@@ -506,13 +544,9 @@ class MemoryStorage:
         later open by a capable build rebuild the index over the writes it
         missed.
         """
-        try:
-            for trigger in ("chunks_trigram_ai", "chunks_trigram_ad", "chunks_trigram_au"):
-                self.conn.execute(f"DROP TRIGGER IF EXISTS {trigger}")
-            self.conn.execute("DELETE FROM _meta WHERE key = ?", (_TRIGRAM_DONE,))
-        except Exception:
-            from common.log import logger
-            logger.warning("[MemoryStorage] Failed to drop trigram triggers", exc_info=True)
+        for trigger in ("chunks_trigram_ai", "chunks_trigram_ad", "chunks_trigram_au"):
+            self.conn.execute(f"DROP TRIGGER IF EXISTS {trigger}")
+        self.conn.execute("DELETE FROM _meta WHERE key = ?", (_TRIGRAM_DONE,))
 
     def _migrate_hit_columns(self):
         """Add hit tracking columns to a chunks table created by an older build.
