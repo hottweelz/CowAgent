@@ -1,5 +1,31 @@
 # AI handoff ledger
 
+## 2026-11-07 14:06 EST — Codex — Publish task branches and retain push preference
+
+- Task: publish the completed recovery and verification commits for tracking;
+  retain the maintainer's instruction to push future completed task commits.
+- Team: Codex lead only; bounded Git/documentation work needs no delegation.
+- Changes/files: published feat/recovery-001-durable-tasks at 8ed52509 and
+  feat/verification-001-task-outcomes at 88151dff to the existing origin fork,
+  hottweelz/CowAgent; established matching upstreams. Updated project MEMORY.md
+  with the standing same-name branch publication preference; added this handoff.
+- Commands/results: `git push --atomic --set-upstream origin` for both named
+  branches succeeded; `git fetch origin --prune` and ahead/behind comparisons
+  returned 0 0 for each. `git diff --check` passed. This documentation commit
+  follows the current branch's tracked origin. No behavior changed, so accepted
+  regression evidence was retained without rerunning tests.
+- Decisions: future completed CowAgent task commits are pushed for tracking.
+  New task branches use the same name on the known origin fork. This maintainer
+  instruction overrides the default no-upstream stop. Verify sync after pushes;
+  merges and deployments retain separate task-specific authorization.
+- Lessons Learned: none.
+- Known issues: existing nine ChannelsPage type errors remain the separate
+  baseline. Unrelated untracked AGENTS.md and three conflicted PID files remain.
+- Next recommended steps: none for this publication task.
+- Notes for the next agent: both feature branches now track origin. Project
+  MEMORY.md was updated with the durable workflow preference. Production data,
+  services, model selection and identity files were untouched.
+
 ## 2026-11-07 13:16 EST — Codex — VERIFICATION-001 separate task outcomes
 
 - Task/result: separated worker execution, acceptance criteria and independent

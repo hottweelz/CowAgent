@@ -1,5 +1,11 @@
 # CowAgent project facts
 
+- Maintainer preference (2026-11-07): push completed task commits for tracking.
+  Publish new CowAgent task branches to the same branch name on the existing
+  `origin` fork (`hottweelz/CowAgent`) and establish upstream tracking without
+  another confirmation. This overrides the default no-upstream stop for this
+  known fork. Verify synchronization after pushing. Merges and deployments
+  retain their separate task-specific authorization.
 - Worker authorization is a trusted-host capability boundary, not an OS sandbox.
   Restricted workers cannot execute Bash, arbitrary programs, browser or MCP
   calls. Native text-file operations use a descriptor-relative POSIX broker.
