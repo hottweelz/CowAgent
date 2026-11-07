@@ -29,6 +29,32 @@ function _ctxFmtTokens(n) {
     if (n < 10000) return (n / 1000).toFixed(1) + 'k';
     return Math.round(n / 1000) + 'k';
 }
+function _ctxLatestRequestUsageHtml(lastRequest) {
+    const usage = lastRequest && lastRequest.usage;
+    if (!usage || typeof usage !== 'object') return '';
+    const callsValue = Number(usage.calls);
+    const calls = Number.isFinite(callsValue) && callsValue > 0 ? callsValue : null;
+    const rows = [
+        { label: t('ctx_request_input'), count: usage.prompt_tokens, coverage: usage.prompt_tokens_reported_calls },
+        { label: t('ctx_request_output'), count: usage.completion_tokens, coverage: usage.completion_tokens_reported_calls },
+    ].map((item) => {
+        const count = item.count !== null && item.count !== undefined &&
+            Number.isFinite(Number(item.count)) && Number(item.count) >= 0 ? Number(item.count) : null;
+        const coverage = item.coverage !== null && item.coverage !== undefined &&
+            Number.isFinite(Number(item.coverage)) && Number(item.coverage) >= 0 ? Number(item.coverage) : null;
+        // A normalized zero is actual only when at least one call reported it.
+        const known = count !== null && coverage !== null && coverage > 0;
+        const partial = known && calls !== null && coverage < calls;
+        const value = known ? count.toLocaleString() : t('ctx_request_unknown');
+        const status = partial
+            ? ' <span class="ctx-usage-est">' + t('ctx_request_partial').replace('{reported}', coverage).replace('{calls}', calls) + '</span>'
+            : '';
+        return '<div class="ctx-usage-row"><span class="ctx-usage-label">' + item.label +
+            '</span><span class="ctx-usage-val">' + value + status + '</span></div>';
+    }).join('');
+    return '<div class="ctx-usage-foot ctx-usage-request"><strong>' + t('ctx_request_latest') +
+        '</strong>' + rows + '</div>';
+}
 function _ctxDonutSvg(slices) {
     const size = 96, stroke = 12, r = (size - stroke) / 2, c = 2 * Math.PI * r;
     const total = slices.reduce((s, x) => s + Math.max(0, x.value), 0);
@@ -84,6 +110,7 @@ function _ctxRenderCard(usage) {
         '<span class="ctx-usage-pct">' + percent + '%</span></div>' +
         '<div class="ctx-usage-legend">' + rows + '</div>' +
         '<div class="ctx-usage-foot">' + usedLine + '</div>' +
+        _ctxLatestRequestUsageHtml(usage.last_request) +
         _ctxActionsBar()
     );
 }

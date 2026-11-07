@@ -214,13 +214,10 @@ class SearchFiles(BaseTool):
 
     name: str = "search_files"
     description: str = (
-        "Search file contents, or find files by name. Prefer this over running "
-        "grep/rg/find in the bash tool.\n"
-        "Content search (target='content', default): regex search inside files, returning "
-        "matching lines with their file path and line number. Narrow with file_glob, "
-        "choose the result shape with output_mode.\n"
-        "File search (target='files'): find files by a name glob such as '*.py' or "
-        "'*report*', recursively under path, ordered most-recently-modified first."
+        "Search file contents or find files by name; use this instead of grep/rg/find in bash. "
+        "Default target='content' searches files with a regex and returns matching lines, paths, "
+        "and line numbers. Narrow with file_glob and choose the result format with output_mode. "
+        "target='files' finds matching name globs recursively under path, newest first."
     )
 
     params: dict = {

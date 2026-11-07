@@ -644,6 +644,15 @@ export interface ContextUsage {
     history: number
     free: number
   }
+  last_request?: {
+    usage?: {
+      prompt_tokens?: number
+      completion_tokens?: number
+      prompt_tokens_reported_calls?: number
+      completion_tokens_reported_calls?: number
+      calls?: number
+    }
+  } | null
 }
 
 // ============================================================

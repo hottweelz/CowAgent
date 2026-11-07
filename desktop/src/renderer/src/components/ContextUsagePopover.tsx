@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Shrink, Trash2, Sliders } from 'lucide-react'
 import { apiClient } from '../api/client'
-import { t } from '../i18n'
+import { t, tf } from '../i18n'
 import { useChatStore } from '../store/chatStore'
 import { sessionOwner } from '../store/sessionStore'
 import type { ContextUsage } from '../types'
@@ -19,6 +19,20 @@ const LEGEND: { key: ContextSliceKey; labelKey: string }[] = [
   { key: 'history', labelKey: 'ctx_history' },
   { key: 'free', labelKey: 'ctx_free' },
 ]
+
+function latestRequestTokenValue(
+  usage: NonNullable<NonNullable<ContextUsage['last_request']>['usage']> | undefined,
+  tokenKey: 'prompt_tokens' | 'completion_tokens',
+  coverageKey: 'prompt_tokens_reported_calls' | 'completion_tokens_reported_calls',
+): { value: number | null; reported: number | null; calls: number | null } {
+  const count = usage?.[tokenKey]
+  const reported = usage?.[coverageKey]
+  const calls = usage?.calls
+  const validCount = typeof count === 'number' && Number.isFinite(count) && count >= 0 ? count : null
+  const validReported = typeof reported === 'number' && Number.isFinite(reported) && reported > 0 ? reported : null
+  const validCalls = typeof calls === 'number' && Number.isFinite(calls) && calls > 0 ? calls : null
+  return { value: validCount !== null && validReported !== null ? validCount : null, reported: validReported, calls: validCalls }
+}
 
 interface ContextUsagePopoverProps {
   sessionId: string
@@ -249,6 +263,9 @@ const ContextUsagePopover: React.FC<ContextUsagePopoverProps> = ({
   const miniSlices = hasCtx
     ? LEGEND.map((l) => ({ key: l.key, value: breakdown![l.key] }))
     : undefined
+  const latestRequest = usage?.last_request?.usage
+  const latestInput = latestRequestTokenValue(latestRequest, 'prompt_tokens', 'prompt_tokens_reported_calls')
+  const latestOutput = latestRequestTokenValue(latestRequest, 'completion_tokens', 'completion_tokens_reported_calls')
 
   return (
     <>
@@ -336,6 +353,27 @@ const ContextUsagePopover: React.FC<ContextUsagePopoverProps> = ({
                     .replace('{used}', formatTokens(used))
                     .replace('{limit}', formatTokens(limit))}
                 </div>
+                {latestRequest && (
+                  <div className="mt-2 pt-2 border-t border-default text-[10px] text-content-tertiary tabular-nums">
+                    <div className="font-medium mb-1">{t('ctx_request_latest')}</div>
+                    {([
+                      { label: t('ctx_request_input'), count: latestInput },
+                      { label: t('ctx_request_output'), count: latestOutput },
+                    ] as const).map(({ label, count }) => (
+                      <div key={label} className="flex justify-between gap-2">
+                        <span>{label}</span>
+                        <span className="text-content">
+                          {count.value === null ? t('ctx_request_unknown') : count.value.toLocaleString()}
+                          {count.value !== null && count.calls !== null && count.reported !== null && count.reported < count.calls && (
+                            <span className="ml-1 text-content-tertiary">
+                              ({tf('ctx_request_partial', { reported: count.reported, calls: count.calls })})
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 {/* Actions */}
                 <div className="mt-2.5 pt-2.5 border-t border-default flex gap-1.5">

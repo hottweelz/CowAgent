@@ -1,5 +1,93 @@
 # AI handoff ledger
 
+## 2026-11-06 20:18 EST — Codex — Live accounting gate and Phase 2
+
+- Task: verify live TestPilot/Nemotron accounting with all 16 tools before
+  compressing scheduler/browser/search_files/bash descriptions; push the branch.
+  The live gate passed before Phase 2 edits. No merge or production deployment.
+- Team: Codex lead; Luna/high workers for live-path/count evidence, scope-label UI,
+  scheduler/browser prose, and search/bash prose. The evidence worker performed
+  one bounded final engineering review. Runtime accepted the requested models;
+  effective worker models were not independently exposed. Used STE Playwright
+  guidance; browser host was unavailable, so the CLI drove a private Chrome.
+- Live gate: normal web chat/Agent pipeline on a private consistent copy of
+  existing memory/history, configured Nemotron, 16 tools on both calls. FTS5
+  returned one row; no LIKE fallback. Raw input 9,994 + 10,271 = 20,265; output
+  83 + 73 = 156. Both raw cache reads were explicitly zero and matched stored
+  counters. UI exposed a gap: latest-request data existed only in the API.
+- Changes: web/desktop cards now show latest actual input/output separately from
+  estimated current context; reply tooltips say Run total. Unknown, partial and
+  reported-zero behavior is preserved. Shortened only four tool descriptions
+  and Bash's desktop prose variant; parameter schemas and execution logic remain.
+- Measured result: identical first-request messages, all 16 argument schemas
+  equal; actual first input 9,994 -> 9,795, saving 199 tokens (2.0%). Matched public
+  NVIDIA template also saves 199; four target blocks save 7.1%, below the proposed
+  20–35% range because parameter prose and safeguards remain. The non-desktop
+  replay saves 185; do not mix that variant with the live desktop variant.
+- Post-change verification: indexed lookup again returned one FTS row. Latest
+  input/output 10,094/42; run 19,889/147. Provider cache read 8,672 was retained
+  exactly and the actual UI showed Cached 44% for the run. Previous session usage
+  restored after private server restart. Four live auto-selection cases exposed
+  all 16 tools; each chose the expected tool with valid args and succeeded on
+  isolated fixtures (unsent reminder record, local browser page, search, printf).
+- Files: four modules under `agent/tools/{bash,browser,scheduler,search_files}`;
+  web `chat/context-usage.js` and `core/i18n.js`; desktop ContextUsagePopover,
+  types and i18n; `tests/test_tool_description_contract.py`,
+  `tests/test_usage_display.mjs`; efficiency README, phase1, implementation plan,
+  new phase2 report/verification JSON; this ledger.
+- Commands/checks: private-COW_DATA_DIR pytest groups passed 85 scheduler/browser/
+  schema cases (seven real Chrome ref actions), 68 Bash/schema cases, and worker
+  130 search/Windows-guidance cases with six optional skips. Four schema cases
+  overlap the first two groups; worker repeated eight Windows guidance tests
+  after its final edit. Exact groups are recorded below. Eight Node display tests,
+  Python compilation/F-class Ruff, web syntax, JSON/diff checks passed. Desktop
+  production build passed. Renderer typecheck found a missing tf import in the
+  new partial-usage view; fixed it, then only the nine pre-existing ChannelsPage
+  icon errors remained. The final desktop build was repeated after that fix.
+- Test groups: `test_tool_description_contract`, scheduler `relative_store`,
+  `once_past_time`, `timezone`, `silent`, `cross_channel_recipients`,
+  `task_permission_mode`; browser `ref_actions_native`, `snapshot_selector`,
+  `fill_required_text`, `scroll_amount`, `driver_loss`, plus
+  `test_security_ssrf_browser_navigate`; Bash `full_output`, `background`,
+  `exit_codes`, `rm_safety_flags`, `config_propagation`; search_files `tool`,
+  `brace_globs_native`, `powershell_quoting`, plus `test_bash_windows_guidance`.
+  All names are under tests/ with `.py`; Bash and scheduler names have `test_`
+  prefixes. Node command: `node --test tests/test_usage_display.mjs`.
+- Decisions: keep all parameter descriptions and capabilities; count actual
+  request saving separately from generated continuation variability. No cache
+  directives, model/identity/instruction changes or title-budget changes. The
+  configured credential stayed in memory; global .env bootstrap was skipped in
+  the private test server. Optional Playwright 1.64.1/pyee/greenlet were installed
+  only in the existing .venv for native browser tests; no manifest/lock changes.
+- Lessons Learned:
+  - Mistake: API scope separation did not make the latest request visible in the
+    UI; a production bundler also did not catch an unimported JSX helper.
+  - Root Cause: Phase 1 lacked a real UI gate; Vite transpiles the renderer without
+    a full typecheck. Non-desktop versus desktop prose also changes token totals.
+  - Future Trigger: usage-scope changes, renderer helper additions, or comparisons
+    of descriptions with runtime workspace/platform substitutions.
+  - Required Behavior Change: check rendered labels against real provider counts;
+    inspect typecheck errors against the known baseline; compare matched variants.
+  - Verification Step: real browser assertions, raw/normalized counter agreement,
+    scoped schema/AST tests, four live selection/execution cases and desktop build.
+  - Durable Memory Update: contract and measured limits recorded in phase2.md.
+- Known issues: single memory case/four synthetic selections are not broad quality
+  coverage; provider cache reuse is variable. Native Windows shell and desktop GUI
+  were not exercised. Existing renderer icon errors remain out of scope. The web
+  client logged expected connection refusals during the private restart; no new
+  uncaught JS error. No claim of a production restart or exact provider template.
+- Preservation: source memory/history/instruction file hashes match the pre-copy
+  manifest; no production DB/config rewrite. Both private server and private
+  browser were stopped. Preserve unrelated untracked AGENTS.md and three
+  conflicted PID files. No global memory changes. MEMORY.md update: not needed;
+  no project memory file exists and instruction files are outside this scope.
+- Next recommended steps: none for this deliverable. Phases 3–5 stay proposals.
+- Next-agent notes: report `docs/efficiency-001/phase2.md`; sanitized numeric JSON
+  beside it. Private receipts, UI captures and one-off reproduction scripts are
+  under `/private/tmp/cowagent-live-phase1-88lj2ns1`; never commit that runtime copy.
+  Working branch tracks `origin/audit/efficiency-001-context-cache`; parent commits
+  intended files, pushes, fetches and requires HEAD...@{u} = 0 0. No merge.
+
 ## 2026-11-06 19:29 EST — Codex — EFFICIENCY-001 Phase 1 accounting
 
 - Task: implement the approved Phase 1 request accounting/context budgeting and

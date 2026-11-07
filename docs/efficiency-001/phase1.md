@@ -2,8 +2,12 @@
 
 Implemented on `audit/efficiency-001-context-cache`, following audit commit
 `4792f8f5`. The maintainer authorized implementation and publication of this
-branch. Phases 2–5 remain proposals; this change does not shorten instructions,
+branch. At this commit, Phases 2–5 remained proposals; this change does not shorten instructions,
 remove tools, change model selection or add cache-routing directives.
+
+Follow-up: the [live accounting gate and Phase 2](phase2.md) are now complete.
+That report records fresh provider/UI evidence and the additional latest-request
+display. The verification and limits below describe the original Phase 1 commit.
 
 ## Result
 

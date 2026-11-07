@@ -34,19 +34,10 @@ class SchedulerTool(BaseTool):
     
     name: str = "scheduler"
     description: str = (
-        "创建、查询和管理定时任务（提醒、周期性任务等）。\n\n"
-        "⚠️ 重要：仅当需要「定时/提醒/每天/每周/X分钟后/X点」等延迟或周期执行时才使用此工具。"
-        "使用方法：\n"
-        "- 创建：action='create', name='任务名', message/ai_task='内容', schedule_type='once/interval/cron', schedule_value='...'\n"
-        "- 查询：action='list' / action='get', task_id='任务ID'\n"
-        "- 管理：action='delete/enable/disable', task_id='任务ID'\n\n"
-        "调度类型：\n"
-        "- once: 一次性任务，支持相对时间(+5s,+10m,+1h,+1d)或ISO时间\n"
-        "- interval: 固定间隔(秒)，如3600表示每小时\n"
-        "- cron: cron表达式，如'0 8 * * *'表示每天8点\n\n"
-        "注意：'X秒后'用once+相对时间，'每X秒'用interval\n"
-        "For Web cross-channel delivery, call action='list_recipients' first, "
-        "then create a task (fixed message or ai_task) using the returned channel_type and receiver."
+        "创建、查询和管理定时任务（提醒/周期任务）。仅在用户要求延迟或周期执行时使用。"
+        "操作：create、list、list_recipients、get、delete、enable、disable。创建需 name、message 或 ai_task（二选一）、schedule_type 和 schedule_value。"
+        "schedule_type：once（一次；相对时间如 +5s/+10m/+1h/+1d 或 ISO 时间）、interval（秒，如 3600）、cron（如 '0 8 * * *' 表示每天 8 点）。"
+        "“X秒后”用 once；“每X秒”用 interval。Web 跨渠道任务先调用 list_recipients，再用返回的 channel_type、receiver 和（多实例时）instance_id；只可选择可信收件人。"
     )
     params: dict = {
         "type": "object",

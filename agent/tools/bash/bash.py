@@ -42,13 +42,13 @@ class Bash(BaseTool):
     name: str = "bash"
     description: str = f"""Execute a {'command' if _IS_WIN else 'bash command'} in the current working directory. Returns stdout and stderr. Output is truncated to last {DEFAULT_MAX_LINES} lines or {DEFAULT_MAX_BYTES // 1024}KB (whichever is hit first). If truncated, full output is saved to a temp file.
 {'''
-PLATFORM: Windows (cmd.exe), not Bash, WSL, PowerShell, or Windows Terminal. Use cmd.exe syntax: double quotes (single quotes are literal), `>nul 2>&1` instead of `/dev/null`, `&&` instead of `;`, and `findstr /I "pattern"` without grep-style `-i`/`-e` flags. Do not invoke `bash script.sh` or use Unix-only commands such as grep, head, tail, sed, or awk. Use the search_files tool for file/content search and Python for portable scripting.
+Windows uses cmd.exe, not Bash, WSL, PowerShell, or Windows Terminal. Use double quotes (single quotes are literal); replace `/dev/null` with `>nul 2>&1` and `;` with `&&`. Use `findstr /I "pattern"` (no grep-style `-i`/`-e`). Do not run `bash script.sh` or Unix tools such as grep, head, tail, sed, or awk. Use search_files to search files and Python for portable scripts.
 ''' if _IS_WIN else ''}
-ENVIRONMENT: All API keys from env_config are auto-injected. Use $VAR_NAME directly.
+API keys from env_config are injected; use `$VAR_NAME` directly.
 
 SAFETY:
-- Freely create/modify/delete files within the workspace
-- For destructive commands out of workspace ({{cwd}}), explain and confirm first"""
+- Create, modify, or delete files within the workspace.
+- For destructive commands outside {{cwd}}, explain and confirm first."""
 
     params: dict = {
         "type": "object",
@@ -93,9 +93,8 @@ SAFETY:
         # so require explicit confirmation for destructive ops outside the workspace.
         if os.environ.get("COW_DESKTOP") == "1":
             self._description_template = self._description_template.replace(
-                "- For destructive commands out of workspace ({cwd}), explain and confirm first",
-                "- For delete or destructive operations on files out of workspace ({cwd}), "
-                "be cautious and confirm with the user before executing, unless the user explicitly requested it",
+                "- For destructive commands outside {cwd}, explain and confirm first.",
+                "- For destructive file operations outside {cwd}, confirm first unless explicitly requested",
             )
         # Show the concrete workspace path so the model knows what "the workspace" is
         self.description = self._description_template.replace("{cwd}", self.cwd)

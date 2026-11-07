@@ -45,15 +45,11 @@ class BrowserTool(BaseTool):
 
     name: str = "browser"
     description: str = (
-        "Control a browser to navigate web pages, interact with elements, and extract content. "
-        "Actions: navigate, snapshot, click, fill, select, scroll, screenshot, wait, back, forward, "
-        "get_text, press, evaluate.\n\n"
-        "Workflow: navigate (auto-includes snapshot with element refs) → click/fill/select by ref → snapshot to verify.\n\n"
-        "Use snapshot as the primary way to read pages. Use screenshot + send to show key results to the user. "
-        "For login/CAPTCHA/authorization etc., screenshot and ask the user for help. "
-        "Login state is persisted across sessions (cookies / localStorage are kept in a "
-        "user profile directory), so once the user logs in to a site, the agent can keep "
-        "using it without logging in again."
+        "Control a browser: navigate, snapshot, click, fill, select, scroll, screenshot, wait, "
+        "back/forward, get_text, press, evaluate. Navigation returns a snapshot with element refs; "
+        "use snapshot to read pages, act by ref, then snapshot to verify. Use screenshot + send to "
+        "show key results. For login, CAPTCHA, or authorization, show a screenshot and ask the user "
+        "for help. Login persists across sessions in the user profile (cookies/localStorage)."
     )
 
     params: dict = {
