@@ -585,11 +585,7 @@ class OpenAICompatibleBot:
                 return {
                     "model": vision_model,
                     "content": data["choices"][0]["message"].get("content") or "",
-                    "usage": {
-                        "prompt_tokens": usage.get("prompt_tokens", 0),
-                        "completion_tokens": usage.get("completion_tokens", 0),
-                        "total_tokens": usage.get("total_tokens", 0),
-                    },
+                    "usage": usage,
                 }
 
             payload = {
@@ -614,11 +610,7 @@ class OpenAICompatibleBot:
             return {
                 "model": vision_model,
                 "content": content,
-                "usage": {
-                    "prompt_tokens": usage.get("prompt_tokens", 0),
-                    "completion_tokens": usage.get("completion_tokens", 0),
-                    "total_tokens": usage.get("total_tokens", 0),
-                },
+                "usage": usage,
             }
         except Exception as e:
             logger.error(f"[{self.__class__.__name__}] call_vision error: {e}")

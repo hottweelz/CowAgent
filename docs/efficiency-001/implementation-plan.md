@@ -1,6 +1,7 @@
 # EFFICIENCY-001 proposed implementation plan
 
-Status: **for review; not implemented**. The [baseline](README.md) and
+Status: **Phase 1 implemented; later phases remain for review**. See the
+[Phase 1 result and verification](phase1.md). The [baseline](README.md) and
 [numeric receipts](baseline.json) are the decision inputs. Keep model selection,
 identities, user instruction files, memory, skills and all tool capabilities.
 Do not write to active runtime databases during implementation tests.

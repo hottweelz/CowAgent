@@ -116,15 +116,14 @@ def test_stream_request_sends_usage_option_and_keeps_system_and_tool_schema(monk
     assert response.closed
 
     normalized = AgentStreamExecutor._normalize_stream_usage(chunks[0]["usage"])
-    assert normalized == {
-        "prompt_tokens": 100,
-        "completion_tokens": 5,
-        "total_tokens": 105,
-        "prompt_cache_hit_tokens": 60,
-        "prompt_cache_miss_tokens": 40,
-        "calls": 1,
-    }
-    assert "cache_write_tokens" not in normalized
+    assert normalized['prompt_tokens'] == 100
+    assert normalized['completion_tokens'] == 5
+    assert normalized['prompt_cache_hit_tokens'] == 60
+    assert normalized['prompt_cache_miss_tokens'] == 40
+    assert normalized['prompt_cache_hit_tokens_reported_calls'] == 1
+    assert normalized['cache_creation_input_tokens'] == 4
+    assert normalized['calls'] == 1
+
 
 
 def test_sync_request_omits_cache_routing_fields_but_returns_raw_usage(monkeypatch):

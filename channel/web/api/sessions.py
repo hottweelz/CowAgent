@@ -175,10 +175,10 @@ def _add_delegate_displays(steps) -> None:
 
 
 def _generate_session_title(user_message: str, assistant_reply: str = "",
-                            session_id: str = "") -> str:
+                            session_id: str = "", attempts=None) -> str:
     """Delegate to the shared SessionService implementation."""
     from agent.chat.session_service import generate_session_title
-    return generate_session_title(user_message, assistant_reply, session_id)
+    return generate_session_title(user_message, assistant_reply, session_id, attempts)
 
 
 def _annotate_sessions_with_projects(store, result: dict, agent_id: Optional[str]) -> None:
@@ -833,14 +833,15 @@ class SessionTitleHandler:
             if not user_message:
                 return json.dumps({"status": "error", "message": "user_message required"})
 
-            title = _generate_session_title(user_message, assistant_reply, session_id)
+            attempts = []
+            title = _generate_session_title(user_message, assistant_reply, session_id, attempts)
 
             from agent.memory import get_conversation_store
             store = get_conversation_store(_get_workspace_root(agent_id=agent_id))
             existed = store.upsert_title(session_id, title, channel_type="web")
-            logger.info(f"[WebChannel] Session title set: sid={session_id}, title='{title}', existed={existed}")
+            logger.info(f"[WebChannel] Session title set: sid={session_id}, existed={existed}")
 
-            return json.dumps({"status": "success", "title": title}, ensure_ascii=False)
+            return json.dumps({"status": "success", "title": title, "title_attempts": attempts}, ensure_ascii=False)
         except Exception as e:
             logger.error(f"[WebChannel] Title generation error: {e}")
             return json.dumps({"status": "error", "message": str(e)})

@@ -99,6 +99,7 @@ def construct(args):
     import config
     from agent.protocol.agent import Agent
     from agent.protocol.agent_stream import AgentStreamExecutor, build_tools_schema
+    from agent.protocol.accounting import request_snapshot
     from agent.memory.manager import MemoryManager
     from agent.memory.config import MemoryConfig
     from agent.tools import MemoryGetTool, MemorySearchTool
@@ -212,13 +213,14 @@ def construct(args):
         assert indexed_result.status == 'success' and index_queries
         accounting = {}
         for name, request, internal in [('first',first,messages[:1]),('second',second,messages[:3])]:
-            estimate = Agent._estimate_text_tokens(system) + sum(agent._estimate_message_tokens(m) for m in internal)
+            snapshot = request_snapshot(agent, system, internal, schemas, settings['model'])
             accounting[name] = {
                 "wire_json": text_metrics(canonical(request)),
                 "system": text_metrics(system),
                 "messages_without_system": text_metrics(canonical(request['messages'][1:])),
                 "tools": text_metrics(canonical(request['tools'])),
-                "diagnostic_estimate_excluding_tool_schemas": estimate,
+                "diagnostic_estimate": snapshot['estimated_input_tokens'],
+                "request_accounting": snapshot,
                 "cowagent_history_estimate": sum(agent._estimate_message_tokens(m) for m in internal),
                 "payload_sha256": digest(request),
             }

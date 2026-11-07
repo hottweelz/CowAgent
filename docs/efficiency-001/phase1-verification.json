@@ -1,0 +1,67 @@
+{
+  "verified_at": "2026-11-06T19:29:22.448870-05:00",
+  "base_revision": "4792f8f5",
+  "phase": 1,
+  "python_tests": {
+    "passed": 342,
+    "failures": 0,
+    "errors": 0,
+    "test_files": [
+      "tests/test_agent_loop_hint_not_persisted.py",
+      "tests/test_agent_steering.py",
+      "tests/test_agent_stream_max_turns.py",
+      "tests/test_agent_stream_reasoning_field.py",
+      "tests/test_agent_trim_budget.py",
+      "tests/test_agent_trim_new_messages.py",
+      "tests/test_chat_fallback_chain_walk.py",
+      "tests/test_chat_fallback_ratelimit.py",
+      "tests/test_chat_model_fallback.py",
+      "tests/test_efficiency_accounting_baseline.py",
+      "tests/test_efficiency_adapter_baseline.py",
+      "tests/test_efficiency_benchmark.py",
+      "tests/test_efficiency_metrics.py",
+      "tests/test_incremental_persist.py",
+      "tests/test_kimi_context_window.py",
+      "tests/test_mcp_tool_retrieval.py",
+      "tests/test_message_usage.py",
+      "tests/test_model_catalog_api.py",
+      "tests/test_openai_chat_api.py",
+      "tests/test_oversized_context_files.py",
+      "tests/test_request_accounting.py",
+      "tests/test_request_usage.py",
+      "tests/test_responses_failed_status.py",
+      "tests/test_responses_function_contract.py",
+      "tests/test_responses_incomplete_tools.py",
+      "tests/test_responses_json_schema_format.py",
+      "tests/test_responses_refusal.py",
+      "tests/test_session_context_usage.py",
+      "tests/test_subagent_fallback_scope.py",
+      "tests/test_token_budget_trim.py"
+    ],
+    "collection_order_note": "Load test_openai_chat_api.py before test_session_context_usage.py to avoid its existing web module stub."
+  },
+  "node_usage_tests_passed": 6,
+  "desktop_production_build": "passed",
+  "renderer_typecheck": {
+    "result": "9 pre-existing ChannelsPage.tsx icon type errors",
+    "baseline_commit_reproduced": "4792f8f5",
+    "changed_files_errors": 0
+  },
+  "offline_replay": {
+    "first_payload_identical": true,
+    "second_payload_identical": true,
+    "first_input_estimate_before": 4553,
+    "first_input_estimate_after": 9220,
+    "first_components": {
+      "system": 4506,
+      "tools": 4667,
+      "history": 47
+    },
+    "tool_count": 16,
+    "fts_match_executed": true,
+    "indexed_search_success": true,
+    "live_provider_calls": 0
+  },
+  "production_data_modified": false,
+  "production_config_modified": false
+}

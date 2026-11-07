@@ -186,6 +186,9 @@ export interface MessageUsage {
   total_tokens?: number
   prompt_cache_hit_tokens?: number
   prompt_cache_miss_tokens?: number
+  prompt_cache_hit_tokens_reported_calls?: number
+  prompt_tokens_reported_calls?: number
+  completion_tokens_reported_calls?: number
   calls?: number
 }
 
@@ -626,6 +629,7 @@ export interface UserMessageIndex {
 export interface ContextUsage {
   available: boolean
   estimated?: boolean
+  breakdown_estimated?: boolean
   model?: string | null
   /** Model's total context window (input + output). */
   window?: number

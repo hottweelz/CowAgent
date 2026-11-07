@@ -323,7 +323,9 @@ class AgentLLMModel(LLMModel):
         override, then use_linkai, then the configured bot type), mapped back
         onto the UI provider ids the catalog is keyed by."""
         from models import model_catalog
-        if self._session_provider:
+        if self._fallback_provider:
+            provider = self._fallback_provider
+        elif self._session_provider:
             provider = self._session_provider
         elif conf().get("use_linkai", False) and conf().get("linkai_api_key"):
             provider = "linkai"
@@ -331,6 +333,27 @@ class AgentLLMModel(LLMModel):
             bot_type = conf().get("bot_type") or ""
             provider = "openai" if bot_type == const.CHATGPT else bot_type
         return model_catalog.resolve_model_meta(provider, self.model)
+
+    def catalog_context_meta(self) -> dict:
+        """Budget-only lookup for legacy custom gateways with imported catalogs.
+
+        A fully qualified model ID can have saved capacity metadata under a
+        different catalog bucket. Use it only when all saved capacities agree;
+        do not borrow routing, capabilities or completion settings across buckets.
+        """
+        from models import model_catalog
+        direct = self.catalog_model_meta()
+        if direct.get('context_window'):
+            return {'context_window': direct['context_window']}
+        if self._resolve_bot_type(self.model) != 'custom' or '/' not in (self.model or ''):
+            return {}
+        windows = {
+            entry['context_window']
+            for entries in model_catalog.get_catalog_map().values()
+            for entry in entries
+            if entry.get('name') == self.model and entry.get('context_window')
+        }
+        return {'context_window': windows.pop()} if len(windows) == 1 else {}
 
     @staticmethod
     def provider_to_bot_type(provider_id: str) -> str:

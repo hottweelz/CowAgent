@@ -73,7 +73,10 @@ def test_stream_usage_is_normalized_and_accumulated_across_model_calls():
 
     assert normalized["prompt_cache_miss_tokens"] == 400
     assert normalized["calls"] == 1
-    assert combined == {
+    assert {key: combined[key] for key in (
+        "prompt_tokens", "completion_tokens", "total_tokens",
+        "prompt_cache_hit_tokens", "prompt_cache_miss_tokens", "calls"
+    )} == {
         "prompt_tokens": 2400,
         "completion_tokens": 300,
         "total_tokens": 2700,
@@ -81,6 +84,9 @@ def test_stream_usage_is_normalized_and_accumulated_across_model_calls():
         "prompt_cache_miss_tokens": 600,
         "calls": 2,
     }
+
+    assert combined["prompt_cache_hit_tokens_reported_calls"] == 2
+    assert len(combined["requests"]) == 2
 
 
 def test_step_writer_stamps_run_usage_on_a_copy_of_the_answer():

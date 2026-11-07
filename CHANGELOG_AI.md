@@ -1,5 +1,83 @@
 # AI handoff ledger
 
+## 2026-11-06 19:29 EST — Codex — EFFICIENCY-001 Phase 1 accounting
+
+- Task: implement the approved Phase 1 request accounting/context budgeting and
+  push `audit/efficiency-001-context-cache` to the matching branch on `origin`.
+  The maintainer's explicit push instruction authorizes establishing its upstream.
+  No merge, deployment, model selection change or Phase 2–5 optimization.
+- Team: Codex lead owns snapshots, context/budget integration, tests and Git;
+  Terra 6.1/high worker owns provider/title usage because these paths interact
+  across adapters and APIs; Luna/high worker maps and updates usage consumers;
+  one Terra 6.1/high read-only reviewer checks snapshot lifecycle and budget
+  invariants across modules. These integration assignments exceeded routine Luna
+  lookup work. Runtime accepted explicit models; effective models not independently
+  exposed. Continued the STE Writing Plans guidance. No HomeBoss.
+- Changes: shared count-only LLMRequest snapshot; system/tool/history/model
+  fingerprints; current estimates versus latest actual request; schema-aware
+  proactive/overflow budgets, configured cap and known completion reserve;
+  budget-only imported catalog capacity lookup for unambiguous qualified custom
+  models. Existing request output parameters and capabilities stay intact.
+- Usage: retain cache reads/writes, reasoning, cost, returned model/provider and
+  purpose. Aggregate known counters with reported-call coverage and per-attempt
+  records, including unknown attempts. Web/desktop distinguish unknown, partial
+  and reported zero; slices remain labeled estimated. Title primary/fallback
+  attempts are separate API receipts, including flat-counter bots. No DB migration.
+- Files: `agent/protocol/{accounting.py,usage.py,agent.py,agent_stream.py}`;
+  `bridge/agent_bridge.py`; `agent/chat/session_service.py`; OpenAI-compatible,
+  ChatGPT and Responses adapters; web session/OpenAI APIs and usage/i18n JS;
+  desktop usage components/types/i18n; benchmark runner; focused accounting,
+  usage, API and Node tests; `docs/efficiency-001/phase1.md`, verification JSON,
+  implementation-plan status and this ledger. Exact files are in the commit diff.
+- Checks: 342 focused Python cases passed across the 30 files listed in
+  `phase1-verification.json`, with the web API test collected before the existing
+  session-context module stub. Six Node usage-label tests passed. F-class Ruff,
+  `py_compile`, web JS syntax and diff checks passed. `npm ci --ignore-scripts
+  --no-audit --no-fund` installed existing locked desktop dependencies without
+  changing manifests/lockfile; `npm run build` passed renderer and main builds.
+- Replay: existing private snapshot, no new provider calls. Both request hashes
+  match the audit baseline; 16 schemas retained; indexed FTS MATCH succeeds.
+  First diagnostic estimate changes from 4,553 to 9,220 (system 4,506 + schemas
+  4,667 + history 47), versus historical actual 9,960. Remaining difference is
+  explicitly local estimator/template error, not token savings.
+- Review fixes: callbacks cannot replace a fresh prompt or abort a request;
+  flat title counts are retained; speculative MCP selection is not committed,
+  post-trim selection is checked and newly synced schemas consume budget before
+  the first request. Regression tests cover each. Standalone retry executors
+  retain an independent usage ledger even without an Agent object.
+- Lessons Learned:
+  - Mistake: measuring a cached prompt/schema-free budget, treating missing
+    counters as zero, or letting observability change prompt construction.
+  - Root Cause: separate accounting sources and reporting scopes; callbacks and
+    MCP selection can change between preview, trimming and the actual request.
+  - Future Trigger: context data changes without history growth, partial usage,
+    callback failure, newly loaded tools or a routed/fallback model change.
+  - Required Behavior Change: count the final request; validate freshness with
+    hashes; retain reporting coverage; keep accounting failures off the request
+    behavior path; commit MCP selection only for the actual post-trim request.
+  - Verification Step: synthetic executor/adapter/API tests, no-usage/fallback
+    cases, post-trim selection tests, snapshot replay and unchanged payload hashes.
+  - Durable Memory Update: implemented contract is in `docs/efficiency-001/phase1.md`.
+- Known limits: the strict desktop renderer typecheck has nine ChannelsPage icon
+  type errors, reproduced unchanged at audit commit `4792f8f5`; changed files have
+  no reported type errors and the production build passes. Existing build warnings
+  and test module-stub ordering are documented. No live UI or fresh provider
+  generation was run. Estimates remain heuristic; unknown provider output defaults
+  and a single oversized current turn retain existing reactive recovery. Bot-internal
+  title retries without returned metadata cannot be itemized. Title receipts are
+  returned, not added to a new persistent ledger.
+- Preservation: no active database/config/credential/instruction/identity changes.
+  Tests use isolated temporary data and the prior private snapshot. Preserve
+  untracked AGENTS.md and three conflict PID files. No global memory updates.
+- MEMORY.md update: not needed; no project memory file exists, and the implemented
+  contract is documented beside the audit without changing instruction files.
+- Next recommended steps: review Phase 1 on the pushed branch; authorize Phase 2
+  separately if tool-description changes are wanted. Do not merge automatically.
+- Next-agent notes: private test/replay evidence and baseline typecheck are under
+  `/private/tmp/cowagent-accounting-phase1-4pEX47`; no private runtime snapshot is
+  committed. Git publication targets `origin/audit/efficiency-001-context-cache`;
+  completion requires a post-push fetch and `HEAD...@{u}` count of `0 0`.
+
 ## 2026-11-06 19:03 EST — Codex — EFFICIENCY-001 baseline audit
 
 - Task: trace and measure context construction, token accounting, cache metadata,

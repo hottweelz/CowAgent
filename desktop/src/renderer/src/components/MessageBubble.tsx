@@ -58,17 +58,71 @@ function usageLabel(usage?: MessageUsage): string {
   const input = n(usage.prompt_tokens)
   const output = n(usage.completion_tokens)
   const total = n(usage.total_tokens) || input + output
-  if (!total) return ''
-  const cached = n(usage.prompt_cache_hit_tokens)
   const calls = n(usage.calls)
+  const usageIncomplete = messageUsageCompletenessLabel(usage, Math.max(1, calls))
+  if (!total && !usageIncomplete) return ''
   const parts = [
     `${t('msg_usage_total')} ${total.toLocaleString()}`,
     `${t('msg_usage_in')} ${input.toLocaleString()}`,
     `${t('msg_usage_out')} ${output.toLocaleString()}`,
   ]
-  if (cached && input) parts.push(`${t('msg_usage_cached')} ${Math.round((cached * 100) / input)}%`)
+  if (usageIncomplete) parts.push(usageIncomplete)
+  const cacheSummary = messageCacheUsageLabel(usage, input, Math.max(1, calls))
+  if (cacheSummary) parts.push(cacheSummary)
   if (calls > 1) parts.push(tf('msg_usage_calls', { n: calls }))
   return parts.join(' · ')
+}
+
+function messageUsageCompletenessLabel(usage: MessageUsage, calls: number): string {
+  const hasInputCoverage = usage.prompt_tokens_reported_calls !== null &&
+    usage.prompt_tokens_reported_calls !== undefined
+  const hasOutputCoverage = usage.completion_tokens_reported_calls !== null &&
+    usage.completion_tokens_reported_calls !== undefined
+  if (hasInputCoverage || hasOutputCoverage) {
+    const inputReported = Math.max(0, Number(usage.prompt_tokens_reported_calls) || 0)
+    const outputReported = Math.max(0, Number(usage.completion_tokens_reported_calls) || 0)
+    if (inputReported < calls || outputReported < calls) {
+      return tf('msg_usage_partial', {
+        inputReported: Math.min(calls, inputReported),
+        inputTotal: calls,
+        outputReported: Math.min(calls, outputReported),
+        outputTotal: calls,
+      })
+    }
+    return ''
+  }
+  const input = Math.max(0, Number(usage.prompt_tokens) || 0)
+  const output = Math.max(0, Number(usage.completion_tokens) || 0)
+  const total = Math.max(0, Number(usage.total_tokens) || input + output)
+  return calls > 0 && !input && !output && !total ? t('msg_usage_unknown') : ''
+}
+
+function messageCacheUsageLabel(usage: MessageUsage, input: number, calls: number): string {
+  const hasCount = usage.prompt_cache_hit_tokens !== null && usage.prompt_cache_hit_tokens !== undefined &&
+    Number.isFinite(Number(usage.prompt_cache_hit_tokens))
+  const hasCoverage = usage.prompt_cache_hit_tokens_reported_calls !== null &&
+    usage.prompt_cache_hit_tokens_reported_calls !== undefined
+  const cached = hasCount ? Math.max(0, Number(usage.prompt_cache_hit_tokens)) : 0
+
+  // Old persisted snapshots have a numeric cache field but no coverage
+  // counter. Keep their display behavior; new snapshots carry the counter.
+  if (!hasCoverage && hasCount) {
+    return input > 0 ? `${t('msg_usage_cached')} ${Math.round((cached * 100) / input)}%` : ''
+  }
+  if (hasCoverage) {
+    const reported = Math.max(0, Number(usage.prompt_cache_hit_tokens_reported_calls) || 0)
+    if (reported >= calls && hasCount) {
+      return input > 0 ? `${t('msg_usage_cached')} ${Math.round((cached * 100) / input)}%` : ''
+    }
+    if (reported > 0 && hasCount) {
+      return tf('msg_usage_cache_partial', {
+        tokens: cached.toLocaleString(),
+        reported: Math.min(calls, reported),
+        calls,
+      })
+    }
+  }
+  return t('msg_usage_cache_unknown')
 }
 
 const MessageBubble: React.FC<MessageBubbleProps> = ({

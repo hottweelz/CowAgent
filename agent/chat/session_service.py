@@ -38,8 +38,11 @@ def _clean_title(raw: str) -> Optional[str]:
     return None
 
 
-def _title_from_primary(prompt: str, session_id: str) -> Optional[str]:
+def _title_from_primary(prompt: str, session_id: str, attempts=None) -> Optional[str]:
     """Ask the global chat bot for a title; None when the call failed."""
+    attempt = {"purpose": "title", "route": "primary", "status": "failed"}
+    if attempts is not None:
+        attempts.append(attempt)
     try:
         from bridge.bridge import Bridge
         from models.session_manager import Session
@@ -49,6 +52,21 @@ def _title_from_primary(prompt: str, session_id: str) -> Optional[str]:
         session.messages = [{"role": "user", "content": prompt}]
 
         result = bot.reply_text(session) or {}
+        from agent.protocol.usage import normalize_usage
+        usage = result.get("usage")
+        if not isinstance(usage, dict) or not usage:
+            # Some bots flatten their response usage into the reply object.
+            usage = {key: result[key] for key in (
+                "prompt_tokens", "input_tokens", "completion_tokens", "output_tokens",
+                "total_tokens", "prompt_cache_hit_tokens", "cache_read_input_tokens",
+                "cache_creation_input_tokens", "cache_write_input_tokens",
+                "reasoning_tokens", "cost", "total_cost",
+                "prompt_tokens_details", "input_tokens_details",
+                "completion_tokens_details", "output_tokens_details",
+            ) if key in result}
+        if usage:
+            attempt["usage"] = normalize_usage(usage, model=result.get("model"),
+                                               provider=result.get("provider"), purpose="title")
         # When bots fail (network error, auth error, rate limit, etc.) they
         # typically return completion_tokens=0 with a sentinel content like
         # "请再问我一次吧" / "我现在有点累了". Treat that as failure.
@@ -57,18 +75,19 @@ def _title_from_primary(prompt: str, session_id: str) -> Optional[str]:
         if completion_tokens <= 0:
             logger.warning(
                 f"[SessionService] Title generation got empty completion "
-                f"(completion_tokens={completion_tokens}, content='{raw[:50]}')")
+                f"(completion_tokens={completion_tokens})")
             return None
 
         title = _clean_title(raw)
-        logger.info(f"[SessionService] Title generation result: '{title}'")
+        if title:
+            attempt["status"] = "success"
         return title
     except Exception as e:
-        logger.warning(f"[SessionService] Title generation failed: {e}")
+        logger.warning(f"[SessionService] Title generation failed: {type(e).__name__}")
         return None
 
 
-def _title_from_fallback_chain(prompt: str) -> Optional[str]:
+def _title_from_fallback_chain(prompt: str, attempts=None) -> Optional[str]:
     """Retry on the configured chat fallback chain, one attempt per link."""
     try:
         from agent.memory.summarizer import MemoryFlushManager
@@ -78,29 +97,36 @@ def _title_from_fallback_chain(prompt: str) -> Optional[str]:
         model = AgentLLMModel(Bridge())
         chain = model.fallback_config()["chain"]
     except Exception as e:
-        logger.warning(f"[SessionService] Title fallback unavailable: {e}")
+        logger.warning(f"[SessionService] Title fallback unavailable: {type(e).__name__}")
         return None
 
     for _ in chain:
         if not model.use_fallback():
             break
+        attempt = {"purpose": "title", "route": "fallback", "status": "failed"}
+        if attempts is not None:
+            attempts.append(attempt)
         try:
             response = model.call(LLMRequest(
                 messages=[{"role": "user", "content": prompt}],
                 stream=False,
             ))
+            from agent.protocol.usage import normalize_usage
+            if isinstance(response, dict) and isinstance(response.get("usage"), dict):
+                attempt["usage"] = normalize_usage(response["usage"], model=response.get("model"),
+                                                   provider=response.get("provider"), purpose="title")
             title = _clean_title(MemoryFlushManager._extract_response_text(response))
         except Exception as e:
-            logger.warning(f"[SessionService] Title generation failed on fallback {model.model}: {e}")
+            logger.warning(f"[SessionService] Title generation failed on fallback: {type(e).__name__}")
             continue
         if title:
-            logger.info(f"[SessionService] Title generation result via fallback {model.model}: '{title}'")
+            attempt["status"] = "success"
             return title
     return None
 
 
 def generate_session_title(user_message: str, assistant_reply: str = "",
-                            session_id: str = "") -> str:
+                            session_id: str = "", attempts=None) -> str:
     """
     Generate a short session title with the current chat bot, walking the
     configured fallback chain when it fails. Falls back to the first line of
@@ -115,7 +141,7 @@ def generate_session_title(user_message: str, assistant_reply: str = "",
         + "\n".join(prompt_parts)
     )
 
-    title = _title_from_primary(prompt, session_id) or _title_from_fallback_chain(prompt)
+    title = _title_from_primary(prompt, session_id, attempts) or _title_from_fallback_chain(prompt, attempts)
     if title:
         return title
     logger.warning("[SessionService] Title generation failed on all models, using fallback")
@@ -518,7 +544,7 @@ class SessionService:
             logger.warning(f"[SessionService] Clear failed for '{member_id}': {e}")
 
     def gen_title(self, session_id: str, user_message: str,
-                  assistant_reply: str = "", agent_id: str = None) -> str:
+                  assistant_reply: str = "", agent_id: str = None, attempts=None) -> str:
         """
         Generate an AI title and persist it. Returns the generated title.
         """
@@ -528,12 +554,11 @@ class SessionService:
             raise ValueError("user_message required")
         session_id = self._normalize_sid(session_id)
 
-        title = generate_session_title(user_message, assistant_reply, session_id)
+        title = generate_session_title(user_message, assistant_reply, session_id, attempts)
 
         store = self._get_store(agent_id)
         updated = store.rename_session(session_id, title)
-        logger.info(f"[SessionService] Title set: sid={session_id}, "
-                     f"title='{title}', db_updated={updated}")
+        logger.info(f"[SessionService] Title set: sid={session_id}, db_updated={updated}")
         return title
 
     # ------------------------------------------------------------------
@@ -594,14 +619,16 @@ class SessionService:
                         "payload": {"context_start_seq": new_seq}}
 
             elif action == "generate_title":
+                attempts = []
                 title = self.gen_title(
                     payload.get("session_id", ""),
                     payload.get("user_message", ""),
                     payload.get("assistant_reply", ""),
                     agent_id=agent_id,
+                    attempts=attempts,
                 )
                 return {"action": action, "code": 200, "message": "success",
-                        "payload": {"title": title}}
+                        "payload": {"title": title, "title_attempts": attempts}}
 
             else:
                 return {"action": action, "code": 400,

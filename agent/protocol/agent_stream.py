@@ -12,6 +12,8 @@ from concurrent.futures import Future, ThreadPoolExecutor, wait
 from typing import List, Dict, Any, Optional, Callable, Tuple
 
 from agent.protocol.cancel import AgentCancelledError
+from agent.protocol.accounting import fingerprint, request_snapshot, schema_tokens
+from agent.protocol.usage import normalize_usage, merge_usage
 from agent.protocol.models import LLMRequest, LLMModel
 from agent.protocol.message_utils import (
     sanitize_claude_messages,
@@ -145,34 +147,6 @@ def _truncate_reasoning_for_storage(text: str) -> str:
     tail = text[-half:]
     omitted = len(text) - len(head) - len(tail)
     return head + _REASONING_TRUNCATE_MARKER.format(omitted=omitted) + tail
-
-
-def _cache_hit_tokens(usage: Dict[str, Any]) -> int:
-    """Prompt tokens served from the provider's prefix cache.
-
-    DeepSeek reports ``prompt_cache_hit_tokens``, OpenAI-style endpoints
-    ``prompt_tokens_details.cached_tokens`` and Claude-style ones
-    ``cache_read_input_tokens``.
-    """
-    details = usage.get("prompt_tokens_details")
-    cached = details.get("cached_tokens") if isinstance(details, dict) else None
-    try:
-        return int(
-            usage.get("prompt_cache_hit_tokens")
-            or cached
-            or usage.get("cache_read_input_tokens")
-            or 0
-        )
-    except (TypeError, ValueError):
-        return 0
-
-
-def _nonnegative_int(value: Any) -> int:
-    """Coerce a provider-supplied count to a non-negative integer."""
-    try:
-        return max(0, int(value or 0))
-    except (TypeError, ValueError):
-        return 0
 
 
 # Cap for the 429 incremental backoff. The base curve is 30 + retry_count*15,
@@ -346,7 +320,8 @@ class AgentStreamExecutor:
 
         # Provider usage summed over every model call of this run; StepWriter
         # stamps it on the stored answer.
-        self.run_usage: Optional[Dict[str, int]] = None
+        self.run_usage: Optional[Dict[str, Any]] = None
+        self._usage_attempts = []
 
         # The loop-breaker hint rides in the message list so the next model
         # call sees it, then it is removed again: the user never wrote it, so
@@ -354,51 +329,62 @@ class AgentStreamExecutor:
         self._pending_loop_hint: Optional[Dict[str, Any]] = None
 
     @staticmethod
-    def _normalize_stream_usage(stream_usage: Dict[str, Any]) -> Dict[str, int]:
-        """Normalize one provider usage payload to the console's field names."""
-        if not isinstance(stream_usage, dict):
-            return {}
-        prompt = _nonnegative_int(stream_usage.get("prompt_tokens"))
-        completion = _nonnegative_int(stream_usage.get("completion_tokens"))
-        total = _nonnegative_int(stream_usage.get("total_tokens")) or prompt + completion
-        cache_hit = min(prompt, max(0, _cache_hit_tokens(stream_usage)))
-        if not any((prompt, completion, total, cache_hit)):
-            return {}
-        return {
-            "prompt_tokens": prompt,
-            "completion_tokens": completion,
-            "total_tokens": total,
-            "prompt_cache_hit_tokens": cache_hit,
-            "prompt_cache_miss_tokens": max(0, prompt - cache_hit),
-            "calls": 1,
-        }
+    def _normalize_stream_usage(stream_usage: Dict[str, Any]) -> dict:
+        return normalize_usage(stream_usage)
 
     @staticmethod
-    def _merge_usage(
-        first: Optional[Dict[str, Any]],
-        second: Optional[Dict[str, Any]],
-    ) -> Dict[str, int]:
-        """Add two normalized usage snapshots field by field."""
-        if not first:
-            return dict(second or {})
-        if not second:
-            return dict(first)
-        keys = (
-            "prompt_tokens",
-            "completion_tokens",
-            "total_tokens",
-            "prompt_cache_hit_tokens",
-            "prompt_cache_miss_tokens",
-            "calls",
-        )
-        return {
-            key: _nonnegative_int(first.get(key)) + _nonnegative_int(second.get(key))
-            for key in keys
-        }
+    def _merge_usage(first, second) -> dict:
+        return merge_usage(first, second)
+
+    def _schema_for_budget(self):
+        """Preview a schema budget without retaining speculative MCP choices."""
+        tools = getattr(self, 'tools', None) or {}
+        selected = set(getattr(self, '_retrieved_mcp_names', set()))
+        try:
+            schema = build_tools_schema(self._select_tools_for_injection()) if tools else []
+            self._schema_preview = {
+                'history': fingerprint(self.messages),
+                'inventory': fingerprint(build_tools_schema([t for t in tools.values() if is_tool_available(t)])),
+                'schemas': schema,
+                'selected': set(getattr(self, '_retrieved_mcp_names', set())),
+            }
+        finally:
+            self._retrieved_mcp_names = selected
+        self._budget_tools_schema = schema
+        return schema
+
+    def _fixed_input_tokens(self, schemas):
+        system = self.agent._estimate_message_tokens(
+            {'role': 'system', 'content': self.system_prompt}) if self.system_prompt else 0
+        return system + schema_tokens(self.agent, schemas)
+
+    def _input_limits(self):
+        window = self.agent._get_model_context_window()
+        reserve = self.agent._get_output_reserve_tokens()
+        if getattr(self, 'model', None) is not None:
+            cap = self._catalog_max_output_tokens()
+            if cap and cap > 0:
+                reserve = max(reserve, cap)
+        configured = getattr(self.agent, 'max_context_tokens', None)
+        ceiling = max(0, window - reserve)
+        return min(configured, ceiling) if configured else ceiling
 
     def _record_stream_usage(self, snapshot: Optional[Dict[str, Any]]) -> None:
         if snapshot:
             self.run_usage = self._merge_usage(self.run_usage, snapshot)
+
+    def _update_usage_attempt(self, slot, raw, accounting, model=None, provider=None):
+        snapshot = normalize_usage(raw or {}, model=model, provider=provider, purpose='agent')
+        snapshot['request_fingerprint'] = accounting['request_fingerprint']
+        snapshot['requested_model'] = accounting['model']
+        self._usage_attempts[slot] = snapshot
+        total = None
+        for attempt in self._usage_attempts:
+            total = merge_usage(total, attempt)
+        self.run_usage = total
+        if self.agent is not None:
+            self.agent.last_usage = snapshot
+        return snapshot
 
     def _check_cancelled(self) -> None:
         """Raise AgentCancelledError if the user requested cancellation.
@@ -980,9 +966,10 @@ class AgentStreamExecutor:
         self._run_images = None
         self._run_images_disabled = False
 
-        # Trim context ONCE before the agent loop starts, not during tool steps.
-        # This ensures tool_use/tool_result chains created during the current run
-        # are never stripped mid-execution (which would cause LLM loops).
+        # Reset retrieval before the budget preview. History trimming finishes
+        # before the first provider request; new tool chains are never trimmed
+        # proactively between steps.
+        self._retrieved_mcp_names = set()
         self._trim_messages()
 
         # Validate after trimming: trimming may leave orphaned tool_use at the
@@ -992,15 +979,11 @@ class AgentStreamExecutor:
 
         self._emit_event("agent_start")
 
-        # Reset the run-scoped MCP tool-retrieval accumulator. On-demand tool
-        # retrieval only grows this set within a run, so a tool that already
-        # produced a tool_use never disappears from the schema mid-run (which
-        # would make Claude/MiniMax raise a message-format error).
-        self._retrieved_mcp_names = set()
-
         final_response = ""
         turn = 0
         self.run_usage = None
+        self._usage_attempts = []
+        self._request_started = False
 
         # Respect a run id an outer scope already set (a subagent spawn or a
         # delegated task passes one down); only mint a fresh one when this turn
@@ -1683,16 +1666,9 @@ class AgentStreamExecutor:
             ("length" / "max_tokens").
         """
         # Validate and fix message history (e.g. orphaned tool_result blocks).
-        # Context trimming is done once in run_stream() before the loop starts,
-        # NOT here — trimming mid-execution would strip the current run's
-        # tool_use/tool_result chains and cause LLM loops.
+        # Budget rechecks below are restricted to the first request. Trimming
+        # between tool steps would strip the current run's tool chains.
         self._validate_and_fix_messages()
-
-        # Prepare messages
-        messages = self._prepare_messages()
-        sent_images = getattr(self, "_images_in_request", False)
-        turns = self._identify_complete_turns()
-        logger.info(f"Sending {len(messages)} messages ({len(turns)} turns) to LLM")
 
         # Pull in any MCP tools that finished loading since this turn started.
         # Cheap dict reconciliation (microseconds) — lets the agent pick up
@@ -1706,8 +1682,35 @@ class AgentStreamExecutor:
         # Prepare tool definitions. Kept as None (rather than []) when the agent
         # has no tools at all, which is what LLMRequest expects.
         tools_schema = None
-        if self.tools:
-            tools_schema = build_tools_schema(self._select_tools_for_injection())
+        selection_before = set(getattr(self, '_retrieved_mcp_names', set()))
+        while True:
+            self._retrieved_mcp_names = set(selection_before)
+            preview = getattr(self, '_schema_preview', None)
+            inventory = fingerprint(build_tools_schema([t for t in self.tools.values() if is_tool_available(t)]))
+            if (preview and not getattr(self, '_request_started', False)
+                    and preview['history'] == fingerprint(self.messages)
+                    and preview['inventory'] == inventory):
+                tools_schema = preview['schemas'] or None
+                self._retrieved_mcp_names = set(preview['selected'])
+            else:
+                tools_schema = build_tools_schema(self._select_tools_for_injection()) if self.tools else None
+            self._schema_preview = None
+            self._budget_tools_schema = tools_schema or []
+            # A just-loaded MCP schema must consume budget before the first
+            # request. Re-select against the resulting history if trim changed
+            # it; never retain a speculative pre-trim retrieval selection.
+            if getattr(self, '_request_started', False):
+                break
+            before = fingerprint(self.messages)
+            self._trim_messages_for_schema(tools_schema or [])
+            self._validate_and_fix_messages()
+            if fingerprint(self.messages) == before:
+                break
+        self._request_started = True
+        messages = self._prepare_messages()
+        sent_images = getattr(self, '_images_in_request', False)
+        turns = self._identify_complete_turns()
+        logger.info(f"Sending {len(messages)} messages ({len(turns)} turns) to LLM")
 
         # Debug: dump the full system prompt and messages sent to the LLM.
         # Gated behind `debug` config to avoid flooding normal logs.
@@ -1735,6 +1738,18 @@ class AgentStreamExecutor:
             system=self.system_prompt  # Pass system prompt separately for Claude API
         )
 
+        accounting = request_snapshot(
+            self.agent, self.system_prompt or '', messages, tools_schema,
+            getattr(self.model, 'model', None))
+        self.request_accounting = accounting
+        recorder = getattr(self.agent, 'record_request_accounting', None)
+        if callable(recorder):
+            try:
+                recorder(accounting, tools_schema)
+            except Exception as exc:
+                self.agent.request_accounting = None
+                logger.warning("Request accounting unavailable: %s", type(exc).__name__)
+
         self._emit_event("message_start", {"role": "assistant"})
 
         # Streaming response
@@ -1745,6 +1760,12 @@ class AgentStreamExecutor:
         gemini_raw_parts = None  # Preserve Gemini thoughtSignature for round-trip
         stop_reason = None  # Track why the stream stopped
         stream_usage = None  # Real token usage from the provider, if reported
+        response_model = response_provider = None
+        if not hasattr(self, '_usage_attempts'):
+            self._usage_attempts = []
+        slot = len(self._usage_attempts)
+        self._usage_attempts.append({})
+        self._update_usage_attempt(slot, None, accounting)
 
         try:
             stream = self.model.call_stream(request)
@@ -1835,8 +1856,13 @@ class AgentStreamExecutor:
                 # final chunk carrying `usage` (often with an empty `choices`),
                 # but some providers attach it to a normal chunk — so read it
                 # whenever it appears, independent of the choices branch below.
-                if isinstance(chunk, dict) and isinstance(chunk.get("usage"), dict):
-                    stream_usage = chunk["usage"]
+                if isinstance(chunk, dict):
+                    response_model = chunk.get('model') or response_model
+                    response_provider = chunk.get('provider') or response_provider
+                    if isinstance(chunk.get('usage'), dict):
+                        stream_usage = chunk['usage']
+                        self._update_usage_attempt(slot, stream_usage, accounting,
+                                                   response_model, response_provider)
 
                 # Parse chunk
                 if isinstance(chunk, dict) and chunk.get("choices"):
@@ -2106,45 +2132,26 @@ class AgentStreamExecutor:
         # indicator can show a real prompt_tokens count instead of the estimate.
         # prompt_tokens is the whole input the model saw this turn — system +
         # tools + history — which is exactly the "used" the chart wants.
-        if stream_usage is not None:
-            try:
-                usage_snapshot = self._normalize_stream_usage(stream_usage)
-                self._record_stream_usage(usage_snapshot)
-                # Fingerprint the history this usage describes. get_context_usage
-                # compares it against the live history estimate: if trimming /
-                # compaction (or new turns) has since changed the history, the
-                # real prompt_tokens is stale and it falls back to the estimate.
-                est_history = sum(
-                    self.agent._estimate_message_tokens(m) for m in self.messages
-                )
-                self.agent.last_usage = {
-                    **usage_snapshot,
-                    # History estimate at capture time (freshness fingerprint).
-                    "_est_history": est_history,
-                }
-            except (TypeError, ValueError):
-                pass
+        self._update_usage_attempt(slot, stream_usage, accounting,
+                                   response_model, response_provider)
 
         # Log real provider token usage vs our char-based estimate, so the
         # accuracy of the context-usage indicator can be judged from the logs.
         try:
-            if self.agent.last_usage:
+            if self.agent.last_usage.get("prompt_tokens_reported_calls"):
                 real_in = self.agent.last_usage.get("prompt_tokens", 0)
                 real_out = self.agent.last_usage.get("completion_tokens", 0)
-                cache_hit = self.agent.last_usage.get("prompt_cache_hit_tokens", 0)
-                # Rough estimate of what we sent this turn (system + tools +
-                # history), the same numbers the usage chart shows.
-                est_sys = self.agent._estimate_text_tokens(self.system_prompt or "")
-                est_hist = sum(
-                    self.agent._estimate_message_tokens(m) for m in self.messages
-                )
-                est_in = est_sys + est_hist
+                cache_hit = self.agent.last_usage.get('prompt_cache_hit_tokens')
+                est_sys = accounting['breakdown']['system']
+                est_hist = accounting['breakdown']['history']
+                est_tools = accounting['breakdown']['tools']
+                est_in = accounting['estimated_input_tokens']
                 ratio = (est_in / real_in) if real_in else 0
-                hit_ratio = (cache_hit / real_in) if real_in else 0
+                cache_label = 'unknown' if cache_hit is None else str(cache_hit)
                 logger.info(
                     f"[Usage] real input={real_in} output={real_out} | "
-                    f"cache_hit={cache_hit} ({hit_ratio:.0%}) | "
-                    f"estimate input~={est_in} (sys~={est_sys} hist~={est_hist}) | "
+                    f"cache_hit={cache_label} | "
+                    f"estimate input~={est_in} (sys~={est_sys} tools~={est_tools} hist~={est_hist}) | "
                     f"est/real={ratio:.2f}"
                 )
             else:
@@ -2716,11 +2723,16 @@ class AgentStreamExecutor:
         if completion is None:
             completion = self.agent._get_output_reserve_tokens()
 
-        system_tokens = self.agent._estimate_message_tokens(
-            {"role": "system", "content": self.system_prompt}
-        )
-        budget = int((window - completion - system_tokens) * 0.9)
-        return max(2000, budget)
+        schemas = getattr(self, '_budget_tools_schema', None)
+        if schemas is None:
+            schemas = self._schema_for_budget()
+        fixed_tokens = self._fixed_input_tokens(schemas)
+        ceiling = max(0, window - completion)
+        configured = getattr(self.agent, 'max_context_tokens', None)
+        if configured:
+            ceiling = min(ceiling, configured)
+        budget = int((ceiling - fixed_tokens) * 0.9)
+        return max(0, budget)
 
     def _smart_compact_to_budget(self, error_str: str) -> bool:
         """
@@ -2876,14 +2888,10 @@ class AgentStreamExecutor:
         return kept_turns, discarded_turns
 
     def _trim_messages(self):
-        """
-        智能清理消息历史，保持对话完整性
+        self._trim_messages_for_schema(self._schema_for_budget())
 
-        使用完整轮次作为清理单位，确保：
-        1. 不会在对话中间截断
-        2. 工具调用链（tool_use + tool_result）保持完整
-        3. 每轮对话都是完整的（用户消息 + AI回复 + 工具调用）
-        """
+    def _trim_messages_for_schema(self, schemas):
+        """Trim complete history turns against the selected schema budget."""
         if not self.messages or not self.agent:
             return
 
@@ -2896,27 +2904,10 @@ class AgentStreamExecutor:
         if not turns:
             return
 
-        # Step 2: Calculate the token budget (context window - output reserve - system prompt)
-        # Get context window from agent (based on model)
-        context_window = self.agent._get_model_context_window()
-
-        # The window is shared by prompt + completion. Always keep the input
-        # budget below (window - output reserve) so a full prompt plus the
-        # provider's default completion budget can't overflow the window and
-        # trigger the "maximum context length ... you requested N tokens" 400
-        # (which otherwise loops). The window follows the effective model:
-        # a session override uses that model, message channels the global one.
-        output_reserve = self.agent._get_output_reserve_tokens()
-        input_ceiling = max(1, context_window - output_reserve)
-
-        # An explicit agent cap (sub agents inherit one so they cannot widen
-        # the session's reach) applies, but never above the input ceiling.
-        if hasattr(self.agent, 'max_context_tokens') and self.agent.max_context_tokens:
-            max_tokens = min(self.agent.max_context_tokens, input_ceiling)
-        else:
-            max_tokens = input_ceiling
-
-        system_tokens = self.agent._estimate_message_tokens({"role": "system", "content": self.system_prompt})
+        # Reserve the same selected schemas used by the next request. The
+        # configured input budget and output reserve are independent ceilings.
+        max_tokens = self._input_limits()
+        system_tokens = self._fixed_input_tokens(schemas)
         budget = max_tokens - system_tokens
         current_tokens = sum(self._estimate_turn_tokens(turn) for turn in turns)
 
@@ -2947,7 +2938,7 @@ class AgentStreamExecutor:
 
         if budget <= 0:
             logger.warning(
-                f"[Agent] System prompt (~{system_tokens} tok) alone exceeds the "
+                f"[Agent] System prompt and tool schemas (~{system_tokens} tok) exceed the "
                 f"context budget ({max_tokens} tok); keeping only the previous turn. "
                 f"Shrink the injected workspace files or raise agent_max_context_tokens."
             )

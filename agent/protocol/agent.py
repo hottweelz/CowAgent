@@ -5,6 +5,7 @@ import time
 import threading
 
 from common.log import logger
+from agent.protocol.accounting import fingerprint, request_snapshot
 
 
 def _first_version(model_name: str):
@@ -244,7 +245,7 @@ class Agent:
         """The permission mode in force: this session's, else the global default."""
         from agent.permission import global_mode, normalize_mode
 
-        if self.permission_mode:
+        if getattr(self, 'permission_mode', None):
             return normalize_mode(self.permission_mode, global_mode())
         return global_mode()
 
@@ -351,6 +352,11 @@ class Agent:
             )
             if self.extra_system_suffix:
                 full = f"{full}\n\n{self.extra_system_suffix}"
+            try:
+                self._remember_system_accounting(full)
+            except Exception as exc:
+                self._system_accounting = None
+                logger.warning("Request accounting unavailable: %s", type(exc).__name__)
             return full
         except Exception as e:
             logger.warning(f"Failed to rebuild system prompt, using cached version: {e}")
@@ -398,6 +404,11 @@ class Agent:
                 catalog_output = meta.get('max_output_tokens')
             except Exception:
                 pass
+        if self.model is not None and hasattr(self.model, 'catalog_context_meta'):
+            try:
+                catalog_window = (self.model.catalog_context_meta() or {}).get('context_window') or catalog_window
+            except Exception:
+                pass
 
         window = None
         max_output = None
@@ -407,12 +418,14 @@ class Agent:
         # Catalog values override the family table (the user knows their model).
         if catalog_window:
             try:
-                window = int(catalog_window)
+                if int(catalog_window) > 0:
+                    window = int(catalog_window)
             except (TypeError, ValueError):
                 pass
         if catalog_output:
             try:
-                max_output = int(catalog_output)
+                if int(catalog_output) > 0:
+                    max_output = int(catalog_output)
             except (TypeError, ValueError):
                 pass
 
@@ -528,145 +541,127 @@ class Agent:
         # CJK chars: ~1.5 tokens each; ASCII: ~0.25 tokens per char
         return int(non_ascii * 1.5 + ascii_count * 0.25) + 1
 
+    def _prompt_state_fingerprint(self):
+        """Cheap invalidation inputs; never rebuild a prompt for the chart."""
+        from common import i18n
+        files = []
+        workspace = getattr(self, 'workspace_dir', None)
+        if workspace and not getattr(self, 'skip_context_files', False):
+            for name in ('AGENT.md', 'USER.md', 'RULE.md', 'MEMORY.md', 'BOOTSTRAP.md'):
+                try:
+                    stat = os.stat(os.path.join(workspace, name))
+                    files.append((name, stat.st_mtime_ns, stat.st_size, stat.st_ino))
+                except OSError:
+                    files.append((name, None))
+        runtime = getattr(self, 'runtime_info', None) or {}
+        runtime_state = {k: v for k, v in runtime.items() if not callable(v)}
+        for name in ('_get_current_time', '_get_teammates'):
+            callback = runtime.get(name)
+            if callable(callback):
+                try:
+                    value = callback()
+                    if name == '_get_current_time':
+                        value = {k: value.get(k) for k in ('date', 'weekday', 'timezone')}
+                    runtime_state[name] = value
+                except Exception as exc:
+                    # Observability must never replace a successfully built
+                    # prompt or prevent a provider call. Fail freshness closed.
+                    runtime_state[name] = {'unavailable': type(exc).__name__, 'nonce': time.monotonic_ns()}
+        return fingerprint({
+            'cached_system': self.system_prompt,
+            'files': files,
+            'language': i18n.get_language(),
+            'permissions': self.effective_permission_mode(),
+            'project': getattr(self, 'project_dir', None),
+            'suffix': getattr(self, 'extra_system_suffix', None),
+            'skills': self.get_skills_prompt(),
+            'runtime': runtime_state,
+        })
+
+    def _remember_system_accounting(self, prompt):
+        self._system_accounting = {
+            'tokens': self._estimate_text_tokens(prompt),
+            'fingerprint': fingerprint(prompt),
+            'cached_fingerprint': fingerprint(self.system_prompt),
+            'state': self._prompt_state_fingerprint(),
+        }
+
+    def record_request_accounting(self, snapshot, schemas):
+        """Store counts and hashes only for the finalized executor request."""
+        from agent.protocol.agent_stream import build_tools_schema
+        available = build_tools_schema([t for t in self.tools if is_tool_available(t)])
+        self.request_accounting = {
+            **snapshot,
+            'available_tools_fingerprint': fingerprint(available),
+            'prompt_state': self._prompt_state_fingerprint(),
+        }
+
     def get_context_usage(self) -> dict:
-        """Break the live context down into what is consuming it.
+        """Estimate current context; expose actual latest input separately.
 
-        Powers the context-usage chart on the UI's clear-context button, so it
-        must stay cheap: it reads the already-assembled prompt and the in-memory
-        message list, and never rebuilds either. Counts are the same heuristic
-        estimates the trimmer budgets against (`_estimate_*`), not real
-        tokenizer output — hence `estimated` in the payload.
-
-        `used` may exceed `limit`: the trimmer budgets the system prompt and
-        history but not the tool schemas, which still occupy the window.
-
-        :return: Usage dict with a `breakdown` of system/tools/history/free.
+        Provider totals apply only to an identical request. Component slices are
+        always estimates. No prompt/file content is rebuilt for this display.
         """
-        # The cached prompt is what actually goes out (agent_stream passes
-        # `self.system_prompt` straight to LLMRequest), so counting the cached
-        # value is both correct and free. get_full_system_prompt() would re-read
-        # AGENT.md and refresh skills — far too heavy for a hover.
-        system_tokens = self._estimate_text_tokens(self.system_prompt or "")
-
-        # The skills catalog is embedded in the system prompt (built by
-        # _build_skills_section), but it is really a capability listing — the
-        # menu of skills the agent can invoke — so the chart accounts for it
-        # together with the tool schemas rather than under the persona/AGENT.md
-        # "system" slice. Estimate it once and move it out of `system_tokens`
-        # into `tools_tokens` below. With 50+ skills this is the dominant chunk,
-        # so keeping it under "system" would badly misrepresent the breakdown.
-        skills_tokens = 0
+        from agent.protocol.agent_stream import build_tools_schema
+        schemas = build_tools_schema([t for t in self.tools if is_tool_available(t)])
+        model_name = getattr(self.model, 'model', None) if self.model else None
+        current = request_snapshot(self, self.system_prompt or '', self.messages, schemas, model_name)
+        state = self._prompt_state_fingerprint()
+        system = getattr(self, '_system_accounting', None)
+        if system and system['cached_fingerprint'] == fingerprint(self.system_prompt):
+            current['breakdown']['system'] = system['tokens']
+            current['fingerprints']['system'] = system['fingerprint']
+        sent = getattr(self, 'request_accounting', None)
+        if sent and sent['prompt_state'] == state:
+            current['breakdown']['system'] = sent['breakdown']['system']
+            current['fingerprints']['system'] = sent['fingerprints']['system']
+        inventory_matches = sent and sent['available_tools_fingerprint'] == fingerprint(schemas)
+        if inventory_matches:
+            # Preserve the actually selected MCP subset rather than counting
+            # every available schema as if it had been sent.
+            current['breakdown']['tools'] = sent['breakdown']['tools']
+            current['fingerprints']['tools'] = sent['fingerprints']['tools']
+        current['estimated_input_tokens'] = sum(current['breakdown'].values())
+        current['request_fingerprint'] = fingerprint(current['fingerprints'])
+        last = getattr(self, 'last_usage', None) or {}
+        identical = bool(
+            sent and inventory_matches and sent['prompt_state'] == state
+            and current['request_fingerprint'] == sent['request_fingerprint']
+            and last.get('request_fingerprint') == sent['request_fingerprint']
+        )
+        actual = last.get('prompt_tokens') if identical and last.get('prompt_tokens_reported_calls') else None
+        estimated = not isinstance(actual, (int, float))
+        used = current['estimated_input_tokens'] if estimated else int(actual)
+        slices = dict(current['breakdown'])
+        if not estimated and current['estimated_input_tokens']:
+            # Allocate rounding to history while keeping all slices nonnegative.
+            scale = used / current['estimated_input_tokens']
+            slices['system'] = min(used, round(slices['system'] * scale))
+            slices['tools'] = min(used - slices['system'], round(slices['tools'] * scale))
+            slices['history'] = used - slices['system'] - slices['tools']
+        window = self._get_model_context_window()
+        configured = self.max_context_tokens
+        limit = min(configured, window) if configured else window
+        reserve = self._get_output_reserve_tokens()
+        # The request only sends catalog output caps. Family defaults do not
+        # change request parameters, so retain the existing reserve policy here.
         try:
-            skills_prompt = self.get_skills_prompt()
-            if skills_prompt:
-                skills_tokens = self._estimate_text_tokens(skills_prompt)
-                # Don't let rounding/refresh drift drive the system slice
-                # negative if the two prompt builds diverge slightly.
-                system_tokens = max(0, system_tokens - skills_tokens)
-        except Exception as e:
-            logger.debug(f"[Agent] Skills token estimate skipped: {e}")
-
-        # Approximates the executor's `_select_tools_for_injection()`, which is
-        # only reachable mid-run; availability filtering matches the tool list
-        # described in the prompt (see get_full_system_prompt).
-        # NOTE: this counts every available tool's schema, so it is an UPPER
-        # BOUND. When on-demand tool retrieval is on, `_select_tools_for_injection()`
-        # may inject only a subset per turn, so the live tools slice can be
-        # smaller than what the chart shows here.
-        try:
-            from agent.protocol.agent_stream import build_tools_schema
-
-            schema = build_tools_schema([t for t in self.tools if is_tool_available(t)])
-            # Guard the estimator's floor of 1 so "no tools" charts as nothing.
-            tools_tokens = (
-                self._estimate_text_tokens(json.dumps(schema, ensure_ascii=False))
-                if schema else 0
-            )
-        except Exception as e:
-            logger.debug(f"[Agent] Tool schema estimate skipped: {e}")
-            tools_tokens = 0
-
-        # Fold the skills catalog into the tools/skills slice.
-        tools_tokens += skills_tokens
-
-        history_tokens = sum(self._estimate_message_tokens(m) for m in self.messages)
-
-        # Chart denominator = min(user budget, model window). This is a DISPLAY
-        # ceiling only: it deliberately does NOT subtract the output reserve, so
-        # the bar shows the real usable limit (like Cursor showing the full
-        # window) rather than a reserve-adjusted number. Compaction still fires a
-        # little earlier, at the reserve-adjusted budget in
-        # AgentStreamExecutor._trim_messages — that logic is untouched, so "used"
-        # naturally starts shrinking just before it reaches this line.
-        context_window = self._get_model_context_window()
-        limit = min(self.max_context_tokens, context_window) if self.max_context_tokens else context_window
-
-        estimated_used = system_tokens + tools_tokens + history_tokens
-        model_name = getattr(self.model, "model", None) if self.model else None
-
-        # Prefer the provider's real prompt_tokens from the last turn when we
-        # have it (populated by the stream executor via stream_options.
-        # include_usage). It counts the exact input the model saw — system +
-        # tools + history — so it is the accurate `used`. The per-slice
-        # breakdown stays estimate-based (the API only reports a single total),
-        # but we scale the slices so they sum to the real total, keeping the
-        # chart both accurate overall and readable per slice.
-        real_prompt_tokens = None
-        last_usage = getattr(self, "last_usage", None)
-        if isinstance(last_usage, dict):
-            try:
-                pt = int(last_usage.get("prompt_tokens") or 0)
-                if pt > 0:
-                    real_prompt_tokens = pt
-            except (TypeError, ValueError):
-                real_prompt_tokens = None
-
-        # Staleness guard: last_usage describes the input of a PAST request. If
-        # the history has since been trimmed/compacted (or grown with new
-        # turns), that real prompt_tokens no longer matches what we'd send now,
-        # so drop it and fall back to the live estimate. We compare the live
-        # history estimate against the one captured alongside the usage; a
-        # meaningful drift (>15%) means the history changed under it.
-        if real_prompt_tokens is not None:
-            captured_hist = last_usage.get("_est_history")
-            if isinstance(captured_hist, (int, float)) and captured_hist > 0:
-                drift = abs(history_tokens - captured_hist) / captured_hist
-                if drift > 0.15:
-                    real_prompt_tokens = None
-
-        if real_prompt_tokens is not None:
-            used = real_prompt_tokens
-            estimated = False
-            if estimated_used > 0:
-                scale = real_prompt_tokens / estimated_used
-                system_slice = round(system_tokens * scale)
-                tools_slice = round(tools_tokens * scale)
-                # Absorb rounding drift into history so slices sum to `used`.
-                history_slice = max(0, used - system_slice - tools_slice)
-            else:
-                system_slice = tools_slice = 0
-                history_slice = used
-        else:
-            used = estimated_used
-            estimated = True
-            system_slice, tools_slice, history_slice = (
-                system_tokens, tools_tokens, history_tokens,
-            )
-
+            meta = self.model.catalog_model_meta() if self.model and hasattr(self.model, 'catalog_model_meta') else {}
+            output_cap = int((meta or {}).get('max_output_tokens') or 0)
+        except Exception:
+            output_cap = 0  # Keep the same conservative fallback as the request path.
+        if output_cap > 0:
+            reserve = max(reserve, output_cap)
+        input_limit = min(limit, max(0, window - reserve))
         return {
-            "available": True,
-            "estimated": estimated,
-            "model": model_name,
-            "window": context_window,
-            "limit": limit,
-            "used": used,
-            "messages": len(self.messages),
-            "breakdown": {
-                "system": system_slice,
-                "tools": tools_slice,
-                "history": history_slice,
-                "free": max(0, limit - used),
-            },
+            'available': True, 'estimated': estimated, 'breakdown_estimated': True,
+            'estimate_method': 'character_heuristic', 'scope': 'current_context',
+            'model': model_name, 'window': window, 'configured_budget': configured,
+            'limit': limit, 'input_limit': input_limit, 'output_reserve': reserve,
+            'used': used, 'messages': len(self.messages),
+            'context_state_changed': bool(system and system['state'] != state),
+            'breakdown': {**slices, 'free': max(0, limit - used)},
+            'last_request': ({**sent, 'usage': dict(last)} if sent else None),
         }
 
     def _find_tool(self, tool_name: str):

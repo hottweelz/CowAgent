@@ -1294,6 +1294,72 @@ def test_non_streaming_response_omits_usage_the_provider_did_not_report():
     assert "usage" not in response
 
 
+def test_openai_usage_omits_unknown_cache_instead_of_reporting_zero():
+    response = openai_compat._openai_usage({
+        "prompt_tokens": 1200,
+        "completion_tokens": 80,
+        "total_tokens": 1280,
+        "calls": 2,
+    })
+
+    assert response == {
+        "prompt_tokens": 1200,
+        "completion_tokens": 80,
+        "total_tokens": 1280,
+    }
+
+
+def test_openai_usage_omits_partially_reported_cache_total():
+    response = openai_compat._openai_usage({
+        "prompt_tokens": 1200,
+        "completion_tokens": 80,
+        "total_tokens": 1280,
+        "prompt_cache_hit_tokens": 600,
+        "prompt_cache_hit_tokens_reported_calls": 1,
+        "calls": 2,
+    })
+
+    assert "prompt_tokens_details" not in response
+
+
+def test_openai_usage_keeps_a_reported_zero_cache_total():
+    response = openai_compat._openai_usage({
+        "prompt_tokens": 1200,
+        "completion_tokens": 80,
+        "total_tokens": 1280,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_hit_tokens_reported_calls": 2,
+        "calls": 2,
+    })
+
+    assert response["prompt_tokens_details"] == {"cached_tokens": 0}
+
+
+def test_openai_usage_does_not_treat_zero_coverage_as_complete():
+    response = openai_compat._openai_usage({
+        "prompt_tokens": 1200,
+        "completion_tokens": 80,
+        "total_tokens": 1280,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_hit_tokens_reported_calls": 0,
+        "calls": 2,
+    })
+
+    assert "prompt_tokens_details" not in response
+
+
+def test_openai_usage_keeps_legacy_cache_field_without_coverage_count():
+    response = openai_compat._openai_usage({
+        "prompt_tokens": 1200,
+        "completion_tokens": 80,
+        "total_tokens": 1280,
+        "prompt_cache_hit_tokens": 1000,
+        "calls": 2,
+    })
+
+    assert response["prompt_tokens_details"] == {"cached_tokens": 1000}
+
+
 def test_stream_sends_usage_last_when_asked():
     payloads = _sse_payloads(list(_complete(
         {

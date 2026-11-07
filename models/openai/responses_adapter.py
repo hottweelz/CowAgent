@@ -262,11 +262,14 @@ def build_responses_payload(
 def _cc_usage(usage: Any) -> Optional[Dict[str, Any]]:
     if not isinstance(usage, dict):
         return None
-    return {
-        "prompt_tokens": usage.get("input_tokens") or 0,
-        "completion_tokens": usage.get("output_tokens") or 0,
-        "total_tokens": usage.get("total_tokens") or 0,
-    }
+    result = dict(usage)
+    for source, target in (("input_tokens", "prompt_tokens"),
+                           ("output_tokens", "completion_tokens"),
+                           ("input_tokens_details", "prompt_tokens_details"),
+                           ("output_tokens_details", "completion_tokens_details")):
+        if source in usage:
+            result[target] = usage[source]
+    return result
 
 
 def _status_to_finish_reason(response: Dict[str, Any], has_tool_calls: bool) -> str:
@@ -322,14 +325,13 @@ def responses_to_chat_completion(response: Dict[str, Any]) -> Dict[str, Any]:
         "id": response.get("id"),
         "object": "chat.completion",
         "model": response.get("model"),
+        **({"provider": response["provider"]} if response.get("provider") else {}),
         "choices": [{
             "index": 0,
             "message": message,
             "finish_reason": _status_to_finish_reason(response, bool(tool_calls)),
         }],
-        "usage": _cc_usage(response.get("usage")) or {
-            "prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0,
-        },
+        "usage": _cc_usage(response.get("usage")) or {},
     }
 
 
@@ -423,7 +425,9 @@ def responses_stream_to_chat_chunks(
             response = event.get("response") or {}
             finish_reason = _status_to_finish_reason(response, saw_tool_call)
             usage = _cc_usage(response.get("usage"))
-            final_chunk = _text_chunk(model or response.get("model"), {}, finish_reason)
+            final_chunk = _text_chunk(response.get("model") or model, {}, finish_reason)
+            if response.get("provider"):
+                final_chunk["provider"] = response["provider"]
             if usage:
                 final_chunk["usage"] = usage
             yield final_chunk

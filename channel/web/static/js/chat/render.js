@@ -413,20 +413,77 @@ function renderMessageUsageHtml(usage) {
     const input = Math.max(0, Number(usage.prompt_tokens) || 0);
     const output = Math.max(0, Number(usage.completion_tokens) || 0);
     const total = Math.max(0, Number(usage.total_tokens) || (input + output));
-    if (!total && !input && !output) return '';
-    const cached = Math.max(0, Number(usage.prompt_cache_hit_tokens) || 0);
     const calls = Math.max(1, Number(usage.calls) || 1);
+    const usageIncomplete = messageUsageCompletenessLabel(usage, calls);
+    if (!total && !input && !output && !usageIncomplete) return '';
     const fmt = (n) => n.toLocaleString();
     const parts = [
         t('msg_usage_total') + ' ' + fmt(total),
         t('msg_usage_in') + ' ' + fmt(input),
         t('msg_usage_out') + ' ' + fmt(output),
     ];
-    if (cached && input) parts.push(t('msg_usage_cached') + ' ' + Math.round(cached * 100 / input) + '%');
+    if (usageIncomplete) parts.push(usageIncomplete);
+    const cacheSummary = messageCacheUsageLabel(usage, input, calls);
+    if (cacheSummary) parts.push(cacheSummary);
     if (calls > 1) parts.push(t('msg_usage_calls').replace('{n}', calls));
     return '<span class="message-usage text-xs text-slate-300 dark:text-slate-600 hover:text-slate-500 dark:hover:text-slate-400 transition-colors cursor-pointer"' +
         ' data-message-usage="1" data-tip-float data-tooltip="' + escapeHtml(parts.join(' · ')) + '">' +
         '<i class="fas fa-coins"></i></span>';
+}
+
+function messageUsageCompletenessLabel(usage, calls) {
+    const hasInputCoverage = usage.prompt_tokens_reported_calls !== null &&
+        usage.prompt_tokens_reported_calls !== undefined;
+    const hasOutputCoverage = usage.completion_tokens_reported_calls !== null &&
+        usage.completion_tokens_reported_calls !== undefined;
+    if (hasInputCoverage || hasOutputCoverage) {
+        const inputReported = Math.max(0, Number(usage.prompt_tokens_reported_calls) || 0);
+        const outputReported = Math.max(0, Number(usage.completion_tokens_reported_calls) || 0);
+        if (inputReported < calls || outputReported < calls) {
+            return t('msg_usage_partial')
+                .replace('{inputReported}', Math.min(calls, inputReported))
+                .replace('{inputTotal}', calls)
+                .replace('{outputReported}', Math.min(calls, outputReported))
+                .replace('{outputTotal}', calls);
+        }
+        return '';
+    }
+    const input = Math.max(0, Number(usage.prompt_tokens) || 0);
+    const output = Math.max(0, Number(usage.completion_tokens) || 0);
+    const total = Math.max(0, Number(usage.total_tokens) || (input + output));
+    return calls > 0 && !input && !output && !total ? t('msg_usage_unknown') : '';
+}
+
+function messageCacheUsageLabel(usage, input, calls) {
+    const hasCount = Object.prototype.hasOwnProperty.call(usage, 'prompt_cache_hit_tokens') &&
+        usage.prompt_cache_hit_tokens !== null && usage.prompt_cache_hit_tokens !== undefined &&
+        Number.isFinite(Number(usage.prompt_cache_hit_tokens));
+    const hasCoverage = usage.prompt_cache_hit_tokens_reported_calls !== null &&
+        usage.prompt_cache_hit_tokens_reported_calls !== undefined;
+    const cached = hasCount ? Math.max(0, Number(usage.prompt_cache_hit_tokens)) : 0;
+
+    // Old persisted snapshots have a numeric cache field but no coverage
+    // counter. Keep their display behavior; new snapshots carry the counter.
+    if (!hasCoverage && hasCount) {
+        return input > 0
+            ? t('msg_usage_cached') + ' ' + Math.round(cached * 100 / input) + '%'
+            : null;
+    }
+    if (hasCoverage) {
+        const reported = Math.max(0, Number(usage.prompt_cache_hit_tokens_reported_calls) || 0);
+        if (reported >= calls && hasCount) {
+            return input > 0
+                ? t('msg_usage_cached') + ' ' + Math.round(cached * 100 / input) + '%'
+                : null;
+        }
+        if (reported > 0 && hasCount) {
+            return t('msg_usage_cache_partial')
+                .replace('{tokens}', cached.toLocaleString())
+                .replace('{reported}', Math.min(calls, reported))
+                .replace('{calls}', calls);
+        }
+    }
+    return t('msg_usage_cache_unknown');
 }
 
 function attachMessageUsage(botEl, usage) {

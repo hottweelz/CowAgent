@@ -302,7 +302,7 @@ const ContextUsagePopover: React.FC<ContextUsagePopoverProps> = ({
           >
             <div className="flex items-baseline justify-between mb-2">
               <span className="text-[12px] font-medium text-content">{t('ctx_usage_title')}</span>
-              {usage?.estimated && hasCtx && (
+              {(usage?.estimated || usage?.breakdown_estimated) && hasCtx && (
                 <span className="text-[10px] text-content-tertiary">{t('ctx_estimated')}</span>
               )}
             </div>

@@ -244,12 +244,27 @@ def _openai_usage(run_usage) -> dict | None:
 
     prompt = count("prompt_tokens")
     completion = count("completion_tokens")
-    return {
+    response = {
         "prompt_tokens": prompt,
         "completion_tokens": completion,
         "total_tokens": count("total_tokens") or prompt + completion,
-        "prompt_tokens_details": {"cached_tokens": count("prompt_cache_hit_tokens")},
     }
+    cache_value_present = (
+        "prompt_cache_hit_tokens" in run_usage
+        and run_usage.get("prompt_cache_hit_tokens") is not None
+    )
+    coverage = run_usage.get("prompt_cache_hit_tokens_reported_calls")
+    calls = count("calls")
+    # Legacy snapshots have a numeric cache value but no coverage field. For
+    # new snapshots, emit the aggregate only when every model call reported it.
+    if cache_value_present and (
+        coverage is None
+        or (calls > 0 and count("prompt_cache_hit_tokens_reported_calls") >= calls)
+    ):
+        response["prompt_tokens_details"] = {
+            "cached_tokens": count("prompt_cache_hit_tokens")
+        }
+    return response
 
 
 def _base_chunk(

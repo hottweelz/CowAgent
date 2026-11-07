@@ -327,6 +327,9 @@ class ChatGPTBot(Bot, OpenAIImage, OpenAICompatibleBot):
                 "total_tokens": response["usage"]["total_tokens"],
                 "completion_tokens": response["usage"]["completion_tokens"],
                 "content": response["choices"][0]["message"]["content"],
+                "usage": response.get("usage"),
+                "model": response.get("model"),
+                "provider": response.get("provider"),
             }
         except OpenAIHTTPError as http_err:
             return self._handle_reply_error(
