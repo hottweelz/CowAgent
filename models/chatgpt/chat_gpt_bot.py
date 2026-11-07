@@ -330,6 +330,7 @@ class ChatGPTBot(Bot, OpenAIImage, OpenAICompatibleBot):
                 "usage": response.get("usage"),
                 "model": response.get("model"),
                 "provider": response.get("provider"),
+                "finish_reason": response["choices"][0].get("finish_reason"),
             }
         except OpenAIHTTPError as http_err:
             return self._handle_reply_error(

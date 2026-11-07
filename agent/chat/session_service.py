@@ -38,6 +38,24 @@ def _clean_title(raw: str) -> Optional[str]:
     return None
 
 
+def _title_request_args(bot) -> Optional[dict]:
+    """Budget the verified OpenRouter Nemotron title route, never shared args.
+
+    Reasoning is optional for this model. Do not infer equivalent controls for
+    other providers/models or apply a small output cap to their reasoning.
+    See docs/efficiency-001/phase4.md for provider support and live evidence.
+    """
+    from models.chatgpt.chat_gpt_bot import ChatGPTBot
+
+    if not isinstance(bot, ChatGPTBot) or bot._use_responses_for_plain_calls():
+        return None
+    api_base = bot.args.get("api_base") or bot._http_client.api_base
+    if (api_base.rstrip("/") != "https://openrouter.ai/api/v1"
+            or bot.args.get("model") != "nvidia/nemotron-3.5-super-vl:free"):
+        return None
+    return {**bot.args, "reasoning": {"enabled": False}, "max_tokens": 128}
+
+
 def _title_from_primary(prompt: str, session_id: str, attempts=None) -> Optional[str]:
     """Ask the global chat bot for a title; None when the call failed."""
     attempt = {"purpose": "title", "route": "primary", "status": "failed"}
@@ -51,7 +69,9 @@ def _title_from_primary(prompt: str, session_id: str, attempts=None) -> Optional
         session = Session(session_id or "__title_gen__", system_prompt="")
         session.messages = [{"role": "user", "content": prompt}]
 
-        result = bot.reply_text(session) or {}
+        title_args = _title_request_args(bot)
+        result = (bot.reply_text(session, args=title_args) if title_args is not None
+                  else bot.reply_text(session)) or {}
         from agent.protocol.usage import normalize_usage
         usage = result.get("usage")
         if not isinstance(usage, dict) or not usage:
@@ -78,6 +98,9 @@ def _title_from_primary(prompt: str, session_id: str, attempts=None) -> Optional
                 f"(completion_tokens={completion_tokens})")
             return None
 
+        if result.get("finish_reason") == "length":
+            logger.warning("[SessionService] Title generation reached its output limit")
+            return None
         title = _clean_title(raw)
         if title:
             attempt["status"] = "success"

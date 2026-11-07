@@ -1,5 +1,71 @@
 # AI handoff ledger
 
+## 2026-11-06 22:35 EST — Codex — Phase 4 title budget
+
+- Task: reduce title overhead using supported request-local controls; preserve
+  primary agent behavior and fallback; compare provider usage; push the branch.
+- Result: four live synthetic requests, two matched before/after pairs. English
+  output 504 -> 4 (reasoning 496 -> 0); Chinese 288 -> 6 (279 -> 0). Combined
+  output 792 -> 10, total input/output 974 -> 192; input unchanged at 182.
+  All report Nvidia/Nemotron, finish_reason=stop and valid topical short titles.
+  Cost is zero on this free route; do not claim monetary or general latency gains.
+- Team: Codex lead owns provider research, policy, live comparison, integration
+  and publication. Luna/high worker maps paths and owns focused tests; a separate
+  Luna/high read-only reviewer found no must-fix issues. Requested models accepted;
+  effective worker models not independently exposed. Used STE Writing Plans and
+  its evidence rule; no HomeBoss. Current tracked audit branch retained.
+- Changes: primary titles on the exact verified OpenRouter Nemotron free route
+  copy bot args and set reasoning.enabled=false/max_tokens=128. Other routes and
+  configured fallback options unchanged. ChatGPTBot retains finish_reason;
+  truncated primary titles enter the existing fallback with usage retained.
+  No primary-agent request, model, sampling, instruction, tool or routing change.
+- Files: `agent/chat/session_service.py`, `models/chatgpt/chat_gpt_bot.py`,
+  `tests/test_session_title_budget.py`; efficiency README/implementation plan,
+  new phase4 plan/report/sanitized verification JSON; this ledger.
+- Commands/tests: private-COW_DATA_DIR `.venv/bin/python -m pytest -q` passed 14
+  tests in `test_session_title_budget`, `test_request_usage`,
+  `test_efficiency_adapter_baseline`; 73 in `test_efficiency_accounting_baseline`,
+  `test_request_accounting`, `test_openai_api_type`, `test_provider_error_body`,
+  `test_custom_provider`, `test_responses_failed_status`, `test_responses_refusal`.
+  All names are under tests/ with .py. F-class Ruff, py_compile, diff check and
+  numeric receipt reconciliation passed. Removed one unused test import found
+  by Ruff; no runtime change. Self-review and one independent review complete.
+- Live method: real generate_session_title/ChatGPTBot/HTTP path, original
+  b226e895 title service compared with current code, identical synthetic inputs
+  and configured sampling. Only reasoning/max_tokens differ. Raw counters equal
+  normalized receipts; all four use one primary attempt without fallback. Shared
+  bot args unchanged. Quality checks cover topic, language length, no extra lines
+  or thought tags. No private prompts/responses/credentials in published evidence.
+- Decisions: verify official model/endpoint support and live honoring before
+  claiming savings; scope the budget to that exact route. Keep unsupported
+  providers and fallback budgets intact. Reasoning is included in output totals.
+- Lessons Learned:
+  - Mistake: treating an auxiliary title like an unrestricted reasoning task, or
+    hiding reasoning text and counting that as avoided generation.
+  - Root Cause: the title path inherited model defaults without task-specific
+    controls; this endpoint enables reasoning by default.
+  - Future Trigger: auxiliary request output dominated by reasoning tokens.
+  - Required Behavior Change: verify per-route controls, set request-local
+    budgets, and preserve usage/fallback when an output limit is reached.
+  - Verification Step: unchanged ordinary payload/shared args, complete short
+    titles, real raw versus normalized reasoning counts, matched before/after.
+  - Durable Memory Update: implementation and support limits are in phase4.md.
+- Preservation: hashes of config plus 33 active workspace files including DBs
+  unchanged. No production SQLite operations, server restart, identity or
+  instruction edits. MEMORY.md update: not needed (no project file); no global
+  memory changes. Preserve untracked AGENTS.md and three conflicted PID files.
+- Known limits: four live calls cannot establish universal title quality or
+  latency gains. Fallback can still cost more; other routes remain unbudgeted.
+  Provider support can drift. UI/desktop and live memory retrieval not rerun:
+  no frontend/primary request changes; preceding Phase 3 FTS evidence remains.
+  Nine existing ChannelsPage type errors stay out of scope.
+- Next recommended steps: none for this authorized phase. Dynamic tool discovery
+  remains deferred; extending title controls requires route-specific evidence.
+- Next-agent notes: see phase4.md/phase4-verification.json. Private runner:
+  `/private/tmp/cowagent-phase4-live.py`; private receipts under the temp path
+  recorded in phase4.md. Parent commits/pushes tracked origin branch, fetches,
+  and requires HEAD...@{u}=0 0. No merge or deployment.
+
 ## 2026-11-06 22:19 EST — Codex — Phase 3 prefix stability
 
 - Task: implement only deterministic cache-prefix ordering and measure Nemotron

@@ -7,7 +7,7 @@ change is included. See [sanitized receipts](baseline.json),
 
 Implementation follow-ups: [Phase 1 accounting](phase1.md) and
 [live verification plus Phase 2 description compression](phase2.md), and
-[Phase 3 prefix stability](phase3.md). The audit
+[Phase 3 prefix stability](phase3.md), and [Phase 4 title budget](phase4.md). The audit
 measurements below remain the historical baseline.
 
 The first memory request is large because CowAgent sends its system instructions

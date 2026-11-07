@@ -91,6 +91,11 @@ savings cannot be inferred from the current free-model sample.
 
 ## 4. Bound and account for title generation
 
+Implemented and measured: [Phase 4 title budget](phase4.md). One paired English
+and Chinese campaign reduced combined title output from 792 to 10 tokens, with
+reported reasoning reduced from 775 to zero. This applies only to the verified
+selected OpenRouter Nemotron primary title route; fallback options remain intact.
+
 Preserve title generation as a separate task. First expose its usage and fallback
 attempts. Then test a supported title-specific reasoning/output budget with the
 same selected model. Do not globally lower reasoning or change agent model
