@@ -1,0 +1,241 @@
+{
+  "verified_at": "2026-11-06T22:45:05.076548-05:00",
+  "base_master": "19e84350d6c5459133fc7d0c573d1b6600e55ff7",
+  "reviewed_code_revision": "8eef97dcb744cd7073947f8d1e5942b2484369d0",
+  "reviewed_tree": "b479ffd25382bdada656cf906a86ab94d5a1c6b9",
+  "merge_method": "fast-forward to master; code tree identical before consolidation documentation",
+  "python_checks": {
+    "pytest": {
+      "tests": 882,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 15
+    },
+    "native": {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "post-merge": {
+      "tests": 61,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integrated_unique": {
+      "passed": 874,
+      "skipped_windows_only": 8,
+      "test_files": 85
+    }
+  },
+  "python_test_files": [
+    "tests/test_openai_chat_api.py",
+    "tests/test_agent_loop_hint_not_persisted.py",
+    "tests/test_agent_steering.py",
+    "tests/test_agent_stream_content_blocks.py",
+    "tests/test_agent_stream_max_turns.py",
+    "tests/test_agent_stream_reasoning_field.py",
+    "tests/test_agent_trim_budget.py",
+    "tests/test_agent_trim_new_messages.py",
+    "tests/test_bash_background.py",
+    "tests/test_bash_config_propagation.py",
+    "tests/test_bash_exit_codes.py",
+    "tests/test_bash_full_output.py",
+    "tests/test_bash_rm_safety_flags.py",
+    "tests/test_bash_windows_guidance.py",
+    "tests/test_browser_driver_loss.py",
+    "tests/test_browser_fill_required_text.py",
+    "tests/test_browser_ref_actions_native.py",
+    "tests/test_browser_scroll_amount.py",
+    "tests/test_browser_snapshot_selector.py",
+    "tests/test_chat_fallback_chain_walk.py",
+    "tests/test_chat_fallback_ratelimit.py",
+    "tests/test_chat_model_fallback.py",
+    "tests/test_custom_provider.py",
+    "tests/test_efficiency_accounting_baseline.py",
+    "tests/test_efficiency_adapter_baseline.py",
+    "tests/test_efficiency_benchmark.py",
+    "tests/test_efficiency_metrics.py",
+    "tests/test_incremental_persist.py",
+    "tests/test_kimi_context_window.py",
+    "tests/test_mcp_tool_retrieval.py",
+    "tests/test_memory_decay_scope.py",
+    "tests/test_memory_empty_note_native.py",
+    "tests/test_memory_fts_sync.py",
+    "tests/test_memory_get_credentials.py",
+    "tests/test_memory_get_shared_knowledge.py",
+    "tests/test_memory_global_config.py",
+    "tests/test_memory_hit_boost.py",
+    "tests/test_memory_hybrid_fusion.py",
+    "tests/test_memory_index_rel_path.py",
+    "tests/test_memory_keyword_like_fallback.py",
+    "tests/test_memory_list_pagination.py",
+    "tests/test_memory_path_marks_dirty.py",
+    "tests/test_memory_rerank.py",
+    "tests/test_memory_search_threshold_overrides.py",
+    "tests/test_memory_storage_io.py",
+    "tests/test_memory_sync_reconcile.py",
+    "tests/test_memory_sync_shared_root.py",
+    "tests/test_memory_unicode_keywords.py",
+    "tests/test_message_usage.py",
+    "tests/test_model_catalog_api.py",
+    "tests/test_openai_api_type.py",
+    "tests/test_oversized_context_files.py",
+    "tests/test_prompt_prefix_stability.py",
+    "tests/test_provider_error_body.py",
+    "tests/test_request_accounting.py",
+    "tests/test_request_usage.py",
+    "tests/test_responses_failed_status.py",
+    "tests/test_responses_function_contract.py",
+    "tests/test_responses_incomplete_tools.py",
+    "tests/test_responses_json_schema_format.py",
+    "tests/test_responses_refusal.py",
+    "tests/test_scheduler_cross_channel_recipients.py",
+    "tests/test_scheduler_once_past_time.py",
+    "tests/test_scheduler_relative_store.py",
+    "tests/test_scheduler_silent.py",
+    "tests/test_scheduler_task_permission_mode.py",
+    "tests/test_scheduler_timezone.py",
+    "tests/test_search_files_brace_globs_native.py",
+    "tests/test_search_files_powershell_quoting.py",
+    "tests/test_search_files_tool.py",
+    "tests/test_security_ssrf_browser_navigate.py",
+    "tests/test_session_context_usage.py",
+    "tests/test_session_title_budget.py",
+    "tests/test_shared_db_recovery.py",
+    "tests/test_skill_config_entry_shapes.py",
+    "tests/test_skill_custom_provider_types.py",
+    "tests/test_skill_hidden_setup_hints.py",
+    "tests/test_skill_list_name_types.py",
+    "tests/test_skill_loader_cache.py",
+    "tests/test_skill_metadata_booleans.py",
+    "tests/test_skill_prompt_order.py",
+    "tests/test_subagent_fallback_scope.py",
+    "tests/test_time_tool.py",
+    "tests/test_token_budget_trim.py",
+    "tests/test_tool_description_contract.py"
+  ],
+  "node_usage_tests_passed": 8,
+  "javascript_syntax": "pass",
+  "desktop_build": "pass",
+  "renderer_typecheck": {
+    "status": "failed_accepted_preexisting_baseline",
+    "exit_code": 2,
+    "errors": 9,
+    "file": "desktop/src/renderer/src/pages/ChannelsPage.tsx",
+    "error_code": "TS2322",
+    "locations": [
+      "57:13",
+      "59:15",
+      "60:16",
+      "61:9",
+      "62:20",
+      "63:16",
+      "64:15",
+      "66:12",
+      "67:14"
+    ],
+    "baseline_revision": "19e84350d6c5459133fc7d0c573d1b6600e55ff7",
+    "baseline_current_diagnostics_identical": true,
+    "same_dependencies": true,
+    "file_unchanged": true,
+    "diagnostics_sha256": "bf985076359ae7d3974afdbfbdb64738a8a881111d1ace69ff4a81c49f92d297"
+  },
+  "python_changed_files_compiled": 34,
+  "python_F_class_lint": "pass",
+  "memory_smoke": {
+    "source_path_outside_projects_backup": true,
+    "source_files_unchanged": true,
+    "source_file_hashes_compared": 34,
+    "read_only_database_backups": 2,
+    "other_files_copied": 27,
+    "fresh_processes": [
+      {
+        "pid": 27004,
+        "memory_tools": [
+          "memory_get",
+          "memory_search"
+        ],
+        "wal": true,
+        "unicode_fts5": true,
+        "trigram_fts5": true,
+        "integrity": "ok",
+        "fts_match_count": 1,
+        "like_fallback_calls": 0,
+        "result_sha256": "bcfa76b1b87acfd85bbfd4454430170d3fef91befc1e3f33023a39b8e7a91cd5",
+        "indexed_result_count": 1
+      },
+      {
+        "pid": 27006,
+        "memory_tools": [
+          "memory_get",
+          "memory_search"
+        ],
+        "wal": true,
+        "unicode_fts5": true,
+        "trigram_fts5": true,
+        "integrity": "ok",
+        "fts_match_count": 1,
+        "like_fallback_calls": 0,
+        "result_sha256": "bcfa76b1b87acfd85bbfd4454430170d3fef91befc1e3f33023a39b8e7a91cd5",
+        "indexed_result_count": 1
+      },
+      {
+        "pid": 27019,
+        "memory_tools": [
+          "memory_get",
+          "memory_search"
+        ],
+        "wal": true,
+        "unicode_fts5": true,
+        "trigram_fts5": true,
+        "integrity": "ok",
+        "fts_match_count": 1,
+        "like_fallback_calls": 0,
+        "result_sha256": "bcfa76b1b87acfd85bbfd4454430170d3fef91befc1e3f33023a39b8e7a91cd5",
+        "indexed_result_count": 1
+      }
+    ],
+    "history_preserved": {
+      "agents/testpilot/memory/long-term/index.db": {},
+      "memory/long-term/index.db": {
+        "sessions": {
+          "rows": 11,
+          "sha256": "72d5c90db86038ecda323e995c62656d9527ea85ff890944db4f2945273a8a00"
+        },
+        "messages": {
+          "rows": 33,
+          "sha256": "0b14eb58a8d52980d7f84da4c4c91ebda9bb46fbeeb93b64204b4f332fcda158"
+        },
+        "runs": {
+          "rows": 14,
+          "sha256": "6d18d2f0b9e698dd65c3b6f82e2678886c263fa7379becc9a2f0a0e411e706a2"
+        },
+        "artifacts": {
+          "rows": 0,
+          "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        }
+      }
+    },
+    "history_row_hashes_unchanged": true,
+    "live_provider_calls": 0
+  },
+  "offline_replay": {
+    "tools": 16,
+    "indexed_lookup": {
+      "fts_match_executed": true,
+      "result_success": true
+    },
+    "first_second_system_equal": true,
+    "first_second_tools_equal": true,
+    "live_provider_calls": 0
+  },
+  "independent_review": {
+    "requested_model": "gpt-6.1-sol",
+    "effort": "high",
+    "must_fix_findings": 0,
+    "effective_model_independently_observable": false
+  },
+  "optimization_status": "stopped after phase 4; dynamic tool discovery deferred"
+}

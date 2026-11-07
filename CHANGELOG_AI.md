@@ -1,5 +1,75 @@
 # AI handoff ledger
 
+## 2026-11-06 22:45 EST — Codex — Integrated release and master merge
+
+- Task: stop optimization, consolidate SQLite plus Phases 1–4, run one integrated
+  regression/release review, merge verified work to the fork's master. Keep the
+  nine pre-existing ChannelsPage type errors visible as a separate baseline.
+- Result: release gates passed with that explicit baseline exception. Local
+  master fast-forwarded 19e84350 -> 8eef97dc; reviewed/merged tree hashes match
+  b479ffd25382bdada656cf906a86ab94d5a1c6b9. Consolidation edits are docs only.
+  No code fix, new optimization, branch deletion, deployment or runtime restart.
+- Team: Codex lead owns regression, SQLite snapshot/restarts, consolidation and
+  Git; Luna/high verifies frontend/build and reproduces the exact baseline;
+  one Sol 6.1/high independent reviewer checks cross-module data-integrity,
+  context-budget and accounting invariants. That combined review exceeds routine
+  Luna lookup work. Requested models accepted; effective models not independently
+  exposed. Used STE branch-completion skill and efficient-evidence rule; existing
+  merge authorization supersedes its options menu. No HomeBoss.
+- Commands/results: private-COW_DATA_DIR `.venv/bin/python -m pytest -q -rA`
+  across the 85 files in release-verification.json: 867 passed/15 skipped in
+  16.20s. `COW_BROWSER_NATIVE_TEST=1` reran the seven opt-in browser skips:
+  7 passed with private Chrome profiles. Unique result: 874 passed, 8 Windows-only
+  skips (2 path-separator, 6 PowerShell). One collection used the known real-web
+  API-before-stub order. No failures or errors.
+- Frontend: `node --test tests/test_usage_display.mjs` 8 passed; changed JS syntax
+  checks passed. Desktop `npm run build` passed. `npx tsc --noEmit -p tsconfig.json`
+  FAILED, exit 2, with the same nine ChannelsPage TS2322 errors at both 19e84350
+  and 8eef97dc using identical dependencies. Normalized logs byte-identical; file
+  unchanged. This check is accepted baseline failure, never recorded as passing.
+- Other checks: F-class Ruff passed on 34 changed Python files; all compiled;
+  diff checks passed. Independent review found no actionable must-fix issue.
+  Post-merge core smoke passed 61 storage/FTS/accounting/usage/title tests; these
+  repeat existing cases and are not added to the unique count.
+- Runtime evidence: new private workspace, two SQLite online backups from
+  read-only/query-only sources. Three fresh processes called normal TestPilot
+  memory setup, registered both memory tools, returned the same indexed result
+  with one FTS MATCH each and LIKE blocked. WAL, both FTS indexes and integrity
+  passed. Snapshot history row hashes preserved: 11 sessions/33 messages/14 runs.
+  Config plus 33 active workspace file hashes unchanged. No production DB writes,
+  deletion, replacement or rebuilding. Source remains outside Projects backup.
+- Integration replay: existing benchmark on the fresh copy, no --live flag;
+  all 16 tools, identical first/second system/tool blocks, successful FTS replay.
+  No new provider requests; retained live phase evidence kept at its original
+  scope. No new full UI/provider run, embeddings, native Windows or packaged
+  desktop release. Existing build warnings and checkout/PID sync risk remain.
+- Files: this ledger, efficiency README, new release-review.md and
+  release-verification.json, new docs/known-issues/channels-page-typecheck.md.
+- Decisions: merge the tested tree and retain the baseline as a separate defect;
+  preserve measured limits (Phase 3 adds no proven cache gain; Phase 4 is a small
+  synthetic title sample). Dynamic discovery and further optimization deferred.
+- Lessons Learned:
+  - Mistake: equating a successful production bundle with a clean renderer
+    typecheck, or adding repeat-test counts as new coverage.
+  - Root Cause: bundle/transpile and strict type checking are separate commands;
+    native and post-merge checks repeat part of the integrated selection.
+  - Future Trigger: release consolidation with known failures or repeated gates.
+  - Required Behavior Change: reproduce baseline failures on the old revision
+    with the same dependencies and report distinct checks and unique coverage.
+  - Verification Step: identical baseline diagnostics; tree equality at merge;
+    unique JUnit counts, post-merge core smoke, and preserved DB row hashes.
+  - Durable Memory Update: release review and separate baseline issue document
+    the evidence. MEMORY.md update: not needed; no project file exists and no
+    instruction/identity/global memory file changed.
+- Next recommended steps: none for this authorized consolidation. Address the
+  documented ChannelsPage type mismatch as a separate task if requested. Do not
+  resume token optimization or dynamic tool discovery without new direction.
+- Next-agent notes: private backend/snapshot evidence at
+  /private/tmp/cowagent-release-rmkpu4fm; frontend/base comparison at
+  /private/tmp/cowagent-frontend-checks.gJt5tJ. Preserve untracked AGENTS.md and
+  three conflicted PID files. The lead commits this docs-only consolidation on
+  master, pushes existing origin/master, fetches and requires HEAD...@{u}=0 0.
+
 ## 2026-11-06 22:35 EST — Codex — Phase 4 title budget
 
 - Task: reduce title overhead using supported request-local controls; preserve

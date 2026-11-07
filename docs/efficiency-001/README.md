@@ -1,5 +1,8 @@
 # EFFICIENCY-001: context and caching baseline
 
+Consolidated outcome: [SQLite and Phases 1–4 release review](release-review.md).
+Optimization is stopped after Phase 4; dynamic tool discovery remains deferred.
+
 Measured 2026-11-06. Production source baseline: `37d947bb`. Audit branch:
 `audit/efficiency-001-context-cache`. No optimization or production configuration
 change is included. See [sanitized receipts](baseline.json),
