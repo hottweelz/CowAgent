@@ -1,0 +1,7 @@
+# Optional audit/test tools only. Install into the existing project .venv.
+# Application dependencies still come from the project's normal requirements.
+tiktoken==0.14.0
+tokenizers==0.23.3
+Jinja2==3.1.6
+pytest==9.2.0
+ruff==0.17.4

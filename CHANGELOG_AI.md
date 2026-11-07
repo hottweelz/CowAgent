@@ -1,5 +1,83 @@
 # AI handoff ledger
 
+## 2026-11-06 19:03 EST — Codex — EFFICIENCY-001 baseline audit
+
+- Task: trace and measure context construction, token accounting, cache metadata,
+  indexed-memory requests and separate title calls; propose changes for review.
+  Audit only. No optimization, production source/config change or merge.
+- Branch: `audit/efficiency-001-context-cache`, created with no upstream from
+  `37d947bb`. Scope is independent of the completed SQLite repair below.
+- Team: Codex lead; Luna/high workers for prompt/component metrics, adapter/cache
+  inspection and tests, and token-accounting inspection and tests; one Luna/high
+  read-only reviewer for audit code and report evidence. Model selections were
+  accepted by the runtime; effective worker models were not independently exposed.
+  Used the STE Writing Plans skill and performance-engineer guidance. No HomeBoss.
+- Findings: the diagnostic estimate omits schemas; the chart reads a cached
+  initialization prompt that differs from the prompt sent; provider input is per
+  call while the assistant footer sums calls. The public NVIDIA template counted
+  9,961 tokens versus 9,960 actual first-request input. Its tool blocks account for
+  5,457 estimated tokens (54.8%). Component counts remain local estimates.
+- Live results: Nemotron's two-call indexed-memory task used 20,155 input / 119
+  output tokens; the continuation and exact first-request repeat each reported
+  8,672 cached input tokens. Title generation separately used 91 input / 259 output
+  (252 reasoning). `openrouter/free` completed the task but changed underlying
+  models/providers and reported zero cached tokens. Gemma returned HTTP 429 on
+  all six attempts across two bounded campaigns. Total requests: 14; all eight
+  successful responses reported cost 0. No invented Gemma token/latency metrics.
+- Preservation: both SQLite sources opened read-only/query-only for backup;
+  both source main-file hashes unchanged during snapshot. All CowAgent maintenance
+  and tool execution used the private clone. No active runtime database writes,
+  identity/instruction edits, capability removal or credential changes. Published
+  artifacts contain counts, hashes, numeric usage, routing and timing only.
+- Files: `scripts/benchmark_context_cache.py`, `scripts/efficiency_metrics.py`,
+  `scripts/requirements-efficiency-audit.txt`, four `tests/test_efficiency_*.py`
+  files, `docs/efficiency-001/{README.md,baseline.json,plan.md,reproduce.md,
+  implementation-plan.md}`, and this ledger. Optional audit dependencies were
+  installed only in the existing `.venv`; production requirements were unchanged.
+- Checks: `COW_DATA_DIR=<private audit path> .venv/bin/python -m pytest -q` with
+  the four audit test files passed 12 tests. F-class Ruff checks, `py_compile` and
+  `git diff --check` passed. Final offline runner with the pinned NVIDIA tokenizer
+  and template preserved the live baseline's first-request hash, counted 9,961,
+  retained 16 tools and executed FTS MATCH successfully. No new provider call was
+  needed for that verification. Artifact credential/private-body scan and relative
+  document links passed. Self-review and bounded independent review were performed.
+- Decisions: compare active/recent OpenRouter models as selected by maintainer;
+  keep raw actual usage separate from local proxy/template estimates; record
+  missing metadata as unknown in evidence; do not interpret response caching as
+  prompt caching. Rank accounting correctness before schema or prefix changes.
+- Lessons Learned:
+  - Mistake: comparing a schema-free estimate or cached prompt with total provider
+    input, or treating a normalized zero cache field as conclusive provider evidence.
+  - Root Cause: accounting uses different prompt snapshots and aggregation scopes;
+    raw JSON does not match provider chat-template serialization; metadata is lost.
+  - Future Trigger: large estimate/provider gaps, 0% cache displays, unexpected
+    title usage, or a router-model comparison with inconsistent input counts.
+  - Required Behavior Change: fingerprint the sent request; retain raw numeric
+    cache provenance; separate latest call, run sum and auxiliary request usage.
+  - Verification Step: compare count-only actual adapter payloads, pinned local
+    template estimates and raw provider counters; verify indexed reads on a clone.
+  - Durable Memory Update: findings and the proposed contract are in the audit
+    report and implementation plan, not in user instruction files.
+- Known limits: original full wire requests and exact first-campaign UTC request
+  timestamps were not retained; current reconstruction is labeled. Public NVIDIA
+  deployment/template identity is unconfirmed despite the one-token agreement.
+  Repeat followed a continuation, so the sequence is not an isolated cache-causality
+  experiment. No successful Gemma baseline, long-history/multimodal/MCP benchmark,
+  web UI replay or title-fallback cost measurement. These limits are explicit.
+- MEMORY.md update: not needed; no project memory file existed and no new project
+  governance or architecture decision was adopted. Global memory was not changed.
+- Next recommended steps: review `docs/efficiency-001/implementation-plan.md`;
+  authorize a bounded accounting phase before optimizations. Measure Gemma when
+  its endpoint is available if successful-generation comparison is still needed.
+- Next-agent notes: private snapshot and intermediate receipts remain at
+  `/private/tmp/cowagent-efficiency-001-fqoww935`; they contain private runtime data
+  and must not be committed. Preserve the unrelated untracked `AGENTS.md` and
+  three `.cow [conflicted...].pid` files. The runtime remains outside pCloud backup
+  at CowAgent-Runtime; do not revert its path to CowAgent-TestData/workspace.
+- GitHub sync blocked: GitHub remote exists but current branch has no tracked upstream.
+  Intended audit work is committed locally. No upstream is guessed or set, and no
+  merge or push is performed.
+
 ## 2026-11-06 17:42 EST — Codex — SQLite memory I/O repair
 
 - Task: investigate and fix TestPilot's recurring indexed-memory startup failure.

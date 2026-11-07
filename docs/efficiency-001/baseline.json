@@ -1,0 +1,1288 @@
+{
+  "schema_version": 1,
+  "measured_at_utc": "2026-11-06T23:49:28.453653+00:00",
+  "historical_lookup_replay": {
+    "fts_match_executed": true,
+    "result_success": true
+  },
+  "source_revision": "37d947bb",
+  "models": [
+    "nvidia/nemotron-3.5-super-vl:free",
+    "google/gemma-4-26b-a4b-it:free",
+    "openrouter/free"
+  ],
+  "method": {
+    "local_tokenizer": "cl100k_base proxy; not the native Nemotron/Gemma tokenizer",
+    "provider_component_counts_available": false,
+    "optional_model_family_tokenizer": {
+      "label": "NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-BF16@fb0ee0bc6b3f70342afd8d84cb80dbadbaa8a1fe raw-text proxy",
+      "sha256": "d0432ad8b1c2984a2e2dca82e1933e3fd5628df6e95c51fba4c3ee9950dce299",
+      "add_special_tokens": false,
+      "exact_upstream_chat_template_verified": false
+    },
+    "snapshot_paths_normalized_to_active_paths_in_memory": true,
+    "application_logs_disabled": true,
+    "database_write_scope": "isolated snapshot only",
+    "full_tool_inventory_preserved": true,
+    "baseline_reconstruction_limit": "original complete wire payload was not retained; current source and retained conversation used",
+    "title_measurement": "application title prompt with plain-chat request args; separate non-streaming request",
+    "request_policy": "unmodified adapter tool inventory, two identical first requests per model, at most one memory_search continuation, no retries",
+    "temperature": 0,
+    "max_tokens_source": "AgentStreamExecutor._catalog_max_output_tokens; unchanged executor policy",
+    "measurement_layers": "Actual builder and adapter payload; direct HTTP benchmark transport; usage normalization tested separately with mocks"
+  },
+  "historical": {
+    "persisted_provider_run_usage": {
+      "prompt_tokens": 20208,
+      "completion_tokens": 160,
+      "total_tokens": 20368,
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 20208,
+      "calls": 2
+    },
+    "persisted_context_display": {
+      "available": true,
+      "estimated": false,
+      "model": "nvidia/nemotron-3.5-super-vl:free",
+      "window": 128000,
+      "limit": 128000,
+      "used": 10241,
+      "messages": 4,
+      "breakdown": {
+        "system": 5130,
+        "tools": 4793,
+        "history": 318,
+        "free": 117759
+      }
+    },
+    "first_request_input_inferred": 9967,
+    "second_request_input_from_last_context": 10241,
+    "per_call_raw_provider_payloads_retained": false
+  },
+  "prompt_sections": [
+    {
+      "name": "tooling",
+      "chars": 1460,
+      "utf8_bytes": 1463,
+      "sha256": "c146f7344252a2cda209e0cbeb2bcd187682e5a10cd54d7900493d34ff1d441c",
+      "cowagent_estimated_tokens": 367,
+      "tiktoken_cl100k_base_proxy_tokens": 332,
+      "model_family_tokenizer_proxy_tokens": 335
+    },
+    {
+      "name": "skills",
+      "chars": 2412,
+      "utf8_bytes": 2417,
+      "sha256": "814394d177ded3a819f4f2ec042577171b0d1d2da8334ad90d3559a30b5dc38e",
+      "cowagent_estimated_tokens": 606,
+      "tiktoken_cl100k_base_proxy_tokens": 587,
+      "model_family_tokenizer_proxy_tokens": 609
+    },
+    {
+      "name": "memory",
+      "chars": 1739,
+      "utf8_bytes": 1758,
+      "sha256": "889df7561a1241512a143e19928e7072cbb5f77302104137b4bf2566589a8cab",
+      "cowagent_estimated_tokens": 447,
+      "tiktoken_cl100k_base_proxy_tokens": 406,
+      "model_family_tokenizer_proxy_tokens": 417
+    },
+    {
+      "name": "knowledge",
+      "chars": 1269,
+      "utf8_bytes": 1288,
+      "sha256": "9472719d8aec80f4f4cc6f6d6db28778b207e98a038a3b76997eb69f9b26a549",
+      "cowagent_estimated_tokens": 329,
+      "tiktoken_cl100k_base_proxy_tokens": 290,
+      "model_family_tokenizer_proxy_tokens": 292
+    },
+    {
+      "name": "workspace",
+      "chars": 2263,
+      "utf8_bytes": 2292,
+      "sha256": "ef93cd5118228b320c3de44b594cb7628fc282217decaaad136e4d10e3899b09",
+      "cowagent_estimated_tokens": 583,
+      "tiktoken_cl100k_base_proxy_tokens": 573,
+      "model_family_tokenizer_proxy_tokens": 587
+    },
+    {
+      "name": "permissions",
+      "chars": 459,
+      "utf8_bytes": 462,
+      "sha256": "ac2566f1bf11a07491f15a6fb19ab1ce3bdebf0b3f260b6741dff462015c45b1",
+      "cowagent_estimated_tokens": 117,
+      "tiktoken_cl100k_base_proxy_tokens": 105,
+      "model_family_tokenizer_proxy_tokens": 111
+    },
+    {
+      "name": "context_files",
+      "chars": 7491,
+      "utf8_bytes": 7662,
+      "sha256": "5de6c6d160d3e81fd58d17dde89a8aeaac024b1e92843de643ae36b0dbcb6715",
+      "cowagent_estimated_tokens": 1972,
+      "tiktoken_cl100k_base_proxy_tokens": 1768,
+      "model_family_tokenizer_proxy_tokens": 1803
+    },
+    {
+      "name": "runtime",
+      "chars": 197,
+      "utf8_bytes": 201,
+      "sha256": "01301e2c4e841700f1fd040ae78fe2c58b0fdb838768883831c85f8da239cbbb",
+      "cowagent_estimated_tokens": 52,
+      "tiktoken_cl100k_base_proxy_tokens": 67,
+      "model_family_tokenizer_proxy_tokens": 76
+    },
+    {
+      "name": "team",
+      "chars": 0,
+      "utf8_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cowagent_estimated_tokens": 0,
+      "tiktoken_cl100k_base_proxy_tokens": 0,
+      "model_family_tokenizer_proxy_tokens": 0
+    },
+    {
+      "name": "response_language",
+      "chars": 138,
+      "utf8_bytes": 141,
+      "sha256": "d2d5a4afb9ceb09384089a9f0c13f931d32ebfca04f4b37d8bec0c71a0f6f124",
+      "cowagent_estimated_tokens": 36,
+      "tiktoken_cl100k_base_proxy_tokens": 30,
+      "model_family_tokenizer_proxy_tokens": 30
+    }
+  ],
+  "context_file_bodies": [
+    {
+      "name": "AGENT.md",
+      "chars": 1476,
+      "utf8_bytes": 1495,
+      "sha256": "163caf76772864c4dc93de7a11f031e474607d50c58a0ab1defacb2d1e795f2e",
+      "cowagent_estimated_tokens": 378,
+      "tiktoken_cl100k_base_proxy_tokens": 349,
+      "model_family_tokenizer_proxy_tokens": 350
+    },
+    {
+      "name": "USER.md",
+      "chars": 507,
+      "utf8_bytes": 507,
+      "sha256": "35dc34f84f5536a30e99426cadcd912f94b6e6a40a27ee154e8876b5ad2b5096",
+      "cowagent_estimated_tokens": 127,
+      "tiktoken_cl100k_base_proxy_tokens": 128,
+      "model_family_tokenizer_proxy_tokens": 135
+    },
+    {
+      "name": "RULE.md",
+      "chars": 4518,
+      "utf8_bytes": 4654,
+      "sha256": "619c4c76c472c71e3873ed2bc0c228a8bd5f50842560425f1bc1209c2e499f56",
+      "cowagent_estimated_tokens": 1213,
+      "tiktoken_cl100k_base_proxy_tokens": 1056,
+      "model_family_tokenizer_proxy_tokens": 1065
+    },
+    {
+      "name": "MEMORY.md",
+      "chars": 537,
+      "utf8_bytes": 547,
+      "sha256": "bb92bb87e0cb3b0e17aeaa8773c5fa9dd9bc3490ac16a8c749befd775fa5de19",
+      "cowagent_estimated_tokens": 140,
+      "tiktoken_cl100k_base_proxy_tokens": 135,
+      "model_family_tokenizer_proxy_tokens": 149
+    }
+  ],
+  "skill_catalog": {
+    "chars": 1674,
+    "utf8_bytes": 1674,
+    "sha256": "1ac945defe780cabf4f33873892ebfb558f3cbf8082f385e27006311768e136c",
+    "cowagent_estimated_tokens": 419,
+    "tiktoken_cl100k_base_proxy_tokens": 417,
+    "model_family_tokenizer_proxy_tokens": 435
+  },
+  "tool_definitions": [
+    {
+      "name": "read",
+      "chars": 1262,
+      "utf8_bytes": 1262,
+      "sha256": "caf60bc7558cc1cbe1c83e83d4bdc5bb6b7d6ce55bada534d302529e4cfd25ee",
+      "cowagent_estimated_tokens": 316,
+      "tiktoken_cl100k_base_proxy_tokens": 294,
+      "model_family_tokenizer_proxy_tokens": 318
+    },
+    {
+      "name": "write",
+      "chars": 581,
+      "utf8_bytes": 581,
+      "sha256": "cb4ee19352f433db2fa966986af2adab7fcfbd3a504a24ca011779de58606817",
+      "cowagent_estimated_tokens": 146,
+      "tiktoken_cl100k_base_proxy_tokens": 118,
+      "model_family_tokenizer_proxy_tokens": 124
+    },
+    {
+      "name": "edit",
+      "chars": 1085,
+      "utf8_bytes": 1085,
+      "sha256": "4a979f567aec2030a20fc44e767e1a7f6fcc9df8fa28437069c83e85c583bad0",
+      "cowagent_estimated_tokens": 272,
+      "tiktoken_cl100k_base_proxy_tokens": 229,
+      "model_family_tokenizer_proxy_tokens": 246
+    },
+    {
+      "name": "bash",
+      "chars": 1676,
+      "utf8_bytes": 1676,
+      "sha256": "a95b38b59b252a60788df0c6e69749af54d1a6b7d70ecdec546f64c244c8f1a1",
+      "cowagent_estimated_tokens": 420,
+      "tiktoken_cl100k_base_proxy_tokens": 358,
+      "model_family_tokenizer_proxy_tokens": 383
+    },
+    {
+      "name": "ls",
+      "chars": 601,
+      "utf8_bytes": 601,
+      "sha256": "3e74401e239a35ceab3d2639ca9ede916ce899b73969bca6cead6daac8a994fd",
+      "cowagent_estimated_tokens": 151,
+      "tiktoken_cl100k_base_proxy_tokens": 122,
+      "model_family_tokenizer_proxy_tokens": 132
+    },
+    {
+      "name": "send",
+      "chars": 564,
+      "utf8_bytes": 566,
+      "sha256": "3f914df64591b918f177f4a82eff934178e4dc9a18b8e6b598671226936d1d92",
+      "cowagent_estimated_tokens": 143,
+      "tiktoken_cl100k_base_proxy_tokens": 119,
+      "model_family_tokenizer_proxy_tokens": 124
+    },
+    {
+      "name": "search_files",
+      "chars": 1839,
+      "utf8_bytes": 1839,
+      "sha256": "17fc70de8952ac3dc7a928e4f3cfdded5bc95104b86fefc85704f52b0c8fdad7",
+      "cowagent_estimated_tokens": 460,
+      "tiktoken_cl100k_base_proxy_tokens": 404,
+      "model_family_tokenizer_proxy_tokens": 437
+    },
+    {
+      "name": "env_config",
+      "chars": 1160,
+      "utf8_bytes": 1168,
+      "sha256": "202f8737cf45bd088f9b09beaad60e2ede742f9ad1dc664afa7216f2c3a98230",
+      "cowagent_estimated_tokens": 296,
+      "tiktoken_cl100k_base_proxy_tokens": 280,
+      "model_family_tokenizer_proxy_tokens": 301
+    },
+    {
+      "name": "scheduler",
+      "chars": 2514,
+      "utf8_bytes": 3056,
+      "sha256": "7f1877fc832d423f2abd315271ce53fb746501014d7d6762ddb04b3ab066d7a2",
+      "cowagent_estimated_tokens": 968,
+      "tiktoken_cl100k_base_proxy_tokens": 773,
+      "model_family_tokenizer_proxy_tokens": 846
+    },
+    {
+      "name": "web_search",
+      "chars": 915,
+      "utf8_bytes": 915,
+      "sha256": "83bdcc809a4dc84f838c58bc47d6c50d0731dea8b43d8653354991f0106e798e",
+      "cowagent_estimated_tokens": 229,
+      "tiktoken_cl100k_base_proxy_tokens": 221,
+      "model_family_tokenizer_proxy_tokens": 243
+    },
+    {
+      "name": "web_fetch",
+      "chars": 484,
+      "utf8_bytes": 484,
+      "sha256": "0f27ef9acf256d4a071ce62b37cfb2f88a20d8a68c7b11e9d7d2df7a4ba7303c",
+      "cowagent_estimated_tokens": 122,
+      "tiktoken_cl100k_base_proxy_tokens": 125,
+      "model_family_tokenizer_proxy_tokens": 136
+    },
+    {
+      "name": "vision",
+      "chars": 490,
+      "utf8_bytes": 490,
+      "sha256": "fc21bca785ee3e0a965f94f0e24d1642ee5445de885591eeaf4ca26a2d127038",
+      "cowagent_estimated_tokens": 123,
+      "tiktoken_cl100k_base_proxy_tokens": 105,
+      "model_family_tokenizer_proxy_tokens": 110
+    },
+    {
+      "name": "browser",
+      "chars": 2295,
+      "utf8_bytes": 2299,
+      "sha256": "03da7d3e2c1a74b249cc87b4628412731b4feaaa2c0a4d3627102184f39ebabf",
+      "cowagent_estimated_tokens": 577,
+      "tiktoken_cl100k_base_proxy_tokens": 504,
+      "model_family_tokenizer_proxy_tokens": 543
+    },
+    {
+      "name": "time",
+      "chars": 447,
+      "utf8_bytes": 447,
+      "sha256": "168ac668879b38c4272ad36da1a989ff9f6492535c2a758600eb5dbc518e1cb2",
+      "cowagent_estimated_tokens": 112,
+      "tiktoken_cl100k_base_proxy_tokens": 96,
+      "model_family_tokenizer_proxy_tokens": 98
+    },
+    {
+      "name": "memory_search",
+      "chars": 615,
+      "utf8_bytes": 615,
+      "sha256": "3737ab8effab995e6bf1d2dc2967b5cfc12477b32a75301d6cb53106afb2c0fa",
+      "cowagent_estimated_tokens": 154,
+      "tiktoken_cl100k_base_proxy_tokens": 130,
+      "model_family_tokenizer_proxy_tokens": 140
+    },
+    {
+      "name": "memory_get",
+      "chars": 650,
+      "utf8_bytes": 650,
+      "sha256": "6f80be8276592af368a274a2e90f7ce1d880506fe3bfdb7a9c8a82c818f9c1df",
+      "cowagent_estimated_tokens": 163,
+      "tiktoken_cl100k_base_proxy_tokens": 147,
+      "model_family_tokenizer_proxy_tokens": 159
+    }
+  ],
+  "message_components": [
+    {
+      "index": 0,
+      "role": "system",
+      "chars": 17864,
+      "utf8_bytes": 18120,
+      "sha256": "35fa3404abc428532297c8ae8f2a7d6ac85b21196650b4489a5d638da26a2383",
+      "cowagent_estimated_tokens": 4613,
+      "tiktoken_cl100k_base_proxy_tokens": 4444,
+      "model_family_tokenizer_proxy_tokens": 4576
+    },
+    {
+      "index": 1,
+      "role": "user",
+      "chars": 240,
+      "utf8_bytes": 240,
+      "sha256": "1b9fecfffc3cb594f0c44c7c45ff7292081dc5cffbe7d759f69c9dfceb714a0e",
+      "cowagent_estimated_tokens": 61,
+      "tiktoken_cl100k_base_proxy_tokens": 51,
+      "model_family_tokenizer_proxy_tokens": 55
+    },
+    {
+      "index": 2,
+      "role": "assistant",
+      "chars": 258,
+      "utf8_bytes": 258,
+      "sha256": "d71597f51c1b045091a4bdd119e7a514235a20adc9e500b740f4bda772edf311",
+      "cowagent_estimated_tokens": 65,
+      "tiktoken_cl100k_base_proxy_tokens": 75,
+      "model_family_tokenizer_proxy_tokens": 89
+    },
+    {
+      "index": 3,
+      "role": "tool",
+      "chars": 696,
+      "utf8_bytes": 706,
+      "sha256": "bd6e3063272207899059304e11eea051f004de832721e8b345702053658c9945",
+      "cowagent_estimated_tokens": 180,
+      "tiktoken_cl100k_base_proxy_tokens": 214,
+      "model_family_tokenizer_proxy_tokens": 241
+    }
+  ],
+  "requests": {
+    "first": {
+      "wire_json": {
+        "chars": 35518,
+        "utf8_bytes": 36330,
+        "sha256": "167a86a5e0ecde5b2db5408c4f6770a0881e4b341a5cd996549b8332589e3370",
+        "cowagent_estimated_tokens": 9374,
+        "tiktoken_cl100k_base_proxy_tokens": 8569,
+        "model_family_tokenizer_proxy_tokens": 9046
+      },
+      "system": {
+        "chars": 17436,
+        "utf8_bytes": 17692,
+        "sha256": "13277c618d6c1f6660ed14cdfb911fcf560ecede56deb4ffb41e13d958c1f243",
+        "cowagent_estimated_tokens": 4506,
+        "tiktoken_cl100k_base_proxy_tokens": 4158,
+        "model_family_tokenizer_proxy_tokens": 4260
+      },
+      "messages_without_system": {
+        "chars": 242,
+        "utf8_bytes": 242,
+        "sha256": "f04c9eb5626ab0bf713ce4d8bacc88f070f628002df87ba9c2b0284b8cfa6084",
+        "cowagent_estimated_tokens": 61,
+        "tiktoken_cl100k_base_proxy_tokens": 53,
+        "model_family_tokenizer_proxy_tokens": 57
+      },
+      "tools": {
+        "chars": 17195,
+        "utf8_bytes": 17751,
+        "sha256": "fffb90a1bd88e4f30f3a028be1be9bac7fffd853192c565b6cdc7904b1f64c40",
+        "cowagent_estimated_tokens": 4647,
+        "tiktoken_cl100k_base_proxy_tokens": 4012,
+        "model_family_tokenizer_proxy_tokens": 4342
+      },
+      "diagnostic_estimate_excluding_tool_schemas": 4553,
+      "cowagent_history_estimate": 47,
+      "payload_sha256": "167a86a5e0ecde5b2db5408c4f6770a0881e4b341a5cd996549b8332589e3370",
+      "model_family_chat_template": {
+        "estimated_tokens": 9961,
+        "rendered_sha256": "73ddb0131c0962dafcec553d1f4a7b2dce6c3d5e8218025b043fc03f1394d4b3",
+        "template_sha256": "1369e90b19976f99ce2070eb21ade8fcb4af640f008e14e82af5c5e89a9cc816",
+        "tool_blocks": [
+          {
+            "name": "read",
+            "estimated_template_tokens": 383
+          },
+          {
+            "name": "write",
+            "estimated_template_tokens": 160
+          },
+          {
+            "name": "edit",
+            "estimated_template_tokens": 312
+          },
+          {
+            "name": "bash",
+            "estimated_template_tokens": 458
+          },
+          {
+            "name": "ls",
+            "estimated_template_tokens": 168
+          },
+          {
+            "name": "send",
+            "estimated_template_tokens": 159
+          },
+          {
+            "name": "search_files",
+            "estimated_template_tokens": 571
+          },
+          {
+            "name": "env_config",
+            "estimated_template_tokens": 353
+          },
+          {
+            "name": "scheduler",
+            "estimated_template_tokens": 1037
+          },
+          {
+            "name": "web_search",
+            "estimated_template_tokens": 308
+          },
+          {
+            "name": "web_fetch",
+            "estimated_template_tokens": 155
+          },
+          {
+            "name": "vision",
+            "estimated_template_tokens": 147
+          },
+          {
+            "name": "browser",
+            "estimated_template_tokens": 739
+          },
+          {
+            "name": "time",
+            "estimated_template_tokens": 100
+          },
+          {
+            "name": "memory_search",
+            "estimated_template_tokens": 195
+          },
+          {
+            "name": "memory_get",
+            "estimated_template_tokens": 212
+          }
+        ],
+        "tool_blocks_estimated_tokens": 5457,
+        "tokens_outside_tool_blocks": 4504,
+        "exact_provider_template_verified": false
+      }
+    },
+    "second": {
+      "wire_json": {
+        "chars": 36474,
+        "utf8_bytes": 37296,
+        "sha256": "808754b5cef3eabf81afc45d68adfd2aa3308775d258cd16eb71b47dc7730480",
+        "cowagent_estimated_tokens": 9618,
+        "tiktoken_cl100k_base_proxy_tokens": 8857,
+        "model_family_tokenizer_proxy_tokens": 9377
+      },
+      "system": {
+        "chars": 17436,
+        "utf8_bytes": 17692,
+        "sha256": "13277c618d6c1f6660ed14cdfb911fcf560ecede56deb4ffb41e13d958c1f243",
+        "cowagent_estimated_tokens": 4506,
+        "tiktoken_cl100k_base_proxy_tokens": 4158,
+        "model_family_tokenizer_proxy_tokens": 4260
+      },
+      "messages_without_system": {
+        "chars": 1198,
+        "utf8_bytes": 1208,
+        "sha256": "0746d5c9fbf828d1dc69703e9c8d0c1abc83916b62601bebb5895b9d9c38332a",
+        "cowagent_estimated_tokens": 305,
+        "tiktoken_cl100k_base_proxy_tokens": 341,
+        "model_family_tokenizer_proxy_tokens": 388
+      },
+      "tools": {
+        "chars": 17195,
+        "utf8_bytes": 17751,
+        "sha256": "fffb90a1bd88e4f30f3a028be1be9bac7fffd853192c565b6cdc7904b1f64c40",
+        "cowagent_estimated_tokens": 4647,
+        "tiktoken_cl100k_base_proxy_tokens": 4012,
+        "model_family_tokenizer_proxy_tokens": 4342
+      },
+      "diagnostic_estimate_excluding_tool_schemas": 4800,
+      "cowagent_history_estimate": 294,
+      "payload_sha256": "808754b5cef3eabf81afc45d68adfd2aa3308775d258cd16eb71b47dc7730480",
+      "model_family_chat_template": {
+        "estimated_tokens": 10195,
+        "rendered_sha256": "652310dabe03aeb77a9658b9f080817ebac5dc6669bcda229f35ea3607f7180a",
+        "template_sha256": "1369e90b19976f99ce2070eb21ade8fcb4af640f008e14e82af5c5e89a9cc816",
+        "tool_blocks": [
+          {
+            "name": "read",
+            "estimated_template_tokens": 383
+          },
+          {
+            "name": "write",
+            "estimated_template_tokens": 160
+          },
+          {
+            "name": "edit",
+            "estimated_template_tokens": 312
+          },
+          {
+            "name": "bash",
+            "estimated_template_tokens": 458
+          },
+          {
+            "name": "ls",
+            "estimated_template_tokens": 168
+          },
+          {
+            "name": "send",
+            "estimated_template_tokens": 159
+          },
+          {
+            "name": "search_files",
+            "estimated_template_tokens": 571
+          },
+          {
+            "name": "env_config",
+            "estimated_template_tokens": 353
+          },
+          {
+            "name": "scheduler",
+            "estimated_template_tokens": 1037
+          },
+          {
+            "name": "web_search",
+            "estimated_template_tokens": 308
+          },
+          {
+            "name": "web_fetch",
+            "estimated_template_tokens": 155
+          },
+          {
+            "name": "vision",
+            "estimated_template_tokens": 147
+          },
+          {
+            "name": "browser",
+            "estimated_template_tokens": 739
+          },
+          {
+            "name": "time",
+            "estimated_template_tokens": 100
+          },
+          {
+            "name": "memory_search",
+            "estimated_template_tokens": 195
+          },
+          {
+            "name": "memory_get",
+            "estimated_template_tokens": 212
+          }
+        ],
+        "tool_blocks_estimated_tokens": 5457,
+        "tokens_outside_tool_blocks": 4738,
+        "exact_provider_template_verified": false
+      }
+    }
+  },
+  "prefix_checks": {
+    "rebuilt_system_same_inputs": {
+      "utf8_common_prefix_bytes": 17692,
+      "utf8_common_prefix_sha256": "13277c618d6c1f6660ed14cdfb911fcf560ecede56deb4ffb41e13d958c1f243",
+      "tiktoken_cl100k_base_proxy_common_prefix_tokens": 4158,
+      "tiktoken_cl100k_base_proxy_common_prefix_sha256": "3d825a1acf3662ed492a03803efa8f9c6cd98a6fc950003859b4061047858452"
+    },
+    "date_literal_rollover_simulation": {
+      "utf8_common_prefix_bytes": 4663,
+      "utf8_common_prefix_sha256": "d026711d275b781a844ffbd749e861d67851464b5ec255d31bc2558e1ebee322",
+      "tiktoken_cl100k_base_proxy_common_prefix_tokens": 1096,
+      "tiktoken_cl100k_base_proxy_common_prefix_sha256": "a6a7cf946066bc6590cafc05ff321a1199d986231512cf0c7d69c97ba4691a78"
+    },
+    "model_switch_simulations": {
+      "nvidia/nemotron-3.5-super-vl:free": {
+        "utf8_common_prefix_bytes": 17692,
+        "utf8_common_prefix_sha256": "13277c618d6c1f6660ed14cdfb911fcf560ecede56deb4ffb41e13d958c1f243",
+        "tiktoken_cl100k_base_proxy_common_prefix_tokens": 4158,
+        "tiktoken_cl100k_base_proxy_common_prefix_sha256": "3d825a1acf3662ed492a03803efa8f9c6cd98a6fc950003859b4061047858452"
+      },
+      "google/gemma-4-26b-a4b-it:free": {
+        "utf8_common_prefix_bytes": 17430,
+        "utf8_common_prefix_sha256": "1319fa41d2bce9d464c067ceca201ee29a019d1ed56ab4d2523a2f2aad935d45",
+        "tiktoken_cl100k_base_proxy_common_prefix_tokens": 4088,
+        "tiktoken_cl100k_base_proxy_common_prefix_sha256": "cbb6d60ad2aaef5df09a9f6465bc97b4e05797f968629192b9e1183b08d5126f"
+      },
+      "openrouter/free": {
+        "utf8_common_prefix_bytes": 17430,
+        "utf8_common_prefix_sha256": "1319fa41d2bce9d464c067ceca201ee29a019d1ed56ab4d2523a2f2aad935d45",
+        "tiktoken_cl100k_base_proxy_common_prefix_tokens": 4088,
+        "tiktoken_cl100k_base_proxy_common_prefix_sha256": "cbb6d60ad2aaef5df09a9f6465bc97b4e05797f968629192b9e1183b08d5126f"
+      }
+    },
+    "first_vs_second_system_identical": true,
+    "first_vs_second_tools_identical": true,
+    "first_messages_are_prefix_of_second": true,
+    "system_then_tools_proxy_tokens": 8170
+  },
+  "live": [
+    {
+      "request_sha256": "167a86a5e0ecde5b2db5408c4f6770a0881e4b341a5cd996549b8332589e3370",
+      "http_status": 200,
+      "requested_model": "nvidia/nemotron-3.5-super-vl:free",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 9960,
+        "completion_tokens": 83,
+        "total_tokens": 10043,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 41,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response_model": "nvidia/nemotron-3.5-super-vl:free",
+      "provider": "Nvidia",
+      "finish_reason": "tool_calls",
+      "tool_names": [
+        "memory_search"
+      ],
+      "elapsed_seconds": 2.188,
+      "kind": "memory_first",
+      "repeat": 0,
+      "indexed_memory_search_success": true,
+      "first_delta_seconds": 1.564
+    },
+    {
+      "request_sha256": "29b68f336a518ba004157e04a0994ab9a5af971d75c22f0c49016d9abbaab001",
+      "http_status": 200,
+      "requested_model": "nvidia/nemotron-3.5-super-vl:free",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 10195,
+        "completion_tokens": 36,
+        "total_tokens": 10231,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 8672,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 19,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response_model": "nvidia/nemotron-3.5-super-vl:free",
+      "provider": "Nvidia",
+      "finish_reason": "stop",
+      "tool_names": [],
+      "elapsed_seconds": 2.531,
+      "kind": "memory_second",
+      "repeat": 0,
+      "first_delta_seconds": 2.248
+    },
+    {
+      "request_sha256": "167a86a5e0ecde5b2db5408c4f6770a0881e4b341a5cd996549b8332589e3370",
+      "http_status": 200,
+      "requested_model": "nvidia/nemotron-3.5-super-vl:free",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 9960,
+        "completion_tokens": 83,
+        "total_tokens": 10043,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 8672,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 41,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response_model": "nvidia/nemotron-3.5-super-vl:free",
+      "provider": "Nvidia",
+      "finish_reason": "tool_calls",
+      "tool_names": [
+        "memory_search"
+      ],
+      "elapsed_seconds": 1.56,
+      "kind": "memory_first",
+      "repeat": 1,
+      "first_delta_seconds": 1.036
+    },
+    {
+      "request_sha256": "3d8723cbeaaf33a7917b52d271502b6548d8499611dc52a415e6e336b95f8e28",
+      "http_status": 200,
+      "requested_model": "nvidia/nemotron-3.5-super-vl:free",
+      "stream": false,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 91,
+        "completion_tokens": 259,
+        "total_tokens": 350,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 252,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response_model": "nvidia/nemotron-3.5-super-vl:free",
+      "provider": "Nvidia",
+      "elapsed_seconds": 2.173,
+      "kind": "session_title",
+      "repeat": 0,
+      "first_delta_seconds": null
+    },
+    {
+      "request_sha256": "2fca1b9e4a7b373fa5fd3d2ed8e0d088db5a8d4e270c9a80e49c3108e3c60451",
+      "http_status": 429,
+      "requested_model": "google/gemma-4-26b-a4b-it:free",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {},
+      "elapsed_seconds": 0.58,
+      "kind": "memory_first",
+      "repeat": 0,
+      "first_delta_seconds": null
+    },
+    {
+      "request_sha256": "2fca1b9e4a7b373fa5fd3d2ed8e0d088db5a8d4e270c9a80e49c3108e3c60451",
+      "http_status": 429,
+      "requested_model": "google/gemma-4-26b-a4b-it:free",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {},
+      "elapsed_seconds": 0.901,
+      "kind": "memory_first",
+      "repeat": 1,
+      "first_delta_seconds": null
+    },
+    {
+      "request_sha256": "afc3892cc33b8dae58a0ef256c9347c77b6633f3f3693c8cb48e481330cc1112",
+      "http_status": 429,
+      "requested_model": "google/gemma-4-26b-a4b-it:free",
+      "stream": false,
+      "cache_status_header": null,
+      "usage_raw_numeric": {},
+      "elapsed_seconds": 0.521,
+      "kind": "session_title",
+      "repeat": 0,
+      "first_delta_seconds": null
+    },
+    {
+      "request_sha256": "078f25c55d12f15cc0c8eca258d4b80f0be8bfc58542b4eb07e02a57ce2c35d5",
+      "http_status": 200,
+      "requested_model": "openrouter/free",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 9950,
+        "completion_tokens": 86,
+        "total_tokens": 10036,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 44,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response_model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "provider": "Nvidia",
+      "finish_reason": "tool_calls",
+      "tool_names": [
+        "memory_search"
+      ],
+      "elapsed_seconds": 2.665,
+      "kind": "memory_first",
+      "repeat": 0,
+      "indexed_memory_search_success": true,
+      "first_delta_seconds": 2.335
+    },
+    {
+      "request_sha256": "1c60164f91ccb803f409e7e89ba6f36b40761b5449451c3de05739fb0f88117c",
+      "http_status": 200,
+      "requested_model": "openrouter/free",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 9013,
+        "completion_tokens": 76,
+        "total_tokens": 9089,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 60,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response_model": "dots-studio/dots-3-note-preview:free",
+      "provider": "AtlasCloud",
+      "finish_reason": "stop",
+      "tool_names": [],
+      "elapsed_seconds": 3.194,
+      "kind": "memory_second",
+      "repeat": 0,
+      "first_delta_seconds": 2.041
+    },
+    {
+      "request_sha256": "078f25c55d12f15cc0c8eca258d4b80f0be8bfc58542b4eb07e02a57ce2c35d5",
+      "http_status": 200,
+      "requested_model": "openrouter/free",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 9877,
+        "completion_tokens": 86,
+        "total_tokens": 9963,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 32,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response_model": "xingchen-agi/xing4.0-29b-a4b:free",
+      "provider": "Phala",
+      "finish_reason": "tool_calls",
+      "tool_names": [
+        "memory_search"
+      ],
+      "elapsed_seconds": 3.041,
+      "kind": "memory_first",
+      "repeat": 1,
+      "first_delta_seconds": 1.994
+    },
+    {
+      "request_sha256": "5a9d6258971becda7a91cbb3b3ca5444858f06eacc1df54dd42bc705edc8d36a",
+      "http_status": 200,
+      "requested_model": "openrouter/free",
+      "stream": false,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 86,
+        "completion_tokens": 86,
+        "total_tokens": 172,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 71,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response_model": "xingchen-agi/xing4.0-29b-a4b:free",
+      "provider": "Phala",
+      "elapsed_seconds": 1.359,
+      "kind": "session_title",
+      "repeat": 0,
+      "first_delta_seconds": null
+    }
+  ],
+  "live_sampling": {
+    "calls": 11,
+    "first_campaign_completed_at_local": "2026-11-06 evening America/New_York",
+    "first_campaign_exact_timestamps_not_recorded": true,
+    "repeated_requests_are_same_wire_payload": true,
+    "routing_not_pinned": true,
+    "prompt_changes_for_model_comparison": "only model name in runtime suffix and request model field",
+    "cold_cache_guaranteed": false,
+    "sampling_limit": "one two-request task plus one exact first-request repeat per model; title separately; not a statistical latency study",
+    "followup_timestamp_note": "Followup timestamps were captured after response headers arrived; current runner records request start instead.",
+    "repeat_sequence": "first request, possible indexed-memory continuation, exact first-request repeat, separate title"
+  },
+  "gemma_followup": [
+    {
+      "request_sha256": "2fca1b9e4a7b373fa5fd3d2ed8e0d088db5a8d4e270c9a80e49c3108e3c60451",
+      "http_status": 429,
+      "requested_model": "google/gemma-4-26b-a4b-it:free",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {},
+      "first_delta_seconds": null,
+      "retry_after": null,
+      "elapsed_seconds": 1.031,
+      "kind": "memory_first",
+      "repeat": 0,
+      "response_headers_received_at_utc": "2026-11-06T23:46:19.800138+00:00"
+    },
+    {
+      "request_sha256": "2fca1b9e4a7b373fa5fd3d2ed8e0d088db5a8d4e270c9a80e49c3108e3c60451",
+      "http_status": 429,
+      "requested_model": "google/gemma-4-26b-a4b-it:free",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {},
+      "first_delta_seconds": null,
+      "retry_after": null,
+      "elapsed_seconds": 1.098,
+      "kind": "memory_first",
+      "repeat": 1,
+      "response_headers_received_at_utc": "2026-11-06T23:46:20.900252+00:00"
+    },
+    {
+      "request_sha256": "afc3892cc33b8dae58a0ef256c9347c77b6633f3f3693c8cb48e481330cc1112",
+      "http_status": 429,
+      "requested_model": "google/gemma-4-26b-a4b-it:free",
+      "stream": false,
+      "cache_status_header": null,
+      "usage_raw_numeric": {},
+      "first_delta_seconds": null,
+      "retry_after": null,
+      "elapsed_seconds": 0.486,
+      "kind": "session_title",
+      "repeat": 0,
+      "response_headers_received_at_utc": "2026-11-06T23:46:21.390148+00:00"
+    }
+  ],
+  "model_metadata": [
+    {
+      "id": "nvidia/nemotron-3.5-super-vl:free",
+      "context_length": 1000000,
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "Other",
+        "instruct_type": null
+      },
+      "pricing": {
+        "prompt": "0",
+        "completion": "0"
+      },
+      "supported_parameters": [
+        "include_reasoning",
+        "max_tokens",
+        "reasoning",
+        "response_format",
+        "seed",
+        "structured_outputs",
+        "temperature",
+        "tool_choice",
+        "tools",
+        "top_p"
+      ],
+      "top_provider": {
+        "context_length": 1000000,
+        "max_completion_tokens": 131072,
+        "is_moderated": false
+      }
+    },
+    {
+      "id": "google/gemma-4-26b-a4b-it:free",
+      "context_length": 262144,
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "image",
+          "text",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "Gemma",
+        "instruct_type": null
+      },
+      "pricing": {
+        "prompt": "0",
+        "completion": "0"
+      },
+      "supported_parameters": [
+        "include_reasoning",
+        "max_tokens",
+        "reasoning",
+        "response_format",
+        "seed",
+        "temperature",
+        "tool_choice",
+        "tools",
+        "top_p"
+      ],
+      "top_provider": {
+        "context_length": 262144,
+        "max_completion_tokens": 32768,
+        "is_moderated": false
+      }
+    },
+    {
+      "id": "openai/gpt-oss-120b",
+      "context_length": 131072,
+      "architecture": {
+        "modality": "text->text",
+        "input_modalities": [
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "GPT",
+        "instruct_type": null
+      },
+      "pricing": {
+        "prompt": "0.00000001",
+        "completion": "0.000000038",
+        "input_cache_read": "0.000000009"
+      },
+      "supported_parameters": [
+        "frequency_penalty",
+        "include_reasoning",
+        "logit_bias",
+        "logprobs",
+        "max_tokens",
+        "min_p",
+        "presence_penalty",
+        "reasoning",
+        "reasoning_effort",
+        "repetition_penalty",
+        "response_format",
+        "seed",
+        "stop",
+        "structured_outputs",
+        "temperature",
+        "tool_choice",
+        "tools",
+        "top_a",
+        "top_k",
+        "top_logprobs",
+        "top_p"
+      ],
+      "top_provider": {
+        "context_length": 131072,
+        "max_completion_tokens": 65536,
+        "is_moderated": false
+      }
+    },
+    {
+      "id": "openrouter/free",
+      "context_length": 200000,
+      "architecture": {
+        "modality": "text+image->text",
+        "input_modalities": [
+          "text",
+          "image"
+        ],
+        "output_modalities": [
+          "text"
+        ],
+        "tokenizer": "Router",
+        "instruct_type": null
+      },
+      "pricing": {
+        "prompt": "0",
+        "completion": "0"
+      },
+      "supported_parameters": [
+        "frequency_penalty",
+        "include_reasoning",
+        "logprobs",
+        "max_completion_tokens",
+        "max_tokens",
+        "min_p",
+        "presence_penalty",
+        "reasoning",
+        "reasoning_effort",
+        "repetition_penalty",
+        "response_format",
+        "seed",
+        "stop",
+        "structured_outputs",
+        "temperature",
+        "tool_choice",
+        "tools",
+        "top_k",
+        "top_logprobs",
+        "top_p"
+      ],
+      "top_provider": {
+        "context_length": null,
+        "max_completion_tokens": null,
+        "is_moderated": false
+      }
+    }
+  ],
+  "metadata_source": "https://openrouter.ai/api/v1/models",
+  "runtime_preservation": {
+    "snapshot_sources_opened_mode": "ro",
+    "sqlite_query_only": true,
+    "sqlite_backup_to_private_snapshot": true,
+    "both_source_main_db_sha256_unchanged_during_snapshot": true,
+    "production_credentials_changed": false,
+    "runtime_source_optimized": false
+  },
+  "cached_initial_prompt": {
+    "chars": 12866,
+    "utf8_bytes": 17131,
+    "sha256": "6166e5d879a389f2fa8497fea53b076eb003bbf44a5dd618891b8d6af2e67c9c",
+    "cowagent_estimated_tokens": 5870,
+    "tiktoken_cl100k_base_proxy_tokens": 4942,
+    "model_family_tokenizer_proxy_tokens": 4932
+  },
+  "cached_initial_differs_from_sent_prompt": true,
+  "chart_estimate_with_cached_initial_prompt": {
+    "available": true,
+    "estimated": true,
+    "model": "nvidia/nemotron-3.5-super-vl:free",
+    "window": 128000,
+    "limit": 128000,
+    "used": 10855,
+    "messages": 4,
+    "breakdown": {
+      "system": 5452,
+      "tools": 5085,
+      "history": 318,
+      "free": 117145
+    }
+  },
+  "tokenizer_source": {
+    "repository": "nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-BF16",
+    "revision": "fb0ee0bc6b3f70342afd8d84cb80dbadbaa8a1fe",
+    "file": "tokenizer.json",
+    "sha256": "d0432ad8b1c2984a2e2dca82e1933e3fd5628df6e95c51fba4c3ee9950dce299",
+    "exact_openrouter_model_alias_publicly_resolvable": false,
+    "scope": "public model-family tokenizer and chat-template reconstruction; not confirmed deployed provider revision",
+    "chat_template_file": "chat_template.jinja",
+    "chat_template_sha256": "1369e90b19976f99ce2070eb21ade8fcb4af640f008e14e82af5c5e89a9cc816"
+  },
+  "verification": {
+    "focused_tests": {
+      "passed": 12,
+      "files": [
+        "tests/test_efficiency_metrics.py",
+        "tests/test_efficiency_adapter_baseline.py",
+        "tests/test_efficiency_accounting_baseline.py",
+        "tests/test_efficiency_benchmark.py"
+      ]
+    },
+    "ruff_F_checks_passed": true,
+    "py_compile_passed": true,
+    "final_offline_first_request_hash_matches_live_baseline": true,
+    "final_offline_native_template_first_input_estimate": 9961,
+    "final_offline_fts_match_executed": true,
+    "final_offline_provider_calls": 0,
+    "artifact_credential_and_private_context_body_scan_passed": true,
+    "independent_review": "One bounded read-only Luna/high review; no blocking code finding; repeat-sequence interpretation limit recorded"
+  }
+}
