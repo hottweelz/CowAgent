@@ -46,8 +46,8 @@ const pendingState = (ch: ChannelInfo): Pending => {
   return s === 'waiting_scan' || s === 'scanned' ? 'scanning' : 'starting'
 }
 
-// An icon component that takes a `size` prop (lucide icons and our PaperPlaneIcon).
-type IconComponent = React.FC<{ size?: number }>
+// Accept both forward-ref Lucide icons and our function icon at their JSX call boundary.
+type IconComponent = React.JSXElementConstructor<{ size?: number }>
 
 // Per-channel icon + accent color, mirroring the web console's FontAwesome
 // icon + Tailwind color palette (we use lucide here, with hex colors so the
