@@ -2349,6 +2349,19 @@ class AgentStreamExecutor:
         return results
 
     def _execute_tool(self, tool_call: Dict, tool_override: Optional[BaseTool] = None) -> Dict[str, Any]:
+        result = self._execute_tool_impl(tool_call, tool_override)
+        attempt = getattr(self.agent, 'recovery_attempt', None)
+        if (attempt is not None and result.get('status') in ('error', 'critical_error')
+                and (tool_call.get('name') in ('write', 'edit') or result.get('permission_denied'))):
+            try:
+                attempt.record_failure(tool_call['name'], result.get('code', 'tool_call_failed'),
+                                       tool_call.get('id'), permission_denied=bool(result.get('permission_denied')))
+            except Exception:
+                attempt.guard_failed = True
+                result['durable_receipt_error'] = True
+        return result
+
+    def _execute_tool_impl(self, tool_call: Dict, tool_override: Optional[BaseTool] = None) -> Dict[str, Any]:
         """
         Execute tool
 

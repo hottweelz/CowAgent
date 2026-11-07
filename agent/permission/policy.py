@@ -1040,9 +1040,12 @@ def invoke(tool, arguments, agent=None):
             "run_id": current_agent_run_id(),
             "mode": authority.mode if authority is not None else None,
         }))
-        if not decision.allowed:
-            return ToolResult.fail(decision.reason, ext_data={"permission_denied": True, "code": decision.code})
         attempt = getattr(agent, 'recovery_attempt', None)
+        if not decision.allowed:
+            if attempt is not None:
+                attempt.record_denial(descriptor[0] if descriptor else 'unknown', decision.code,
+                                      getattr(tool, 'tool_call_id', None))
+            return ToolResult.fail(decision.reason, ext_data={"permission_denied": True, "code": decision.code})
         effect_id = None
         if attempt is not None:
             # Commit intent before any side effect. The attempt also checks
@@ -1053,7 +1056,8 @@ def invoke(tool, arguments, agent=None):
             decision, authority = authorize(tool, arguments, agent)
             if not decision.allowed:
                 result = ToolResult.fail(decision.reason, ext_data={"permission_denied": True, "code": decision.code})
-                attempt.after_tool(effect_id, {"status": result.status, "result": result.result})
+                attempt.after_tool(effect_id, {"status": result.status, "result": result.result,
+                                               "permission_denied": True})
                 return result
         if authority.restricted and descriptor[1] in ('fs.read', 'fs.write'):
             from agent.permission.filesystem import execute_file
@@ -1062,7 +1066,10 @@ def invoke(tool, arguments, agent=None):
         else:
             result = tool.execute(arguments)
         if attempt is not None:
-            attempt.after_tool(effect_id, {"status": result.status, "result": result.result})
+            receipt = {"status": result.status, "result": result.result}
+            if isinstance(result.ext_data, dict) and result.ext_data.get('permission_denied'):
+                receipt['permission_denied'] = True
+            attempt.after_tool(effect_id, receipt)
         return result
     except Exception:
         return ToolResult.fail('Authorization or execution failed.')

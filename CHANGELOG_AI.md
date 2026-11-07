@@ -1,5 +1,100 @@
 # AI handoff ledger
 
+## 2026-11-07 13:16 EST — Codex — VERIFICATION-001 separate task outcomes
+
+- Task/result: separated worker execution, acceptance criteria and independent
+  state confirmation. User selected native file/artifact checks first; remote
+  service verifiers remain future work. Branch feat/verification-001-task-outcomes
+  builds on RECOVERY-001 8ed52509. No merge, deployment or production restart.
+- Team: Codex lead owns contract/checker, runtime/service/CLI, tool results,
+  gateway failure receipts, process tests, integration, docs and Git. Terra
+  6.1/high owned additive report storage and attempt/contract fences; interacting
+  durable transitions needed more than routine Luna edits. Luna/high mapped
+  result paths, added native integration tests and ran private regression.
+  One Sol 6.1/high reviewer examined consequential false-verification paths
+  across execution, evidence and authority. Requested models accepted; effective
+  models are not independently exposed. Used STE Brainstorming/Writing Plans
+  guidance; no HomeBoss or external worker pool.
+- Changes: frozen caller verification contract; native file_exists/text_equals/
+  json_equals/sha256 checks through the restricted text broker; independent
+  read observations with hashes, timestamps and reason codes. Additive report
+  table retains history and fences task/attempt/contract identities. Missing or
+  unsupported checks remain unverified. Failed mutations/permission refusals
+  cannot be hidden by worker prose or a matching pre-existing artifact.
+- Results/UI: execution_status, acceptance_status and external_state_status are
+  explicit in durable worker results, displays and operator CLI. verified is
+  true only for completed/passed/confirmed under the supplied criteria. Failed
+  checks return a tool error while execution remains completed and non-replayable.
+  CLI verify performs read-only re-observation. Startup finishes a missing report
+  after committed execution without another worker attempt or side effect.
+- Files: recovery verification/store/runtime/service/CLI; permission gateway;
+  AgentStream failure result boundary; subagent runner/tool; agent_delegate;
+  recovery process fixture; four new verification suites; two updated assertions
+  in the existing isolation delegation suite; docs/verification-001 plan, guide,
+  review, runner and evidence; MEMORY.md and CHANGELOG_AI.md.
+- Commands/results: `.venv/bin/python docs/verification-001/run_regression.py`
+  exited 0: 1,343 passed, 15 skipped, zero failures/errors in 30.95 seconds across
+  114 files. Includes 23 verification cases plus all retained SQLite, EFFICIENCY,
+  ISOLATION and RECOVERY cases. Seven skips require installed-browser opt-in;
+  eight are Windows-only (two path and six PowerShell). F-class Ruff,
+  compilation of 17 changed Python files and diff checks passed. Test HOME/data
+  were private; only owned HTTP fixture ports were permitted.
+- Evidence: correct and wrong native worker artifacts; actual denied, empty,
+  malformed and invalid-content Write calls; direct private Read denial; missing,
+  unsupported and inaccessible checks; verification-store failure without replay;
+  persistent report history and stale-attempt/hash fences. Actual SIGKILL after
+  execution commit leaves completed/no-report; fresh service confirms native
+  state with attempt_count still 1 and exactly one write. Repeated restart does
+  not duplicate verification or execution. No live model provider was used.
+- Review: one P1 defect class fixed. Early streamed tool refusals/argument errors
+  bypassed the gateway receipt recorder and could falsely accept a matching old
+  file. The common stream result boundary now records failures; the gateway
+  preserves denial metadata; duplicate blocking receipts are avoided. Lead
+  verified fixes with real native paths. No second broad review or independent
+  final approval claimed. See docs/verification-001/review.md.
+- Test corrections: patching config.conf during a first bridge import captured
+  a fixture lambda; patch config.config instead so later model-routing tests
+  remain independent. First full run had one old assertion expecting tool
+  success after denied Write. Updated it and the private-Read denial assertion
+  to require completed execution but failed acceptance, retaining file/privacy
+  checks. Product denial-metadata fixes then warranted the final full rerun.
+- Decisions: native filesystem observation is the supported external-state
+  scope; remote services stay unverified. Criteria are explicit, not inferred
+  semantic proof of every goal. Confirmation is time-bound; separate files are
+  not an atomic snapshot. No executable validators, provider changes or new
+  permission grants. Existing indexed-memory/WAL behavior stays intact.
+- Lessons Learned:
+  - Mistake: treating tool gateway receipts as complete evidence of every failed
+    tool call, although the stream can reject calls before reaching that gateway.
+  - Root Cause: execution has several early-return paths; matching artifacts do
+    not prove that a requested mutation succeeded.
+  - Future Trigger: a new rejection, parsing or retry-protection path, or a new
+    verifier consuming tool outcome evidence.
+  - Required Behavior Change: record attempt-scoped failed mutations/refusals at
+    the common stream boundary and retain denial metadata in gateway receipts.
+  - Verification Step: real denied/malformed/empty Write with a matching old file
+    must show completed execution, failed acceptance and independently confirmed
+    state; a hidden private read remains denied and cannot pass acceptance.
+  - Durable Memory Update: project MEMORY.md records the three outcomes, frozen
+    criteria and native-only verification limits. No global or production memory
+    text was changed.
+- Known limits/not verified: remote-service confirmation, binary/rich artifacts,
+  semantic/model grading, Windows recovery and production rollout. Trusted-host
+  and POSIX boundaries remain; no OS sandbox or exactly-once guarantee. The nine
+  ChannelsPage TS2322 errors remain a separate open baseline; no renderer
+  typecheck pass is claimed. No identity/instruction/config files changed.
+- Next recommended steps: review/merge the dedicated branch, then schedule a
+  controlled restart and exercise an operator-owned artifact contract. Define
+  an authoritative read API and evidence freshness rules before adding any
+  external-service verifier. Publish destination requires maintainer direction.
+- Next-agent notes: docs/verification-001/verification.json records final source
+  hashes, selected tests and private evidence paths. Preserve untracked AGENTS.md
+  and three conflicted PID files. Production databases/history/services were
+  untouched; previous phase receipts remain historical evidence for their commits.
+- GitHub sync blocked: GitHub remote exists but current branch has no tracked
+  upstream. No destination guessed or upstream set. Intended work is committed
+  locally; unrelated untracked files are documented above.
+
 ## 2026-11-07 12:29 EST — Codex — RECOVERY-001 durable task state and interruption recovery
 
 - Task/result: implemented durable native temporary-worker and local-delegation

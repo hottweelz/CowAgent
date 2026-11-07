@@ -14,6 +14,9 @@ from agent.tools.base_tool import BaseTool, ToolResult
 from bridge.context import Context
 from bridge.reply import ReplyType
 from common.log import logger
+from agent.recovery.verification import (
+    CONTRACT_SCHEMA, checks_failed, format_outcomes, normalize_contract, reported_outcomes,
+)
 
 # Marks delegated runs so they can be told apart from turns a user started.
 TASK_SOURCE = "delegation"
@@ -57,6 +60,7 @@ def format_delegate_result(
     content: str,
     status: str = "done",
     duration_seconds: float = 0,
+    outcomes: Optional[dict] = None,
 ) -> str:
     """The delegation's outcome, written for a person.
 
@@ -72,6 +76,8 @@ def format_delegate_result(
     if duration_seconds:
         heading += f" · {_format_duration(duration_seconds)}"
     body = content or "(no output)"
+    if outcomes is not None:
+        body = format_outcomes(outcomes) + '\n\n' + body
     if status != "done":
         body = f"**{status}** — {body}"
     return f"### {heading}\n\n{body}"
@@ -148,14 +154,14 @@ class _DelegateView:
             },
         )
 
-    def close(self, status: str = "done") -> None:
+    def close(self, status: str = "done", outcomes=None) -> None:
         """End the teammate's turn, so what follows is the caller speaking again."""
         if not self._open:
             return
         self._open = False
         self.tool.emit_event(
             self.END,
-            {"card_id": self.card_id, "agent_id": self.target_id, "status": status},
+            {"card_id": self.card_id, "agent_id": self.target_id, "status": status, **(outcomes or {})},
         )
 
 
@@ -285,6 +291,7 @@ class AgentDelegateTool(BaseTool):
                     "needs to act without seeing this conversation."
                 ),
             },
+            "verification": CONTRACT_SCHEMA,
         },
         "required": ["agent_id", "task"],
     }
@@ -594,6 +601,10 @@ class AgentDelegateTool(BaseTool):
 
         prompt = delegated_prompt(source.name, source.id, task)
         try:
+            import json
+            verification = normalize_contract(params.get('verification'))
+            if any(verification.values()):
+                prompt += '\n\nRESULT CHECKS:\n' + json.dumps(verification, ensure_ascii=False)
             from agent.recovery.runtime import get_task_store, snapshot_child, execute_task
             child._recovery_source_session_id = context_values.get('session_id') or root_session_id
             child._recovery_target_session_id = session_id
@@ -602,7 +613,7 @@ class AgentDelegateTool(BaseTool):
             owner_id = context_values.get('delegation_host_id') or context_values.get('agent_id') or source.id
             spec = snapshot_child(child, prompt, owner_id=owner_id, session_id=root_session_id,
                                   kind='delegate', source_agent_id=source.id, target_agent_id=target.id,
-                                  timeout_seconds=policy.timeout_seconds)
+                                  timeout_seconds=policy.timeout_seconds, verification=verification)
             journal = get_task_store()
             durable = journal.submit(owner_id, root_session_id, 'delegate', spec)
             task_id = durable['task_id']
@@ -642,8 +653,9 @@ class AgentDelegateTool(BaseTool):
                                if state == 'timed_out' else 'Delegated execution failed')
                     return ToolResult.fail(
                         f'{message}. Task: {task_id}',
-                        ext_data={'task_id': task_id, 'status': state},
-                        display=format_delegate_result(source.name, target.name, message, status='failed'))
+                        ext_data={'task_id': task_id, 'status': state, **reported_outcomes(run_result)},
+                        display=format_delegate_result(source.name, target.name, message, status='failed',
+                                                       outcomes=run_result))
                 from bridge.reply import Reply
                 reply = Reply(ReplyType.TEXT, run_result.get('summary') or '')
             except Exception:
@@ -651,7 +663,8 @@ class AgentDelegateTool(BaseTool):
                 return ToolResult.fail(f"Delegation to '{target.id}' failed")
             finally:
                 _close_run(run_store, run_id, run_result)
-                view.close("done" if run_result["status"] == "completed" else "failed")
+                view.close("done" if run_result["status"] == "completed" and not checks_failed(run_result) else "failed",
+                           reported_outcomes(run_result))
                 lock.release()
         if run_result["status"] == "cancelled" and not timed_out.is_set():
             return ToolResult.fail("Delegation cancelled")
@@ -673,9 +686,9 @@ class AgentDelegateTool(BaseTool):
         content = delegated_result_text(reply)
         display = format_delegate_result(
             source.name, target.name, content, status="done", duration_seconds=duration,
+            outcomes=run_result,
         )
-        return ToolResult.success(
-            {
+        result = {
                 "run_id": run_id,
                 "task_id": task_id,
                 "attempt_id": run_result.get('attempt_id'),
@@ -686,9 +699,11 @@ class AgentDelegateTool(BaseTool):
                 "session_id": session_id,
                 "status": "done",
                 "content": content,
-            },
-            display=display,
-        )
+                **reported_outcomes(run_result),
+            }
+        if checks_failed(run_result):
+            return ToolResult.fail(result, display=display)
+        return ToolResult.success(result, display=display)
 
     def _delegate_peer(self, *args, **kwargs) -> ToolResult:
         """Peers cannot enforce a caller's immutable authority yet."""

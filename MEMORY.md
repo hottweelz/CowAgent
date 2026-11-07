@@ -23,6 +23,13 @@
   operator commands and limits; this is not chat/scheduler continuation or an
   exactly-once effect guarantee. Keep the journal outside file-sync conflict
   handlers, like the memory index.
+- Worker execution, acceptance and independent state confirmation are separate
+  outcomes. Completed execution stays non-replayable when acceptance fails.
+  Caller criteria are frozen before dispatch; native read-only text/JSON checks
+  append attempt/contract-bound reports. Missing or unsupported checks remain
+  unverified. Restart can finish verification without rerunning the worker.
+  [VERIFICATION-001](docs/verification-001/README.md) defines check syntax and
+  limits; native filesystem confirmation does not certify remote-service state.
 - SQLite indexed-memory/WAL behavior and EFFICIENCY-001 Phases 1–4 remain covered
   by integrated regressions. The nine ChannelsPage typecheck errors are a
   [separate baseline defect](docs/known-issues/channels-page-typecheck.md).

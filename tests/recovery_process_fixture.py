@@ -69,6 +69,7 @@ def counted_write(self, path, content):
 FileBroker.write = counted_write
 original_before = store.before_tool
 original_after = store.after_tool
+original_finish = store.finish
 
 
 def before(*args, **kwargs):
@@ -84,8 +85,16 @@ def after(*args, **kwargs):
     return original_after(*args, **kwargs)
 
 
+def finish(*args, **kwargs):
+    result = original_finish(*args, **kwargs)
+    if mode == 'after_completion':
+        ready()
+    return result
+
+
 store.before_tool, store.after_tool = before, after
-if mode in ('before_effect', 'after_intent', 'after_effect'):
+store.finish = finish
+if mode in ('before_effect', 'after_intent', 'after_effect', 'after_completion'):
     child = Agent('fictional task', model=Model(), tools=[Write({'cwd': str(workspace)})],
                   workspace_dir=str(workspace), enable_skills=False, skip_context_files=True,
                   max_steps=3, output_mode='logger')
@@ -93,8 +102,12 @@ if mode in ('before_effect', 'after_intent', 'after_effect'):
     child.permission_mode = 'workspace-write'
     child.authority = Authority('workspace-write', frozenset({'fs.read', 'fs.write'}),
                                 (str(workspace),), (str(workspace),))
+    verification = {group: [{'id': group, 'type': 'text_equals', 'path': 'result.txt',
+                             'expected': 'durable fixture result'}]
+                    for group in ('acceptance', 'external_state')} if mode == 'after_completion' else None
     spec = snapshot_child(child, 'Write the fixture result once', owner_id='owner', session_id='s',
-                          kind='subagent', source_agent_id='owner', target_agent_id='owner', timeout_seconds=30)
+                          kind='subagent', source_agent_id='owner', target_agent_id='owner', timeout_seconds=30,
+                          verification=verification)
     task = store.submit('owner', 's', 'subagent', spec, idempotency_key='fixture')
     (root / 'task-id').write_text(task['task_id'])
     execute_task(store, task['task_id'], lambda: child)
@@ -107,7 +120,7 @@ else:
         deadline = time.monotonic() + 8
         while time.monotonic() < deadline:
             row = store.get(task_id)
-            if row['state'] in ('completed', 'needs_review', 'failed'):
+            if row['state'] in ('needs_review', 'failed') or row['state'] == 'completed' and row['verification']:
                 (root / 'service-result.json').write_text(json.dumps(row))
                 break
             time.sleep(.02)

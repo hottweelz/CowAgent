@@ -75,12 +75,16 @@ class SubagentTask:
     subagent_type: Optional[str] = None
     read_roots: tuple = ()
     write_roots: tuple = ()
+    verification: Optional[dict] = None
 
 
 def _build_brief(task: SubagentTask, template) -> str:
     parts = [template.prompt, "", "YOUR TASK:", task.goal.strip()]
     if task.context.strip():
         parts += ["", "CONTEXT:", task.context.strip()]
+    if task.verification and any(task.verification.values()):
+        import json
+        parts += ["", "RESULT CHECKS:", json.dumps(task.verification, ensure_ascii=False)]
     return "\n".join(parts)
 
 
@@ -268,6 +272,8 @@ def _unfinished(index: int, template, status: str, error: str, on_state=None) ->
     """Result for a task that was stopped or timed out instead of finishing."""
     result = {"task_index": index, "subagent_type": template.name,
               "status": status, "error": error}
+    from agent.recovery.verification import outcome_summary
+    result.update(outcome_summary({'state': status}))
     _notify(on_state, index, result)
     return result
 
@@ -277,7 +283,9 @@ def _prepare_task(parent, template, task, timeout_seconds):
     from agent.recovery.runtime import get_task_store, snapshot_child
     from common.runtime_identity import current_identity
     from agent.registry import get_agent_registry
+    from agent.recovery.verification import normalize_contract
 
+    task.verification = normalize_contract(task.verification)
     child = _build_child(parent, template, task)
     identity = current_identity()
     owner = getattr(parent, '_current_agent_id', None) or identity.agent_id
@@ -293,7 +301,8 @@ def _prepare_task(parent, template, task, timeout_seconds):
     child._current_agent_id = owner
     spec = snapshot_child(child, task.goal, owner_id=owner, session_id=session,
                           kind='subagent', source_agent_id=owner, target_agent_id=owner,
-                          parent_run_id=identity.run_id or '', timeout_seconds=timeout_seconds)
+                          parent_run_id=identity.run_id or '', timeout_seconds=timeout_seconds,
+                          verification=task.verification)
     store = get_task_store()
     row = store.submit(owner, session, 'subagent', spec)
     return store, row['task_id'], child

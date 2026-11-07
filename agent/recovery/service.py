@@ -5,6 +5,14 @@ from concurrent.futures import ThreadPoolExecutor
 from common.log import logger
 
 
+def _verify_pending(store, task_id):
+    from agent.recovery.verification import VerificationBusy, verify_task
+    try:
+        return verify_task(store, task_id)
+    except VerificationBusy:
+        return None  # The executing caller may still be committing its report.
+
+
 class RecoveryService:
     def __init__(self, bridge, store, max_workers=3):
         self.bridge, self.store = bridge, store
@@ -33,6 +41,12 @@ class RecoveryService:
                 self._futures[key] = self._pool.submit(
                     execute_task, self.store, key, bridge=self.bridge, cancel_event=self._stop,
                     wait_for_existing=False)
+        remaining = self._capacity - len(self._futures)
+        if remaining > 0:
+            for task in self.store.list_unverified_completed(limit=remaining):
+                key = task['task_id']
+                if key not in self._futures:
+                    self._futures[key] = self._pool.submit(_verify_pending, self.store, key)
 
     def _run(self):
         while not self._stop.is_set():

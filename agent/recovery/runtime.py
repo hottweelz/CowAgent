@@ -107,7 +107,8 @@ def _snapshot_authority(auth):
 
 
 def snapshot_child(child, prompt, *, owner_id, session_id, kind, source_agent_id,
-                   target_agent_id, parent_run_id='', timeout_seconds=None):
+                   target_agent_id, parent_run_id='', timeout_seconds=None, verification=None):
+    from agent.recovery.verification import normalize_contract
     if timeout_seconds is None:
         timeout_seconds = 300.0
     if not isinstance(timeout_seconds, (int, float)) or isinstance(timeout_seconds, bool) or not math.isfinite(timeout_seconds) or timeout_seconds <= 0:
@@ -137,7 +138,7 @@ def snapshot_child(child, prompt, *, owner_id, session_id, kind, source_agent_id
             'task_workspace': scratch, 'max_steps': child.max_steps,
             'max_context_tokens': child.max_context_tokens, 'context_reserve_tokens': child.context_reserve_tokens,
             'authority': _snapshot_authority(child.authority), 'tools': names,
-            'timeout_seconds': timeout_seconds}
+            'timeout_seconds': timeout_seconds, 'verification': normalize_contract(verification)}
     _, spec['model_ref'], _, _ = _current(spec)
     return spec
 
@@ -219,11 +220,53 @@ class RecoveryAttempt:
             self.guard_failed = True
             raise
 
+    def record_denial(self, name, code, call_id=None):
+        self.record_failure(name, code, call_id, permission_denied=True)
+
+    def record_failure(self, name, code, call_id=None, *, permission_denied=False):
+        # A denied call has no mutating intent, but must not disappear from
+        # independent acceptance assessment after a reassuring worker summary.
+        try:
+            task = self.store.get(self.claim.task_id)
+            attempt = next(a for a in task['attempts'] if a['attempt_id'] == self.claim.attempt_id)
+            if any(e['name'] == name and e['call_id'] == call_id and isinstance(e['result'], dict)
+                   and e['result'].get('status') == 'error'
+                   and (e['mutating'] or e['result'].get('permission_denied') or e['result'].get('execution_rejected'))
+                   for e in attempt['effects']):
+                return
+            effect = self.before_tool(name, mutating=False, call_id=call_id)
+            self.after_tool(effect, {'status': 'error', 'permission_denied': permission_denied,
+                                    'execution_rejected': True, 'code': code})
+        except Exception:
+            self.guard_failed = True
+            raise
+
 
 def get_task_store():
     from common.state_dir import shared_root
     from agent.recovery.store import TaskStore
     return TaskStore(shared_root() / 'memory' / 'recovery' / 'tasks.db')
+
+
+def _completed_result(store, task, *, claim=None, wait=True):
+    from agent.recovery.verification import VerificationBusy, task_result, verify_task
+    deadline = time.monotonic() + float(task['spec'].get('timeout_seconds') or 300)
+    try:
+        while task.get('verification') is None:
+            try:
+                task = verify_task(store, task['task_id'], claim=claim)
+            except VerificationBusy:
+                if not wait or time.monotonic() >= deadline:
+                    raise
+                time.sleep(.05)
+                task = store.get(task['task_id'])
+        return task_result(task)
+    except Exception:
+        from common.log import logger
+        logger.error('[Verification] Independent result unavailable; execution remains completed')
+        result = task_result(dict(task, verification=None))
+        result['verification_error'] = 'Independent verification unavailable'
+        return result
 
 
 def execute_task(store, task_id, build_child=None, *, bridge=None, cancel_event=None,
@@ -242,9 +285,10 @@ def execute_task(store, task_id, build_child=None, *, bridge=None, cancel_event=
             if task is None:
                 raise ValueError('Recovery task not found')
             if task['state'] == 'completed' and isinstance(task.get('result'), dict):
-                return task['result']
+                return _completed_result(store, task, wait=wait_for_existing)
             if task['state'] not in ('running', 'queued') or not wait_for_existing:
-                return {'task_id': task_id, 'status': task['state'], 'error': task.get('error', '')}
+                from agent.recovery.verification import task_result
+                return task_result(task)
             timeout = task['spec'].get('timeout_seconds') or 300.0
             if deadline is None:
                 timeout = float(timeout)
@@ -314,16 +358,16 @@ def execute_task(store, task_id, build_child=None, *, bridge=None, cancel_event=
             store.finish(claim, 'completed', result=result)
         task = store.get(task_id)
         if task['state'] == 'completed':
-            return task['result']
-        return {'task_id': task_id, 'attempt_id': claim.attempt_id,
-                'status': task['state'], 'error': task.get('error', '')}
+            return _completed_result(store, task, claim=claim)
+        from agent.recovery.verification import task_result
+        return task_result(task)
     except Exception:
         attempt = locals().get('attempt')
         status = 'needs_review' if attempt and attempt.guard_failed else 'failed'
         store.finish(claim, status, error='Worker initialization or execution failed')
         task = store.get(task_id)
-        return {'task_id': task_id, 'attempt_id': claim.attempt_id,
-                'status': task['state'], 'error': task.get('error', '')}
+        from agent.recovery.verification import task_result
+        return task_result(task)
     finally:
         if timer:
             timer.cancel()

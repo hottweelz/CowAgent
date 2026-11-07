@@ -13,6 +13,7 @@ from typing import List
 
 from agent.tools.base_tool import BaseTool, ToolResult
 from common.log import logger
+from agent.recovery.verification import CONTRACT_SCHEMA, checks_failed, format_outcomes
 
 
 _STATIC_DESCRIPTION = (
@@ -55,6 +56,8 @@ def format_results(results: List[dict]) -> str:
 
         status = item.get("status")
         body = item.get("summary") or item.get("error") or "(no output)"
+        if 'execution_status' in item:
+            body = format_outcomes(item) + '\n\n' + body
         if status != "completed":
             body = f"**{status or 'unknown'}** — {body}"
         blocks.append(f"### {heading}\n\n{body}")
@@ -110,7 +113,7 @@ class _SpawnView:
             if index in self._closed:
                 return
             self._closed.add(index)
-        completed = state.get("status") == "completed"
+        completed = state.get("status") == "completed" and not checks_failed(state)
         self.tool.emit_event("tool_execution_end", {
             "tool_call_id": self.card_ids[index],
             "tool_name": name,
@@ -199,6 +202,7 @@ class SubagentTool(BaseTool):
                            "description": "Explicit absolute paths to share for reading, within your authority."},
             "write_roots": {"type": "array", "items": {"type": "string"},
                             "description": "Explicit absolute paths to share for writing, within your authority."},
+            "verification": CONTRACT_SCHEMA,
             "subagent_type": {
                 "type": "string",
                 "description": "Which kind of sub agent to use. See the list in this tool's description.",
@@ -218,6 +222,7 @@ class SubagentTool(BaseTool):
                         "subagent_type": {"type": "string"},
                         "read_roots": {"type": "array", "items": {"type": "string"}},
                         "write_roots": {"type": "array", "items": {"type": "string"}},
+                        "verification": CONTRACT_SCHEMA,
                     },
                     "required": ["goal"],
                 },
@@ -299,6 +304,7 @@ class SubagentTool(BaseTool):
                         subagent_type=str(entry.get("subagent_type") or "").strip() or None,
                         read_roots=entry.get("read_roots") or (),
                         write_roots=entry.get("write_roots") or (),
+                        verification=entry.get('verification'),
                     )
                 )
             return tasks
@@ -313,6 +319,7 @@ class SubagentTool(BaseTool):
                 subagent_type=str(params.get("subagent_type") or "").strip() or None,
                 read_roots=params.get("read_roots") or (),
                 write_roots=params.get("write_roots") or (),
+                verification=params.get('verification'),
             )
         ]
 
@@ -395,7 +402,7 @@ class SubagentTool(BaseTool):
 
         payload = json.dumps({"results": results}, ensure_ascii=False)
         display = format_results(results)
-        if all(r.get("status") not in ("completed", "cancelled") for r in results):
+        if any(checks_failed(r) for r in results) or all(r.get("status") not in ("completed", "cancelled") for r in results):
             # Every task failed or timed out: surfacing this as success would
             # let the parent report findings that do not exist.
             return ToolResult.fail(payload, display=display)

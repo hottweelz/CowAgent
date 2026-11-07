@@ -79,8 +79,17 @@ class TaskStore:
                     result TEXT, recorded_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
                     completed_at TEXT
                 );
+                CREATE TABLE IF NOT EXISTS recovery_verifications (
+                    verification_id TEXT PRIMARY KEY,
+                    task_id TEXT NOT NULL REFERENCES recovery_tasks(task_id),
+                    attempt_id TEXT NOT NULL REFERENCES recovery_attempts(attempt_id),
+                    contract_hash TEXT NOT NULL, report TEXT NOT NULL,
+                    observed_at TEXT,
+                    recorded_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))
+                );
                 CREATE INDEX IF NOT EXISTS recovery_attempt_task ON recovery_attempts(task_id, number);
                 CREATE INDEX IF NOT EXISTS recovery_effect_attempt ON recovery_effects(attempt_id);
+                CREATE INDEX IF NOT EXISTS recovery_verification_attempt ON recovery_verifications(task_id, attempt_id);
             ''')
 
     @contextmanager
@@ -141,6 +150,7 @@ class TaskStore:
         task = dict(row)
         task['spec'] = json.loads(task['spec'])
         task['result'] = json.loads(task['result']) if task['result'] is not None else None
+        task['verification'] = None
         task['attempts'] = []
         for attempt in db.execute('SELECT * FROM recovery_attempts WHERE task_id=? ORDER BY number', (task_id,)):
             item = dict(attempt)
@@ -150,12 +160,67 @@ class TaskStore:
                 entry['mutating'] = bool(entry['mutating'])
                 entry['result'] = json.loads(entry['result']) if entry['result'] is not None else None
                 item['effects'].append(entry)
+            item['verifications'] = []
+            for verification in db.execute('SELECT * FROM recovery_verifications WHERE task_id=? AND attempt_id=? ORDER BY rowid', (task_id, item['attempt_id'])):
+                record = dict(verification)
+                report = json.loads(record.pop('report'))
+                report.update(record)
+                item['verifications'].append(report)
+                if item['attempt_id'] == task['attempt_id']:
+                    task['verification'] = report
             task['attempts'].append(item)
         return task
 
     def get(self, task_id):
         with self._connect() as db:
             return self._get(db, task_id)
+
+    def record_verification(self, task_id, attempt_id, contract_hash, report):
+        if not isinstance(report, dict):
+            raise ValueError('verification report must be an object')
+        for key, statuses in (('acceptance', ('passed', 'failed', 'unverified')),
+                              ('external_state', ('confirmed', 'failed', 'unverified'))):
+            value = report.get(key)
+            if not isinstance(value, dict) or value.get('status') not in statuses:
+                raise ValueError('invalid verification status for ' + key)
+        encoded = self._json(report)
+        with self._connect() as db:
+            db.execute('BEGIN IMMEDIATE')
+            row = db.execute('SELECT state,attempt_id,spec FROM recovery_tasks WHERE task_id=?', (task_id,)).fetchone()
+            if row is None or row['state'] != 'completed' or row['attempt_id'] != attempt_id:
+                return False
+            spec = json.loads(row['spec'])
+            if not isinstance(spec, dict):
+                return False
+            expected = hashlib.sha256(self._json(spec.get('verification', {})).encode('utf-8')).hexdigest()
+            if contract_hash != expected:
+                return False
+            db.execute('INSERT INTO recovery_verifications(verification_id,task_id,attempt_id,contract_hash,report,observed_at) VALUES (?,?,?,?,?,?)',
+                       (str(uuid.uuid4()), task_id, attempt_id, contract_hash, encoded, report.get('checked_at')))
+            return True
+
+    def list_unverified_completed(self, limit=100):
+        with self._connect() as db:
+            rows = db.execute("""SELECT t.task_id FROM recovery_tasks t
+                WHERE t.state='completed' AND NOT EXISTS (
+                    SELECT 1 FROM recovery_verifications v
+                    WHERE v.task_id=t.task_id AND v.attempt_id=t.attempt_id
+                ) ORDER BY t.created_at ASC, t.rowid ASC LIMIT ?""", (limit,)).fetchall()
+            return [self._get(db, row['task_id']) for row in rows]
+
+    @contextmanager
+    def verification_lock(self, task_id):
+        fd = self._lock(task_id)
+        if fd is None:
+            yield None
+            return
+        try:
+            task = self.get(task_id)
+            if task['state'] != 'completed':
+                raise ValueError('task execution not completed')
+            yield task
+        finally:
+            self._unlock(fd)
 
     def submit(self, owner_id, session_id, kind, spec, *, idempotency_key=None):
         if kind == 'delegate':

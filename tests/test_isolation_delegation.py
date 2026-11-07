@@ -156,7 +156,11 @@ def test_delegated_write_uses_shared_root_and_readonly_denies(tmp_path, monkeypa
     assert (shared / "result.txt").read_text() == "allowed"
     (shared / "result.txt").unlink()
     parent.permission_mode = "read-only"
-    assert tool.execute({"agent_id": "dst", "task": "write"}).status == "success"
+    denied = tool.execute({"agent_id": "dst", "task": "write"})
+    assert denied.status == "error"
+    assert denied.result['execution_status'] == 'completed'
+    assert denied.result['acceptance_status'] == 'failed'
+    assert denied.result['external_state_status'] == 'unverified'
     assert not (shared / "result.txt").exists()
     assert "denied" in str(models[-1].requests[-1].messages).lower()
 
@@ -296,7 +300,10 @@ def test_receiver_keeps_its_exclusion_for_source_private_workspace(tmp_path, mon
     attach_agent_delegate_to_tool(tool, bridge, ctx)
     tool.context = parent
     result = tool.execute_tool({"agent_id": "dst", "task": "inspect requested file"})
-    assert result.status == "success", result.result
+    assert result.status == "error", result.result
+    assert result.result['execution_status'] == 'completed'
+    assert result.result['acceptance_status'] == 'failed'
+    assert result.result['external_state_status'] == 'unverified'
     assert len(model.requests) == 2
     captured = str([r.__dict__ for r in model.requests])
     assert "FICTIONAL_SOURCE_PRIVATE" not in captured
