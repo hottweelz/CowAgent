@@ -61,3 +61,11 @@
   adapters, human approval authentication and remote-effect verifiers remain
   future work. See [EXTERNAL-001](docs/external-001/README.md) for the contract,
   failure rules, test evidence and limits; no general exactly-once claim applies.
+- EXTERNAL-002 is blocked, not an enabled Codex adapter. CLI 0.165.0 with the
+  existing selected provider advertised collaboration mutations despite false
+  multi-agent flags. Configuration checks do not prove model-facing capability
+  exclusion. Retain the unregistered foundation until a supported control and
+  actual capability/native patch/cancellation evidence close the gate; do not
+  change Codex's auth/model or enable shell to bypass it. See
+  [EXTERNAL-002](docs/external-002/README.md). Its explicit root/temp-denial
+  command probes do not certify native patch confinement or hard isolation.

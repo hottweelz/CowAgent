@@ -1,0 +1,120 @@
+=== ISOLATED PYTHON REGRESSION ===
+........................................................................ [  5%]
+........................................................................ [ 10%]
+...........................................sssssss...................... [ 15%]
+........................................................................ [ 20%]
+........................................................................ [ 25%]
+................................................s.............s......... [ 30%]
+........................................................................ [ 35%]
+........................................................................ [ 40%]
+........................................................................ [ 45%]
+..........................................ssssss........................ [ 50%]
+........................................................................ [ 55%]
+........................................................................ [ 60%]
+........................................................................ [ 65%]
+........................................................................ [ 70%]
+........................................................................ [ 76%]
+........................................................................ [ 81%]
+........................................................................ [ 86%]
+........................................................................ [ 91%]
+........................................................................ [ 96%]
+....................................................                     [100%]
+1405 passed, 15 skipped in 44.46s
+
+=== NATIVE BROWSER CASES ===
+.......                                                                  [100%]
+7 passed in 14.37s
+
+=== NODE UI TESTS ===
+✔ web distinguishes unknown, explicit zero, partial and legacy cache usage (26.464ms)
+✔ desktop distinguishes unknown, explicit zero, partial and legacy cache usage (0.210375ms)
+✔ web tooltip labels known subtotals when request usage is partial (0.587542ms)
+✔ web tooltip shows unknown when all usage counts are zero and unreported (0.250167ms)
+✔ web context card shows only reported latest-request counts (0.583875ms)
+✔ desktop context card shows only reported latest-request counts (0.949958ms)
+✔ desktop tooltip labels known subtotals when request usage is partial (0.472542ms)
+✔ desktop tooltip shows unknown when all usage counts are zero and unreported (0.2115ms)
+✔ edit: api-error preserves history and draft without a new send (8.458792ms)
+✔ edit: network-error preserves history and draft without a new send (3.006792ms)
+✔ edit: invalid-json preserves history and draft without a new send (1.329083ms)
+✔ edit: http-error preserves history and draft without a new send (1.04125ms)
+✔ edit: acknowledgment preserves the existing successful mutation (0.9445ms)
+✔ regenerate: api-error preserves history and draft without a new send (1.209042ms)
+✔ regenerate: network-error preserves history and draft without a new send (0.944959ms)
+✔ regenerate: invalid-json preserves history and draft without a new send (0.986542ms)
+✔ regenerate: http-error preserves history and draft without a new send (1.109584ms)
+✔ regenerate: acknowledgment preserves the existing successful mutation (2.372916ms)
+✔ delete: api-error preserves history and draft without a new send (1.244916ms)
+✔ delete: network-error preserves history and draft without a new send (0.963959ms)
+✔ delete: invalid-json preserves history and draft without a new send (0.686208ms)
+✔ delete: http-error preserves history and draft without a new send (0.921042ms)
+✔ delete: acknowledgment preserves the existing successful mutation (1.977041ms)
+✔ canceling direct Delete does not submit or change the conversation (0.579875ms)
+✔ active reply still blocks Edit and direct Delete (2.165209ms)
+✔ edit: nonpersisted turns still work without a deletion request (2.165458ms)
+✔ regenerate: nonpersisted turns still work without a deletion request (0.845792ms)
+✔ delete: nonpersisted turns still work without a deletion request (0.847833ms)
+✔ already at bottom does not suppress the next upward gesture (3.594334ms)
+✔ stream updates coalesce and queued scrolling respects a later user pause (0.604334ms)
+✔ force cancels queued work and reaches the current bottom immediately (0.678083ms)
+✔ viewport shrink follows the bottom; history reading survives viewport resizing (1.366875ms)
+✔ short conversations clamp the bottom to zero (0.437416ms)
+✔ touch dragging pauses follow before the stream frame runs (0.707375ms)
+✔ tap without movement keeps follow enabled (0.435042ms)
+✔ programmatic scroll events preserve follow intent and button reflects detached reading (0.795541ms)
+✔ scrolling up near the top loads the next history page once (1.959417ms)
+✔ programmatic scrolls near the top and exhausted history never load pages (0.704958ms)
+✔ composer viewport resize follows only while enabled and keeps the return button clickable (0.367333ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 112.99875
+
+=== STRICT RENDERER TYPECHECK ===
+TypeScript check passed with no diagnostics.
+
+=== DESKTOP BUILD ===
+> cowagent-desktop@2.2.2 build
+> npm run build:renderer && npm run build:main
+
+
+> cowagent-desktop@2.2.2 build:renderer
+> vite build
+
+vite v6.4.1 building for production...
+
+./vendor/fonts/inter/inter.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+
+./vendor/fontawesome/css/all.min.css doesn't exist at build time, it will remain unchanged to be resolved at runtime
+transforming...
+Browserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2161 modules transformed.
+[plugin vite:reporter]
+(!) /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/store/sessionStore.ts is dynamically imported by /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/store/agentStore.ts but also statically imported by /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/App.tsx, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/components/ChatTimeline.tsx, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/components/ContextUsagePopover.tsx, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/components/FileCard.tsx, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/components/WorkspaceSelector.tsx, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/hooks/usePushPoll.ts, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/layout/SessionList.tsx, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/lib/newChat.ts, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/lib/taskNotify.ts, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/pages/AgentsPage.tsx, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/pages/ChatPage.tsx, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/pages/settings/BasicSettings.tsx, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/store/artifactStore.ts, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/store/chatStore.ts, /Volumes/Predator SSD GM7 1TB/Projects/CowAgent/desktop/src/renderer/src/store/sessionSettingsStore.ts, dynamic import will not move module into another chunk.
+
+rendering chunks...
+computing gzip size...
+../../dist/renderer/index.html                     1.65 kB │ gzip:   0.76 kB
+../../dist/renderer/assets/logo-DeMOD2Vr.png     105.88 kB
+../../dist/renderer/assets/index-TGBl8_Yc.css     73.66 kB │ gzip:  15.25 kB
+../../dist/renderer/assets/index-AHyT8dUQ.js   1,966.56 kB │ gzip: 609.44 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 2.46s
+
+> cowagent-desktop@2.2.2 build:main
+> tsc -p tsconfig.main.json
+
+=== PYTHON STATIC GATES ===
+Ruff F class: All checks passed for the five assigned EXTERNAL-002 Python files.
+In-memory compile: all five assigned EXTERNAL-002 Python files passed.
+Retained 66-file source hashes match EXTERNAL-001. Prior Ruff F and compilation evidence for those files is reused, not rerun.

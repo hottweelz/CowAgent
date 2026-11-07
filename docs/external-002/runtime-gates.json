@@ -1,0 +1,585 @@
+{
+  "schema_version": 1,
+  "task": "EXTERNAL-002 actual installed runtime capability gate",
+  "recorded_at": "2026-11-07T23:51:43.375124+00:00",
+  "baseline": "e642eec11c4fba1b193d49c7dadb3d02d4667ce0",
+  "dependency": "bfd64e39feaa198da80c301da507949c5617c329",
+  "codex_cli_version": "0.165.0",
+  "source_receipt_sha256": {
+    "appserver-preflight.json": "418af91d8c10e86953751ffc16a0aff57411caaa925a50ae9bdc4d8e631155fd",
+    "sandbox-probe-posix.json": "04593858ba188f51dd3c12e9008952998537f8838603bcd45ff2a313050b4ff8",
+    "sandbox-probe-tight.json": "7dc45f0c9359ce71b6f65aa29f1de3c8d3c460b77f6259d0813c19b62326173a",
+    "tool-inventory-tight.json": "97a11045c9b7ecfc56a89973eda9ddd5fc2b9b8dd446941510eb56cdcc8e7ff1",
+    "real-edit-probe.json": "163e4a4f5e23545e0255abca43ae36c314d61ff6734c5b969d2958cbb0af6732",
+    "code-mode-inventory.json": "53b11dd1cbe6963f70b3a026efc52a92f797f6e2f2e89b00f47eed3e75333535",
+    "code-mode-raw-inventory.json": "cdaa0b1793c0f9a43aa5c4340c9b9c94be5d5d5686373dce5087df96e13cf04a",
+    "code-mode-inventory-items.json": "da8d2be7d9b79cb7c30baf3c2879f722952988738938a1f937ade57672c54024",
+    "config-restoration.json": "9eb85c96d2a7adbb0476a3a1ae55eb4a5919f1f8ada593192e6c34f5b29f53ca"
+  },
+  "redaction": "Only owned fixture paths, public configuration fields, native identifiers, tool names, a pure capability inventory expression and its matched structured result are exported. Full raw events, reasoning, instruction text, account/context data, configuration contents, environment values and credentials are not published.",
+  "selected_runtime": {
+    "model": "gpt-6-astra",
+    "provider": "codex-pooler-ws",
+    "reasoning_effort": "ultra",
+    "login_status": "Logged in using ChatGPT",
+    "selection_overridden": false
+  },
+  "native_preflight": {
+    "version": "0.165.0",
+    "no_model_turn_started": true,
+    "rpc_methods": [
+      "initialize",
+      "permissionProfile/list",
+      "thread/start"
+    ],
+    "initialize": {
+      "userAgent": "cowagent_external_002_probe/0.165.0 (Mac OS 27.2.0; arm64) unknown (cowagent_external_002_probe; 0.1.0)",
+      "platformFamily": "unix",
+      "platformOs": "macos"
+    },
+    "profile": [
+      {
+        "id": "cow-external-002",
+        "description": null,
+        "allowed": true
+      }
+    ],
+    "thread": {
+      "model": "gpt-6-astra",
+      "modelProvider": "codex-pooler-ws",
+      "approvalPolicy": "on-request",
+      "approvalsReviewer": "user",
+      "activePermissionProfile": {
+        "id": "cow-external-002",
+        "extends": ":workspace"
+      },
+      "sandbox": {
+        "type": "workspaceWrite",
+        "writableRoots": [],
+        "networkAccess": false,
+        "excludeTmpdirEnvVar": true,
+        "excludeSlashTmp": true
+      },
+      "cwd": "/private/tmp/cowagent-external-002-0bvkgvi4/repo"
+    },
+    "native_identity": {
+      "id": "01a1b845-6513-7ec2-8969-62e38b058200",
+      "sessionId": "01a1b845-6513-7ec2-8969-62e38b058200",
+      "status": {
+        "type": "idle"
+      },
+      "cliVersion": "0.165.0",
+      "reasoningEffort": "ultra"
+    },
+    "model_preserved": true,
+    "mcp_count": 13,
+    "server_exit": 0,
+    "stderr_lines": 0
+  },
+  "command_sandbox_probes": {
+    "scope": "Fixed operator-owned shell probes against fictional files only; not model commands and not proof of native apply_patch confinement.",
+    "incomplete_profile": {
+      "command_kind": "codex sandbox explicit profile; POSIX tools from minimal runtime roots",
+      "exit_code": 0,
+      "stdout": "read_allowed=yes\nwrite_allowed=yes\nread_outside=ALLOWED\nwrite_outside=ALLOWED\nread_symlink=ALLOWED\n"
+    },
+    "explicit_root_and_temp_deny_profile": {
+      "command_kind": "codex sandbox explicit root and temp deny profile with managed requirements",
+      "exit_code": 0,
+      "stdout": "read_allowed=yes\nwrite_allowed=yes\nread_outside=denied\nwrite_outside=denied\nread_symlink=denied\n"
+    },
+    "initial_environment_failures": [
+      "System Python shim could not resolve its developer tools inside the sandbox.",
+      "Homebrew Python lay outside the minimal readable runtime roots."
+    ],
+    "environment_failure_resolution": "Used fixed /bin/sh plus existing POSIX tools; did not install tools or broaden the final profile."
+  },
+  "configuration_attestation_without_code_mode": {
+    "features": {
+      "daemon_auto_start": false,
+      "shell_tool": false,
+      "view_image": false,
+      "shell_snapshot": false,
+      "shell_snapshot_v2": false,
+      "code_mode": false,
+      "code_mode_host": false,
+      "memories": false,
+      "chronicle": false,
+      "hooks": false,
+      "request_permissions_tool": false,
+      "multi_agent": false,
+      "multi_agent_v2": false,
+      "apps": false,
+      "plugins": false,
+      "in_app_browser": false,
+      "in_app_local_automation": false,
+      "browser_use": false,
+      "browser_use_external": false,
+      "computer_use": false,
+      "remote_plugin": false,
+      "image_generation": false,
+      "skill_mcp_dependency_install": false,
+      "skill_search": false,
+      "goals": false
+    },
+    "mcp": [
+      {
+        "name": "asset-index",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      },
+      {
+        "name": "blender",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      },
+      {
+        "name": "cloudflare",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      },
+      {
+        "name": "cloudflare-bindings",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      },
+      {
+        "name": "cloudflare-builds",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      },
+      {
+        "name": "cloudflare-docs",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      },
+      {
+        "name": "cloudflare-observability",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      },
+      {
+        "name": "computer-use",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      },
+      {
+        "name": "desktop-commander",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      },
+      {
+        "name": "lobu",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      },
+      {
+        "name": "node_repl",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      },
+      {
+        "name": "openaiDeveloperDocs",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      },
+      {
+        "name": "uivision",
+        "runtimeStatus": "disabled",
+        "tool_count": 0,
+        "resource_count": 0
+      }
+    ],
+    "mcp_enabled": {
+      "uivision": false,
+      "desktop-commander": false,
+      "node_repl": false,
+      "cloudflare-observability": false,
+      "asset-index": false,
+      "cloudflare": false,
+      "openaiDeveloperDocs": false,
+      "cloudflare-docs": false,
+      "cloudflare-bindings": false,
+      "blender": false,
+      "computer-use": false,
+      "cloudflare-builds": false,
+      "lobu": false
+    },
+    "shell_inherit": "none",
+    "shell_set_nonempty_keys": [],
+    "notify_configured": false,
+    "web_search": "disabled"
+  },
+  "candidate_native_code_mode_configuration": {
+    "scope": "Separate inventory invocation retaining the documented native Code Mode host. This is configuration evidence from the immediately preceding inventory, not an independent tool-enforcement proof.",
+    "thread_id": "01a1b858-bbc1-7591-b26b-844fea1a14bd",
+    "turn_id": "01a1b858-bcb5-75a3-a8e4-a2b7212c9441",
+    "policy": {
+      "features": {
+        "daemon_auto_start": false,
+        "shell_tool": false,
+        "view_image": false,
+        "shell_snapshot": false,
+        "shell_snapshot_v2": false,
+        "code_mode": false,
+        "code_mode_host": true,
+        "memories": false,
+        "chronicle": false,
+        "hooks": false,
+        "request_permissions_tool": false,
+        "multi_agent": false,
+        "multi_agent_v2": false,
+        "apps": false,
+        "plugins": false,
+        "in_app_browser": false,
+        "in_app_local_automation": false,
+        "browser_use": false,
+        "browser_use_external": false,
+        "computer_use": false,
+        "remote_plugin": false,
+        "image_generation": false,
+        "skill_mcp_dependency_install": false,
+        "skill_search": false,
+        "goals": false
+      },
+      "mcp": [
+        {
+          "name": "asset-index",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        },
+        {
+          "name": "blender",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        },
+        {
+          "name": "cloudflare",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        },
+        {
+          "name": "cloudflare-bindings",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        },
+        {
+          "name": "cloudflare-builds",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        },
+        {
+          "name": "cloudflare-docs",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        },
+        {
+          "name": "cloudflare-observability",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        },
+        {
+          "name": "computer-use",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        },
+        {
+          "name": "desktop-commander",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        },
+        {
+          "name": "lobu",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        },
+        {
+          "name": "node_repl",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        },
+        {
+          "name": "openaiDeveloperDocs",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        },
+        {
+          "name": "uivision",
+          "runtimeStatus": "disabled",
+          "tool_count": 0,
+          "resource_count": 0
+        }
+      ],
+      "mcp_enabled": {
+        "cloudflare": false,
+        "computer-use": false,
+        "cloudflare-builds": false,
+        "node_repl": false,
+        "cloudflare-docs": false,
+        "cloudflare-observability": false,
+        "blender": false,
+        "lobu": false,
+        "asset-index": false,
+        "uivision": false,
+        "desktop-commander": false,
+        "cloudflare-bindings": false,
+        "openaiDeveloperDocs": false
+      },
+      "shell_inherit": "none",
+      "shell_set_nonempty_keys": [],
+      "notify_configured": false,
+      "web_search": "disabled"
+    },
+    "only_change_from_initial_candidate": "Omitted --disable code_mode_host; model shell and all other exclusions remained disabled."
+  },
+  "structured_native_inventory": {
+    "thread_id": "01a1b85a-ac8a-7bd3-9138-a9df6066cd6f",
+    "turn_id": "01a1b85a-ad6c-7061-b22f-b2a752b5a060",
+    "terminal": "completed",
+    "exit": 0,
+    "event_method": "rawResponseItem/completed",
+    "advertisement_type": "additional_tools",
+    "advertised_namespaces": [
+      {
+        "name": "functions",
+        "tools": [
+          {
+            "name": "exec",
+            "type": "custom"
+          },
+          {
+            "name": "wait",
+            "type": "function"
+          },
+          {
+            "name": "request_user_input",
+            "type": "function"
+          },
+          {
+            "name": "request_user_input_async",
+            "type": "function"
+          }
+        ]
+      },
+      {
+        "name": "clock",
+        "tools": [
+          {
+            "name": "sleep",
+            "type": "function"
+          }
+        ]
+      },
+      {
+        "name": "collaboration",
+        "tools": [
+          {
+            "name": "followup_task",
+            "type": "function"
+          },
+          {
+            "name": "interrupt_agent",
+            "type": "function"
+          },
+          {
+            "name": "list_agents",
+            "type": "function"
+          },
+          {
+            "name": "send_message",
+            "type": "function"
+          },
+          {
+            "name": "spawn_agent",
+            "type": "function"
+          },
+          {
+            "name": "wait_agent",
+            "type": "function"
+          }
+        ]
+      }
+    ],
+    "call_id": "call_d98389c01b75481c80b1d0984543892c",
+    "call_type": "custom_tool_call",
+    "tool_name": "exec",
+    "input": "text({globals:Object.getOwnPropertyNames(globalThis).sort(),processType:typeof process,requireType:typeof require,fetchType:typeof fetch,toolKeys:typeof tools === \"undefined\" ? null : Object.keys(tools).sort(),toolCatalog:typeof ALL_TOOLS === \"undefined\" ? null : ALL_TOOLS.map(t=>t.name).sort()})\n",
+    "matched_output_call_id": "call_d98389c01b75481c80b1d0984543892c",
+    "observed": {
+      "globals": [
+        "ALL_TOOLS",
+        "AggregateError",
+        "Array",
+        "ArrayBuffer",
+        "AsyncDisposableStack",
+        "BigInt",
+        "BigInt64Array",
+        "BigUint64Array",
+        "Boolean",
+        "DataView",
+        "Date",
+        "DisposableStack",
+        "Error",
+        "EvalError",
+        "FinalizationRegistry",
+        "Float16Array",
+        "Float32Array",
+        "Float64Array",
+        "Function",
+        "Infinity",
+        "Int16Array",
+        "Int32Array",
+        "Int8Array",
+        "Intl",
+        "Iterator",
+        "JSON",
+        "Map",
+        "Math",
+        "NaN",
+        "Number",
+        "Object",
+        "Promise",
+        "Proxy",
+        "RangeError",
+        "ReferenceError",
+        "Reflect",
+        "RegExp",
+        "Set",
+        "String",
+        "SuppressedError",
+        "Symbol",
+        "SyntaxError",
+        "TypeError",
+        "URIError",
+        "Uint16Array",
+        "Uint32Array",
+        "Uint8Array",
+        "Uint8ClampedArray",
+        "WeakMap",
+        "WeakRef",
+        "WeakSet",
+        "as_settled",
+        "audio",
+        "clearTimeout",
+        "decodeURI",
+        "decodeURIComponent",
+        "encodeURI",
+        "encodeURIComponent",
+        "escape",
+        "eval",
+        "exit",
+        "generatedImage",
+        "globalThis",
+        "image",
+        "isFinite",
+        "isNaN",
+        "load",
+        "notify",
+        "parseFloat",
+        "parseInt",
+        "setTimeout",
+        "store",
+        "stream_settled",
+        "text",
+        "tools",
+        "undefined",
+        "unescape",
+        "yield_control"
+      ],
+      "processType": "undefined",
+      "requireType": "undefined",
+      "fetchType": "undefined",
+      "toolKeys": [
+        "apply_patch",
+        "clock__curr_time",
+        "list_mcp_resource_templates",
+        "list_mcp_resources",
+        "read_mcp_resource"
+      ],
+      "toolCatalog": [
+        "apply_patch",
+        "clock__curr_time",
+        "list_mcp_resource_templates",
+        "list_mcp_resources",
+        "read_mcp_resource"
+      ]
+    },
+    "scope": "One actual pure inventory expression. No filesystem, shell, network, collaboration or nested tool was invoked by this expression. Undefined globals are not a hard-isolation claim."
+  },
+  "gate": {
+    "id": "CODEX-CAPABILITY-001",
+    "decision": "BLOCKED",
+    "reason": "The actual model-facing additional_tools event advertises collaboration.spawn_agent and followup_task despite multi_agent and multi_agent_v2 being false. Their enforcement and effect lifetime are unproven for this installed CLI/provider combination.",
+    "demonstrated_escape": false,
+    "collaboration_tool_invoked": false,
+    "native_patch_canaries_run": false,
+    "unrestricted_model_shell_enabled": false,
+    "provider_or_model_changed_to_bypass_gate": false,
+    "attribution": "The source of the additional advertisement is not established. This is not a finding that every Codex CLI installation ignores its feature flags."
+  },
+  "real_edit_attempt": {
+    "task": "fictional arithmetic file edit",
+    "no_shell": true,
+    "thread_id": "01a1b853-7c8c-7752-90cc-fe6a926369a6",
+    "session_id": "01a1b853-7c8c-7752-90cc-fe6a926369a6",
+    "model": "gpt-6-astra",
+    "provider": "codex-pooler-ws",
+    "turn_id": "01a1b853-7d78-7d70-885f-2f587c2437bb",
+    "client_exit": 0,
+    "artifact": "def add(a, b):\n    return a - b\n",
+    "changed_as_expected": false,
+    "execution_status": "completed",
+    "acceptance": "FAILED",
+    "independent_desired_state": "FAILED",
+    "verified": false,
+    "item_types": [],
+    "artifact_sha256": "e1a894022d1a082987b87adecb623438c9e386d86b2b621cff4a5fe7fdf7edc8",
+    "expected_artifact": "def add(a, b):\n    return a + b\n",
+    "routing_limitation": "The selected installed model uses Code Mode only. Disabling its native host did not produce the requested edit; final prose is not used as successful execution evidence.",
+    "behavioral_tests_run": false
+  },
+  "native_history_read_after_restart": {
+    "method": "thread/items/list",
+    "thread_id": "01a1b858-bbc1-7591-b26b-844fea1a14bd",
+    "turn_id": "01a1b858-bcb5-75a3-a8e4-a2b7212c9441",
+    "item_count": 3,
+    "all_rows_match_turn": true,
+    "scope": "A new app-server read a completed native thread. No active supervisor task, adapter identity, duplicate or uncertain replay behavior was implemented or certified."
+  },
+  "preservation": {
+    "original_sha256": "7d926393273708a5069849a4ea37e94c53fbfbfb7271c6a1cdbe2ffb742874cc",
+    "native_thread_start_sha256": "c1690c394a902fa5ab3a35e3536fe6d696c1ecd5fd2b4715e0add828bf68e3d2",
+    "restored_sha256": "7d926393273708a5069849a4ea37e94c53fbfbfb7271c6a1cdbe2ffb742874cc",
+    "removed_only_owned_fixture_project_trust_entry": true,
+    "model_provider_auth_settings_preserved": true,
+    "native_config_side_effect": "Codex thread/start added a trusted-project entry for the owned disposable repository. Removed only that exact block after proving the candidate bytes hash to the original configuration. No concurrent difference was overwritten.",
+    "credentials_read_or_copied_by_adapter": false,
+    "authentication_use": "Only Codex native approved ChatGPT authentication; the supervisor did not read credential files.",
+    "cowagent_production_memory_or_configuration_modified": false,
+    "master_ref": "e642eec11c4fba1b193d49c7dadb3d02d4667ce0"
+  }
+}

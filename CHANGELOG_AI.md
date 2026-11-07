@@ -1,5 +1,84 @@
 # AI handoff ledger
 
+## 2026-11-07 18:54 EST — Codex — EXTERNAL-002 blocked Codex runtime gate
+
+- Task/result: integrated published EXTERNAL-001 bfd64e39 on dedicated
+  feat/external-002-codex-adapter from master e642eec1. Inspected CLI 0.165.0,
+  official interfaces and actual native capability events. **BLOCKED** at
+  CODEX-CAPABILITY-001; no working real-adapter or release-ready claim. Publish
+  the inactive foundation and evidence; no master merge or live activation.
+- Team: Codex lead owns policy, probes, integration, evidence and Git. Luna/high
+  researched public interfaces, tested policy and ran release gates in bounded
+  assignments. Terra 6.1/high owned the stdio client because concurrent events,
+  responses and process cleanup needed more than routine implementation.
+  One Sol 6.1/high reviewer handled auth, permission and uncertain-effect
+  boundaries across processes; that work exceeds routine Luna review.
+  Requested models accepted; effective identities not independently exposed.
+  Used STE design/planning guidance; no HomeBoss or external worker pool.
+- Changes/files: new agent/external/codex_client.py and codex_policy.py, two
+  focused test files, docs/external-002 plan/README/review/runtime receipts and
+  regression runner/JSON/JUnit/output, project MEMORY.md and this ledger.
+  Helpers are unregistered. No native gateway, UI, production memory/config,
+  model selection, identity or instruction source changed. EXTERNAL-001
+  source/evidence remains intact; its published README blob was verified.
+- Results: named profile and unchanged Codex model/provider/effort confirmed.
+  Explicit root/temp deny fixed the fictional command-canary boundary. Native
+  patch confinement remains unverified. A real edit turn completed but left
+  the file unchanged: acceptance and desired state failed. The selected model
+  requires native Code Mode. Retaining that documented host exposed a separate
+  collaboration advertisement despite both multi-agent flags being false.
+  No collaboration call or escape was demonstrated; its origin/enforcement
+  remains unknown. Stopped further real tasks under the user's blocked-gate rule.
+- Commands/tests: `.venv/bin/python docs/external-002/run_regression.py` passed
+  1,405, skipped 15, zero failures/errors across 124 files. Seven exact browser
+  cases passed separately: 1,412 unique passes and eight Windows-only skips.
+  Includes 17 new foundation and all 24 EXTERNAL-001 tests. Node suites 39 pass;
+  strict renderer tsc and desktop build pass. Ruff F/in-memory compile passed
+  for five new Python files; 66 retained source hashes match reused static
+  evidence. Parent reconciled JUnit hash/counts and new source hashes.
+- Review: independent security/architecture review confirmed the capability
+  block. One P2 fixed: close now cleans same-group children after leader exit.
+  Two cleanup tests passed independent narrow confirmation. No proof of
+  detached-descendant termination or a complete Codex cancellation contract.
+- Preservation/decisions: Codex auth remains native; no credential file read
+  or copy by the supervisor. Native thread creation added only an owned fixture
+  trust entry; removed that exact block after proving restoration hashes to
+  the initial config. Final config hash equals the original. Native history
+  was not deleted. Transport/configuration helpers do not authorize execution;
+  status, execution, acceptance and independent confirmation stay separate.
+- Lessons Learned:
+  - Mistake: treating disabled feature metadata as proof of excluded tools;
+    ordinary item events also omitted the pure Code Mode call and result.
+  - Root Cause: configuration, model-facing advertisements and actual tool
+    execution are different observation layers. Process leader exit likewise
+    does not prove its group has exited.
+  - Future Trigger: enrolling a native runtime, interpreting capability flags,
+    collecting model tool evidence or cleaning up an exited process leader.
+  - Required Behavior Change: inspect structured native advertisement/call/
+    output records; fail closed on unproven mutation surfaces; clean owned
+    groups regardless of leader state. Record native config side effects.
+  - Verification Step: matched raw call/output IDs, exact artifact bytes,
+    final original-config hash, same-group regression, bounded independent
+    review and full applicable regression receipts.
+  - Durable Memory Update: project MEMORY.md records EXTERNAL-002's blocked
+    state and distinction between configuration and capability enforcement.
+- Known issues: real adapter registration, durable identity/idempotency,
+  uncertain replay mapping, successful code/test verification and actual
+  cancellation are unfinished. Unbounded event queue, detached descendants,
+  beta/version/platform limits; eight Windows-only skips and existing build
+  warnings. Four unrelated untracked files remain excluded: AGENTS.md and
+  three conflicted PID files. Production state remains untouched.
+- Next recommended steps: establish a supported exclusion control or matching
+  authoritative runtime enforcement for all advertised collaboration mutations;
+  then run native patch canaries and implement/test the durable adapter mapping.
+  Keep Codex auth/model unchanged. Repeat release gates and review before merge
+  or activation; do not treat offline test success as closing the blocked gate.
+- Notes for next agent: docs/external-002/README.md is the deployment decision.
+  runtime-gates.json is sanitized evidence, not full raw transcripts. Native
+  completed-history read after process restart does not prove task recovery.
+  Parent publishes same-name origin branch and verifies 0/0; master stays
+  e642eec1. Preserve journals, native history and all unrelated local files.
+
 ## 2026-11-07 16:10 EST — Codex — EXTERNAL-001 external runtime supervision
 
 - Task/result: designed and validated a host-only supervisory API and one real
