@@ -1,0 +1,719 @@
+{
+  "schema_version": 1,
+  "baseline_revision": "0ce6dfef",
+  "source_revision": "working-tree",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "controlled_dates": [
+    "2026-11-06",
+    "2026-11-07"
+  ],
+  "same_instruction_lines": true,
+  "same_16_tool_schemas": true,
+  "same_non_system_messages": true,
+  "same_request_options": true,
+  "new_provider_or_cache_fields": false,
+  "same_input_builds_identical": true,
+  "tokenizer_sha256": "d0432ad8b1c2984a2e2dca82e1933e3fd5628df6e95c51fba4c3ee9950dce299",
+  "template_sha256": "1369e90b19976f99ce2070eb21ade8fcb4af640f008e14e82af5c5e89a9cc816",
+  "measurements": {
+    "before": {
+      "first_request_sha256": "6414238a7c1b497f5d29e692686746c527c9e5c56fc68c4c2ea3f536d0417e06",
+      "tools_sha256": "4d315a469987cb8e174b5c02661db737c928e6c98511337598f1d583e22cdb35",
+      "request_options_sha256": "e75efbe16c3447beb5048545f7ca2966e3a5fdf56284611ca35202433472100c",
+      "system_day_rollover": {
+        "utf8_common_prefix_bytes": 4663,
+        "utf8_common_prefix_sha256": "d026711d275b781a844ffbd749e861d67851464b5ec255d31bc2558e1ebee322",
+        "tiktoken_cl100k_base_proxy_common_prefix_tokens": 1096,
+        "tiktoken_cl100k_base_proxy_common_prefix_sha256": "a6a7cf946066bc6590cafc05ff321a1199d986231512cf0c7d69c97ba4691a78"
+      },
+      "full_template_day_rollover": {
+        "estimated_common_prefix_tokens": 1130,
+        "left_estimated_tokens": 9776,
+        "right_estimated_tokens": 9776,
+        "common_prefix_sha256": "f39605a43dbd336fcce3c7bbea2052ca8f55674bd2da09268b25feeb6a43b6d6",
+        "exact_provider_template_verified": false
+      },
+      "first_request_template": {
+        "estimated_tokens": 9776,
+        "rendered_sha256": "bb04e8266f53f74e5e6672c699af35f0afe96d2e3204bafb9fd11514fdebe9b3",
+        "template_sha256": "1369e90b19976f99ce2070eb21ade8fcb4af640f008e14e82af5c5e89a9cc816",
+        "tool_blocks": [
+          {
+            "name": "read",
+            "estimated_template_tokens": 383
+          },
+          {
+            "name": "write",
+            "estimated_template_tokens": 160
+          },
+          {
+            "name": "edit",
+            "estimated_template_tokens": 312
+          },
+          {
+            "name": "bash",
+            "estimated_template_tokens": 449
+          },
+          {
+            "name": "ls",
+            "estimated_template_tokens": 168
+          },
+          {
+            "name": "send",
+            "estimated_template_tokens": 159
+          },
+          {
+            "name": "search_files",
+            "estimated_template_tokens": 542
+          },
+          {
+            "name": "env_config",
+            "estimated_template_tokens": 353
+          },
+          {
+            "name": "scheduler",
+            "estimated_template_tokens": 942
+          },
+          {
+            "name": "web_search",
+            "estimated_template_tokens": 308
+          },
+          {
+            "name": "web_fetch",
+            "estimated_template_tokens": 155
+          },
+          {
+            "name": "vision",
+            "estimated_template_tokens": 147
+          },
+          {
+            "name": "browser",
+            "estimated_template_tokens": 687
+          },
+          {
+            "name": "time",
+            "estimated_template_tokens": 100
+          },
+          {
+            "name": "memory_search",
+            "estimated_template_tokens": 195
+          },
+          {
+            "name": "memory_get",
+            "estimated_template_tokens": 212
+          }
+        ],
+        "tool_blocks_estimated_tokens": 5272,
+        "tokens_outside_tool_blocks": 4504,
+        "exact_provider_template_verified": false
+      }
+    },
+    "after": {
+      "first_request_sha256": "a70794985ee8ff580df5aedbad636af99603d5c4dea5170f67aa290812b79749",
+      "tools_sha256": "4d315a469987cb8e174b5c02661db737c928e6c98511337598f1d583e22cdb35",
+      "request_options_sha256": "e75efbe16c3447beb5048545f7ca2966e3a5fdf56284611ca35202433472100c",
+      "system_day_rollover": {
+        "utf8_common_prefix_bytes": 17549,
+        "utf8_common_prefix_sha256": "ca1577d692b1c58f28062e3b2cfa50d3449770504bcffedbd1336b86f7948726",
+        "tiktoken_cl100k_base_proxy_common_prefix_tokens": 4109,
+        "tiktoken_cl100k_base_proxy_common_prefix_sha256": "0caff9e1625ffd3efbbf4d7b8509d94e5e9c16b98a1725cf5c8da19664158547"
+      },
+      "full_template_day_rollover": {
+        "estimated_common_prefix_tokens": 4204,
+        "left_estimated_tokens": 9776,
+        "right_estimated_tokens": 9776,
+        "common_prefix_sha256": "a2f7263400ac92e87f7f5f0ec24f75f7751dbbc462da64ab296a0ecfee6c59b3",
+        "exact_provider_template_verified": false
+      },
+      "first_request_template": {
+        "estimated_tokens": 9776,
+        "rendered_sha256": "20fdd4e4601d0f9bcef23ef0e844121e591ac0fc5caf78cd1acc34760c0649bf",
+        "template_sha256": "1369e90b19976f99ce2070eb21ade8fcb4af640f008e14e82af5c5e89a9cc816",
+        "tool_blocks": [
+          {
+            "name": "read",
+            "estimated_template_tokens": 383
+          },
+          {
+            "name": "write",
+            "estimated_template_tokens": 160
+          },
+          {
+            "name": "edit",
+            "estimated_template_tokens": 312
+          },
+          {
+            "name": "bash",
+            "estimated_template_tokens": 449
+          },
+          {
+            "name": "ls",
+            "estimated_template_tokens": 168
+          },
+          {
+            "name": "send",
+            "estimated_template_tokens": 159
+          },
+          {
+            "name": "search_files",
+            "estimated_template_tokens": 542
+          },
+          {
+            "name": "env_config",
+            "estimated_template_tokens": 353
+          },
+          {
+            "name": "scheduler",
+            "estimated_template_tokens": 942
+          },
+          {
+            "name": "web_search",
+            "estimated_template_tokens": 308
+          },
+          {
+            "name": "web_fetch",
+            "estimated_template_tokens": 155
+          },
+          {
+            "name": "vision",
+            "estimated_template_tokens": 147
+          },
+          {
+            "name": "browser",
+            "estimated_template_tokens": 687
+          },
+          {
+            "name": "time",
+            "estimated_template_tokens": 100
+          },
+          {
+            "name": "memory_search",
+            "estimated_template_tokens": 195
+          },
+          {
+            "name": "memory_get",
+            "estimated_template_tokens": 212
+          }
+        ],
+        "tool_blocks_estimated_tokens": 5272,
+        "tokens_outside_tool_blocks": 4504,
+        "exact_provider_template_verified": false
+      }
+    }
+  },
+  "live": [
+    {
+      "request_sha256": "6414238a7c1b497f5d29e692686746c527c9e5c56fc68c4c2ea3f536d0417e06",
+      "http_status": 200,
+      "requested_model": "nvidia/nemotron-3.5-super-vl:free",
+      "requested_at_utc": "2026-11-07T03:09:33.681187+00:00",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 9775,
+        "completion_tokens": 83,
+        "total_tokens": 9858,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 41,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "first_delta_seconds": 1.607,
+      "retry_after": null,
+      "response_model": "nvidia/nemotron-3.5-super-vl:free",
+      "provider": "Nvidia",
+      "finish_reason": "tool_calls",
+      "tool_names": [
+        "memory_search"
+      ],
+      "elapsed_seconds": 2.887,
+      "version": "before",
+      "kind": "first",
+      "tool_count": 16,
+      "normalized_usage": {
+        "prompt_tokens": 9775,
+        "prompt_tokens_reported_calls": 1,
+        "completion_tokens": 83,
+        "completion_tokens_reported_calls": 1,
+        "total_tokens": 9858,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_hit_tokens_reported_calls": 1,
+        "cache_creation_input_tokens": 0,
+        "cache_creation_input_tokens_reported_calls": 1,
+        "reasoning_tokens": 41,
+        "reasoning_tokens_reported_calls": 1,
+        "cost": 0,
+        "cost_reported_calls": 1,
+        "prompt_cache_miss_tokens": 9775,
+        "calls": 1
+      },
+      "like_search_calls": 0,
+      "fts_result_rows": [
+        1
+      ],
+      "indexed_memory_success": true
+    },
+    {
+      "request_sha256": "fb7d9fbe8f41fce4e56612674da521310ddc4a4abdca342cda0c79a861f442a8",
+      "http_status": 200,
+      "requested_model": "nvidia/nemotron-3.5-super-vl:free",
+      "requested_at_utc": "2026-11-07T03:09:36.571736+00:00",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 10010,
+        "completion_tokens": 39,
+        "total_tokens": 10049,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 8672,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 22,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "first_delta_seconds": 1.315,
+      "retry_after": null,
+      "response_model": "nvidia/nemotron-3.5-super-vl:free",
+      "provider": "Nvidia",
+      "finish_reason": "stop",
+      "tool_names": [],
+      "elapsed_seconds": 1.57,
+      "version": "before",
+      "kind": "continuation",
+      "tool_count": 16,
+      "normalized_usage": {
+        "prompt_tokens": 10010,
+        "prompt_tokens_reported_calls": 1,
+        "completion_tokens": 39,
+        "completion_tokens_reported_calls": 1,
+        "total_tokens": 10049,
+        "prompt_cache_hit_tokens": 8672,
+        "prompt_cache_hit_tokens_reported_calls": 1,
+        "cache_creation_input_tokens": 0,
+        "cache_creation_input_tokens_reported_calls": 1,
+        "reasoning_tokens": 22,
+        "reasoning_tokens_reported_calls": 1,
+        "cost": 0,
+        "cost_reported_calls": 1,
+        "prompt_cache_miss_tokens": 1338,
+        "calls": 1
+      },
+      "answered_after_indexed_result": true
+    },
+    {
+      "request_sha256": "6414238a7c1b497f5d29e692686746c527c9e5c56fc68c4c2ea3f536d0417e06",
+      "http_status": 200,
+      "requested_model": "nvidia/nemotron-3.5-super-vl:free",
+      "requested_at_utc": "2026-11-07T03:09:38.143158+00:00",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 9775,
+        "completion_tokens": 83,
+        "total_tokens": 9858,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 8672,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 41,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "first_delta_seconds": 1.159,
+      "retry_after": null,
+      "response_model": "nvidia/nemotron-3.5-super-vl:free",
+      "provider": "Nvidia",
+      "finish_reason": "tool_calls",
+      "tool_names": [
+        "memory_search"
+      ],
+      "elapsed_seconds": 1.598,
+      "version": "before",
+      "kind": "identical_repeat",
+      "tool_count": 16,
+      "normalized_usage": {
+        "prompt_tokens": 9775,
+        "prompt_tokens_reported_calls": 1,
+        "completion_tokens": 83,
+        "completion_tokens_reported_calls": 1,
+        "total_tokens": 9858,
+        "prompt_cache_hit_tokens": 8672,
+        "prompt_cache_hit_tokens_reported_calls": 1,
+        "cache_creation_input_tokens": 0,
+        "cache_creation_input_tokens_reported_calls": 1,
+        "reasoning_tokens": 41,
+        "reasoning_tokens_reported_calls": 1,
+        "cost": 0,
+        "cost_reported_calls": 1,
+        "prompt_cache_miss_tokens": 1103,
+        "calls": 1
+      },
+      "selected_memory_search": true
+    },
+    {
+      "request_sha256": "28a3de255152cd692e5820bf57759fb41f01282bc7a7d69a19c62c1260a4c73a",
+      "http_status": 200,
+      "requested_model": "nvidia/nemotron-3.5-super-vl:free",
+      "requested_at_utc": "2026-11-07T03:09:39.743717+00:00",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 9775,
+        "completion_tokens": 83,
+        "total_tokens": 9858,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 41,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "first_delta_seconds": 1.541,
+      "retry_after": null,
+      "response_model": "nvidia/nemotron-3.5-super-vl:free",
+      "provider": "Nvidia",
+      "finish_reason": "tool_calls",
+      "tool_names": [
+        "memory_search"
+      ],
+      "elapsed_seconds": 1.89,
+      "version": "before",
+      "kind": "date_rollover",
+      "tool_count": 16,
+      "normalized_usage": {
+        "prompt_tokens": 9775,
+        "prompt_tokens_reported_calls": 1,
+        "completion_tokens": 83,
+        "completion_tokens_reported_calls": 1,
+        "total_tokens": 9858,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_hit_tokens_reported_calls": 1,
+        "cache_creation_input_tokens": 0,
+        "cache_creation_input_tokens_reported_calls": 1,
+        "reasoning_tokens": 41,
+        "reasoning_tokens_reported_calls": 1,
+        "cost": 0,
+        "cost_reported_calls": 1,
+        "prompt_cache_miss_tokens": 9775,
+        "calls": 1
+      },
+      "selected_memory_search": true
+    },
+    {
+      "request_sha256": "a70794985ee8ff580df5aedbad636af99603d5c4dea5170f67aa290812b79749",
+      "http_status": 200,
+      "requested_model": "nvidia/nemotron-3.5-super-vl:free",
+      "requested_at_utc": "2026-11-07T03:09:41.635907+00:00",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 9775,
+        "completion_tokens": 83,
+        "total_tokens": 9858,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 41,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "first_delta_seconds": 1.573,
+      "retry_after": null,
+      "response_model": "nvidia/nemotron-3.5-super-vl:free",
+      "provider": "Nvidia",
+      "finish_reason": "tool_calls",
+      "tool_names": [
+        "memory_search"
+      ],
+      "elapsed_seconds": 1.843,
+      "version": "after",
+      "kind": "first",
+      "tool_count": 16,
+      "normalized_usage": {
+        "prompt_tokens": 9775,
+        "prompt_tokens_reported_calls": 1,
+        "completion_tokens": 83,
+        "completion_tokens_reported_calls": 1,
+        "total_tokens": 9858,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_hit_tokens_reported_calls": 1,
+        "cache_creation_input_tokens": 0,
+        "cache_creation_input_tokens_reported_calls": 1,
+        "reasoning_tokens": 41,
+        "reasoning_tokens_reported_calls": 1,
+        "cost": 0,
+        "cost_reported_calls": 1,
+        "prompt_cache_miss_tokens": 9775,
+        "calls": 1
+      },
+      "like_search_calls": 0,
+      "fts_result_rows": [
+        1
+      ],
+      "indexed_memory_success": true
+    },
+    {
+      "request_sha256": "2e384dbd909b5a24d81cd5d97d8f6f15aa537d3fa93aa99792c6139937262183",
+      "http_status": 200,
+      "requested_model": "nvidia/nemotron-3.5-super-vl:free",
+      "requested_at_utc": "2026-11-07T03:09:43.481051+00:00",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 10010,
+        "completion_tokens": 39,
+        "total_tokens": 10049,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 8672,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 22,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "first_delta_seconds": 86.937,
+      "retry_after": null,
+      "response_model": "nvidia/nemotron-3.5-super-vl:free",
+      "provider": "Nvidia",
+      "finish_reason": "stop",
+      "tool_names": [],
+      "elapsed_seconds": 96.374,
+      "version": "after",
+      "kind": "continuation",
+      "tool_count": 16,
+      "normalized_usage": {
+        "prompt_tokens": 10010,
+        "prompt_tokens_reported_calls": 1,
+        "completion_tokens": 39,
+        "completion_tokens_reported_calls": 1,
+        "total_tokens": 10049,
+        "prompt_cache_hit_tokens": 8672,
+        "prompt_cache_hit_tokens_reported_calls": 1,
+        "cache_creation_input_tokens": 0,
+        "cache_creation_input_tokens_reported_calls": 1,
+        "reasoning_tokens": 22,
+        "reasoning_tokens_reported_calls": 1,
+        "cost": 0,
+        "cost_reported_calls": 1,
+        "prompt_cache_miss_tokens": 1338,
+        "calls": 1
+      },
+      "answered_after_indexed_result": true
+    },
+    {
+      "request_sha256": "a70794985ee8ff580df5aedbad636af99603d5c4dea5170f67aa290812b79749",
+      "http_status": 200,
+      "requested_model": "nvidia/nemotron-3.5-super-vl:free",
+      "requested_at_utc": "2026-11-07T03:11:19.859668+00:00",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 9775,
+        "completion_tokens": 83,
+        "total_tokens": 9858,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 8672,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 41,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "first_delta_seconds": 1.567,
+      "retry_after": null,
+      "response_model": "nvidia/nemotron-3.5-super-vl:free",
+      "provider": "Nvidia",
+      "finish_reason": "tool_calls",
+      "tool_names": [
+        "memory_search"
+      ],
+      "elapsed_seconds": 2.267,
+      "version": "after",
+      "kind": "identical_repeat",
+      "tool_count": 16,
+      "normalized_usage": {
+        "prompt_tokens": 9775,
+        "prompt_tokens_reported_calls": 1,
+        "completion_tokens": 83,
+        "completion_tokens_reported_calls": 1,
+        "total_tokens": 9858,
+        "prompt_cache_hit_tokens": 8672,
+        "prompt_cache_hit_tokens_reported_calls": 1,
+        "cache_creation_input_tokens": 0,
+        "cache_creation_input_tokens_reported_calls": 1,
+        "reasoning_tokens": 41,
+        "reasoning_tokens_reported_calls": 1,
+        "cost": 0,
+        "cost_reported_calls": 1,
+        "prompt_cache_miss_tokens": 1103,
+        "calls": 1
+      },
+      "selected_memory_search": true
+    },
+    {
+      "request_sha256": "fde1b9e063aafeaf3d5e67b66bb6d6cfd2b2d80d4ed99ddf13c819bec33584df",
+      "http_status": 200,
+      "requested_model": "nvidia/nemotron-3.5-super-vl:free",
+      "requested_at_utc": "2026-11-07T03:11:22.129936+00:00",
+      "stream": true,
+      "cache_status_header": null,
+      "usage_raw_numeric": {
+        "prompt_tokens": 9775,
+        "completion_tokens": 83,
+        "total_tokens": 9858,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 41,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "first_delta_seconds": 1.92,
+      "retry_after": null,
+      "response_model": "nvidia/nemotron-3.5-super-vl:free",
+      "provider": "Nvidia",
+      "finish_reason": "tool_calls",
+      "tool_names": [
+        "memory_search"
+      ],
+      "elapsed_seconds": 2.192,
+      "version": "after",
+      "kind": "date_rollover",
+      "tool_count": 16,
+      "normalized_usage": {
+        "prompt_tokens": 9775,
+        "prompt_tokens_reported_calls": 1,
+        "completion_tokens": 83,
+        "completion_tokens_reported_calls": 1,
+        "total_tokens": 9858,
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_hit_tokens_reported_calls": 1,
+        "cache_creation_input_tokens": 0,
+        "cache_creation_input_tokens_reported_calls": 1,
+        "reasoning_tokens": 41,
+        "reasoning_tokens_reported_calls": 1,
+        "cost": 0,
+        "cost_reported_calls": 1,
+        "prompt_cache_miss_tokens": 9775,
+        "calls": 1
+      },
+      "selected_memory_search": true
+    }
+  ],
+  "validation": {
+    "focused_python_tests_passed": 77,
+    "independent_review": "Luna: no must-fix findings",
+    "source_manifest_unchanged": true,
+    "same_day_cache_hits_observed": true,
+    "date_rollover_cache_gain_observed": false
+  },
+  "measurement_scope": {
+    "normal_cowagent_prompt_tools_adapter": true,
+    "real_indexed_memory_reads": true,
+    "full_web_ui_retest": false,
+    "date_rollover": "Controlled current date versus next date inside prompt building only; machine clock unchanged",
+    "provider_routing": "No new fields, headers, model or selection rules; endpoint identity behind Nvidia not observable",
+    "outcome": "Longer stable partial prefix; no measured rollover cache gain; no latency benefit claimed"
+  },
+  "source_files_sha256": {
+    "agent/prompt/builder.py": "a54aa8482f4682d4fb099a726e1f14e9477ade4368a723b228487d7d88852ca3",
+    "agent/skills/formatter.py": "e4d79093e52e4bcb024986a5bd8588b53b5984099935ddbef17ac3508f773a27",
+    "scripts/efficiency_metrics.py": "e3a75e2af71f967b8a6659f2c567a102557698fe0cca92721bd80dc60f456991",
+    "scripts/benchmark_prefix_stability.py": "39eca0e8a5a0b1499f6b7242414ed8a21c539fa5626c22242036a23f70607f1e"
+  }
+}

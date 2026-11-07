@@ -17,7 +17,10 @@ def format_skills_for_prompt(skills: List[Skill]) -> str:
     :return: Formatted prompt text
     """
     # Filter out skills that should not be invoked by the model
-    visible_skills = [s for s in skills if not s.disable_model_invocation]
+    visible_skills = sorted(
+        (s for s in skills if not s.disable_model_invocation),
+        key=_skill_order_key,
+    )
     
     if not visible_skills:
         return ""
@@ -63,7 +66,10 @@ def format_unavailable_skills_for_prompt(
     :param missing_map: Dict mapping skill name to its missing requirements
     :return: Formatted prompt text
     """
-    entries = [entry for entry in entries if not entry.skill.disable_model_invocation]
+    entries = sorted(
+        (entry for entry in entries if not entry.skill.disable_model_invocation),
+        key=lambda entry: _skill_order_key(entry.skill),
+    )
     if not entries:
         return ""
 
@@ -125,3 +131,8 @@ def _escape_xml(text: str) -> str:
             .replace('>', '&gt;')
             .replace('"', '&quot;')
             .replace("'", '&apos;'))
+
+
+def _skill_order_key(skill: Skill) -> tuple:
+    """Return a stable catalog order without changing discovery precedence."""
+    return skill.name, skill.file_path

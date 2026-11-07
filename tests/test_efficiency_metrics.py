@@ -15,6 +15,7 @@ from scripts.efficiency_metrics import (
     prefix_metrics,
     text_metrics,
     model_template_metrics,
+    model_template_prefix_metrics,
 )
 
 
@@ -134,3 +135,21 @@ def test_public_template_metrics_count_full_prompt_without_exposing_content(tmp_
     assert result['tool_blocks'][0]['name'] == 'synthetic_tool'
     assert not result['exact_provider_template_verified']
     assert 'PrivateSyntheticContent' not in json.dumps(result)
+
+
+def test_template_prefix_counts_the_rendered_token_prefix(tmp_path):
+    tokenizers = pytest.importorskip('tokenizers')
+    pytest.importorskip('jinja2')
+    tokenizer = tokenizers.Tokenizer(tokenizers.models.WordLevel(
+        {'[UNK]': 0, 'stable': 1, 'before': 2, 'after': 3}, unk_token='[UNK]'))
+    tokenizer.pre_tokenizer = tokenizers.pre_tokenizers.Whitespace()
+    path = tmp_path / 'tokenizer.json'
+    tokenizer.save(str(path))
+    template = tmp_path / 'template.jinja'
+    template.write_text('{{ messages[0].content }}')
+    left = {'messages': [{'role': 'system', 'content': 'stable before'}]}
+    right = {'messages': [{'role': 'system', 'content': 'stable after'}]}
+    result = model_template_prefix_metrics(left, right, path, template)
+    assert result['estimated_common_prefix_tokens'] == 1
+    assert result['left_estimated_tokens'] == result['right_estimated_tokens'] == 2
+    assert 'stable' not in json.dumps(result)

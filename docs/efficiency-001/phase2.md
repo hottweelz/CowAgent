@@ -5,6 +5,9 @@ complete on `audit/efficiency-001-context-cache`; no merge or deployment is part
 of this work. [Numeric verification](phase2-verification.json) contains counts,
 hashes and provider usage, with no prompt bodies or credentials.
 
+Subsequent work: [Phase 3 prefix stability](phase3.md) is complete. The results
+below describe Phase 2 at its original implementation boundary.
+
 ## Live Phase 1 gate
 
 The web server was initially stopped. Verification used the current source and
@@ -111,7 +114,7 @@ No tool was removed or deferred to increase the apparent saving.
 One memory case and four selection cases are useful regression evidence, not an
 exhaustive task-quality benchmark. Desktop UI was built and its display functions
 tested; the actual visual interaction was with the web UI. Provider cache behavior
-can vary by route and request. Phases 3–5 remain unimplemented proposals.
+can vary by route and request. At this stage, Phases 3–5 remained proposals.
 
 Reproduce the schema/display checks with a private data directory:
 

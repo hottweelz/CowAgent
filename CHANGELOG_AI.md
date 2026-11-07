@@ -1,5 +1,84 @@
 # AI handoff ledger
 
+## 2026-11-06 22:19 EST — Codex — Phase 3 prefix stability
+
+- Task: implement only deterministic cache-prefix ordering and measure Nemotron
+  reuse. Provider routing/cache-control changes explicitly excluded. Kept the
+  tracked `audit/efficiency-001-context-cache` branch; no merge or deployment.
+- Result: pinned-template date-rollover common prefix 1,130 -> 4,204 tokens;
+  full first request remains 9,776 estimated / 9,775 actual. **No additional
+  date-rollover cache reuse observed**: both versions returned cached_tokens=0
+  after the date changed. Both continuations and exact repeats returned 8,672.
+  Do not describe this as demonstrated cache savings or a latency improvement.
+- Team: Codex lead owns builder, comparative runner, integration and publication;
+  Luna/high worker maps prompt volatility and owns skill formatter/tests; one
+  Luna/high read-only reviewer checks final code and measurement scope. Requested
+  models were accepted; effective models not independently exposed. Used STE
+  Writing Plans and its evidence rule. No HomeBoss.
+- Changes: defer the two exact dated memory-guidance lines to the final runtime
+  block; place stable metadata before dates and team/language before runtime.
+  Sort available/unavailable skill presentation by name/path without changing
+  discovery precedence, filtering or content. Dates remain live and prior usage
+  becomes estimated when date freshness changes. No tool or provider code changed.
+- Files: `agent/prompt/builder.py`, `agent/skills/formatter.py`,
+  `scripts/efficiency_metrics.py`, new `scripts/benchmark_prefix_stability.py`,
+  `tests/test_efficiency_metrics.py`, new `tests/test_prompt_prefix_stability.py`
+  and `tests/test_skill_prompt_order.py`; efficiency README/implementation plan/
+  phase2 link, new phase3 plan/report/verification JSON; this ledger.
+- Evidence: fresh private workspace copy with read-only SQLite backup sources.
+  Compared original `0ce6dfef` builder/formatter against working code at the same
+  date and next date. Every instruction line preserved, all 16 full tool schemas
+  identical, user messages/request options identical. No added provider field,
+  header, cache directive or title request. Exact-repeat request hashes match.
+- Live: eight real requests, four per version (first, indexed continuation,
+  identical repeat, date-only variation), all reported model Nemotron and provider
+  Nvidia. First/repeat/rollover input 9,775; continuation input 10,010 in both
+  versions. First calls returned one indexed FTS result each and no LIKE fallback;
+  both continuations answered. Repeat/rollover calls selected memory_search.
+  Raw cache fields agree with CowAgent normalization, with reporting coverage.
+- Performance limits: after-change continuation took 96.374 s; other calls took
+  1.570–2.887 s. Single paired sequence, unknown internal endpoint/cache policy,
+  no cold-request or causality assumptions. Public template places tools after
+  the system date, so those later tool blocks are outside the stable day prefix.
+  No extra campaign was run merely to seek a favorable result.
+- Commands/checks: private-COW_DATA_DIR `.venv/bin/python -m pytest -q` passed 77
+  tests across `test_prompt_prefix_stability`, `test_skill_prompt_order`,
+  `test_time_tool`, `test_request_accounting`, `test_efficiency_accounting_baseline`,
+  `test_efficiency_metrics`, `test_efficiency_benchmark`, `test_tool_description_contract`,
+  `test_skill_custom_provider_types`, `test_skill_metadata_booleans`,
+  `test_skill_list_name_types`, `test_skill_config_entry_shapes`,
+  `test_skill_hidden_setup_hints`, `test_skill_loader_cache` (all tests/*.py).
+  F-class Ruff, py_compile, diff checks, count-receipt reconciliation and active
+  source hash comparison passed. Bounded independent review: no must-fix findings.
+- Decisions: retain exact instructions and capabilities; report structural prefix
+  improvement separately from empirical cache reuse. Do not add routing hints or
+  weaken freshness to obtain a hit. Full web UI/desktop gates are not repeated:
+  no frontend changes; existing nine ChannelsPage typecheck errors stay out of scope.
+- Lessons Learned:
+  - Mistake: interpreting a longer local token prefix as proof of provider cache
+    reuse, or checking only the obvious late runtime date for volatility.
+  - Root Cause: daily memory filenames break the early prefix; backend cache and
+    endpoint behavior are not determined solely by the public chat template.
+  - Future Trigger: new dates/runtime values early in prompts, unsorted catalogs,
+    or a prefix estimate offered as evidence of billed/cache-hit savings.
+  - Required Behavior Change: preserve text while ordering stable inputs first;
+    compare real raw cache counters and retain negative results and latency outliers.
+  - Verification Step: date-only before/after builds, line-multiset/schema equality,
+    live FTS lookup, exact repeats and provider-reported cache reads.
+  - Durable Memory Update: implementation and limits are in phase3.md.
+- Preservation: production DB/history/config/instruction/identity files unchanged;
+  pre-copy source hashes verified. No runtime server started or restarted. Private
+  benchmark process completed. Preserve untracked AGENTS.md and three conflict PID
+  files. MEMORY.md update: not needed; no project memory file exists and no new
+  project governance was adopted. No global memory updates.
+- Next recommended steps: none for the authorized implementation. Any provider
+  controls/routing experiment needs separate authorization; cache gain is unproven.
+- Next-agent notes: `docs/efficiency-001/phase3.md` and its sanitized receipt are
+  the result, not a successful caching claim. Private data/receipts are under
+  `/private/tmp/cowagent-phase3-9gp54gqd`; never commit the runtime copy. Pinned
+  tokenizer/template remain in the earlier audit directory. Parent commits and
+  pushes the existing upstream, fetches, and verifies HEAD...@{u} = 0 0.
+
 ## 2026-11-06 20:18 EST — Codex — Live accounting gate and Phase 2
 
 - Task: verify live TestPilot/Nemotron accounting with all 16 tools before

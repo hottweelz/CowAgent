@@ -1,11 +1,15 @@
 # EFFICIENCY-001 proposed implementation plan
 
-Status: **Phases 1 and 2 implemented; Phases 3–5 remain for review**. See the
+Status: **Phases 1, 2 and the authorized prefix-only Phase 3 implemented**.
+Provider controls and Phases 4–5 remain for review. See the
 [Phase 1 result](phase1.md) and [live gate and Phase 2 verification](phase2.md).
 The [baseline](README.md) and
 [numeric receipts](baseline.json) are the decision inputs. Keep model selection,
 identities, user instruction files, memory, skills and all tool capabilities.
 Do not write to active runtime databases during implementation tests.
+
+The [Phase 3 result](phase3.md) records a longer stable prefix but no observed
+cache improvement across the controlled date change. No provider routing changed.
 
 ## 1. Make accounting describe the request actually sent
 
@@ -54,14 +58,16 @@ Measure full-template and actual provider counts before/after. The review target
 is a 20–35% reduction in these four blocks, **561–982 tokens per request**; it is
 a scenario, not a promised result. Reject edits that reduce task correctness.
 
-## 3. Preserve stable prefixes and expose supported cache controls
+## 3. Preserve stable prefixes (authorized scope)
 
 Keep stable instruction wording/order deterministic. Move date-dependent daily
 memory filenames into the existing volatile suffix while keeping their meaning
 and current date available. Do not freeze runtime dates or stale file contents.
 Check whether tool/skill ordering is already stable before changing it.
 
-Add a provider-specific, explicit allowlist for supported routing/cache fields
+The maintainer explicitly excluded provider routing from this implementation.
+The following remains a separate, unimplemented proposal: add a provider-specific,
+explicit allowlist for supported routing/cache fields
 through the custom adapter. Use an opaque session identifier rather than prompt
 text or private user names. Do not forward arbitrary kwargs, activate whole-response
 caching, or pin a provider by default. Confirm current field support from
@@ -71,8 +77,9 @@ these fields, so no universal improvement is assumed.
 
 Acceptance tests: two same-input builds stay identical; a date change alters
 only the intended suffix and still updates all date guidance; all original
-instruction content survives; supported fields reach HTTP and unsupported fields
-do not. Use one controlled first/continuation/repeat sequence per available
+instruction content survives; schemas and request options remain unchanged.
+If provider controls are separately authorized, test supported fields reaching
+HTTP and unsupported fields not reaching it. Use one controlled first/continuation/repeat sequence per available
 selected model. Record raw cache counters, actual provider/model and timestamps.
 Do not call a first request cold unless the provider guarantees it. Run a second
 bounded sequence only if needed to resolve a concrete variance. Treat HTTP 429

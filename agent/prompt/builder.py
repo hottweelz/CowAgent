@@ -106,7 +106,8 @@ def build_agent_system_prompt(
     4.5 Permissions - what this session may change (omitted for full access)
     5. User identity - user info (optional)
     6. Project context - AGENT.md, USER.md, RULE.md, MEMORY.md, BOOTSTRAP.md
-    7. Runtime info - meta info (time, model, etc.)
+    7. Team and response language
+    8. Runtime info - stable metadata, then date and daily-memory paths
 
     Args:
         workspace_dir: workspace directory
@@ -124,6 +125,7 @@ def build_agent_system_prompt(
         The full system prompt.
     """
     sections = []
+    daily_memory_lines: List[str] = []
 
     # 1. Tooling (most important, goes first)
     if tools:
@@ -136,7 +138,10 @@ def build_agent_system_prompt(
     # 3. Memory (standalone memory capability)
     if memory_manager:
         sections.extend(
-            _build_memory_section(memory_manager, tools, language, workspace_dir, project_dir)
+            _build_memory_section(
+                memory_manager, tools, language, workspace_dir, project_dir,
+                daily_memory_lines=daily_memory_lines,
+            )
         )
 
     # 3.5 Knowledge (structured knowledge base)
@@ -176,13 +181,15 @@ def build_agent_system_prompt(
     if context_files:
         sections.extend(_build_context_files_section(context_files, language))
 
-    # 7. Runtime info (meta info, goes last)
+    # 7. Team and response language stay ahead of the date-dependent suffix.
     if runtime_info:
-        sections.extend(_build_runtime_section(runtime_info, language))
         sections.extend(_build_team_section(runtime_info, language))
 
-    # 8. Response language (always appended, independent of the skeleton language)
     sections.extend(_build_response_language_section(language))
+
+    # 8. Preserve the dated guidance verbatim, but don't let it invalidate the
+    # stable instructions before it. Dates are still rebuilt on every request.
+    sections.extend(_build_runtime_section(runtime_info or {}, language, daily_memory_lines))
 
     return "\n".join(sections)
 
@@ -456,11 +463,14 @@ def _build_memory_section(
     language: str,
     workspace_dir: str = "",
     project_dir: Optional[str] = None,
+    daily_memory_lines: Optional[List[str]] = None,
 ) -> List[str]:
     """Build the memory section.
 
     ``workspace_dir``/``project_dir`` let project-mode sessions keep memory paths
     anchored to ``workspace_dir`` (absolute) instead of the project cwd.
+    When supplied, ``daily_memory_lines`` receives the two dated lines for the
+    final runtime block. Standalone callers still get the complete section.
     """
     if not memory_manager:
         return []
@@ -482,6 +492,12 @@ def _build_memory_section(
     from datetime import datetime
     today_file = datetime.now().strftime("%Y-%m-%d") + ".md"
 
+    def dated(line: str) -> List[str]:
+        if daily_memory_lines is None:
+            return [line]
+        daily_memory_lines.append(line)
+        return []
+
     if language == "en":
         lines = [
             "## 🧠 Memory",
@@ -497,7 +513,7 @@ def _build_memory_section(
             "",
         "**Memory file structure**:",
         f"- `{mem_md}`: long-term memory index (already auto-loaded into context: core info, preferences, decisions, etc.)",
-        f"- `{mem_dir}/YYYY-MM-DD.md`: daily memory; today is `{mem_dir}/{today_file}`",
+        *dated(f"- `{mem_dir}/YYYY-MM-DD.md`: daily memory; today is `{mem_dir}/{today_file}`"),
         f"- `{kb_dir}/`: structured knowledge base (see the knowledge system below)",
             "",
             "### Writing memory",
@@ -511,7 +527,7 @@ def _build_memory_section(
             "",
         "**Storage rules**:",
         f"- Long-term core info → `{mem_md}`",
-        f"- Today's events/progress → `{mem_dir}/{today_file}`",
+        *dated(f"- Today's events/progress → `{mem_dir}/{today_file}`"),
         f"- Structured knowledge → `{kb_dir}/` (see the knowledge system)",
             "- Append → `edit` tool with empty oldText",
             "- Modify → `edit` tool with oldText set to the text to replace",
@@ -535,7 +551,7 @@ def _build_memory_section(
             "",
             "**记忆文件结构**:",
             f"- `{mem_md}`: 长期记忆索引（已自动加载到上下文，核心信息、偏好、决策等）",
-            f"- `{mem_dir}/YYYY-MM-DD.md`: 每日记忆，今天是 `{mem_dir}/{today_file}`",
+            *dated(f"- `{mem_dir}/YYYY-MM-DD.md`: 每日记忆，今天是 `{mem_dir}/{today_file}`"),
             f"- `{kb_dir}/`: 结构化知识库（见下方知识系统）",
             "",
             "### 写入记忆",
@@ -549,7 +565,7 @@ def _build_memory_section(
             "",
             "**存储规则**:",
             f"- 长期核心信息 → `{mem_md}`",
-            f"- 当天事件/进展 → `{mem_dir}/{today_file}`",
+            *dated(f"- 当天事件/进展 → `{mem_dir}/{today_file}`"),
             f"- 结构化知识 → `{kb_dir}/`（见知识系统）",
             "- 追加 → `edit` 工具，oldText 留空",
             "- 修改 → `edit` 工具，oldText 填写要替换的文本",
@@ -1064,31 +1080,26 @@ def _build_team_section(runtime_info: Dict[str, Any], language: str) -> List[str
     ]
 
 
-def _build_runtime_section(runtime_info: Dict[str, Any], language: str) -> List[str]:
+def _build_runtime_section(
+    runtime_info: Dict[str, Any],
+    language: str,
+    daily_memory_lines: Optional[List[str]] = None,
+) -> List[str]:
     """Build the runtime info section.
 
-    Only the date goes here: the system prompt heads every request, so a
+    Only the date (not the clock) goes here: the system prompt heads every request, so a
     clock in it would change on every turn and void the provider's prefix
     cache for the whole history. The exact time is served on demand by the
-    ``time`` tool.
+    ``time`` tool. Stable metadata precedes all date-dependent guidance.
     """
     if not runtime_info:
-        return []
+        return list(daily_memory_lines or [])
 
     is_en = language == "en"
     lines = [
         ("## ⚙️ Runtime info" if is_en else "## ⚙️ 运行时信息"),
         "",
     ]
-
-    if callable(runtime_info.get("_get_current_time")):
-        try:
-            time_info = runtime_info["_get_current_time"]()
-            date_label = "Current date" if is_en else "当前日期"
-            lines.append(f"{date_label}: {time_info['date']} {time_info['weekday']} ({time_info['timezone']})")
-            lines.append("")
-        except Exception as e:
-            logger.warning(f"[PromptBuilder] Failed to get dynamic time: {e}")
 
     # Add other runtime info
     model_label = "model" if is_en else "模型"
@@ -1114,4 +1125,14 @@ def _build_runtime_section(runtime_info: Dict[str, Any], language: str) -> List[
         lines.append(("Runtime: " if is_en else "运行时: ") + " | ".join(runtime_parts))
         lines.append("")
 
+    if callable(runtime_info.get("_get_current_time")):
+        try:
+            time_info = runtime_info["_get_current_time"]()
+            date_label = "Current date" if is_en else "当前日期"
+            lines.append(f"{date_label}: {time_info['date']} {time_info['weekday']} ({time_info['timezone']})")
+            lines.append("")
+        except Exception as e:
+            logger.warning(f"[PromptBuilder] Failed to get dynamic time: {e}")
+
+    lines.extend(daily_memory_lines or [])
     return lines

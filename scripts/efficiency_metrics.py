@@ -108,15 +108,9 @@ def context_file_metrics(context_files: Iterable[Any]) -> list[dict[str, Any]]:
     return results
 
 
-def model_template_metrics(body: dict, tokenizer_json, template_path) -> dict:
-    """Count a public model-family template locally, without executing model code.
-
-    This is an offline estimate. A provider can use another template/revision.
-    Tool blocks are attributed by each token's starting character offset in the
-    complete rendered prompt, so their counts share the same tokenization.
-    """
+def _render_model_template(body: dict, template_path) -> str:
+    """Render in memory only; callers must never persist the returned prompt."""
     from jinja2.sandbox import ImmutableSandboxedEnvironment
-    from tokenizers import Tokenizer
 
     messages = copy.deepcopy(body['messages'])
     for message in messages:
@@ -127,9 +121,21 @@ def model_template_metrics(body: dict, tokenizer_json, template_path) -> dict:
     template_text = template_path.read_text()
     environment = ImmutableSandboxedEnvironment(trim_blocks=True, lstrip_blocks=True)
     environment.filters['tojson'] = lambda value, **kwargs: json.dumps(value, ensure_ascii=False, **kwargs)
-    rendered = environment.from_string(template_text).render(
+    return environment.from_string(template_text).render(
         messages=messages, tools=body.get('tools', []), add_generation_prompt=True,
     )
+
+
+def model_template_metrics(body: dict, tokenizer_json, template_path) -> dict:
+    """Count a public model-family template locally, without executing model code.
+
+    This is an offline estimate. A provider can use another template/revision.
+    Tool blocks are attributed by each token's starting character offset in the
+    complete rendered prompt, so their counts share the same tokenization.
+    """
+    from tokenizers import Tokenizer
+
+    rendered = _render_model_template(body, template_path)
     tokenizer = Tokenizer.from_file(str(tokenizer_json))
     encoded = tokenizer.encode(rendered, add_special_tokens=False)
     tool_region = rendered.split('</tools>', 1)[0]
@@ -146,10 +152,31 @@ def model_template_metrics(body: dict, tokenizer_json, template_path) -> dict:
     return {
         'estimated_tokens': len(encoded.ids),
         'rendered_sha256': hashlib.sha256(rendered.encode()).hexdigest(),
-        'template_sha256': hashlib.sha256(template_text.encode()).hexdigest(),
+        'template_sha256': hashlib.sha256(template_path.read_bytes()).hexdigest(),
         'tool_blocks': tool_rows,
         'tool_blocks_estimated_tokens': sum(row['estimated_template_tokens'] for row in tool_rows),
         'tokens_outside_tool_blocks': len(encoded.ids) - sum(row['estimated_template_tokens'] for row in tool_rows),
+        'exact_provider_template_verified': False,
+    }
+
+
+def model_template_prefix_metrics(left: dict, right: dict, tokenizer_json, template_path) -> dict:
+    """Count common tokens in complete rendered requests, returning no text."""
+    from tokenizers import Tokenizer
+
+    tokenizer = Tokenizer.from_file(str(tokenizer_json))
+    a = tokenizer.encode(_render_model_template(left, template_path), add_special_tokens=False).ids
+    b = tokenizer.encode(_render_model_template(right, template_path), add_special_tokens=False).ids
+    common = 0
+    for x, y in zip(a, b):
+        if x != y:
+            break
+        common += 1
+    return {
+        'estimated_common_prefix_tokens': common,
+        'left_estimated_tokens': len(a),
+        'right_estimated_tokens': len(b),
+        'common_prefix_sha256': hashlib.sha256(','.join(map(str, a[:common])).encode()).hexdigest(),
         'exact_provider_template_verified': False,
     }
 
