@@ -1,0 +1,92 @@
+{
+  "root": "/private/tmp/cowagent-isolation-repro-l1y2yf0d",
+  "probes": {
+    "explore_write": {
+      "template": "explore",
+      "permission_mode": "workspace-write",
+      "action": "write",
+      "marker_exists_before": false,
+      "child_tool_step": {
+        "observed": true,
+        "status": "error",
+        "permission_denied": false,
+        "tool_missing": true
+      },
+      "marker_exists_after": false,
+      "model_calls": 4,
+      "expected_observation_confirmed": true
+    },
+    "general_readonly_write": {
+      "template": "general-purpose",
+      "permission_mode": "read-only",
+      "action": "write",
+      "marker_exists_before": false,
+      "child_tool_step": {
+        "observed": true,
+        "status": "error",
+        "permission_denied": true,
+        "tool_missing": false
+      },
+      "marker_exists_after": false,
+      "model_calls": 4,
+      "expected_observation_confirmed": true
+    },
+    "direct_write_outside_workspace": {
+      "template": "general-purpose",
+      "permission_mode": "workspace-write",
+      "action": "write",
+      "marker_exists_before": false,
+      "child_tool_step": {
+        "observed": true,
+        "status": "error",
+        "permission_denied": true,
+        "tool_missing": false
+      },
+      "marker_exists_after": false,
+      "model_calls": 4,
+      "expected_observation_confirmed": true
+    },
+    "bash_python_outside_workspace": {
+      "template": "general-purpose",
+      "permission_mode": "workspace-write",
+      "action": "bash",
+      "marker_exists_before": false,
+      "child_tool_step": {
+        "observed": true,
+        "status": "success",
+        "permission_denied": false,
+        "tool_missing": false
+      },
+      "marker_exists_after": true,
+      "model_calls": 4,
+      "expected_observation_confirmed": true
+    },
+    "fictional_parent_memory_read": {
+      "template": "general-purpose",
+      "permission_mode": "workspace-write",
+      "action": "memory_search",
+      "marker_exists_before": false,
+      "child_tool_step": {
+        "observed": true,
+        "status": "success",
+        "permission_denied": false,
+        "tool_missing": false
+      },
+      "marker_exists_after": false,
+      "model_calls": 4,
+      "fictional_memory_manager_identity": "fictional-parent-memory",
+      "fictional_memory_queries": [
+        "fictional identity probe"
+      ],
+      "fictional_memory_action_succeeded": true,
+      "expected_observation_confirmed": true
+    }
+  },
+  "path_scope": {
+    "workspace_is_under_root": true,
+    "direct_marker_is_outside_workspace": true,
+    "direct_marker_is_outside_system_temp": true,
+    "bash_marker_is_outside_workspace": true,
+    "bash_marker_is_outside_system_temp": true
+  }
+}

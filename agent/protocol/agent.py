@@ -243,11 +243,10 @@ class Agent:
 
     def effective_permission_mode(self) -> str:
         """The permission mode in force: this session's, else the global default."""
-        from agent.permission import global_mode, normalize_mode
+        from agent.permission.policy import strict_mode, strict_global_mode
 
-        if getattr(self, 'permission_mode', None):
-            return normalize_mode(self.permission_mode, global_mode())
-        return global_mode()
+        mode = getattr(self, 'permission_mode', None)
+        return strict_mode(mode) if mode is not None else strict_global_mode()
 
     def apply_permission_mode(self, mode):
         """Set (or clear, with None) this session's permission mode.
@@ -256,9 +255,9 @@ class Agent:
         call, so a mid-conversation change applies without rebuilding the agent.
         The system prompt is rebuilt per turn and picks the new mode up there.
         """
-        from agent.permission import normalize_mode
+        from agent.permission.policy import strict_mode
 
-        self.permission_mode = normalize_mode(mode) if mode else None
+        self.permission_mode = strict_mode(mode) if mode is not None else None
         return self.permission_mode
 
     def write_roots(self) -> list:
@@ -280,22 +279,23 @@ class Agent:
         Most sit inside the writable roots, so workspace-write refuses them
         explicitly; otherwise a session could grant itself more than its mode.
         """
-        paths = []
-        try:
-            from config import get_data_root
-            paths.append(os.path.join(get_data_root(), "config.json"))
-        except Exception:
-            pass
-        bases = {self.workspace_dir} if self.workspace_dir else set()
-        try:
-            from common.state_dir import shared_root
-            from agent.workspace import project_store, session_prefs
-            bases.add(str(shared_root()))
-            paths += [session_prefs._store_file(), project_store._store_file()]
-        except Exception:
-            pass
+        from config import get_data_root
+        from common.state_dir import shared_root
+        from agent.workspace import project_store, session_prefs
+        paths = [os.path.join(get_data_root(), "config.json"),
+                 session_prefs._store_file(), project_store._store_file()]
+        bases = {str(shared_root())}
+        if self.workspace_dir:
+            bases.add(self.workspace_dir)
         for base in bases:
             paths += [os.path.join(base, "mcp.json"), os.path.join(base, ".env")]
+            # These are executable configuration or private state, not task
+            # artifacts. Absolute exclusions survive a nested root grant.
+            paths += [os.path.join(base, name) for name in (
+                "memory", "skills", "knowledge", "plugins", "agents", "scheduler",
+                "runs", "subagents", "system", "users", "backups", "logs",
+                "output", "tmp", "websites",
+            )]
         return paths
 
     def get_skills_prompt(self, skill_filter=None) -> str:
@@ -322,6 +322,13 @@ class Agent:
         tools, and runtime info so any change takes effect immediately.
         Falls back to the cached self.system_prompt on error.
         """
+        # Workers receive only their explicit task prompt. PromptBuilder reads
+        # workspace knowledge independently of skip_context_files.
+        if getattr(self, "authority", None) is not None:
+            parts = [self.system_prompt or "You are a restricted worker."]
+            if self.extra_system_suffix:
+                parts.append(self.extra_system_suffix)
+            return "\n\n".join(parts)
         try:
             from agent.prompt import load_context_files, PromptBuilder
 
@@ -700,7 +707,7 @@ class Agent:
             start_time = time.time()
 
             # Execute tool (with empty parameters, tool will extract needed info from context)
-            result = tool.execute({})
+            result = tool.execute_tool({})
 
             # Calculate execution time
             execution_time = time.time() - start_time

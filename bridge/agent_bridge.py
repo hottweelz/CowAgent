@@ -28,6 +28,10 @@ from config import conf
 from models.openai_compatible_bot import OpenAICompatibleBot
 
 
+class SessionAuthorityError(RuntimeError):
+    """Session settings could not be safely applied."""
+
+
 def add_openai_compatible_support(bot_instance):
     """
     Dynamically add OpenAI-compatible tool calling support to a bot instance.
@@ -940,62 +944,8 @@ class AgentBridge:
 
     def _speak_on_peer(self, query: str, session_id: str, host_agent_id: str, peer,
                        channel_type: str = "") -> Reply:
-        """Let a teammate elsewhere answer this turn, as itself.
-
-        The conversation stays the owner's — same session, same transcript — and
-        only the voice changes, which is what addressing someone by name asks
-        for. The teammate is given the conversation so far so it answers in
-        context rather than cold.
-        """
-        from agent.multiagent import MODE_SPEAK, InvokeRequest, PeerAgent, get_transport, resolve_teammate
-
-        owner = self.agent_registry.get(host_agent_id, require_enabled=False)
-
-        members = [owner.id]
-        for member_id in self._session_members(session_id, host_agent_id):
-            if member_id not in (owner.id, peer.id) and member_id not in members:
-                members.append(member_id)
-        peers = []
-        for member_id in members:
-            found = resolve_teammate(member_id)
-            profile = PeerAgent.from_any(found) if found else None
-            if profile is not None:
-                peers.append(profile)
-
-        request = InvokeRequest(
-            request_id=uuid.uuid4().hex,
-            target_id=peer.id,
-            task=self._strip_peer_address(query, peer),
-            source_id=owner.id,
-            source_name=owner.name,
-            root_session_id=session_id,
-            trace=(owner.id,),
-            depth=0,
-            members=tuple(members),
-            peers=tuple(peers),
-            timeout_seconds=self._delegation_timeout(),
-            mode=MODE_SPEAK,
-            history=tuple(self._shared_history(session_id, owner.id)),
-        )
-        logger.info(
-            f"[AgentBridge] Turn addressed to peer {peer.id}; "
-            f"answering in {owner.id}'s conversation, session={session_id}"
-        )
-        result = get_transport().invoke(request)
-        if not result.ok:
-            return Reply(ReplyType.ERROR, f"{peer.name} could not answer: {result.error}")
-
-        content = result.content or ""
-        # The turn happened in this conversation, so it belongs in its record;
-        # nothing local ran to write it down.
-        turn = [
-            {"role": "user", "content": [{"type": "text", "text": query}]},
-            {"role": "assistant", "content": [{"type": "text", "text": content}]},
-        ]
-        self._persist_messages(
-            session_id, self._attribute_to_speaker(turn, peer.id), channel_type, owner.id
-        )
-        return Reply(ReplyType.TEXT, content)
+        """Peer invocation is unsupported until authority can be verified."""
+        return Reply(ReplyType.ERROR, "Remote invocation denied: unsupported authority protocol")
 
     @staticmethod
     def _session_members(session_id: str, host_agent_id: str) -> list:
@@ -1340,17 +1290,16 @@ class AgentBridge:
     def _apply_session_project(self, agent, session_id: str, agent_id: str) -> None:
         """Retarget the agent's working directory to the session's project dir.
 
-        A no-op when the session has no project selected (clears any previous
-        override). Failures are swallowed: a bad project setting must not break
-        the chat, it just falls back to the default workspace.
+        No selection resets to the workspace. An error stops execution so a
+        cached project cannot silently retain stale authority.
         """
         try:
             from agent.workspace import project_store
-            project_dir = project_store.get_project_dir(session_id, agent_id)
+            project_dir = project_store.get_project_dir_strict(session_id, agent_id)
             if getattr(agent, "apply_project_dir", None):
                 agent.apply_project_dir(project_dir)
-        except Exception as e:
-            logger.debug(f"[AgentBridge] apply_session_project failed: {e}")
+        except Exception:
+            raise SessionAuthorityError("Session project authority unavailable") from None
 
     def apply_session_prefs(
         self,
@@ -1382,7 +1331,11 @@ class AgentBridge:
         try:
             from agent.workspace import session_prefs
 
-            prefs = session_prefs.get_prefs(session_id, agent_id)
+            prefs = session_prefs.get_prefs_strict(session_id, agent_id)
+            from agent.permission.policy import strict_mode
+            chosen_permission = permission_mode or prefs.get("permission")
+            if chosen_permission is not None:
+                strict_mode(chosen_permission)
             model = getattr(agent, "model", None)
             if model is not None and hasattr(model, "set_session_override"):
                 # A conversation with members is a group: each Agent answers on
@@ -1395,9 +1348,9 @@ class AgentBridge:
             if hasattr(agent, "apply_permission_mode"):
                 # A delegated turn's session has no prefs; it carries the
                 # delegating conversation's mode instead.
-                agent.apply_permission_mode(permission_mode or prefs.get("permission"))
-        except Exception as e:
-            logger.debug(f"[AgentBridge] apply_session_prefs failed: {e}")
+                agent.apply_permission_mode(chosen_permission)
+        except Exception:
+            raise SessionAuthorityError("Session permission authority unavailable") from None
 
     def get_cached_agent(self, session_id: str, agent_id: str = None) -> Optional[Agent]:
         """Return an existing session agent without creating one."""
@@ -1544,6 +1497,10 @@ class AgentBridge:
         Returns:
             Reply object
         """
+        # Delegated calls must never initialize a persistent receiver runtime.
+        # The local delegation tool constructs a restricted fresh view directly.
+        if context and context.get("is_delegated_task"):
+            return Reply(ReplyType.ERROR, "Delegated bridge execution requires a supported authority protocol")
         session_id = None
         agent = None
         request_id = None

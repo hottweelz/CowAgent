@@ -28,21 +28,22 @@ from agent.subagent import (
 from agent.tools.subagent import SubagentTool
 
 
-class _Tool:
-    def __init__(self, name):
-        self.name = name
-
-
 class _FakeParent:
     """Enough of an Agent for the runner to build a child from."""
 
     def __init__(self, tools, workspace_dir):
+        from agent.permission.authority import Authority, SAFE_CAPABILITIES
+        from agent.permission.policy import WORKSPACE_WRITE
+
         self.tools = tools
         self.workspace_dir = workspace_dir
-        # The runner copies both onto the child so a sub agent cannot widen
-        # the session's reach. Unset here, as on a fresh Agent.
+        # Explicit synthetic authority keeps these tests independent of the
+        # maintainer's local config and gives workers one bounded root.
         self.project_dir = None
-        self.permission_mode = None
+        self.permission_mode = WORKSPACE_WRITE
+        self.authority = Authority(
+            WORKSPACE_WRITE, SAFE_CAPABILITIES, (workspace_dir,), (workspace_dir,)
+        )
         self.model = object()
         self.max_steps = 7
         self.max_context_tokens = 1234
@@ -51,6 +52,15 @@ class _FakeParent:
         self.runtime_info = None
         self.messages = []
 
+    def effective_permission_mode(self):
+        return self.permission_mode
+
+    def effective_cwd(self):
+        return self.project_dir or self.workspace_dir
+
+    def protected_paths(self):
+        return []
+
 
 @pytest.fixture
 def workspace(tmp_path):
@@ -58,12 +68,24 @@ def workspace(tmp_path):
 
 
 @pytest.fixture
-def parent(workspace):
+def parent(workspace, monkeypatch):
+    from agent.tools.bash.bash import Bash
+    from agent.tools.edit.edit import Edit
+    from agent.tools.ls.ls import Ls
+    from agent.tools.read.read import Read
+    from agent.tools.search_files.search_files import SearchFiles
+    from agent.tools.send.send import Send
+    from agent.tools.subagent import SubagentTool as NativeSubagentTool
+    from agent.tools.write.write import Write
+
     workspace.mkdir(parents=True, exist_ok=True)
-    tools = [
-        _Tool(n)
-        for n in ("read", "ls", "search_files", "write", "bash", "send", "subagent")
-    ]
+    # Do not consult any machine registry: the authority under test is local
+    # to this temporary workspace and its native tool instances.
+    monkeypatch.setattr("agent.permission.authority._registry_profiles", lambda: [])
+    tools = [Read({"cwd": str(workspace)}), Ls({"cwd": str(workspace)}),
+             SearchFiles({"cwd": str(workspace)}), Write({"cwd": str(workspace)}),
+             Edit({"cwd": str(workspace)}), Bash({"cwd": str(workspace)}),
+             Send({"cwd": str(workspace)}), NativeSubagentTool({"cwd": str(workspace)})]
     return _FakeParent(tools, str(workspace))
 
 
@@ -322,7 +344,7 @@ def test_template_tool_selection_subtracts_the_blocklist(parent):
     assert explore == ["read", "ls", "search_files"]
 
     general = [t.name for t in templates["general-purpose"].select_tools(parent.tools)]
-    assert "write" in general and "bash" in general
+    assert {"read", "ls", "search_files", "write", "edit", "bash"} <= set(general)
     # "*" must not mean "including the ones no sub agent may have".
     assert not BLOCKED_TOOLS & set(general)
     assert "subagent" not in general and "send" not in general
@@ -347,22 +369,50 @@ def test_child_gets_the_task_but_not_the_parents_persona_or_memory(
     child = built[0]
     assert child.kwargs["skip_context_files"] is True
     assert child.kwargs["memory_manager"] is None
-    assert child.kwargs["workspace_dir"] == str(workspace)
+    assert child.kwargs["workspace_dir"].startswith(str(workspace / "worker-"))
     assert child.kwargs["model"] is parent.model
     assert child.clear_history is True
 
     brief = child.extra_system_suffix
     assert "Find the config" in brief
     assert "Look under /etc" in brief
-    assert "read-only" in brief
+    assert "TASK WORKSPACE:" in brief
 
 
-def test_a_type_that_gives_up_tools_gives_up_skills_with_them(
+def test_real_child_has_fresh_restricted_scratch_and_native_tools(parent, workspace):
+    from agent.permission import invoke
+    from agent.subagent.runner import _build_child
+    from agent.subagent.templates import GENERAL_PURPOSE
+    from agent.tools.base_tool import ToolResult
+
+    parent.skill_manager = object()
+    parent.enable_skills = True
+    child = _build_child(parent, GENERAL_PURPOSE, SubagentTask("inspect safely"))
+
+    assert child.authority.restricted
+    assert child.authority.mode == "workspace-write"
+    assert child.task_workspace and child.task_workspace.startswith(str(workspace / "worker-"))
+    assert child.authority.read_roots == (child.task_workspace,)
+    assert child.authority.write_roots == (child.task_workspace,)
+    assert child.skill_manager is None and child.memory_manager is None
+    assert child.runtime_info is None and child.messages == []
+    assert {type(tool).__name__ for tool in child.tools} <= {
+        "Read", "Write", "Edit", "Ls", "SearchFiles", "TimeTool"
+    }
+    assert "bash" not in {tool.name for tool in child.tools}
+    assert "send" not in {tool.name for tool in child.tools}
+
+    writer = next(tool for tool in child.tools if tool.name == "write")
+    reader = next(tool for tool in child.tools if tool.name == "read")
+    assert invoke(writer, {"path": "result.txt", "content": "local"}, child).status == "success"
+    denied = invoke(reader, {"path": str(workspace / "private.txt")}, child)
+    assert isinstance(denied, ToolResult) and denied.status == "error"
+
+
+def test_workers_do_not_inherit_parent_skills(
     parent, workspace, enabled, monkeypatch
 ):
-    """A skill is a workflow written end to end, and most end in a write. Show
-    one to a read-only sub agent and it spends turns getting ready for a step
-    it will never reach, then reports that it could not take it."""
+    """A worker must not receive the parent's skill-manager object."""
     parent.skill_manager = object()
     parent.enable_skills = True
     built = _capture_children(monkeypatch)
@@ -381,9 +431,8 @@ def test_a_type_that_gives_up_tools_gives_up_skills_with_them(
     by_goal = {child.goal: child for child in built}
     assert by_goal["Find it"].kwargs["skill_manager"] is None
     assert by_goal["Find it"].kwargs["enable_skills"] is False
-    # Full tool set, full skills: nothing it reads about is out of reach.
-    assert by_goal["Fix it"].kwargs["skill_manager"] is parent.skill_manager
-    assert by_goal["Fix it"].kwargs["enable_skills"] is True
+    assert by_goal["Fix it"].kwargs["skill_manager"] is None
+    assert by_goal["Fix it"].kwargs["enable_skills"] is False
 
 
 def test_skip_context_files_actually_keeps_the_persona_out_of_the_prompt(workspace):
@@ -654,7 +703,7 @@ def test_a_failing_task_is_reported_as_failed(parent, workspace, enabled, monkey
 
     results = run_tasks(parent, [SubagentTask(goal="boom")], load_templates(str(workspace)), enabled)
     assert results[0]["status"] == "failed"
-    assert "model unavailable" in results[0]["error"]
+    assert results[0]["error"] == "Worker initialization or execution failed"
 
 
 def test_all_tasks_failing_surfaces_as_a_tool_error(spawn_tool, enabled, monkeypatch):
@@ -768,7 +817,7 @@ def test_a_failed_sub_agent_closes_with_its_error(spawn_tool, enabled, monkeypat
 
     ends = [d for kind, d in events if kind == "tool_execution_end"]
     assert [d["status"] for d in ends] == ["error", "error"]
-    assert all("model unavailable" in d["result"] for d in ends)
+    assert all("Worker initialization or execution failed" in d["result"] for d in ends)
 
 
 def test_a_sub_agent_that_overruns_its_budget_is_still_closed(spawn_tool, workspace, monkeypatch):
@@ -996,7 +1045,7 @@ def test_a_conclusion_that_never_arrived_says_so(spawn_tool, enabled, monkeypatc
 
     assert result.status == "error"
     assert "**failed**" in result.display
-    assert "model unavailable" in result.display
+    assert "Worker initialization or execution failed" in result.display
 
 
 def test_reporting_trouble_does_not_take_the_run_down(spawn_tool, enabled, monkeypatch):

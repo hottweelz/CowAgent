@@ -23,6 +23,9 @@ class OwnedBackend(LLMModel):
         if fast:
             self.release.set()
 
+    def set_agent_default(self, provider, model):
+        self.agent_default = (provider, model)
+
     def call_stream(self, request):
         self.started.set()
         try:
@@ -51,12 +54,18 @@ def make_tool(tmp_path, monkeypatch, fast=False):
         model=backend,
         tools=[],
         enable_skills=False,
-        workspace_dir=str(tmp_path / "research"),
+        workspace_dir=str(tmp_path / "primary"),
         max_steps=1,
         output_mode="logger",
     )
     bridge = AgentBridge.__new__(AgentBridge)
     bridge.agent_registry = registry
+    bridge.bridge = object()
+    monkeypatch.setattr("bridge.agent_bridge.AgentLLMModel", lambda _bridge: backend)
+    monkeypatch.setattr("agent.permission.authority._registry_profiles", lambda: [])
+    monkeypatch.setattr("agent.subagent.runner._open_run", lambda *args: None)
+    monkeypatch.setattr("agent.workspace.project_store.get_project_dir_strict", lambda *args: None)
+    monkeypatch.setattr("agent.workspace.session_prefs.get_prefs_strict", lambda *args: {})
     bridge.agent_router = AgentRouter(registry)
     bridge._agent_instances = {}
     bridge._agents_lock = threading.RLock()
@@ -74,11 +83,13 @@ def make_tool(tmp_path, monkeypatch, fast=False):
     )
     tool = AgentDelegateTool({"timeout_seconds": 5})
     attach_agent_delegate_to_tool(tool, bridge, context)
+    tool.context = agent
     # Warm SQLite and imports with a healthy run so the short deadlines below
     # exercise in-flight work rather than cold imports.
     backend.release.set()
     warm = AgentDelegateTool({"timeout_seconds": 5})
     attach_agent_delegate_to_tool(warm, bridge, context)
+    warm.context = agent
     assert warm.execute({"agent_id": "research", "task": "Warm owned fixture"}).status == "success"
     backend.started.clear()
     backend.closed.clear()
@@ -119,23 +130,12 @@ def test_fast_local_delegation_still_completes(tmp_path, monkeypatch):
     assert "done" in result.result["content"]
 
 
-def test_deadline_during_bridge_initialization_reaches_real_executor(tmp_path, monkeypatch):
+def test_parent_cancellation_before_fresh_execution_never_starts_model(tmp_path, monkeypatch):
     tool, backend = make_tool(tmp_path, monkeypatch)
-    tool.config["timeout_seconds"] = 0.05
-    original = tool.agent_bridge.route_context
-
-    def delayed(context):
-        # AgentBridge registers its token only after routing. The timer must
-        # still reach the actual executor when that registration comes late.
-        time.sleep(0.1)
-        return original(context)
-
-    monkeypatch.setattr(tool.agent_bridge, "route_context", delayed)
-    result = run_with_rescue(
-        backend, 5, lambda: tool.execute({"agent_id": "research", "task": "Start after the budget"})
-    )
-    assert result.status == "error"
-    assert "time budget" in result.result
+    tool.cancel_event = threading.Event()
+    tool.cancel_event.set()
+    result = run_with_rescue(backend, 3, lambda: tool.execute({"agent_id": "research", "task": "Cancelled"}))
+    assert result.status == "error" and "cancelled" in result.result.lower()
     assert not backend.started.is_set()
 
 
@@ -165,6 +165,7 @@ def test_timed_out_run_keeps_session_lock_through_cleanup(tmp_path, monkeypatch)
     )
     second_tool = AgentDelegateTool({"timeout_seconds": 5})
     attach_agent_delegate_to_tool(second_tool, tool.agent_bridge, tool.current_context)
+    second_tool.context = tool.context
     follower = threading.Thread(
         target=lambda: second.append(second_tool.execute({"agent_id": "research", "task": "Second"}))
     )

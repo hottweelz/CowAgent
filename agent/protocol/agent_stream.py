@@ -1673,11 +1673,14 @@ class AgentStreamExecutor:
         # Pull in any MCP tools that finished loading since this turn started.
         # Cheap dict reconciliation (microseconds) — lets the agent pick up
         # newly available MCP tools mid-conversation without a session restart.
-        try:
-            from agent.tools import ToolManager
-            ToolManager().sync_mcp_into_agent(self)
-        except Exception as e:
-            logger.debug(f"[Agent] MCP sync skipped: {e}")
+        # A worker must never reattach live parent/global MCP resources, even
+        # though the invocation gateway would subsequently refuse their calls.
+        if getattr(self.agent, "authority", None) is None:
+            try:
+                from agent.tools import ToolManager
+                ToolManager().sync_mcp_into_agent(self)
+            except Exception as e:
+                logger.debug(f"[Agent] MCP sync skipped: {e}")
 
         # Prepare tool definitions. Kept as None (rather than []) when the agent
         # has no tools at all, which is what LLMRequest expects.
@@ -2392,14 +2395,19 @@ class AgentStreamExecutor:
         # applies to the very next tool call. A refusal is reported as a normal
         # tool error: the model reads why, and can either take an allowed route
         # or tell the user which mode the task needs.
-        denial = self._permission_denial(tool_name, arguments)
+        denial = self._permission_denial(tool_name, arguments, tool_override)
         if denial:
             logger.info(f"🔐 Permission denied for tool {tool_name}: {denial}")
-            result = {"status": "error", "result": denial, "execution_time": 0}
+            codes = {"Authorization denied: unknown tool.": "unknown_tool",
+                     "Authorization denied: cancelled.": "cancelled",
+                     "Authorization denied: capability unavailable.": "capability_denied",
+                     "Authorization denied: evaluation failed.": "evaluation_failed"}
+            result = {"status": "error", "result": denial, "execution_time": 0,
+                      "permission_denied": True, "code": codes.get(denial, "denied")}
             self._emit_event("tool_execution_start", {
                 "tool_call_id": tool_id,
                 "tool_name": tool_name,
-                "arguments": arguments,
+                "arguments": {},
             })
             # Flag this as a permission refusal (not an ordinary tool error) and
             # carry the mode that refused, so the UI can render an actionable
@@ -2500,6 +2508,10 @@ class AgentStreamExecutor:
                 "execution_time": execution_time
             }
 
+            if isinstance(result.ext_data, dict) and result.ext_data.get("permission_denied"):
+                result_dict["permission_denied"] = True
+                result_dict["code"] = result.ext_data.get("code", "denied")
+
             # Record tool result for failure tracking
             success = result.status == "success"
             self._record_tool_result(tool_name, arguments, success)
@@ -2548,34 +2560,19 @@ class AgentStreamExecutor:
             })
             return error_result
 
-    def _permission_denial(self, tool_name: str, arguments: Dict) -> Optional[str]:
-        """Reason this call is not allowed, or None when it may run.
-
-        Never raises: a broken permission check must not take the conversation
-        down with it, so an error here falls through to the historical
-        unrestricted behavior.
-        """
-        agent = self.agent
-        if agent is None:
-            return None
+    def _permission_denial(self, tool_name: str, arguments: Dict, tool_override=None) -> Optional[str]:
+        """Deny if the actual implementation or authority cannot be verified."""
         try:
-            from agent.permission import FULL_ACCESS, check_tool_call
-
-            mode = agent.effective_permission_mode()
-            if mode == FULL_ACCESS:
-                return None
-            decision = check_tool_call(
-                mode,
-                tool_name,
-                arguments,
-                cwd=agent.effective_cwd(),
-                write_roots=agent.write_roots(),
-                protected_paths=agent.protected_paths(),
-            )
+            from agent.permission import authorize
+            if self.cancel_event is not None and self.cancel_event.is_set():
+                return "Authorization denied: cancelled."
+            tool = tool_override if tool_override is not None else self.tools.get(tool_name)
+            if tool is None or getattr(tool, "name", None) != tool_name:
+                return "Authorization denied: unknown tool."
+            decision, _ = authorize(tool, arguments, self.agent)
             return None if decision.allowed else decision.reason
-        except Exception as e:
-            logger.warning(f"[Permission] Check skipped for {tool_name}: {e}")
-            return None
+        except Exception:
+            return "Authorization denied: evaluation failed."
 
     def _build_tool_not_found_message(self, tool_name: str) -> str:
         """Build a helpful error message when a tool is not found.

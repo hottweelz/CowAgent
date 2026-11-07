@@ -1,0 +1,231 @@
+{
+  "baseline": "c2c39a2e",
+  "audit_commit": "06e0a4dd",
+  "branch": "fix/isolation-001-worker-authority",
+  "status": "verified restricted mode; OS worker isolation unsupported",
+  "python": {
+    "command": ".venv/bin/python docs/isolation-001/run_regression.py",
+    "evidence_root": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-isolation-regression-i8_f95v2",
+    "passed": 1294,
+    "failed": 0,
+    "errors": 0,
+    "skipped": [
+      {
+        "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[click-button-False]",
+        "reason": "opt-in installed browser test"
+      },
+      {
+        "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[click-button-True]",
+        "reason": "opt-in installed browser test"
+      },
+      {
+        "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-input-False]",
+        "reason": "opt-in installed browser test"
+      },
+      {
+        "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-input-True]",
+        "reason": "opt-in installed browser test"
+      },
+      {
+        "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-div-False]",
+        "reason": "opt-in installed browser test"
+      },
+      {
+        "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[select-select-False]",
+        "reason": "opt-in installed browser test"
+      },
+      {
+        "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[select-select-True]",
+        "reason": "opt-in installed browser test"
+      },
+      {
+        "test": "tests.test_memory_path_marks_dirty.TestMemoryPathMarksDirty::test_write_backslash_separated_memory_path_marks_dirty",
+        "reason": "backslash is only a separator on Windows"
+      },
+      {
+        "test": "tests.test_memory_path_marks_dirty.TestConsoleEditsMarkMemoryDirty::test_console_save_with_backslash_separator_marks_dirty",
+        "reason": "backslash is only a separator on Windows"
+      },
+      {
+        "test": "tests.test_search_files_powershell_quoting::test_search_root_with_an_apostrophe_still_finds_its_matches",
+        "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+      },
+      {
+        "test": "tests.test_search_files_powershell_quoting::test_empty_result_for_an_apostrophe_root_is_not_a_hidden_failure",
+        "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+      },
+      {
+        "test": "tests.test_search_files_powershell_quoting::test_file_glob_with_an_apostrophe_reaches_the_backend_intact",
+        "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+      },
+      {
+        "test": "tests.test_search_files_powershell_quoting::test_ps_quote_doubles_apostrophes_and_wraps_once",
+        "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+      },
+      {
+        "test": "tests.test_search_files_powershell_quoting::test_powershell_backend_reports_a_non_zero_exit_instead_of_swallowing_it",
+        "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+      },
+      {
+        "test": "tests.test_search_files_powershell_quoting::test_failed_powershell_run_does_not_report_a_successful_empty_search",
+        "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+      }
+    ],
+    "selection": [
+      "tests/test_openai_chat_api.py",
+      "tests/test_agent_loop_hint_not_persisted.py",
+      "tests/test_agent_steering.py",
+      "tests/test_agent_stream_content_blocks.py",
+      "tests/test_agent_stream_max_turns.py",
+      "tests/test_agent_stream_reasoning_field.py",
+      "tests/test_agent_trim_budget.py",
+      "tests/test_agent_trim_new_messages.py",
+      "tests/test_bash_background.py",
+      "tests/test_bash_config_propagation.py",
+      "tests/test_bash_exit_codes.py",
+      "tests/test_bash_full_output.py",
+      "tests/test_bash_rm_safety_flags.py",
+      "tests/test_bash_windows_guidance.py",
+      "tests/test_browser_driver_loss.py",
+      "tests/test_browser_fill_required_text.py",
+      "tests/test_browser_ref_actions_native.py",
+      "tests/test_browser_scroll_amount.py",
+      "tests/test_browser_snapshot_selector.py",
+      "tests/test_chat_fallback_chain_walk.py",
+      "tests/test_chat_fallback_ratelimit.py",
+      "tests/test_chat_model_fallback.py",
+      "tests/test_custom_provider.py",
+      "tests/test_efficiency_accounting_baseline.py",
+      "tests/test_efficiency_adapter_baseline.py",
+      "tests/test_efficiency_benchmark.py",
+      "tests/test_efficiency_metrics.py",
+      "tests/test_incremental_persist.py",
+      "tests/test_kimi_context_window.py",
+      "tests/test_mcp_tool_retrieval.py",
+      "tests/test_memory_decay_scope.py",
+      "tests/test_memory_empty_note_native.py",
+      "tests/test_memory_fts_sync.py",
+      "tests/test_memory_get_credentials.py",
+      "tests/test_memory_get_shared_knowledge.py",
+      "tests/test_memory_global_config.py",
+      "tests/test_memory_hit_boost.py",
+      "tests/test_memory_hybrid_fusion.py",
+      "tests/test_memory_index_rel_path.py",
+      "tests/test_memory_keyword_like_fallback.py",
+      "tests/test_memory_list_pagination.py",
+      "tests/test_memory_path_marks_dirty.py",
+      "tests/test_memory_rerank.py",
+      "tests/test_memory_search_threshold_overrides.py",
+      "tests/test_memory_storage_io.py",
+      "tests/test_memory_sync_reconcile.py",
+      "tests/test_memory_sync_shared_root.py",
+      "tests/test_memory_unicode_keywords.py",
+      "tests/test_message_usage.py",
+      "tests/test_model_catalog_api.py",
+      "tests/test_openai_api_type.py",
+      "tests/test_oversized_context_files.py",
+      "tests/test_prompt_prefix_stability.py",
+      "tests/test_provider_error_body.py",
+      "tests/test_request_accounting.py",
+      "tests/test_request_usage.py",
+      "tests/test_responses_failed_status.py",
+      "tests/test_responses_function_contract.py",
+      "tests/test_responses_incomplete_tools.py",
+      "tests/test_responses_json_schema_format.py",
+      "tests/test_responses_refusal.py",
+      "tests/test_scheduler_cross_channel_recipients.py",
+      "tests/test_scheduler_once_past_time.py",
+      "tests/test_scheduler_relative_store.py",
+      "tests/test_scheduler_silent.py",
+      "tests/test_scheduler_task_permission_mode.py",
+      "tests/test_scheduler_timezone.py",
+      "tests/test_search_files_brace_globs_native.py",
+      "tests/test_search_files_powershell_quoting.py",
+      "tests/test_search_files_tool.py",
+      "tests/test_security_ssrf_browser_navigate.py",
+      "tests/test_session_context_usage.py",
+      "tests/test_session_title_budget.py",
+      "tests/test_shared_db_recovery.py",
+      "tests/test_skill_config_entry_shapes.py",
+      "tests/test_skill_custom_provider_types.py",
+      "tests/test_skill_hidden_setup_hints.py",
+      "tests/test_skill_list_name_types.py",
+      "tests/test_skill_loader_cache.py",
+      "tests/test_skill_metadata_booleans.py",
+      "tests/test_skill_prompt_order.py",
+      "tests/test_subagent_fallback_scope.py",
+      "tests/test_time_tool.py",
+      "tests/test_token_budget_trim.py",
+      "tests/test_tool_description_contract.py",
+      "tests/test_agent_delegation.py",
+      "tests/test_agent_delegation_timeout.py",
+      "tests/test_agent_registry.py",
+      "tests/test_config_subagent_toggle.py",
+      "tests/test_multi_agent_runtime.py",
+      "tests/test_multi_agent_state_isolation.py",
+      "tests/test_peer_inbound_permission_mode.py",
+      "tests/test_peer_inbound_policy.py",
+      "tests/test_permission_flag_driven_writes.py",
+      "tests/test_permission_git_global_options.py",
+      "tests/test_permission_git_read_only.py",
+      "tests/test_permission_protected_files.py",
+      "tests/test_permission_shell_substitution.py",
+      "tests/test_subagent.py",
+      "tests/test_subagent_history.py",
+      "tests/test_subagent_parent_cancel.py",
+      "tests/test_subagent_run_records.py",
+      "tests/test_subagent_template_body.py",
+      "tests/test_isolation_authorization.py",
+      "tests/test_isolation_delegation.py",
+      "tests/test_isolation_filesystem.py"
+    ],
+    "junit_sha256": "96bad83255ba156698d3234ed32a4cf5184ccd37a61269d192d3fd649ac1d77d"
+  },
+  "focused_isolation_tests": 40,
+  "lint": "F-class Ruff passed",
+  "compiled_python_files": 27,
+  "review": {
+    "requested_model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "independent_findings": 3,
+    "resolved_by_lead_with_execution_regressions": 3,
+    "second_broad_review": false
+  },
+  "production_runtime_accessed": false,
+  "production_databases_modified": false,
+  "source_files_sha256": {
+    "agent/multiagent/inbound.py": "504d9336c34191ce4099b9fdf1cabc4a95f7721260315657e2f0dcaa79c4b89f",
+    "agent/permission/__init__.py": "46d82396fb0d06e5f3989ea0310b4c500d5b88a9c136b03da91e5d196e57bacf",
+    "agent/permission/authority.py": "1644e2ed1f254cf42b566318d51b5089e2c7dd4a405315073d6957f50d3e7b72",
+    "agent/permission/filesystem.py": "e09c76666f2ea270498ff4defc858b78edf4747cceda97730034801b05a08648",
+    "agent/permission/policy.py": "091296524e0961a98dd60bcd5f665ab62c163ea69b05cecb27681d0871cf8199",
+    "agent/protocol/agent.py": "16c062a8853956294fc5840168df9a3f859436e10e05a4a0df8169d9c773dd9b",
+    "agent/protocol/agent_stream.py": "c80ac6e4ac14534e09bf52849aa498fb9938efb83c9fea5dd7e9920dd394c889",
+    "agent/subagent/runner.py": "c8dfcb58bc18b5e8174cba59e2b7059fcdf506157fc5178306cdcacb76913caa",
+    "agent/subagent/templates.py": "9aaaacc3e8cda028a34b55a07ecb507a49ffee2e63225bd8c789b7a64cfb601f",
+    "agent/tools/agent_delegate/agent_delegate.py": "ed5b19f36dedce618613b258c5b9a7afdfe9d13612891bc64c975a9cea188091",
+    "agent/tools/base_tool.py": "b0e3abf5d84b61e417268fad98430da32819cb035c8d5fc7017dbc6a417711ff",
+    "agent/tools/scheduler/integration.py": "37cc8a1ee109f4ae424d4d1d5e2e8fd596f8dce4ad5498f9c1bbbd3f24ff2730",
+    "agent/tools/subagent/subagent.py": "01ef0d7ba1cd20983a69145389261179565806b37e1de532788535a640457ab0",
+    "agent/workspace/project_store.py": "70d6b4136b58cfa52cb713fda6407229b23bf191978711a7d81b9530598bac2a",
+    "agent/workspace/session_prefs.py": "89073f993bf308e54c1834341500cd954ef463fe3c21f87eaedd1fe3c8f746df",
+    "bridge/agent_bridge.py": "c6f054e52bf81f47d5ab70e1dcdca154458cc73773b6612b8124cb3d2f2fd017",
+    "docs/isolation-001/macos_probe.py": "c50fecf28efc86258905925d1d3cde752ebb00d3b3e89c37ed7d1eebb2797f17",
+    "docs/isolation-001/run_regression.py": "0d7825b6ba3222048812ef6e892d0dd9e100af14e142e697f18b322d9a0bd2c0",
+    "tests/test_agent_delegation.py": "8c77f83759ef772f24cd6008f8e929861a85ff062dcfcccc995688c4a9f471f8",
+    "tests/test_agent_delegation_timeout.py": "2dd4c003eb73a38e1ec10e918fb8e24adecf65808b731fd3ffa30b8e0fbdfaa4",
+    "tests/test_isolation_authorization.py": "b2d3778c0c5018a61144c1a0c71dd92fbe74ba9baa78893ce1941638540498d7",
+    "tests/test_isolation_delegation.py": "ec0f4c04d2d091c4cb3aaa7842670780fd91aad5cba8fbabfb7963e24512a6e5",
+    "tests/test_isolation_filesystem.py": "855cbefb4ca778e83c06b1d3b1263101a06556aa1f0d234d3dd673590bf1853f",
+    "tests/test_peer_inbound_permission_mode.py": "7e31f45c3f293ce0e2801439b287f5fb30446e327a95269f7a82f10ab8de1908",
+    "tests/test_peer_inbound_policy.py": "93a1442b83018f0598e1bf64e808d3a3e6c8398f9cd60870f4ecd74690ee0d3b",
+    "tests/test_scheduler_task_permission_mode.py": "5c8a60db5dfd60e06a19bf2992e31649b3fc46a509f91c37ffc67a5e8d73849c",
+    "tests/test_subagent.py": "1b455b5e411f346a6d4f617236f1eb1b787ef63712d556b7cef1aa8066e2ba6c"
+  },
+  "post_review_target_identity_check": {
+    "command": ".venv/bin/python -m pytest -q tests/test_isolation_delegation.py tests/test_agent_delegation.py tests/test_agent_delegation_timeout.py",
+    "passed": 41,
+    "changes": "target runtime identity explicitly scoped; export list lint correction",
+    "unique_coverage_note": "Repeats tests already counted in integrated selection"
+  }
+}

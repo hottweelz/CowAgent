@@ -725,25 +725,22 @@ def _task_permission_mode(task: dict, agent_id: str = None) -> str:
     that created it nor outlive a later downgrade of that conversation. Tasks
     stored before the origin was recorded use the conversation they deliver to.
     """
-    from agent.permission import MODES, global_mode, normalize_mode
+    from agent.permission import MODES
+    from agent.permission.policy import strict_global_mode, strict_mode
     from agent.workspace import session_prefs
 
     action = task.get("action") or {}
-    current = global_mode()
+    current = strict_global_mode()
     session_id = action.get("origin_session_id") or action.get("notify_session_id")
     if session_id:
-        try:
-            pinned = session_prefs.get_prefs(
-                session_id, action.get("origin_agent_id") or agent_id
-            ).get("permission")
-        except Exception as e:
-            logger.warning(f"[Scheduler] Task {task.get('id')}: could not read session permission: {e}")
-            pinned = None
+        pinned = session_prefs.get_prefs_strict(
+            session_id, action.get("origin_agent_id") or agent_id
+        ).get("permission")
         if pinned:
-            current = normalize_mode(pinned, current)
+            current = strict_mode(pinned)
     recorded = action.get("permission_mode")
     if recorded:
-        return min(normalize_mode(recorded, current), current, key=MODES.index)
+        return min(strict_mode(recorded), current, key=MODES.index)
     return current
 
 
@@ -1043,80 +1040,12 @@ def _execute_send_message(
 def _execute_tool_call(
     task: dict, agent_bridge, agent_id: str = None, output_sink: dict = None
 ) -> bool:
-    """Execute a tool_call action. Returns True/False for delivery."""
-    try:
-        action = task.get("action", {})
-        tool_name = action.get("call_name") or action.get("tool_name")
-        tool_params = action.get("call_params") or action.get("tool_params", {})
-        result_prefix = action.get("result_prefix", "")
-        receiver = action.get("receiver")
-        is_group = action.get("is_group", False)
-        channel_type = _primary_channel_type(action.get("channel_type"))
-
-        if not tool_name:
-            logger.error(f"[Scheduler] Task {task['id']}: No tool_name specified")
-            return True
-        if not receiver:
-            logger.error(f"[Scheduler] Task {task['id']}: No receiver specified")
-            return True
-
-        from agent.tools.tool_manager import ToolManager
-        tool = ToolManager().create_tool(tool_name)
-        if not tool:
-            logger.error(f"[Scheduler] Task {task['id']}: Tool '{tool_name}' not found")
-            return True
-
-        logger.info(f"[Scheduler] Task {task['id']}: Executing tool '{tool_name}' with params {tool_params}")
-        result = tool.execute(tool_params)
-        content = result.result if hasattr(result, 'result') else str(result)
-        if result_prefix:
-            content = f"{result_prefix}\n\n{content}"
-
-        context = Context(ContextType.TEXT, content)
-        context["receiver"] = receiver
-        context["isgroup"] = is_group
-        context["session_id"] = receiver
-        context["agent_id"] = agent_id
-
-        request_id = None
-        if channel_type == "web":
-            import uuid
-            request_id = f"scheduler_{task['id']}_{uuid.uuid4().hex[:8]}"
-            context["request_id"] = request_id
-        elif channel_type == "feishu":
-            context["receive_id_type"] = "chat_id" if is_group else "open_id"
-            context["msg"] = None
-        elif channel_type == "wecom_bot":
-            context["msg"] = None
-
-        reply = Reply(ReplyType.TEXT, content)
-
-        channel = _resolve_delivery_channel(channel_type, action.get("instance_id") or "", receiver)
-        if not channel:
-            logger.error(f"[Scheduler] Failed to resolve channel: {channel_type}")
-            return False
-
-        if channel_type == "web" and request_id and hasattr(channel, 'request_to_session'):
-            channel.request_to_session[request_id] = receiver
-
-        try:
-            channel.send(reply, context)
-        except Exception as e:
-            logger.error(f"[Scheduler] Failed to send tool result: {e}")
-            return False
-
-        if output_sink is not None:
-            output_sink["preview"] = str(content)
-        _remember_delivered_output(
-            agent_bridge, task, channel_type, content, agent_id,
-            run_id=(output_sink or {}).get("run_id", ""),
-        )
-        logger.info(f"[Scheduler] Task {task['id']} executed: sent tool result to {receiver}")
-        return True
-
-    except Exception as e:
-        logger.error(f"[Scheduler] Error in _execute_tool_call: {e}")
-        return False
+    """Legacy scheduled tool calls have no task authority; deny before loading tools."""
+    logger.warning('[Authorization] {"event":"tool_denied","entry":"scheduler",'
+                   '"code":"missing_authority"}')
+    if output_sink is not None:
+        output_sink["preview"] = "Scheduled tool call denied: missing task authority"
+    return False
 
 
 def _execute_skill_call(

@@ -97,6 +97,30 @@ def get_prefs(session_id: str, agent_id: Optional[str] = None) -> Dict:
     return {k: entry[k] for k in _FIELDS if entry.get(k)}
 
 
+def get_prefs_strict(session_id: str, agent_id: Optional[str] = None) -> Dict:
+    """Read session authority settings without converting corrupt data to defaults."""
+    if not session_id:
+        return {}
+    with _lock:
+        try:
+            with open(_store_file(), "r", encoding="utf-8") as handle:
+                data = json.load(handle)
+        except FileNotFoundError:
+            return {}
+        if not isinstance(data, dict) or not isinstance(data.get("sessions"), dict):
+            raise ValueError("Invalid session settings")
+        key = _session_key(session_id, agent_id)
+        if key not in data["sessions"]:
+            return {}
+        entry = data["sessions"][key]
+    if not isinstance(entry, dict):
+        raise ValueError("Invalid session settings")
+    if "permission" in entry and entry["permission"] not in (None, ""):
+        from agent.permission.policy import strict_mode
+        strict_mode(entry["permission"])
+    return {k: entry[k] for k in _FIELDS if entry.get(k)}
+
+
 def members_index() -> Dict[tuple, list]:
     """Every team conversation's roster, keyed by ``(agent_id, session_id)``.
 

@@ -24,4 +24,13 @@ __all__ = [
     "describe_mode",
     "global_mode",
     "normalize_mode",
+    "Authority",
+    "resolve_authority",
+    "restricted_authority",
+    "derive_authority",
+    "authorize",
+    "invoke",
 ]
+
+from agent.permission.authority import Authority, resolve_authority, restricted_authority, derive_authority
+from agent.permission.policy import authorize, invoke

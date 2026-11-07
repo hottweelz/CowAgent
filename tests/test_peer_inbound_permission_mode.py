@@ -1,10 +1,10 @@
-"""A cross-process hand-off carries the caller's permission mode, narrowing only."""
+"""Mode-only peer requests fail before a receiver can run."""
 
 import pytest
 
 
 def _serve(payload, local_mode="full-access"):
-    """Run one inbound hand-off and return the context agent_reply received."""
+    """Run an inbound request and assert the receiver was not called."""
     from agent.registry import AgentProfile, AgentRegistry
     from bridge.reply import Reply, ReplyType
     from agent.multiagent.inbound import serve_invoke
@@ -36,8 +36,9 @@ def _serve(payload, local_mode="full-access"):
         serve_invoke(payload, Bridge(), chunks.append)
     finally:
         config_module.conf = original
-    assert chunks and chunks[-1].get("status") == "done"
-    return seen["context"]
+    assert "context" not in seen
+    assert chunks and chunks[-1].get("status") == "failed"
+    return chunks[-1]
 
 
 def _payload(**overrides):
@@ -70,11 +71,12 @@ def test_the_request_field_defaults_to_empty():
     ("full-access", "workspace-write", "workspace-write"),
     ("bogus", "workspace-write", "workspace-write"),
 ])
-def test_a_remote_mode_only_narrows(remote, local, expected):
-    context = _serve(_payload(permission_mode=remote), local_mode=local)
-    assert context["delegated_permission_mode"] == expected
+def test_a_remote_mode_is_rejected_without_authority(remote, local, expected):
+    result = _serve(_payload(permission_mode=remote), local_mode=local)
+    assert "authority protocol" in result["error"]
 
 
 @pytest.mark.parametrize("blank", ["", "   ", None])
-def test_a_blank_mode_is_not_carried(blank):
-    assert "delegated_permission_mode" not in _serve(_payload(permission_mode=blank))
+def test_a_blank_mode_is_rejected_without_authority(blank):
+    result = _serve(_payload(permission_mode=blank))
+    assert "authority protocol" in result["error"]

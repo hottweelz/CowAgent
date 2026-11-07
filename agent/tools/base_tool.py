@@ -185,10 +185,10 @@ class BaseTool:
             params, error = self._coerce_integer_args(params)
             if error:
                 return ToolResult.fail(error)
-            return self.execute(params)
-        except Exception as e:
-            logger.error(f"[{self.name}] execution failed: {e}", exc_info=True)
-            return ToolResult.fail(f"Error: {type(e).__name__}: {e}")
+            from agent.permission import invoke
+            return invoke(self, params, getattr(self, "context", None))
+        except Exception:
+            return ToolResult.fail("Authorization or execution failed.")
 
     def _coerce_integer_args(self, params):
         """Models often quote integers ("offset": "2"); convert every argument the
@@ -202,7 +202,7 @@ class BaseTool:
                 continue
             number = _as_int(value)
             if number is None:
-                return params, f"Error: {name} must be an integer, got {value!r}"
+                return params, f"Error: {name} must be an integer."
             coerced[name] = number
         return coerced, None
 

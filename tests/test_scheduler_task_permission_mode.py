@@ -32,7 +32,9 @@ def prefs(monkeypatch):
         return {"permission": mode} if mode else {}
 
     monkeypatch.setattr("agent.workspace.session_prefs.get_prefs", get_prefs)
+    monkeypatch.setattr("agent.workspace.session_prefs.get_prefs_strict", get_prefs)
     monkeypatch.setattr("agent.permission.global_mode", lambda: "full-access")
+    monkeypatch.setattr("agent.permission.policy.strict_global_mode", lambda: "full-access")
     return pins
 
 
@@ -108,6 +110,7 @@ def test_a_later_downgrade_of_the_conversation_reaches_the_task(prefs):
 def test_a_stricter_global_mode_still_applies(prefs, monkeypatch):
     task = _task(permission_mode="full-access", origin_session_id="chat-1", origin_agent_id="a1")
     monkeypatch.setattr("agent.permission.global_mode", lambda: "read-only")
+    monkeypatch.setattr("agent.permission.policy.strict_global_mode", lambda: "read-only")
 
     assert _task_permission_mode(task, "a1") == "read-only"
 
@@ -115,6 +118,7 @@ def test_a_stricter_global_mode_still_applies(prefs, monkeypatch):
 def test_a_conversation_pinned_wider_than_global_keeps_its_mode(prefs, monkeypatch):
     # Same rule as the chat itself: a session pin overrides the global default.
     monkeypatch.setattr("agent.permission.global_mode", lambda: "read-only")
+    monkeypatch.setattr("agent.permission.policy.strict_global_mode", lambda: "read-only")
     prefs[("chat-1", "a1")] = "workspace-write"
     task = _create_agent_task()
 

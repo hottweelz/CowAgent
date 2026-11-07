@@ -195,6 +195,10 @@ class SubagentTool(BaseTool):
                     "cannot see your conversation, so anything you omit is lost."
                 ),
             },
+            "read_roots": {"type": "array", "items": {"type": "string"},
+                           "description": "Explicit absolute paths to share for reading, within your authority."},
+            "write_roots": {"type": "array", "items": {"type": "string"},
+                            "description": "Explicit absolute paths to share for writing, within your authority."},
             "subagent_type": {
                 "type": "string",
                 "description": "Which kind of sub agent to use. See the list in this tool's description.",
@@ -212,6 +216,8 @@ class SubagentTool(BaseTool):
                         "goal": {"type": "string"},
                         "context": {"type": "string"},
                         "subagent_type": {"type": "string"},
+                        "read_roots": {"type": "array", "items": {"type": "string"}},
+                        "write_roots": {"type": "array", "items": {"type": "string"}},
                     },
                     "required": ["goal"],
                 },
@@ -263,7 +269,9 @@ class SubagentTool(BaseTool):
             "instead.\n\n"
             "The sub agent starts with no history and cannot reach you or the "
             "user mid-task, so state the goal in full and put every path, "
-            "identifier and constraint it needs into `context`; a vague goal "
+            "identifier and constraint it needs into `context`; explicitly share "
+            "read_roots/write_roots when the worker needs parent files. By default "
+            "it sees only a private task workspace; a vague goal "
             "comes back as a vague answer. Its reply is not shown to the user, "
             "so read it and say what matters in your own words.\n\n"
             "Available sub agent types:\n"
@@ -289,6 +297,8 @@ class SubagentTool(BaseTool):
                         goal=goal,
                         context=str(entry.get("context") or ""),
                         subagent_type=str(entry.get("subagent_type") or "").strip() or None,
+                        read_roots=entry.get("read_roots") or (),
+                        write_roots=entry.get("write_roots") or (),
                     )
                 )
             return tasks
@@ -301,6 +311,8 @@ class SubagentTool(BaseTool):
                 goal=goal,
                 context=str(params.get("context") or ""),
                 subagent_type=str(params.get("subagent_type") or "").strip() or None,
+                read_roots=params.get("read_roots") or (),
+                write_roots=params.get("write_roots") or (),
             )
         ]
 

@@ -4,6 +4,8 @@ import time
 import pytest
 
 from agent.registry import AgentProfile, AgentRegistry
+from agent.protocol import Agent, LLMModel
+from agent.tools.agent_delegate.agent_delegate import delegated_result_text, _DelegateView
 from agent.tools.agent_delegate.agent_delegate import (
     AgentDelegateTool,
     DelegationPolicy,
@@ -53,13 +55,50 @@ def _team_members(monkeypatch):
     from agent.workspace import session_prefs
 
     monkeypatch.setattr(session_prefs, "get_prefs", fake_get_prefs)
+    monkeypatch.setattr(session_prefs, "get_prefs_strict", fake_get_prefs)
     return roster
+
+
+class FixtureBackend(LLMModel):
+    def __init__(self):
+        super().__init__("fixture-model")
+        self.requests = []
+        self.default = None
+        self.entered = None
+        self.release = None
+        self.order = []
+
+    def set_agent_default(self, provider, model):
+        self.default = (provider, model)
+
+    def call_stream(self, request):
+        self.requests.append(request)
+        query = str(request.messages)
+        self.order.append(("start", query))
+        if self.entered:
+            self.entered.set()
+        if self.release:
+            self.release.wait(2)
+        self.order.append(("end", query))
+        yield {"choices": [{"delta": {"content": "delegated result"}, "finish_reason": "stop"}]}
+
+
+@pytest.fixture(autouse=True)
+def _isolated_runtime(monkeypatch, tmp_path):
+    from agent.workspace import project_store
+    monkeypatch.setattr(project_store, "get_project_dir_strict", lambda *args: None)
+    monkeypatch.setattr("agent.subagent.runner._open_run", lambda *args: None)
+    monkeypatch.setattr("bridge.agent_bridge.AgentLLMModel", lambda bridge: bridge.backend)
+    monkeypatch.setattr("agent.permission.authority._registry_profiles", lambda: [])
+    FakeBridge.fixture_root = str(tmp_path)
 
 
 class FakeBridge:
     def __init__(self, registry=None):
         self.agent_registry = registry or _registry()
         self.calls = []
+        self.bridge = self
+        self.backend = FixtureBackend()
 
     @staticmethod
     def _cancel_key(agent_id, token, default_agent_id):
@@ -72,11 +111,13 @@ class FakeBridge:
 
 def _tool(bridge=None, config=None, context=None):
     tool = AgentDelegateTool(config=config)
-    attach_agent_delegate_to_tool(
-        tool,
-        bridge or FakeBridge(),
-        context or _context(),
-    )
+    actual_bridge = bridge or FakeBridge()
+    actual_context = context or _context()
+    attach_agent_delegate_to_tool(tool, actual_bridge, actual_context)
+    tool.context = Agent("private", model=actual_bridge.backend, tools=[],
+                         workspace_dir=actual_bridge.fixture_root, enable_skills=False,
+                         max_steps=4, output_mode="logger")
+    tool.context.permission_mode = "workspace-write"
     return tool
 
 
@@ -99,51 +140,27 @@ def test_policy_timeout_defaults_to_ten_minutes():
 def test_delegate_runs_target_with_source_attribution_and_private_relay_session():
     bridge = FakeBridge()
     tool = _tool(bridge=bridge)
-
     result = tool.execute({"agent_id": "research", "task": "Check the evidence"})
-
-    assert result.status == "success"
-    assert result.result["agent_id"] == "research"
+    assert result.status == "success" and result.result["agent_id"] == "research"
     assert result.result["delegated_by"] == "primary"
-    assert result.result["status"] == "done"
+    assert result.result["session_id"].startswith("delegate_primary_research_")
     assert result.result["content"] == "delegated result"
-    query, context, on_event = bridge.calls[0]
-    assert "Delegated by Agent 'Primary' (primary)" in query
-    assert context.get("agent_id") == "research"
-    assert context.get("channel_type") == "agent"
-    assert context.get("is_delegated_task") is True
-    assert context.get("delegation_trace") == ["primary", "research"]
-    assert context.get("session_id").startswith("delegate_primary_research_")
-    # The teammate's run is now watched so its steps can be shown live.
-    assert callable(on_event)
-    # A human-readable summary rides alongside the JSON the model reads.
-    assert result.display is not None
+    assert "Delegated by Agent 'Primary' (primary)" in str(bridge.backend.requests[0].messages)
+    assert not bridge.calls
     assert "Primary → Research" in result.display
-    assert "delegated result" in result.display
 
 
 def test_delegate_keeps_the_answer_when_the_teammate_sent_a_file():
-    class FileBridge(FakeBridge):
-        def agent_reply(self, query, context=None, on_event=None):
-            reply = Reply(ReplyType.IMAGE_URL, "https://example.com/chart.png")
-            reply.text_content = "Refund rate doubled to 2.63%."
-            return reply
-
-    result = _tool(bridge=FileBridge()).execute({"agent_id": "research", "task": "Check"})
-
-    content = result.result["content"]
+    reply = Reply(ReplyType.IMAGE_URL, "https://example.com/chart.png")
+    reply.text_content = "Refund rate doubled to 2.63%."
+    content = delegated_result_text(reply)
     assert content.startswith("Refund rate doubled to 2.63%.")
     assert "![](https://example.com/chart.png)" in content
 
 
 def test_delegate_leaves_an_unpublished_file_as_a_plain_path():
-    class LocalFileBridge(FakeBridge):
-        def agent_reply(self, query, context=None, on_event=None):
-            return Reply(ReplyType.IMAGE_URL, "file:///tmp/chart.png")
-
-    result = _tool(bridge=LocalFileBridge()).execute({"agent_id": "research", "task": "Check"})
-
-    assert result.result["content"] == "file:///tmp/chart.png"
+    reply = Reply(ReplyType.IMAGE_URL, "file:///tmp/chart.png")
+    assert delegated_result_text(reply) == "file:///tmp/chart.png"
 
 
 def test_delegate_rejects_targets_outside_the_conversation_and_lists_the_real_ones(
@@ -185,99 +202,35 @@ def test_delegate_accepts_an_agent_id_with_a_leading_at_sign():
     assert result.result["agent_id"] == "research"
 
 
-def test_delegate_passes_the_team_roster_down_the_chain(_team_members):
-    """The delegated turn carries the team so it can hand work onward.
-
-    Its private session has no roster of its own, so the source seeds the
-    downstream context with the whole team, minus whoever is already in the
-    chain — the cycle guard, not the roster, stops loops. Here primary hands
-    to research; designer stays reachable for research's own next hop, while
-    primary (now in the chain) drops out.
-    """
-    registry = AgentRegistry(
-        [
-            AgentProfile("primary", "Primary", "/tmp/delegate-primary"),
-            AgentProfile("research", "Research", "/tmp/delegate-research"),
-            AgentProfile("designer", "Designer", "/tmp/delegate-designer"),
-        ],
-        "primary",
-    )
-    _team_members["members"] = ["research", "designer"]
-    bridge = FakeBridge(registry=registry)
-    tool = _tool(bridge=bridge)
-
-    tool.execute({"agent_id": "research", "task": "Look into it"})
-
-    _, context, _ = bridge.calls[0]
-    # designer is still reachable; primary is in the chain and drops out.
-    # research (the downstream itself) is filtered when it resolves its roster.
-    assert context.get("delegation_members") == ["designer", "research"]
-
-
-def test_delegate_reads_the_inherited_roster_when_the_session_has_none():
-    """A downstream hop resolves teammates from the inherited roster.
-
-    On a delegated turn session_prefs holds no members for the source's private
-    session; the team travels in ``delegation_members`` instead, and that is
-    what bounds who the source may reach.
-    """
-    registry = AgentRegistry(
-        [
-            AgentProfile("primary", "Primary", "/tmp/delegate-primary"),
-            AgentProfile("research", "Research", "/tmp/delegate-research"),
-            AgentProfile("designer", "Designer", "/tmp/delegate-designer"),
-        ],
-        "primary",
-    )
-    bridge = FakeBridge(registry=registry)
-    # research is mid-chain, delegating onward to designer; its own session has
-    # no roster, so the team must come from the inherited context.
-    context = _context(
-        agent_id="research",
-        session_id="delegate_primary_research_abc",
-        delegation_members=["primary", "designer"],
-        delegation_trace=["primary", "research"],
-        delegation_root_session="user-session",
-    )
-    tool = _tool(bridge=bridge, context=context)
-
-    ok = tool.execute({"agent_id": "designer", "task": "Make a banner"})
-    assert ok.status == "success"
-    assert ok.result["agent_id"] == "designer"
-
-    # primary is in the trace, so the cycle guard refuses it even though it is
-    # an inherited teammate.
-    looped = tool.execute({"agent_id": "primary", "task": "Loop back"})
-    assert looped.status == "error"
-
-
-def test_guest_speaker_delegates_under_its_own_identity_and_can_reach_the_host(
-    _team_members,
-):
-    """A guest answering the turn delegates as itself and may hand work to the host.
-
-    The user addressed a teammate by name, so the guest (``speaker_agent_id``)
-    speaks while routing has overwritten ``agent_id`` with the conversation
-    host. Delegation must run under the guest's identity — not the host's — and
-    the host must be a reachable teammate, mirroring the prompt roster
-    ``[host, *members]``. Without this the guest hands work to the host and the
-    tool rejects it as "not a teammate" (the reported bug).
-    """
+def test_restricted_delegate_does_not_inherit_nested_delegation_tools():
     bridge = FakeBridge()
-    # research is the guest speaking; primary is the host (owner) it answers for.
-    _team_members["members"] = ["research"]
-    context = _context(agent_id="primary", speaker_agent_id="research")
-    tool = _tool(bridge=bridge, context=context)
-
-    result = tool.execute({"agent_id": "primary", "task": "Please cover the intro"})
-
+    tool = _tool(bridge=bridge)
+    result = tool.execute({"agent_id": "research", "task": "Look into it"})
     assert result.status == "success"
-    assert result.result["agent_id"] == "primary"
-    # Attribution is the guest, not the host whose conversation this is.
-    assert result.result["delegated_by"] == "research"
-    query, delegated_context, _ = bridge.calls[0]
-    assert "Delegated by Agent 'Research' (research)" in query
-    assert delegated_context.get("delegation_trace") == ["research", "primary"]
+    assert all(t.get("name") != "agent_delegate" for t in bridge.backend.requests[0].tools or [])
+
+
+def test_delegate_reads_the_inherited_roster_when_the_session_has_none(_team_members):
+    registry = AgentRegistry([AgentProfile("primary", "Primary", "/tmp/delegate-primary"),
+        AgentProfile("research", "Research", "/tmp/delegate-research"),
+        AgentProfile("designer", "Designer", "/tmp/delegate-designer")], "primary")
+    bridge = FakeBridge(registry=registry)
+    context = _context(agent_id="research", session_id="delegate_primary_research_abc",
+        delegation_members=["primary", "designer"], delegation_trace=["primary", "research"])
+    _team_members["members"] = []
+    tool = _tool(bridge=bridge, context=context)
+    ok = tool.execute({"agent_id": "designer", "task": "Make a banner"})
+    assert ok.status == "success" and ok.result["agent_id"] == "designer"
+    assert tool.execute({"agent_id": "primary", "task": "Loop back"}).status == "error"
+
+
+def test_guest_speaker_delegates_under_its_own_identity_and_can_reach_the_host(_team_members):
+    bridge = FakeBridge()
+    _team_members["members"] = ["research"]
+    tool = _tool(bridge=bridge, context=_context(agent_id="primary", speaker_agent_id="research"))
+    result = tool.execute({"agent_id": "primary", "task": "Please cover the intro"})
+    assert result.status == "success" and result.result["delegated_by"] == "research"
+    assert "Delegated by Agent 'Research' (research)" in str(bridge.backend.requests[0].messages)
 
 
 def test_guest_speaker_cannot_delegate_to_itself(_team_members):
@@ -339,253 +292,111 @@ def test_delegate_enforces_message_limit():
     assert "exceeds 4 characters" in result.result
 
 
-def test_delegate_reports_a_target_failure_through_the_result():
-    class FailingBridge(FakeBridge):
-        def agent_reply(self, query, context=None, on_event=None):
-            return Reply(ReplyType.ERROR, "target exploded")
-
-    tool = _tool(bridge=FailingBridge())
-
-    result = tool.execute({"agent_id": "research", "task": "Do work"})
-
-    assert result.status == "error"
-    assert "target exploded" in result.result
-    # Failures are shown to the watcher too, not just returned to the model.
-    assert result.display is not None
-    assert "Primary → Research" in result.display
-    assert "target exploded" in result.display
+def test_delegate_reports_a_target_failure_through_the_result(monkeypatch):
+    def fail(*args, **kwargs):
+        raise RuntimeError("secret target exception")
+    monkeypatch.setattr(Agent, "run_stream", fail)
+    result = _tool().execute({"agent_id": "research", "task": "Do work"})
+    assert result.status == "error" and "failed" in result.result
+    assert "secret target exception" not in result.result
 
 
 def test_delegate_relays_the_teammates_turn_bracketed_by_who_is_speaking():
-    """The teammate's turn surfaces live, attributed, in its own right."""
-
-    class ToolingBridge(FakeBridge):
-        def agent_reply(self, query, context=None, on_event=None):
-            on_event({"type": "reasoning_update", "data": {"delta": "let me look"}})
-            on_event(
-                {
-                    "type": "tool_execution_start",
-                    "data": {"tool_name": "web_search", "arguments": {"q": "x"},
-                             "tool_call_id": "t1"},
-                }
-            )
-            on_event(
-                {
-                    "type": "tool_execution_end",
-                    "data": {"tool_name": "web_search", "status": "success",
-                             "tool_call_id": "t1", "execution_time": 0.5},
-                }
-            )
-            on_event({"type": "message_update", "data": {"delta": "found it"}})
-            # Bookkeeping the watcher has no use for stays behind.
-            on_event({"type": "turn_end", "data": {}})
-            return Reply(ReplyType.TEXT, "found it")
-
     emitted = []
-    tool = _tool(bridge=ToolingBridge())
+    tool = _tool()
     tool.tool_call_id = "card-123"
     tool.event_callback = lambda etype, data: emitted.append((etype, data))
-
     result = tool.execute({"agent_id": "research", "task": "Look it up"})
-
     assert result.status == "success"
-    # The turn is bracketed, so a client knows whose reply the middle is.
-    assert [etype for etype, _ in emitted] == [
-        "peer_message_start",
-        "reasoning_update",
-        "tool_execution_start",
-        "tool_execution_end",
-        "message_update",
-        "peer_message_end",
-    ]
-    opening = emitted[0][1]
-    assert opening["agent_id"] == "research"
-    assert opening["card_id"] == "card-123"
-    assert opening["source_id"] == "primary"
-    assert emitted[-1][1]["agent_id"] == "research"
+    types = [t for t, _ in emitted]
+    assert types[0] == "peer_message_start" and types[-1] == "peer_message_end"
+    assert "message_update" in types
+    assert emitted[0][1]["agent_id"] == "research"
+    assert emitted[0][1]["source_id"] == "primary"
+    assert emitted[0][1]["card_id"] == "card-123"
 
 
-def test_delegate_closes_the_teammates_turn_when_the_hand_off_fails():
-    """A teammate that dies mid-sentence still gives the floor back."""
-
-    class ExplodingBridge(FakeBridge):
-        def agent_reply(self, query, context=None, on_event=None):
-            on_event({"type": "message_update", "data": {"delta": "starting"}})
-            raise RuntimeError("target exploded")
-
+def test_delegate_closes_the_teammates_turn_when_the_hand_off_fails(monkeypatch):
+    def fail(self, query, on_event=None, **kwargs):
+        on_event({"type": "message_update", "data": {"delta": "starting"}})
+        raise RuntimeError("private failure")
+    monkeypatch.setattr(Agent, "run_stream", fail)
     emitted = []
-    tool = _tool(bridge=ExplodingBridge())
+    tool = _tool()
     tool.event_callback = lambda etype, data: emitted.append((etype, data))
-
     result = tool.execute({"agent_id": "research", "task": "Look it up"})
-
-    assert result.status == "error"
-    types = [etype for etype, _ in emitted]
-    assert types[0] == "peer_message_start"
-    assert types[-1] == "peer_message_end"
+    assert result.status == "error" and "private failure" not in result.result
+    assert emitted[0][0] == "peer_message_start" and emitted[-1][0] == "peer_message_end"
 
 
 def test_delegate_passes_a_nested_hand_off_straight_through():
-    """A teammate delegating onward reads as another turn, not a nested one."""
-
-    class ForwardingBridge(FakeBridge):
-        def agent_reply(self, query, context=None, on_event=None):
-            on_event({"type": "message_update", "data": {"delta": "asking someone"}})
-            # What the teammate's own delegation emitted, seen from up here.
-            on_event({"type": "peer_message_start", "data": {"agent_id": "writer"}})
-            on_event({"type": "message_update", "data": {"delta": "drafted"}})
-            on_event({"type": "peer_message_end", "data": {"agent_id": "writer"}})
-            return Reply(ReplyType.TEXT, "done")
-
     emitted = []
-    tool = _tool(bridge=ForwardingBridge())
+    tool = _tool()
     tool.event_callback = lambda etype, data: emitted.append((etype, data))
-
-    tool.execute({"agent_id": "research", "task": "Look it up"})
-
-    # Flat: research opens, writer opens and closes inside it, research closes.
-    assert [etype for etype, _ in emitted] == [
-        "peer_message_start",
-        "message_update",
-        "peer_message_start",
-        "message_update",
-        "peer_message_end",
-        "peer_message_end",
-    ]
-    assert emitted[2][1]["agent_id"] == "writer"
+    view = _DelegateView(tool, "card", AgentProfile("primary", "Primary", "/tmp/p"), "research", "Research")
+    view.relay({"type": "message_update", "data": {"delta": "asking"}})
+    view.relay({"type": "peer_message_start", "data": {"agent_id": "writer"}})
+    view.relay({"type": "peer_message_end", "data": {"agent_id": "writer"}})
+    view.close()
+    assert [t for t, _ in emitted] == ["peer_message_start", "message_update", "peer_message_start", "peer_message_end", "peer_message_end"]
 
 
 def test_delegate_says_nothing_when_the_teammate_never_speaks():
-    """No turn, no brackets: a silent hand-off leaves no empty bubble behind."""
-
-    class SilentBridge(FakeBridge):
-        def agent_reply(self, query, context=None, on_event=None):
-            on_event({"type": "turn_start", "data": {}})
-            return Reply(ReplyType.TEXT, "")
-
     emitted = []
-    tool = _tool(bridge=SilentBridge())
+    tool = _tool()
     tool.event_callback = lambda etype, data: emitted.append((etype, data))
-
-    tool.execute({"agent_id": "research", "task": "Look it up"})
-
+    view = _DelegateView(tool, "card", AgentProfile("primary", "Primary", "/tmp/p"), "research", "Research")
+    view.relay({"type": "turn_start", "data": {}})
+    view.close()
     assert emitted == []
 
 
 def test_delegate_serializes_hands_off_to_the_same_target_session():
-    """A second delegation to the same relay session waits for the first."""
-
-    order = []
-    gate = threading.Event()
-
-    class SlowBridge(FakeBridge):
-        def agent_reply(self, query, context=None, on_event=None):
-            order.append(("start", query))
-            gate.wait(1)
-            order.append(("end", query))
-            return Reply(ReplyType.TEXT, "ok")
-
-    bridge = SlowBridge()
-
-    def run_first():
-        _tool(bridge=bridge).execute({"agent_id": "research", "task": "first"})
-
-    first = threading.Thread(target=run_first)
+    bridge = FakeBridge()
+    bridge.backend.entered, bridge.backend.release = threading.Event(), threading.Event()
+    first = threading.Thread(target=lambda: _tool(bridge=bridge).execute({"agent_id": "research", "task": "first"}))
+    second = threading.Thread(target=lambda: _tool(bridge=bridge).execute({"agent_id": "research", "task": "second"}))
     first.start()
-    # Let the first delegation acquire the relay lock and start.
-    deadline = time.monotonic() + 1
-    while not order and time.monotonic() < deadline:
-        time.sleep(0.01)
-
-    second_done = threading.Event()
-
-    def run_second():
-        _tool(bridge=bridge).execute({"agent_id": "research", "task": "second"})
-        second_done.set()
-
-    second = threading.Thread(target=run_second)
-    second.start()
-
-    # The second must not have finished while the first still holds the lock.
-    assert not second_done.wait(0.2)
-    gate.set()
-    first.join(2)
-    second.join(2)
-    assert order[0] == ("start", _query_for("first", order))
-    assert order.index(("end", _query_for("first", order))) < order.index(
-        ("start", _query_for("second", order))
-    )
+    try:
+        assert bridge.backend.entered.wait(2)
+        second.start()
+        time.sleep(0.1)
+        assert len(bridge.backend.order) == 1
+    finally:
+        bridge.backend.release.set()
+        first.join(3)
+        if second.ident:
+            second.join(3)
+    assert [kind for kind, _ in bridge.backend.order] == ["start", "end", "start", "end"]
 
 
-def _query_for(task, order):
-    for kind, query in order:
-        if task in query:
-            return query
-    raise AssertionError(f"no query recorded for {task}")
+def test_a_delegated_run_inherits_the_delegating_permission_mode(monkeypatch):
+    captured = []
+    original = Agent.run_stream
+    def observe(self, *args, **kwargs):
+        captured.append(self.authority)
+        return original(self, *args, **kwargs)
+    monkeypatch.setattr(Agent, "run_stream", observe)
+    tool = _tool()
+    tool.context.permission_mode = "read-only"
+    assert tool.execute({"agent_id": "research", "task": "Check"}).status == "success"
+    assert captured[0].mode == "read-only" and "fs.write" not in captured[0].capabilities
 
 
-# A delegated run inherits the delegating conversation's permission mode.
+def test_no_live_source_denies_delegation():
+    tool = _tool()
+    tool.context = None
+    result = tool.execute({"agent_id": "research", "task": "Check"})
+    assert result.status == "error" and "authority" in result.result
 
 
-class _Source:
-    def __init__(self, mode="read-only"):
-        self._mode = mode
-
-    def effective_permission_mode(self):
-        return self._mode
-
-
-_DEFAULT = object()
-
-
-class PeekBridge(FakeBridge):
-    """``source=None`` means no live source instance, as for a nested hop."""
-
-    def __init__(self, registry=None, source_mode="read-only", source=_DEFAULT):
-        super().__init__(registry)
-        self._source = _Source(source_mode) if source is _DEFAULT else source
-        self.peeked = []
-
-    def peek_agent(self, session_id, agent_id=None):
-        self.peeked.append((session_id, agent_id))
-        return self._source
-
-
-def test_a_delegated_run_inherits_the_delegating_permission_mode():
-    bridge = PeekBridge()
-    tool = _tool(bridge=bridge)
-
-    result = tool.execute({"agent_id": "research", "task": "Check the evidence"})
-
-    assert result.status == "success"
-    _, context, _ = bridge.calls[0]
-    assert context.get("delegated_permission_mode") == "read-only"
-    assert bridge.peeked == [("user-session", "primary")]
-
-
-def test_no_live_source_leaves_the_mode_alone():
-    bridge = PeekBridge(source=None)
-    tool = _tool(bridge=bridge)
-
-    result = tool.execute({"agent_id": "research", "task": "Check the evidence"})
-
-    assert result.status == "success"
-    _, context, _ = bridge.calls[0]
-    assert "delegated_permission_mode" not in context
-
-
-def test_a_failing_lookup_does_not_break_the_delegation():
-    class _Broken(PeekBridge):
-        def peek_agent(self, session_id, agent_id=None):
-            raise RuntimeError("registry is locked")
-
-    tool = _tool(bridge=_Broken())
-
-    result = tool.execute({"agent_id": "research", "task": "Check the evidence"})
-
-    assert result.status == "success"
-    _, context, _ = tool.agent_bridge.calls[0]
-    assert "delegated_permission_mode" not in context
+def test_a_failing_authority_lookup_denies_delegation(monkeypatch):
+    def fail(*args):
+        raise RuntimeError("secret lookup failure")
+    monkeypatch.setattr("agent.permission.authority.restricted_authority", fail)
+    result = _tool().execute({"agent_id": "research", "task": "Check"})
+    assert result.status == "error" and "authority" in result.result
+    assert "secret lookup failure" not in result.result
 
 
 def test_ordinary_turns_still_read_their_prefs():

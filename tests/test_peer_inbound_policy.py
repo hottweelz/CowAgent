@@ -1,4 +1,4 @@
-"""The receiving side of a peer hand-off enforces its own delegation policy."""
+"""Peer requests fail before policy-controlled runtime or session access."""
 
 import pytest
 
@@ -44,14 +44,15 @@ def _serve(monkeypatch, policy, **overrides):
     ("local", {}, False),
     ("peer", {"enabled": False}, False),
 ])
-def test_allowlist(monkeypatch, source, policy, served):
+def test_peer_rejected_for_every_allowlist(monkeypatch, source, policy, served):
     bridge, result = _serve(monkeypatch, policy, source_agent_id=source)
-    assert bool(bridge.depths) is served
-    assert result.get("status") == ("done" if served else "failed")
+    assert bridge.depths == []
+    assert result.get("status") == "failed"
+    assert "authority protocol" in result.get("error", "")
 
 
 @pytest.mark.parametrize("source, cleared", [("peer", True), ("stranger", False)])
-def test_clear_is_gated_by_the_allowlist(monkeypatch, source, cleared):
+def test_peer_clear_never_reaches_session_service(monkeypatch, source, cleared):
     calls = []
 
     class SessionService:
@@ -62,7 +63,7 @@ def test_clear_is_gated_by_the_allowlist(monkeypatch, source, cleared):
 
     monkeypatch.setattr(session_module, "SessionService", SessionService)
     _serve(monkeypatch, ALLOW_PEER, mode="clear", source_agent_id=source)
-    assert calls == (["local"] if cleared else [])
+    assert calls == []
 
 
 @pytest.mark.parametrize("trace, depth, expected", [
@@ -73,13 +74,12 @@ def test_clear_is_gated_by_the_allowlist(monkeypatch, source, cleared):
     (["peer", "a", "b", "c", "local"], -100, None),
     (["peer", "a", "b", "c", "local"], 1, None),
 ])
-def test_depth_comes_from_the_trace(monkeypatch, trace, depth, expected):
+def test_peer_trace_never_reaches_runtime(monkeypatch, trace, depth, expected):
     extra = {} if depth is None else {"depth": depth}
     bridge, result = _serve(monkeypatch, {"max_depth": 3}, trace=trace, **extra)
-    if expected is None:
-        assert bridge.depths == [] and "exceeds" in result.get("error", "")
-    else:
-        assert bridge.depths == [expected]
+    assert bridge.depths == []
+    assert result.get("status") == "failed"
+    assert "authority protocol" in result.get("error", "")
 
 
 class _RecordingLock:
@@ -104,12 +104,13 @@ class _RecordingLock:
     (0, {"timeout_seconds": 9}, 0.0),
     (-5.0, {"timeout_seconds": 3}, 0.0),
 ])
-def test_relay_wait_is_clamped_to_the_policy(monkeypatch, claimed, policy, expected):
+def test_peer_timeout_never_acquires_relay_lock(monkeypatch, claimed, policy, expected):
     import agent.tools.agent_delegate.agent_delegate as delegate_module
 
     lock = _RecordingLock()
     monkeypatch.setattr(delegate_module, "_relay_lock", lambda session_id: lock)
     extra = {} if claimed is None else {"timeout": claimed}
     _bridge, result = _serve(monkeypatch, policy, **extra)
-    assert lock.timeouts == [expected]
-    assert "timed out" in result.get("error", "")
+    assert lock.timeouts == []
+    assert result.get("status") == "failed"
+    assert "authority protocol" in result.get("error", "")

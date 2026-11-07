@@ -42,9 +42,8 @@ FULL_ACCESS = "full-access"
 
 MODES: Tuple[str, ...] = (READ_ONLY, WORKSPACE_WRITE, FULL_ACCESS)
 
-# Preserve the behavior installs already have: unless someone opts in, nothing
-# is gated. Fresh installs ship a stricter value via config-template.json.
-DEFAULT_MODE = FULL_ACCESS
+# Missing or invalid configuration must not grant privileged execution.
+DEFAULT_MODE = READ_ONLY
 
 CONFIG_KEY = "agent_permission_mode"
 
@@ -77,6 +76,24 @@ def normalize_mode(value: Any, default: Optional[str] = None) -> str:
     return _ALIASES.get(v, fallback)
 
 
+def strict_mode(value: Any) -> str:
+    """Parse a configured mode without turning invalid values into a grant."""
+    if not isinstance(value, str):
+        raise ValueError("Invalid permission mode")
+    value = value.strip().lower()
+    if value in MODES:
+        return value
+    if value in _ALIASES:
+        return _ALIASES[value]
+    raise ValueError("Invalid permission mode")
+
+
+def strict_global_mode() -> str:
+    from config import conf
+    value = conf().get(CONFIG_KEY)
+    return READ_ONLY if value is None else strict_mode(value)
+
+
 def global_mode() -> str:
     """The instance-wide default, used by sessions with no override."""
     try:
@@ -93,6 +110,7 @@ class Decision:
 
     allowed: bool
     reason: str = ""
+    code: str = ""
 
     def __bool__(self) -> bool:  # pragma: no cover - convenience only
         return self.allowed
@@ -600,7 +618,10 @@ def check_tool_call(
     write_roots: Optional[Iterable[str]] = None,
     protected_paths: Optional[Iterable[str]] = None,
 ) -> Decision:
-    """Decide whether ``tool_name`` may run with ``arguments`` under ``mode``.
+    """Legacy heuristic compatibility check, not an enforcement boundary.
+
+    Runtime dispatch must use authorize/invoke with an implementation identity.
+    Decide whether ``tool_name`` may run with ``arguments`` under ``mode``.
 
     Args:
         mode: one of :data:`MODES`; anything else is normalized.
@@ -615,11 +636,15 @@ def check_tool_call(
         A :class:`Decision` whose ``reason`` is written for the model: what was
         refused, and what to do instead.
     """
-    mode = normalize_mode(mode)
+    if not isinstance(mode, str) or (mode.strip().lower() not in MODES and mode.strip().lower() not in _ALIASES):
+        return Decision(False, "Authorization denied: invalid mode.", "invalid_mode")
+    mode = normalize_mode(mode, READ_ONLY)
+    tool_name = (tool_name or "").strip()
+    if tool_name not in {entry[0] for entry in _TOOL_DESCRIPTORS.values()}:
+        return Decision(False, "Authorization denied: unknown tool.", "unknown_tool")
     if mode == FULL_ACCESS:
         return ALLOW
 
-    tool_name = (tool_name or "").strip()
     args = arguments if isinstance(arguments, dict) else {}
 
     if mode == READ_ONLY:
@@ -927,56 +952,100 @@ def _check_bash_workspace_write(
 # ---------------------------------------------------------------------------
 
 def describe_mode(mode: str, language: str = "zh", cwd: Optional[str] = None) -> List[str]:
-    """Prompt lines telling the model what it may change this session.
-
-    Empty for full-access: with nothing gated there is nothing to say, and the
-    historical prompt stays byte-identical.
-    """
-    mode = normalize_mode(mode)
+    """Describe restricted capabilities without promising shell isolation."""
+    mode = normalize_mode(mode, READ_ONLY)
     if mode == FULL_ACCESS:
         return []
-
     if language == "en":
-        if mode == READ_ONLY:
-            body = [
-                "This session is **read-only**: you cannot modify files, and shell "
-                "commands are limited to read-only utilities.",
-                "",
-                "- Investigating, reading and explaining are unaffected: `read`, `ls`, "
-                "`search_files`, `web_search`, `web_fetch` and read-only shell "
-                "commands all work.",
-                "- Do not attempt writes. If the task needs them, say so and ask the "
-                "user to switch this session's permission mode.",
-            ]
-        else:
-            area = f"`{cwd}`" if cwd else "the working directory"
-            body = [
-                f"This session is **workspace-write**: you may freely create and change "
-                f"files inside {area}.",
-                "",
-                "- Writes outside it are refused; reading anywhere is fine.",
-                "- `mcp.json`, `config.json`, `.env` and the session settings files "
-                "are not writable in this mode, even inside it.",
-                "- If the task genuinely needs to write elsewhere, explain why and let "
-                "the user switch the permission mode.",
-            ]
-        return ["## 🔐 Permissions", ""] + body + [""]
+        access = "read-only" if mode == READ_ONLY else "workspace-write"
+        return ["## Permissions", "", f"This session is {access}.",
+                "File access is limited to the permitted workspace and excludes private state.",
+                "Shell, browser, network, memory, scheduler and MCP tools are unavailable.", ""]
+    access = "只读" if mode == READ_ONLY else "工作区可写"
+    return ["## 权限", "", f"当前会话为{access}模式。",
+            "文件访问仅限授权工作区，不包括私有状态。",
+            "Shell、浏览器、网络、记忆、计划任务和 MCP 工具不可用。", ""]
 
-    if mode == READ_ONLY:
-        body = [
-            "当前会话为**只读模式**：不能修改任何文件，命令行也仅限只读类命令。",
-            "",
-            "- 查看、分析、解释都不受影响：`read`、`ls`、`search_files`、`web_search`、"
-            "`web_fetch` 以及只读命令均可正常使用。",
-            "- 不要尝试写入。如果任务确实需要写入，请说明原因并提示用户切换该会话的权限模式。",
-        ]
-    else:
-        area = f"`{cwd}`" if cwd else "当前工作目录"
-        body = [
-            f"当前会话为**工作区可写模式**：可以在 {area} 内自由创建和修改文件。",
-            "",
-            "- 该目录之外的写入会被拒绝；读取不受限制。",
-            "- `mcp.json`、`config.json`、`.env` 和会话设置文件在该模式下不可修改，即使位于该目录内。",
-            "- 如果任务确实需要写到其他位置，请说明原因，由用户切换权限模式。",
-        ]
-    return ["## 🔐 权限", ""] + body + [""]
+
+# Explicit descriptors refer to exact implementation classes. A subclass or a
+# dynamically registered tool does not acquire authority through its name.
+_TOOL_DESCRIPTORS = {
+    ('agent.tools.read.read', 'Read'): ('read', 'fs.read'),
+    ('agent.tools.write.write', 'Write'): ('write', 'fs.write'),
+    ('agent.tools.edit.edit', 'Edit'): ('edit', 'fs.write'),
+    ('agent.tools.ls.ls', 'Ls'): ('ls', 'fs.read'),
+    ('agent.tools.search_files.search_files', 'SearchFiles'): ('search_files', 'fs.read'),
+    ('agent.tools.current_time.current_time', 'TimeTool'): ('time', 'time'),
+    ('agent.tools.subagent.subagent', 'SubagentTool'): ('subagent', 'subagent.spawn'),
+    ('agent.tools.agent_delegate.agent_delegate', 'AgentDelegateTool'): ('agent_delegate', 'delegate.local'),
+    ('agent.tools.bash.bash', 'Bash'): ('bash', 'privileged'),
+    ('agent.tools.send.send', 'Send'): ('send', 'privileged'),
+    ('agent.tools.memory.memory_search', 'MemorySearchTool'): ('memory_search', 'privileged'),
+    ('agent.tools.memory.memory_get', 'MemoryGetTool'): ('memory_get', 'privileged'),
+    ('agent.tools.evolution_undo.evolution_undo', 'EvolutionUndoTool'): ('evolution_undo', 'privileged'),
+    ('agent.tools.env_config.env_config', 'EnvConfig'): ('env_config', 'privileged'),
+    ('agent.tools.scheduler.scheduler_tool', 'SchedulerTool'): ('scheduler', 'privileged'),
+    ('agent.tools.web_search.web_search', 'WebSearch'): ('web_search', 'privileged'),
+    ('agent.tools.web_fetch.web_fetch', 'WebFetch'): ('web_fetch', 'privileged'),
+    ('agent.tools.vision.vision', 'Vision'): ('vision', 'privileged'),
+    ('agent.tools.browser.browser_tool', 'BrowserTool'): ('browser', 'privileged'),
+}
+
+
+def _descriptor(tool):
+    import importlib
+    cls = type(tool)
+    key = (cls.__module__, cls.__name__)
+    descriptor = _TOOL_DESCRIPTORS.get(key)
+    if descriptor is None or getattr(importlib.import_module(key[0]), key[1], None) is not cls:
+        return None
+    # Instance names can be changed; do not let a descriptor be confused with another tool.
+    if getattr(tool, 'name', None) != descriptor[0]:
+        return None
+    return descriptor
+
+
+def authorize(tool, arguments, agent):
+    """Return (decision, effective authority); all evaluation errors deny."""
+    from agent.permission.authority import resolve_authority
+    try:
+        authority = resolve_authority(agent)
+        descriptor = _descriptor(tool)
+        if descriptor is None:
+            return Decision(False, 'Authorization denied: unknown tool.', 'unknown_tool'), authority
+        event = getattr(tool, 'cancel_event', None)
+        if event is not None and event.is_set():
+            return Decision(False, 'Authorization denied: cancelled.', 'cancelled'), authority
+        capability = descriptor[1]
+        if authority.restricted and capability not in authority.capabilities:
+            return Decision(False, 'Authorization denied: capability unavailable.', 'capability_denied'), authority
+        return ALLOW, authority
+    except Exception:
+        return Decision(False, 'Authorization denied: evaluation failed.', 'evaluation_failed'), None
+
+
+def invoke(tool, arguments, agent=None):
+    """Authorize before the trusted raw implementation or restricted file broker."""
+    from agent.tools.base_tool import ToolResult
+    try:
+        decision, authority = authorize(tool, arguments, agent)
+        import json
+        from common.log import logger
+        from common.utils import current_agent_run_id
+        descriptor = _descriptor(tool)
+        logger.info(json.dumps({
+            "event": "tool_authorization", "allowed": decision.allowed,
+            "code": decision.code, "tool": descriptor[0] if descriptor else "unknown",
+            "agent_id": getattr(agent, "_current_agent_id", None),
+            "run_id": current_agent_run_id(),
+            "mode": authority.mode if authority is not None else None,
+        }))
+        if not decision.allowed:
+            return ToolResult.fail(decision.reason, ext_data={"permission_denied": True, "code": decision.code})
+        if authority.restricted and descriptor[1] in ('fs.read', 'fs.write'):
+            from agent.permission.filesystem import execute_file
+            return execute_file(descriptor[0], arguments, authority, agent.effective_cwd(),
+                                getattr(tool, 'cancel_event', None))
+        return tool.execute(arguments)
+    except Exception:
+        return ToolResult.fail('Authorization or execution failed.')

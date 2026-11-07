@@ -126,6 +126,28 @@ def get_project_dir(session_id: str, agent_id: Optional[str] = None) -> Optional
     return None
 
 
+def get_project_dir_strict(session_id: str, agent_id: Optional[str] = None) -> Optional[str]:
+    """Read a selected project without silently discarding invalid authority."""
+    if not session_id:
+        return None
+    with _lock:
+        try:
+            with open(_store_file(), "r", encoding="utf-8") as handle:
+                data = json.load(handle)
+        except FileNotFoundError:
+            return None
+        if not isinstance(data, dict) or not isinstance(data.get("sessions"), dict):
+            raise ValueError("Invalid project settings")
+        key = _session_key(session_id, agent_id)
+        if key not in data["sessions"]:
+            return None
+        entry = data["sessions"][key]
+    path = entry.get("path") if isinstance(entry, dict) else entry
+    if not isinstance(path, str) or not os.path.isabs(path) or not os.path.isdir(path):
+        raise ValueError("Invalid project settings")
+    return os.path.realpath(path)
+
+
 def get_project_map(agent_id: Optional[str] = None) -> Dict[str, str]:
     """Every session -> project binding for one agent, in a single file read.
 

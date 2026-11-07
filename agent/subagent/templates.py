@@ -22,9 +22,8 @@ from common.log import logger
 # so that a template granting "all tools" cannot recurse; the depth limit
 # governs the nesting that is actually allowed.
 #
-# Memory tools are intentionally NOT blocked: a sub agent should be able to
-# search and read the shared knowledge base to ground its work. It still owns no
-# memory of its own (memory_manager is None), so it can read but never persist.
+# Worker construction separately restricts tools to isolated native file and
+# time operations. It never copies memory, browser, MCP, or shell resources.
 BLOCKED_TOOLS = frozenset(
     {
         "subagent",
@@ -86,16 +85,15 @@ class SubagentTemplate:
 GENERAL_PURPOSE = SubagentTemplate(
     name="general-purpose",
     description=(
-        "Multi-step work that needs both investigation and action: search, read, "
-        "run commands, write files. Use when you know the goal but not how many "
+        "Multi-step work that needs investigation and action: search, read, "
+        "and write files within explicitly granted roots. Use when you know the goal but not how many "
         "steps it takes to get there."
     ),
     prompt=(
         "You are a focused sub agent. You have been given one task by the agent "
         "that spawned you, and you cannot see its conversation or ask the user "
-        "anything, so work from the task and context you were given. You can "
-        "search and read the shared memory / knowledge base for background you "
-        "need.\n\n"
+        "anything, so work from the task and context you were given. You may "
+        "access only files in the task workspace or explicitly shared roots.\n\n"
         "Finish the task and nothing beyond it, then reply with what you found "
         "or changed, the paths of any files you touched, and anything you could "
         "not resolve. Your reply is the only thing that reaches the agent that "
@@ -108,15 +106,15 @@ GENERAL_PURPOSE = SubagentTemplate(
 EXPLORE = SubagentTemplate(
     name="explore",
     description=(
-        "Read-only investigation: find files, search code or documents, gather "
-        "facts from the web. Use when the answer is somewhere and needs finding, "
+        "Read-only investigation of explicitly shared files and documents. "
+        "Use when the answer is somewhere and needs finding, "
         "and nothing needs to change."
     ),
     prompt=(
         "You are a read-only sub agent. You investigate and report; you never "
         "modify anything. You cannot see the conversation of the agent that "
-        "spawned you and cannot ask the user anything, but you can search and "
-        "read the shared memory / knowledge base.\n\n"
+        "spawned you and cannot ask the user anything. Read only files in "
+        "explicitly shared roots.\n\n"
         "Stop as soon as you have enough information to answer the task, and "
         "take only the steps it needs: every extra step adds time and cost. "
         "Report what you found, with concrete file paths, line numbers, URLs or "

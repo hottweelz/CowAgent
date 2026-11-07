@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from typing import Mapping, Optional, Tuple
 
 from agent.tools.base_tool import BaseTool, ToolResult
-from bridge.context import Context, ContextType
+from bridge.context import Context
 from bridge.reply import ReplyType
 from common.log import logger
 
@@ -516,19 +516,7 @@ class AgentDelegateTool(BaseTool):
             or context_values.get("session_id")
             or uuid.uuid4()
         )
-        # The team the teammate may hand work onward to: this conversation's
-        # roster plus whatever rode down the chain, minus those already in it.
-        team_ids = {source.id, *(item["id"] for item in roster)}
-        team_ids |= set(context_values.get("delegation_members") or [])
-        onward_members = sorted(team_ids - set(trace))
-
-        # The run id is minted here and carried by value: the target may run
-        # under a different ambient run id, but linking the child to this parent
-        # keeps the run tree walkable from either end.
-        from common.utils import current_agent_run_id
-
         run_id = uuid.uuid4().hex
-        parent_run_id = current_agent_run_id() or ""
 
         # Relay the teammate's turn as it happens so a watcher can follow the
         # delegated work live. The card is this tool call, since one delegation
@@ -542,72 +530,109 @@ class AgentDelegateTool(BaseTool):
         )
 
         if target is None:
-            return self._delegate_peer(
-                source, peer_target, task, policy, trace, depth,
-                root_session_id, onward_members, view, run_id,
-            )
+            return ToolResult.fail("Remote delegation denied: unsupported authority protocol")
 
         session_id = self._session_id(source.id, target.id, root_session_id)
         request_id = f"delegate_{uuid.uuid4().hex}"
 
-        delegated_context = Context(ContextType.TEXT, task, kwargs={})
-        delegated_context["session_id"] = session_id
-        delegated_context["request_id"] = request_id
-        delegated_context["receiver"] = target.id
-        delegated_context["isgroup"] = False
-        delegated_context["channel_type"] = "agent"
-        delegated_context["agent_id"] = target.id
-        delegated_context["is_delegated_task"] = True
-        delegated_context["delegated_by"] = source.id
-        delegated_context["delegation_depth"] = depth
-        delegated_context["delegation_trace"] = [*trace, target.id]
-        delegated_context["delegation_root_session"] = root_session_id
-        # Carry the original team's roster down the chain so the teammate can
-        # hand work onward to the same team — its private delegated session has
-        # no members of its own. The source itself is included so a later hop
-        # could reach it; the cycle guard, not the roster, stops loops. The
-        # source drops whoever is already in the chain to prompt only reachable
-        # options.
-        delegated_context["delegation_members"] = onward_members
-        delegated_context["run_id"] = run_id
-        delegated_context["parent_run_id"] = parent_run_id
-        delegated_context["task_source"] = TASK_SOURCE
-        inherited_mode = self._inherited_permission_mode(source.id)
-        if inherited_mode:
-            delegated_context["delegated_permission_mode"] = inherited_mode
+        # Never initialize or reuse the receiver's persistent Agent. Its public
+        # profile and the explicitly selected project define its authority.
+        try:
+            from agent.permission.authority import derive_authority, restricted_authority
+            from agent.permission.policy import strict_global_mode, strict_mode
+            from agent.protocol.agent import Agent
+            from agent.subagent.runner import _private_tools, _open_run, _close_run
+            from agent.subagent.templates import GENERAL_PURPOSE
+            from agent.workspace import project_store, session_prefs
+            from common.runtime_identity import identity_scope
+            from types import SimpleNamespace
+            import os
+
+            source_agent = getattr(self, "context", None)
+            if source_agent is None:
+                raise ValueError("Source Agent authority is unavailable")
+            parent_auth = restricted_authority(source_agent)
+            # The receiver session's explicit project is the only shared-root
+            # grant; a missing project uses its configured workspace.
+            selected = project_store.get_project_dir_strict(session_id, target.id)
+            receiver_root = selected or target.workspace
+            if not receiver_root or not os.path.isabs(receiver_root):
+                raise ValueError("Receiver workspace authority is unavailable")
+            prefs = session_prefs.get_prefs_strict(session_id, target.id)
+            receiver_mode = (strict_mode(prefs["permission"]) if prefs.get("permission")
+                             else strict_global_mode())
+            # Resolve the receiver as the receiver, retaining its private-state
+            # and sibling exclusions before intersecting the caller's grant.
+            receiver_view = Agent("Restricted receiver authority", workspace_dir=target.workspace,
+                                  enable_skills=False, skip_context_files=True)
+            receiver_view._current_agent_id = target.id
+            receiver_view.project_dir = receiver_root
+            receiver_view.permission_mode = receiver_mode
+            receiver_auth = restricted_authority(receiver_view)
+            authority = derive_authority(parent_auth, receiver_auth)
+            cwd = (authority.read_roots or authority.write_roots or (None,))[0]
+            from bridge.agent_bridge import AgentLLMModel
+            receiver_model = AgentLLMModel(self.agent_bridge.bridge)
+            is_default = target.id == self.agent_bridge.agent_registry.default_agent_id
+            receiver_model.set_agent_default(None if is_default else target.bot_type,
+                                             None if is_default else target.model)
+            child = Agent(
+                system_prompt="You are a delegated worker. Complete only the assigned task.",
+                description="restricted delegated worker", model=receiver_model,
+                tools=_private_tools(source_agent, GENERAL_PURPOSE, authority),
+                output_mode="logger", max_steps=max(1, source_agent.max_steps // 2),
+                max_context_tokens=source_agent.max_context_tokens,
+                memory_manager=None, workspace_dir=cwd, enable_skills=False,
+                skill_manager=None, runtime_info=None, skip_context_files=True,
+            )
+            child._current_agent_id = target.id
+            child.project_dir = cwd
+            child.permission_mode = authority.mode
+            child.authority = authority
+        except Exception:
+            return ToolResult.fail("Delegation authority or receiver model unavailable")
 
         prompt = delegated_prompt(source.name, source.id, task)
-
-        # Serialize hands-off to the same target session, then run it inline:
-        # the caller waits for the teammate's answer and returns it directly.
         lock = _relay_lock(session_id)
         if not lock.acquire(timeout=policy.timeout_seconds):
-            display = format_delegate_result(
-                source.name, target.name, "timed out waiting for the teammate to be free",
-                status="failed",
-            )
-            return ToolResult.fail(
-                f"Delegation to '{target.id}' timed out waiting for the target to be free",
-                display=display,
-            )
+            return ToolResult.fail(f"Delegation to '{target.id}' timed out waiting for the target to be free")
         started_at = time.monotonic()
+        run_store = _open_run(source_agent, run_id, SimpleNamespace(name="delegation"))
+        run_result = {"status": "failed"}
         with _local_run_deadline(self.agent_bridge, target.id, request_id,
                                  session_id, policy.timeout_seconds) as timed_out:
             try:
-                reply = self.agent_bridge.agent_reply(
-                    prompt, context=delegated_context, on_event=view.relay
-                )
-            except Exception as exc:
-                display = format_delegate_result(
-                    source.name, target.name, str(exc), status="failed"
-                )
-                return ToolResult.fail(
-                    f"Delegation to '{target.id}' failed: {exc}", display=display
-                )
+                from agent.protocol import get_cancel_registry
+                key = self.agent_bridge._cancel_key(target.id, request_id,
+                                                     self.agent_bridge.agent_registry.default_agent_id)
+                local_cancel = get_cancel_registry().get_event(key)
+                parent_cancel = getattr(self, "cancel_event", None)
+
+                class CombinedCancel:
+                    def is_set(self):
+                        return bool((local_cancel and local_cancel.is_set()) or
+                                    (parent_cancel and parent_cancel.is_set()))
+
+                cancel = CombinedCancel()
+                with identity_scope(agent_id=target.id, session_id=session_id, run_id=run_id):
+                    content = child.run_stream(prompt, clear_history=True,
+                                               cancel_event=cancel, on_event=view.relay)
+                if cancel.is_set():
+                    run_result = {"status": "cancelled", "error": "Delegation cancelled"}
+                    reply = None
+                else:
+                    run_result = {"status": "completed"}
+                    from bridge.reply import Reply
+                    reply = Reply(ReplyType.TEXT, content or "")
+            except Exception:
+                run_result = {"status": "failed", "error": "Delegated execution failed"}
+                return ToolResult.fail(f"Delegation to '{target.id}' failed")
             finally:
-                # Whatever happened, the teammate is done speaking.
-                view.close("failed" if timed_out.is_set() else "done")
+                _close_run(run_store, run_id, run_result)
+                view.close("done" if run_result["status"] == "completed" else "failed")
                 lock.release()
+        if run_result["status"] == "cancelled" and not timed_out.is_set():
+            return ToolResult.fail("Delegation cancelled")
         duration = time.monotonic() - started_at
 
         if timed_out.is_set():
@@ -641,75 +666,9 @@ class AgentDelegateTool(BaseTool):
             display=display,
         )
 
-    def _delegate_peer(
-        self, source, target, task: str, policy: DelegationPolicy, trace: tuple,
-        depth: int, root_session_id: str, onward_members: list,
-        view: "_DelegateView", run_id: str,
-    ) -> ToolResult:
-        """Hand the task to a teammate hosted in another process.
-
-        Same guards, same card, same result shape as a local hand-off; only
-        the run happens elsewhere. The teammate is sent the whole team as
-        profiles so it can name them on its own roster and hand work onward.
-        """
-        from agent.multiagent import InvokeRequest, PeerAgent, get_transport, resolve_teammate
-
-        transport = get_transport()
-        if transport is None:
-            return ToolResult.fail(f"Target Agent '{target.id}' is not available")
-
-        peers = []
-        for member_id in onward_members:
-            entry = resolve_teammate(member_id, self.agent_bridge.agent_registry)
-            if entry is not None:
-                peers.append(PeerAgent.from_any(entry))
-        request = InvokeRequest(
-            request_id=f"delegate_{uuid.uuid4().hex}",
-            target_id=target.id,
-            task=task,
-            source_id=source.id,
-            source_name=source.name,
-            root_session_id=root_session_id,
-            trace=(*trace, target.id),
-            depth=depth,
-            members=tuple(onward_members),
-            peers=tuple(p for p in peers if p is not None),
-            timeout_seconds=policy.timeout_seconds,
-            permission_mode=self._inherited_permission_mode(source.id) or "",
-        )
-        started_at = time.monotonic()
-        try:
-            result = transport.invoke(request, on_event=view.relay)
-        except Exception as exc:
-            display = format_delegate_result(source.name, target.name, str(exc), status="failed")
-            return ToolResult.fail(f"Delegation to '{target.id}' failed: {exc}", display=display)
-        finally:
-            # Whatever happened, the teammate is done speaking.
-            view.close()
-        duration = result.duration_seconds or (time.monotonic() - started_at)
-
-        if not result.ok:
-            display = format_delegate_result(
-                source.name, target.name, result.error, status="failed", duration_seconds=duration,
-            )
-            return ToolResult.fail(
-                f"Delegation to '{target.id}' failed: {result.error}", display=display
-            )
-        display = format_delegate_result(
-            source.name, target.name, result.content, status="done", duration_seconds=duration,
-        )
-        return ToolResult.success(
-            {
-                "run_id": run_id,
-                "agent_id": target.id,
-                "agent_name": result.agent_name or target.name,
-                "delegated_by": source.id,
-                "depth": depth,
-                "status": "done",
-                "content": result.content,
-            },
-            display=display,
-        )
+    def _delegate_peer(self, *args, **kwargs) -> ToolResult:
+        """Peers cannot enforce a caller's immutable authority yet."""
+        return ToolResult.fail("Remote delegation denied: unsupported authority protocol")
 
 
 def attach_agent_delegate_to_tool(tool, agent_bridge, context: Context) -> None:

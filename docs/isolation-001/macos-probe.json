@@ -1,0 +1,29 @@
+{
+  "platform": "darwin",
+  "root": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-seatbelt-p_hxe2bj",
+  "narrow_runtime": {
+    "code": -6,
+    "stdout": "",
+    "stderr": ""
+  },
+  "broad_allowed_write": {
+    "code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "broad_outside_write": {
+    "code": 1,
+    "stdout": "",
+    "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    open('/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-seatbelt-p_hxe2bj/sibling/outside.txt','w').write('no')\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nPermissionError: [Errno 1] Operation not permitted: '/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-seatbelt-p_hxe2bj/sibling/outside.txt'\n"
+  },
+  "broad_sibling_read": {
+    "code": 0,
+    "stdout": "FICTIONAL_ONLY\n",
+    "stderr": ""
+  },
+  "allowed_written": true,
+  "outside_written": false,
+  "detached_child_survived_group_cleanup": true,
+  "fixture_cleanup_requested": true,
+  "fixture_child_stopped_verified": true
+}

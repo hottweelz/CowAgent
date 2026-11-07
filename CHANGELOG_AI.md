@@ -1,5 +1,99 @@
 # AI handoff ledger
 
+## 2026-11-07 11:08 EST — Codex — ISOLATION-001 restricted worker authority
+
+- Task: implement and validate enforceable worker authority from the attached
+  ISOLATION-001 brief. Baseline master c2c39a2e, audit docs 06e0a4dd. Dedicated
+  branch fix/isolation-001-worker-authority; no merge or deployment.
+- Result: verified fail-closed restricted mode, the brief's permitted fallback.
+  Arbitrary untrusted execution and OS worker isolation remain unsupported.
+  Native text-file operations, time and bounded local file/text delegation work.
+- Team: Codex lead owns filesystem broker, macOS/baseline probes, integration,
+  evidence and Git. Luna/high mapped entry paths and migrated subagent fixtures.
+  Sol 6.1/high assessed interacting authority/credential boundaries; two Terra
+  6.1/high workers implemented cross-module authorization and delegation.
+  One separate Sol 6.1/high reviewer checked data/security boundaries beyond
+  routine Luna review. Requested models accepted; effective models are not
+  independently exposed. Used STE security-threat-model guidance; no HomeBoss.
+- Changes: immutable capability/root grants; exact-class descriptors; deny
+  unknown tools, missing/invalid authority and evaluation errors; gateway for
+  stream/wrapper/post-process paths. Legacy scheduled tool calls deny before
+  construction. Strict session/project/roster reads prevent stale authority.
+  POSIX descriptor-relative text broker rejects symlinks, hard links, private
+  state and host-source writes. Case/Unicode aliases cannot bypass exclusions.
+  Fresh temporary directories and optional explicit shared roots replace
+  implicit parent-resource sharing. Fresh local receiver retains configured
+  model and target runtime identity, with caller/receiver exclusions combined.
+  Worker MCP hot reload, parent memory/skills/context and mode-only remote
+  invocation are disabled by explicit authorization errors.
+- Files: agent/permission/{authority,filesystem,policy,__init__}.py; protocol
+  Agent/AgentStream; subagent runner/templates/tool; agent_delegate; multiagent
+  inbound; scheduler integration; BaseTool; workspace project/session stores;
+  bridge/agent_bridge.py; six migrated existing test files and three isolation
+  suites; docs/isolation-001 evidence/report/scripts; project MEMORY.md; ledger.
+- Baseline: detached disposable c2c39a2e checkout reproduced Bash/Python writing
+  a fictional outside marker and copied memory tool reading fictional parent
+  state. Native outside/read-only Write stayed denied. No production data used.
+- macOS: sandbox-exec exists but Apple marks it deprecated. A narrow prototype
+  aborted legitimate interpreter startup; a broad-read prototype denied outside
+  writes but exposed a fictional sibling secret. Detached child survived group
+  cleanup; the exact fixture child was then killed and verified stopped. No
+  experimental profile shipped; no privileged host change or dependency added.
+- Commands/results: `.venv/bin/python docs/isolation-001/run_regression.py`:
+  1,294 passed, 15 skipped, zero failures/errors over 106 files. Seven skips are
+  opt-in native browser tests, eight Windows-specific. Forty focused isolation
+  tests are included, not additive. Final target-identity check repeated 41
+  delegation/timeout tests, all passed. F-class Ruff, 27-file compilation and
+  diff checks passed. Private HOME/COW_DATA_DIR; only owned local HTTP fixture
+  ports permitted. First broad-run failures were permissive legacy fixtures and
+  a too-strict guard blocking the embedding fixture; no storage fix was needed.
+- Indexed-memory verification: real MemoryManager/MemorySearchTool gateway,
+  three reopen cycles, FTS MATCH each time, no LIKE fallback, WAL and integrity
+  confirmed. SQLite/EFFICIENCY regressions remain included. No production
+  TestPilot database, memory/history, identity, skill, instruction or config
+  was opened, migrated, deleted or rebuilt. Root AGENTS.md remains untouched.
+- Review: three concrete P1 findings fixed with execution regressions: scheduler
+  state injection/private traces; APFS case alias; receiver-side sibling
+  exclusions/source identity. Independent reviewer delivered findings and
+  completion notice; final worker tool status was an automated content flag.
+  Lead verified each fix; no independent final approval or second broad review
+  is claimed. See docs/isolation-001/review.md.
+- Decisions: fail closed on unsupported execution; preserve explicit privileged
+  owner full-access behavior for known native tools. No claim that argument
+  filters isolate arbitrary code. Persistent profiles/data stay intact; delegated
+  calls use stateless restricted views. Artifacts remain for parent/operator.
+- Lessons Learned:
+  - Mistake: relying on a short private-path denylist or case-sensitive path
+    comparisons, and retaining only caller exclusions during delegation.
+  - Root Cause: executable scheduler state and APFS aliases cross file boundaries;
+    a receiver has a different set of sibling-private workspaces.
+  - Future Trigger: changes to host-managed state paths, filesystem grants or
+    execution identity during delegation.
+  - Required Behavior Change: preserve absolute host-state exclusions across root
+    grants, compare denial aliases conservatively, intersect both principals.
+  - Verification Step: actual native Write/TaskStore, case/Unicode alias reads and
+    real target-model requests prove private data/effects remain excluded.
+  - Durable Memory Update: created project MEMORY.md with concise architecture
+    facts and pointers; no global memory or production MEMORY.md changed.
+- Known limits: no hard OS sandbox, hostile installed Python protection,
+  arbitrary untrusted shell/browser/MCP, authenticated remote capability
+  protocol, Windows broker or Linux enforcement run. Native rich-file parsing,
+  private worker memory/skills and legacy scheduled tool calls are unsupported.
+  Host model requests use cooperative cancellation; no process tree is launched
+  by restricted workers. Nine ChannelsPage type errors remain a separate baseline
+  defect; no frontend typecheck pass claimed. Detailed risks in the report.
+- Next recommended steps: review restricted-mode compatibility before any merge
+  or deployment. A separate scope must design and validate a supported OS
+  execution service and authenticated remote authority before enabling them.
+- Next-agent notes: final integrated receipts are at
+  /private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-isolation-regression-i8_f95v2.
+  Baseline detached worktree and fictional probe artifacts are retained for
+  review; paths and hashes are in docs/isolation-001. Preserve unrelated
+  AGENTS.md and three conflicted PID files. No runtime restart performed.
+- GitHub sync blocked: GitHub remote exists but current branch has no tracked
+  upstream. This task requests a local dedicated-branch commit; no destination
+  guessed or upstream set. The earlier audit branch push remains synchronized.
+
 ## 2026-11-06 23:22 EST — Codex — ORCHESTRATION-001 native audit
 
 - Task: evaluate native delegation, concurrency, identity/workspaces, permissions,

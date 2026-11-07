@@ -8,7 +8,6 @@ the point of spawning one at all.
 from __future__ import annotations
 
 import contextvars
-import copy
 import threading
 import time
 import uuid
@@ -74,6 +73,8 @@ class SubagentTask:
     goal: str
     context: str = ""
     subagent_type: Optional[str] = None
+    read_roots: tuple = ()
+    write_roots: tuple = ()
 
 
 def _build_brief(task: SubagentTask, template) -> str:
@@ -83,56 +84,106 @@ def _build_brief(task: SubagentTask, template) -> str:
     return "\n".join(parts)
 
 
-def _private_tools(parent, template) -> list:
-    """This template's tools, as instances no other run shares.
+def _private_tools(parent, template, authority=None):
+    """Construct fresh native tools only; never copy live tool resources."""
+    from agent.tools.read.read import Read
+    from agent.tools.write.write import Write
+    from agent.tools.edit.edit import Edit
+    from agent.tools.ls.ls import Ls
+    from agent.tools.current_time.current_time import TimeTool
+    from agent.tools.search_files.search_files import SearchFiles
 
-    The agent loop drives tools by assignment — it sets `context`,
-    `cancel_event` and `progress_callback` on the instance before each call and
-    clears them after. Two sub agents running at once on one instance would
-    therefore clear each other's cancel_event mid-call, quietly disarming the
-    timeout, and cross-report each other's progress. A shallow copy gives each
-    run its own slots for those attributes while leaving anything the tool holds
-    open (a browser session, an MCP client) shared, as it already is today.
-    """
-    return [copy.copy(tool) for tool in template.select_tools(list(parent.tools))]
+    if authority is None:
+        from agent.permission.authority import restricted_authority
+        authority = restricted_authority(parent)
+    allowed = {Read, Write, Edit, Ls, SearchFiles, TimeTool}
+    cwd = (authority.read_roots or authority.write_roots or ("/",))[0]
+    result = []
+    for source in template.select_tools(list(parent.tools)):
+        cls = type(source)
+        if cls not in allowed:
+            continue
+        if cls is TimeTool:
+            tool = cls()
+        else:
+            if not authority.read_roots and not authority.write_roots:
+                continue
+            tool = cls({"cwd": cwd})
+            if cls is Read:
+                # Missing relative paths must not fall back to shared knowledge.
+                tool._shared_knowledge_path = lambda path: None
+        result.append(tool)
+    return result
 
 
 def _build_child(parent, template, task: SubagentTask):
-    """A sibling of the parent Agent that shares its model and workspace.
-
-    Not a copy: no memory manager, no persona files, no message history. It
-    knows the task and nothing else, so anything it needs has to arrive through
-    the goal and context the parent wrote.
-    """
+    """Create a fresh execution view with frozen task authority."""
     from agent.protocol.agent import Agent
+    from agent.permission.authority import Authority, derive_authority, restricted_authority
+    from agent.permission.filesystem import FileBroker
+    import os
 
+    parent_auth = restricted_authority(parent)
+    if not isinstance(task.read_roots, (list, tuple)) or not isinstance(task.write_roots, (list, tuple)):
+        raise ValueError("Worker roots must be lists")
+    requested_read = tuple(task.read_roots)
+    requested_write = tuple(task.write_roots)
+    if any(not isinstance(p, str) or not os.path.isabs(p)
+           for p in requested_read + requested_write):
+        raise ValueError("Worker roots must be absolute paths")
+    requested = Authority(parent_auth.mode, parent_auth.capabilities, requested_read, requested_write)
+    limited = derive_authority(parent_auth, requested)
+    if set(limited.read_roots) != set(requested.read_roots) or set(limited.write_roots) != set(requested.write_roots):
+        raise ValueError("Worker root is outside parent authority")
+    for root in requested.read_roots:
+        FileBroker(parent_auth, root).locate(root)
+    for root in requested.write_roots:
+        FileBroker(parent_auth, root).locate(root, write=True)
+
+    scratch = None
+    if "fs.write" in parent_auth.capabilities:
+        for root in parent_auth.write_roots:
+            candidate = os.path.join(root, "worker-" + uuid.uuid4().hex)
+            try:
+                FileBroker(parent_auth, root).locate(candidate, write=True)
+                fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                try:
+                    os.mkdir(os.path.basename(candidate), 0o700, dir_fd=fd)
+                finally:
+                    os.close(fd)
+                scratch = candidate
+                break
+            except OSError:
+                continue
+    read_roots = requested.read_roots + ((scratch,) if scratch else ())
+    write_roots = requested.write_roots + ((scratch,) if scratch else ())
+    authority = derive_authority(parent_auth, Authority(parent_auth.mode, parent_auth.capabilities,
+                                                          read_roots, write_roots))
+    cwd = scratch or (authority.read_roots or authority.write_roots or (None,))[0]
     child = Agent(
         system_prompt=template.prompt,
         description=f"sub agent ({template.name})",
         model=parent.model,
-        tools=_private_tools(parent, template),
+        tools=_private_tools(parent, template, authority),
         output_mode="logger",
-        # Half the parent's budget. A sub agent's task is one self-contained
-        # piece of work by definition, and it starts with an empty context, so
-        # it should not be able to run as long as the whole conversation that
-        # delegated it. Overrunning is not fatal: the loop asks for a summary
-        # of what it managed and that is what comes back.
         max_steps=max(1, parent.max_steps // 2),
         max_context_tokens=parent.max_context_tokens,
         memory_manager=None,
         name=f"subagent:{template.name}",
-        workspace_dir=parent.workspace_dir,
-        skill_manager=parent.skill_manager if template.inherits_skills() else None,
-        enable_skills=parent.enable_skills and template.inherits_skills(),
-        runtime_info=parent.runtime_info,
+        workspace_dir=cwd,
+        skill_manager=None,
+        enable_skills=False,
+        runtime_info=None,
         skip_context_files=True,
     )
     child.extra_system_suffix = _build_brief(task, template)
-    # Same working directory and same permission mode as the parent: the tool
-    # copies already point at the parent's cwd, and delegating to a sub agent
-    # must not become a way around the session's permissions.
-    child.project_dir = parent.project_dir
-    child.permission_mode = parent.permission_mode
+    if scratch:
+        child.extra_system_suffix += f"\n\nTASK WORKSPACE: {scratch}"
+    child.task_workspace = scratch
+    child._current_agent_id = getattr(parent, "_current_agent_id", None)
+    child.project_dir = cwd
+    child.permission_mode = authority.mode
+    child.authority = authority
     return child
 
 
@@ -248,6 +299,7 @@ def _run_one(parent, template, task: SubagentTask, index: int, cancel_event,
         with identity_scope(run_id=run_id):
             _depth.set(_depth.get() + 1)
             child = _build_child(parent, template, task)
+            result["task_workspace"] = getattr(child, "task_workspace", None)
             summary = child.run_stream(
                 task.goal, clear_history=True, cancel_event=cancel_event,
                 on_event=child_events, steer_inbox=steer_inbox,
@@ -255,9 +307,9 @@ def _run_one(parent, template, task: SubagentTask, index: int, cancel_event,
         result["status"] = "cancelled" if cancel_event.is_set() else "completed"
         result["summary"] = summary or ""
     except Exception as e:
-        logger.warning(f"[SubAgent] task {index} ({template.name}) failed: {e}")
+        logger.warning(f"[SubAgent] task {index} ({template.name}) failed: {type(e).__name__}")
         result["status"] = "failed"
-        result["error"] = str(e)
+        result["error"] = "Worker initialization or execution failed"
 
     result["duration_seconds"] = round(time.time() - started, 2)
     _close_run(run_store, run_id, result)
