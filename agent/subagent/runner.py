@@ -286,7 +286,6 @@ def _prepare_task(parent, template, task, timeout_seconds):
     from agent.recovery.verification import normalize_contract
 
     task.verification = normalize_contract(task.verification)
-    child = _build_child(parent, template, task)
     identity = current_identity()
     owner = getattr(parent, '_current_agent_id', None) or identity.agent_id
     if not owner:
@@ -298,9 +297,19 @@ def _prepare_task(parent, template, task, timeout_seconds):
             raise ValueError('Durable worker owner unavailable')
         owner = matches[0]
     session = getattr(parent, '_current_session_id', None) or identity.session_id or 'native-worker'
-    child._current_agent_id = owner
+    principal = (getattr(parent, '_execution_agent_id', None)
+                 or getattr(getattr(parent, 'model', None), 'agent_id', None)
+                 or owner)
+    if principal != owner:
+        import copy
+        authority_parent = copy.copy(parent)
+        authority_parent._current_agent_id = principal
+    else:
+        authority_parent = parent
+    child = _build_child(authority_parent, template, task)
+    child._current_agent_id = principal
     spec = snapshot_child(child, task.goal, owner_id=owner, session_id=session,
-                          kind='subagent', source_agent_id=owner, target_agent_id=owner,
+                          kind='subagent', source_agent_id=principal, target_agent_id=principal,
                           parent_run_id=identity.run_id or '', timeout_seconds=timeout_seconds,
                           verification=task.verification)
     store = get_task_store()

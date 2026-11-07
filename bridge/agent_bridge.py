@@ -1263,6 +1263,7 @@ class AgentBridge:
             # agent. Memory/skills stay anchored to the workspace regardless.
             # Project and per-session settings belong to the conversation, so a
             # guest follows the host's, not its own unrelated ones.
+            agent._execution_agent_id = resolved_agent_id
             self._apply_session_project(agent, session_id, host_id)
             # Same idea for the session's permission mode, a per-conversation
             # override that falls back to the global config. The model is not

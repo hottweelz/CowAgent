@@ -62,6 +62,7 @@ class TaskStore:
                     task_id TEXT PRIMARY KEY, owner_id TEXT NOT NULL, session_id TEXT NOT NULL,
                     kind TEXT NOT NULL, spec TEXT NOT NULL, idempotency_key TEXT,
                     state TEXT NOT NULL, attempt_id TEXT, attempt_count INTEGER NOT NULL DEFAULT 0,
+                    generation INTEGER NOT NULL DEFAULT 0,
                     result TEXT, error TEXT NOT NULL DEFAULT '', reason TEXT NOT NULL DEFAULT '',
                     created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
                     updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now')),
@@ -91,6 +92,11 @@ class TaskStore:
                 CREATE INDEX IF NOT EXISTS recovery_effect_attempt ON recovery_effects(attempt_id);
                 CREATE INDEX IF NOT EXISTS recovery_verification_attempt ON recovery_verifications(task_id, attempt_id);
             ''')
+            # Serialize migration across independently starting services.
+            db.execute('BEGIN IMMEDIATE')
+            columns = {row['name'] for row in db.execute('PRAGMA table_info(recovery_tasks)')}
+            if 'generation' not in columns:
+                db.execute('ALTER TABLE recovery_tasks ADD COLUMN generation INTEGER NOT NULL DEFAULT 0')
 
     @contextmanager
     def _connect(self):
@@ -255,7 +261,7 @@ class TaskStore:
             rows = db.execute('SELECT task_id FROM recovery_tasks' + (' WHERE ' + ' AND '.join(clauses) if clauses else '') + f' ORDER BY created_at {order}, rowid {order} LIMIT ?', args).fetchall()
             return [self._get(db, row['task_id']) for row in rows]
 
-    def claim(self, task_id):
+    def claim(self, task_id, *, expected_generation=None):
         fd = self._lock(task_id)
         if fd is None:
             return None
@@ -264,8 +270,8 @@ class TaskStore:
         try:
             with self._connect() as db:
                 db.execute('BEGIN IMMEDIATE')
-                row = db.execute("SELECT kind,spec FROM recovery_tasks WHERE task_id=? AND state='queued'", (task_id,)).fetchone()
-                if row is None:
+                row = db.execute("SELECT kind,spec,generation FROM recovery_tasks WHERE task_id=? AND state='queued'", (task_id,)).fetchone()
+                if row is None or (expected_generation is not None and row['generation'] != expected_generation):
                     return None
                 if row['kind'] == 'delegate':
                     resource_fd = self._lock_name(self._resource_name(json.loads(row['spec'])))
@@ -301,20 +307,24 @@ class TaskStore:
                 db.execute("UPDATE recovery_attempts SET state=?,ended_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE attempt_id=?", (status, claim.attempt_id))
             return bool(cur.rowcount)
 
-    def request_stop(self, task_id, status='cancelled', *, attempt_id=None):
+    def request_stop(self, task_id, status='cancelled', *, attempt_id=None, expected_generation=None, expected_state=None, return_snapshot=False):
         if status not in ('cancelled', 'timed_out'):
             raise ValueError('invalid stop status')
         with self._connect() as db:
             db.execute('BEGIN IMMEDIATE')
-            row = db.execute('SELECT state,attempt_id FROM recovery_tasks WHERE task_id=?', (task_id,)).fetchone()
+            row = db.execute('SELECT state,attempt_id,generation FROM recovery_tasks WHERE task_id=?', (task_id,)).fetchone()
             if row is None or row['state'] not in ('queued', 'running'):
+                return False
+            if expected_state is not None and row['state'] != expected_state:
+                return False
+            if expected_generation is not None and row['generation'] != expected_generation:
                 return False
             if attempt_id is not None and (row['state'] != 'running' or row['attempt_id'] != attempt_id):
                 return False
             db.execute("UPDATE recovery_tasks SET state=?,reason=?,updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE task_id=?", (status, status, task_id))
             if row['state'] == 'running':
                 db.execute("UPDATE recovery_attempts SET state=?,reason=?,ended_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE attempt_id=?", (status, status, row['attempt_id']))
-            return True
+            return self._get(db, task_id) if return_snapshot else True
 
     def before_tool(self, claim, name, *, mutating, call_id=None):
         effect_id = str(uuid.uuid4())
@@ -370,7 +380,7 @@ class TaskStore:
                 effects = db.execute('SELECT 1 FROM recovery_effects e JOIN recovery_attempts a ON a.attempt_id=e.attempt_id WHERE a.task_id=? AND e.mutating=1 LIMIT 1', (task_id,)).fetchone()
                 if effects and not acknowledge_effects:
                     raise ValueError('retry requires acknowledgement of prior effects')
-                db.execute("UPDATE recovery_tasks SET state='queued',attempt_id=NULL,result=NULL,error='',reason='explicit_retry',updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE task_id=?", (task_id,))
+                db.execute("UPDATE recovery_tasks SET state='queued',attempt_id=NULL,result=NULL,error='',reason='explicit_retry',generation=generation+1,updated_at=strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE task_id=?", (task_id,))
                 return self._get(db, task_id)
         finally:
             self._unlock(fd)

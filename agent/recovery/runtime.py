@@ -38,12 +38,21 @@ def _agent_defaults(profile):
 
 def _current(spec):
     from config import conf
+    owner = _profile(spec['owner_id'])
     source = _profile(spec['source_agent_id'])
     target = _profile(spec['target_agent_id'])
     if spec['kind'] == 'subagent':
         from agent.subagent.runner import SubagentSettings
         if not SubagentSettings.from_config().enabled:
             raise ValueError('Recovery subagent execution disabled')
+        if source.id != target.id:
+            raise ValueError('Invalid subagent principal')
+        host_prefs = session_prefs.get_prefs_strict(spec['session_id'], owner.id)
+        members = host_prefs.get('members', [])
+        if not isinstance(members, (list, tuple)) or not all(isinstance(x, str) for x in members):
+            raise ValueError('Invalid conversation roster')
+        if source.id != owner.id and source.id not in members:
+            raise ValueError('Recovery guest no longer authorized')
     if spec['kind'] == 'delegate':
         from agent.tools.agent_delegate.agent_delegate import DelegationPolicy
         policy = DelegationPolicy.from_config(conf().get('agent_delegation', {}))
@@ -63,8 +72,9 @@ def _current(spec):
             raise ValueError('Recovery delegation no longer authorized')
     identities = []
     for profile, session in ((source, spec['source_session_id']), (target, spec['target_session_id'])):
-        prefs = session_prefs.get_prefs_strict(session, profile.id)
-        root = project_store.get_project_dir_strict(session, profile.id) or profile.workspace
+        authority_owner = owner.id if spec['kind'] == 'subagent' else profile.id
+        prefs = session_prefs.get_prefs_strict(session, authority_owner)
+        root = project_store.get_project_dir_strict(session, authority_owner) or profile.workspace
         if not os.path.isdir(root) or not os.path.isabs(root):
             raise ValueError('Recovery project unavailable')
         view = Agent('Recovery authority', workspace_dir=profile.workspace, enable_skills=False,
@@ -76,7 +86,7 @@ def _current(spec):
     auth = derive_authority(identities[0][0], identities[1][0])
     selected = identities[1] if spec['kind'] == 'delegate' else identities[0]
     prefs, profile = selected[1], selected[2]
-    if spec['kind'] == 'delegate' or prefs.get('members'):
+    if spec['kind'] == 'delegate' or source.id != owner.id or prefs.get('members'):
         # Delegated worker construction uses the receiver profile, not a
         # receiver conversation's model override. Its permission still applies.
         prefs = {}
@@ -162,6 +172,8 @@ def restore_child(spec, bridge):
     authority, profile, prefs = _attenuate(spec)
     from bridge.agent_bridge import AgentLLMModel
     model = AgentLLMModel(bridge)
+    model.agent_id = spec['target_agent_id']
+    model.session_id = spec['target_session_id']
     model.set_agent_default(*_agent_defaults(profile))
     model.set_session_override(prefs.get('provider'), prefs.get('model'))
     cwd = spec.get('project_dir') or spec.get('workspace_dir')
@@ -276,7 +288,12 @@ def execute_task(store, task_id, build_child=None, *, bridge=None, cancel_event=
     from common.runtime_identity import identity_scope
 
     deadline = None
-    claim = store.claim(task_id)
+    initial = store.get(task_id)
+    if initial is None:
+        raise ValueError('Recovery task not found')
+    generation = initial['generation']
+    watched_attempt = initial['attempt_id'] if initial['state'] == 'running' else None
+    claim = store.claim(task_id, expected_generation=generation)
     if claim is None:
         # Another process owns the flock. Never steal its attempt; a caller
         # awaiting the result observes the durable row until it settles.
@@ -284,6 +301,13 @@ def execute_task(store, task_id, build_child=None, *, bridge=None, cancel_event=
             task = store.get(task_id)
             if task is None:
                 raise ValueError('Recovery task not found')
+            if task['generation'] != generation or (watched_attempt and task['attempt_id'] != watched_attempt):
+                from agent.recovery.verification import task_result
+                result = task_result(task)
+                result.update(status='superseded', wait_status='superseded', error='Waiting attempt was replaced')
+                return result
+            if task['state'] == 'running' and watched_attempt is None:
+                watched_attempt = task['attempt_id']
             if task['state'] == 'completed' and isinstance(task.get('result'), dict):
                 return _completed_result(store, task, wait=wait_for_existing)
             if task['state'] not in ('running', 'queued') or not wait_for_existing:
@@ -295,15 +319,26 @@ def execute_task(store, task_id, build_child=None, *, bridge=None, cancel_event=
                 if not math.isfinite(timeout) or timeout <= 0:
                     raise ValueError('Invalid recovery timeout')
                 deadline = time.monotonic() + timeout
-            if cancel_event is not None and cancel_event.is_set():
-                store.request_stop(task_id, 'cancelled')
-            elif deadline is not None and time.monotonic() >= deadline:
-                store.request_stop(task_id, 'timed_out')
+            stopped = cancel_event is not None and cancel_event.is_set()
+            expired = deadline is not None and time.monotonic() >= deadline
+            if stopped or expired:
+                status = 'cancelled' if stopped else 'timed_out'
+                snapshot = store.request_stop(
+                    task_id, status, expected_generation=generation,
+                    attempt_id=task['attempt_id'] if task['state'] == 'running' else None,
+                    expected_state='running' if task['state'] == 'running' else None,
+                    return_snapshot=True)
+                if snapshot:
+                    from agent.recovery.verification import task_result
+                    return task_result(snapshot)
+                # A completion or replacement won the CAS. Re-read it rather
+                # than attributing our unsuccessful stop to that execution.
+                continue
             else:
                 if task['state'] == 'queued':
                     # A different task may own this receiver/session. Retry the
                     # claim after its owner exits, without needing a service.
-                    claim = store.claim(task_id)
+                    claim = store.claim(task_id, expected_generation=generation)
                     if claim is not None:
                         break
                 time.sleep(0.05)
