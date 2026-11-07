@@ -1,0 +1,34 @@
+{
+  "baseline": "c2c39a2e",
+  "counts": {
+    "tests": 394,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "test_files": [
+    "tests/test_agent_delegation.py",
+    "tests/test_agent_delegation_timeout.py",
+    "tests/test_agent_registry.py",
+    "tests/test_config_subagent_toggle.py",
+    "tests/test_multi_agent_runtime.py",
+    "tests/test_multi_agent_state_isolation.py",
+    "tests/test_peer_inbound_permission_mode.py",
+    "tests/test_peer_inbound_policy.py",
+    "tests/test_permission_flag_driven_writes.py",
+    "tests/test_permission_git_global_options.py",
+    "tests/test_permission_git_read_only.py",
+    "tests/test_permission_protected_files.py",
+    "tests/test_permission_shell_substitution.py",
+    "tests/test_subagent.py",
+    "tests/test_subagent_fallback_scope.py",
+    "tests/test_subagent_history.py",
+    "tests/test_subagent_parent_cancel.py",
+    "tests/test_subagent_run_records.py",
+    "tests/test_subagent_template_body.py"
+  ],
+  "environment": "macOS, Python 3.13, project .venv; isolated COW_DATA_DIR and synthetic config; socket.connect blocked",
+  "command": ".venv/bin/python -m pytest -q <test_files>",
+  "actual_invocation": "pytest.main in an isolated Python wrapper with config.Config synthetic workspace and self_evolution_enabled=False; full selection as listed",
+  "private_junit": "/private/tmp/cowagent-orchestration-tests.YZXKyi/junit.xml"
+}

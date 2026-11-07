@@ -1,0 +1,342 @@
+{
+  "baseline": "c2c39a2e",
+  "workspace": "/private/tmp/cowagent-orchestration-2sbcc0_h",
+  "live_provider_calls": 0,
+  "source_evidence": {
+    "actual_head": "c2c39a2e0823f1556ecdc79f9e07911fff207a05",
+    "implementation_matches_baseline": true,
+    "comparison_excludes": [
+      "docs/",
+      "CHANGELOG_AI.md"
+    ]
+  },
+  "fictional_task_requirements": {
+    "worker-a": "Add the fictional shipment counts 1, 2, 3, 4 and 5.",
+    "worker-b": "Multiply the fictional crate count 6 by 7 items per crate.",
+    "worker-c": "Multiply the fictional box count 3 by 14 items per box.",
+    "worker-d": "Multiply the fictional pack count 2 by 21 items per pack."
+  },
+  "recorded_at": "2026-11-06T23:20:03.875329-05:00",
+  "environment": {
+    "python": "3.13.1",
+    "sqlite": "3.45.3",
+    "platform": "darwin"
+  },
+  "model_boundary": "deterministic local streaming responses; real Agent/tool/runner/store",
+  "parallel": {
+    "native_statuses": [
+      "completed",
+      "completed"
+    ],
+    "independent_artifacts_valid": {
+      "worker-a": true,
+      "worker-b": true
+    },
+    "model_calls": {
+      "parent-task": 2,
+      "worker-b": 2,
+      "worker-a": 2
+    },
+    "database_statuses": [
+      "done",
+      "done"
+    ],
+    "same_parent_agent_identity": true,
+    "same_parent_run": true,
+    "overlap_seconds": 0.086,
+    "distinct_worker_threads": true,
+    "simultaneous_workers": 2,
+    "configured_limit_per_call": 2,
+    "same_process": true,
+    "shared_workspace": true
+  },
+  "multiple_batches": {
+    "native_statuses": [
+      "completed",
+      "completed",
+      "completed",
+      "completed"
+    ],
+    "independent_artifacts_valid": {
+      "worker-a": true,
+      "worker-b": true,
+      "worker-c": true,
+      "worker-d": true
+    },
+    "model_calls": {
+      "parent-task": 2,
+      "worker-a": 2,
+      "worker-c": 2,
+      "worker-b": 2,
+      "worker-d": 2
+    },
+    "database_statuses": [
+      "done",
+      "done",
+      "done",
+      "done"
+    ],
+    "same_parent_agent_identity": true,
+    "same_parent_run": true,
+    "overlap_seconds": 0.084,
+    "distinct_worker_threads": true,
+    "simultaneous_workers": 4,
+    "configured_limit_per_call": 2,
+    "same_process": true,
+    "shared_workspace": true
+  },
+  "wrong_output": {
+    "native_statuses": [
+      "completed",
+      "completed"
+    ],
+    "independent_artifacts_valid": {
+      "worker-a": false,
+      "worker-b": false
+    },
+    "model_calls": {
+      "parent-task": 2,
+      "worker-b": 2,
+      "worker-a": 2
+    },
+    "database_statuses": [
+      "done",
+      "done"
+    ],
+    "same_parent_agent_identity": true,
+    "same_parent_run": true
+  },
+  "worker_failure": {
+    "native_statuses": [
+      "completed",
+      "failed"
+    ],
+    "independent_artifacts_valid": {
+      "worker-a": true,
+      "worker-b": false
+    },
+    "model_calls": {
+      "parent-task": 2,
+      "worker-a": 2,
+      "worker-b": 1
+    },
+    "database_statuses": [
+      "done",
+      "failed"
+    ],
+    "same_parent_agent_identity": true,
+    "same_parent_run": true
+  },
+  "transient_provider_failure": {
+    "native_statuses": [
+      "completed",
+      "completed"
+    ],
+    "independent_artifacts_valid": {
+      "worker-a": true,
+      "worker-b": true
+    },
+    "model_calls": {
+      "parent-task": 2,
+      "worker-a": 3,
+      "worker-b": 3
+    },
+    "database_statuses": [
+      "done",
+      "done"
+    ],
+    "same_parent_agent_identity": true,
+    "same_parent_run": true
+  },
+  "cancellation": {
+    "returned_status": "cancelled",
+    "return_wait_seconds": 0.109,
+    "model_still_blocked_when_runner_returned": true,
+    "database_status_at_return": [
+      "running"
+    ],
+    "database_status_after_worker_exits": [
+      "cancelled"
+    ],
+    "budget_note": "timeout uses a direct runner setting of 0.3s; public config minimum is 10s"
+  },
+  "timeout": {
+    "returned_status": "timeout",
+    "return_wait_seconds": 0.312,
+    "model_still_blocked_when_runner_returned": true,
+    "database_status_at_return": [
+      "running"
+    ],
+    "database_status_after_worker_exits": [
+      "cancelled"
+    ],
+    "budget_note": "timeout uses a direct runner setting of 0.3s; public config minimum is 10s"
+  },
+  "restart": {
+    "raw_status_after_restart": "running",
+    "history_interpretation": [
+      "interrupted"
+    ],
+    "automatic_execution_observed": false,
+    "explicit_resubmission_added_run": true,
+    "old_run_still_running_in_ledger": true,
+    "old_run_extras_keys": [
+      "subagent_type"
+    ],
+    "new_run_count": 2,
+    "terminated_pid": 50430,
+    "terminated_returncode": -15,
+    "restart_scope": "new backend probe process, not full web server startup"
+  },
+  "permissions": {
+    "root": "/private/tmp/cowagent-orchestration-2sbcc0_h/permissions",
+    "probes": {
+      "explore_write": {
+        "template": "explore",
+        "permission_mode": "workspace-write",
+        "action": "write",
+        "marker_exists_before": false,
+        "child_tool_step": {
+          "observed": true,
+          "status": "error",
+          "permission_denied": false,
+          "tool_missing": true
+        },
+        "marker_exists_after": false,
+        "model_calls": 4,
+        "expected_observation_confirmed": true
+      },
+      "general_readonly_write": {
+        "template": "general-purpose",
+        "permission_mode": "read-only",
+        "action": "write",
+        "marker_exists_before": false,
+        "child_tool_step": {
+          "observed": true,
+          "status": "error",
+          "permission_denied": true,
+          "tool_missing": false
+        },
+        "marker_exists_after": false,
+        "model_calls": 4,
+        "expected_observation_confirmed": true
+      },
+      "direct_write_outside_workspace": {
+        "template": "general-purpose",
+        "permission_mode": "workspace-write",
+        "action": "write",
+        "marker_exists_before": false,
+        "child_tool_step": {
+          "observed": true,
+          "status": "error",
+          "permission_denied": true,
+          "tool_missing": false
+        },
+        "marker_exists_after": false,
+        "model_calls": 4,
+        "expected_observation_confirmed": true
+      },
+      "bash_python_outside_workspace": {
+        "template": "general-purpose",
+        "permission_mode": "workspace-write",
+        "action": "bash",
+        "marker_exists_before": false,
+        "child_tool_step": {
+          "observed": true,
+          "status": "success",
+          "permission_denied": false,
+          "tool_missing": false
+        },
+        "marker_exists_after": true,
+        "model_calls": 4,
+        "expected_observation_confirmed": true
+      },
+      "fictional_parent_memory_read": {
+        "template": "general-purpose",
+        "permission_mode": "workspace-write",
+        "action": "memory_search",
+        "marker_exists_before": false,
+        "child_tool_step": {
+          "observed": true,
+          "status": "success",
+          "permission_denied": false,
+          "tool_missing": false
+        },
+        "marker_exists_after": false,
+        "model_calls": 4,
+        "fictional_memory_manager_identity": "fictional-parent-memory",
+        "fictional_memory_queries": [
+          "fictional identity probe"
+        ],
+        "fictional_memory_action_succeeded": true,
+        "expected_observation_confirmed": true
+      }
+    },
+    "path_scope": {
+      "workspace_is_under_root": true,
+      "direct_marker_is_outside_workspace": true,
+      "direct_marker_is_outside_system_temp": true,
+      "bash_marker_is_outside_workspace": true,
+      "bash_marker_is_outside_system_temp": true
+    }
+  },
+  "permission_probe_skips": [],
+  "persistent_delegation": {
+    "status": "passed",
+    "boundaries": {
+      "real": [
+        "AgentRegistry and AgentRouter",
+        "AgentBridge local reply, runtime cache, and private peer session",
+        "Agent and streaming tool executor",
+        "permission gate and Write tool",
+        "SQLite run and message persistence"
+      ],
+      "substituted": [
+        "per-profile initializer builds real Agents with safe local tools",
+        "LLMModel responses are deterministic local streams",
+        "AgentBridge constructor is bypassed to avoid scheduler and evolution startup",
+        "MCP hot reload callback is disabled"
+      ],
+      "not_exercised": [
+        "provider or network behavior",
+        "cross-process peer transport",
+        "production channel routing and credentials"
+      ]
+    },
+    "profiles": {
+      "primary": {
+        "workspace": "workspaces/primary",
+        "registered": true
+      },
+      "worker-a": {
+        "workspace": "workspaces/worker-a",
+        "registered": true
+      },
+      "worker-b": {
+        "workspace": "workspaces/worker-b",
+        "registered": true
+      }
+    },
+    "delegation": {
+      "target_ids": [
+        "worker-a",
+        "worker-b"
+      ],
+      "source_id": "primary",
+      "worker_a_artifacts": [
+        "worker-a-1.txt",
+        "worker-a-2.txt"
+      ],
+      "worker_b_read_only_write_denied": true,
+      "disallowed_roster_target_denied": true,
+      "worker_a_private_session_reused": true,
+      "shared_sqlite_path": "workspaces/primary/memory/long-term/index.db",
+      "worker_a_store_scope": "worker-a",
+      "worker_b_store_scope": "worker-b",
+      "worker_b_sees_worker_a_history": false,
+      "worker_a_persisted_runs": 2,
+      "worker_a_persisted_user_turns": 2
+    }
+  },
+  "self_evolution_enabled": false
+}

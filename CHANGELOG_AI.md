@@ -1,5 +1,88 @@
 # AI handoff ledger
 
+## 2026-11-06 23:22 EST — Codex — ORCHESTRATION-001 native audit
+
+- Task: evaluate native delegation, concurrency, identity/workspaces, permissions,
+  task persistence/recovery and supervisor verification before implementation.
+  Baseline master c2c39a2e; dedicated branch audit/orchestration-001-native.
+- Result: native peers have durable profiles/own workspaces; temporary workers
+  share parent process/workspace/model. Two workers overlapped 0.086 s; two
+  parallel batches at limit 2 produced four simultaneous workers (0.084 s).
+  Correct artifacts passed independent checks; deliberately incorrect artifacts
+  still received completed/done. These are synthetic path tests, not model-quality
+  or provider-throughput measurements.
+- Team: Codex lead owns probe integration, report, validation and Git; Luna/high
+  lifecycle worker maps source and owns the persistent-peer probe; Luna/high
+  isolation worker maps boundaries and owns permission/memory probes. One
+  Terra 6.1/high reviewer checks evidence fidelity across threads, processes,
+  permissions and persistence, beyond routine Luna file inspection. Requested
+  models accepted; effective models not independently exposed. Used STE Writing
+  Plans/evidence guidance. No HomeBoss or external agent runtime invoked.
+- Recovery: synthetic 401 failed only one worker; synthetic 503 retried and
+  recovered. Cancel/timeout returned while a model call was still blocked; rows
+  remained running until worker exit, then cancelled. Process termination during
+  a pending worker left raw running/history-interpreted interrupted. New-process
+  explicit resubmission created a new run, not checkpoint continuation. No full
+  web-server/service-manager restart was claimed.
+- Authority/state: Explore Write lookup failed; inherited read-only and direct
+  outside-workspace Write were denied. Fixed Python through native Bash wrote
+  only a fictional sibling marker outside workspace/temp roots, demonstrating
+  best-effort scope. Memory tool copies called the fictional parent manager.
+  Peer handoffs retained 2 runs/2 user turns in the shared DB with separate
+  worker scopes; worker-b could not load worker-a history. All artifacts remained
+  in new disposable roots. Bash's ~/.cow/.env lookup was redirected to a missing
+  fixture, and inherited provider environment variables were removed.
+- Source findings: per-call rather than global worker cap; best-effort run
+  recording; no durable worker dispatch/resume queue or mandatory verifier;
+  no per-action approval handshake in inspected delegation/permission paths.
+  Permission-check exceptions fail open; unknown tools need stronger capabilities.
+  PeerTransport supports other CowAgent deployments; no native external CLI
+  runtime adapter found. The asset guide's memory-tool blocklist is stale.
+- Changes/files: only this ledger and docs/orchestration-001/{README.md,plan.md,
+  probe.py,permissions_probe.py,delegation_probe.py,results.json,tests.json}.
+  No product implementation, instruction, identity or production configuration
+  changes. No self-evolution, production credentials, network services, PR or merge.
+- Commands/tests: isolated synthetic config and blocked socket.connect;
+  pytest.main over the 19 files in tests.json: 394 passed, no failures/skips in
+  12.12 s. Final `.venv/bin/python docs/orchestration-001/probe.py --output
+  docs/orchestration-001/results.json` passed all required observations with no
+  permission skips. All three probes passed F-class Ruff and py_compile; source
+  diff against c2c39a2e is empty outside docs/ledger. Receipt reconciliation and
+  self-review completed; audit source label checks real HEAD and baseline diff.
+- Review corrections: specify arithmetic requirements inside worker briefs;
+  assert non-skipped permission results; record/verify actual source revision.
+  Also align the observed denial marker with its write target, retain default
+  Bash safety mode, and pin the peer fixture's global registry to the same
+  synthetic registry as the bridge. Corrected probes rerun successfully.
+- Decisions: compare BullGod to capabilities in this brief; no separate BullGod
+  specification was found. Recommend capability/OS isolation, durable task/attempt
+  and recovery contracts, mandatory verification, global admission, then a thin
+  external-runtime adapter/approval contract. None implemented before review.
+- Lessons Learned:
+  - Mistake: testing an output predicate that the worker was never assigned,
+    or treating a successful probe exit / durable run row as proof of supervision.
+  - Root Cause: fixture requirements, assertion gates and source identity were
+    incomplete; native run status records execution rather than correctness.
+  - Future Trigger: orchestration audit using scripted models or mocked startup.
+  - Required Behavior Change: put acceptance requirements in task briefs, identify
+    substituted boundaries, assert every claimed observation and pin actual code.
+  - Verification Step: wrong-artifact negative case, real tool/permission/SQLite
+    paths, process death/new process, source match and independent evidence review.
+  - Durable Memory Update: findings are in the audit README; MEMORY.md update:
+    not needed (no project file, no architecture or instruction changes).
+- Known limits: no live provider/remote peer/external CLI, full web restart,
+  distributed stress or native Windows test. Temporary workers are not sandboxed;
+  no claim of exactly-once recovery. Existing ChannelsPage baseline unchanged.
+- Next recommended steps: review docs/orchestration-001/README.md, confirm the
+  BullGod capability/isolation and recovery contract, then authorize a separate
+  implementation scope. Do not implement audit recommendations automatically.
+- Next-agent notes: final scratch workspace is
+  /private/tmp/cowagent-orchestration-2sbcc0_h; regression JUnit/selection at
+  /private/tmp/cowagent-orchestration-tests.YZXKyi. Preserve unrelated untracked
+  AGENTS.md and three conflicted PID files. Dedicated branch is local only.
+- GitHub sync blocked: GitHub remote exists but current branch has no tracked upstream.
+  No upstream guessed, push requested, PR created or merge performed for this audit.
+
 ## 2026-11-06 22:45 EST — Codex — Integrated release and master merge
 
 - Task: stop optimization, consolidate SQLite plus Phases 1–4, run one integrated
