@@ -1,5 +1,84 @@
 # AI handoff ledger
 
+## 2026-11-07 16:10 EST — Codex — EXTERNAL-001 external runtime supervision
+
+- Task/result: designed and validated a host-only supervisory API and one real
+  synthetic process adapter on feat/external-001-runtime-contract, based on
+  master e642eec1. Publish branch/evidence; no master merge, deployment, real
+  external agent connection, production credential or production data access.
+- Team: Codex lead owns contract/transport/supervisor/journal/verifier, process
+  integration tests, schemas/docs and Git. Luna/high audited existing interfaces
+  and ran release gates. Terra 6.1/high implemented the standalone fixture and
+  focused tests; interacting process/effect boundaries needed more than routine
+  Luna edits. One Sol 6.1/high security/architecture reviewer handled identity,
+  approval and uncertain-effect reasoning across trust boundaries. Requested
+  models accepted; effective runtime identities not independently exposed.
+  Used STE design/planning guidance; no HomeBoss or external worker pool.
+- Changes: versioned HMAC request/response contract over private Unix IPC;
+  runtime-owned model/identity/session/tools/private storage; frozen operation,
+  namespace and expiry grants; explicit task-hash-bound effect approval;
+  additive external tables in TaskStore WAL/FULL, separate from native queue;
+  durable send intent, idempotent runtime acceptance, monotonic observations;
+  status-only reconciliation, explicit cancellation versus termination; native
+  read-only export and fictional ledger verification independent of worker prose.
+- Files: seven agent/external modules; three external suites and supervisor
+  process fixture; docs/external-001 plan, README, schema, review, runner,
+  JSON receipts, JUnit/output; project MEMORY.md and this ledger. Existing
+  native tools, authority, memory, models and frontend source are unchanged.
+- Commands/results: focused external suite 24 passed; corrected direct reused
+  runner `.venv/bin/python docs/external-001/run_regression.py` passed 1,388,
+  skipped 15, zero failures/errors across 122 files. Exactly retained 119-file
+  selection plus three external files. Seven matching native-browser cases
+  passed separately: 1,395 unique passes and eight Windows-only skips. Node
+  usage/scroll/message tests 39 passed. Strict renderer tsc and desktop build
+  passed. New 12-file Ruff F/compilation passed; all 54 retained source hashes
+  match prior valid static evidence. Schema JSON/17 definitions/43 references
+  and document links checked; no JSON Schema validator dependency added.
+- Evidence: actual concurrent/duplicate socket submissions, durable nonce
+  rejection, host SIGKILL before/after send, runtime SIGKILL at four effect
+  boundaries, no completed/uncertain replay, one fictional effect where
+  expected, requested versus confirmed cancellation, scope/approval/expiry,
+  stale session/revision/identity, missing/wrong/unsupported artifact checks,
+  stable runtime config/private memory/session and native queue exclusion.
+  Final JUnit IDs/counts/checksum and 66 source hashes independently reconciled.
+- Review: one P2 found and fixed. Prepared status queries had poisoned later
+  submission by conflating transport state with send history. Separate durable
+  submission_started flag now fences dispatch; actual-socket correction passed
+  in the original reviewer's narrow confirmation. No other milestone blocker.
+- Decisions: external runtime control stays in explicitly enrolled trusted host
+  code. No restricted worker shell/network capability, global daemon, legacy
+  remote bypass, real adapter or general exactly-once guarantee is introduced.
+  Uncertain tasks need operator inspection; lost cancel requests need an
+  explicit repeat. Human approval authentication is future integration work.
+- Lessons Learned:
+  - Mistake: treating transport availability as evidence of prior submission;
+    also adapting a retained test guard without first proving a conflict.
+  - Root Cause: independent state dimensions were conflated, and the fixture's
+    existing exact-socket override was overlooked.
+  - Future Trigger: status polling before submission or adding IPC tests to an
+    isolated retained runner.
+  - Required Behavior Change: persist send intent independently; inspect the
+    fixture boundary before changing guards and reuse the runner directly.
+  - Verification Step: prepare/query/submit/cancel regression and full suite
+    with the final direct runpy wrapper. No extra guard patch remains.
+  - Durable Memory Update: project MEMORY.md records external ownership,
+    status-only reconciliation and outcome/approval limits.
+- Known issues/limits: tested on macOS/APFS; eight Windows-only skips and Linux
+  unverified. Existing build warnings remain. Trusted-host/local-account
+  boundary, cooperative task termination, unbounded fixture retention/task
+  threads, no real service observer/key rotation/approval service. Independent
+  verification proves declared time-bound state only. Native restricted-mode
+  and pre-fix journal limits from the prior release remain. Four unrelated
+  untracked files stay excluded: AGENTS.md and the three conflicted PID files.
+- Next recommended steps: none for this controlled milestone. Before real
+  integration, select one adapter's official API, bind operator approval and
+  key lifecycle, define service-specific deduplication/cancellation, add an
+  independent effect observer, then run its target-platform failure gates.
+- Notes for next agent: report is docs/external-001/README.md. Final receipts
+  bind source and explicitly reuse unchanged UI/browser/static evidence where
+  valid. Parent verifies remote publication and 0/0 after push; master stays
+  e642eec1. Preserve journals/WAL companions; never erase uncertainty to retry.
+
 ## 2026-11-07 15:00 EST — Codex — Close renderer type gate and integrate release
 
 - Task/result: fix the concrete ChannelsPage icon type mismatch on dedicated

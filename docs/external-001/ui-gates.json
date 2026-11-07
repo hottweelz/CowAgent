@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "task": "EXTERNAL-001 UI release gates",
+  "recorded_at": "2026-11-07T16:03:17-05:00",
+  "results": [
+    {
+      "gate": "node-ui",
+      "command": "node --test tests/test_usage_display.mjs tests/web_scroll.test.cjs tests/web_message_mutation.test.cjs",
+      "exit_code": 0,
+      "passed": 39,
+      "failed": 0,
+      "output": "regression-output.txt"
+    },
+    {
+      "gate": "renderer-typecheck",
+      "command": "(cd desktop && ./node_modules/.bin/tsc --noEmit -p tsconfig.json)",
+      "exit_code": 0,
+      "strict": true,
+      "output": "regression-output.txt"
+    },
+    {
+      "gate": "desktop-build",
+      "command": "(cd desktop && npm run build)",
+      "exit_code": 0,
+      "output": "regression-output.txt"
+    }
+  ],
+  "native_browser": {
+    "command": "env -i HOME=<private> COW_DATA_DIR=<private> COW_BROWSER_NATIVE_TEST=1 PATH=/usr/bin:/bin:/usr/sbin:/sbin .venv/bin/python -m pytest -q <seven exact test IDs>",
+    "exit_code": 0,
+    "passed": 7,
+    "skipped": 0,
+    "failed": 0,
+    "duration_seconds": 13.18,
+    "test_ids": [
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[click-button-False]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[click-button-True]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-input-False]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-input-True]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-div-False]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[select-select-False]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[select-select-True]"
+    ],
+    "matches_prior_skipped_ids": true,
+    "prior_skipped_ids": [
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[click-button-False]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[click-button-True]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-input-False]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-input-True]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-div-False]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[select-select-False]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[select-select-True]"
+    ],
+    "private_home_and_data": true,
+    "provider_calls": 0
+  },
+  "limits": [
+    "macOS host only",
+    "No live agents, providers, service endpoints, production profiles, or credentials were used.",
+    "Desktop build reported existing non-fatal warnings.",
+    "Eight platform skips remain after deduplicating the seven native-browser cases."
+  ],
+  "retained_baseline": {
+    "source_receipt": "../orchestration-release-001/regression.json",
+    "test_file_count": 119,
+    "exact_manifest_match": true
+  },
+  "external_test_ids_count": 24
+}

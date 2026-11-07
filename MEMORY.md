@@ -48,3 +48,16 @@
   by the JSX component call contract; strict renderer typecheck is a required
   passing gate. The [issue history](docs/known-issues/channels-page-typecheck.md)
   preserves the failed baseline and links the verified correction.
+- EXTERNAL-001 provides an opt-in trusted-host supervisory API and a synthetic
+  external runtime over authenticated private Unix IPC. It does not install a
+  native worker tool or enable legacy remote invocation. External runtime
+  identity, model, sessions, credentials, memory and tools remain runtime-owned.
+- External records use additive external_* tables in the existing WAL/FULL task
+  journal, never the native dispatch queue. Durable submission intent is separate
+  from transport availability. Uncertain sends reconcile by status only; they
+  never automatically resubmit. Cancellation intent is separate from confirmed
+  termination; lost cancellation requires an explicit repeat. Independent export
+  and synthetic ledger checks certify only declared, time-bound state. Real
+  adapters, human approval authentication and remote-effect verifiers remain
+  future work. See [EXTERNAL-001](docs/external-001/README.md) for the contract,
+  failure rules, test evidence and limits; no general exactly-once claim applies.
