@@ -1,7 +1,7 @@
 """Run the retained regression selection with private state and fixture-only HTTP."""
 
 
-def main():
+def main(extra_files=(), evidence_prefix="cowagent-verification-regression-"):
     import contextlib
     import http.server
     import json
@@ -15,7 +15,7 @@ def main():
     REPO = Path(__file__).resolve().parents[2]
     os.chdir(REPO)
     sys.path.insert(0, str(REPO))
-    root = Path(tempfile.mkdtemp(prefix="cowagent-verification-regression-")).resolve()
+    root = Path(tempfile.mkdtemp(prefix=evidence_prefix)).resolve()
     keep = {k: v for k, v in os.environ.items() if k in {"PATH", "LANG", "LC_ALL", "TMPDIR"}}
     os.environ.clear()
     os.environ.update(keep)
@@ -64,6 +64,7 @@ def main():
               "tests/test_isolation_filesystem.py"]
     files += sorted(str(p.relative_to(REPO)) for p in (REPO / "tests").glob("test_recovery_*.py"))
     files += sorted(str(p.relative_to(REPO)) for p in (REPO / "tests").glob("test_verification_*.py"))
+    files += list(extra_files)
     files = list(dict.fromkeys(files))
     (root / "selection.json").write_text(json.dumps(files, indent=2))
     print("Evidence:", root, flush=True)

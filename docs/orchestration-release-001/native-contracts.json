@@ -1,0 +1,1233 @@
+{
+  "schema_version": 1,
+  "task": "ORCHESTRATION-RELEASE-001 native tool contracts and restricted-mode compatibility",
+  "branch": "release/orchestration-release-001",
+  "scope": "Bounded compatibility test and evidence receipt; no product feature changes.",
+  "method": {
+    "historical_source_revision": "37d947bb",
+    "historical_capture": "docs/efficiency-001/baseline.json / offline request inventory",
+    "current_raw_inventory": "ToolManager().load_tools(config_dict={}); list_tools() in isolated process",
+    "current_runtime_inventory": "The exact release contract test fixture constructs through ToolManager, AgentInitializer._load_tools with explicitly attached MemorySearchTool and MemoryGetTool, then AgentStreamExecutor._select_tools_for_injection/build_tools_schema. Private HOME/COW_DATA_DIR; synthetic profile/workspace; self_evolution_enabled=false, subagent.enabled=false, no teammates, synthetic tools.web_search.anysearch_anonymous=true with strategy=fixed; network connect is patched to fail; no provider request is made.",
+    "limits": "Historical release-verification receipt records 16 names and canonical schema hashes but does not preserve the exact provider/subagent config values. Current test pins the documented historical names under an explicit synthetic fixture; it does not claim production config parity."
+  },
+  "historical_baseline": {
+    "count": 16,
+    "source_revision": "37d947bb",
+    "names": [
+      "read",
+      "write",
+      "edit",
+      "bash",
+      "ls",
+      "send",
+      "search_files",
+      "env_config",
+      "scheduler",
+      "web_search",
+      "web_fetch",
+      "vision",
+      "browser",
+      "time",
+      "memory_search",
+      "memory_get"
+    ],
+    "schema_hashes": {
+      "read": "caf60bc7558cc1cbe1c83e83d4bdc5bb6b7d6ce55bada534d302529e4cfd25ee",
+      "write": "cb4ee19352f433db2fa966986af2adab7fcfbd3a504a24ca011779de58606817",
+      "edit": "4a979f567aec2030a20fc44e767e1a7f6fcc9df8fa28437069c83e85c583bad0",
+      "bash": "a95b38b59b252a60788df0c6e69749af54d1a6b7d70ecdec546f64c244c8f1a1",
+      "ls": "3e74401e239a35ceab3d2639ca9ede916ce899b73969bca6cead6daac8a994fd",
+      "send": "3f914df64591b918f177f4a82eff934178e4dc9a18b8e6b598671226936d1d92",
+      "search_files": "17fc70de8952ac3dc7a928e4f3cfdded5bc95104b86fefc85704f52b0c8fdad7",
+      "env_config": "202f8737cf45bd088f9b09beaad60e2ede742f9ad1dc664afa7216f2c3a98230",
+      "scheduler": "7f1877fc832d423f2abd315271ce53fb746501014d7d6762ddb04b3ab066d7a2",
+      "web_search": "83bdcc809a4dc84f838c58bc47d6c50d0731dea8b43d8653354991f0106e798e",
+      "web_fetch": "0f27ef9acf256d4a071ce62b37cfb2f88a20d8a68c7b11e9d7d2df7a4ba7303c",
+      "vision": "fc21bca785ee3e0a965f94f0e24d1642ee5445de885591eeaf4ca26a2d127038",
+      "browser": "03da7d3e2c1a74b249cc87b4628412731b4feaaa2c0a4d3627102184f39ebabf",
+      "time": "168ac668879b38c4272ad36da1a989ff9f6492535c2a758600eb5dbc518e1cb2",
+      "memory_search": "3737ab8effab995e6bf1d2dc2967b5cfc12477b32a75301d6cb53106afb2c0fa",
+      "memory_get": "6f80be8276592af368a274a2e90f7ce1d880506fe3bfdb7a9c8a82c818f9c1df"
+    }
+  },
+  "current_raw_tool_manager": {
+    "count": 17,
+    "names": [
+      "agent_delegate",
+      "bash",
+      "browser",
+      "edit",
+      "env_config",
+      "evolution_undo",
+      "ls",
+      "read",
+      "scheduler",
+      "search_files",
+      "send",
+      "subagent",
+      "time",
+      "vision",
+      "web_fetch",
+      "web_search",
+      "write"
+    ],
+    "classes": [
+      {
+        "name": "agent_delegate",
+        "class": "agent.tools.agent_delegate.agent_delegate.AgentDelegateTool"
+      },
+      {
+        "name": "bash",
+        "class": "agent.tools.bash.bash.Bash"
+      },
+      {
+        "name": "browser",
+        "class": "agent.tools.browser.browser_tool.BrowserTool"
+      },
+      {
+        "name": "edit",
+        "class": "agent.tools.edit.edit.Edit"
+      },
+      {
+        "name": "env_config",
+        "class": "agent.tools.env_config.env_config.EnvConfig"
+      },
+      {
+        "name": "evolution_undo",
+        "class": "agent.tools.evolution_undo.evolution_undo.EvolutionUndoTool"
+      },
+      {
+        "name": "ls",
+        "class": "agent.tools.ls.ls.Ls"
+      },
+      {
+        "name": "read",
+        "class": "agent.tools.read.read.Read"
+      },
+      {
+        "name": "scheduler",
+        "class": "agent.tools.scheduler.scheduler_tool.SchedulerTool"
+      },
+      {
+        "name": "search_files",
+        "class": "agent.tools.search_files.search_files.SearchFiles"
+      },
+      {
+        "name": "send",
+        "class": "agent.tools.send.send.Send"
+      },
+      {
+        "name": "subagent",
+        "class": "agent.tools.subagent.subagent.SubagentTool"
+      },
+      {
+        "name": "time",
+        "class": "agent.tools.current_time.current_time.TimeTool"
+      },
+      {
+        "name": "vision",
+        "class": "agent.tools.vision.vision.Vision"
+      },
+      {
+        "name": "web_fetch",
+        "class": "agent.tools.web_fetch.web_fetch.WebFetch"
+      },
+      {
+        "name": "web_search",
+        "class": "agent.tools.web_search.web_search.WebSearch"
+      },
+      {
+        "name": "write",
+        "class": "agent.tools.write.write.Write"
+      }
+    ],
+    "note": "Raw ToolManager includes gated options; memory_search/get are intentionally skipped and attached separately by AgentInitializer."
+  },
+  "current_synthetic_runtime": {
+    "count": 16,
+    "names": [
+      "bash",
+      "browser",
+      "edit",
+      "env_config",
+      "ls",
+      "memory_get",
+      "memory_search",
+      "read",
+      "scheduler",
+      "search_files",
+      "send",
+      "time",
+      "vision",
+      "web_fetch",
+      "web_search",
+      "write"
+    ],
+    "only_current_vs_historical": [],
+    "only_historical_vs_current": [],
+    "tools": [
+      {
+        "name": "bash",
+        "class": "agent.tools.bash.bash.Bash",
+        "descriptor": {
+          "class_module": "agent.tools.bash.bash",
+          "class_name": "Bash",
+          "tool_name": "bash",
+          "capability": "privileged"
+        },
+        "parameters": {
+          "properties": {
+            "bash_id": {
+              "description": "Read whatever a background command has printed since you last looked. Pass this instead of command.",
+              "type": "string"
+            },
+            "command": {
+              "description": "Bash command to execute. Omit when reading from or killing a background command.",
+              "type": "string"
+            },
+            "kill": {
+              "description": "With bash_id, stop that background command.",
+              "type": "boolean"
+            },
+            "run_in_background": {
+              "description": "Start the command and return immediately with a bash_id instead of waiting. Use this ONLY for a long-lived process that is meant to keep running, such as a server or a watcher. A command that is only slow should use a larger timeout rather than set this parameter, so its output comes back in the same call. No need to add '&' yourself. Background jobs keep running after the task ends unless you kill them.",
+              "type": "boolean"
+            },
+            "timeout": {
+              "description": "Seconds to wait, default 120, max 600. The call returns as soon as the command finishes, so a high value never costs waiting time - set it generously for installs and builds instead of risking a timeout.",
+              "type": "integer"
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "restricted_worker_operation": "blocked: privileged tool is not included in restricted worker tool list",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_isolation_authorization.py::test_stream_denial_reports_error_without_arguments",
+          "tests/test_isolation_filesystem.py::test_shell_python_background_and_cancel_never_create_process"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "browser",
+        "class": "agent.tools.browser.browser_tool.BrowserTool",
+        "descriptor": {
+          "class_module": "agent.tools.browser.browser_tool",
+          "class_name": "BrowserTool",
+          "tool_name": "browser",
+          "capability": "privileged"
+        },
+        "parameters": {
+          "properties": {
+            "action": {
+              "description": "The browser action to perform. One of: navigate, snapshot, click, fill, select, scroll, screenshot, wait, back, forward, get_text, press, evaluate",
+              "enum": [
+                "navigate",
+                "snapshot",
+                "click",
+                "fill",
+                "select",
+                "scroll",
+                "screenshot",
+                "wait",
+                "back",
+                "forward",
+                "get_text",
+                "press",
+                "evaluate"
+              ],
+              "type": "string"
+            },
+            "amount": {
+              "description": "Scroll distance in pixels (for 'scroll' action, default: 500)",
+              "type": "integer"
+            },
+            "direction": {
+              "description": "Scroll direction: up, down, left, right (for 'scroll' action, default: down)",
+              "type": "string"
+            },
+            "full_page": {
+              "description": "Capture full page screenshot (for 'screenshot' action, default: false)",
+              "type": "boolean"
+            },
+            "key": {
+              "description": "Key to press, e.g. Enter, Tab, Escape (for 'press' action)",
+              "type": "string"
+            },
+            "ref": {
+              "description": "Element ref number from snapshot (for click/fill/select)",
+              "type": "integer"
+            },
+            "script": {
+              "description": "JavaScript code to execute (for 'evaluate' action)",
+              "type": "string"
+            },
+            "selector": {
+              "description": "CSS selector as fallback when ref is unavailable (for click/fill/select/wait/get_text), or to scope a snapshot to one region",
+              "type": "string"
+            },
+            "text": {
+              "description": "Text to type (for 'fill' action)",
+              "type": "string"
+            },
+            "timeout": {
+              "description": "Timeout in milliseconds (optional, default varies by action)",
+              "type": "integer"
+            },
+            "url": {
+              "description": "URL to navigate to (for 'navigate' action)",
+              "type": "string"
+            },
+            "value": {
+              "description": "Option value (for 'select' action)",
+              "type": "string"
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "blocked: privileged tool is not included in restricted worker tool list",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_browser_ref_actions_native.py (7 opt-in cases passed)",
+          "tests/test_security_ssrf_browser_navigate.py"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "edit",
+        "class": "agent.tools.edit.edit.Edit",
+        "descriptor": {
+          "class_module": "agent.tools.edit.edit",
+          "class_name": "Edit",
+          "tool_name": "edit",
+          "capability": "fs.write"
+        },
+        "parameters": {
+          "properties": {
+            "newText": {
+              "description": "New text to replace the old text with (no line-number prefixes)",
+              "type": "string"
+            },
+            "oldText": {
+              "description": "Text to find and replace, copied from the file itself WITHOUT the `12|` line-number prefixes shown by the read tool. Use empty string to append to end of file. For replacement: must match exactly including whitespace.",
+              "type": "string"
+            },
+            "path": {
+              "description": "Path to the file to edit (relative or absolute)",
+              "type": "string"
+            },
+            "replaceAll": {
+              "description": "Replace every occurrence of oldText instead of requiring it to be unique. Default false.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "path",
+            "oldText",
+            "newText"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "fs.write (workspace-write only)",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_isolation_filesystem.py::test_authorized_write_edit_read_and_native_search",
+          "tests/test_isolation_filesystem.py::test_private_files_cannot_be_read_edited_or_overwritten"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "env_config",
+        "class": "agent.tools.env_config.env_config.EnvConfig",
+        "descriptor": {
+          "class_module": "agent.tools.env_config.env_config",
+          "class_name": "EnvConfig",
+          "tool_name": "env_config",
+          "capability": "privileged"
+        },
+        "parameters": {
+          "properties": {
+            "action": {
+              "description": "Action to perform: 'set', 'get', 'list', 'delete'",
+              "enum": [
+                "set",
+                "get",
+                "list",
+                "delete"
+              ],
+              "type": "string"
+            },
+            "key": {
+              "description": "Environment variable key name. Common keys:\n- OPENAI_API_KEY: OpenAI API (GPT models)\n- OPENAI_API_BASE: OpenAI API base URL\n- CLAUDE_API_KEY: Anthropic Claude API\n- GEMINI_API_KEY: Google Gemini API\n- LINKAI_API_KEY: LinkAI platform\n- BOCHA_API_KEY: Bocha AI search (博查搜索)\nUse exact key names (case-sensitive, all uppercase with underscores)",
+              "type": "string"
+            },
+            "value": {
+              "description": "Value to set for the environment variable (for 'set' action)",
+              "type": "string"
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "blocked: privileged tool is not included in restricted worker tool list",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_env_config_atomic_write.py",
+          "tests/test_env_config_dotenv_reload.py",
+          "tests/test_security_send_env_bypass.py"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "ls",
+        "class": "agent.tools.ls.ls.Ls",
+        "descriptor": {
+          "class_module": "agent.tools.ls.ls",
+          "class_name": "Ls",
+          "tool_name": "ls",
+          "capability": "fs.read"
+        },
+        "parameters": {
+          "properties": {
+            "limit": {
+              "description": "Maximum number of entries to return (default: 500)",
+              "type": "integer"
+            },
+            "path": {
+              "description": "Directory to list. IMPORTANT: Relative paths are based on workspace directory. To access directories outside workspace, use absolute paths starting with ~ or /.",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "restricted_worker_operation": "fs.read",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_isolation_filesystem.py::test_authorized_write_edit_read_and_native_search"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "memory_get",
+        "class": "agent.tools.memory.memory_get.MemoryGetTool",
+        "descriptor": {
+          "class_module": "agent.tools.memory.memory_get",
+          "class_name": "MemoryGetTool",
+          "tool_name": "memory_get",
+          "capability": "privileged"
+        },
+        "parameters": {
+          "properties": {
+            "num_lines": {
+              "description": "Number of lines to read (optional, reads all if not specified)",
+              "type": "integer"
+            },
+            "path": {
+              "description": "Relative path to the memory file (e.g. 'MEMORY.md', 'memory/2026-01-01.md')",
+              "type": "string"
+            },
+            "start_line": {
+              "default": 1,
+              "description": "Starting line number (optional, default: 1)",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "blocked: privileged tool is not included in restricted worker tool list",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_memory_get_credentials.py",
+          "tests/test_memory_get_shared_knowledge.py",
+          "tests/test_isolation_filesystem.py::test_owner_indexed_memory_survives_reopen_through_gateway"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "memory_search",
+        "class": "agent.tools.memory.memory_search.MemorySearchTool",
+        "descriptor": {
+          "class_module": "agent.tools.memory.memory_search",
+          "class_name": "MemorySearchTool",
+          "tool_name": "memory_search",
+          "capability": "privileged"
+        },
+        "parameters": {
+          "properties": {
+            "max_results": {
+              "default": 10,
+              "description": "Maximum number of results to return (default: 10)",
+              "type": "integer"
+            },
+            "min_score": {
+              "default": 0.1,
+              "description": "Minimum relevance score (0-1, default: 0.1)",
+              "type": "number"
+            },
+            "query": {
+              "description": "Search query (can be natural language question or keywords)",
+              "type": "string"
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "blocked: privileged tool is not included in restricted worker tool list",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_memory_fts_sync.py",
+          "tests/test_memory_keyword_like_fallback.py",
+          "tests/test_isolation_filesystem.py::test_owner_indexed_memory_survives_reopen_through_gateway"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "read",
+        "class": "agent.tools.read.read.Read",
+        "descriptor": {
+          "class_module": "agent.tools.read.read",
+          "class_name": "Read",
+          "tool_name": "read",
+          "capability": "fs.read"
+        },
+        "parameters": {
+          "properties": {
+            "limit": {
+              "description": "Maximum number of lines to read (optional)",
+              "type": "integer"
+            },
+            "offset": {
+              "description": "Line number to start reading from (1-indexed, optional). Use negative values to read from end (e.g. -20 for last 20 lines)",
+              "type": "integer"
+            },
+            "pages": {
+              "description": "PDF only: page range to extract, e.g. \"3\", \"1-5\" or \"10-\". Defaults to the first 20 pages; at most 20 pages are read per call.",
+              "type": "string"
+            },
+            "path": {
+              "description": "Path to the file to read. IMPORTANT: Relative paths are based on workspace directory. To access files outside workspace, use absolute paths starting with ~ or /.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "fs.read",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_isolation_filesystem.py::test_authorized_write_edit_read_and_native_search",
+          "tests/test_isolation_filesystem.py::test_private_files_cannot_be_read_edited_or_overwritten"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "scheduler",
+        "class": "agent.tools.scheduler.scheduler_tool.SchedulerTool",
+        "descriptor": {
+          "class_module": "agent.tools.scheduler.scheduler_tool",
+          "class_name": "SchedulerTool",
+          "tool_name": "scheduler",
+          "capability": "privileged"
+        },
+        "parameters": {
+          "properties": {
+            "action": {
+              "description": "操作类型: create(创建), list(列表), get(查询), delete(删除), enable(启用), disable(禁用)",
+              "enum": [
+                "create",
+                "list",
+                "list_recipients",
+                "get",
+                "delete",
+                "enable",
+                "disable"
+              ],
+              "type": "string"
+            },
+            "ai_task": {
+              "description": "任务描述 (与message二选一)，描述到点时需要 Agent 执行的任务，例如执行什么操作、交付什么内容，无需重复声明调度时间（由 schedule 决定）。",
+              "type": "string"
+            },
+            "channel_type": {
+              "description": "Target channel type for a Web-created cross-channel task. Use list_recipients first.",
+              "type": "string"
+            },
+            "instance_id": {
+              "description": "The specific channel instance the recipient belongs to, as returned by list_recipients. Required when a channel type runs more than one instance; the same receiver on two instances is two different targets. Omit for a single-instance channel.",
+              "type": "string"
+            },
+            "message": {
+              "description": "固定消息内容 (与ai_task二选一)",
+              "type": "string"
+            },
+            "name": {
+              "description": "任务名称 (用于 create 操作)",
+              "type": "string"
+            },
+            "receiver": {
+              "description": "Trusted target receiver returned by list_recipients. It cannot be an arbitrary user ID.",
+              "type": "string"
+            },
+            "schedule_type": {
+              "description": "调度类型 (用于 create 操作): cron(cron表达式), interval(固定间隔秒数), once(一次性)",
+              "enum": [
+                "cron",
+                "interval",
+                "once"
+              ],
+              "type": "string"
+            },
+            "schedule_value": {
+              "description": "调度值: cron表达式/间隔秒数/时间(+5s,+10m,+1h或ISO格式)",
+              "type": "string"
+            },
+            "silent": {
+              "default": false,
+              "description": "Silent mode (default false): when true, the task runs normally but its result is not pushed. Set true only when the user explicitly says they don't need the result; reminder, notification and broadcast tasks must keep it false",
+              "type": "boolean"
+            },
+            "task_id": {
+              "description": "任务ID (用于 get/delete/enable/disable 操作)",
+              "type": "string"
+            },
+            "timezone": {
+              "description": "Optional IANA timezone (e.g. Asia/Shanghai) used for cron wall-clock times and naive ISO timestamps",
+              "type": "string"
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "blocked: privileged tool is not included in restricted worker tool list",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_scheduler_task_permission_mode.py",
+          "tests/test_scheduler_task_ownership.py",
+          "tests/test_isolation_authorization.py::test_scheduled_tool_denied_before_constructor"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "search_files",
+        "class": "agent.tools.search_files.search_files.SearchFiles",
+        "descriptor": {
+          "class_module": "agent.tools.search_files.search_files",
+          "class_name": "SearchFiles",
+          "tool_name": "search_files",
+          "capability": "fs.read"
+        },
+        "parameters": {
+          "properties": {
+            "file_glob": {
+              "description": "Glob to filter which files are searched, e.g. '*.py' or '*.{ts,tsx}' (default: all files).",
+              "type": "string"
+            },
+            "ignore_case": {
+              "description": "Case-insensitive match (default false).",
+              "type": "boolean"
+            },
+            "max_results": {
+              "description": "Maximum number of results to return (default: 50, capped at 500).",
+              "type": "integer"
+            },
+            "no_ignore": {
+              "description": "When true, search everywhere: files ignored via .gitignore, plus dependency/build directories (node_modules, dist, vendor, .venv, ...) that are skipped by default. Default false.",
+              "type": "boolean"
+            },
+            "output_mode": {
+              "description": "content = matching lines with line numbers (default); files = only file paths that contain a match; count = number of matches per file.",
+              "enum": [
+                "content",
+                "files",
+                "count"
+              ],
+              "type": "string"
+            },
+            "path": {
+              "description": "File or directory to search in (default: workspace root). Relative paths are based on the workspace directory.",
+              "type": "string"
+            },
+            "pattern": {
+              "description": "Regex to search for inside files, or - when target='files' - a glob matched against the file name, e.g. '*.py' or '*report*'.",
+              "type": "string"
+            },
+            "target": {
+              "description": "'content' searches inside files (default); 'files' finds files by name.",
+              "enum": [
+                "content",
+                "files"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "pattern"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "fs.read",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_search_files_tool.py",
+          "tests/test_search_files_brace_globs_native.py",
+          "tests/test_isolation_filesystem.py::test_authorized_write_edit_read_and_native_search"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "send",
+        "class": "agent.tools.send.send.Send",
+        "descriptor": {
+          "class_module": "agent.tools.send.send",
+          "class_name": "Send",
+          "tool_name": "send",
+          "capability": "privileged"
+        },
+        "parameters": {
+          "properties": {
+            "message": {
+              "description": "Optional message to accompany the file",
+              "type": "string"
+            },
+            "path": {
+              "description": "Local file path to send. Must be an absolute path or relative to workspace. Do NOT pass URLs here.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "blocked: privileged tool is not included in restricted worker tool list",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_send_regular_file.py",
+          "tests/test_send_outside_file.py",
+          "tests/test_security_send_env_bypass.py"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "time",
+        "class": "agent.tools.current_time.current_time.TimeTool",
+        "descriptor": {
+          "class_module": "agent.tools.current_time.current_time",
+          "class_name": "TimeTool",
+          "tool_name": "time",
+          "capability": "time"
+        },
+        "parameters": {
+          "properties": {},
+          "required": [],
+          "type": "object"
+        },
+        "restricted_worker_operation": "time",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_time_tool.py",
+          "tests/test_isolation_authorization.py::test_cancelled_tool_does_not_execute"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "vision",
+        "class": "agent.tools.vision.vision.Vision",
+        "descriptor": {
+          "class_module": "agent.tools.vision.vision",
+          "class_name": "Vision",
+          "tool_name": "vision",
+          "capability": "privileged"
+        },
+        "parameters": {
+          "properties": {
+            "image": {
+              "description": "Local file path or HTTP(S) URL of the image to analyze",
+              "type": "string"
+            },
+            "question": {
+              "description": "Question to ask about the image",
+              "type": "string"
+            }
+          },
+          "required": [
+            "image",
+            "question"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "blocked: privileged tool is not included in restricted worker tool list",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_security_ssrf_vision_redirect.py",
+          "tests/test_vision_compression_mime.py",
+          "tests/test_vision_native_resize.py"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "web_fetch",
+        "class": "agent.tools.web_fetch.web_fetch.WebFetch",
+        "descriptor": {
+          "class_module": "agent.tools.web_fetch.web_fetch",
+          "class_name": "WebFetch",
+          "tool_name": "web_fetch",
+          "capability": "privileged"
+        },
+        "parameters": {
+          "properties": {
+            "url": {
+              "description": "The HTTP/HTTPS URL to fetch (web page or document file link)",
+              "type": "string"
+            }
+          },
+          "required": [
+            "url"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "blocked: privileged tool is not included in restricted worker tool list",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_security_ssrf_web_fetch.py",
+          "tests/test_web_fetch_native_documents.py",
+          "tests/test_web_fetch_webpage_size_cap.py"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "web_search",
+        "class": "agent.tools.web_search.web_search.WebSearch",
+        "descriptor": {
+          "class_module": "agent.tools.web_search.web_search",
+          "class_name": "WebSearch",
+          "tool_name": "web_search",
+          "capability": "privileged"
+        },
+        "parameters": {
+          "properties": {
+            "count": {
+              "description": "Number of results to return (1-50, default: 10)",
+              "type": "integer"
+            },
+            "freshness": {
+              "description": "Time range filter. Options: 'noLimit' (default), 'oneDay', 'oneWeek', 'oneMonth', 'oneYear', or date range like '2025-01-01..2025-02-01'. Honored by bocha/zhipu/qianfan/linkai/deepseek/keenable; ignored by anysearch. DeepSeek has no native freshness parameter, so it is translated into the documented after:/before: query operators.",
+              "type": "string"
+            },
+            "query": {
+              "description": "Search query string",
+              "type": "string"
+            },
+            "summary": {
+              "description": "Whether to include text summary for each result (default: false). Bocha/linkai/deepseek/keenable only; ignored by anysearch.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "query"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "blocked: privileged tool is not included in restricted worker tool list",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_security_ssrf_web_fetch.py (network boundary nearby; no search provider call in this test)",
+          "tests/test_tool_description_contract.py (not an exact WebSearch schema digest)"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      },
+      {
+        "name": "write",
+        "class": "agent.tools.write.write.Write",
+        "descriptor": {
+          "class_module": "agent.tools.write.write",
+          "class_name": "Write",
+          "tool_name": "write",
+          "capability": "fs.write"
+        },
+        "parameters": {
+          "properties": {
+            "content": {
+              "description": "Content to write to the file",
+              "type": "string"
+            },
+            "path": {
+              "description": "Path to the file to write (relative or absolute)",
+              "type": "string"
+            }
+          },
+          "required": [
+            "path",
+            "content"
+          ],
+          "type": "object"
+        },
+        "restricted_worker_operation": "fs.write (workspace-write only)",
+        "test_refs": [
+          "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors",
+          "tests/test_isolation_filesystem.py::test_authorized_write_edit_read_and_native_search",
+          "tests/test_verification_integration.py::test_rejected_native_write_cannot_use_preexisting_artifact_as_acceptance"
+        ],
+        "schema_contract_test": "tests/test_native_tool_contracts_release.py::test_historical_16_runtime_schemas_and_registry_descriptors"
+      }
+    ],
+    "availability_gates": {
+      "web_search": "Included by the explicit synthetic AnySearch anonymous opt-in (strategy=fixed); no search call is made.",
+      "evolution_undo": "Only exposed when self-evolution is enabled; false in this fixture.",
+      "agent_delegate": "Only exposed when delegation is enabled and the current conversation is shared with teammates; no teammates here.",
+      "subagent": "Registry class exists, but SubagentSettings.enabled=false in the fixture, so it is omitted by AgentStreamExecutor._select_tools_for_injection."
+    }
+  },
+  "compatibility": {
+    "restricted_worker_allowlist_exact_classes": [
+      "agent.tools.read.read.Read",
+      "agent.tools.write.write.Write",
+      "agent.tools.edit.edit.Edit",
+      "agent.tools.ls.ls.Ls",
+      "agent.tools.search_files.search_files.SearchFiles",
+      "agent.tools.current_time.current_time.TimeTool"
+    ],
+    "restricted_worker_capability_limits": {
+      "read": "fs.read and authorized roots",
+      "ls": "fs.read and authorized roots",
+      "search_files": "fs.read and authorized roots",
+      "write": "fs.write and authorized roots only in workspace-write mode",
+      "edit": "fs.write and authorized roots only in workspace-write mode",
+      "time": "time"
+    },
+    "restricted_worker_blocked": "Bash, browser, web_search, web_fetch, vision, send, env_config, scheduler, memory tools, evolution_undo, subagent, agent_delegate, MCP, and unknown tools. Restricted child construction uses a fresh allowlist of the six exact native classes; unknown or same-name wrong-class tools fail closed.",
+    "full_access": "Known registered native implementations retain privileged host behavior; unknown classes and dynamic MCP tools do not inherit host privilege by name.",
+    "limits": [
+      "Filesystem scope checks are an argument-level native broker, not an OS sandbox.",
+      "Restricted workers cannot launch processes, use browser/MCP/remote peers or access memory tools.",
+      "Web search availability depends on configured provider/anonymous opt-in.",
+      "The native browser proof used installed system Chrome with headless mode, a fresh tmp_path profile per case, and file:// fixtures; no install, network or user profile."
+    ]
+  },
+  "existing_test_run": {
+    "command": "HOME=<private>/home COW_DATA_DIR=<private>/data .venv/bin/python -m pytest -q tests/test_tool_description_contract.py tests/test_isolation_authorization.py tests/test_isolation_filesystem.py",
+    "result": "37 passed in 0.74s",
+    "receipt": "/private/tmp/cow-native-contract-tests.* (ephemeral; private runtime only)"
+  },
+  "native_browser_run": {
+    "command": "env -i HOME=<private>/home COW_DATA_DIR=<private>/data COW_BROWSER_NATIVE_TEST=1 PATH=/usr/bin:/bin:/usr/sbin:/sbin .venv/bin/python -m pytest -q tests/test_browser_ref_actions_native.py --junitxml=<private>/browser-junit.xml",
+    "result": "7 passed, 0 skipped, 0 failed in 14.81s",
+    "log": "/private/tmp/cow-native-browser.IzzRze/browser.log",
+    "junit": "/private/tmp/cow-native-browser.IzzRze/browser-junit.xml",
+    "constraints": "system Chrome; headless; each case uses tmp_path/user_data_dir; local file:// fixture; credentials/services unset; no installation; does not use or change user Chrome profile"
+  },
+  "gaps": [
+    {
+      "severity": "availability limit",
+      "finding": "Production tool availability depends on provider configuration, self-evolution and shared-conversation roster. The test pins the 16-tool contract with synthetic AnySearch opt-in, disabled subagent/self-evolution and no teammates; it does not read production config."
+    }
+  ],
+  "decision": "The 16-tool active request inventory and full current parameter schemas pass the new deterministic fixture. Active parameter source modules match origin/master. All 17 ToolManager classes/descriptors, two attached memory descriptors, the restricted worker class allowlist, and authorized optional root/verification schemas are checked. Production-dependent availability is not certified.",
+  "contract_test": {
+    "file": "tests/test_native_tool_contracts_release.py",
+    "result": "2 passed in 0.54s",
+    "assertions": [
+      "16 injected names equal the historical baseline names under the explicit synthetic availability fixture",
+      "All 16 complete input schemas equal this receipt manifest; this covers property names, types, required fields, enums, defaults and descriptions",
+      "All 17 ToolManager native registry entries map to their exact expected class and descriptor",
+      "Both dynamically attached memory tools map to their exact expected class and descriptor",
+      "Restricted worker construction contains exactly six approved native classes",
+      "Subagent and AgentDelegate full parameter schemas are checked separately; authorized root/verification additions remain optional"
+    ],
+    "fixture_gates": {
+      "subagent": "disabled",
+      "web_search": "synthetic AnySearch anonymous opt-in; fixed strategy; no call",
+      "evolution_undo": "disabled",
+      "agent_delegate": "no shared conversation/teammates",
+      "memory": "explicitly attached by AgentInitializer test path"
+    },
+    "command": "HOME=<private>/home COW_DATA_DIR=<private>/data .venv/bin/python -m pytest -q tests/test_native_tool_contracts_release.py"
+  },
+  "authorized_schema_additions": {
+    "provenance": "Compared with original master c2c39a2e source, the additive task root and verification fields are confined to these two schema contracts.",
+    "subagent": {
+      "type": "object",
+      "properties": {
+        "goal": {
+          "type": "string",
+          "description": "What the sub agent should accomplish. Write it as a complete instruction to someone who has never seen this conversation."
+        },
+        "context": {
+          "type": "string",
+          "description": "Everything the sub agent needs and cannot look up: file paths, error text, decisions already made, what to leave alone. It cannot see your conversation, so anything you omit is lost."
+        },
+        "read_roots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Explicit absolute paths to share for reading, within your authority."
+        },
+        "write_roots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Explicit absolute paths to share for writing, within your authority."
+        },
+        "verification": {
+          "type": "object",
+          "description": "Frozen independent checks. Relative paths use the worker task directory. Acceptance checks validate output; external_state checks independently read filesystem state. Missing or unsupported checks remain unverified; remote services are unsupported.",
+          "properties": {
+            "acceptance": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "file_exists, text_equals, json_equals, sha256"
+                  },
+                  "path": {
+                    "type": "string"
+                  },
+                  "expected": {}
+                },
+                "required": [
+                  "id",
+                  "type"
+                ]
+              }
+            },
+            "external_state": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "file_exists, text_equals, json_equals, sha256"
+                  },
+                  "path": {
+                    "type": "string"
+                  },
+                  "expected": {}
+                },
+                "required": [
+                  "id",
+                  "type"
+                ]
+              }
+            }
+          }
+        },
+        "subagent_type": {
+          "type": "string",
+          "description": "Which kind of sub agent to use. See the list in this tool's description."
+        },
+        "tasks": {
+          "type": "array",
+          "description": "Run several tasks at once instead of one. Each entry takes the same goal / context / subagent_type fields, and every entry runs in parallel.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "goal": {
+                "type": "string"
+              },
+              "context": {
+                "type": "string"
+              },
+              "subagent_type": {
+                "type": "string"
+              },
+              "read_roots": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "write_roots": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "verification": {
+                "type": "object",
+                "description": "Frozen independent checks. Relative paths use the worker task directory. Acceptance checks validate output; external_state checks independently read filesystem state. Missing or unsupported checks remain unverified; remote services are unsupported.",
+                "properties": {
+                  "acceptance": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string",
+                          "description": "file_exists, text_equals, json_equals, sha256"
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "expected": {}
+                      },
+                      "required": [
+                        "id",
+                        "type"
+                      ]
+                    }
+                  },
+                  "external_state": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string",
+                          "description": "file_exists, text_equals, json_equals, sha256"
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "expected": {}
+                      },
+                      "required": [
+                        "id",
+                        "type"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "goal"
+            ]
+          }
+        }
+      },
+      "required": []
+    },
+    "agent_delegate": {
+      "type": "object",
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "description": "The teammate's Agent ID (the @id shown for them in the team conversation section)."
+        },
+        "task": {
+          "type": "string",
+          "description": "A self-contained task for the teammate, with everything it needs to act without seeing this conversation."
+        },
+        "verification": {
+          "type": "object",
+          "description": "Frozen independent checks. Relative paths use the worker task directory. Acceptance checks validate output; external_state checks independently read filesystem state. Missing or unsupported checks remain unverified; remote services are unsupported.",
+          "properties": {
+            "acceptance": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "file_exists, text_equals, json_equals, sha256"
+                  },
+                  "path": {
+                    "type": "string"
+                  },
+                  "expected": {}
+                },
+                "required": [
+                  "id",
+                  "type"
+                ]
+              }
+            },
+            "external_state": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "description": "file_exists, text_equals, json_equals, sha256"
+                  },
+                  "path": {
+                    "type": "string"
+                  },
+                  "expected": {}
+                },
+                "required": [
+                  "id",
+                  "type"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "agent_id",
+        "task"
+      ]
+    },
+    "assertions": "Both are exact-schema tested separately. New root and verification fields are optional and do not enter the required list."
+  },
+  "master_schema_compatibility": {
+    "baseline": "origin/master at c2c39a2e0823f1556ecdc79f9e07911fff207a05",
+    "active_16_input_parameter_modules_checked": [
+      "agent/tools/bash/bash.py",
+      "agent/tools/browser/browser_tool.py",
+      "agent/tools/edit/edit.py",
+      "agent/tools/env_config/env_config.py",
+      "agent/tools/ls/ls.py",
+      "agent/tools/memory/memory_get.py",
+      "agent/tools/memory/memory_search.py",
+      "agent/tools/read/read.py",
+      "agent/tools/scheduler/scheduler_tool.py",
+      "agent/tools/search_files/search_files.py",
+      "agent/tools/send/send.py",
+      "agent/tools/current_time/current_time.py",
+      "agent/tools/vision/vision.py",
+      "agent/tools/web_fetch/web_fetch.py",
+      "agent/tools/web_search/web_search.py",
+      "agent/tools/write/write.py"
+    ],
+    "source_diff_result": "git diff --name-only origin/master...HEAD -- the 16 listed files returned no paths. ToolManager, agent.tools exports, AgentInitializer and the stream selection/schema builders also have no diff. Thus active input parameter source is identical to origin/master for this fixture; the exact current emitted schemas are additionally pinned by the test.",
+    "other_tool_source_diffs": {
+      "agent/tools/agent_delegate/agent_delegate.py": "adds optional verification contract; not in fixture because no shared peer conversation",
+      "agent/tools/subagent/subagent.py": "adds optional roots/verification contract; registry class is disabled and omitted by stream injection in fixture; exact current schema is tested separately",
+      "agent/tools/base_tool.py": "changes authorized dispatch/error behavior and removes echoed integer value; does not change get_json_schema or tool parameter declarations",
+      "agent/tools/scheduler/integration.py": "changes scheduler authorization/execution path; does not change SchedulerTool argument schema"
+    },
+    "historical_digest_limit": "The baseline receipt hashes the whole canonical provider function definition, including tool description. It does not keep the original schema body, so these hashes cannot prove per-parameter equality. The source diff above is the direct proof for active parameter modules; new current-schema equality is executable."
+  }
+}

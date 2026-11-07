@@ -1,5 +1,83 @@
 # AI handoff ledger
 
+## 2026-11-07 14:38 EST — Codex — ORCHESTRATION-RELEASE-001 integrated assessment
+
+- Task/result: consolidated ISOLATION, RECOVERY and VERIFICATION on dedicated
+  release/orchestration-release-001. Decision RELEASE BLOCKED solely by the
+  required strict renderer gate: nine pre-existing ChannelsPage TS2322 errors.
+  Master remains c2c39a2e. No merge, deployment or production restart.
+- Team: Codex lead owns scope, persistence test, integration, documentation and
+  Git. Luna/high handled native contracts and UI/build gates. Terra 6.1/high
+  handled combined process tests and the two review fixes; interacting process,
+  identity and durable state required more than routine Luna edits. One Sol
+  6.1/high reviewer assessed cross-component authority/data integrity, then
+  checked only the two demonstrated corrections. Models were requested as
+  stated; effective model identity is not independently exposed. STE planning
+  guidance used; no HomeBoss, external pools or recursive review.
+- Ancestry/publication: fetched and confirmed master plus the three feature
+  branches at 0/0; read all published milestone guides through GitHub and
+  matched their blobs. Created branch from origin/master and fast-forwarded
+  the linear audit -> isolation -> recovery -> verification -> tracking chain.
+  Review fixes are commit 0710e8fc0d40935f5b8aabc6b1b9042b6a7d37cb. Published
+  same-name origin branch under the standing maintainer push authorization.
+  Final evidence commit follows the same upstream; verify 0/0 after push.
+- Changes: preserve guest execution principal/model separately from host
+  transcript/task ownership; recheck host project, permission and roster.
+  Add transactional retry-generation migration and fenced waiter claims/stops.
+  Atomic stopped-row snapshots retain accurate old-attempt outcomes across
+  retry; a lost stop CAS retains completed outcomes. Existing task rows remain.
+- Tests/evidence: real SIGKILL at five dispatch/effect/completion boundaries;
+  safe restart, acknowledged uncertain effects, no completed replay, cancellation
+  and timeout provenance, grant revocation, wrong/missing artifacts, concurrent
+  claims, sibling denial, independent verification. Persistent profile and file
+  hashes plus exact history rows survive; both existing indexes return FTS MATCH
+  results without resync/LIKE fallback. Memory/task WAL and integrity pass.
+  All 16 historical native schemas, 17 registry and two memory descriptors,
+  restricted class allowlist and optional roots/verification fields checked.
+- Commands/results: `.venv/bin/python docs/orchestration-release-001/run_regression.py`
+  passed 1,364, skipped 15, zero failures/errors across 119 files (40.26s).
+  Exact seven skipped native-browser IDs passed separately in fresh profiles;
+  unique total 1,371 passed, eight Windows-only skips. Node UI 39 passed;
+  desktop build passed with existing warnings. Strict renderer tsc failed exit2
+  with byte-matching nine-error baseline. F-class Ruff/compilation of 54 Python
+  files and diff checks passed. Focused/reviewer repeats are not added to totals.
+- Review: P1 guest-to-host recovery identity drift and P2 stale waiter cancelling
+  a new retry reproduced, fixed and regression-tested. Narrow independent fix
+  check: seven passed; both findings closed. Prior early-return receipt fix also
+  confirmed. Full review/fix details and limitations are in the release report.
+- Files: recovery runtime/store, subagent runner, AgentBridge, five new test
+  suites, process fixture, reused isolated runner, release docs/receipts,
+  MEMORY.md and this ledger.
+- Decisions: keep restricted native broker scope. Do not add hard OS isolation,
+  remote verifiers/authority, features, model changes or further optimization.
+  Native browser proof uses installed Chrome and local file fixtures; no live
+  model calls, production profiles, journals, memory or history were accessed.
+- Lessons Learned:
+  - Mistake: treating transcript owner as execution principal and letting a
+    waiting caller issue unfenced task-level stops across retries.
+  - Root Cause: distinct identity and execution-generation boundaries were
+    conflated at durable replay and polling interfaces.
+  - Future Trigger: shared-conversation workers or delayed callbacks/waiters
+    that survive an explicit task retry.
+  - Required Behavior Change: retain owner/principal separately, validate host
+    grants, fence every asynchronous mutation to its observed generation and
+    preserve the committed outcome when a cancellation loses its race.
+  - Verification Step: guest recovery/model/roster tests, deterministic retry
+    and completion interleavings, seeded existing-row migration and full suite.
+  - Durable Memory Update: project MEMORY.md records these identity/fencing rules.
+- Known issues: nine renderer type errors remain open and block this release.
+  Eight Windows-only cases are not verified on macOS; Linux needs its own run.
+  Pre-fix guest envelopes already frozen as host cannot be reliably identified
+  or repaired automatically; inspect prior pending work before deployment.
+  Native checks certify only declared, time-bound filesystem state. Four
+  unrelated untracked files remain: AGENTS.md and three conflicted PID files.
+- Next recommended steps: fix ChannelsPage icon typing in a separate task;
+  rerun strict renderer and channel-icon checks, then request owner-approved
+  merge. Inspect pre-fix pending tasks before any authorized deployment.
+- Notes for next agent: release report is docs/orchestration-release-001/README.md.
+  Evidence includes exact branch ancestry, source hashes, all skip IDs and
+  deduplicated counts. Keep production unchanged and preserve the SQLite repair.
+
 ## 2026-11-07 14:06 EST — Codex — Publish task branches and retain push preference
 
 - Task: publish the completed recovery and verification commits for tracking;

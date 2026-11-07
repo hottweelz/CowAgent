@@ -1,0 +1,21 @@
+{
+  "source": "GitHub connector fetch_file",
+  "read_at": "2026-11-07",
+  "milestones": [
+    {
+      "path": "docs/isolation-001/README.md",
+      "github_blob_sha": "afa8be8eb2bddf00d3555bffa8d7648a69572f90",
+      "url": "https://github.com/hottweelz/CowAgent/blob/fix/isolation-001-worker-authority/docs/isolation-001/README.md"
+    },
+    {
+      "path": "docs/recovery-001/README.md",
+      "github_blob_sha": "48ae4e7658dc69f197e15d25a708a6776c0e13cc",
+      "url": "https://github.com/hottweelz/CowAgent/blob/feat/recovery-001-durable-tasks/docs/recovery-001/README.md"
+    },
+    {
+      "path": "docs/verification-001/README.md",
+      "github_blob_sha": "0d390c75c0b6af4155ec1906a9cb9b9ed39a05c4",
+      "url": "https://github.com/hottweelz/CowAgent/blob/feat/verification-001-task-outcomes/docs/verification-001/README.md"
+    }
+  ]
+}

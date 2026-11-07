@@ -1,0 +1,73 @@
+{
+  "fork": "https://github.com/hottweelz/CowAgent",
+  "baseline": "c2c39a2e0823f1556ecdc79f9e07911fff207a05",
+  "implementation_tree": "6bc3dd260fe6392ffbd41ff59e2f778d75deb593",
+  "integration_branch": "release/orchestration-release-001",
+  "integration": "Created from origin/master; fast-forwarded feat/verification-001-task-outcomes; no cherry-pick",
+  "branches_at_start": [
+    {
+      "branch": "master",
+      "local": "c2c39a2e0823f1556ecdc79f9e07911fff207a05",
+      "remote": "c2c39a2e0823f1556ecdc79f9e07911fff207a05",
+      "ahead_behind": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "branch": "fix/isolation-001-worker-authority",
+      "local": "5b0bb0be33cbb2604dc80ee43629c1b6f6e316d7",
+      "remote": "5b0bb0be33cbb2604dc80ee43629c1b6f6e316d7",
+      "ahead_behind": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "branch": "feat/recovery-001-durable-tasks",
+      "local": "8ed52509ddfaebcf271c1f91c1391492f482763e",
+      "remote": "8ed52509ddfaebcf271c1f91c1391492f482763e",
+      "ahead_behind": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "branch": "feat/verification-001-task-outcomes",
+      "local": "b8b4b40b16a02781044b9e5ab9e7a382974e7ac5",
+      "remote": "b8b4b40b16a02781044b9e5ab9e7a382974e7ac5",
+      "ahead_behind": [
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "commit_parent_subject_chain": [
+    [
+      "06e0a4ddd0b4512d039d5a2c8e4cd2561c7f44f5",
+      "c2c39a2e0823f1556ecdc79f9e07911fff207a05",
+      "Audit native multi-agent orchestration and supervisory gaps"
+    ],
+    [
+      "5b0bb0be33cbb2604dc80ee43629c1b6f6e316d7",
+      "06e0a4ddd0b4512d039d5a2c8e4cd2561c7f44f5",
+      "Enforce restricted worker authority and fail-closed tool dispatch"
+    ],
+    [
+      "8ed52509ddfaebcf271c1f91c1391492f482763e",
+      "5b0bb0be33cbb2604dc80ee43629c1b6f6e316d7",
+      "Add durable worker task state and interruption recovery"
+    ],
+    [
+      "88151dffda020a36fcff88fa4bdbda5d10f50373",
+      "8ed52509ddfaebcf271c1f91c1391492f482763e",
+      "Separate worker execution from acceptance and state verification"
+    ],
+    [
+      "b8b4b40b16a02781044b9e5ab9e7a382974e7ac5",
+      "88151dffda020a36fcff88fa4bdbda5d10f50373",
+      "Record automatic task branch publication preference"
+    ]
+  ],
+  "published_guides_match_local_git_blobs": true
+}

@@ -1,0 +1,66 @@
+{
+  "verified_at": "2026-11-07",
+  "branch": "release/orchestration-release-001",
+  "environment": {
+    "home": "/private/tmp/cowagent-ui-gates.8CsDYo/home",
+    "cow_data_dir": "/private/tmp/cowagent-ui-gates.8CsDYo/data",
+    "dependencies": "existing installed dependencies; no install performed",
+    "production_runtime_or_profiles_used": false,
+    "provider_calls": 0
+  },
+  "node_ui_tests": {
+    "command": "node --test tests/test_usage_display.mjs tests/web_scroll.test.cjs tests/web_message_mutation.test.cjs",
+    "files": [
+      "tests/test_usage_display.mjs",
+      "tests/web_scroll.test.cjs",
+      "tests/web_message_mutation.test.cjs"
+    ],
+    "cases": 39,
+    "passed": 39,
+    "failed": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "stdout_log": "/private/tmp/cowagent-ui-gates.8CsDYo/node-ui.stdout.log"
+  },
+  "desktop_build": {
+    "command": "cd desktop && npm run build",
+    "exit_code": 0,
+    "result": "pass",
+    "warnings": [
+      "Two optional font CSS files were absent at build time and remain unresolved for runtime.",
+      "Browserslist caniuse-lite data is 8 months old.",
+      "sessionStore is both dynamically and statically imported.",
+      "Renderer bundle exceeds the 500 kB warning threshold."
+    ],
+    "stdout_log": "/private/tmp/cowagent-ui-gates.8CsDYo/desktop-build.stdout.log"
+  },
+  "strict_renderer_typecheck": {
+    "command": "cd desktop && ./node_modules/.bin/tsc --noEmit -p tsconfig.json",
+    "exit_code": 2,
+    "result": "failed_preexisting_baseline",
+    "error_count": 9,
+    "error_code": "TS2322",
+    "file": "desktop/src/renderer/src/pages/ChannelsPage.tsx",
+    "locations": [
+      "57:13",
+      "59:15",
+      "60:16",
+      "61:9",
+      "62:20",
+      "63:16",
+      "64:15",
+      "66:12",
+      "67:14"
+    ],
+    "diagnostic_sha256": "bf985076359ae7d3974afdbfbdb64738a8a881111d1ace69ff4a81c49f92d297",
+    "baseline_diagnostic_sha256": "bf985076359ae7d3974afdbfbdb64738a8a881111d1ace69ff4a81c49f92d297",
+    "matches_known_issue_baseline": true,
+    "stdout_log": "/private/tmp/cowagent-ui-gates.8CsDYo/renderer-tsc.stdout.log"
+  },
+  "channels_page_source": {
+    "sha256": "c4e9e788f83bf40afd82ce492a2e3ab5b48032b0e7a37b0411052161f5644317",
+    "origin_master_sha256": "c4e9e788f83bf40afd82ce492a2e3ab5b48032b0e7a37b0411052161f5644317",
+    "unchanged_vs_origin_master": true
+  },
+  "logs_directory": "/private/tmp/cowagent-ui-gates.8CsDYo"
+}

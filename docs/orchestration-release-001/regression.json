@@ -1,0 +1,873 @@
+{
+  "command": ".venv/bin/python docs/orchestration-release-001/run_regression.py",
+  "exit_code": 0,
+  "duration_seconds": 40.26,
+  "environment": {
+    "platform": "macOS/APFS, Python 3.13",
+    "production_data_used": false,
+    "live_provider_calls": 0,
+    "credentials_cleared": true,
+    "network": "only owned test HTTP fixture ports; native browser uses local file fixtures separately"
+  },
+  "counts": {
+    "passed": 1364,
+    "skipped": 15
+  },
+  "test_file_count": 119,
+  "test_files": [
+    "tests/test_openai_chat_api.py",
+    "tests/test_agent_loop_hint_not_persisted.py",
+    "tests/test_agent_steering.py",
+    "tests/test_agent_stream_content_blocks.py",
+    "tests/test_agent_stream_max_turns.py",
+    "tests/test_agent_stream_reasoning_field.py",
+    "tests/test_agent_trim_budget.py",
+    "tests/test_agent_trim_new_messages.py",
+    "tests/test_bash_background.py",
+    "tests/test_bash_config_propagation.py",
+    "tests/test_bash_exit_codes.py",
+    "tests/test_bash_full_output.py",
+    "tests/test_bash_rm_safety_flags.py",
+    "tests/test_bash_windows_guidance.py",
+    "tests/test_browser_driver_loss.py",
+    "tests/test_browser_fill_required_text.py",
+    "tests/test_browser_ref_actions_native.py",
+    "tests/test_browser_scroll_amount.py",
+    "tests/test_browser_snapshot_selector.py",
+    "tests/test_chat_fallback_chain_walk.py",
+    "tests/test_chat_fallback_ratelimit.py",
+    "tests/test_chat_model_fallback.py",
+    "tests/test_custom_provider.py",
+    "tests/test_efficiency_accounting_baseline.py",
+    "tests/test_efficiency_adapter_baseline.py",
+    "tests/test_efficiency_benchmark.py",
+    "tests/test_efficiency_metrics.py",
+    "tests/test_incremental_persist.py",
+    "tests/test_kimi_context_window.py",
+    "tests/test_mcp_tool_retrieval.py",
+    "tests/test_memory_decay_scope.py",
+    "tests/test_memory_empty_note_native.py",
+    "tests/test_memory_fts_sync.py",
+    "tests/test_memory_get_credentials.py",
+    "tests/test_memory_get_shared_knowledge.py",
+    "tests/test_memory_global_config.py",
+    "tests/test_memory_hit_boost.py",
+    "tests/test_memory_hybrid_fusion.py",
+    "tests/test_memory_index_rel_path.py",
+    "tests/test_memory_keyword_like_fallback.py",
+    "tests/test_memory_list_pagination.py",
+    "tests/test_memory_path_marks_dirty.py",
+    "tests/test_memory_rerank.py",
+    "tests/test_memory_search_threshold_overrides.py",
+    "tests/test_memory_storage_io.py",
+    "tests/test_memory_sync_reconcile.py",
+    "tests/test_memory_sync_shared_root.py",
+    "tests/test_memory_unicode_keywords.py",
+    "tests/test_message_usage.py",
+    "tests/test_model_catalog_api.py",
+    "tests/test_openai_api_type.py",
+    "tests/test_oversized_context_files.py",
+    "tests/test_prompt_prefix_stability.py",
+    "tests/test_provider_error_body.py",
+    "tests/test_request_accounting.py",
+    "tests/test_request_usage.py",
+    "tests/test_responses_failed_status.py",
+    "tests/test_responses_function_contract.py",
+    "tests/test_responses_incomplete_tools.py",
+    "tests/test_responses_json_schema_format.py",
+    "tests/test_responses_refusal.py",
+    "tests/test_scheduler_cross_channel_recipients.py",
+    "tests/test_scheduler_once_past_time.py",
+    "tests/test_scheduler_relative_store.py",
+    "tests/test_scheduler_silent.py",
+    "tests/test_scheduler_task_permission_mode.py",
+    "tests/test_scheduler_timezone.py",
+    "tests/test_search_files_brace_globs_native.py",
+    "tests/test_search_files_powershell_quoting.py",
+    "tests/test_search_files_tool.py",
+    "tests/test_security_ssrf_browser_navigate.py",
+    "tests/test_session_context_usage.py",
+    "tests/test_session_title_budget.py",
+    "tests/test_shared_db_recovery.py",
+    "tests/test_skill_config_entry_shapes.py",
+    "tests/test_skill_custom_provider_types.py",
+    "tests/test_skill_hidden_setup_hints.py",
+    "tests/test_skill_list_name_types.py",
+    "tests/test_skill_loader_cache.py",
+    "tests/test_skill_metadata_booleans.py",
+    "tests/test_skill_prompt_order.py",
+    "tests/test_subagent_fallback_scope.py",
+    "tests/test_time_tool.py",
+    "tests/test_token_budget_trim.py",
+    "tests/test_tool_description_contract.py",
+    "tests/test_agent_delegation.py",
+    "tests/test_agent_delegation_timeout.py",
+    "tests/test_agent_registry.py",
+    "tests/test_config_subagent_toggle.py",
+    "tests/test_multi_agent_runtime.py",
+    "tests/test_multi_agent_state_isolation.py",
+    "tests/test_peer_inbound_permission_mode.py",
+    "tests/test_peer_inbound_policy.py",
+    "tests/test_permission_flag_driven_writes.py",
+    "tests/test_permission_git_global_options.py",
+    "tests/test_permission_git_read_only.py",
+    "tests/test_permission_protected_files.py",
+    "tests/test_permission_shell_substitution.py",
+    "tests/test_subagent.py",
+    "tests/test_subagent_history.py",
+    "tests/test_subagent_parent_cancel.py",
+    "tests/test_subagent_run_records.py",
+    "tests/test_subagent_template_body.py",
+    "tests/test_isolation_authorization.py",
+    "tests/test_isolation_delegation.py",
+    "tests/test_isolation_filesystem.py",
+    "tests/test_recovery_controls.py",
+    "tests/test_recovery_guest_identity.py",
+    "tests/test_recovery_process.py",
+    "tests/test_recovery_runtime.py",
+    "tests/test_recovery_store.py",
+    "tests/test_recovery_waiter_fencing.py",
+    "tests/test_verification_checks.py",
+    "tests/test_verification_integration.py",
+    "tests/test_verification_process.py",
+    "tests/test_verification_store.py",
+    "tests/test_orchestration_release.py",
+    "tests/test_orchestration_persistence_release.py",
+    "tests/test_native_tool_contracts_release.py"
+  ],
+  "results_by_class": {
+    "tests.test_openai_chat_api": {
+      "passed": 64
+    },
+    "tests.test_agent_loop_hint_not_persisted": {
+      "passed": 5
+    },
+    "tests.test_agent_steering": {
+      "passed": 11
+    },
+    "tests.test_agent_stream_content_blocks": {
+      "passed": 5
+    },
+    "tests.test_agent_stream_max_turns.MaxTurnsStepLimitTest": {
+      "passed": 6
+    },
+    "tests.test_agent_stream_reasoning_field": {
+      "passed": 5
+    },
+    "tests.test_agent_trim_budget": {
+      "passed": 9
+    },
+    "tests.test_agent_trim_new_messages": {
+      "passed": 3
+    },
+    "tests.test_bash_background.TestBackgroundLifecycle": {
+      "passed": 8
+    },
+    "tests.test_bash_background.TestUnknownJob": {
+      "passed": 2
+    },
+    "tests.test_bash_background.TestTimeout": {
+      "passed": 5
+    },
+    "tests.test_bash_config_propagation.TestCreateToolPath": {
+      "passed": 5
+    },
+    "tests.test_bash_config_propagation.TestAgentInitializerMergePath": {
+      "passed": 4
+    },
+    "tests.test_bash_config_propagation.TestBugReproduction": {
+      "passed": 1
+    },
+    "tests.test_bash_exit_codes": {
+      "passed": 23
+    },
+    "tests.test_bash_full_output": {
+      "passed": 5
+    },
+    "tests.test_bash_rm_safety_flags": {
+      "passed": 9
+    },
+    "tests.test_bash_windows_guidance": {
+      "passed": 8
+    },
+    "tests.test_browser_driver_loss.DriverConnectionLostTest": {
+      "passed": 5
+    },
+    "tests.test_browser_fill_required_text": {
+      "passed": 4
+    },
+    "tests.test_browser_ref_actions_native": {
+      "skipped": 7
+    },
+    "tests.test_browser_scroll_amount": {
+      "passed": 3
+    },
+    "tests.test_browser_snapshot_selector": {
+      "passed": 3
+    },
+    "tests.test_chat_fallback_chain_walk.TestWalkingTheChain": {
+      "passed": 5
+    },
+    "tests.test_chat_fallback_chain_walk.TestNoChainConfigured": {
+      "passed": 1
+    },
+    "tests.test_chat_fallback_ratelimit.TestRateLimitWithABackup": {
+      "passed": 3
+    },
+    "tests.test_chat_fallback_ratelimit.TestRateLimitWithoutABackup": {
+      "passed": 2
+    },
+    "tests.test_chat_fallback_ratelimit.TestOtherErrorsAreUnaffected": {
+      "passed": 1
+    },
+    "tests.test_chat_fallback_ratelimit.TestNoFallbackSupport": {
+      "passed": 1
+    },
+    "tests.test_chat_model_fallback.TestFallbackConfig": {
+      "passed": 14
+    },
+    "tests.test_chat_model_fallback.TestEngagingTheFallback": {
+      "passed": 5
+    },
+    "tests.test_chat_model_fallback.TestWalkingTheChain": {
+      "passed": 5
+    },
+    "tests.test_chat_model_fallback.TestResettingBetweenTurns": {
+      "passed": 3
+    },
+    "tests.test_chat_model_fallback.TestStreamRecovery": {
+      "passed": 4
+    },
+    "tests.test_chat_model_fallback.TestConsoleValidation": {
+      "passed": 15
+    },
+    "tests.test_custom_provider.TestParseCustomBotType": {
+      "passed": 5
+    },
+    "tests.test_custom_provider.TestResolveCustomCredentials": {
+      "passed": 11
+    },
+    "tests.test_custom_provider.TestGenerateProviderId": {
+      "passed": 2
+    },
+    "tests.test_custom_provider.TestConfigDefaults": {
+      "passed": 2
+    },
+    "tests.test_custom_provider.TestDragSensitiveNested": {
+      "passed": 4
+    },
+    "tests.test_efficiency_accounting_baseline": {
+      "passed": 3
+    },
+    "tests.test_efficiency_adapter_baseline": {
+      "passed": 2
+    },
+    "tests.test_efficiency_benchmark": {
+      "passed": 2
+    },
+    "tests.test_efficiency_metrics": {
+      "passed": 6
+    },
+    "tests.test_incremental_persist": {
+      "passed": 17
+    },
+    "tests.test_kimi_context_window": {
+      "passed": 6
+    },
+    "tests.test_mcp_tool_retrieval.TestBuildRetrievalQuery": {
+      "passed": 5
+    },
+    "tests.test_mcp_tool_retrieval.TestCosineSimilarity": {
+      "passed": 3
+    },
+    "tests.test_mcp_tool_retrieval.TestSelectMcpTools": {
+      "passed": 5
+    },
+    "tests.test_mcp_tool_retrieval.TestSelectMcpToolsMetadata": {
+      "passed": 4
+    },
+    "tests.test_mcp_tool_retrieval.TestSelectToolsForInjection": {
+      "passed": 4
+    },
+    "tests.test_memory_decay_scope.TestDecayScope": {
+      "passed": 9
+    },
+    "tests.test_memory_empty_note_native": {
+      "passed": 3
+    },
+    "tests.test_memory_fts_sync": {
+      "passed": 13
+    },
+    "tests.test_memory_get_credentials": {
+      "passed": 2
+    },
+    "tests.test_memory_get_shared_knowledge": {
+      "passed": 4
+    },
+    "tests.test_memory_global_config.TestMemoryGlobalConfigSync": {
+      "passed": 4
+    },
+    "tests.test_memory_global_config.TestLegacyWorkspaceWarning": {
+      "passed": 5
+    },
+    "tests.test_memory_hit_boost": {
+      "passed": 3
+    },
+    "tests.test_memory_hybrid_fusion": {
+      "passed": 3
+    },
+    "tests.test_memory_index_rel_path": {
+      "passed": 6
+    },
+    "tests.test_memory_keyword_like_fallback": {
+      "passed": 1
+    },
+    "tests.test_memory_list_pagination": {
+      "passed": 11
+    },
+    "tests.test_memory_path_marks_dirty.TestMemoryPathMarksDirty": {
+      "passed": 10,
+      "skipped": 1
+    },
+    "tests.test_memory_path_marks_dirty.TestConsoleEditsMarkMemoryDirty": {
+      "passed": 7,
+      "skipped": 1
+    },
+    "tests.test_memory_rerank": {
+      "passed": 14
+    },
+    "tests.test_memory_search_threshold_overrides.TestSearchHonoursExplicitThresholds": {
+      "passed": 4
+    },
+    "tests.test_memory_storage_io": {
+      "passed": 13
+    },
+    "tests.test_memory_sync_reconcile": {
+      "passed": 7
+    },
+    "tests.test_memory_sync_shared_root": {
+      "passed": 1
+    },
+    "tests.test_memory_unicode_keywords": {
+      "passed": 13
+    },
+    "tests.test_message_usage": {
+      "passed": 4
+    },
+    "tests.test_model_catalog_api.TestSeedRows": {
+      "passed": 5
+    },
+    "tests.test_model_catalog_api.TestEffectiveAndOverlayFields": {
+      "passed": 5
+    },
+    "tests.test_model_catalog_api.TestApplyCatalogFiltersByCapability": {
+      "passed": 2
+    },
+    "tests.test_model_catalog_api.TestSaveCatalogHandler": {
+      "passed": 5
+    },
+    "tests.test_model_catalog_api.TestOverlayStorage": {
+      "passed": 7
+    },
+    "tests.test_model_catalog_api.TestLegacyConfigMigration": {
+      "passed": 2
+    },
+    "tests.test_model_catalog_api.TestCatalogNormalization": {
+      "passed": 9
+    },
+    "tests.test_openai_api_type": {
+      "passed": 19
+    },
+    "tests.test_oversized_context_files.TestCompactKnowledgeIndex": {
+      "passed": 5
+    },
+    "tests.test_oversized_context_files.TestBookkeepingFilesAreNotEmbedded": {
+      "passed": 1
+    },
+    "tests.test_oversized_context_files.TestSystemPromptFillingTheBudget": {
+      "passed": 2
+    },
+    "tests.test_oversized_context_files.TestMemoryFileTruncation": {
+      "passed": 3
+    },
+    "tests.test_prompt_prefix_stability": {
+      "passed": 8
+    },
+    "tests.test_provider_error_body": {
+      "passed": 7
+    },
+    "tests.test_request_accounting": {
+      "passed": 12
+    },
+    "tests.test_request_usage": {
+      "passed": 7
+    },
+    "tests.test_responses_failed_status": {
+      "passed": 5
+    },
+    "tests.test_responses_function_contract": {
+      "passed": 10
+    },
+    "tests.test_responses_incomplete_tools": {
+      "passed": 3
+    },
+    "tests.test_responses_json_schema_format": {
+      "passed": 5
+    },
+    "tests.test_responses_refusal": {
+      "passed": 3
+    },
+    "tests.test_scheduler_cross_channel_recipients": {
+      "passed": 12
+    },
+    "tests.test_scheduler_once_past_time": {
+      "passed": 3
+    },
+    "tests.test_scheduler_relative_store": {
+      "passed": 3
+    },
+    "tests.test_scheduler_silent.TestSchedulerSilentMode": {
+      "passed": 3
+    },
+    "tests.test_scheduler_task_permission_mode": {
+      "passed": 9
+    },
+    "tests.test_scheduler_timezone": {
+      "passed": 17
+    },
+    "tests.test_search_files_brace_globs_native": {
+      "passed": 39
+    },
+    "tests.test_search_files_powershell_quoting": {
+      "skipped": 6
+    },
+    "tests.test_search_files_tool": {
+      "passed": 83
+    },
+    "tests.test_security_ssrf_browser_navigate.TestBrowserNavigateSSRF": {
+      "passed": 12
+    },
+    "tests.test_session_context_usage.ContextUsageStoreTest": {
+      "passed": 8
+    },
+    "tests.test_session_context_usage.ContextUsageSnapshotWriteTest": {
+      "passed": 4
+    },
+    "tests.test_session_context_usage.ContextUsageEndpointTest": {
+      "passed": 4
+    },
+    "tests.test_session_title_budget": {
+      "passed": 5
+    },
+    "tests.test_shared_db_recovery.TestSharedDbRecovery": {
+      "passed": 8
+    },
+    "tests.test_shared_db_recovery.TestTrigramUpdateTrigger": {
+      "passed": 2
+    },
+    "tests.test_shared_db_recovery.TestTrigramTokenizerUnavailable": {
+      "passed": 1
+    },
+    "tests.test_skill_config_entry_shapes": {
+      "passed": 4
+    },
+    "tests.test_skill_custom_provider_types": {
+      "passed": 4
+    },
+    "tests.test_skill_hidden_setup_hints": {
+      "passed": 1
+    },
+    "tests.test_skill_list_name_types": {
+      "passed": 3
+    },
+    "tests.test_skill_loader_cache.TestSkillLoaderCache": {
+      "passed": 15
+    },
+    "tests.test_skill_metadata_booleans": {
+      "passed": 4
+    },
+    "tests.test_skill_prompt_order": {
+      "passed": 3
+    },
+    "tests.test_subagent_fallback_scope.TestTopLevelTurnStartsOnThePrimary": {
+      "passed": 4
+    },
+    "tests.test_subagent_fallback_scope.TestSubAgentDoesNotClearParentFallback": {
+      "passed": 4
+    },
+    "tests.test_time_tool": {
+      "passed": 6
+    },
+    "tests.test_token_budget_trim.TestTokenBudgetTrim": {
+      "passed": 5
+    },
+    "tests.test_tool_description_contract": {
+      "passed": 6
+    },
+    "tests.test_agent_delegation": {
+      "passed": 26
+    },
+    "tests.test_agent_delegation_timeout": {
+      "passed": 6
+    },
+    "tests.test_agent_registry": {
+      "passed": 14
+    },
+    "tests.test_config_subagent_toggle": {
+      "passed": 9
+    },
+    "tests.test_multi_agent_runtime": {
+      "passed": 6
+    },
+    "tests.test_multi_agent_state_isolation": {
+      "passed": 14
+    },
+    "tests.test_peer_inbound_permission_mode": {
+      "passed": 8
+    },
+    "tests.test_peer_inbound_policy": {
+      "passed": 20
+    },
+    "tests.test_permission_flag_driven_writes": {
+      "passed": 65
+    },
+    "tests.test_permission_git_global_options": {
+      "passed": 20
+    },
+    "tests.test_permission_git_read_only": {
+      "passed": 58
+    },
+    "tests.test_permission_protected_files": {
+      "passed": 16
+    },
+    "tests.test_permission_shell_substitution": {
+      "passed": 43
+    },
+    "tests.test_subagent": {
+      "passed": 59
+    },
+    "tests.test_subagent_history": {
+      "passed": 7
+    },
+    "tests.test_subagent_parent_cancel": {
+      "passed": 4
+    },
+    "tests.test_subagent_run_records.SubagentRunRecordTest": {
+      "passed": 6
+    },
+    "tests.test_subagent_template_body": {
+      "passed": 6
+    },
+    "tests.test_isolation_authorization": {
+      "passed": 16
+    },
+    "tests.test_isolation_delegation": {
+      "passed": 9
+    },
+    "tests.test_isolation_filesystem": {
+      "passed": 15
+    },
+    "tests.test_recovery_controls": {
+      "passed": 4
+    },
+    "tests.test_recovery_guest_identity": {
+      "passed": 3
+    },
+    "tests.test_recovery_process": {
+      "passed": 3
+    },
+    "tests.test_recovery_runtime": {
+      "passed": 12
+    },
+    "tests.test_recovery_store": {
+      "passed": 7
+    },
+    "tests.test_recovery_waiter_fencing": {
+      "passed": 4
+    },
+    "tests.test_verification_checks": {
+      "passed": 13
+    },
+    "tests.test_verification_integration": {
+      "passed": 6
+    },
+    "tests.test_verification_process": {
+      "passed": 1
+    },
+    "tests.test_verification_store": {
+      "passed": 3
+    },
+    "tests.test_orchestration_release": {
+      "passed": 11
+    },
+    "tests.test_orchestration_persistence_release": {
+      "passed": 1
+    },
+    "tests.test_native_tool_contracts_release": {
+      "passed": 2
+    }
+  },
+  "skips": [
+    {
+      "class": "tests.test_browser_ref_actions_native",
+      "name": "test_ref_actions_follow_browser_editability[click-button-False]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "class": "tests.test_browser_ref_actions_native",
+      "name": "test_ref_actions_follow_browser_editability[click-button-True]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "class": "tests.test_browser_ref_actions_native",
+      "name": "test_ref_actions_follow_browser_editability[fill-input-False]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "class": "tests.test_browser_ref_actions_native",
+      "name": "test_ref_actions_follow_browser_editability[fill-input-True]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "class": "tests.test_browser_ref_actions_native",
+      "name": "test_ref_actions_follow_browser_editability[fill-div-False]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "class": "tests.test_browser_ref_actions_native",
+      "name": "test_ref_actions_follow_browser_editability[select-select-False]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "class": "tests.test_browser_ref_actions_native",
+      "name": "test_ref_actions_follow_browser_editability[select-select-True]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "class": "tests.test_memory_path_marks_dirty.TestMemoryPathMarksDirty",
+      "name": "test_write_backslash_separated_memory_path_marks_dirty",
+      "reason": "backslash is only a separator on Windows"
+    },
+    {
+      "class": "tests.test_memory_path_marks_dirty.TestConsoleEditsMarkMemoryDirty",
+      "name": "test_console_save_with_backslash_separator_marks_dirty",
+      "reason": "backslash is only a separator on Windows"
+    },
+    {
+      "class": "tests.test_search_files_powershell_quoting",
+      "name": "test_search_root_with_an_apostrophe_still_finds_its_matches",
+      "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+    },
+    {
+      "class": "tests.test_search_files_powershell_quoting",
+      "name": "test_empty_result_for_an_apostrophe_root_is_not_a_hidden_failure",
+      "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+    },
+    {
+      "class": "tests.test_search_files_powershell_quoting",
+      "name": "test_file_glob_with_an_apostrophe_reaches_the_backend_intact",
+      "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+    },
+    {
+      "class": "tests.test_search_files_powershell_quoting",
+      "name": "test_ps_quote_doubles_apostrophes_and_wraps_once",
+      "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+    },
+    {
+      "class": "tests.test_search_files_powershell_quoting",
+      "name": "test_powershell_backend_reports_a_non_zero_exit_instead_of_swallowing_it",
+      "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+    },
+    {
+      "class": "tests.test_search_files_powershell_quoting",
+      "name": "test_failed_powershell_run_does_not_report_a_successful_empty_search",
+      "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+    }
+  ],
+  "separate_browser_coverage": {
+    "count": 7,
+    "all_passed": true,
+    "matches_exact_seven_skipped_test_ids": true,
+    "receipt": "native-contracts.json",
+    "junit_sha256": "de6a80a2099f628239258139140849ca9d29292a11adc063bac0c61c076e028a"
+  },
+  "combined_unique_results": {
+    "passed": 1371,
+    "skipped": 8,
+    "failed": 0,
+    "errors": 0
+  },
+  "new_release_case_results": [
+    {
+      "class": "tests.test_recovery_guest_identity",
+      "name": "test_guest_recovery_keeps_guest_model_and_host_journal",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_recovery_guest_identity",
+      "name": "test_guest_recovery_current_host_permission_and_revocations",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_recovery_guest_identity",
+      "name": "test_guest_without_host_project_keeps_guest_workspace",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_recovery_waiter_fencing",
+      "name": "test_cancelled_waiter_cannot_stop_replacement_attempt",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_recovery_waiter_fencing",
+      "name": "test_queued_retry_generation_fences_old_waiter",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_recovery_waiter_fencing",
+      "name": "test_existing_journal_adds_generation",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_recovery_waiter_fencing",
+      "name": "test_completion_wins_waiter_stop_cas",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_orchestration_release",
+      "name": "test_crash_boundaries_preserve_spec_and_verify_real_output[before_dispatch]",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_orchestration_release",
+      "name": "test_crash_boundaries_preserve_spec_and_verify_real_output[before_effect]",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_orchestration_release",
+      "name": "test_crash_boundaries_preserve_spec_and_verify_real_output[after_intent]",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_orchestration_release",
+      "name": "test_crash_boundaries_preserve_spec_and_verify_real_output[after_effect]",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_orchestration_release",
+      "name": "test_crash_boundaries_preserve_spec_and_verify_real_output[after_completion]",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_orchestration_release",
+      "name": "test_active_stop_retains_provenance_and_live_lock[cancelled]",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_orchestration_release",
+      "name": "test_active_stop_retains_provenance_and_live_lock[timed_out]",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_orchestration_release",
+      "name": "test_revoked_write_after_intent_blocks_acknowledged_retry",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_orchestration_release",
+      "name": "test_bad_completed_output_is_never_verified_or_replayed[options0]",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_orchestration_release",
+      "name": "test_bad_completed_output_is_never_verified_or_replayed[options1]",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_orchestration_release",
+      "name": "test_sibling_read_denied_while_concurrent_service_respects_live_owner",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_orchestration_persistence_release",
+      "name": "test_restart_preserves_teammate_identity_history_and_fts",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_native_tool_contracts_release",
+      "name": "test_historical_16_runtime_schemas_and_registry_descriptors",
+      "result": "passed"
+    },
+    {
+      "class": "tests.test_native_tool_contracts_release",
+      "name": "test_authorized_root_and_verification_schema_additions_are_explicit",
+      "result": "passed"
+    }
+  ],
+  "evidence_directory": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-orchestration-release-ui5fnwom",
+  "junit_sha256": "334911191494c7ec631280868c5aa19f8781e0e45bb2d3cfe2c218efe69ff513",
+  "python_source_sha256": {
+    "agent/multiagent/inbound.py": "504d9336c34191ce4099b9fdf1cabc4a95f7721260315657e2f0dcaa79c4b89f",
+    "agent/permission/__init__.py": "46d82396fb0d06e5f3989ea0310b4c500d5b88a9c136b03da91e5d196e57bacf",
+    "agent/permission/authority.py": "08f6c941ab3f610fb43636bfde5b2e9449f31bc8341c9832b6e5222ad25aa1a5",
+    "agent/permission/filesystem.py": "e09c76666f2ea270498ff4defc858b78edf4747cceda97730034801b05a08648",
+    "agent/permission/policy.py": "e611cc4086a7de9282a72e089d84bfc7bc7d8d5c599081edad14deb3763443c8",
+    "agent/protocol/agent.py": "16c062a8853956294fc5840168df9a3f859436e10e05a4a0df8169d9c773dd9b",
+    "agent/protocol/agent_stream.py": "297d1846ebf6157dfe6119118576dc75471d7a6f37bba13f8197cbb3510e4c5f",
+    "agent/recovery/__init__.py": "e384009794ef266f72241b3a7b3816f7c0840527e5e56b354bb87a6d85cc6681",
+    "agent/recovery/__main__.py": "8de6f3be67738be2f49f8ec9c4d563c48cf0de87575a407bf0bbf9b9b0cd78ea",
+    "agent/recovery/runtime.py": "9ea7b0c69a4293d61f8a46ee0613c4a215d243a4554ad87a72151db8afc103fb",
+    "agent/recovery/service.py": "39c15437866d51ec99c84cf1f4b56fb9a51085040a8c274e9a346ff60358a776",
+    "agent/recovery/store.py": "6083b610814d31efbd792741679bdb49eca3e566a1759ff52ce89e541efccbab",
+    "agent/recovery/verification.py": "b7fd961dfb379c0e6fd4cc68c5e0e5a0f3b61983dccfda733a8ac4ae3b7d4ce6",
+    "agent/subagent/runner.py": "8bc4beb46d5fa21d03b996b00242b3d3fb19a28bf1608917693542bc26c04b41",
+    "agent/subagent/templates.py": "9aaaacc3e8cda028a34b55a07ecb507a49ffee2e63225bd8c789b7a64cfb601f",
+    "agent/tools/agent_delegate/agent_delegate.py": "85c8c730564af0b500167070caa829224ae94b44ef240b29bc0bf2bcd61d23a0",
+    "agent/tools/base_tool.py": "b0e3abf5d84b61e417268fad98430da32819cb035c8d5fc7017dbc6a417711ff",
+    "agent/tools/scheduler/integration.py": "37cc8a1ee109f4ae424d4d1d5e2e8fd596f8dce4ad5498f9c1bbbd3f24ff2730",
+    "agent/tools/subagent/subagent.py": "6b3cd554788198295c3ed3a7dfb1e12ca4f658d86574ec397801980832447e2a",
+    "agent/workspace/project_store.py": "70d6b4136b58cfa52cb713fda6407229b23bf191978711a7d81b9530598bac2a",
+    "agent/workspace/session_prefs.py": "89073f993bf308e54c1834341500cd954ef463fe3c21f87eaedd1fe3c8f746df",
+    "bridge/agent_bridge.py": "1bc058d509e6c45292b767638ac7f1b038d57c2447585e5e87bec9e6b78a1c38",
+    "docs/isolation-001/macos_probe.py": "c50fecf28efc86258905925d1d3cde752ebb00d3b3e89c37ed7d1eebb2797f17",
+    "docs/isolation-001/run_regression.py": "0d7825b6ba3222048812ef6e892d0dd9e100af14e142e697f18b322d9a0bd2c0",
+    "docs/orchestration-001/delegation_probe.py": "b8a14235bd9decd83142b6c3aea84cb955e5dc6586a0a4fc51695031f74a986e",
+    "docs/orchestration-001/permissions_probe.py": "d48d45a821ed5bd44315d3517803b63211b21fcc61db517f7d8ddb83d8ba693e",
+    "docs/orchestration-001/probe.py": "99e61d3534389996a3d63fcee278b60e6e3a6ca82e6f30467bd6193e908e9e4f",
+    "docs/orchestration-release-001/run_regression.py": "715ba13236f4b69c1624383c47aa6aa0ac63a4aeaa6d518c0bbcac7721636c76",
+    "docs/recovery-001/run_regression.py": "3fa13d858b8ad56b26186099177b0700e2d51382aba322d535a24c67964e8357",
+    "docs/verification-001/run_regression.py": "f8011bba4aaaba683f1514f762b6909d61c27966a875701d29bb4077c626079b",
+    "tests/recovery_process_fixture.py": "a30e1dd7d527649d24b2e4f7563619509b814d861c99bcec2bfbb4f5bde22823",
+    "tests/test_agent_delegation.py": "8882c4ad257f561e27086a20e6fd783c7c3c89f08c9e9cf93d0ebc164ecdba5c",
+    "tests/test_agent_delegation_timeout.py": "11fcdc65891f775a7815c57692c1f984741087beae1c6b473096f9423d1c197b",
+    "tests/test_isolation_authorization.py": "b2d3778c0c5018a61144c1a0c71dd92fbe74ba9baa78893ce1941638540498d7",
+    "tests/test_isolation_delegation.py": "87df422d67e1d1c3afb37ae407e3875afddeec5939f8296288f4551a574f4dd7",
+    "tests/test_isolation_filesystem.py": "855cbefb4ca778e83c06b1d3b1263101a06556aa1f0d234d3dd673590bf1853f",
+    "tests/test_native_tool_contracts_release.py": "eaf67d7f31cb566a3614b7f42ffdbd64708f329a3d3e7de80e7eb36a7f178ed7",
+    "tests/test_orchestration_persistence_release.py": "f00e84c654ab72856298cebdcae009fd2034ad2db16b2c5826bfbd2d6cf90b87",
+    "tests/test_orchestration_release.py": "5a54bd3f9231cab692803d287405c31b5a9bf3548e0732ea917a82315055a315",
+    "tests/test_peer_inbound_permission_mode.py": "7e31f45c3f293ce0e2801439b287f5fb30446e327a95269f7a82f10ab8de1908",
+    "tests/test_peer_inbound_policy.py": "93a1442b83018f0598e1bf64e808d3a3e6c8398f9cd60870f4ecd74690ee0d3b",
+    "tests/test_recovery_controls.py": "921bb9f68603eaae05a5f97feceabbf09c3239eb64443d7e61c06415c8a970d0",
+    "tests/test_recovery_guest_identity.py": "55ff32f90fba7a11096d9d56bde6b76a575492b5649667eadec0133bd4b7f7a8",
+    "tests/test_recovery_process.py": "7d465c796569193906aa01c1b9b2a3fce8e6970338e1768d96df6691dc28c700",
+    "tests/test_recovery_runtime.py": "5ddb618d98bde4870b1e8018492fd63af7f276425385813861285f93ee537038",
+    "tests/test_recovery_store.py": "2d2831a64e045d8afd31997c525ba643cc6d9db4390ba47c47bf0bfc12c544aa",
+    "tests/test_recovery_waiter_fencing.py": "1dbddecaa938fa46458ac2d1289087e21062cedb64219842edb4b5aeac4dbcd7",
+    "tests/test_scheduler_task_permission_mode.py": "5c8a60db5dfd60e06a19bf2992e31649b3fc46a509f91c37ffc67a5e8d73849c",
+    "tests/test_subagent.py": "5f4041db764c548ef004ad119a504f28cf617821289c37066d9ffd5308d85b9f",
+    "tests/test_subagent_parent_cancel.py": "861472faf0de8cba9ce6ba22d710833089727805a8ee3d4fdcf81ebe8539b889",
+    "tests/test_verification_checks.py": "f5e459d46ded0b7ab8001880e44a65aa951b4487d63ffbe32ae0a97f6fa5a1fc",
+    "tests/test_verification_integration.py": "1a50401de6e4742948c301e8c122248bca1d706d62d8d984885b1faefe65f977",
+    "tests/test_verification_process.py": "4071d37e8459e65f33e5bb8bce38ede36df6bbd9c1bc9cc20700a7e947900478",
+    "tests/test_verification_store.py": "2eb5c5181b9f093f687e39b860a4f2999cade6e98e2666ece7fb41c4dae954f6"
+  },
+  "ui_receipt": "ui-gates.json",
+  "static_receipt": "python-static.json",
+  "release_decision": "RELEASE BLOCKED",
+  "failed_required_gates": [
+    "strict renderer typecheck: nine pre-existing ChannelsPage TS2322 errors"
+  ],
+  "tested_product_commit": "0710e8fc0d40935f5b8aabc6b1b9042b6a7d37cb",
+  "release_test_commit_note": "The following evidence commit adds the test sources whose hashes are recorded above; no product behavior changes."
+}

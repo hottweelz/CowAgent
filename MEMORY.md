@@ -36,6 +36,13 @@
   unverified. Restart can finish verification without rerunning the worker.
   [VERIFICATION-001](docs/verification-001/README.md) defines check syntax and
   limits; native filesystem confirmation does not certify remote-service state.
+- Conversation ownership and execution identity are distinct. A guest's durable
+  subagent keeps the guest profile/model and the host-owned journal/session
+  grants. Recovery rechecks host roster membership and current permissions.
+  Explicit retry advances a journal generation; old waiters cannot claim or
+  stop a replacement generation. Preserve stopped-attempt snapshots when a
+  retry races the result. See the integrated
+  [release assessment](docs/orchestration-release-001/README.md).
 - SQLite indexed-memory/WAL behavior and EFFICIENCY-001 Phases 1–4 remain covered
   by integrated regressions. The nine ChannelsPage typecheck errors are a
   [separate baseline defect](docs/known-issues/channels-page-typecheck.md).
