@@ -28,47 +28,33 @@ from agent.subagent import (
 from agent.tools.subagent import SubagentTool
 
 
-class _FakeParent:
-    """Enough of an Agent for the runner to build a child from."""
-
-    def __init__(self, tools, workspace_dir):
-        from agent.permission.authority import Authority, SAFE_CAPABILITIES
-        from agent.permission.policy import WORKSPACE_WRITE
-
-        self.tools = tools
-        self.workspace_dir = workspace_dir
-        # Explicit synthetic authority keeps these tests independent of the
-        # maintainer's local config and gives workers one bounded root.
-        self.project_dir = None
-        self.permission_mode = WORKSPACE_WRITE
-        self.authority = Authority(
-            WORKSPACE_WRITE, SAFE_CAPABILITIES, (workspace_dir,), (workspace_dir,)
-        )
-        self.model = object()
-        self.max_steps = 7
-        self.max_context_tokens = 1234
-        self.skill_manager = None
-        self.enable_skills = False
-        self.runtime_info = None
-        self.messages = []
-
-    def effective_permission_mode(self):
-        return self.permission_mode
-
-    def effective_cwd(self):
-        return self.project_dir or self.workspace_dir
-
-    def protected_paths(self):
-        return []
-
-
 @pytest.fixture
 def workspace(tmp_path):
-    return tmp_path / "ws"
+    path = tmp_path / "ws"
+    path.mkdir(parents=True)
+    return path
 
 
 @pytest.fixture
 def parent(workspace, monkeypatch):
+    from agent.registry import AgentProfile, AgentRegistry, set_agent_registry
+    from agent.protocol.agent import Agent
+    from agent.workspace import project_store, session_prefs
+    from agent import team
+    from config import conf
+
+    owner = "subagent-test-owner"
+    session = "subagent-test-session"
+    profile = AgentProfile(owner, owner, str(workspace), model="fixture-model", bot_type="fixture")
+    registry = AgentRegistry([profile], owner)
+    set_agent_registry(registry)
+    monkeypatch.setattr("agent.permission.authority._registry_profiles", lambda: [profile])
+    monkeypatch.setattr("agent.recovery.runtime._registry_profiles", lambda: [profile])
+    monkeypatch.setattr(team, "team_file", lambda _settings: workspace.parent / "team.json")
+    conf()["agent_workspace"] = str(workspace)
+    project_store.set_project_dir(session, str(workspace), owner)
+    session_prefs.set_prefs(session, owner, permission="workspace-write")
+
     from agent.tools.bash.bash import Bash
     from agent.tools.edit.edit import Edit
     from agent.tools.ls.ls import Ls
@@ -78,15 +64,18 @@ def parent(workspace, monkeypatch):
     from agent.tools.subagent import SubagentTool as NativeSubagentTool
     from agent.tools.write.write import Write
 
-    workspace.mkdir(parents=True, exist_ok=True)
-    # Do not consult any machine registry: the authority under test is local
-    # to this temporary workspace and its native tool instances.
-    monkeypatch.setattr("agent.permission.authority._registry_profiles", lambda: [])
     tools = [Read({"cwd": str(workspace)}), Ls({"cwd": str(workspace)}),
              SearchFiles({"cwd": str(workspace)}), Write({"cwd": str(workspace)}),
              Edit({"cwd": str(workspace)}), Bash({"cwd": str(workspace)}),
              Send({"cwd": str(workspace)}), NativeSubagentTool({"cwd": str(workspace)})]
-    return _FakeParent(tools, str(workspace))
+    parent = Agent("fixture parent", model=object(), tools=tools,
+                   workspace_dir=str(workspace), enable_skills=False,
+                   skip_context_files=True)
+    parent._current_agent_id = owner
+    parent._current_session_id = session
+    parent.permission_mode = "workspace-write"
+    parent.project_dir = str(workspace)
+    return parent
 
 
 @pytest.fixture
@@ -103,23 +92,35 @@ def spawn_tool(parent, workspace):
     return tool
 
 
-def _capture_children(monkeypatch, reply="done"):
-    """Replace the child Agent with a recorder."""
+def _patch_child(monkeypatch, run_stream, on_child=None):
+    """Keep a real Agent for durable envelope validation; stub only its model loop."""
+    from agent.protocol.agent import Agent
+    original = Agent
     built = []
 
-    class _StubChild:
-        def __init__(self, **kwargs):
-            self.kwargs = kwargs
-            self.extra_system_suffix = None
-            built.append(self)
+    class _ChildFactory:
+        def __new__(cls, **kwargs):
+            child = original(**kwargs)
+            child.kwargs = kwargs
+            if kwargs.get("system_prompt") != "Recovery authority":
+                built.append(child)
+                if on_child:
+                    on_child(child, kwargs)
+            def run(goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
+                child.goal = goal
+                child.clear_history = clear_history
+                child.depth_seen = current_depth()
+                return run_stream(child, goal, clear_history, cancel_event, on_event, steer_inbox)
+            child.run_stream = run
+            return child
 
-        def run_stream(self, goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
-            self.goal = goal
-            self.clear_history = clear_history
-            self.depth_seen = current_depth()
-            return reply
+    monkeypatch.setattr("agent.protocol.agent.Agent", _ChildFactory)
+    return built
 
-    monkeypatch.setattr("agent.protocol.agent.Agent", _StubChild)
+
+def _capture_children(monkeypatch, reply="done"):
+    """Replace the child Agent's model loop with a recorder."""
+    built = _patch_child(monkeypatch, lambda *_: reply)
     return built
 
 
@@ -551,23 +552,21 @@ def test_a_task_that_overruns_its_budget_is_reported_not_dropped(parent, workspa
     settings = SubagentSettings(enabled=True, max_depth=1, max_concurrent=2, timeout_seconds=2.0)
     started = threading.Event()
 
-    class _Hanging:
-        def __init__(self, **kwargs):
-            self.extra_system_suffix = None
+    def hang(_child, _goal, _clear, cancel_event, _event, _steer):
+        started.set()
+        # Honour the cancel the runner sets on timeout, as a real run would.
+        deadline = time.time() + 5
+        while not cancel_event.is_set() and time.time() < deadline:
+            time.sleep(0.01)
+        return ""
 
-        def run_stream(self, goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
-            started.set()
-            # Honour the cancel the runner sets on timeout, as a real run would.
-            cancel_event.wait(timeout=5)
-            return ""
-
-    monkeypatch.setattr("agent.protocol.agent.Agent", _Hanging)
+    _patch_child(monkeypatch, hang)
 
     results = run_tasks(parent, [SubagentTask(goal="hang")], load_templates(str(workspace)), settings)
 
     assert started.is_set()
     assert len(results) == 1
-    assert results[0]["status"] == "timeout"
+    assert results[0]["status"] == "timed_out", results[0]
     assert "timeout_seconds" in results[0]["error"]
 
 
@@ -576,18 +575,14 @@ def test_a_task_near_its_budget_is_asked_to_wrap_up(parent, workspace, monkeypat
     discarded with the timeout."""
     settings = SubagentSettings(enabled=True, max_depth=1, max_concurrent=2, timeout_seconds=2.0)
 
-    class _Researching:
-        def __init__(self, **kwargs):
-            self.extra_system_suffix = None
+    def research(_child, _goal, _clear, cancel_event, _event, steer_inbox):
+        while not cancel_event.is_set():
+            if steer_inbox.drain():
+                return "partial findings"
+            time.sleep(0.01)
+        return ""
 
-        def run_stream(self, goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
-            while not cancel_event.is_set():
-                if steer_inbox.drain():
-                    return "partial findings"
-                time.sleep(0.01)
-            return ""
-
-    monkeypatch.setattr("agent.protocol.agent.Agent", _Researching)
+    _patch_child(monkeypatch, research)
 
     results = run_tasks(parent, [SubagentTask(goal="research")], load_templates(str(workspace)), settings)
 
@@ -603,18 +598,10 @@ def test_a_timed_out_call_returns_without_waiting_for_the_worker(parent, workspa
     worker_finished = threading.Event()
 
     def on_state(_index, state):
-        if state.get("status") in ("cancelled", "completed", "failed"):
+        if state.get("status") in ("cancelled", "timed_out", "completed", "failed"):
             worker_finished.set()
 
-    class _Stuck:
-        def __init__(self, **kwargs):
-            self.extra_system_suffix = None
-
-        def run_stream(self, goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
-            release.wait(timeout=10)  # ignores the cancel, as a wedged run would
-            return ""
-
-    monkeypatch.setattr("agent.protocol.agent.Agent", _Stuck)
+    _patch_child(monkeypatch, lambda *_: (release.wait(timeout=10), "")[1])
 
     started = time.time()
     results = run_tasks(
@@ -630,7 +617,7 @@ def test_a_timed_out_call_returns_without_waiting_for_the_worker(parent, workspa
     # abandoned worker into the next test after monkeypatch restores Agent.
     assert worker_finished.wait(timeout=5)
 
-    assert results[0]["status"] == "timeout"
+    assert results[0]["status"] == "timed_out"
     assert elapsed < 5, f"run_tasks blocked for {elapsed:.1f}s waiting on the abandoned worker"
 
 
@@ -639,18 +626,13 @@ def test_siblings_do_not_share_tool_instances(parent, workspace, enabled, monkey
     instances would let one sibling disarm another's timeout."""
     seen = []
 
-    class _Recording:
-        def __init__(self, **kwargs):
-            self.tools = kwargs["tools"]
-            self.extra_system_suffix = None
+    def record_tools(child, *_args):
+        # Keep the objects alive, not their ids: a freed copy's address can
+        # be handed straight back to the next allocation.
+        seen.append({t.name: t for t in child.tools})
+        return "ok"
 
-        def run_stream(self, goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
-            # Keep the objects alive, not their ids: a freed copy's address can
-            # be handed straight back to the next allocation.
-            seen.append({t.name: t for t in self.tools})
-            return "ok"
-
-    monkeypatch.setattr("agent.protocol.agent.Agent", _Recording)
+    _patch_child(monkeypatch, record_tools)
 
     run_tasks(
         parent,
@@ -671,15 +653,7 @@ def test_a_sub_agent_gets_half_the_parents_step_budget(parent, workspace, enable
     allowed to run as long as the whole conversation that delegated it."""
     seen = []
 
-    class _Recording:
-        def __init__(self, **kwargs):
-            seen.append(kwargs["max_steps"])
-            self.extra_system_suffix = None
-
-        def run_stream(self, goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
-            return "ok"
-
-    monkeypatch.setattr("agent.protocol.agent.Agent", _Recording)
+    _patch_child(monkeypatch, lambda *_: "ok", on_child=lambda _child, kwargs: seen.append(kwargs["max_steps"]))
     templates = load_templates(str(workspace))
 
     parent.max_steps = 40
@@ -692,14 +666,7 @@ def test_a_sub_agent_gets_half_the_parents_step_budget(parent, workspace, enable
 
 
 def test_a_failing_task_is_reported_as_failed(parent, workspace, enabled, monkeypatch):
-    class _Exploding:
-        def __init__(self, **kwargs):
-            self.extra_system_suffix = None
-
-        def run_stream(self, goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
-            raise RuntimeError("model unavailable")
-
-    monkeypatch.setattr("agent.protocol.agent.Agent", _Exploding)
+    _patch_child(monkeypatch, lambda *_: (_ for _ in ()).throw(RuntimeError("model unavailable")))
 
     results = run_tasks(parent, [SubagentTask(goal="boom")], load_templates(str(workspace)), enabled)
     assert results[0]["status"] == "failed"
@@ -710,14 +677,7 @@ def test_all_tasks_failing_surfaces_as_a_tool_error(spawn_tool, enabled, monkeyp
     """A parent that reads a success result will report findings to the user.
     There are none, so this must not come back as success."""
 
-    class _Exploding:
-        def __init__(self, **kwargs):
-            self.extra_system_suffix = None
-
-        def run_stream(self, goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
-            raise RuntimeError("nope")
-
-    monkeypatch.setattr("agent.protocol.agent.Agent", _Exploding)
+    _patch_child(monkeypatch, lambda *_: (_ for _ in ()).throw(RuntimeError("nope")))
 
     result = spawn_tool.execute({"goal": "go"})
     assert result.status == "error"
@@ -803,14 +763,7 @@ def test_a_lone_sub_agent_is_left_to_the_call_itself(spawn_tool, enabled, monkey
 
 
 def test_a_failed_sub_agent_closes_with_its_error(spawn_tool, enabled, monkeypatch):
-    class _Exploding:
-        def __init__(self, **kwargs):
-            self.extra_system_suffix = None
-
-        def run_stream(self, goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
-            raise RuntimeError("model unavailable")
-
-    monkeypatch.setattr("agent.protocol.agent.Agent", _Exploding)
+    _patch_child(monkeypatch, lambda *_: (_ for _ in ()).throw(RuntimeError("model unavailable")))
     events = _events_from(spawn_tool)
 
     spawn_tool.execute({"tasks": [{"goal": "a"}, {"goal": "b"}]})
@@ -826,15 +779,13 @@ def test_a_sub_agent_that_overruns_its_budget_is_still_closed(spawn_tool, worksp
     settings = SubagentSettings(enabled=True, max_depth=1, max_concurrent=2, timeout_seconds=0.2)
     monkeypatch.setattr(SubagentSettings, "from_config", classmethod(lambda cls: settings))
 
-    class _Stuck:
-        def __init__(self, **kwargs):
-            self.extra_system_suffix = None
+    def wait_for_stop(_child, _goal, _history, cancel, _event, _steer):
+        deadline = time.time() + 5
+        while not cancel.is_set() and time.time() < deadline:
+            time.sleep(0.01)
+        return ""
 
-        def run_stream(self, goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
-            cancel_event.wait(timeout=5)
-            return ""
-
-    monkeypatch.setattr("agent.protocol.agent.Agent", _Stuck)
+    _patch_child(monkeypatch, wait_for_stop)
     events = _events_from(spawn_tool)
 
     spawn_tool.execute({"tasks": [{"goal": "hang"}, {"goal": "hang too"}]})
@@ -843,7 +794,7 @@ def test_a_sub_agent_that_overruns_its_budget_is_still_closed(spawn_tool, worksp
     ends = [d for kind, d in events if kind == "tool_execution_end"]
     assert len(ends) == len(starts) == 2
     assert all(d["status"] == "error" for d in ends)
-    assert all("timeout_seconds" in d["result"] for d in ends)
+    assert all("timed_out" in d["result"] or "timeout_seconds" in d["result"] for d in ends), ends
     # The abandoned worker settles later and reports again; the entry has
     # already been closed with the reason that actually explains it.
     time.sleep(0.5)
@@ -855,18 +806,13 @@ def test_a_sub_agent_that_overruns_its_budget_is_still_closed(spawn_tool, worksp
 
 def _child_emitting(monkeypatch, events_by_goal, reply="done"):
     """Replace the child Agent with one that reports the given stream events."""
+    def emit(_child, goal, _clear, _cancel, on_event, _steer):
+        for event in events_by_goal.get(goal, []):
+            if on_event:
+                on_event(event)
+        return reply
 
-    class _Emitter:
-        def __init__(self, **kwargs):
-            self.extra_system_suffix = None
-
-        def run_stream(self, goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
-            for event in events_by_goal.get(goal, []):
-                if on_event:
-                    on_event(event)
-            return reply
-
-    monkeypatch.setattr("agent.protocol.agent.Agent", _Emitter)
+    _patch_child(monkeypatch, emit)
 
 
 def _step(tool_call_id, tool_name, phase, **extra):
@@ -1032,14 +978,7 @@ def test_several_conclusions_are_numbered_and_separated(spawn_tool, enabled, mon
 
 
 def test_a_conclusion_that_never_arrived_says_so(spawn_tool, enabled, monkeypatch):
-    class _Exploding:
-        def __init__(self, **kwargs):
-            self.extra_system_suffix = None
-
-        def run_stream(self, goal, clear_history=False, cancel_event=None, on_event=None, steer_inbox=None):
-            raise RuntimeError("model unavailable")
-
-    monkeypatch.setattr("agent.protocol.agent.Agent", _Exploding)
+    _patch_child(monkeypatch, lambda *_: (_ for _ in ()).throw(RuntimeError("model unavailable")))
 
     result = spawn_tool.execute({"goal": "go"})
 

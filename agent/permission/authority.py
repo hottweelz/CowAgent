@@ -63,7 +63,7 @@ def derive_authority(parent: Authority, receiver: Authority) -> Authority:
                      tuple(sorted(set(parent.denied_paths) | set(receiver.denied_paths))), True)
 
 
-def _registry_profiles():
+def _current_registry():
     """Load the roster without the UI's permissive corrupt-file fallback."""
     import json
     from config import conf
@@ -80,7 +80,11 @@ def _registry_profiles():
         if not isinstance(roster, dict):
             raise ValueError('Invalid roster')
         settings.update({key: roster[key] for key in team.TEAM_KEYS if key in roster})
-    return AgentRegistry.from_config(settings).list(include_disabled=True)
+    return AgentRegistry.from_config(settings)
+
+
+def _registry_profiles():
+    return _current_registry().list(include_disabled=True)
 
 
 def resolve_authority(agent) -> Authority:

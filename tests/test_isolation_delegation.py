@@ -14,6 +14,14 @@ from agent.tools.current_time.current_time import TimeTool
 from bridge.context import Context, ContextType
 
 
+def configure_recovery(tmp_path, monkeypatch, registry):
+    from agent.recovery.store import TaskStore
+    store = TaskStore(tmp_path / "journal" / "tasks.db")
+    monkeypatch.setattr("agent.recovery.runtime.get_task_store", lambda: store)
+    monkeypatch.setattr("agent.recovery.runtime._registry_profiles", lambda: registry.list(include_disabled=True))
+    monkeypatch.setattr("agent.permission.authority._registry_profiles", lambda: registry.list(include_disabled=True))
+
+
 class Backend(LLMModel):
     def __init__(self):
         super().__init__("local-fixture")
@@ -67,8 +75,9 @@ def test_local_delegate_runs_fresh_without_receiver_initializer(tmp_path, monkey
     bridge = SimpleNamespace(agent_registry=registry, bridge=object(),
                              _cancel_key=lambda a, token, default: f"{a}:{token}")
     bridge.agent_reply = lambda *a, **k: (_ for _ in ()).throw(AssertionError("initializer reached"))
+    configure_recovery(tmp_path, monkeypatch, registry)
     monkeypatch.setattr("agent.workspace.project_store.get_project_dir_strict", lambda *a: None)
-    monkeypatch.setattr("agent.workspace.session_prefs.get_prefs_strict", lambda *a: {})
+    monkeypatch.setattr("agent.workspace.session_prefs.get_prefs_strict", lambda *a: {"members": ["dst"], "permission": "workspace-write"})
     monkeypatch.setattr("agent.subagent.runner._open_run", lambda *a: None)
     receiver_model = Backend()
     monkeypatch.setattr("bridge.agent_bridge.AgentLLMModel", lambda bridge: receiver_model)
@@ -128,8 +137,9 @@ def test_delegated_write_uses_shared_root_and_readonly_denies(tmp_path, monkeypa
                               AgentProfile("dst", "Target", str(target))], "src")
     bridge = SimpleNamespace(agent_registry=registry, bridge=object(),
                              _cancel_key=lambda a, token, default: f"{a}:{token}")
+    configure_recovery(tmp_path, monkeypatch, registry)
     monkeypatch.setattr("agent.workspace.project_store.get_project_dir_strict", lambda *a: str(shared))
-    monkeypatch.setattr("agent.workspace.session_prefs.get_prefs_strict", lambda *a: {"permission": "workspace-write"})
+    monkeypatch.setattr("agent.workspace.session_prefs.get_prefs_strict", lambda *a: {"permission": "workspace-write", "members": ["dst"]})
     monkeypatch.setattr("agent.subagent.runner._open_run", lambda *a: None)
     models = []
     def model_factory(_bridge):
@@ -263,8 +273,9 @@ def test_receiver_keeps_its_exclusion_for_source_private_workspace(tmp_path, mon
                         lambda: registry.list(include_disabled=True))
     bridge = SimpleNamespace(agent_registry=registry, bridge=object(),
                              _cancel_key=lambda a, token, default: f"{a}:{token}")
+    configure_recovery(tmp_path, monkeypatch, registry)
     monkeypatch.setattr("agent.workspace.project_store.get_project_dir_strict", lambda *a: str(tmp_path))
-    monkeypatch.setattr("agent.workspace.session_prefs.get_prefs_strict", lambda *a: {"permission": "workspace-write"})
+    monkeypatch.setattr("agent.workspace.session_prefs.get_prefs_strict", lambda *a: {"permission": "workspace-write", "members": ["dst"]})
     monkeypatch.setattr("agent.subagent.runner._open_run", lambda *a: None)
     class Receiver(Backend):
         def call_stream(self, request):

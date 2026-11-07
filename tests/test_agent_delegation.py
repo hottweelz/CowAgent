@@ -1,5 +1,6 @@
 import threading
 import time
+from pathlib import Path
 
 import pytest
 
@@ -18,11 +19,11 @@ from bridge.reply import Reply, ReplyType
 def _registry(disable_research=False):
     return AgentRegistry(
         [
-            AgentProfile("primary", "Primary", "/tmp/delegate-primary"),
+            AgentProfile("primary", "Primary", str(Path(FakeBridge.fixture_root) / "primary")),
             AgentProfile(
                 "research",
                 "Research",
-                "/tmp/delegate-research",
+                str(Path(FakeBridge.fixture_root) / "research"),
                 enabled=not disable_research,
             ),
         ],
@@ -86,16 +87,23 @@ class FixtureBackend(LLMModel):
 @pytest.fixture(autouse=True)
 def _isolated_runtime(monkeypatch, tmp_path):
     from agent.workspace import project_store
-    monkeypatch.setattr(project_store, "get_project_dir_strict", lambda *args: None)
+    monkeypatch.setattr(project_store, "get_project_dir_strict", lambda *args: str(tmp_path))
+    from agent.recovery.store import TaskStore
+    journal = TaskStore(tmp_path / "journal" / "tasks.db")
+    monkeypatch.setattr("agent.recovery.runtime.get_task_store", lambda: journal)
+    monkeypatch.setattr("agent.recovery.runtime._registry_profiles", lambda: FakeBridge.current_registry.list(include_disabled=True))
     monkeypatch.setattr("agent.subagent.runner._open_run", lambda *args: None)
     monkeypatch.setattr("bridge.agent_bridge.AgentLLMModel", lambda bridge: bridge.backend)
-    monkeypatch.setattr("agent.permission.authority._registry_profiles", lambda: [])
+    monkeypatch.setattr("agent.permission.authority._registry_profiles", lambda: FakeBridge.current_registry.list(include_disabled=True))
     FakeBridge.fixture_root = str(tmp_path)
+    for name in ("primary", "research", "designer"):
+        (tmp_path / name).mkdir()
 
 
 class FakeBridge:
     def __init__(self, registry=None):
         self.agent_registry = registry or _registry()
+        FakeBridge.current_registry = self.agent_registry
         self.calls = []
         self.bridge = self
         self.backend = FixtureBackend()
@@ -210,14 +218,17 @@ def test_restricted_delegate_does_not_inherit_nested_delegation_tools():
     assert all(t.get("name") != "agent_delegate" for t in bridge.backend.requests[0].tools or [])
 
 
-def test_delegate_reads_the_inherited_roster_when_the_session_has_none(_team_members):
-    registry = AgentRegistry([AgentProfile("primary", "Primary", "/tmp/delegate-primary"),
-        AgentProfile("research", "Research", "/tmp/delegate-research"),
-        AgentProfile("designer", "Designer", "/tmp/delegate-designer")], "primary")
+def test_delegate_reads_the_inherited_roster_when_the_session_has_none(_team_members, monkeypatch):
+    registry = AgentRegistry([AgentProfile("primary", "Primary", str(Path(FakeBridge.fixture_root) / "primary")),
+        AgentProfile("research", "Research", str(Path(FakeBridge.fixture_root) / "research")),
+        AgentProfile("designer", "Designer", str(Path(FakeBridge.fixture_root) / "designer"))], "primary")
     bridge = FakeBridge(registry=registry)
-    context = _context(agent_id="research", session_id="delegate_primary_research_abc",
-        delegation_members=["primary", "designer"], delegation_trace=["primary", "research"])
-    _team_members["members"] = []
+    context = _context(agent_id="primary", speaker_agent_id="research",
+        session_id="delegate_primary_research_abc", delegation_root_session="user-session",
+        delegation_members=["primary", "designer"], delegation_trace=["primary", "research"],
+        delegation_host_id="primary")
+    _team_members["members"] = ["research", "designer"]
+    monkeypatch.setattr("agent.workspace.session_prefs.get_prefs", lambda *args: {})
     tool = _tool(bridge=bridge, context=context)
     ok = tool.execute({"agent_id": "designer", "task": "Make a banner"})
     assert ok.status == "success" and ok.result["agent_id"] == "designer"

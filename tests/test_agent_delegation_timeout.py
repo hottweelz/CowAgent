@@ -26,6 +26,9 @@ class OwnedBackend(LLMModel):
     def set_agent_default(self, provider, model):
         self.agent_default = (provider, model)
 
+    def set_session_override(self, provider, model):
+        self.session_override = (provider, model)
+
     def call_stream(self, request):
         self.started.set()
         try:
@@ -62,10 +65,14 @@ def make_tool(tmp_path, monkeypatch, fast=False):
     bridge.agent_registry = registry
     bridge.bridge = object()
     monkeypatch.setattr("bridge.agent_bridge.AgentLLMModel", lambda _bridge: backend)
-    monkeypatch.setattr("agent.permission.authority._registry_profiles", lambda: [])
+    monkeypatch.setattr("agent.permission.authority._registry_profiles", lambda: registry.list(include_disabled=True))
+    monkeypatch.setattr("agent.recovery.runtime._registry_profiles", lambda: registry.list(include_disabled=True))
+    from agent.recovery.store import TaskStore
+    journal = TaskStore(tmp_path / "journal" / "tasks.db")
+    monkeypatch.setattr("agent.recovery.runtime.get_task_store", lambda: journal)
     monkeypatch.setattr("agent.subagent.runner._open_run", lambda *args: None)
     monkeypatch.setattr("agent.workspace.project_store.get_project_dir_strict", lambda *args: None)
-    monkeypatch.setattr("agent.workspace.session_prefs.get_prefs_strict", lambda *args: {})
+    monkeypatch.setattr("agent.workspace.session_prefs.get_prefs_strict", lambda *args: {"members": ["research"], "permission": "workspace-write"})
     bridge.agent_router = AgentRouter(registry)
     bridge._agent_instances = {}
     bridge._agents_lock = threading.RLock()
@@ -128,6 +135,8 @@ def test_fast_local_delegation_still_completes(tmp_path, monkeypatch):
     assert result.status == "success", result
     assert backend.closed.is_set()
     assert "done" in result.result["content"]
+    from agent.recovery.runtime import get_task_store
+    assert get_task_store().list_tasks()[0]["state"] == "completed"
 
 
 def test_parent_cancellation_before_fresh_execution_never_starts_model(tmp_path, monkeypatch):
@@ -140,7 +149,10 @@ def test_parent_cancellation_before_fresh_execution_never_starts_model(tmp_path,
 
 
 def test_timed_out_run_keeps_session_lock_through_cleanup(tmp_path, monkeypatch):
+    from agent.recovery.service import RecoveryService
     tool, backend = make_tool(tmp_path, monkeypatch)
+    from agent.recovery.runtime import get_task_store
+    service = RecoveryService(tool.agent_bridge.bridge, get_task_store())
     tool.config["timeout_seconds"] = 2
     cleanup_entered = threading.Event()
     cleanup_release = threading.Event()
@@ -177,7 +189,16 @@ def test_timed_out_run_keeps_session_lock_through_cleanup(tmp_path, monkeypatch)
     try:
         assert cleanup_entered.wait(10)
         follower.start()
-        time.sleep(0.08)
+        admission_deadline = time.monotonic() + 2
+        while not get_task_store().list_tasks(states=['queued']) and time.monotonic() < admission_deadline:
+            time.sleep(.01)
+        # The startup consumer sees the same queued task while the caller is
+        # waiting. It must respect the live attempt's durable session lock.
+        service.scan_once()
+        for future in service._futures.values():
+            assert future.result(timeout=2)['status'] == 'queued'
+        queued = get_task_store().list_tasks(states=['queued'])
+        assert len(queued) == 1 and queued[0]['attempt_count'] == 0
         assert calls == ["start"]
         assert worker.is_alive() and follower.is_alive()
         backend.release.set()
@@ -190,6 +211,7 @@ def test_timed_out_run_keeps_session_lock_through_cleanup(tmp_path, monkeypatch)
         assert "done" in second[0].result["content"]
         assert calls == ["start", "close", "start", "close"]
     finally:
+        service.close(wait=True)
         rescue.cancel()
         rescue.join()
         backend.release.set()

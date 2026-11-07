@@ -593,8 +593,24 @@ class AgentDelegateTool(BaseTool):
             return ToolResult.fail("Delegation authority or receiver model unavailable")
 
         prompt = delegated_prompt(source.name, source.id, task)
+        try:
+            from agent.recovery.runtime import get_task_store, snapshot_child, execute_task
+            child._recovery_source_session_id = context_values.get('session_id') or root_session_id
+            child._recovery_target_session_id = session_id
+            child._recovery_delegation_depth = depth
+            child._recovery_delegation_trace = list(trace)
+            owner_id = context_values.get('delegation_host_id') or context_values.get('agent_id') or source.id
+            spec = snapshot_child(child, prompt, owner_id=owner_id, session_id=root_session_id,
+                                  kind='delegate', source_agent_id=source.id, target_agent_id=target.id,
+                                  timeout_seconds=policy.timeout_seconds)
+            journal = get_task_store()
+            durable = journal.submit(owner_id, root_session_id, 'delegate', spec)
+            task_id = durable['task_id']
+        except Exception:
+            return ToolResult.fail('Durable delegation admission failed; no worker executed')
         lock = _relay_lock(session_id)
         if not lock.acquire(timeout=policy.timeout_seconds):
+            journal.request_stop(task_id, 'timed_out')
             return ToolResult.fail(f"Delegation to '{target.id}' timed out waiting for the target to be free")
         started_at = time.monotonic()
         run_store = _open_run(source_agent, run_id, SimpleNamespace(name="delegation"))
@@ -610,20 +626,26 @@ class AgentDelegateTool(BaseTool):
 
                 class CombinedCancel:
                     def is_set(self):
+                        if timed_out.is_set():
+                            journal.request_stop(task_id, 'timed_out')
                         return bool((local_cancel and local_cancel.is_set()) or
                                     (parent_cancel and parent_cancel.is_set()))
 
                 cancel = CombinedCancel()
                 with identity_scope(agent_id=target.id, session_id=session_id, run_id=run_id):
-                    content = child.run_stream(prompt, clear_history=True,
-                                               cancel_event=cancel, on_event=view.relay)
-                if cancel.is_set():
-                    run_result = {"status": "cancelled", "error": "Delegation cancelled"}
-                    reply = None
-                else:
-                    run_result = {"status": "completed"}
-                    from bridge.reply import Reply
-                    reply = Reply(ReplyType.TEXT, content or "")
+                    run_result = execute_task(journal, task_id, build_child=lambda: child,
+                                              cancel_event=cancel, on_event=view.relay)
+                if run_result['status'] != 'completed':
+                    state = run_result['status']
+                    message = ('Delegation cancelled' if state == 'cancelled' else
+                               f'Delegation exceeded its {policy.timeout_seconds:g}s time budget'
+                               if state == 'timed_out' else 'Delegated execution failed')
+                    return ToolResult.fail(
+                        f'{message}. Task: {task_id}',
+                        ext_data={'task_id': task_id, 'status': state},
+                        display=format_delegate_result(source.name, target.name, message, status='failed'))
+                from bridge.reply import Reply
+                reply = Reply(ReplyType.TEXT, run_result.get('summary') or '')
             except Exception:
                 run_result = {"status": "failed", "error": "Delegated execution failed"}
                 return ToolResult.fail(f"Delegation to '{target.id}' failed")
@@ -655,6 +677,8 @@ class AgentDelegateTool(BaseTool):
         return ToolResult.success(
             {
                 "run_id": run_id,
+                "task_id": task_id,
+                "attempt_id": run_result.get('attempt_id'),
                 "agent_id": target.id,
                 "agent_name": target.name,
                 "delegated_by": source.id,

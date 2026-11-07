@@ -1,0 +1,234 @@
+{
+  "task": "RECOVERY-001",
+  "verified_at": "2026-11-07T12:28:17.667429-05:00",
+  "baseline_commit": "5b0bb0be33cbb2604dc80ee43629c1b6f6e316d7",
+  "branch": "feat/recovery-001-durable-tasks",
+  "command": ".venv/bin/python docs/recovery-001/run_regression.py",
+  "exit_code": 0,
+  "passed": 1320,
+  "skipped": 15,
+  "failures": 0,
+  "errors": 0,
+  "duration_seconds": 29.63,
+  "test_file_count": 110,
+  "recovery_cases_included": 26,
+  "test_files": [
+    "tests/test_openai_chat_api.py",
+    "tests/test_agent_loop_hint_not_persisted.py",
+    "tests/test_agent_steering.py",
+    "tests/test_agent_stream_content_blocks.py",
+    "tests/test_agent_stream_max_turns.py",
+    "tests/test_agent_stream_reasoning_field.py",
+    "tests/test_agent_trim_budget.py",
+    "tests/test_agent_trim_new_messages.py",
+    "tests/test_bash_background.py",
+    "tests/test_bash_config_propagation.py",
+    "tests/test_bash_exit_codes.py",
+    "tests/test_bash_full_output.py",
+    "tests/test_bash_rm_safety_flags.py",
+    "tests/test_bash_windows_guidance.py",
+    "tests/test_browser_driver_loss.py",
+    "tests/test_browser_fill_required_text.py",
+    "tests/test_browser_ref_actions_native.py",
+    "tests/test_browser_scroll_amount.py",
+    "tests/test_browser_snapshot_selector.py",
+    "tests/test_chat_fallback_chain_walk.py",
+    "tests/test_chat_fallback_ratelimit.py",
+    "tests/test_chat_model_fallback.py",
+    "tests/test_custom_provider.py",
+    "tests/test_efficiency_accounting_baseline.py",
+    "tests/test_efficiency_adapter_baseline.py",
+    "tests/test_efficiency_benchmark.py",
+    "tests/test_efficiency_metrics.py",
+    "tests/test_incremental_persist.py",
+    "tests/test_kimi_context_window.py",
+    "tests/test_mcp_tool_retrieval.py",
+    "tests/test_memory_decay_scope.py",
+    "tests/test_memory_empty_note_native.py",
+    "tests/test_memory_fts_sync.py",
+    "tests/test_memory_get_credentials.py",
+    "tests/test_memory_get_shared_knowledge.py",
+    "tests/test_memory_global_config.py",
+    "tests/test_memory_hit_boost.py",
+    "tests/test_memory_hybrid_fusion.py",
+    "tests/test_memory_index_rel_path.py",
+    "tests/test_memory_keyword_like_fallback.py",
+    "tests/test_memory_list_pagination.py",
+    "tests/test_memory_path_marks_dirty.py",
+    "tests/test_memory_rerank.py",
+    "tests/test_memory_search_threshold_overrides.py",
+    "tests/test_memory_storage_io.py",
+    "tests/test_memory_sync_reconcile.py",
+    "tests/test_memory_sync_shared_root.py",
+    "tests/test_memory_unicode_keywords.py",
+    "tests/test_message_usage.py",
+    "tests/test_model_catalog_api.py",
+    "tests/test_openai_api_type.py",
+    "tests/test_oversized_context_files.py",
+    "tests/test_prompt_prefix_stability.py",
+    "tests/test_provider_error_body.py",
+    "tests/test_request_accounting.py",
+    "tests/test_request_usage.py",
+    "tests/test_responses_failed_status.py",
+    "tests/test_responses_function_contract.py",
+    "tests/test_responses_incomplete_tools.py",
+    "tests/test_responses_json_schema_format.py",
+    "tests/test_responses_refusal.py",
+    "tests/test_scheduler_cross_channel_recipients.py",
+    "tests/test_scheduler_once_past_time.py",
+    "tests/test_scheduler_relative_store.py",
+    "tests/test_scheduler_silent.py",
+    "tests/test_scheduler_task_permission_mode.py",
+    "tests/test_scheduler_timezone.py",
+    "tests/test_search_files_brace_globs_native.py",
+    "tests/test_search_files_powershell_quoting.py",
+    "tests/test_search_files_tool.py",
+    "tests/test_security_ssrf_browser_navigate.py",
+    "tests/test_session_context_usage.py",
+    "tests/test_session_title_budget.py",
+    "tests/test_shared_db_recovery.py",
+    "tests/test_skill_config_entry_shapes.py",
+    "tests/test_skill_custom_provider_types.py",
+    "tests/test_skill_hidden_setup_hints.py",
+    "tests/test_skill_list_name_types.py",
+    "tests/test_skill_loader_cache.py",
+    "tests/test_skill_metadata_booleans.py",
+    "tests/test_skill_prompt_order.py",
+    "tests/test_subagent_fallback_scope.py",
+    "tests/test_time_tool.py",
+    "tests/test_token_budget_trim.py",
+    "tests/test_tool_description_contract.py",
+    "tests/test_agent_delegation.py",
+    "tests/test_agent_delegation_timeout.py",
+    "tests/test_agent_registry.py",
+    "tests/test_config_subagent_toggle.py",
+    "tests/test_multi_agent_runtime.py",
+    "tests/test_multi_agent_state_isolation.py",
+    "tests/test_peer_inbound_permission_mode.py",
+    "tests/test_peer_inbound_policy.py",
+    "tests/test_permission_flag_driven_writes.py",
+    "tests/test_permission_git_global_options.py",
+    "tests/test_permission_git_read_only.py",
+    "tests/test_permission_protected_files.py",
+    "tests/test_permission_shell_substitution.py",
+    "tests/test_subagent.py",
+    "tests/test_subagent_history.py",
+    "tests/test_subagent_parent_cancel.py",
+    "tests/test_subagent_run_records.py",
+    "tests/test_subagent_template_body.py",
+    "tests/test_isolation_authorization.py",
+    "tests/test_isolation_delegation.py",
+    "tests/test_isolation_filesystem.py",
+    "tests/test_recovery_controls.py",
+    "tests/test_recovery_process.py",
+    "tests/test_recovery_runtime.py",
+    "tests/test_recovery_store.py"
+  ],
+  "skips": [
+    {
+      "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[click-button-False]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[click-button-True]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-input-False]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-input-True]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-div-False]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[select-select-False]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "test": "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[select-select-True]",
+      "reason": "opt-in installed browser test"
+    },
+    {
+      "test": "tests.test_memory_path_marks_dirty.TestMemoryPathMarksDirty::test_write_backslash_separated_memory_path_marks_dirty",
+      "reason": "backslash is only a separator on Windows"
+    },
+    {
+      "test": "tests.test_memory_path_marks_dirty.TestConsoleEditsMarkMemoryDirty::test_console_save_with_backslash_separator_marks_dirty",
+      "reason": "backslash is only a separator on Windows"
+    },
+    {
+      "test": "tests.test_search_files_powershell_quoting::test_search_root_with_an_apostrophe_still_finds_its_matches",
+      "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+    },
+    {
+      "test": "tests.test_search_files_powershell_quoting::test_empty_result_for_an_apostrophe_root_is_not_a_hidden_failure",
+      "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+    },
+    {
+      "test": "tests.test_search_files_powershell_quoting::test_file_glob_with_an_apostrophe_reaches_the_backend_intact",
+      "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+    },
+    {
+      "test": "tests.test_search_files_powershell_quoting::test_ps_quote_doubles_apostrophes_and_wraps_once",
+      "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+    },
+    {
+      "test": "tests.test_search_files_powershell_quoting::test_powershell_backend_reports_a_non_zero_exit_instead_of_swallowing_it",
+      "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+    },
+    {
+      "test": "tests.test_search_files_powershell_quoting::test_failed_powershell_run_does_not_report_a_successful_empty_search",
+      "reason": "PowerShell backend is Windows-only and needs a PowerShell on PATH"
+    }
+  ],
+  "evidence_directory": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-recovery-regression-bka3sjiy",
+  "evidence_sha256": {
+    "pytest.txt": "e1bf1d2bdc8ef5a2542306b46e505b0e3adac15f94007bb619680955c8da31e7",
+    "junit.xml": "f15b5b7d0229373d8396c0cd0b7917bbd1e0f103cd5e8add8abd3030f4800378",
+    "selection.json": "4ede33a98d838dd0f503787d07893955e1b8064f839f2ff595a95e16ecaab036"
+  },
+  "source_sha256": {
+    "agent/permission/authority.py": "08f6c941ab3f610fb43636bfde5b2e9449f31bc8341c9832b6e5222ad25aa1a5",
+    "agent/permission/policy.py": "352955c1d0fe3cb9f73d81f1886ee4226d2635f7ddd1da38e8c44f95c02e53c1",
+    "agent/recovery/__init__.py": "e384009794ef266f72241b3a7b3816f7c0840527e5e56b354bb87a6d85cc6681",
+    "agent/recovery/__main__.py": "7a8f08e6ca3e777669809081d1a3f3fb0707fc63dc2945156e802247c1bba3c0",
+    "agent/recovery/runtime.py": "e11a05fb4cb1efab7cf8d8c8ab10eead580171324d41bc714b3ce525129b4926",
+    "agent/recovery/service.py": "c8f7141604cfb6a9bbc0db38df56be3c58c1b8ff5c7d5765a2e5665bfb68d863",
+    "agent/recovery/store.py": "0d198dd3ef56d3434cda33f466ceccfe49a4774fcf86b4bf60a817a72eff717e",
+    "agent/subagent/runner.py": "1dba0746adacb05466803c1e0c895c85ec9fb0895a9c22ad7cef654af5fbdbae",
+    "agent/tools/agent_delegate/agent_delegate.py": "fcbf8d9879fb99a9b40063ad2b9e3cf7e756b5930d2e110c0f5da9db9a8bc7ac",
+    "bridge/agent_bridge.py": "1ea8cb110c4c767061b7c56c4fa34f4d09fa10684290a32784fa0a9b26860124",
+    "docs/recovery-001/run_regression.py": "3fa13d858b8ad56b26186099177b0700e2d51382aba322d535a24c67964e8357",
+    "tests/recovery_process_fixture.py": "0fe3443549442722d6d9216df62506742936165abe43cf8093469a595e5d250b",
+    "tests/test_agent_delegation.py": "8882c4ad257f561e27086a20e6fd783c7c3c89f08c9e9cf93d0ebc164ecdba5c",
+    "tests/test_agent_delegation_timeout.py": "11fcdc65891f775a7815c57692c1f984741087beae1c6b473096f9423d1c197b",
+    "tests/test_isolation_delegation.py": "e99dbc261f02404c58ca0b96c2b1356bee678c4ea2ef5d393f6c02ff9db6f23b",
+    "tests/test_recovery_controls.py": "921bb9f68603eaae05a5f97feceabbf09c3239eb64443d7e61c06415c8a970d0",
+    "tests/test_recovery_process.py": "7d465c796569193906aa01c1b9b2a3fce8e6970338e1768d96df6691dc28c700",
+    "tests/test_recovery_runtime.py": "5ddb618d98bde4870b1e8018492fd63af7f276425385813861285f93ee537038",
+    "tests/test_recovery_store.py": "2d2831a64e045d8afd31997c525ba643cc6d9db4390ba47c47bf0bfc12c544aa",
+    "tests/test_subagent.py": "5f4041db764c548ef004ad119a504f28cf617821289c37066d9ffd5308d85b9f",
+    "tests/test_subagent_parent_cancel.py": "861472faf0de8cba9ce6ba22d710833089727805a8ee3d4fdcf81ebe8539b889"
+  },
+  "isolation": "Private HOME/COW_DATA_DIR; only owned HTTP fixture ports; subprocess model fixtures deny network.",
+  "not_verified": [
+    "Production service restart/deployment",
+    "Live model providers",
+    "Windows recovery backend",
+    "Strict renderer typecheck: retained open baseline of nine ChannelsPage TS2322 errors"
+  ],
+  "prior_incomplete_run": {
+    "directory": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-recovery-regression-gncvp6cd",
+    "result": "No valid summary; stopped owned process after spawn re-executed unguarded wrapper. main guard fixed and full selection rerun successfully."
+  },
+  "static_checks": {
+    "ruff_F": "passed",
+    "compiled_python_files": 21,
+    "diff_check": "passed"
+  }
+}

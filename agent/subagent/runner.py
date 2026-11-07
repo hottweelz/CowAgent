@@ -232,7 +232,8 @@ def _open_run(parent, run_id: str, template) -> Optional[Any]:
 
 # What the runs table calls a finished run, keyed by the status this module
 # reports to its caller.
-_RUN_STATUS = {"completed": "done", "cancelled": "cancelled", "failed": "failed"}
+_RUN_STATUS = {"completed": "done", "cancelled": "cancelled", "failed": "failed",
+               "timed_out": "timed_out", "timeout": "timed_out", "needs_review": "needs_review"}
 
 
 def _close_run(store, run_id: str, result: Dict[str, Any]) -> None:
@@ -271,8 +272,35 @@ def _unfinished(index: int, template, status: str, error: str, on_state=None) ->
     return result
 
 
+def _prepare_task(parent, template, task, timeout_seconds):
+    """Persist the executable envelope before admitting work to the pool."""
+    from agent.recovery.runtime import get_task_store, snapshot_child
+    from common.runtime_identity import current_identity
+    from agent.registry import get_agent_registry
+
+    child = _build_child(parent, template, task)
+    identity = current_identity()
+    owner = getattr(parent, '_current_agent_id', None) or identity.agent_id
+    if not owner:
+        registry = get_agent_registry()
+        matches = [p.id for p in registry.list(include_disabled=False)
+                   if __import__('os').path.realpath(p.workspace) ==
+                   __import__('os').path.realpath(parent.workspace_dir)]
+        if len(matches) != 1:
+            raise ValueError('Durable worker owner unavailable')
+        owner = matches[0]
+    session = getattr(parent, '_current_session_id', None) or identity.session_id or 'native-worker'
+    child._current_agent_id = owner
+    spec = snapshot_child(child, task.goal, owner_id=owner, session_id=session,
+                          kind='subagent', source_agent_id=owner, target_agent_id=owner,
+                          parent_run_id=identity.run_id or '', timeout_seconds=timeout_seconds)
+    store = get_task_store()
+    row = store.submit(owner, session, 'subagent', spec)
+    return store, row['task_id'], child
+
+
 def _run_one(parent, template, task: SubagentTask, index: int, cancel_event,
-             on_state=None, on_event=None, steer_inbox=None) -> Dict[str, Any]:
+             on_state=None, on_event=None, steer_inbox=None, prepared=None) -> Dict[str, Any]:
     if cancel_event.is_set():
         return _unfinished(index, template, "cancelled", _PARENT_CANCELLED, on_state)
     started = time.time()
@@ -298,14 +326,13 @@ def _run_one(parent, template, task: SubagentTask, index: int, cancel_event,
         # attributable to this spawn rather than to the parent's turn.
         with identity_scope(run_id=run_id):
             _depth.set(_depth.get() + 1)
-            child = _build_child(parent, template, task)
-            result["task_workspace"] = getattr(child, "task_workspace", None)
-            summary = child.run_stream(
-                task.goal, clear_history=True, cancel_event=cancel_event,
-                on_event=child_events, steer_inbox=steer_inbox,
-            )
-        result["status"] = "cancelled" if cancel_event.is_set() else "completed"
-        result["summary"] = summary or ""
+            from agent.recovery.runtime import execute_task
+            if prepared is None:
+                prepared = _prepare_task(parent, template, task, SubagentSettings.from_config().timeout_seconds)
+            journal, task_id, child = prepared
+            result.update(execute_task(journal, task_id, build_child=lambda: child,
+                                      cancel_event=cancel_event, on_event=child_events,
+                                      steer_inbox=steer_inbox))
     except Exception as e:
         logger.warning(f"[SubAgent] task {index} ({template.name}) failed: {type(e).__name__}")
         result["status"] = "failed"
@@ -358,6 +385,16 @@ def run_tasks(
         return [_unfinished(i, t, "cancelled", _PARENT_CANCELLED, on_state)
                 for i, t in enumerate(resolved)]
 
+    prepared = []
+    initial_errors = {}
+    for index, (task, template) in enumerate(zip(tasks, resolved)):
+        try:
+            prepared.append(_prepare_task(parent, template, task, settings.timeout_seconds))
+        except Exception:
+            prepared.append(None)
+            initial_errors[index] = _unfinished(index, template, 'failed',
+                                               'Durable task admission failed; no worker executed', on_state)
+
     pool = ThreadPoolExecutor(
         max_workers=min(len(tasks), settings.max_concurrent),
         thread_name_prefix="subagent",
@@ -365,6 +402,9 @@ def run_tasks(
     try:
         futures = []
         for index, (task, template) in enumerate(zip(tasks, resolved)):
+            if prepared[index] is None:
+                futures.append(None)
+                continue
             # copy_context carries both the runtime identity and the depth
             # counter into the worker thread; without it the sub agent would
             # run at depth 0 under the default Agent.
@@ -373,6 +413,7 @@ def run_tasks(
                 pool.submit(
                     ctx.run, _run_one, parent, template, task, index,
                     cancel_events[index], on_state, on_event, steer_inboxes[index],
+                    prepared[index],
                 )
             )
 
@@ -380,8 +421,8 @@ def run_tasks(
         wrap_up_at = deadline - min(_WRAP_UP_MAX_SECONDS,
                                     settings.timeout_seconds * _WRAP_UP_FRACTION)
         wrapped_up = False
-        results: List[Optional[Dict[str, Any]]] = [None] * len(tasks)
-        pending = dict(enumerate(futures))
+        results: List[Optional[Dict[str, Any]]] = [initial_errors.get(i) for i in range(len(tasks))]
+        pending = {i: f for i, f in enumerate(futures) if f is not None}
         while True:
             for index in [i for i, f in pending.items() if f.done()]:
                 results[index] = pending.pop(index).result()
@@ -404,13 +445,16 @@ def run_tasks(
                     # down at its next checkpoint, which may be a whole LLM
                     # response away, and will not report this itself.
                     future.cancel()
+                    journal, task_id, _ = prepared[index]
+                    journal.request_stop(task_id, 'cancelled' if stopped else 'timed_out')
                     cancel_events[index].set()
                     results[index] = _unfinished(
                         index, resolved[index],
-                        "cancelled" if stopped else "timeout",
+                        "cancelled" if stopped else "timed_out",
                         _PARENT_CANCELLED if stopped else timeout_error,
                         on_state,
                     )
+                    results[index]['task_id'] = task_id
                 break
             # Bounded so a user Stop reaches the children while they still run.
             wait(list(pending.values()), timeout=min(remaining, _POLL_SECONDS),

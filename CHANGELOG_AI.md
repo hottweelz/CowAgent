@@ -1,5 +1,93 @@
 # AI handoff ledger
 
+## 2026-11-07 12:29 EST — Codex — RECOVERY-001 durable task state and interruption recovery
+
+- Task/result: implemented durable native temporary-worker and local-delegation
+  recovery on feat/recovery-001-durable-tasks, based on published ISOLATION
+  5b0bb0be. User selected safe automatic recovery and explicit retry when an
+  effect may already have happened. No merge, deployment or production restart.
+- Team: Codex lead owns integration, tool receipts, startup/CLI, process tests,
+  review fixes, evidence and Git. Two Terra 6.1/high workers owned transactional
+  storage/locks and runtime restoration; interacting crash/authority boundaries
+  required more than routine Luna work. Luna/high mapped paths, migrated bounded
+  fixtures, wrote operator docs and ran regression. One Sol 6.1/high independent
+  reviewer checked consequential cross-process data integrity. Requested models
+  accepted; effective models are not independently exposed. Used STE Writing
+  Plans guidance; no HomeBoss or external worker pool.
+- Changes: separate private WAL/FULL journal under shared memory/recovery;
+  immutable task envelopes, attempt records and pre/post tool receipts; task
+  ownership and receiver/session flock; attempt-fenced results, stops and effects.
+  Startup consumer recovers abandoned safe attempts from frozen input. Mutating
+  intent requires operator review and acknowledged retry. Completed tasks never
+  replay. CLI supports list/show/cancel/retry. Restricted views recheck current
+  registry, settings, grants and routing without loading private peer history.
+- Files: agent/recovery/{store,runtime,service,__main__,__init__}.py;
+  agent/permission/{authority,policy}.py; subagent runner; agent_delegate;
+  bridge/agent_bridge.py; five migrated tests, four recovery suites and process
+  fixture; docs/recovery-001 plan/guide/review/verification/runner; MEMORY.md;
+  CHANGELOG_AI.md. No identity, instruction, model configuration or memory-index
+  implementation file changed.
+- Verification: `.venv/bin/python docs/recovery-001/run_regression.py` exited 0:
+  1,320 passed, 15 skipped, zero failures/errors in 29.63 seconds across 110
+  files. Includes 26 recovery cases and retained SQLite, EFFICIENCY and ISOLATION
+  cases. Seven skips require installed browser opt-in; eight are Windows-only
+  (two path separator and six PowerShell). F-class Ruff, compilation of 21
+  changed Python files and diff checks passed. Private HOME/data, owned HTTP
+  fixture ports only; subprocess model fixtures prohibit network.
+- Process evidence: actual SIGKILL before a write automatically recovers in a
+  new service process; death after committed intent or after native Write holds
+  needs_review. Acknowledged retry keeps prior receipts. Another restart does
+  not replay completion. Public SubagentTool records real Write/outcome/task ID;
+  journal admission failure starts no model. Real local delegation plus active
+  recovery consumer cannot overlap a timed-out worker still closing.
+- Review: fixed both independent P1 findings: startup consumer bypass of the
+  process-local relay lock; restored default-agent profile pins overriding
+  normal global routing. Lead also fixed disabled-subagent recovery, receipt
+  failure allowing later effects, and delayed timeout callbacks affecting a
+  new attempt. Exact reproductions and regressions are in review.md. No second
+  broad review or independent final approval claimed.
+- Test corrections: legacy fixtures now provide actual registered identities,
+  strict session/project state and private journals; durable admission is not
+  mocked away. A concurrency test initially read a stale imported store helper;
+  checking its binding proved the wrong private journal was queried. The first
+  broad run was incomplete because spawned processes re-entered the unguarded
+  regression wrapper. Added a main guard and reran the complete selection;
+  only the successful second run is counted.
+- Decisions: conservative whole-attempt replay, no exactly-once effect claim;
+  current grants can narrow frozen authority. Keep live journals/lock files
+  outside file-sync conflict handlers, as with the existing SQLite repair.
+  Task-scoped operator cancellation remains available; delayed runtime stops
+  are attempt-scoped. Existing configured models/fallback rules remain intact.
+- Lessons Learned:
+  - Mistake: task ownership alone did not serialize different tasks using the
+    same receiver/session, and a task-only timeout could outlive its attempt.
+  - Root Cause: process-local locking and unscoped callbacks assumed one caller
+    and one attempt, while startup recovery adds independent consumers.
+  - Future Trigger: another task consumer, retry transition or asynchronous stop.
+  - Required Behavior Change: acquire shared-resource locks in the common claim
+    path and carry attempt identity in every delayed runtime stop.
+  - Verification Step: separate-process lock contention, active consumer during
+    timeout cleanup, and captured old timer invoked against queued/running retry.
+  - Durable Memory Update: project MEMORY.md records journal, fencing, recovery
+    policy and operating limits. No global or production memory text modified.
+- Known limits/not verified: POSIX local-filesystem recovery only; no arbitrary
+  program sandbox, remote protocol, chat/scheduler continuation, model-token
+  checkpoints or exactly-once effects. Provider cancellation is cooperative;
+  a blocked live worker keeps its lock. Live providers and production deployment
+  were not exercised. Existing nine ChannelsPage TS2322 errors remain a separate
+  open baseline; renderer typecheck was not rerun or claimed passing.
+- Next recommended steps: review/merge this dedicated branch, then schedule a
+  controlled service restart and inspect the operator queue. Authorize the new
+  branch's publish destination if GitHub publication is wanted. Keep dynamic
+  tool discovery and other architectural optimization out of this change.
+- Next-agent notes: docs/recovery-001/verification.json contains selected tests,
+  source/evidence hashes and retained private evidence paths. Production memory,
+  history, databases, config and runtime were untouched. Preserve unrelated
+  untracked AGENTS.md and the three conflicted PID files.
+- GitHub sync blocked: GitHub remote exists but current branch has no tracked
+  upstream. No destination was guessed and no upstream was set. Intended work
+  is committed locally; unrelated untracked files remain documented above.
+
 ## 2026-11-07 11:08 EST — Codex — ISOLATION-001 restricted worker authority
 
 - Task: implement and validate enforceable worker authority from the attached

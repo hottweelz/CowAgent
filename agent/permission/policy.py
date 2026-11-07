@@ -1042,10 +1042,27 @@ def invoke(tool, arguments, agent=None):
         }))
         if not decision.allowed:
             return ToolResult.fail(decision.reason, ext_data={"permission_denied": True, "code": decision.code})
+        attempt = getattr(agent, 'recovery_attempt', None)
+        effect_id = None
+        if attempt is not None:
+            # Commit intent before any side effect. The attempt also checks
+            # current authority; use the newly attenuated grant below.
+            effect_id = attempt.before_tool(
+                descriptor[0], mutating=descriptor[1] not in ('fs.read', 'time'),
+                call_id=getattr(tool, 'tool_call_id', None))
+            decision, authority = authorize(tool, arguments, agent)
+            if not decision.allowed:
+                result = ToolResult.fail(decision.reason, ext_data={"permission_denied": True, "code": decision.code})
+                attempt.after_tool(effect_id, {"status": result.status, "result": result.result})
+                return result
         if authority.restricted and descriptor[1] in ('fs.read', 'fs.write'):
             from agent.permission.filesystem import execute_file
-            return execute_file(descriptor[0], arguments, authority, agent.effective_cwd(),
-                                getattr(tool, 'cancel_event', None))
-        return tool.execute(arguments)
+            result = execute_file(descriptor[0], arguments, authority, agent.effective_cwd(),
+                                  getattr(tool, 'cancel_event', None))
+        else:
+            result = tool.execute(arguments)
+        if attempt is not None:
+            attempt.after_tool(effect_id, {"status": result.status, "result": result.result})
+        return result
     except Exception:
         return ToolResult.fail('Authorization or execution failed.')

@@ -640,6 +640,16 @@ class AgentBridge:
         # Create helper instances
         self.initializer = AgentInitializer(bridge, self)
 
+        # Recovery has its own journal and never treats display-only run rows
+        # as executable inputs. A failure here is visible; new worker dispatch
+        # also requires a working journal and cannot silently bypass it.
+        try:
+            from agent.recovery.service import start_recovery_service
+            start_recovery_service(self)
+        except Exception:
+            self.recovery_service = None
+            logger.error('[Recovery] Startup failed; durable worker recovery unavailable')
+
         # Eager-start the scheduler so cron tasks fire without waiting
         # for the first user message. init_scheduler is idempotent.
         try:
