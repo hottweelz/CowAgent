@@ -44,5 +44,7 @@
   retry races the result. See the integrated
   [release assessment](docs/orchestration-release-001/README.md).
 - SQLite indexed-memory/WAL behavior and EFFICIENCY-001 Phases 1–4 remain covered
-  by integrated regressions. The nine ChannelsPage typecheck errors are a
-  [separate baseline defect](docs/known-issues/channels-page-typecheck.md).
+  by integrated regressions. The former nine ChannelsPage errors are resolved
+  by the JSX component call contract; strict renderer typecheck is a required
+  passing gate. The [issue history](docs/known-issues/channels-page-typecheck.md)
+  preserves the failed baseline and links the verified correction.

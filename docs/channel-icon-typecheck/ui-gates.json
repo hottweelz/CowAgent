@@ -1,0 +1,53 @@
+{
+  "results": [
+    {
+      "gate": "renderer-typecheck",
+      "command": "./node_modules/.bin/tsc --noEmit -p tsconfig.json",
+      "cwd": "desktop",
+      "exit_code": 0,
+      "log": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-channel-type-gates-5j0feos3/renderer-typecheck.log"
+    },
+    {
+      "gate": "desktop-build",
+      "command": "npm run build",
+      "cwd": "desktop",
+      "exit_code": 0,
+      "log": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-channel-type-gates-5j0feos3/desktop-build.log"
+    },
+    {
+      "gate": "node-ui",
+      "command": "node --test tests/test_usage_display.mjs tests/web_scroll.test.cjs tests/web_message_mutation.test.cjs",
+      "cwd": ".",
+      "exit_code": 0,
+      "log": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-channel-type-gates-5j0feos3/node-ui.log"
+    }
+  ],
+  "typescript_strict": true,
+  "tsconfig_sha256": "8b8410ff995801e816071b26e3902ee7d8733efaa0e555c34246eaf02759ef47",
+  "log_directory": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-channel-type-gates-5j0feos3",
+  "baseline_error_count": 9,
+  "baseline_exit_code": 2,
+  "runtime_javascript_unchanged": true,
+  "runtime_javascript_sha256": "edf66f6bcc10c75967f934c3e416512268fcf5853d16f650a6e072ffdfa029cc",
+  "source_sha256": "899d109a0705c5651825ca64b9c4cbcac25ffe1c7f4b3eeb8c1e7e4f6017b56f",
+  "checked_at": "2026-11-07T19:58:09.482Z",
+  "react_version": "18.3.1",
+  "typescript_version": "5.9.3",
+  "lucide_version": "1.21.0",
+  "node_ui_passed": 39,
+  "runtime_comparison": "TypeScript transpileModule ES2020 ESNext react-jsx removeComments true before versus after",
+  "fix_commit": "9604bde7cacd19aeb914b345dcc5c9ea8616e0e4",
+  "no_dependency_or_tsconfig_changes": true,
+  "independent_review": {
+    "model_requested": "Luna high",
+    "result": "no blocking findings",
+    "scope": "local type contract, fixture and available evidence; did not rerun broad gates"
+  },
+  "artifact_sha256": {
+    "channel-cards-dark.png": "dbdb0567b3f40049da3fad442f199921c37cf40d5697ed88e7c6af0538aa8d9a",
+    "channel-cards-light.png": "3c5d126e27ab47dd7b79b0f97c7dc5c237bf95786c0b153b38d02d4e89baf202",
+    "render_fixture.mjs": "6d1afe186c5df907062ac6ae6ebc4b500038dfcaa4f74b9d9cb7c85c44c33baa",
+    "telegram-selected.png": "c135cd3ef06127ffb12e62aa160dbb5df9ec26eee43333f23878c6219ead22a8",
+    "verify_icons.mjs": "3dd472dd2c528cc1037e7cf3d1a88b82ede7d6f1d190f0ea3a3d99baac442556"
+  }
+}

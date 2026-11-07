@@ -1,14 +1,16 @@
 # ORCHESTRATION-RELEASE-001: integrated release assessment
 
-Decision: **RELEASE BLOCKED**. The strict renderer typecheck has the nine
-pre-existing `ChannelsPage.tsx` TS2322 errors. It remains a required failed gate.
-The successful desktop build does not replace this check. Fix the separately
-tracked [type defect](../known-issues/channels-page-typecheck.md), then rerun
-strict renderer typecheck and channel-icon checks before requesting a merge.
+Decision: **RELEASE READY for the documented restricted-mode scope**.
+The nine pre-existing ChannelsPage errors are resolved by the focused
+[icon type-contract fix and evidence](../channel-icon-typecheck/README.md).
+Strict renderer typecheck now exits zero with strictness unchanged. Actual
+icon rendering, all applicable regressions and release gates passed again on
+2026-11-07. The original failed gate receipts remain preserved as history.
 
 This report covers the integration of restricted worker authority, durable task
-recovery, and independent result verification. It does not authorize a master
-merge or production deployment. The integration branch is
+recovery, and independent result verification. The maintainer authorized merging
+the verified integration into the fork's master after gate closure. Production
+deployment remains separate. The integration branch is
 `release/orchestration-release-001`; production was not restarted or modified.
 
 ## Source and ancestry
@@ -24,6 +26,7 @@ The implementation is a dependency chain, not three independent patches:
 | VERIFICATION-001 | `88151dffda020a36fcff88fa4bdbda5d10f50373` |
 | Branch publication preference | `b8b4b40b16a02781044b9e5ab9e7a382974e7ac5` |
 | Integrated guest identity and waiter fixes | `0710e8fc0d40935f5b8aabc6b1b9042b6a7d37cb` |
+| Channel icon type contract | `9604bde7cacd19aeb914b345dcc5c9ea8616e0e4` |
 
 All three implementation branches matched their tracked origin branches at
 the start. Their published GitHub guides were read and their blobs compared
@@ -34,11 +37,14 @@ and [published-docs.json](published-docs.json).
 
 The branch adds integrated tests and two corrections found by the independent
 review. [Fix implementation](https://github.com/hottweelz/CowAgent/commit/0710e8fc0d40935f5b8aabc6b1b9042b6a7d37cb)
-is the tested production-code revision. The following evidence commit adds tests,
+is the tested Python revision. The following evidence commit adds tests,
 reproduction commands and this report; it changes no product behavior. The
 [published branch](https://github.com/hottweelz/CowAgent/tree/release/orchestration-release-001)
 contains both. Source hashes in the regression receipt bind the test result to
-the exact tested Python files.
+the exact tested Python files. The focused icon branch starts at integration
+commit `1a64afad5f7d54ff1f20e40eadb1d17370bc8e40` and changes only the local
+component type in product code. Integration and master are fast-forwarded to
+the verified descendant, preserving the tested product tree.
 
 ## Architecture and outcome contract
 
@@ -139,7 +145,14 @@ Tool availability depends on configuration; 16 is this historical request
 inventory, not a universal count of every registered class. Production provider
 configuration parity is not claimed.
 
-Already measured UI gates are in [ui-gates.json](ui-gates.json):
+The original UI gates are preserved in [ui-gates.json](ui-gates.json).
+The fresh [gate closure receipt](../channel-icon-typecheck/ui-gates.json) reports
+strict renderer **pass (exit 0, no errors)**, desktop build pass and 39 Node
+tests passed. The fresh [Python receipt](../channel-icon-typecheck/python-gates.json)
+again confirms 1,371 unique passes and eight platform skips. Actual 12-channel
+card/dropdown rendering, custom paper planes and the fallback icon passed in
+light and dark themes. The independent local type-contract review found no
+blocking issue. The earlier gate results below explain the prior blocker:
 
 - Node usage, scroll and message-mutation tests: **39 passed**.
 - Desktop `npm run build`: **passed**. Existing font, stale Browserslist,
@@ -198,8 +211,9 @@ installed for this release review.
 
 Before a separately authorized deployment:
 
-1. Resolve the failed renderer gate and review this report's platform and
-   workflow limits. Merge only after the required gates pass.
+1. Retain the passing renderer gate and review this report's platform and
+   workflow limits. All required integration gates now pass; deployment still
+   requires its own controlled maintenance authorization.
 2. Stop the old runtime in a controlled maintenance window. Inspect pending
    tasks and retain artifacts. Do not run old and new consumers against the
    same live journal.
@@ -226,10 +240,11 @@ writes. No master merge or runtime change must be undone from this review.
 ## Safe branch state
 
 The release candidate and report are published on the dedicated integration
-branch. Master stays at the recorded baseline. The four pre-existing untracked
+branch. The maintainer-authorized merge advances master from the recorded
+baseline to the verified descendant. The four pre-existing untracked
 files (`AGENTS.md` and three conflicted PID files) are excluded from all commits.
 The branch tracks the same name on `origin` (`hottweelz/CowAgent`). Publication
 is checked with `git fetch origin --prune` and
 `git rev-list --left-right --count HEAD...@{u}`; the final handoff reports that
-result and the report commit. This branch is safe to retain for tracking; it is
-not approved for merge while the renderer gate fails.
+result and the report commit. The previous blocker is closed; the documented
+restricted execution and deployment limits continue to apply.

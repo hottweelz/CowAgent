@@ -1,8 +1,16 @@
 # ChannelsPage renderer typecheck baseline
 
-Status: **open, pre-existing, accepted separately for the Phases 1–4 merge**.
-Verified 2026-11-06 America/New_York. This is a failed check, not a passing gate.
-It is outside the authorized SQLite/context optimization scope.
+Status: **resolved and verified on 2026-11-07 America/New_York** in
+`9604bde7cacd19aeb914b345dcc5c9ea8616e0e4`. The local icon alias now uses
+`React.JSXElementConstructor<{ size?: number }>` so it checks the JSX call
+contract instead of incompatible React.FC static prop validators. Strict
+renderer typecheck now exits zero, with strictness and dependencies unchanged.
+Real channel-icon rendering and the full release gates passed; see the
+[fix and evidence](../channel-icon-typecheck/README.md).
+
+The following is the preserved **failed historical baseline**, verified
+2026-11-06. It was accepted separately for the Phases 1–4 merge, then remained
+a blocker for ORCHESTRATION-RELEASE-001 until this focused correction.
 
 ```bash
 cd desktop
@@ -24,9 +32,9 @@ Exit code: **2**. Exactly **9 TS2322 errors** in
 | 66 | 12 |
 | 67 | 14 |
 
-Each reports a Lucide `ForwardRefExoticComponent` that is not assignable to
+Each reported a Lucide `ForwardRefExoticComponent` that was not assignable to
 `IconComponent`. The nested size-validator types disagree because Lucide permits
-a string size as well as a number. No correction is included in this merge.
+a string size as well as a number. That earlier merge included no correction.
 
 The source at the fork's pre-merge `master`, commit `19e84350`, was extracted to
 a private directory and checked with the same installed dependency tree as
@@ -38,6 +46,6 @@ The reviewed branch does not change `ChannelsPage.tsx`.
 That command does not prove that the renderer's strict typecheck passes.
 Do not replace or hide the failing strict check with the successful build.
 
-Separate follow-up: reconcile `IconComponent` with the installed Lucide icon
-types, then require the strict renderer check to exit zero and verify channel
-icon rendering. Keep this defect separate from future optimization proposals.
+The separate follow-up is complete. The type fix changes no channel runtime
+JavaScript, model settings or channel behavior. Retain strict renderer typecheck
+as a required gate; do not replace it with the successful bundle build.

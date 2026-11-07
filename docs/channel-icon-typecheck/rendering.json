@@ -1,0 +1,147 @@
+{
+  "passed": true,
+  "checkedAt": "2026-11-07T19:57:39.888Z",
+  "browser": "156.0.8078.80",
+  "cards": [
+    {
+      "name": "weixin",
+      "classes": "lucide lucide-message-circle",
+      "width": 18,
+      "height": 18,
+      "viewBox": "0 0 24 24",
+      "color": "rgb(16, 185, 129)",
+      "visibleGeometry": true,
+      "path": "M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"
+    },
+    {
+      "name": "feishu",
+      "classes": null,
+      "width": 18,
+      "height": 18,
+      "viewBox": "0 0 512 512",
+      "color": "rgb(59, 130, 246)",
+      "visibleGeometry": true,
+      "path": "M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480l0-83.6c0-4 1.5-7.8 4.2-10.8L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"
+    },
+    {
+      "name": "dingtalk",
+      "classes": "lucide lucide-message-square",
+      "width": 18,
+      "height": 18,
+      "viewBox": "0 0 24 24",
+      "color": "rgb(59, 130, 246)",
+      "visibleGeometry": true,
+      "path": "M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"
+    },
+    {
+      "name": "wecom_bot",
+      "classes": "lucide lucide-bot",
+      "width": 18,
+      "height": 18,
+      "viewBox": "0 0 24 24",
+      "color": "rgb(16, 185, 129)",
+      "visibleGeometry": true,
+      "path": "M12 8V4H8"
+    },
+    {
+      "name": "qq",
+      "classes": "lucide lucide-message-circle",
+      "width": 18,
+      "height": 18,
+      "viewBox": "0 0 24 24",
+      "color": "rgb(59, 130, 246)",
+      "visibleGeometry": true,
+      "path": "M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"
+    },
+    {
+      "name": "wechatcom_app",
+      "classes": "lucide lucide-building2 lucide-building-2",
+      "width": 18,
+      "height": 18,
+      "viewBox": "0 0 24 24",
+      "color": "rgb(16, 185, 129)",
+      "visibleGeometry": true,
+      "path": "M10 12h4"
+    },
+    {
+      "name": "wechat_kf",
+      "classes": "lucide lucide-headset",
+      "width": 18,
+      "height": 18,
+      "viewBox": "0 0 24 24",
+      "color": "rgb(16, 185, 129)",
+      "visibleGeometry": true,
+      "path": "M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"
+    },
+    {
+      "name": "wechatmp",
+      "classes": "lucide lucide-message-circle",
+      "width": 18,
+      "height": 18,
+      "viewBox": "0 0 24 24",
+      "color": "rgb(16, 185, 129)",
+      "visibleGeometry": true,
+      "path": "M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"
+    },
+    {
+      "name": "telegram",
+      "classes": null,
+      "width": 18,
+      "height": 18,
+      "viewBox": "0 0 512 512",
+      "color": "rgb(14, 165, 233)",
+      "visibleGeometry": true,
+      "path": "M498.1 5.6c10.1 7 15.4 19.1 13.5 31.2l-64 416c-1.5 9.7-7.4 18.2-16 23s-18.9 5.4-28 1.6L284 427.7l-68.5 74.1c-8.9 9.7-22.9 12.9-35.2 8.1S160 493.2 160 480l0-83.6c0-4 1.5-7.8 4.2-10.8L331.8 202.8c5.8-6.3 5.6-16-.4-22s-15.7-6.4-22-.7L106 360.8 17.7 316.6C7.1 311.3 .3 300.7 0 288.9s5.9-22.8 16.1-28.7l448-256c10.7-6.1 23.9-5.5 34 1.4z"
+    },
+    {
+      "name": "slack",
+      "classes": "lucide lucide-hash",
+      "width": 18,
+      "height": 18,
+      "viewBox": "0 0 24 24",
+      "color": "rgb(168, 85, 247)",
+      "visibleGeometry": true
+    },
+    {
+      "name": "discord",
+      "classes": "lucide lucide-at-sign",
+      "width": 18,
+      "height": 18,
+      "viewBox": "0 0 24 24",
+      "color": "rgb(99, 102, 241)",
+      "visibleGeometry": true,
+      "path": "M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"
+    },
+    {
+      "name": "fixture_unknown",
+      "classes": "lucide lucide-plug",
+      "width": 18,
+      "height": 18,
+      "viewBox": "0 0 24 24",
+      "color": "rgb(148, 163, 184)",
+      "visibleGeometry": true,
+      "path": "M12 22v-5"
+    }
+  ],
+  "dropdownIconCount": 12,
+  "selectedWidths": [
+    12,
+    18
+  ],
+  "pageErrors": [],
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "apiRequests": [
+    {
+      "method": "GET",
+      "path": "/api/channels"
+    },
+    {
+      "method": "GET",
+      "path": "/api/channels"
+    }
+  ],
+  "channelMutations": 0
+}

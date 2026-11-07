@@ -1,5 +1,70 @@
 # AI handoff ledger
 
+## 2026-11-07 15:00 EST — Codex — Close renderer type gate and integrate release
+
+- Task/result: fix the concrete ChannelsPage icon type mismatch on dedicated
+  fix/channels-icon-type-contract, based on integration 1a64afad; rerun all
+  release gates, publish evidence, then fast-forward release and fork master
+  under the maintainer's explicit merge authorization. RELEASE READY within
+  the documented restricted-mode contract. No production deployment/restart.
+- Team: Codex lead owns type fix, actual rendering, evidence and Git. Luna/high
+  reran Python/native-browser/static gates; a separate Luna/high reviewer
+  checked the local type contract. This bounded compatibility defect needs no
+  Terra/Sol architecture review. Used STE Playwright Interactive for UI checks;
+  no HomeBoss or external pool. Requested models accepted; effective runtime
+  model identity is not independently exposed.
+- Changes: React.FC -> React.JSXElementConstructor for the numeric-size icon
+  call contract; compatible with Lucide forward refs and PaperPlaneIcon.
+  Product fix 9604bde7cacd19aeb914b345dcc5c9ea8616e0e4. No cast, any, ignored
+  diagnostic, dependency or tsconfig change. Runtime emitted JS is identical.
+- Files: ChannelsPage.tsx; desktop/tests/channel-icons-fixture.tsx; new
+  docs/channel-icon-typecheck fixture, verifier, screenshots and receipts;
+  issue history, integrated release README, project MEMORY.md and this ledger.
+- Commands/results: strict `tsc --noEmit -p tsconfig.json` reproduced nine errors
+  before the fix and passes afterward with strict=true. `npm run build` passes;
+  Node usage/scroll/message suites: 39 passed. Full private release runner:
+  1,364 passed, 15 skipped, 119 files. Seven exact browser skips passed separately:
+  unique 1,371 passed, eight Windows-only skips, zero failures/errors. F-class
+  Ruff/compilation passed for all 54 Python files; source hashes unchanged.
+  Node fixture/verifier syntax and diff checks passed.
+- Runtime evidence: real ChannelsPage and stylesheet in fresh Chromium context,
+  synthetic read-only API; 12 card icons and 12 dropdown icons have nonempty
+  geometry and expected glyphs/sizes. Both paper planes and fallback checked.
+  Real clicks open/select Telegram/close. Light and settled dark screenshots
+  visually inspected; no missing icons or clipping. Zero page errors; observed
+  API requests were two GET /api/channels and no mutations. Owned browser and
+  fixture server closed. No production backend or credentials used.
+- Review: independent Luna found no blocking issue in callable compatibility,
+  strictness or narrow product scope. Full orchestration review and its two
+  fixes remain valid; no unrelated product code changed.
+- Decisions: retain the historical failed baseline explicitly; close it with
+  new passing evidence, not a waiver. All required release gates now pass.
+  Publish the fix branch, then fast-forward release and master to the same
+  validated tree; verify all tracking refs at 0/0 after fetch.
+- Lessons Learned:
+  - Mistake: expressing a JSX call contract as React.FC, which also constrains
+    static validators; initial dark screenshot sampled an unfinished transition.
+  - Root Cause: callable compatibility differs from component metadata, and
+    class presence does not prove settled visual state.
+  - Future Trigger: mixed function/forward-ref component maps or theme captures.
+  - Required Behavior Change: use JSXElementConstructor for the call boundary;
+    keep strict typecheck and wait for observed final colors before screenshots.
+  - Verification Step: strict renderer zero errors, identical emitted JS,
+    actual icon geometry/interaction and visually inspected settled captures.
+  - Durable Memory Update: project MEMORY.md marks the former baseline resolved
+    and retains strict renderer checking as required.
+- Known issues/limits: eight Windows-only skips; Linux needs its own run.
+  Existing nonfatal build warnings remain. Packaged Electron/live channel
+  operations and production services were not exercised. Restricted execution,
+  native-only verification and pre-fix journal inspection limits remain.
+  Four unrelated untracked files stay excluded: AGENTS.md and conflicted PIDs.
+- Next recommended steps: none for the requested fix and integration; any
+  production deployment requires a separate controlled maintenance task.
+- Notes for next agent: docs/channel-icon-typecheck/README.md is the current
+  gate-closure evidence; older failed receipts remain historical. Preserve
+  production state and the original SQLite repair. Final remote sync and
+  published file hashes are verified by the lifecycle lead after pushing.
+
 ## 2026-11-07 14:38 EST — Codex — ORCHESTRATION-RELEASE-001 integrated assessment
 
 - Task/result: consolidated ISOLATION, RECOVERY and VERIFICATION on dedicated
