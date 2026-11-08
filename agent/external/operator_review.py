@@ -41,7 +41,7 @@ def _snapshot(value, *, enrollment=False):
             valid = isinstance(item, str) and 0 < len(item) <= 128
         if not valid:
             raise ProtocolError('Invalid public enrollment field: ' + key)
-    if named and (value['runtime_kind'] != _COWAGENT_KIND or value['agent_id'] != 'testpilot'):
+    if named and (value['runtime_kind'] != _COWAGENT_KIND or value['agent_id'] not in ('testpilot', 'testpilot2')):
         raise ProtocolError('Unsupported registered CowAgent identity')
     return json.loads(canonical(value))
 
@@ -115,6 +115,9 @@ def build_task_review(spec, enrollment_review, *, now=None):
     enrollment_review = _enrollment_packet(enrollment_review)
     payload = json.loads(spec['task']['content'])
     reasons = []
+    if ('runtime_kind' in enrollment_review['enrollment'] and
+            spec['runtime_id'] != 'cowagent.' + enrollment_review['enrollment']['agent_id']):
+        reasons.append('runtime_id_mismatch')
     if enrollment_review['status'] == 'blocked':
         reasons.append('enrollment_blocked')
     if spec['authority']['expires_at'] <= now:

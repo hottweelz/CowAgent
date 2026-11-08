@@ -24,6 +24,7 @@ def main():
     commands = parser.add_subparsers(dest='action', required=True)
     inspect = commands.add_parser('inspect')
     inspect.add_argument('--output', required=True)
+    inspect.add_argument('--agent-id', choices=('testpilot', 'testpilot2'), default='testpilot')
     serve = commands.add_parser('serve')
     serve.add_argument('--launch', required=True)
     args = parser.parse_args()
@@ -33,8 +34,9 @@ def main():
     os.umask(0o077)
     from .cowagent_native import CowAgentNative
     if args.action == 'inspect':
-        native = CowAgentNative(config_path)
-        value = {'preflight': 'passed', 'snapshot': native.discover()}
+        native = CowAgentNative(config_path, agent_id=args.agent_id)
+        value = {'preflight': 'passed', 'snapshot': native.discover(),
+                 'context_metadata': native.context_metadata()}
         # New file only; never overwrite an accepted receipt.
         with Path(args.output).open('x') as out:
             json.dump(value, out, sort_keys=True, indent=2)

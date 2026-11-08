@@ -6,39 +6,35 @@ and for a tool whose whole point is that its calls are independent, running the
 second only after the first finishes doubles the wait for nothing.
 """
 
+import os
 import threading
 import time
 
+from agent.permission.policy import READ_ONLY
 from agent.protocol.agent_stream import AgentStreamExecutor
-from agent.tools.base_tool import BaseTool, ToolResult
+from agent.tools.current_time.current_time import TimeTool
+from agent.tools.subagent.subagent import SubagentTool
+from agent.tools.base_tool import ToolResult
 
 
-class _SlowTool(BaseTool):
-    name = "slow"
-    params = {"type": "object", "properties": {"tag": {"type": "string"}}}
-    delay = 0.3
+class _ReadOnlySession:
+    """Minimal valid session for the real permission evaluator."""
 
-    def __init__(self):
-        # Shared by every shallow copy, so a run can record the instance it
-        # actually executed on.
-        self.instances = []
+    def effective_permission_mode(self):
+        return READ_ONLY
 
-    def execute(self, params):
-        self.instances.append(self)
-        time.sleep(self.delay)
-        return ToolResult.success(params["tag"])
+    def effective_cwd(self):
+        return os.getcwd()
 
-
-class _SlowParallelTool(_SlowTool):
-    name = "slow_parallel"
-    parallel_safe = True
+    def protected_paths(self):
+        return []
 
 
 def _executor(tool):
     executor = object.__new__(AgentStreamExecutor)
     executor.tools = {tool.name: tool}
     executor.model = None
-    executor.agent = None
+    executor.agent = _ReadOnlySession()
     executor.cancel_event = None
     executor._record_tool_result = lambda *a, **kw: None
     executor._check_consecutive_failures = lambda *a, **kw: (False, None, False)
@@ -53,8 +49,14 @@ def _calls(name, count):
     ]
 
 
-def test_parallel_safe_calls_run_at_the_same_time():
-    tool = _SlowParallelTool()
+def test_parallel_safe_calls_run_at_the_same_time(monkeypatch):
+    tool = SubagentTool()
+
+    def execute(self, params):
+        time.sleep(0.3)
+        return ToolResult.success(params["tag"])
+
+    monkeypatch.setattr(SubagentTool, "execute", execute)
     executor = _executor(tool)
 
     started = time.time()
@@ -64,51 +66,57 @@ def test_parallel_safe_calls_run_at_the_same_time():
     assert sorted(results) == ["call_0", "call_1", "call_2"]
     assert [results[k]["result"] for k in sorted(results)] == ["t0", "t1", "t2"]
     # Serial would be 3 * delay; anything under two delays can only be overlap.
-    assert elapsed < tool.delay * 2
+    assert elapsed < 0.6
 
 
-def test_each_parallel_call_gets_its_own_tool_instance():
-    """The loop drives tools by assignment - it sets cancel_event and
-    progress_callback before a call and clears them after - so two concurrent
-    calls sharing one instance would disarm and cross-report each other."""
-    tool = _SlowParallelTool()
+def test_each_parallel_call_gets_its_own_tool_instance(monkeypatch):
+    """Concurrent calls need distinct tool state for cancellation and progress."""
+    tool = SubagentTool()
+    instances = []
+
+    def execute(self, params):
+        instances.append(self)
+        time.sleep(0.1)
+        return ToolResult.success(params["tag"])
+
+    monkeypatch.setattr(SubagentTool, "execute", execute)
     executor = _executor(tool)
 
     executor._run_parallel_calls(_calls(tool.name, 2))
 
-    assert len(tool.instances) == 2
-    first, second = tool.instances
+    assert len(instances) == 2
+    first, second = instances
     assert first is not second
-    assert tool not in tool.instances
+    assert tool not in instances
 
 
 def test_ordinary_tools_keep_running_in_order():
-    tool = _SlowTool()
+    tool = TimeTool()
     executor = _executor(tool)
 
     assert executor._run_parallel_calls(_calls(tool.name, 3)) == {}
-    assert tool.instances == []
 
 
-def test_a_lone_call_is_left_to_the_caller():
-    """Nothing to overlap with, so it stays on the calling thread rather than
-    paying for a pool and losing the loop's cancel checkpoint around it."""
-    tool = _SlowParallelTool()
+def test_a_lone_call_is_left_to_the_caller(monkeypatch):
+    """No overlap means no pool and no loss of the caller's cancel checkpoint."""
+    tool = SubagentTool()
+    calls = []
+    monkeypatch.setattr(SubagentTool, "execute", lambda self, params: calls.append(params))
     executor = _executor(tool)
 
     assert executor._run_parallel_calls(_calls(tool.name, 1)) == {}
-    assert tool.instances == []
+    assert calls == []
 
 
-def test_a_failing_call_does_not_take_its_siblings_down():
-    class _Flaky(_SlowParallelTool):
-        def execute(self, params):
-            self.instances.append(self)
-            if params["tag"] == "t0":
-                raise RuntimeError("boom")
-            return ToolResult.success(params["tag"])
+def test_a_failing_call_does_not_take_its_siblings_down(monkeypatch):
+    tool = SubagentTool()
 
-    tool = _Flaky()
+    def execute(self, params):
+        if params["tag"] == "t0":
+            raise RuntimeError("boom")
+        return ToolResult.success(params["tag"])
+
+    monkeypatch.setattr(SubagentTool, "execute", execute)
     executor = _executor(tool)
 
     results = executor._run_parallel_calls(_calls(tool.name, 2))
@@ -117,21 +125,20 @@ def test_a_failing_call_does_not_take_its_siblings_down():
     assert results["call_1"]["result"] == "t1"
 
 
-def test_two_calls_are_in_flight_together():
-    """Proves the overlap without leaning on wall-clock timing: the barrier
-    only lets a call through once its sibling is inside as well, so were these
-    run one after another both would fail on it."""
+def test_two_calls_are_in_flight_together(monkeypatch):
+    """A barrier proves that both calls enter execute before either can leave."""
     barrier = threading.Barrier(2, timeout=3)
     threads = []
+    tool = SubagentTool()
 
-    class _Rendezvous(_SlowParallelTool):
-        def execute(self, params):
-            threads.append(threading.current_thread())
-            barrier.wait()
-            return ToolResult.success(params["tag"])
+    def execute(self, params):
+        threads.append(threading.current_thread())
+        barrier.wait()
+        return ToolResult.success(params["tag"])
 
-    executor = _executor(_Rendezvous())
-    results = executor._run_parallel_calls(_calls("slow_parallel", 2))
+    monkeypatch.setattr(SubagentTool, "execute", execute)
+    executor = _executor(tool)
+    results = executor._run_parallel_calls(_calls(tool.name, 2))
 
     assert [r["status"] for r in results.values()] == ["success", "success"]
     assert threading.current_thread() not in threads

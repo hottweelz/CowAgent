@@ -23,7 +23,7 @@ SCOPE = {
     "owner_id": "owner-fixture",
     "source_id": "source-fixture",
     "conversation_id": "conversation-fixture",
-    "runtime_id": "runtime-fixture",
+    "runtime_id": "cowagent.testpilot",
 }
 PROBE = "a" * 64
 
@@ -281,3 +281,15 @@ def test_local_operator_can_enroll_and_approve_task_from_registered_review(tmp_p
     assert approved["current"]["enrollment_review_id"] == review["review_id"]
     assert approved["current"]["execution_enabled"] is False
     assert approved["current"]["external_actions_enabled"] is False
+
+
+def test_second_target_review_and_cross_target_binding():
+    enrollment = cowagent_enrollment()
+    enrollment['agent_id'] = 'testpilot2'
+    current = {k: v for k, v in enrollment.items() if k != 'probe_sha256'}
+    review = cowagent_review(enrollment=enrollment, current=current)
+    assert review['status'] == 'review_required'
+    assert build_task_review(make_spec(), review, now=100)['reasons'] == ['runtime_id_mismatch']
+    mismatch = cowagent_review(enrollment=enrollment, current=cowagent_current())
+    assert mismatch['status'] == 'blocked'
+    assert 'agent_id_mismatch' in mismatch['reasons']

@@ -1,0 +1,44 @@
+{
+  "milestone": "AGENT-ROUTING-003",
+  "test_files": [
+    "tests/test_cowagent_adapter.py",
+    "tests/test_cowagent_enrollment.py",
+    "tests/test_cowagent_native.py",
+    "tests/test_external_operator_review.py",
+    "tests/test_approved_dispatch.py",
+    "tests/test_external_operator_control.py",
+    "tests/test_external_contract.py",
+    "tests/test_external_supervisor.py",
+    "tests/test_isolation_delegation.py",
+    "tests/test_agent_initializer_routing.py",
+    "tests/test_agent_registry.py",
+    "tests/test_agent_routing.py",
+    "tests/test_parallel_tool_calls.py",
+    "tests/test_recovery_runtime.py",
+    "tests/test_recovery_store.py"
+  ],
+  "exit_code": 0,
+  "summary": "202 passed in 5.02s",
+  "isolation": "Private temporary COW_DATA_DIR; removed after pytest subprocess exited",
+  "source_sha256": {
+    "agent/external/cowagent_native.py": "ee77271d638b544673dd66a5167951b28bb80cd9221bb9ae27cfc817e3bb9e1e",
+    "agent/external/cowagent_adapter.py": "f23271740aba2f80812241cec7ec7491735273520dcc2fb5d9fda2563ab91d5d",
+    "agent/external/cowagent_cli.py": "729701016725c5e8e2564420a3400ecec9e34d7c3ae90cc6671a5a8059408fcb",
+    "agent/external/operator_review.py": "9e33c19a117cc60db9d072e1d85a0fd46275b3ed7f3689b7a4b46ab745ff85e2"
+  },
+  "post_review_native_validation": {
+    "selection": [
+      "tests/test_cowagent_native.py"
+    ],
+    "passed": 22,
+    "failed": 0,
+    "scope": "Pre-initialization memory DB symlink and hardlink denial; all native entry-point checks",
+    "isolation": "Private temporary COW_DATA_DIR"
+  },
+  "final_source_sha256": {
+    "agent/external/cowagent_native.py": "6954619c740283e1d2f3a2064a68f9a2836ac931245498a905bb1609c17641c0",
+    "agent/external/cowagent_adapter.py": "f23271740aba2f80812241cec7ec7491735273520dcc2fb5d9fda2563ab91d5d",
+    "agent/external/cowagent_cli.py": "729701016725c5e8e2564420a3400ecec9e34d7c3ae90cc6671a5a8059408fcb",
+    "agent/external/operator_review.py": "9e33c19a117cc60db9d072e1d85a0fd46275b3ed7f3689b7a4b46ab745ff85e2"
+  }
+}

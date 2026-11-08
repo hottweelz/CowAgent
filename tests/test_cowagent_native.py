@@ -5,6 +5,7 @@ is a stub, so these tests cannot initialize a provider or contact a model.
 """
 
 import json
+from pathlib import Path
 import uuid
 from types import SimpleNamespace
 
@@ -33,7 +34,12 @@ def _spec():
 
 
 def _agent(profile, model="fixture-model", messages=None):
-    memory = object()
+    from common import state_dir
+    workspace = Path(profile.workspace)
+    db_path = state_dir.memory_index_db(base=str(workspace), ensure=False)
+    memory = SimpleNamespace(config=SimpleNamespace(get_workspace=lambda: workspace,
+                                                      get_db_path=lambda: db_path),
+                             storage=SimpleNamespace(db_path=db_path))
 
     class FixtureModel:
         def __init__(self):
@@ -90,6 +96,9 @@ def _native_fixture(monkeypatch, profile, agent, enrollment):
     ))
 
     native = object.__new__(CowAgentNative)
+    native._target = profile.id
+    enrollment.setdefault('agent_id', profile.id)
+    enrollment.setdefault('profile_sha256', 'b' * 64)
     native.config_path = None
     native.enrollment = enrollment
     native.bridge = None
@@ -271,6 +280,7 @@ def test_preflight_checks_only_disposable_metadata_and_blocks_active_scheduler(t
     monkeypatch.setattr("agent.external.cowagent_native.time.localtime", lambda: SimpleNamespace(tm_hour=12, tm_min=0))
 
     native = object.__new__(CowAgentNative)
+    native._target = TARGET
     with pytest.raises(contract.ProtocolError, match="Existing scheduler work requires review"):
         native._preflight()
     assert schedule.read_text() == json.dumps({"tasks": {"synthetic-job": {"enabled": True}}})
@@ -317,6 +327,7 @@ def test_prepare_preflight_blockers_do_not_start_native_bridge(tmp_path, monkeyp
     enrollment = {"model": "fixture-model", "provider": "fixture-provider"}
     native = object.__new__(CowAgentNative)
     native.enrollment = enrollment
+    native._target = TARGET
     native.bridge = None
     monkeypatch.setattr(native, "discover", lambda: enrollment)
 
@@ -329,4 +340,116 @@ def test_prepare_preflight_blockers_do_not_start_native_bridge(tmp_path, monkeyp
         native.prepare("fresh-session-6")
 
     assert bridge_starts == []
+    assert native.bridge is None
+
+@pytest.mark.parametrize('target,model', [('testpilot', 'fixture-model'), ('testpilot2', 'other-model')])
+def test_target_scoped_memory_and_metadata(tmp_path, monkeypatch, target, model):
+    workspace = tmp_path / target
+    workspace.mkdir()
+    profile = AgentProfile(id=target, name=target, workspace=str(workspace))
+    agent, memory = _agent(profile, model=model)
+    enrollment = {'model': model, 'provider': 'fixture-provider'}
+    native, _ = _native_fixture(monkeypatch, profile, agent, enrollment)
+    prepared = native.prepare('session-' + target)
+    metadata = native.context_metadata()
+    assert prepared.receipt_binding['agent_id'] == target
+    assert prepared.receipt_binding['model'] == model
+    assert metadata['memory_scope_sha256'] == prepared.receipt_binding['memory_scope_sha256']
+    assert metadata['entries']['MEMORY.md'] == {'exists': False, 'size': None, 'mtime_ns': None}
+    memory.storage.db_path = tmp_path / 'wrong.db'
+    with pytest.raises(contract.ProtocolError, match='memory scope'):
+        native.prepare('another-' + target)
+
+
+def test_preflight_rejects_aliased_supported_workspaces(tmp_path, monkeypatch):
+    import config
+    import agent.permission.authority as authority
+    root = tmp_path / 'workspace'
+    root.mkdir()
+    alias = tmp_path / 'alias'
+    alias.symlink_to(root, target_is_directory=True)
+    profiles = [AgentProfile(id='testpilot', name='One', workspace=str(root)),
+                AgentProfile(id='testpilot2', name='Two', workspace=str(alias))]
+    registry = SimpleNamespace(list=lambda include_disabled=False: profiles, get=lambda: profiles[0])
+    monkeypatch.setattr(config, 'conf', lambda: {'self_evolution_enabled': False})
+    monkeypatch.setattr(authority, '_current_registry', lambda: registry)
+    monkeypatch.setattr('agent.external.cowagent_native.time.localtime', lambda: SimpleNamespace(tm_hour=12, tm_min=0))
+    native = object.__new__(CowAgentNative)
+    native._target = 'testpilot'
+    with pytest.raises(contract.ProtocolError, match='workspaces overlap'):
+        native._preflight()
+
+
+@pytest.mark.parametrize('state,verification,blocked', [
+    ('queued', False, True), ('running', False, True), ('completed', False, True),
+    ('completed', True, False), ('failed', False, False),
+])
+def test_preflight_recovery_metadata(tmp_path, monkeypatch, state, verification, blocked):
+    import sqlite3
+    import config
+    import agent.permission.authority as authority
+    root = tmp_path / 'workspace'
+    db_path = root / 'memory' / 'recovery' / 'tasks.db'
+    db_path.parent.mkdir(parents=True)
+    with sqlite3.connect(db_path) as db:
+        db.executescript('CREATE TABLE recovery_tasks(task_id TEXT, attempt_id TEXT, state TEXT);'
+                         'CREATE TABLE recovery_verifications(task_id TEXT, attempt_id TEXT, report TEXT);')
+        db.execute('INSERT INTO recovery_tasks VALUES (?, ?, ?)', ('task', 'attempt', state))
+        if verification:
+            db.execute('INSERT INTO recovery_verifications VALUES (?, ?, ?)', ('task', 'attempt', '{"status":"unverified"}'))
+    profile = AgentProfile(id='testpilot', name='One', workspace=str(root))
+    registry = SimpleNamespace(list=lambda include_disabled=False: [profile], get=lambda: profile)
+    monkeypatch.setattr(config, 'conf', lambda: {'self_evolution_enabled': False})
+    monkeypatch.setattr(authority, '_current_registry', lambda: registry)
+    monkeypatch.setattr(Path, 'home', lambda: tmp_path)
+    monkeypatch.setattr('agent.external.cowagent_native.time.localtime', lambda: SimpleNamespace(tm_hour=12, tm_min=0))
+    native = object.__new__(CowAgentNative)
+    native._target = 'testpilot'
+    if blocked:
+        with pytest.raises(contract.ProtocolError, match='recovery work'):
+            native._preflight()
+    else:
+        native._preflight()
+
+
+@pytest.mark.parametrize('alias_kind', ['directory_symlink', 'file_symlink', 'hardlink'])
+def test_preflight_blocks_memory_database_alias_before_bridge(tmp_path, monkeypatch, alias_kind):
+    import os
+    import config
+    import agent.permission.authority as authority
+    import bridge.bridge
+    from common import state_dir
+
+    roots = [tmp_path / 'one', tmp_path / 'two']
+    for root in roots:
+        root.mkdir()
+    paths = [state_dir.memory_index_db(base=str(root), ensure=False) for root in roots]
+    paths[1].parent.mkdir(parents=True)
+    paths[1].touch()
+    if alias_kind == 'directory_symlink':
+        paths[0].parent.parent.mkdir(parents=True)
+        paths[0].parent.symlink_to(paths[1].parent, target_is_directory=True)
+    else:
+        paths[0].parent.mkdir(parents=True)
+        if alias_kind == 'file_symlink':
+            paths[0].symlink_to(paths[1])
+        else:
+            os.link(paths[1], paths[0])
+    profiles = [AgentProfile(id='testpilot', name='One', workspace=str(roots[0])),
+                AgentProfile(id='testpilot2', name='Two', workspace=str(roots[1]))]
+    registry = SimpleNamespace(list=lambda include_disabled=False: profiles, get=lambda: profiles[0])
+    monkeypatch.setattr(config, 'conf', lambda: {'self_evolution_enabled': False})
+    monkeypatch.setattr(authority, '_current_registry', lambda: registry)
+    monkeypatch.setattr('agent.external.cowagent_native.time.localtime', lambda: SimpleNamespace(tm_hour=12, tm_min=0))
+    starts = []
+    monkeypatch.setattr(bridge.bridge, 'Bridge', lambda: starts.append(True))
+    native = object.__new__(CowAgentNative)
+    native._target = 'testpilot'
+    native.bridge = None
+    native.enrollment = {'model': 'fixture'}
+    monkeypatch.setattr(native, 'discover', lambda: native.enrollment)
+    expected = 'share an inode' if alias_kind == 'hardlink' else 'escapes workspace'
+    with pytest.raises(contract.ProtocolError, match=expected):
+        native.prepare('fixture-session')
+    assert starts == []
     assert native.bridge is None

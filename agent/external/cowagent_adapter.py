@@ -2,6 +2,7 @@
 import fcntl
 import hashlib
 import json
+import re
 import os
 from pathlib import Path
 import sqlite3
@@ -23,10 +24,15 @@ class CowAgentRuntime:
         _private_directory(self.socket_path.parent)
         if set(credential.operations) != {'analyze_records'} or approval_gate is None:
             raise ValueError('Bounded approval required')
+        enrollment = native.enrollment
+        if (not isinstance(enrollment, dict) or enrollment.get('agent_id') not in ('testpilot', 'testpilot2')
+                or credential.runtime_id != 'cowagent.' + enrollment['agent_id']):
+            raise ValueError('Credential and native target differ')
         self.credential, self.native, self.approval_gate = credential, native, approval_gate
         self.turn_timeout = turn_timeout
         self.epoch = str(uuid.uuid4())
         self.mutex = threading.RLock()
+        self.native_lock = threading.Lock()
         self.workers, self.active = set(), {}
         self.closed = self.resources_closed = False
         self.lock_fd = os.open(self.root / 'runtime.lock', os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
@@ -71,7 +77,7 @@ class CowAgentRuntime:
         enrollment = self.native.enrollment
         expected = {k: v for k, v in enrollment.items() if k != 'probe_sha256'}
         actual = self.native.discover()
-        if actual != expected or actual.get('runtime_kind') != 'cowagent-registered/1' or actual.get('agent_id') != 'testpilot':
+        if actual != expected or actual.get('runtime_kind') != 'cowagent-registered/1' or actual.get('agent_id') != enrollment['agent_id']:
             raise ValueError('Native binding unavailable')
         return json.loads(contract.canonical(actual))
 
@@ -161,13 +167,18 @@ class CowAgentRuntime:
                 return
 
     def _work(self, task_id):
+        # Never hold the status/cancel mutex while waiting for native ownership.
+        with self.native_lock:
+            self._work_locked(task_id)
+
+    def _work_locked(self, task_id):
         handle, intent = None, False
         done = threading.Event()
         watcher = None
         try:
             with self.mutex:
                 row = self._row(task_id)
-                if row['cancel_requested']:
+                if row['cancel_requested'] or self.closed:
                     self._update(task_id, state='cancelled', reason='cancelled_before_dispatch')
                     return
                 spec, approval = json.loads(row['spec']), json.loads(row['approval'])
@@ -203,11 +214,26 @@ class CowAgentRuntime:
                 report, receipt = outcome['report'], outcome['receipt']
                 if not analysis._valid_report_shape(report, task_id) or report != analysis.expected_report(spec):
                     raise ValueError('Invalid report')
-                if (not isinstance(receipt, dict) or any(receipt.get(k) != self.native.enrollment.get(k) for k in ('agent_id', 'model', 'provider'))
-                        or receipt.get('session_id') != row['session_id'] or receipt.get('source') != 'codex'
-                        or receipt.get('prompt_source') != 'native' or receipt.get('memory_owner') != 'runtime'
-                        or receipt.get('permission_mode') != 'read-only' or not contract.identifier(receipt.get('native_run_id'))
-                        or type(receipt.get('tool_event_count')) is not int or receipt['tool_event_count'] < 0):
+                binding = getattr(handle, 'receipt_binding', None)
+                receipt_fields = {'agent_id', 'agent_name', 'model', 'provider', 'profile_sha256',
+                                  'memory_scope_sha256', 'session_id', 'native_run_id', 'native_pid',
+                                  'native_started_at', 'native_finished_at', 'source', 'prompt_source',
+                                  'memory_owner', 'permission_mode', 'tool_event_count'}
+                if (not isinstance(receipt, dict) or set(receipt) != receipt_fields
+                        or not isinstance(binding, dict) or set(binding) != {
+                            'agent_id', 'agent_name', 'model', 'provider', 'profile_sha256', 'memory_scope_sha256'}
+                        or any(receipt.get(k) != v for k, v in binding.items())
+                        or any(receipt.get(k) != self.native.enrollment.get(k) for k in ('agent_id', 'model', 'provider', 'profile_sha256'))
+                        or not isinstance(receipt['agent_name'], str) or not 0 < len(receipt['agent_name']) <= 128
+                        or not isinstance(receipt['memory_scope_sha256'], str)
+                        or not re.fullmatch(r'[0-9a-f]{64}', receipt['memory_scope_sha256'])
+                        or receipt['session_id'] != row['session_id'] or receipt['source'] != 'codex'
+                        or receipt['prompt_source'] != 'native' or receipt['memory_owner'] != 'runtime'
+                        or receipt['permission_mode'] != 'read-only' or not contract.identifier(receipt['native_run_id'])
+                        or type(receipt['native_pid']) is not int or receipt['native_pid'] <= 0
+                        or not contract.finite(receipt['native_started_at']) or not contract.finite(receipt['native_finished_at'])
+                        or receipt['native_started_at'] <= 0 or receipt['native_finished_at'] < receipt['native_started_at']
+                        or type(receipt['tool_event_count']) is not int or receipt['tool_event_count'] < 0):
                     raise ValueError('Invalid receipt')
                 contract.authorize(spec, self.credential, approval)
                 try:
@@ -220,9 +246,7 @@ class CowAgentRuntime:
                 self._write_artifact(task_id, spec['task']['artifact'], data)
                 result = {'adapter_version': 'cow.cowagent/1', 'publication_status': 'published',
                           'artifact': spec['task']['artifact'], 'sha256': hashlib.sha256(data).hexdigest(),
-                          'session_id': row['session_id'], 'source': 'codex', 'prompt_source': 'native',
-                          'memory_owner': 'runtime', 'permission_mode': 'read-only',
-                          'native_run_id': receipt['native_run_id'], 'tool_event_count': receipt['tool_event_count']}
+                          **receipt}
                 self._update(task_id, state='completed', result=contract.canonical(result), reason='')
         except Exception as exc:
             with self.mutex:

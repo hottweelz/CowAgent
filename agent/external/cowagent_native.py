@@ -15,7 +15,8 @@ import uuid
 from . import analysis, contract
 
 KIND = 'cowagent-registered/1'
-TARGET = 'testpilot'
+TARGET = 'testpilot'  # Compatibility inspection default.
+SUPPORTED_TARGETS = frozenset({'testpilot', 'testpilot2'})
 ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -29,7 +30,11 @@ def source_fingerprint():
 
 
 class CowAgentNative:
-    def __init__(self, config_path, enrollment=None):
+    def __init__(self, config_path, enrollment=None, *, agent_id=TARGET):
+        target = enrollment.get('agent_id') if isinstance(enrollment, dict) else agent_id
+        if target not in SUPPORTED_TARGETS:
+            raise contract.ProtocolError('Unsupported registered CowAgent identity')
+        self._target = target
         self.config_path = Path(config_path).resolve(strict=True)
         if self.config_path.name != 'config.json':
             raise contract.ProtocolError('Native config.json required')
@@ -40,15 +45,15 @@ class CowAgentNative:
         from config import load_config
         load_config()
         self.bridge = None
-        self.enrollment = enrollment
+        self.enrollment = json.loads(contract.canonical(enrollment)) if enrollment is not None else None
         self._preflight()
         current = self.discover()
-        if enrollment is not None and current != {k: v for k, v in enrollment.items() if k != 'probe_sha256'}:
+        if self.enrollment is not None and current != {k: v for k, v in self.enrollment.items() if k != 'probe_sha256'}:
             raise contract.ProtocolError('Native enrollment differs')
 
     def _profile(self):
         from agent.permission.authority import _current_registry
-        return _current_registry().get(TARGET)
+        return _current_registry().get(self._target, require_enabled=True)
 
     def discover(self):
         from bridge.agent_bridge import AgentLLMModel
@@ -69,6 +74,23 @@ class CowAgentNative:
             }),
             'source_sha256': source_fingerprint(),
         }
+
+    def context_metadata(self):
+        """Return file metadata only; never export native context contents or paths."""
+        from common import state_dir
+        workspace = Path(self._profile().workspace).resolve()
+        db_path = Path(state_dir.memory_index_db(base=str(workspace), ensure=False)).resolve()
+        entries = {}
+        for name in ('AGENT.md', 'USER.md', 'RULE.md', 'MEMORY.md', 'BOOTSTRAP.md', 'skills'):
+            path = workspace / name
+            try:
+                info = path.stat()
+            except FileNotFoundError:
+                entries[name] = {'exists': False, 'size': None, 'mtime_ns': None}
+            else:
+                entries[name] = {'exists': True, 'size': info.st_size, 'mtime_ns': info.st_mtime_ns}
+        return {'entries': entries, 'memory_scope_sha256': contract.digest(
+            {'workspace': str(workspace), 'db': str(db_path)})}
 
     def _preflight(self):
         """Refuse unrelated active work before normal native startup.
@@ -91,7 +113,7 @@ class CowAgentNative:
             raise contract.ProtocolError('Daily maintenance window is too close')
         for profile in registry.list(include_disabled=True):
             root = Path(profile.workspace)
-            if (root / 'mcp.json').exists() or profile.id == TARGET and (root / 'BOOTSTRAP.md').exists():
+            if (root / 'mcp.json').exists() or profile.id == self._target and (root / 'BOOTSTRAP.md').exists():
                 raise contract.ProtocolError('Unrelated native startup work requires review')
             for name in ('tasks.json', 'tasks.json.bak'):
                 schedule = root / 'scheduler' / name
@@ -99,13 +121,38 @@ class CowAgentNative:
                     value = json.loads(schedule.read_text())
                     if not isinstance(value, dict) or value.get('tasks') != {}:
                         raise contract.ProtocolError('Existing scheduler work requires review')
+        roots = [Path(p.workspace).resolve() for p in registry.list() if p.id in SUPPORTED_TARGETS]
+        for i, left in enumerate(roots):
+            for right in roots[i + 1:]:
+                if left == right or left in right.parents or right in left.parents:
+                    raise contract.ProtocolError('Registered workspaces overlap')
+        # Check paths before Bridge/get_agent can open a native memory database.
+        # A symlink may otherwise redirect an apparently separate workspace to
+        # another target; hardlinks need an independent inode check.
+        from common import state_dir
+        inodes = set()
+        for workspace in roots:
+            db_path = Path(state_dir.memory_index_db(base=str(workspace), ensure=False))
+            resolved = db_path.resolve()
+            if workspace not in resolved.parents:
+                raise contract.ProtocolError('Native memory database escapes workspace')
+            try:
+                info = db_path.stat()
+            except FileNotFoundError:
+                continue
+            inode = (info.st_dev, info.st_ino)
+            if inode in inodes:
+                raise contract.ProtocolError('Native memory databases share an inode')
+            inodes.add(inode)
         root = Path(registry.get().workspace)
         recovery = root / 'memory' / 'recovery' / 'tasks.db'
         if recovery.exists():
             with sqlite3.connect(recovery.as_uri() + '?mode=ro', uri=True) as db:
                 db.execute('PRAGMA query_only=ON')
-                # Even completed rows can have pending independent verification.
-                if db.execute('SELECT count(*) FROM recovery_tasks').fetchone()[0]:
+                if db.execute("""SELECT 1 FROM recovery_tasks t WHERE
+                    t.state IN ('queued','running') OR (t.state='completed' AND NOT EXISTS
+                    (SELECT 1 FROM recovery_verifications v WHERE v.task_id=t.task_id
+                     AND v.attempt_id=t.attempt_id)) LIMIT 1""").fetchone():
                     raise contract.ProtocolError('Existing recovery work requires review')
         # Initialization normally synchronizes these entries into ~/.cow/.env.
         # Refuse a change instead of silently replacing native credentials.
@@ -133,12 +180,12 @@ class CowAgentNative:
         self._preflight()
         from bridge.bridge import Bridge
         from common.runtime_identity import RuntimeIdentity, use_identity
-        with use_identity(RuntimeIdentity(agent_id=TARGET, session_id=session_id)):
+        with use_identity(RuntimeIdentity(agent_id=self._target, session_id=session_id)):
             if self.bridge is None:
                 self.bridge = Bridge().get_agent_bridge()
-            if self.bridge.get_cached_agent(session_id, TARGET) is not None:
+            if self.bridge.get_cached_agent(session_id, self._target) is not None:
                 raise contract.ProtocolError('Native session already exists')
-            agent = self.bridge.get_agent(session_id=session_id, agent_id=TARGET,
+            agent = self.bridge.get_agent(session_id=session_id, agent_id=self._target,
                                           permission_mode='read-only')
             if (agent.agent_profile != self._profile() or agent.messages
                     or agent.effective_permission_mode() != 'read-only'
@@ -147,12 +194,25 @@ class CowAgentNative:
                     or agent.model.model != self.enrollment['model']
                     or agent.model._primary_provider_id(agent.model.model) != self.enrollment['provider']):
                 raise contract.ProtocolError('Native identity, model or session differs')
-        return _Prepared(self, agent, session_id)
+        manager = agent.memory_manager
+        from common import state_dir
+        workspace = Path(self._profile().workspace).resolve()
+        expected_db = Path(state_dir.memory_index_db(base=str(workspace), ensure=False)).resolve()
+        if (Path(manager.config.get_workspace()).resolve() != workspace
+                or Path(manager.config.get_db_path()).resolve() != expected_db
+                or Path(manager.storage.db_path).resolve() != expected_db):
+            raise contract.ProtocolError('Native memory scope differs')
+        binding = {'agent_id': self._target, 'agent_name': agent.agent_profile.name,
+                   'model': agent.model.model, 'provider': self.enrollment['provider'],
+                   'profile_sha256': self.enrollment['profile_sha256'],
+                   'memory_scope_sha256': contract.digest({'workspace': str(workspace), 'db': str(expected_db)})}
+        return _Prepared(self, agent, session_id, binding)
 
 
 class _Prepared:
-    def __init__(self, native, agent, session_id):
+    def __init__(self, native, agent, session_id, binding):
         self.native, self.agent, self.session_id = native, agent, session_id
+        self.receipt_binding = binding
         self.used = False
 
     def run(self, spec, cancel_event):
@@ -172,13 +232,15 @@ class _Prepared:
                   'Use only the supplied records. Return only the requested JSON.\n\n'
                   + analysis.build_prompt(spec) + '\n\nOutput schema:\n'
                   + contract.canonical(analysis.output_schema(spec)))
-        with use_identity(RuntimeIdentity(agent_id=TARGET, session_id=self.session_id, run_id=run_id)):
-            self.agent.model.agent_id = TARGET
+        with use_identity(RuntimeIdentity(agent_id=self.native._target, session_id=self.session_id, run_id=run_id)):
+            self.agent.model.agent_id = self.native._target
             self.agent.model.session_id = self.session_id
             self.agent.model.channel_type = 'external'
             logger.info('[NamedRouting] start caller=codex agent=%s session=%s run=%s model=%s permission=read-only',
-                        TARGET, self.session_id, run_id, self.agent.model.model)
+                        self.native._target, self.session_id, run_id, self.agent.model.model)
+            started = time.time()
             response = self.agent.run_stream(prompt, on_event=on_event, cancel_event=cancel_event)
+            finished = time.time()
             # Native fallback remains native-owned. A fallback cannot silently
             # satisfy this experiment's exact enrolled model assertion.
             provider = self.agent.model._primary_provider_id(self.agent.model.model)
@@ -195,10 +257,10 @@ class _Prepared:
             if not analysis._valid_report_shape(value, spec['task_id']) or value != analysis.expected_report(spec):
                 raise contract.ProtocolError('Native analysis did not match the fixed contract')
             logger.info('[NamedRouting] complete caller=codex agent=%s session=%s run=%s tool_events=%s',
-                        TARGET, self.session_id, run_id, len(tool_events))
+                        self.native._target, self.session_id, run_id, len(tool_events))
             return {'report': value, 'receipt': {
-                'agent_id': TARGET, 'agent_name': self.agent.agent_profile.name,
-                'model': self.agent.model.model, 'provider': provider,
+                **self.receipt_binding, 'native_pid': os.getpid(),
+                'native_started_at': started, 'native_finished_at': finished,
                 'session_id': self.session_id, 'native_run_id': run_id,
                 'permission_mode': self.agent.effective_permission_mode(),
                 'source': 'codex', 'prompt_source': 'native', 'memory_owner': 'runtime',
