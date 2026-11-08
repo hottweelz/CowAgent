@@ -45,6 +45,8 @@ class Runtime:
         self.credential = contract.Credential(config['supervisor_id'], config['runtime_id'],
             config['key_id'], bytes.fromhex(config['secret_hex']), config['expires_at'],
             tuple(config['operations']))
+        if not set(self.credential.operations) <= set(contract.LEGACY_OPERATIONS):
+            raise ValueError('Unsupported synthetic runtime operation')
         if not isinstance(config['name'], str) or not isinstance(config['model'], str):
             raise ValueError('Invalid runtime identity')
         self.name, self.model = config['name'], config['model']

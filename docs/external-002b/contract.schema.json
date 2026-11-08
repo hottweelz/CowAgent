@@ -1,0 +1,678 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:cowagent:external:1:analysis-extension",
+  "title": "CowAgent external runtime v1 with bounded analysis capability",
+  "$comment": "Structural documentation. contract.py and the native verification normalizer enforce semantic bindings, byte limits, time, signatures, authority and monotonic state. This schema is not a runtime authentication validator. EXTERNAL-002B adds explicitly enrolled analyze_records. analysis.py validates its JSON-string content as the fixed USD records schema. Legacy default credential grants are unchanged.",
+  "$ref": "#/$defs/envelope",
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$"
+    },
+    "uuid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "operation": {
+      "enum": [
+        "write_artifact",
+        "record_effect",
+        "analyze_records"
+      ]
+    },
+    "envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol",
+        "kind",
+        "request_id",
+        "supervisor_id",
+        "runtime_id",
+        "key_id",
+        "issued_at",
+        "expires_at",
+        "action",
+        "payload",
+        "mac"
+      ],
+      "properties": {
+        "protocol": {
+          "const": "cow.external/1"
+        },
+        "kind": {
+          "enum": [
+            "request",
+            "response"
+          ]
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "supervisor_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "runtime_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "key_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "issued_at": {
+          "type": "number"
+        },
+        "expires_at": {
+          "type": "number"
+        },
+        "action": {
+          "enum": [
+            "discover",
+            "submit",
+            "status",
+            "cancel",
+            "result"
+          ]
+        },
+        "payload": {
+          "type": "object"
+        },
+        "mac": {
+          "$ref": "#/$defs/hash"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "request"
+              },
+              "action": {
+                "const": "discover"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "type": "object",
+                "maxProperties": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "request"
+              },
+              "action": {
+                "const": "submit"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/submission"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "request"
+              },
+              "action": {
+                "enum": [
+                  "status",
+                  "cancel",
+                  "result"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/task_reference"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "response"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "payload": {
+                "$ref": "#/$defs/response"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "submission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "spec",
+        "approval"
+      ],
+      "properties": {
+        "spec": {
+          "$ref": "#/$defs/task"
+        },
+        "approval": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/approval"
+            }
+          ]
+        }
+      }
+    },
+    "task_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "task_hash"
+      ],
+      "properties": {
+        "task_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "task_hash": {
+          "$ref": "#/$defs/hash"
+        }
+      }
+    },
+    "response": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ok",
+            "data"
+          ],
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "data": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/discovery"
+                },
+                {
+                  "$ref": "#/$defs/observation"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ok",
+            "error"
+          ],
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "enum": [
+                "invalid_request",
+                "unauthorized",
+                "conflict",
+                "not_found",
+                "replay",
+                "internal_error"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "idempotency_key",
+        "owner_id",
+        "source_id",
+        "conversation_id",
+        "runtime_id",
+        "task",
+        "authority",
+        "verification"
+      ],
+      "properties": {
+        "task_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "idempotency_key": {
+          "$ref": "#/$defs/identifier"
+        },
+        "owner_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "source_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "conversation_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "runtime_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "task": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation",
+            "artifact",
+            "content"
+          ],
+          "properties": {
+            "operation": {
+              "$ref": "#/$defs/operation"
+            },
+            "artifact": {
+              "$ref": "#/$defs/identifier"
+            },
+            "content": {
+              "type": "string",
+              "maxLength": 65536,
+              "$comment": "Code additionally restricts UTF-8 bytes to 65536."
+            }
+          }
+        },
+        "authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operations",
+            "resource",
+            "expires_at"
+          ],
+          "properties": {
+            "operations": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/operation"
+              }
+            },
+            "resource": {
+              "$ref": "#/$defs/uuid"
+            },
+            "expires_at": {
+              "type": "number"
+            }
+          }
+        },
+        "verification": {
+          "$ref": "#/$defs/criteria"
+        }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_hash",
+        "approved_by",
+        "expires_at"
+      ],
+      "properties": {
+        "task_hash": {
+          "$ref": "#/$defs/hash"
+        },
+        "approved_by": {
+          "$ref": "#/$defs/identifier"
+        },
+        "expires_at": {
+          "type": "number"
+        }
+      }
+    },
+    "criteria": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "acceptance": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/check"
+          }
+        },
+        "external_state": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/check"
+          }
+        }
+      },
+      "$comment": "Missing groups normalize to empty arrays. Check IDs must be unique within a group. Native checks use file_exists, text_equals, json_equals, sha256; synthetic_effect is supported only in external_state. Unsupported types are retained and unverified, never dispatched as code."
+    },
+    "check": {
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string"
+        },
+        "expected": {}
+      },
+      "$comment": "Known native checks are validated by normalize_contract; unknown types can carry opaque JSON. Paths are read only through the native restricted broker under the enrolled task export."
+    },
+    "discovery": {
+      "type": "object",
+      "required": [
+        "protocol",
+        "runtime_id",
+        "name",
+        "model",
+        "operations",
+        "approval_operations",
+        "session_ownership",
+        "cancellation",
+        "epoch"
+      ],
+      "properties": {
+        "protocol": {
+          "const": "cow.external/1"
+        },
+        "runtime_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "name": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/operation"
+          }
+        },
+        "approval_operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/operation"
+          }
+        },
+        "session_ownership": {
+          "const": "runtime"
+        },
+        "cancellation": {
+          "const": "cooperative"
+        },
+        "epoch": {
+          "$ref": "#/$defs/uuid"
+        }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "task_hash",
+        "runtime_id",
+        "session_id",
+        "revision",
+        "state",
+        "cancel_requested",
+        "termination_confirmed",
+        "result",
+        "reason"
+      ],
+      "properties": {
+        "task_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "task_hash": {
+          "$ref": "#/$defs/hash"
+        },
+        "runtime_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "session_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "state": {
+          "enum": [
+            "queued",
+            "running",
+            "completed",
+            "cancelled",
+            "failed",
+            "needs_review"
+          ]
+        },
+        "cancel_requested": {
+          "type": "boolean"
+        },
+        "termination_confirmed": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "verification_report": {
+      "type": "object",
+      "required": [
+        "verifier",
+        "checked_at",
+        "remote_revision",
+        "acceptance",
+        "external_state"
+      ],
+      "properties": {
+        "verifier": {
+          "const": "external-export-v1"
+        },
+        "checked_at": {
+          "type": "string"
+        },
+        "remote_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "acceptance": {
+          "$ref": "#/$defs/check_results"
+        },
+        "external_state": {
+          "$ref": "#/$defs/check_results"
+        }
+      }
+    },
+    "check_results": {
+      "type": "object",
+      "required": [
+        "status",
+        "checks"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "passed",
+            "confirmed",
+            "failed",
+            "unverified"
+          ]
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "status",
+              "reason"
+            ]
+          }
+        }
+      }
+    },
+    "outcomes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "runtime_id",
+        "transport_status",
+        "execution_status",
+        "session_id",
+        "revision",
+        "runtime_result",
+        "result_provenance",
+        "cancel_requested",
+        "termination_confirmed",
+        "observation_current",
+        "verification_checked_at",
+        "acceptance_status",
+        "external_state_status",
+        "verified",
+        "last_error"
+      ],
+      "properties": {
+        "task_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "runtime_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "transport_status": {
+          "enum": [
+            "not_sent",
+            "sending",
+            "acknowledged",
+            "rejected",
+            "uncertain",
+            "unreachable"
+          ]
+        },
+        "execution_status": {
+          "enum": [
+            "unknown",
+            "cancelled_before_submission",
+            "queued",
+            "running",
+            "completed",
+            "cancelled",
+            "failed",
+            "needs_review"
+          ]
+        },
+        "session_id": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/identifier"
+            }
+          ]
+        },
+        "revision": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "runtime_result": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "result_provenance": {
+          "const": "authenticated_runtime_claim"
+        },
+        "cancel_requested": {
+          "type": "boolean"
+        },
+        "termination_confirmed": {
+          "type": "boolean"
+        },
+        "observation_current": {
+          "type": "boolean"
+        },
+        "verification_checked_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "acceptance_status": {
+          "enum": [
+            "passed",
+            "failed",
+            "unverified"
+          ]
+        },
+        "external_state_status": {
+          "enum": [
+            "confirmed",
+            "failed",
+            "unverified"
+          ]
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "last_error": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

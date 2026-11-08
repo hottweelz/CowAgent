@@ -1,0 +1,101 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "dataset_sha256",
+    "record_count",
+    "accepted_count",
+    "totals",
+    "exceptions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "task_id": {
+      "type": "string",
+      "const": "d92c8e20-b396-418c-960f-97011228ab35"
+    },
+    "dataset_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "record_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "accepted_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "totals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "paid_cents",
+        "refund_cents",
+        "pending_cents",
+        "net_cents"
+      ],
+      "properties": {
+        "paid_cents": {
+          "type": "integer",
+          "minimum": -100000000000,
+          "maximum": 100000000000
+        },
+        "refund_cents": {
+          "type": "integer",
+          "minimum": -100000000000,
+          "maximum": 100000000000
+        },
+        "pending_cents": {
+          "type": "integer",
+          "minimum": -100000000000,
+          "maximum": 100000000000
+        },
+        "net_cents": {
+          "type": "integer",
+          "minimum": -100000000000,
+          "maximum": 100000000000
+        }
+      }
+    },
+    "exceptions": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "index",
+          "id",
+          "reason"
+        ],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 99
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "duplicate_id",
+              "excluded_status",
+              "invalid_sign"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

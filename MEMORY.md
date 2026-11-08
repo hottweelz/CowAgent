@@ -58,14 +58,28 @@
   never automatically resubmit. Cancellation intent is separate from confirmed
   termination; lost cancellation requires an explicit repeat. Independent export
   and synthetic ledger checks certify only declared, time-bound state. Real
-  adapters, human approval authentication and remote-effect verifiers remain
-  future work. See [EXTERNAL-001](docs/external-001/README.md) for the contract,
+  adapters need separate runtime evidence; human approval authentication and
+  remote-effect verifiers remain future work. See [EXTERNAL-001](docs/external-001/README.md) for the contract,
   failure rules, test evidence and limits; no general exactly-once claim applies.
-- EXTERNAL-002 is blocked, not an enabled Codex adapter. CLI 0.165.0 with the
-  existing selected provider advertised collaboration mutations despite false
-  multi-agent flags. Configuration checks do not prove model-facing capability
-  exclusion. Retain the unregistered foundation until a supported control and
-  actual capability/native patch/cancellation evidence close the gate; do not
-  change Codex's auth/model or enable shell to bypass it. See
-  [EXTERNAL-002](docs/external-002/README.md). Its explicit root/temp-denial
-  command probes do not certify native patch confinement or hard isolation.
+- The fork's external-agent direction is supervisory: a potential BullGod
+  component delegates bounded tasks and verifies outcomes while independent
+  runtimes own their models, authentication, instructions, memory and workers.
+  Internal delegation is acceptable within inherited task authority.
+- EXTERNAL-002B supersedes EXTERNAL-002's historical blocker for explicitly
+  enrolled native read-only analysis. Actual public child lineage and declined
+  inside/outside writes established the observed native delegation boundary;
+  an advertised collaboration tool alone proves neither escape nor safety.
+- The opt-in Codex adapter uses authenticated private Unix IPC and public
+  app-server stdio. `analyze_records` accepts bounded data, returns structured
+  JSON, and permits only supervisor-controlled artifact publication. Enrollment
+  binds tested CLI/model/provider, policy/probe digest, full configuration and
+  provider hashes, plus fresh exact effective profile checks. Native config and
+  model selection are not rewritten. Internal-only raw events are not used.
+- Codex submission and publication intents are durable; uncertainty never causes
+  automatic replay or republishing. Cancellation fences publication before
+  interrupt; explicit repeats can recover lost interruption. Scoped task-effect
+  confirmation is distinct from all-descendant exit or a hard cost ceiling.
+  Independent analysis and caller criteria must pass before verification is
+  claimed. [EXTERNAL-002B](docs/external-002b/README.md) records passing real and
+  fixture tests, supported enrollment and limits; production activation and
+  broader effects remain unauthorized.

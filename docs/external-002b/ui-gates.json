@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "task": "EXTERNAL-002B UI and native browser gates",
+  "recorded_at": "2026-11-07T19:39:58-05:00",
+  "results": [
+    {
+      "gate": "node-ui",
+      "command": "node --test tests/test_usage_display.mjs tests/web_scroll.test.cjs tests/web_message_mutation.test.cjs",
+      "exit_code": 0,
+      "passed": 39,
+      "failed": 0,
+      "duration_milliseconds": 112.99875
+    },
+    {
+      "gate": "renderer-typecheck",
+      "command": "(cd desktop && ./node_modules/.bin/tsc --noEmit -p tsconfig.json)",
+      "exit_code": 0,
+      "strict": true
+    },
+    {
+      "gate": "desktop-build",
+      "command": "(cd desktop && npm run build)",
+      "exit_code": 0,
+      "result": "passed with existing non-fatal warnings"
+    }
+  ],
+  "native_browser": {
+    "command": "env -i HOME=<private> COW_DATA_DIR=<private> COW_BROWSER_NATIVE_TEST=1 PATH=/usr/bin:/bin:/usr/sbin:/sbin .venv/bin/python -m pytest -q <seven exact test IDs>",
+    "exit_code": 0,
+    "passed": 7,
+    "skipped": 0,
+    "failed": 0,
+    "duration_seconds": 15.08,
+    "test_ids": [
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[click-button-False]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[click-button-True]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-input-False]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-input-True]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[fill-div-False]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[select-select-False]",
+      "tests.test_browser_ref_actions_native::test_ref_actions_follow_browser_editability[select-select-True]"
+    ],
+    "matches_prior_skips": true,
+    "private_home_and_data": true,
+    "provider_calls": 0
+  },
+  "decision": "READY FOR REVIEW",
+  "note": "These gates do not set the final readiness decision.",
+  "output": "regression-output.txt",
+  "decision_note": "Parent integrated passing real native receipts and independent review with these offline gates. Ready only for the enrolled read-only analysis/artifact contract; no merge or production activation."
+}

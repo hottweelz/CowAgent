@@ -1,5 +1,99 @@
 # AI handoff ledger
 
+## 2026-11-07 19:41 EST — Codex — EXTERNAL-002B bounded native supervision
+
+- Task/result: reassessed EXTERNAL-002 on feat/external-002-codex-adapter from
+  26c8e77d and implemented the real Codex analysis/artifact adapter. **READY FOR
+  REVIEW** for the explicitly enrolled operation. Completed work is published
+  to the same branch; no master merge or production activation is authorized.
+- Team: Codex lead owns policy, contract, integration, real probes, corrections,
+  evidence and Git. Luna/high researched official interfaces, mapped the
+  contract, implemented deterministic analysis/verifier tests and ran release
+  gates. Terra 6.1/high owned the runtime adapter and native acceptance runner;
+  concurrent native lifecycle, durable state and process fixtures required more
+  than routine implementation. One Sol 6.1/high reviewer handled authority and
+  uncertain effects across processes. Requested models accepted; effective
+  delegated identities not independently exposed. STE planning/evidence
+  guidance used; no HomeBoss, nested development delegation or external
+  development worker pool. Native delegation was part of the acceptance probes.
+- Changes/files: new codex_adapter.py and analysis.py; explicit analyze_records
+  contract extension with legacy default grants preserved; synthetic runtime
+  rejects the new operation; CodexAnalysisPolicy adds read-only native policy
+  and default-off tested-configuration enrollment. Three focused test files;
+  docs/external-002b report, plan, review, real/regression runners, sanitized
+  native/authority receipts, exact artifact/input/schema and release evidence;
+  historical EXTERNAL-002 report cross-link, project MEMORY.md and this ledger.
+- Native evidence: two permitted internal children mapped by public activity
+  and thread parentage. Both actual negative writes (inside and outside the
+  read-only workspace) reached approval and were declined; markers stayed
+  absent. The old advertisement was not an escape finding. No code edit is
+  required for the supervisory scenario; internal-only raw events are unused.
+- Real adapter results: three native root turns in disposable Git repositories.
+  Seven-record analysis returned net 13,000 cents, four accepted records and
+  three correct exceptions. Actual artifact/schema/arithmetic/hash verification
+  passed. Supervisor SIGKILL after runtime acceptance before host observation
+  recovered the same task/session with one native turn. Fixture-only artifact
+  tampering failed verification without rerun. Cancellation after observed
+  reasoning first remained unconfirmed, then native interruption plus durable
+  publication fence confirmed scoped cancellation. Runtime SIGTERM/restart
+  preserved native IDs and no artifact/replay. Missing executable and a claimed
+  unsupported effect approval were rejected. Native acceptance passed first run.
+- Commands/results: opt-in native runner with /opt/homebrew/bin/codex; final
+  `.venv/bin/python docs/external-002b/run_regression.py`: 1,449 pass, 15 skip,
+  127 files/1,464 IDs, zero failures/errors. Seven exact browser cases passed:
+  unique 1,456 pass and eight Windows-only skips. Includes 44 new cases. Node39,
+  strict renderer tsc and desktop build pass; existing warnings retained.
+  Fresh Ruff F/compilation pass for 10 files; 68 retained hashes match accepted
+  static evidence. Initial full-run private-socket fixture failure remains
+  documented; only its exact owned-socket permission was corrected, and the
+  complete suite reran successfully. The retained network guard was unchanged.
+- Review: three P2 findings fixed and independently confirmed by four focused
+  regressions: exact profile/full config drift binding, explicit repeat cancel
+  after a lost interrupt, and consistent valid artifact-name length. A timing-
+  sensitive test now polls through synchronized authenticated status access.
+  No remaining blocking finding for the bounded operation.
+- Decisions/preservation: Codex owns model/provider/effort, instructions,
+  authentication, existing memory and native sessions. No credential files read
+  or copied by the adapter; no production CowAgent config/memory/history/task
+  journals modified. Invocation-only project trust avoided global config writes;
+  config hash remained byte-identical before/after. Fresh native fixture history
+  remains native-owned. No self-evolution or new restricted-worker command tool.
+- Lessons Learned:
+  - Mistake: treating internal collaboration existence as a blocker, relying on
+    configuration labels without effective scope checks, and overlooking the
+    retained runner's established private-IPC fixture permission pattern.
+  - Root Cause: runtime autonomy, authority enforcement and test transport
+    isolation are different concerns. A root-turn stop also differs from task
+    effect quiescence and all-descendant exit.
+  - Future Trigger: external runtime enrollment, native child delegation,
+    layered permission changes, lost cancellation or new IPC tests.
+  - Required Behavior Change: verify public parentage and actual denied actions,
+    bind full effective policy, preserve explicit cancellation repeats and exact
+    fixture endpoint grants. Never infer safety from absent attempts or replays
+    from verification failure. Match accepted identifiers across contract/checks.
+  - Verification Step: native inside/outside child denials; config/profile drift
+    tests; repeated-cancel and valid-name regressions; actual durable supervisor,
+    artifact and interrupt receipts; full protected regression rerun.
+  - Durable Memory Update: project MEMORY.md records the supervisory purpose,
+    native autonomy, operator enrollment, scoped effects and no-replay limits.
+- Known issues/limits: enrollment is specific to tested CLI 0.165.0/macOS and
+  unchanged configuration; other versions/platforms require new evidence.
+  All-descendant exit, provider-side compute cancellation and hard cost/resource
+  ceilings are unproven. Unknown dispatch/publication remains nonterminal and
+  cannot auto-reconstruct, retry or republish. Production approval UX, rotation,
+  retention/queue/worker limits and external-service effects are future work.
+  Existing build warnings and eight platform skips remain. Unrelated untracked
+  AGENTS.md and three conflicted PID files stay excluded and preserved.
+- Next recommended steps: review the bounded branch, then separately authorize
+  an operator enrollment/approval and uncertainty-resolution integration. Add
+  key rotation/retention and production resource controls before live use.
+  Broader external effects need their own authority and independent observer.
+- Notes for next agent: docs/external-002b/README.md is current. The prior
+  EXTERNAL-002 report remains historical evidence. Native receipt manifests bind
+  source hashes; real success and deterministic failure injection are labeled
+  separately. Master remains e642eec1. Parent verifies same-name GitHub branch
+  publication and 0/0 sync; do not merge or activate from this handoff alone.
+
 ## 2026-11-07 18:54 EST — Codex — EXTERNAL-002 blocked Codex runtime gate
 
 - Task/result: integrated published EXTERNAL-001 bfd64e39 on dedicated

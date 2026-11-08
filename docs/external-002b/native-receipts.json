@@ -1,0 +1,736 @@
+{
+  "schema_version": 1,
+  "task": "EXTERNAL-002B actual supervised Codex acceptance",
+  "recorded_at": "2026-11-08T00:36:41.325275+00:00",
+  "baseline": "26c8e77d7a2cd2c454e76a3691e92d625b5b3d3a",
+  "command": ".venv/bin/python docs/external-002b/run_native_acceptance.py --execute --executable /opt/homebrew/bin/codex",
+  "exit_code": 0,
+  "result": "passed",
+  "adapter_root_turns": 3,
+  "authority_probe_root_turns": 2,
+  "observed_authority_child_turns": 2,
+  "source_hashes": {
+    "agent/external/codex_adapter.py": "70427dc7e2fb54cce065c52e95b249d17ef40de6808fd5ffc90a8430a99976be",
+    "agent/external/codex_policy.py": "4e613f3a2021934f3a8911d2893971c72af89f0f115de2fcdadb513e5e513820",
+    "agent/external/codex_client.py": "f8bd0dd6e94554f73b1f3ad765bad9a99fd7023d27863076ea1be95d312a5264",
+    "agent/external/analysis.py": "6c39859621662489d1ab91517313f32675967636f5e3f99d99d0a4d60deb4889",
+    "agent/external/contract.py": "b0ea61a9361500e35234d594e4169300ab3dac6bbc0c941eaab8c764103ad47f",
+    "agent/external/supervisor.py": "40f5c111698bab612424600475003f22a34b1ac60771dd7bea31035232aaf1b5",
+    "agent/external/journal.py": "07bacbf82f4662ab30ef38526c277fb0003a7340353c5f10e8ee623058736bb3",
+    "agent/external/transport.py": "a845ed18045545a94fe345703f38764f6875e7efee31319b51c0708e9ea27b95",
+    "docs/external-002b/run_native_acceptance.py": "9e1ada5cc0bac50f98924d83aa306d0b08c41cc86bd108e6debd7138d447903f"
+  },
+  "source_receipt_sha256": {
+    "missing-executable.json": "2803dc48d221d985079a291e88feea0e340ce16b4d7308de9e47f1c59d906e84",
+    "discovery.json": "9d8f550f9eca5dc8af6b90a0613e51111d5c6508d812fb25ac63da8d53c2ea88",
+    "cancel-request.json": "ecd0de4c2de3919ee438df469d52f521dccc25d38567db41b70e93ffa9c8f816",
+    "runtime-restart.json": "262e3bf78ca9a19c3b4c3aa3ab14b40d5bf38498de5d0cbff111703cf4ebd356",
+    "successful-analysis.json": "ad39e2be8c33bc436de3d8cbf2146d61a77f65b1fd693c64d42792e733e7856c",
+    "wrong-output.json": "52f53ada492f6fa3f6b056f11f1ff5832348587c9b923c9915931fb3fc51adc6",
+    "verified-report.json": "5f4e71895960667f4fb5672a870f96e2d3afc5ba29eee168091a2a6ae2e28c82",
+    "final.json": "1126619e2c3147b08305254ba6fba09d6db4ee9e83cc295b9f32649492b524e5",
+    "preflight.json": "93fda9b0ffa3736eb72f50ef7895fab2eddd2d563b0cad61adf264aa1b01817b",
+    "cancel-result.json": "ec4edc8d338bb32242092e960fa36ee3c7bb1473dbad5713b4278d646184b63a",
+    "unsupported-effect.json": "cdb9816204b5cc04a8b642e744dc539a59cc7772926b93ce8997ed4ec7098e4b",
+    "host-restart.json": "c669cb00ab252035aa4d4070ab0de8459b58de4e8f5f35c2caf13391875ceb3e"
+  },
+  "cases": {
+    "missing-executable": {
+      "case": "owned_missing_executable_fixture",
+      "discovery_unavailable": true,
+      "outcome": {
+        "acceptance_status": "unverified",
+        "cancel_requested": false,
+        "execution_status": "failed",
+        "external_state_status": "unverified",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 3,
+        "runtime_id": "acceptance-runtime",
+        "runtime_result": null,
+        "session_id": "2c702825-5274-45b3-bdfd-ba5fc93c932d",
+        "task_id": "1e959bee-70d4-4e7c-87d7-b4142e2172bd",
+        "termination_confirmed": true,
+        "transport_status": "acknowledged",
+        "verification_checked_at": null,
+        "verified": false
+      }
+    },
+    "discovery": {
+      "case": "real_runtime_discovery",
+      "discovery": {
+        "approval_operations": [],
+        "cancellation": "cooperative",
+        "epoch": "34eb207b-fe95-4ba0-b0be-475e1d52af91",
+        "model": "gpt-6-astra",
+        "name": "Codex app-server",
+        "native_capabilities": {
+          "authority_enrollment": "matched_tested_configuration",
+          "cancellation_scope": "task_artifact_effects",
+          "cli_version": "0.165.0",
+          "descendant_exit_guarantee": false,
+          "effective_configuration": {
+            "features": {
+              "apps": false,
+              "browser_use": false,
+              "browser_use_external": false,
+              "chronicle": false,
+              "code_mode": false,
+              "code_mode_host": true,
+              "computer_use": false,
+              "daemon_auto_start": false,
+              "goals": false,
+              "hooks": false,
+              "image_generation": false,
+              "in_app_browser": false,
+              "in_app_local_automation": false,
+              "memories": true,
+              "multi_agent": true,
+              "multi_agent_v2": false,
+              "plugins": false,
+              "remote_plugin": false,
+              "request_permissions_tool": false,
+              "shell_snapshot": false,
+              "shell_snapshot_v2": false,
+              "shell_tool": false,
+              "skill_mcp_dependency_install": false,
+              "skill_search": false,
+              "view_image": false
+            },
+            "mcp": [
+              {
+                "name": "asset-index",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              },
+              {
+                "name": "blender",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              },
+              {
+                "name": "cloudflare",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              },
+              {
+                "name": "cloudflare-bindings",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              },
+              {
+                "name": "cloudflare-builds",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              },
+              {
+                "name": "cloudflare-docs",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              },
+              {
+                "name": "cloudflare-observability",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              },
+              {
+                "name": "computer-use",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              },
+              {
+                "name": "desktop-commander",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              },
+              {
+                "name": "lobu",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              },
+              {
+                "name": "node_repl",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              },
+              {
+                "name": "openaiDeveloperDocs",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              },
+              {
+                "name": "uivision",
+                "resource_count": 0,
+                "runtimeStatus": null,
+                "tool_count": 0
+              }
+            ],
+            "mcp_enabled": {
+              "asset-index": false,
+              "blender": false,
+              "cloudflare": false,
+              "cloudflare-bindings": false,
+              "cloudflare-builds": false,
+              "cloudflare-docs": false,
+              "cloudflare-observability": false,
+              "computer-use": false,
+              "desktop-commander": false,
+              "lobu": false,
+              "node_repl": false,
+              "openaiDeveloperDocs": false,
+              "uivision": false
+            },
+            "notify_configured": false,
+            "shell_inherit": "none",
+            "shell_set_nonempty_keys": [],
+            "web_search": "disabled"
+          },
+          "hard_cost_ceiling": false,
+          "model": "gpt-6-astra",
+          "modelProvider": "codex-pooler-ws",
+          "policy_revision": "native-readonly-artifact-v1",
+          "profile_available": true,
+          "reasoningEffort": "ultra"
+        },
+        "operations": [
+          "analyze_records"
+        ],
+        "protocol": "cow.external/1",
+        "runtime_id": "acceptance-runtime",
+        "session_ownership": "runtime"
+      }
+    },
+    "cancel-request": {
+      "activity": {
+        "acceptance_status": "unverified",
+        "cancel_requested": false,
+        "execution_status": "running",
+        "external_state_status": "unverified",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 6,
+        "runtime_id": "acceptance-runtime",
+        "runtime_result": {
+          "adapter_version": "cow.codex/1",
+          "child_threads": [],
+          "denied_requests": 0,
+          "descendants_terminated": false,
+          "model_activity_counts": {
+            "reasoning": 1
+          },
+          "model_activity_observed": true,
+          "native_session_id": "01a1b892-a0bd-7300-af0f-c69f3ea70748",
+          "native_status": "inProgress",
+          "native_thread_id": "01a1b892-a0bd-7300-af0f-c69f3ea70748",
+          "native_turn_id": "01a1b892-a165-7e81-9616-f86aed4f24b0",
+          "publication_status": "not_published",
+          "termination_scope": "unconfirmed"
+        },
+        "session_id": "766a7eaf-e238-4218-ace2-cb3aaede0ddc",
+        "task_id": "06a89d26-2c7d-4227-9d50-f30edcd778b0",
+        "termination_confirmed": false,
+        "transport_status": "acknowledged",
+        "verification_checked_at": null,
+        "verified": false
+      },
+      "case": "real_cancel_after_model_activity",
+      "request": {
+        "acceptance_status": "unverified",
+        "cancel_requested": true,
+        "execution_status": "running",
+        "external_state_status": "unverified",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 7,
+        "runtime_id": "acceptance-runtime",
+        "runtime_result": {
+          "adapter_version": "cow.codex/1",
+          "child_threads": [],
+          "denied_requests": 0,
+          "descendants_terminated": false,
+          "model_activity_counts": {
+            "reasoning": 1
+          },
+          "model_activity_observed": true,
+          "native_session_id": "01a1b892-a0bd-7300-af0f-c69f3ea70748",
+          "native_status": "inProgress",
+          "native_thread_id": "01a1b892-a0bd-7300-af0f-c69f3ea70748",
+          "native_turn_id": "01a1b892-a165-7e81-9616-f86aed4f24b0",
+          "publication_status": "not_published",
+          "termination_scope": "unconfirmed"
+        },
+        "session_id": "766a7eaf-e238-4218-ace2-cb3aaede0ddc",
+        "task_id": "06a89d26-2c7d-4227-9d50-f30edcd778b0",
+        "termination_confirmed": false,
+        "transport_status": "acknowledged",
+        "verification_checked_at": null,
+        "verified": false
+      }
+    },
+    "runtime-restart": {
+      "after": {
+        "acceptance_status": "unverified",
+        "cancel_requested": true,
+        "execution_status": "cancelled",
+        "external_state_status": "unverified",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 9,
+        "runtime_id": "acceptance-runtime",
+        "runtime_result": {
+          "adapter_version": "cow.codex/1",
+          "child_threads": [],
+          "denied_requests": 0,
+          "descendants_terminated": false,
+          "history_observation": "not_read",
+          "model_activity_counts": {
+            "agentMessage": 1,
+            "reasoning": 1
+          },
+          "model_activity_observed": true,
+          "native_session_id": "01a1b892-c197-7fa1-9f56-3c8b6f46d4e5",
+          "native_status": "interrupted",
+          "native_thread_id": "01a1b892-c197-7fa1-9f56-3c8b6f46d4e5",
+          "native_turn_id": "01a1b892-c20b-7512-b2e8-0daa1ca544e8",
+          "publication_status": "fenced",
+          "termination_scope": "task_effects"
+        },
+        "session_id": "44bae7c9-554e-4f91-ae8d-7d4c82176449",
+        "task_id": "f18da836-4c5f-4a3a-b837-1aafc346f12e",
+        "termination_confirmed": true,
+        "transport_status": "acknowledged",
+        "verification_checked_at": null,
+        "verified": false
+      },
+      "artifact_exists": false,
+      "before": {
+        "acceptance_status": "unverified",
+        "cancel_requested": false,
+        "execution_status": "running",
+        "external_state_status": "unverified",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 7,
+        "runtime_id": "acceptance-runtime",
+        "runtime_result": {
+          "adapter_version": "cow.codex/1",
+          "child_threads": [],
+          "denied_requests": 0,
+          "descendants_terminated": false,
+          "model_activity_counts": {
+            "agentMessage": 1,
+            "reasoning": 1
+          },
+          "model_activity_observed": true,
+          "native_session_id": "01a1b892-c197-7fa1-9f56-3c8b6f46d4e5",
+          "native_status": "inProgress",
+          "native_thread_id": "01a1b892-c197-7fa1-9f56-3c8b6f46d4e5",
+          "native_turn_id": "01a1b892-c20b-7512-b2e8-0daa1ca544e8",
+          "publication_status": "not_published",
+          "termination_scope": "unconfirmed"
+        },
+        "session_id": "44bae7c9-554e-4f91-ae8d-7d4c82176449",
+        "task_id": "f18da836-4c5f-4a3a-b837-1aafc346f12e",
+        "termination_confirmed": false,
+        "transport_status": "acknowledged",
+        "verification_checked_at": null,
+        "verified": false
+      },
+      "case": "cooperative_runtime_sigterm_and_restart",
+      "native_history_turns": [
+        {
+          "id": "01a1b892-c20b-7512-b2e8-0daa1ca544e8",
+          "status": "interrupted"
+        }
+      ],
+      "restart_replayed": false
+    },
+    "successful-analysis": {
+      "case": "real_codex_analysis",
+      "execution": {
+        "acceptance_status": "unverified",
+        "cancel_requested": false,
+        "execution_status": "completed",
+        "external_state_status": "unverified",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 9,
+        "runtime_id": "acceptance-runtime",
+        "runtime_result": {
+          "adapter_version": "cow.codex/1",
+          "artifact": "report.json",
+          "child_threads": [],
+          "denied_requests": 0,
+          "descendants_terminated": false,
+          "history_observation": "available",
+          "model_activity_counts": {
+            "agentMessage": 1,
+            "reasoning": 1
+          },
+          "model_activity_observed": true,
+          "native_session_id": "01a1b892-6db9-7901-aef3-b7297c258d3e",
+          "native_status": "completed",
+          "native_thread_id": "01a1b892-6db9-7901-aef3-b7297c258d3e",
+          "native_turn_id": "01a1b892-6e89-7203-81c0-7b62751756bf",
+          "publication_status": "published",
+          "sha256": "9f7c52a8108e7508168ebf22a11f73e58638277514fe060ea97587635f69b005",
+          "termination_scope": "task_effects"
+        },
+        "session_id": "8b39444a-4f78-464d-aeab-4ec10dc2d390",
+        "task_id": "d92c8e20-b396-418c-960f-97011228ab35",
+        "termination_confirmed": true,
+        "transport_status": "acknowledged",
+        "verification_checked_at": null,
+        "verified": false
+      },
+      "expected_accepted_count": 4,
+      "expected_exception_count": 3,
+      "expected_totals": {
+        "net_cents": 13000,
+        "paid_cents": 15500,
+        "pending_cents": 8000,
+        "refund_cents": -2500
+      },
+      "native_history_turns": [
+        {
+          "id": "01a1b892-6e89-7203-81c0-7b62751756bf",
+          "status": "completed"
+        }
+      ],
+      "task_id": "d92c8e20-b396-418c-960f-97011228ab35",
+      "verification": {
+        "acceptance_status": "passed",
+        "cancel_requested": false,
+        "execution_status": "completed",
+        "external_state_status": "confirmed",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 9,
+        "runtime_id": "acceptance-runtime",
+        "runtime_result": {
+          "adapter_version": "cow.codex/1",
+          "artifact": "report.json",
+          "child_threads": [],
+          "denied_requests": 0,
+          "descendants_terminated": false,
+          "history_observation": "available",
+          "model_activity_counts": {
+            "agentMessage": 1,
+            "reasoning": 1
+          },
+          "model_activity_observed": true,
+          "native_session_id": "01a1b892-6db9-7901-aef3-b7297c258d3e",
+          "native_status": "completed",
+          "native_thread_id": "01a1b892-6db9-7901-aef3-b7297c258d3e",
+          "native_turn_id": "01a1b892-6e89-7203-81c0-7b62751756bf",
+          "publication_status": "published",
+          "sha256": "9f7c52a8108e7508168ebf22a11f73e58638277514fe060ea97587635f69b005",
+          "termination_scope": "task_effects"
+        },
+        "session_id": "8b39444a-4f78-464d-aeab-4ec10dc2d390",
+        "task_id": "d92c8e20-b396-418c-960f-97011228ab35",
+        "termination_confirmed": true,
+        "transport_status": "acknowledged",
+        "verification_checked_at": "2026-11-08T00:32:58.522654+00:00",
+        "verified": true
+      }
+    },
+    "wrong-output": {
+      "case": "owned_artifact_tamper",
+      "native_history_turns": [
+        {
+          "id": "01a1b892-6e89-7203-81c0-7b62751756bf",
+          "status": "completed"
+        }
+      ],
+      "repeat_submit": {
+        "acceptance_status": "failed",
+        "cancel_requested": false,
+        "execution_status": "completed",
+        "external_state_status": "failed",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 9,
+        "runtime_id": "acceptance-runtime",
+        "runtime_result": {
+          "adapter_version": "cow.codex/1",
+          "artifact": "report.json",
+          "child_threads": [],
+          "denied_requests": 0,
+          "descendants_terminated": false,
+          "history_observation": "available",
+          "model_activity_counts": {
+            "agentMessage": 1,
+            "reasoning": 1
+          },
+          "model_activity_observed": true,
+          "native_session_id": "01a1b892-6db9-7901-aef3-b7297c258d3e",
+          "native_status": "completed",
+          "native_thread_id": "01a1b892-6db9-7901-aef3-b7297c258d3e",
+          "native_turn_id": "01a1b892-6e89-7203-81c0-7b62751756bf",
+          "publication_status": "published",
+          "sha256": "9f7c52a8108e7508168ebf22a11f73e58638277514fe060ea97587635f69b005",
+          "termination_scope": "task_effects"
+        },
+        "session_id": "8b39444a-4f78-464d-aeab-4ec10dc2d390",
+        "task_id": "d92c8e20-b396-418c-960f-97011228ab35",
+        "termination_confirmed": true,
+        "transport_status": "acknowledged",
+        "verification_checked_at": "2026-11-08T00:32:58.949597+00:00",
+        "verified": false
+      },
+      "verification": {
+        "acceptance_status": "failed",
+        "cancel_requested": false,
+        "execution_status": "completed",
+        "external_state_status": "failed",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 9,
+        "runtime_id": "acceptance-runtime",
+        "runtime_result": {
+          "adapter_version": "cow.codex/1",
+          "artifact": "report.json",
+          "child_threads": [],
+          "denied_requests": 0,
+          "descendants_terminated": false,
+          "history_observation": "available",
+          "model_activity_counts": {
+            "agentMessage": 1,
+            "reasoning": 1
+          },
+          "model_activity_observed": true,
+          "native_session_id": "01a1b892-6db9-7901-aef3-b7297c258d3e",
+          "native_status": "completed",
+          "native_thread_id": "01a1b892-6db9-7901-aef3-b7297c258d3e",
+          "native_turn_id": "01a1b892-6e89-7203-81c0-7b62751756bf",
+          "publication_status": "published",
+          "sha256": "9f7c52a8108e7508168ebf22a11f73e58638277514fe060ea97587635f69b005",
+          "termination_scope": "task_effects"
+        },
+        "session_id": "8b39444a-4f78-464d-aeab-4ec10dc2d390",
+        "task_id": "d92c8e20-b396-418c-960f-97011228ab35",
+        "termination_confirmed": true,
+        "transport_status": "acknowledged",
+        "verification_checked_at": "2026-11-08T00:32:58.949597+00:00",
+        "verified": false
+      }
+    },
+    "verified-report": {
+      "accepted_count": 4,
+      "dataset_sha256": "17e00af671144354de6cb64d5f19a09ae362e4384fe9bf8757a6fe27eac25d95",
+      "exceptions": [
+        {
+          "id": "invalid1",
+          "index": 4,
+          "reason": "invalid_sign"
+        },
+        {
+          "id": "void1",
+          "index": 5,
+          "reason": "excluded_status"
+        },
+        {
+          "id": "sale1",
+          "index": 6,
+          "reason": "duplicate_id"
+        }
+      ],
+      "record_count": 7,
+      "schema_version": 1,
+      "task_id": "d92c8e20-b396-418c-960f-97011228ab35",
+      "totals": {
+        "net_cents": 13000,
+        "paid_cents": 15500,
+        "pending_cents": 8000,
+        "refund_cents": -2500
+      }
+    },
+    "final": {
+      "all_descendants_terminated_proven": false,
+      "cleanup_errors": [],
+      "fixture_retained": "/private/tmp/cowagent-external-002b-kj2dtb5a",
+      "hard_cost_ceiling": false,
+      "native_config_sha_after": "7d926393273708a5069849a4ea37e94c53fbfbfb7271c6a1cdbe2ffb742874cc",
+      "native_config_sha_before": "7d926393273708a5069849a4ea37e94c53fbfbfb7271c6a1cdbe2ffb742874cc",
+      "native_config_unchanged": true,
+      "status": "passed"
+    },
+    "preflight": {
+      "config_sha_before": "7d926393273708a5069849a4ea37e94c53fbfbfb7271c6a1cdbe2ffb742874cc",
+      "enrollment": {
+        "cli_version": "0.165.0",
+        "config_sha256": "7d926393273708a5069849a4ea37e94c53fbfbfb7271c6a1cdbe2ffb742874cc",
+        "model": "gpt-6-astra",
+        "modelProvider": "codex-pooler-ws",
+        "policy_revision": "native-readonly-artifact-v1",
+        "probe_sha256": "6586f6dc7a28de6ad2ab6b48788d6901952c00c3bc73117051c3d6f7c255f452",
+        "provider_config_sha256": "90c1be6cd1e9336a8e0c4a85c97354b2260545b5bc86c2dfa17675eb83a91c70"
+      },
+      "evidence_type": "retained_authority_plus_current_preflight",
+      "probe_sha256": "6586f6dc7a28de6ad2ab6b48788d6901952c00c3bc73117051c3d6f7c255f452"
+    },
+    "cancel-result": {
+      "artifact_exists": false,
+      "case": "real_native_interrupt",
+      "descendant_exit_proven": false,
+      "outcome": {
+        "acceptance_status": "unverified",
+        "cancel_requested": true,
+        "execution_status": "cancelled",
+        "external_state_status": "unverified",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 8,
+        "runtime_id": "acceptance-runtime",
+        "runtime_result": {
+          "adapter_version": "cow.codex/1",
+          "child_threads": [],
+          "denied_requests": 0,
+          "descendants_terminated": false,
+          "history_observation": "not_read",
+          "model_activity_counts": {
+            "reasoning": 1
+          },
+          "model_activity_observed": true,
+          "native_session_id": "01a1b892-a0bd-7300-af0f-c69f3ea70748",
+          "native_status": "interrupted",
+          "native_thread_id": "01a1b892-a0bd-7300-af0f-c69f3ea70748",
+          "native_turn_id": "01a1b892-a165-7e81-9616-f86aed4f24b0",
+          "publication_status": "fenced",
+          "termination_scope": "task_effects"
+        },
+        "session_id": "766a7eaf-e238-4218-ace2-cb3aaede0ddc",
+        "task_id": "06a89d26-2c7d-4227-9d50-f30edcd778b0",
+        "termination_confirmed": true,
+        "transport_status": "acknowledged",
+        "verification_checked_at": null,
+        "verified": false
+      }
+    },
+    "unsupported-effect": {
+      "case": "unauthorized_record_effect",
+      "rejected": true
+    },
+    "host-restart": {
+      "case": "real_submit_host_crash",
+      "duplicate_result": {
+        "acceptance_status": "unverified",
+        "cancel_requested": false,
+        "execution_status": "running",
+        "external_state_status": "unverified",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 2,
+        "runtime_id": "acceptance-runtime",
+        "runtime_result": null,
+        "session_id": "8b39444a-4f78-464d-aeab-4ec10dc2d390",
+        "task_id": "d92c8e20-b396-418c-960f-97011228ab35",
+        "termination_confirmed": false,
+        "transport_status": "acknowledged",
+        "verification_checked_at": null,
+        "verified": false
+      },
+      "host_killed_after_runtime_accepted_before_observation": true,
+      "reconciliation": [
+        {
+          "acceptance_status": "unverified",
+          "cancel_requested": false,
+          "execution_status": "running",
+          "external_state_status": "unverified",
+          "last_error": "",
+          "observation_current": true,
+          "result_provenance": "authenticated_runtime_claim",
+          "revision": 2,
+          "runtime_id": "acceptance-runtime",
+          "runtime_result": null,
+          "session_id": "8b39444a-4f78-464d-aeab-4ec10dc2d390",
+          "task_id": "d92c8e20-b396-418c-960f-97011228ab35",
+          "termination_confirmed": false,
+          "transport_status": "acknowledged",
+          "verification_checked_at": null,
+          "verified": false
+        }
+      ],
+      "runtime_session_id": "8b39444a-4f78-464d-aeab-4ec10dc2d390",
+      "task_id": "d92c8e20-b396-418c-960f-97011228ab35"
+    }
+  },
+  "independent_verification_reports": [
+    {
+      "task_id": "d92c8e20-b396-418c-960f-97011228ab35",
+      "remote_revision": 9,
+      "report": {
+        "acceptance": {
+          "accepted_count": 4,
+          "artifact": "report.json",
+          "reason": "artifact_matches_frozen_analysis",
+          "record_count": 7,
+          "sha256": "9f7c52a8108e7508168ebf22a11f73e58638277514fe060ea97587635f69b005",
+          "status": "passed"
+        },
+        "checked_at": "2026-11-08T00:32:58.522654+00:00",
+        "external_state": {
+          "artifact": "report.json",
+          "reason": "artifact_read_and_hash_confirmed",
+          "sha256": "9f7c52a8108e7508168ebf22a11f73e58638277514fe060ea97587635f69b005",
+          "status": "confirmed"
+        },
+        "verifier": "analysis-artifact-v1"
+      }
+    },
+    {
+      "task_id": "d92c8e20-b396-418c-960f-97011228ab35",
+      "remote_revision": 9,
+      "report": {
+        "acceptance": {
+          "reason": "artifact_runtime_hash_mismatch",
+          "status": "failed"
+        },
+        "checked_at": "2026-11-08T00:32:58.949597+00:00",
+        "external_state": {
+          "observed_sha256": "af77a1a1028ea655e6086dbbb22077035450bf8d315e1925d73557abd68563f2",
+          "reason": "artifact_runtime_hash_mismatch",
+          "status": "failed"
+        },
+        "verifier": "analysis-artifact-v1"
+      }
+    }
+  ],
+  "artifact": {
+    "path": "artifacts/verified-report.json",
+    "sha256": "9f7c52a8108e7508168ebf22a11f73e58638277514fe060ea97587635f69b005",
+    "provenance": "Exact native final message read through public thread/items/list; hash equals the originally published and independently verified artifact before fixture-only tampering."
+  },
+  "distinctions": [
+    "The real wrong-output case mutates the owned artifact after completed Codex execution and verifies hash failure; deterministic fake-runtime tests separately prove wrong arithmetic fails even with a matching runtime hash.",
+    "Runtime interruption used cooperative SIGTERM and restart, not a claim of SIGKILL crash recovery. Supervisor crash used actual SIGKILL after runtime acceptance before host observation.",
+    "Additional uncertain native dispatch/EOF/publication crash cases use deterministic fake clients; no artificial native turn was replayed.",
+    "termination_confirmed with termination_scope=task_effects covers only the enrolled artifact publication effect. Descendant exit and hard cost/resource ceilings are not asserted.",
+    "No raw internal events, credentials, authentication payloads, full configuration, native memory or instruction contents are published.",
+    "Authority evidence records supported native child mapping and negative writes; tool absence is not inferred from a compliant model."
+  ]
+}

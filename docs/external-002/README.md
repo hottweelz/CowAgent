@@ -1,5 +1,10 @@
 # EXTERNAL-002: Codex runtime investigation and blocked adapter gate
 
+Historical assessment at `26c8e77d`. The later
+[EXTERNAL-002B supervisory integration](../external-002b/README.md) supersedes
+this deployment decision for its explicitly enrolled analysis/artifact operation.
+The original evidence and limitations below remain recorded.
+
 **Deployment decision: BLOCKED — do not enable live orchestration or merge this
 branch into master.** The required real adapter is not complete. This branch
 contains the integrated EXTERNAL-001 dependency, an unregistered transport and

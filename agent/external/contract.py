@@ -10,7 +10,8 @@ import uuid
 
 VERSION = 'cow.external/1'
 ACTIONS = ('discover', 'submit', 'status', 'cancel', 'result')
-OPERATIONS = ('write_artifact', 'record_effect')
+LEGACY_OPERATIONS = ('write_artifact', 'record_effect')
+OPERATIONS = LEGACY_OPERATIONS + ('analyze_records',)
 STATES = ('queued', 'running', 'completed', 'cancelled', 'failed', 'needs_review')
 TERMINAL = frozenset({'completed', 'cancelled', 'failed', 'needs_review'})
 MAX_MESSAGE_BYTES = 1024 * 1024
@@ -51,7 +52,7 @@ class Credential:
     key_id: str
     secret: bytes = field(repr=False)
     expires_at: float = 0
-    operations: tuple = OPERATIONS
+    operations: tuple = LEGACY_OPERATIONS
 
     def __post_init__(self):
         if (not all(identifier(v) for v in (self.supervisor_id, self.runtime_id, self.key_id))
@@ -114,7 +115,7 @@ def normalize_spec(spec):
             or task['operation'] not in OPERATIONS or not identifier(task['artifact'])
             or task['artifact'] in ('.', '..') or not isinstance(task['content'], str)
             or len(task['content'].encode('utf-8')) > 65536):
-        raise ProtocolError('Unsupported synthetic task')
+        raise ProtocolError('Unsupported external task')
     auth = spec['authority']
     if (not isinstance(auth, dict) or set(auth) != {'operations', 'resource', 'expires_at'}
             or not isinstance(auth['operations'], list) or not set(auth['operations']) <= set(OPERATIONS)
@@ -123,6 +124,9 @@ def normalize_spec(spec):
         raise ProtocolError('Invalid task authority')
     from agent.recovery.verification import normalize_contract
     value = json.loads(canonical(spec))
+    if task['operation'] == 'analyze_records':
+        from .analysis import normalize_payload
+        value['task']['content'] = canonical(normalize_payload(task['content']))
     value['verification'] = normalize_contract(value['verification'])
     return value
 
