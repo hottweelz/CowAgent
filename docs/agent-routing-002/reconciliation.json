@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "workers": [
+    {
+      "target": "testpilot",
+      "task_identifier": "AGENT-ROUTING-002-A",
+      "task_id": "5d027a42-3314-4424-8ea4-be99c00f5e22",
+      "attempt_id": "23cf43b6-89f2-4c85-975e-a3d9f8ab616d",
+      "tool_call_id": "call-21dc23ab-0351-4211-a869-f4212cce22a4",
+      "identity_matches": false
+    },
+    {
+      "target": "testpilot2",
+      "task_identifier": "AGENT-ROUTING-002-B",
+      "task_id": "998f52a9-f68d-49ea-a182-2c880f04c4bf",
+      "attempt_id": "eb052969-4965-48b6-afb7-90552a960955",
+      "tool_call_id": "call-e3dae808-944e-4b49-9d16-4128e420f2cc",
+      "identity_matches": false
+    }
+  ],
+  "basis": "same isolated parent session, unique target and task identifier, matching time window",
+  "limit": "The retained SSE projection has no durable task ID; correlation is not a shared-key join.",
+  "identity_claims_match": false
+}

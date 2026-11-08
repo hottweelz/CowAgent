@@ -1,5 +1,19 @@
 # CowAgent project facts
 
+- AGENT-ROUTING-002 audited the existing live supervisor delegating to both
+  `testpilot` and `testpilot2`. Both restricted native tasks completed once in
+  sequence with correct fictional calculations, but each claimed `CowAgent` in
+  its output. Target identity must come from native task/peer metadata, not the
+  model's self-name. Neither child loaded persistent receiver context or memory.
+  BullGod should expose restricted native delegation and approved persistent
+  named-agent invocation as distinct mechanisms. The 001 adapter remains scoped
+  to TestPilot; this audit did not extend enrollment. See
+  [AGENT-ROUTING-002](docs/agent-routing-002/README.md).
+- Native conversation tables reside in the default memory index and are scoped
+  by `agent_id`; receiver memory indexes are not separate conversation stores.
+  Delegation display runs belong to the source session. Use the task journal's
+  target identity and session plus native peer events when checking routing.
+
 - AGENT-ROUTING-001 adds an opt-in Codex-to-CowAgent named-agent experiment for
   registered `testpilot`. The persistent native `get_agent`/`run_stream` path
   preserves registered instructions, profile model inheritance and native

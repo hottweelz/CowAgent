@@ -1,0 +1,47 @@
+{
+  "schema": "cow.agent-routing-002.focused-checks/1",
+  "isolation": {
+    "variable": "COW_DATA_DIR",
+    "root": "private temporary directory",
+    "cleanup": "removed after each pytest process"
+  },
+  "selection": [
+    "tests/test_isolation_delegation.py",
+    "tests/test_agent_delegation.py",
+    "tests/test_recovery_runtime.py",
+    "tests/test_recovery_store.py",
+    "tests/test_parallel_tool_calls.py::test_ordinary_tools_keep_running_in_order"
+  ],
+  "result": {
+    "passed": 55,
+    "failed": 0,
+    "skipped": 0,
+    "duration_seconds": 1.59
+  },
+  "additional_check": {
+    "command": "COW_DATA_DIR=<private temporary directory> python -m pytest -q tests/test_isolation_delegation.py tests/test_agent_delegation.py tests/test_recovery_runtime.py tests/test_recovery_store.py tests/test_parallel_tool_calls.py",
+    "selection": [
+      "tests/test_isolation_delegation.py",
+      "tests/test_agent_delegation.py",
+      "tests/test_recovery_runtime.py",
+      "tests/test_recovery_store.py",
+      "tests/test_parallel_tool_calls.py"
+    ],
+    "result": {
+      "passed": 56,
+      "failed": 4
+    },
+    "failed_tests": [
+      "tests/test_parallel_tool_calls.py::test_parallel_safe_calls_run_at_the_same_time",
+      "tests/test_parallel_tool_calls.py::test_each_parallel_call_gets_its_own_tool_instance",
+      "tests/test_parallel_tool_calls.py::test_a_failing_call_does_not_take_its_siblings_down",
+      "tests/test_parallel_tool_calls.py::test_two_calls_are_in_flight_together"
+    ],
+    "observed_error": "Authorization denied: evaluation failed.",
+    "note": "All four failures occurred before the parallel-safe tool body ran. The fixture constructs AgentStreamExecutor with agent=None, and the permission gate failed evaluation. This does not test AgentDelegateTool behavior. The selected ordinary-tool scheduling case passed. No source or test files were changed."
+  },
+  "notes": [
+    "No live CowAgent state, database, configuration, memory or log was opened.",
+    "No runtime, provider or model call was made."
+  ]
+}

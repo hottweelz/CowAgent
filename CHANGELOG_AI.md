@@ -1,5 +1,77 @@
 # AI handoff ledger
 
+## 2026-11-08 13:48 EST — Codex — AGENT-ROUTING-002 live native delegation audit
+
+- Task/result: completed the audit and live test on the existing service.
+  Assessment PARTIAL: default invoked native agent_delegate for testpilot and
+  testpilot2; both calculated correctly and completed once, sequentially. Both
+  returned agent_id CowAgent. Native target routing is verified, but persistent
+  receiver instructions, skills, memory manager and history are excluded.
+- Team: Codex lead owns live invocation, collection, integration, handoff and
+  Git. Luna/high workers mapped the console path and authority/recovery path;
+  the latter ran focused tests. One independent Luna/high reviewer checked the
+  arithmetic, source, sanitized evidence and report. Requested models accepted;
+  effective worker model identities are not independently exposed.
+- Changes/files: docs/agent-routing-002 contains fixed fictional tasks, a
+  one-submit console probe, scoped read-only collector/offline reconciliation,
+  runtime/events/results/postflight/test/static receipts, report and review.
+  Updated project MEMORY.md and this ledger. No application code changed.
+- Runtime: reused PID 28093 on 127.0.0.1:9899 with the existing TestData config
+  and CowAgent-Runtime workspace. No second server/restart/config/profile/model
+  or permission change. One fresh default session added only the two roster
+  members. Self-evolution and external API remained disabled.
+- Live results: parent session audit-routing-002-688ad1f790384d589c86c02672885352;
+  tasks 5d027a42-3314-4424-8ea4-be99c00f5e22 and
+  998f52a9-f68d-49ea-a182-2c880f04c4bf. A net 17,400 cents; B net 20,000 cents;
+  counts and exclusions match. A ended 18:35:36.584Z, B began .616Z. Both frozen
+  specs use custom/nvidia/nemotron-3.5-super-vl:free with no fallback. Two allowed
+  supervisor tool decisions; no worker tool events in retained SSE or recovery
+  effects. Independent verification does not trust the returned self-name.
+- Writes/preservation: one new source session/roster preference, four message
+  rows, three display run rows, two recovery tasks/attempts/verification rows;
+  no receiver chat rows. Native verification remains unverified without caller
+  check contracts; the audit independently checks arithmetic. Database bytes
+  are not claimed unchanged. Config/registry/nine source hashes unchanged and
+  known core-file metadata unchanged. Private memory bodies and prior chat
+  contents were not read. Preserved AGENTS.md and four conflicted PID files.
+- Commands/results: isolated COW_DATA_DIR pytest selection in focused-checks.json
+  passed 55/55. Earlier expanded five-file selection: 56 pass, four parallel-safe
+  fixture failures (agent=None makes permission evaluation fail before tool
+  execution). Retained exact IDs/error; no product fix or full regression.
+  Ruff F, AST/JSON parsing, offline reconciliation and staged diff checks pass.
+  No accepted model interaction was rerun.
+- Review/decisions: recommend both mechanisms with distinct contracts: native
+  delegation for restricted ephemeral work; 001 authenticated adapter for
+  persistent named context. The latter is still enrolled only for testpilot.
+  Reviewer findings corrected exact target/attempt/event reconciliation and
+  independently recomputed identity/result flags. SSE-to-journal correlation
+  uses isolated session, unique target/task identifier and time; retained SSE
+  has no shared durable task key. Raw summary hashes cannot be recomputed from
+  sanitized output alone. No architectural change was made.
+- Lessons Learned:
+  - Mistake: the first collector assumed each receiver index held chat tables.
+  - Root Cause: workspace memory ownership was confused with global namespaced
+    conversation storage and source-owned display runs.
+  - Future Trigger: checking delegated session persistence across agents.
+  - Required Behavior Change: trace the conversation-store binding before a
+    metadata query; use owner/session predicates and native target task fields.
+  - Verification Step: scoped rows, exact two-target reconciliation and read-only
+    independent review; the failed query caused no write or model replay.
+  - Durable Memory Update: project MEMORY.md records live semantics, routing
+    evidence and conversation-store ownership. No global memory update.
+- Known issues/limits: wrong worker self-identity; generic context is intentional
+  native behavior; four out-of-scope fixture failures retained. Local model
+  configuration is not remote attestation. No hostile-host/OS isolation proof,
+  live file-denial probe, cancellation/crash campaign or broad regression. Core
+  metadata checks are not a full private-file content inventory.
+- Next recommended steps: none for this audit. If persistent TestPilot2 access
+  is needed, scope its adapter enrollment/validation separately; do not change
+  native isolation or activate a service from this report alone.
+- Notes for next agent: read docs/agent-routing-002/README.md. Keep the existing
+  server running and preserve audit records and unrelated files. Branch is
+  codex/agent-routing-002 from 90c3cd8f; publish to same name on origin, fetch and
+  verify upstream 0/0. No master merge or deployment is authorized by this task.
+
 ## 2026-11-08 11:52 EST — Codex — AGENT-ROUTING-001 registered TestPilot experiment
 
 - Task/result: proved one authenticated Codex delegation to the existing

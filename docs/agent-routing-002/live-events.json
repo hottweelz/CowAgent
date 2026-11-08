@@ -1,0 +1,213 @@
+{
+  "created_at": 1794162903.900704,
+  "cursor": 191,
+  "dataset_sha256": "6e240b30c4e44d847a33fba9ed9a826157a03c2239839f1e90fdf42aba219d92",
+  "events": [
+    {
+      "observed_at": 1794162928.173975,
+      "seq": 1,
+      "type": "message_end"
+    },
+    {
+      "delegated_task_chars": 1136,
+      "observed_at": 1794162928.1783612,
+      "seq": 2,
+      "target_agent_id": "testpilot",
+      "task_identifier": "AGENT-ROUTING-002-A",
+      "tool": "agent_delegate",
+      "tool_call_id": "call-21dc23ab-0351-4211-a869-f4212cce22a4",
+      "type": "tool_start"
+    },
+    {
+      "agent_id": "testpilot",
+      "card_id": "call-21dc23ab-0351-4211-a869-f4212cce22a4",
+      "observed_at": 1794162936.122417,
+      "seq": 3,
+      "source_id": "default",
+      "type": "peer_start"
+    },
+    {
+      "agent_id": "testpilot",
+      "card_id": "call-21dc23ab-0351-4211-a869-f4212cce22a4",
+      "observed_at": 1794162936.603041,
+      "seq": 28,
+      "status": "done",
+      "type": "peer_end"
+    },
+    {
+      "execution_time": 8.43,
+      "observed_at": 1794162936.603977,
+      "seq": 29,
+      "status": "success",
+      "tool": "agent_delegate",
+      "tool_call_id": "call-21dc23ab-0351-4211-a869-f4212cce22a4",
+      "type": "tool_end"
+    },
+    {
+      "delegated_task_chars": 1138,
+      "observed_at": 1794162936.604992,
+      "seq": 30,
+      "target_agent_id": "testpilot2",
+      "task_identifier": "AGENT-ROUTING-002-B",
+      "tool": "agent_delegate",
+      "tool_call_id": "call-e3dae808-944e-4b49-9d16-4128e420f2cc",
+      "type": "tool_start"
+    },
+    {
+      "agent_id": "testpilot2",
+      "card_id": "call-e3dae808-944e-4b49-9d16-4128e420f2cc",
+      "observed_at": 1794162945.142347,
+      "seq": 31,
+      "source_id": "default",
+      "type": "peer_start"
+    },
+    {
+      "agent_id": "testpilot2",
+      "card_id": "call-e3dae808-944e-4b49-9d16-4128e420f2cc",
+      "observed_at": 1794162946.017983,
+      "seq": 64,
+      "status": "done",
+      "type": "peer_end"
+    },
+    {
+      "execution_time": 9.41,
+      "observed_at": 1794162946.018744,
+      "seq": 65,
+      "status": "success",
+      "tool": "agent_delegate",
+      "tool_call_id": "call-e3dae808-944e-4b49-9d16-4128e420f2cc",
+      "type": "tool_end"
+    },
+    {
+      "observed_at": 1794162953.474411,
+      "seq": 190,
+      "timestamp": 1794162953.47391,
+      "type": "done"
+    },
+    {
+      "observed_at": 1794162953.475344,
+      "seq": 191,
+      "type": "stream_end"
+    }
+  ],
+  "registry": {
+    "default": {
+      "bot_type": null,
+      "enabled": true,
+      "id": "default",
+      "model": null,
+      "name": "CowAgent",
+      "workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace"
+    },
+    "testpilot": {
+      "bot_type": null,
+      "enabled": true,
+      "id": "testpilot",
+      "model": null,
+      "name": "TestPilot",
+      "workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot"
+    },
+    "testpilot2": {
+      "bot_type": null,
+      "enabled": true,
+      "id": "testpilot2",
+      "model": null,
+      "name": "TestPilot2",
+      "workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2"
+    }
+  },
+  "request_id": "b05974a6-c3fd-438f-915d-4be7b99d17ee",
+  "session_id": "audit-routing-002-688ad1f790384d589c86c02672885352",
+  "settings_after_roster": {
+    "model": {
+      "model": "nvidia/nemotron-3.5-super-vl:free",
+      "pin_ignored": false,
+      "provider": "custom",
+      "source": "global"
+    },
+    "permission": {
+      "global": "workspace-write",
+      "mode": "workspace-write",
+      "modes": [
+        "read-only",
+        "workspace-write",
+        "full-access"
+      ],
+      "source": "global"
+    },
+    "team": {
+      "candidates": [
+        {
+          "avatar": "",
+          "id": "testpilot",
+          "name": "TestPilot"
+        },
+        {
+          "avatar": "",
+          "id": "testpilot2",
+          "name": "TestPilot2"
+        }
+      ],
+      "members": [
+        {
+          "available": true,
+          "avatar": "",
+          "id": "testpilot",
+          "name": "TestPilot"
+        },
+        {
+          "available": true,
+          "avatar": "",
+          "id": "testpilot2",
+          "name": "TestPilot2"
+        }
+      ],
+      "owner": {
+        "avatar": "",
+        "id": "default",
+        "name": "CowAgent"
+      }
+    }
+  },
+  "settings_before": {
+    "model": {
+      "model": "nvidia/nemotron-3.5-super-vl:free",
+      "pin_ignored": false,
+      "provider": "custom",
+      "source": "global"
+    },
+    "permission": {
+      "global": "workspace-write",
+      "mode": "workspace-write",
+      "modes": [
+        "read-only",
+        "workspace-write",
+        "full-access"
+      ],
+      "source": "global"
+    },
+    "team": {
+      "candidates": [
+        {
+          "avatar": "",
+          "id": "testpilot",
+          "name": "TestPilot"
+        },
+        {
+          "avatar": "",
+          "id": "testpilot2",
+          "name": "TestPilot2"
+        }
+      ],
+      "members": [],
+      "owner": {
+        "avatar": "",
+        "id": "default",
+        "name": "CowAgent"
+      }
+    }
+  },
+  "stream_ended": true,
+  "submit_intent": true,
+  "submitted_at": 1794162903.914409
+}

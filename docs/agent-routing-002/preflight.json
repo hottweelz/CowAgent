@@ -1,0 +1,115 @@
+{
+  "schema": "cow.agent-routing-002.preflight/1",
+  "observed_at": "2026-11-08T18:35:03.771536+00:00",
+  "pid": 28093,
+  "endpoint": "http://127.0.0.1:9899",
+  "cwd": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent",
+  "workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace",
+  "git_revision": "90c3cd8f72ffe7a47cb20925fa538eda479317c6",
+  "config_sha256": "b7eb23e63dc1c4c02d9ae2e6ca23bb8b96c6d41824f63575bd9f9fde3e6c014a",
+  "registry_sha256": "ee89fcf8a68ba1a85053d8330ff21206987b608a9a10e7bbe7238bbc6fb16e9e",
+  "source_sha256": {
+    "agent/tools/agent_delegate/agent_delegate.py": "85c8c730564af0b500167070caa829224ae94b44ef240b29bc0bf2bcd61d23a0",
+    "bridge/agent_bridge.py": "1bc058d509e6c45292b767638ac7f1b038d57c2447585e5e87bec9e6b78a1c38",
+    "bridge/agent_initializer.py": "95bc43cff3bc0b739094ddb11e8a239a0756696f6430e451cb4471285a733309",
+    "agent/recovery/runtime.py": "9ea7b0c69a4293d61f8a46ee0613c4a215d243a4554ad87a72151db8afc103fb",
+    "agent/recovery/store.py": "6083b610814d31efbd792741679bdb49eca3e566a1759ff52ce89e541efccbab",
+    "agent/permission/authority.py": "08f6c941ab3f610fb43636bfde5b2e9449f31bc8341c9832b6e5222ad25aa1a5",
+    "agent/permission/policy.py": "e611cc4086a7de9282a72e089d84bfc7bc7d8d5c599081edad14deb3763443c8",
+    "agent/protocol/agent.py": "16c062a8853956294fc5840168df9a3f859436e10e05a4a0df8169d9c773dd9b",
+    "agent/protocol/agent_stream.py": "297d1846ebf6157dfe6119118576dc75471d7a6f37bba13f8197cbb3510e4c5f"
+  },
+  "log_offset": 115652,
+  "core_file_metadata": {
+    "default": {
+      "AGENT.md": {
+        "size": 1561,
+        "mtime_ns": 1794000658796633767,
+        "is_dir": false
+      },
+      "USER.md": {
+        "size": 508,
+        "mtime_ns": 1794000658797005393,
+        "is_dir": false
+      },
+      "RULE.md": {
+        "size": 4655,
+        "mtime_ns": 1794000658797757020,
+        "is_dir": false
+      },
+      "MEMORY.md": {
+        "size": 145,
+        "mtime_ns": 1794000658798057229,
+        "is_dir": false
+      },
+      "BOOTSTRAP.md": {
+        "size": 2037,
+        "mtime_ns": 1794000658798353022,
+        "is_dir": false
+      },
+      "skills": {
+        "size": 192,
+        "mtime_ns": 1794162129842992989,
+        "is_dir": true
+      }
+    },
+    "testpilot": {
+      "AGENT.md": {
+        "size": 1496,
+        "mtime_ns": 1793999506477508486,
+        "is_dir": false
+      },
+      "USER.md": {
+        "size": 508,
+        "mtime_ns": 1793999506475286896,
+        "is_dir": false
+      },
+      "RULE.md": {
+        "size": 4655,
+        "mtime_ns": 1793999506475982523,
+        "is_dir": false
+      },
+      "MEMORY.md": {
+        "size": 547,
+        "mtime_ns": 1794002419719105319,
+        "is_dir": false
+      }
+    },
+    "testpilot2": {
+      "AGENT.md": {
+        "size": 1497,
+        "mtime_ns": 1794162190065619975,
+        "is_dir": false
+      },
+      "USER.md": {
+        "size": 508,
+        "mtime_ns": 1793999506475286896,
+        "is_dir": false
+      },
+      "RULE.md": {
+        "size": 4655,
+        "mtime_ns": 1793999506475982523,
+        "is_dir": false
+      },
+      "MEMORY.md": {
+        "size": 145,
+        "mtime_ns": 1794162190062079173,
+        "is_dir": false
+      }
+    }
+  },
+  "delegation_policy_from_config": {
+    "enabled": true,
+    "allowed_targets": null,
+    "max_depth": 3,
+    "timeout_seconds": 600,
+    "max_message_chars": 8000
+  },
+  "effective_permission": "workspace-write",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "provider": "custom",
+  "fallback_enabled": false,
+  "self_evolution_enabled": false,
+  "console_auth_required": false,
+  "external_api_enabled": false
+}

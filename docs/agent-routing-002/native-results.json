@@ -1,0 +1,359 @@
+{
+  "attempt_windows": [
+    [
+      "testpilot",
+      "2026-11-08T18:35:28.199Z",
+      "2026-11-08T18:35:36.584Z"
+    ],
+    [
+      "testpilot2",
+      "2026-11-08T18:35:36.616Z",
+      "2026-11-08T18:35:46.001Z"
+    ]
+  ],
+  "message_counts": {
+    "default": [
+      {
+        "agent_id": "",
+        "count": 2,
+        "role": "assistant",
+        "session_id": "audit-routing-002-688ad1f790384d589c86c02672885352"
+      },
+      {
+        "agent_id": "",
+        "count": 2,
+        "role": "user",
+        "session_id": "audit-routing-002-688ad1f790384d589c86c02672885352"
+      }
+    ],
+    "testpilot": [],
+    "testpilot2": []
+  },
+  "overlap": false,
+  "request_id": "b05974a6-c3fd-438f-915d-4be7b99d17ee",
+  "run_records": {
+    "default": [
+      {
+        "agent_id": "default",
+        "ended_at": 1794162953,
+        "parent_run_id": "",
+        "run_id": "2cc37b263395419cb438d4ac2285601a",
+        "session_id": "audit-routing-002-688ad1f790384d589c86c02672885352",
+        "started_at": 1794162904,
+        "status": "done"
+      },
+      {
+        "agent_id": "default",
+        "ended_at": 1794162936,
+        "parent_run_id": "2cc37b263395419cb438d4ac2285601a",
+        "run_id": "b9bc61221c1349db81f1bbfd33b20ab3",
+        "session_id": "audit-routing-002-688ad1f790384d589c86c02672885352",
+        "started_at": 1794162928,
+        "status": "done"
+      },
+      {
+        "agent_id": "default",
+        "ended_at": 1794162946,
+        "parent_run_id": "2cc37b263395419cb438d4ac2285601a",
+        "run_id": "69e5a5f56a3d4440ad6fabba6aff485c",
+        "session_id": "audit-routing-002-688ad1f790384d589c86c02672885352",
+        "started_at": 1794162936,
+        "status": "done"
+      }
+    ],
+    "testpilot": [],
+    "testpilot2": []
+  },
+  "session_id": "audit-routing-002-688ad1f790384d589c86c02672885352",
+  "session_records": {
+    "default": [
+      {
+        "agent_id": "",
+        "created_at": 1794162904,
+        "last_active": 1794162953,
+        "msg_count": 4,
+        "session_id": "audit-routing-002-688ad1f790384d589c86c02672885352"
+      }
+    ],
+    "testpilot": [],
+    "testpilot2": []
+  },
+  "workers": [
+    {
+      "arithmetic_and_exclusions_match": true,
+      "attempt_count": 1,
+      "attempt_id": "23cf43b6-89f2-4c85-975e-a3d9f8ab616d",
+      "attempts": [
+        {
+          "attempt_id": "23cf43b6-89f2-4c85-975e-a3d9f8ab616d",
+          "ended_at": "2026-11-08T18:35:36.584Z",
+          "number": 1,
+          "started_at": "2026-11-08T18:35:28.199Z",
+          "state": "completed"
+        }
+      ],
+      "authority": {
+        "capabilities": [
+          "delegate.local",
+          "fs.read",
+          "fs.write",
+          "subagent.spawn",
+          "time"
+        ],
+        "denied_paths": [
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/.env",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/.env",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/agents",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/backups",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/knowledge",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/logs",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/mcp.json",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/memory",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/output",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/plugins",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/runs",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/scheduler",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/skills",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/subagents",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/system",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/tmp",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/users",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/websites",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/backups",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/knowledge",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/logs",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/mcp.json",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/memory",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/output",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/plugins",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/projects.json",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/runs",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/scheduler",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/session_prefs.json",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/skills",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/subagents",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/system",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/tmp",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/users",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/websites",
+          "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData/config.json"
+        ],
+        "mode": "workspace-write",
+        "read_roots": [
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot"
+        ],
+        "restricted": true,
+        "version": 1,
+        "write_roots": [
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot"
+        ]
+      },
+      "claimed_identity_matches_target": false,
+      "created_at": "2026-11-08T18:35:28.196Z",
+      "effects": [],
+      "generation": 0,
+      "generic_worker_prompt": 1,
+      "kind": "delegate",
+      "model_ref": {
+        "fallback_chain": [],
+        "fallback_enabled": false,
+        "fallback_model": null,
+        "fallback_provider": null,
+        "linkai_active": false,
+        "model": "nvidia/nemotron-3.5-super-vl:free",
+        "provider": "custom"
+      },
+      "owner_id": "default",
+      "result": {
+        "accepted_count": 3,
+        "agent_id": "CowAgent",
+        "excluded": [
+          {
+            "id": "A4",
+            "index": 3,
+            "reason": "excluded_status"
+          },
+          {
+            "id": "A5",
+            "index": 4,
+            "reason": "invalid_sign"
+          }
+        ],
+        "net_cents": 17400,
+        "paid_cents": 19800,
+        "refund_cents": -2400,
+        "task_id": "AGENT-ROUTING-002-A"
+      },
+      "result_matches_expected": false,
+      "session_id": "audit-routing-002-688ad1f790384d589c86c02672885352",
+      "source_agent_id": "default",
+      "state": "completed",
+      "summary_sha256": "7242707733c4b9e19223b2360ee91d11bfa07d90c552f0b383f97d70807e4a21",
+      "target_agent_id": "testpilot",
+      "target_session_id": "delegate_default_testpilot_29160d791426393c",
+      "task_id": "5d027a42-3314-4424-8ea4-be99c00f5e22",
+      "tools": [
+        "Read",
+        "Write",
+        "Edit",
+        "Ls",
+        "SearchFiles",
+        "TimeTool"
+      ],
+      "updated_at": "2026-11-08T18:35:36.584Z",
+      "verification_records": [
+        {
+          "acceptance": "unverified",
+          "attempt_id": "23cf43b6-89f2-4c85-975e-a3d9f8ab616d",
+          "contract_hash": "8cf49077998480b3c057d1405ec398dcbcf5ea8ddb03cd578821ecec55f30380",
+          "external_state": "unverified",
+          "recorded_at": "2026-11-08T18:35:36.599Z",
+          "verification_id": "b36e0da1-372c-48a2-a7d6-76ab0c318ff2"
+        }
+      ],
+      "worker_description": "restricted delegated worker"
+    },
+    {
+      "arithmetic_and_exclusions_match": true,
+      "attempt_count": 1,
+      "attempt_id": "eb052969-4965-48b6-afb7-90552a960955",
+      "attempts": [
+        {
+          "attempt_id": "eb052969-4965-48b6-afb7-90552a960955",
+          "ended_at": "2026-11-08T18:35:46.001Z",
+          "number": 1,
+          "started_at": "2026-11-08T18:35:36.616Z",
+          "state": "completed"
+        }
+      ],
+      "authority": {
+        "capabilities": [
+          "delegate.local",
+          "fs.read",
+          "fs.write",
+          "subagent.spawn",
+          "time"
+        ],
+        "denied_paths": [
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/.env",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/.env",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/agents",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/backups",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/knowledge",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/logs",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/mcp.json",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/memory",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/output",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/plugins",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/runs",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/scheduler",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/skills",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/subagents",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/system",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/tmp",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/users",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/websites",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/backups",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/knowledge",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/logs",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/mcp.json",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/memory",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/output",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/plugins",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/projects.json",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/runs",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/scheduler",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/session_prefs.json",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/skills",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/subagents",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/system",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/tmp",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/users",
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/websites",
+          "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData/config.json"
+        ],
+        "mode": "workspace-write",
+        "read_roots": [
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2"
+        ],
+        "restricted": true,
+        "version": 1,
+        "write_roots": [
+          "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2"
+        ]
+      },
+      "claimed_identity_matches_target": false,
+      "created_at": "2026-11-08T18:35:36.614Z",
+      "effects": [],
+      "generation": 0,
+      "generic_worker_prompt": 1,
+      "kind": "delegate",
+      "model_ref": {
+        "fallback_chain": [],
+        "fallback_enabled": false,
+        "fallback_model": null,
+        "fallback_provider": null,
+        "linkai_active": false,
+        "model": "nvidia/nemotron-3.5-super-vl:free",
+        "provider": "custom"
+      },
+      "owner_id": "default",
+      "result": {
+        "accepted_count": 3,
+        "agent_id": "CowAgent",
+        "excluded": [
+          {
+            "id": "B4",
+            "index": 3,
+            "reason": "invalid_sign"
+          },
+          {
+            "id": "B2",
+            "index": 4,
+            "reason": "duplicate_id"
+          }
+        ],
+        "net_cents": 20000,
+        "paid_cents": 21450,
+        "refund_cents": -1450,
+        "task_id": "AGENT-ROUTING-002-B"
+      },
+      "result_matches_expected": false,
+      "session_id": "audit-routing-002-688ad1f790384d589c86c02672885352",
+      "source_agent_id": "default",
+      "state": "completed",
+      "summary_sha256": "c997e91ee1aaae22221a8d292396b545a3846ec4bf4f3ef2f5efaa0a33c169e3",
+      "target_agent_id": "testpilot2",
+      "target_session_id": "delegate_default_testpilot2_29160d791426393c",
+      "task_id": "998f52a9-f68d-49ea-a182-2c880f04c4bf",
+      "tools": [
+        "Read",
+        "Write",
+        "Edit",
+        "Ls",
+        "SearchFiles",
+        "TimeTool"
+      ],
+      "updated_at": "2026-11-08T18:35:46.001Z",
+      "verification_records": [
+        {
+          "acceptance": "unverified",
+          "attempt_id": "eb052969-4965-48b6-afb7-90552a960955",
+          "contract_hash": "8cf49077998480b3c057d1405ec398dcbcf5ea8ddb03cd578821ecec55f30380",
+          "external_state": "unverified",
+          "recorded_at": "2026-11-08T18:35:46.014Z",
+          "verification_id": "fc59b8cc-19c4-4a0c-8d5e-48aa42d25fa8"
+        }
+      ],
+      "worker_description": "restricted delegated worker"
+    }
+  ]
+}

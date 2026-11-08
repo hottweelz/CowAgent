@@ -1,0 +1,41 @@
+{
+  "schema": "cow.agent-routing-002.static-checks/1",
+  "ruff": {
+    "command": ".venv/bin/ruff check --select F docs/agent-routing-002/probe.py docs/agent-routing-002/collect.py",
+    "result": "passed"
+  },
+  "syntax": {
+    "files": [
+      "probe.py",
+      "collect.py"
+    ],
+    "result": "passed",
+    "method": "ast.parse; no bytecode or native runtime imports"
+  },
+  "json": {
+    "files": [
+      "focused-checks.json",
+      "live-events.json",
+      "native-results.json",
+      "postflight.json",
+      "preflight.json",
+      "reconciliation.json",
+      "tasks.json"
+    ],
+    "result": "passed"
+  },
+  "offline_reconciliation": {
+    "result": "passed",
+    "model_calls": 0,
+    "live_database_reads": 0
+  },
+  "source_sha256": {
+    "probe.py": "e4275b767ad7c5ddee1a040f3f7aae60d063a691e481d1262c579cec566e239d",
+    "collect.py": "9ca94e9f4fa00d09891a1206734e685c01214e39115cb8516c4485317434c5b1"
+  },
+  "application_changes_from_base": false,
+  "local_document_links": {
+    "checked": 12,
+    "result": "passed"
+  }
+}

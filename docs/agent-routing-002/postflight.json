@@ -1,0 +1,99 @@
+{
+  "schema": "cow.agent-routing-002.postflight/1",
+  "same_listener_pid": true,
+  "config_unchanged": true,
+  "registry_unchanged": true,
+  "application_source_unchanged": true,
+  "core_metadata_changes": [],
+  "audit_log_metadata": [
+    "[INFO][2026-11-08 13:35:04][agent_bridge.py:1590] - [Routing] \u2192 \ud83e\udd16 CowAgent(default)",
+    {
+      "event": "tool_authorization",
+      "allowed": true,
+      "code": "",
+      "tool": "agent_delegate",
+      "agent_id": "default",
+      "run_id": "2cc37b263395419cb438d4ac2285601a",
+      "mode": "workspace-write"
+    },
+    {
+      "event": "tool_authorization",
+      "allowed": true,
+      "code": "",
+      "tool": "agent_delegate",
+      "agent_id": "default",
+      "run_id": "2cc37b263395419cb438d4ac2285601a",
+      "mode": "workspace-write"
+    }
+  ],
+  "manual_routing_metadata": [
+    {
+      "line": 488,
+      "text": "[INFO][2026-11-06 17:01:42][agent_bridge.py:1599] - [Routing] \u2192 \ud83e\udd16 TestPilot(testpilot)"
+    },
+    {
+      "line": 519,
+      "text": "[INFO][2026-11-06 17:05:51][agent_bridge.py:1599] - [Routing] \u2192 \ud83e\udd16 TestPilot(testpilot)"
+    },
+    {
+      "line": 651,
+      "text": "[INFO][2026-11-06 17:18:49][agent_bridge.py:1599] - [Routing] \u2192 \ud83e\udd16 TestPilot(testpilot)"
+    },
+    {
+      "line": 706,
+      "text": "[INFO][2026-11-06 17:19:14][agent_bridge.py:1599] - [Routing] \u2192 \ud83e\udd16 TestPilot(testpilot)"
+    },
+    {
+      "line": 743,
+      "text": "[INFO][2026-11-06 17:21:18][agent_bridge.py:1599] - [Routing] \u2192 \ud83e\udd16 TestPilot(testpilot)"
+    },
+    {
+      "line": 814,
+      "text": "[INFO][2026-11-06 17:47:59][agent_bridge.py:1599] - [Routing] \u2192 \ud83e\udd16 TestPilot(testpilot)"
+    },
+    {
+      "line": 975,
+      "text": "[INFO][2026-11-08 13:25:32][agent_bridge.py:1590] - [Routing] \u2192 \ud83e\udd16 TestPilot2(testpilot2)"
+    },
+    {
+      "line": 976,
+      "text": "[INFO][2026-11-08 13:25:32][manager.py:106] - [MemoryManager] No embedding provider; memory will use keyword search only"
+    }
+  ],
+  "testpilot2_manual_session_metadata": [
+    {
+      "agent_id": "testpilot2",
+      "session_id": "session_aca53dd1-ce30-4207-b4c5-31d5c3ccc3df",
+      "created_at": 1794162332,
+      "last_active": 1794162334,
+      "msg_count": 2
+    }
+  ],
+  "testpilot2_manual_run_metadata": [
+    {
+      "agent_id": "testpilot2",
+      "session_id": "session_aca53dd1-ce30-4207-b4c5-31d5c3ccc3df",
+      "run_id": "52ea1037f6cd4cd898e200ab093497f8",
+      "status": "done",
+      "started_at": 1794162332,
+      "ended_at": 1794162334
+    }
+  ],
+  "memory_contents_read": false,
+  "database_unchanged_claim": false,
+  "new_records": {
+    "default_sessions": 1,
+    "default_message_rows": 4,
+    "default_run_rows": 3,
+    "recovery_tasks": 2,
+    "recovery_attempts": 2,
+    "receiver_session_rows": 0,
+    "receiver_message_rows": 0,
+    "receiver_run_rows": 0,
+    "recovery_verifications": 2,
+    "recovery_effects": 0,
+    "new_session_roster_preferences": 1
+  },
+  "sse_stream_ended": true,
+  "record_scope_note": "Counts identify audit-owned durable records, not every native index or log maintenance write."
+}
