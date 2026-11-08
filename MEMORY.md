@@ -89,7 +89,16 @@
   bounded-analysis task drafts. Fingerprints bind supplied observations, task,
   proposed authority and criteria; they do not authenticate an operator or
   prove fresh runtime state. Drafts never grant approval or enable execution.
-  Authenticated decisions, durable audit and connection to dispatch remain
-  future work. See [EXTERNAL-003](docs/external-003/README.md). Real external
-  actions remain disabled pending separately tested authority and verification
-  contracts and activation authorization.
+  The explicit local operator CLI now derives the account from real/effective
+  UID and records enrollment/task approval/revocation in a private WAL/FULL
+  operator journal. Scope/spec hashes, expected revisions, enrollment revision
+  and expiry bind decisions; exact replays return historical receipts plus
+  current state without regranting. Audit preserves decision snapshots. Expiry
+  is checked after writer-lock acquisition; state ancestors must be trusted.
+  This authenticates a local account, not human presence; same-account code,
+  root and the system clock are trusted. Decisions remain disconnected from
+  dispatch. A future atomic approval/revocation/submit-intent boundary and fresh
+  runtime checks are required before activation. See
+  [EXTERNAL-003](docs/external-003/README.md). Real external actions remain disabled
+  pending separately tested authority and verification contracts and activation
+  authorization.

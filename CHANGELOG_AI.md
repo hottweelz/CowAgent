@@ -1,5 +1,63 @@
 # AI handoff ledger
 
+## 2026-11-07 20:57 EST — Codex — EXTERNAL-003 local enrollment and approvals
+
+- Task/result: implemented the owner's selected enrollment/approval focus on
+  feat/external-003-operator-controls from fcfd0377. Local decisions are tested;
+  live orchestration and real external actions remain disabled. No master merge.
+- Team: Codex lead owns contract, state implementation, integration, docs and Git.
+  Luna/high mapped existing authentication, built the CLI and implemented focused
+  tests in bounded assignments. One Sol 6.1/high review covered OS identity,
+  SQLite revisions, expiry and replay across boundaries; this needed stronger
+  security reasoning than routine Luna work. Requested models accepted; effective
+  worker identity not independently exposed. Used STE planning guidance.
+- Changes/files: new operator_control.py, operator_cli.py and their two test
+  files; EXTERNAL-003 plan, README, operator-review.md and operator-validation.json;
+  project MEMORY.md and this ledger. Existing adapter, supervisor, native runtime,
+  UI, production state and native credentials/configuration unchanged.
+- Contract: derive operator identity from the local POSIX account, not a supplied
+  label. Require private canonical state and trusted ancestors. One WAL/FULL
+  transaction commits revisioned approval/revocation with an audit snapshot.
+  Freeze scope/spec/review/enrollment revision and expiry. Duplicate requests
+  expose historical receipts plus current state and cannot reinstate revocations.
+  Re-enrollment invalidates older task approvals. All responses disable execution.
+- Commands/results: pytest operator-control file 26 passed, CLI file ten passed,
+  review/contract/supervisor regression 43 passed: 79 unique passes, no skips or
+  failures in final runs. CLI acceptance used separate actual Python processes
+  and disposable SQLite. Ruff F and in-memory compilation passed for four files.
+  Retained unchanged release baseline: Python 1,456/eight Windows skips, Node39,
+  strict renderer and desktop build pass with recorded warnings. No fresh native
+  model/service calls; no redundant full UI/runtime replay.
+- Review/corrections: no remaining blocking finding. Expiry now samples time
+  after writer-lock acquisition; independent actual-clock contention rejected
+  expired work with empty audit. Oversized numeric expiry becomes ProtocolError.
+  Trusted ancestors are enforced. Missing-state error normalized. Corrected
+  negative tests to isolate expiry and removed an unused test import after Ruff.
+- Lessons Learned:
+  - Mistake: early clock sampling could become stale during lock wait; initial
+    negative tests could reject for a different task/time mismatch.
+  - Root Cause: admission time must follow resource acquisition, and negative
+    tests need a valid control case differing only at the intended boundary.
+  - Future Trigger: expiry with contention, CAS approvals or retry/replay tests.
+  - Required Behavior Change: recheck time after ownership; freeze one task and
+    observe the actual write-lock attempt before advancing the fixture clock.
+  - Verification Step: final lock-wait test asserts the exact expiry error with
+    no approval write; independent real-clock reproduction confirms behavior.
+  - Durable Memory Update: recorded post-lock expiry, revision/replay and local
+    account limits in project MEMORY.md.
+- Known issues: account identity is not human presence. Same-account code/root
+  and system clock are trusted; audit is not tamper-proof. No second-UID attack
+  test or hard isolation claim. Approval records are not dispatch credentials;
+  revocation does not cancel running tasks. Windows unsupported. Prior untracked
+  AGENTS.md and three conflicted PID files remain preserved.
+- Next recommended steps: review account authentication requirements, then define
+  and test an atomic decision/revocation/submit-intent boundary with fresh runtime
+  enrollment before any bounded dispatch activation. Uncertainty resolution,
+  retention and broader service actions remain separate work.
+- Notes for next agent: push this completed commit to its tracked branch and
+  verify fetch/0/0 at closeout. Do not merge or activate based on a local approval
+  record. Current master remains the approved EXTERNAL-002B integration.
+
 ## 2026-11-07 20:35 EST — Codex — EXTERNAL-003 review-only foundation
 
 - Task/result: completed the requested EXTERNAL-002B merge and published master
