@@ -58,6 +58,8 @@ def test_a_zombie_does_not_count_as_alive():
     if pid == 0:
         os._exit(0)
     try:
+        # Wait for exit without reaping; fork alone does not establish a zombie.
+        os.waitid(os.P_PID, pid, os.WEXITED | os.WNOWAIT)
         # Not reaped yet, so the pid still exists but the process is gone.
         assert ChromeLauncher._pid_alive(pid) is False
     finally:

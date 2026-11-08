@@ -2,7 +2,8 @@
   "status": "passed",
   "files": [
     "tests/test_read_special_files.py",
-    "tests/test_memory_storage_io.py"
+    "tests/test_memory_storage_io.py",
+    "tests/test_chrome_singleton_lock.py"
   ],
   "changes": [
     "Unbuffered binary readiness avoids TextIO prefetch loss before communicate; original two-second post-readiness timeout retained.",
@@ -21,5 +22,12 @@
   "prior_buffered_reproduction": "Linux worker observed missing JSON in100/100 exact buffered readiness/communicate probes.",
   "application_fingerprint": "c45ddab4aa00d8c57dc6c9b7370739ab6ee1a7e5f8fcd90381a565d49506f2ae",
   "native_acceptance_remains_applicable": true,
-  "notes": "Only tests changed after the final native acceptance. The next complete Linux runs cover these fixture corrections."
+  "notes": "Only tests changed after the final native acceptance. The next complete Linux runs cover these fixture corrections.",
+  "zombie_readiness_fix": {
+    "cause": "os.fork returns before the child is guaranteed to have exited; full Linux run observed one alive result.",
+    "change": "waitid with WEXITED|WNOWAIT establishes zombie state before checking liveness; final waitpid still reaps the child.",
+    "focused_passed": 12,
+    "focused_failed": 0,
+    "elapsed_seconds": 1.58
+  }
 }
