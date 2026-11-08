@@ -1,0 +1,53 @@
+{
+  "status": "failed_closed_no_publication",
+  "fixture": "/private/tmp/cowagent-routing003-g5cwcs2u",
+  "receipt_sha256": "8572a1ac98577248748d5df6fcf702c538dcfd58570c96b255b732c57b5d58bb",
+  "diagnosis": "testpilot native output contained only an opening brace; fixed JSON contract rejected it. The paired runner stopped on dispatch_uncertain and terminated owned processes. No old task will be replayed.",
+  "raw_output_published": false,
+  "private_memory_read_directly": false,
+  "new_pair_authorization": "Maintainer explicitly authorized one fresh pair with fresh task IDs and approvals, unchanged models/configuration.",
+  "workers": [
+    {
+      "agent_id": "testpilot",
+      "task_id": "ad3f102e-b2ca-422e-b0da-2bc5e49a5e37",
+      "last_observation": {
+        "cancel_requested": false,
+        "reason": "dispatch_uncertain",
+        "result": null,
+        "revision": 4,
+        "runtime_id": "cowagent.testpilot",
+        "session_id": "2503e3ad-0947-4fec-a45d-e3676ee262a8",
+        "state": "running",
+        "task_hash": "e7d6ba7c1b74483e064d5b0566c8ad5c3c3bda17d5a2fb50dcf4d2d6648a7bc6",
+        "task_id": "ad3f102e-b2ca-422e-b0da-2bc5e49a5e37",
+        "termination_confirmed": false
+      },
+      "intent_counts": {
+        "submit_intent": 1,
+        "native_intent": 1,
+        "publication_intent": 0
+      }
+    },
+    {
+      "agent_id": "testpilot2",
+      "task_id": "8e136e1d-d8dd-48ff-a26d-f09fe7c153ec",
+      "last_observation": {
+        "cancel_requested": false,
+        "reason": "dispatch_intent",
+        "result": null,
+        "revision": 3,
+        "runtime_id": "cowagent.testpilot2",
+        "session_id": "7abf8995-bc4d-4404-972a-b7b2f24d7caa",
+        "state": "running",
+        "task_hash": "393bcef791f01bf50ba7398c1e60ad12f8863f2088d1675835cfabc19c440eca",
+        "task_id": "8e136e1d-d8dd-48ff-a26d-f09fe7c153ec",
+        "termination_confirmed": false
+      },
+      "intent_counts": {
+        "submit_intent": 1,
+        "native_intent": 1,
+        "publication_intent": 0
+      }
+    }
+  ]
+}

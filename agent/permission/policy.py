@@ -992,12 +992,51 @@ _TOOL_DESCRIPTORS = {
 }
 
 
+# Guest wrappers are trusted only for the precise built-in and confinement
+# shape constructed by build_guest_tools. Names and subclasses are not grants.
+_GUEST_WRAPPERS = {
+    ('GuestTool', 'Read'): ('read', ('path',), False),
+    ('GuestTool', 'Ls'): ('ls', ('path',), False),
+    ('GuestTool', 'Write'): ('write', ('path',), True),
+    ('GuestTool', 'Edit'): ('edit', ('path',), True),
+    ('GuestTool', 'TimeTool'): ('time', (), False),
+    ('GuestTool', 'WebSearch'): ('web_search', (), False),
+    ('GuestSearchFiles', 'SearchFiles'): ('search_files', ('path',), False),
+    ('GuestWebFetch', 'WebFetch'): ('web_fetch', (), False),
+    ('GuestVision', 'Vision'): ('vision', ('image',), False),
+}
+
+
+def _guest_descriptor(tool):
+    from agent.guest import tools as guest_tools
+    from agent.guest.paths import PathGuard
+    cls = type(tool)
+    if cls not in (guest_tools.GuestTool, guest_tools.GuestSearchFiles,
+                    guest_tools.GuestWebFetch, guest_tools.GuestVision, guest_tools.GuestSend):
+        return None
+    if type(getattr(tool, 'guard', None)) is not PathGuard:
+        return None
+    if cls is guest_tools.GuestSend:
+        return ('send', 'privileged') if getattr(tool, 'name', None) == 'send' else None
+    inner = getattr(tool, 'inner', None)
+    descriptor = _descriptor(inner)
+    rule = _GUEST_WRAPPERS.get((cls.__name__, type(inner).__name__))
+    if (rule is None or descriptor is None or descriptor[0] != rule[0]
+            or getattr(tool, 'name', None) != rule[0]
+            or getattr(tool, 'path_keys', None) != list(rule[1])
+            or getattr(tool, 'write', None) is not rule[2]):
+        return None
+    return descriptor
+
+
 def _descriptor(tool):
     import importlib
     cls = type(tool)
     key = (cls.__module__, cls.__name__)
     descriptor = _TOOL_DESCRIPTORS.get(key)
-    if descriptor is None or getattr(importlib.import_module(key[0]), key[1], None) is not cls:
+    if descriptor is None:
+        return _guest_descriptor(tool)
+    if getattr(importlib.import_module(key[0]), key[1], None) is not cls:
         return None
     # Instance names can be changed; do not let a descriptor be confused with another tool.
     if getattr(tool, 'name', None) != descriptor[0]:
@@ -1013,6 +1052,12 @@ def authorize(tool, arguments, agent):
         descriptor = _descriptor(tool)
         if descriptor is None:
             return Decision(False, 'Authorization denied: unknown tool.', 'unknown_tool'), authority
+        guest = _guest_descriptor(tool)
+        if guest is not None:
+            from agent.guest.runtime import GuestAgent
+            if (type(agent) is not GuestAgent or not any(t is tool for t in agent.tools)
+                    or os.path.realpath(tool.guard.work_dir) != os.path.realpath(agent.effective_cwd())):
+                return Decision(False, 'Authorization denied: guest binding differs.', 'guest_binding_denied'), authority
         event = getattr(tool, 'cancel_event', None)
         if event is not None and event.is_set():
             return Decision(False, 'Authorization denied: cancelled.', 'cancelled'), authority
@@ -1059,7 +1104,8 @@ def invoke(tool, arguments, agent=None):
                 attempt.after_tool(effect_id, {"status": result.status, "result": result.result,
                                                "permission_denied": True})
                 return result
-        if authority.restricted and descriptor[1] in ('fs.read', 'fs.write'):
+        if (authority.restricted and descriptor[1] in ('fs.read', 'fs.write')
+                and _guest_descriptor(tool) is None):
             from agent.permission.filesystem import execute_file
             result = execute_file(descriptor[0], arguments, authority, agent.effective_cwd(),
                                   getattr(tool, 'cancel_event', None))

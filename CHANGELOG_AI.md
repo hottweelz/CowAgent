@@ -1,5 +1,315 @@
 # AI handoff ledger
 
+## 2026-11-08 16:43 EST — Codex — AGENT-ROUTING-001..003 integrated gate passed
+
+- Task/result: the required full regression and compatibility gate passed.
+  The maintainer authorized master merge and baseline repairs. Final native
+  acceptance passed on the one explicitly authorized final fresh pair. PR #1 is
+  ready for merge; this entry records the completed gate before that operation.
+- Team: Codex lead owns integration, acceptance, documentation and Git. Luna/high
+  workers handled test execution, evidence and bounded fixture repairs. Terra
+  6.1/high repaired guest authorization and the journal race because those fixes
+  span native permission and concurrent state paths. One Sol 6.1/high reviewer
+  checked consequential authentication, memory and recovery boundaries and the
+  final native evidence. Explicit model requests were accepted; effective worker
+  model identities are not independently exposed. STE finishing, review and
+  dependency guidance used.
+- Changes/files: agent/permission/policy.py permits only exact bound guest/native
+  wrappers, retaining PathGuard, FileBroker and restricted privileged denial.
+  agent/external/operator_control.py rechecks only otherwise-private zero-link
+  SQLite sidecars. The legacy001 caller guard resolves denied roots. Executor
+  fixtures now use valid authority and exact tools. Other fixtures correct shell
+  quoting, image accounting, FIFO buffering, DB fault-injection ownership and
+  child-exit synchronization. docs/agent-routing-001..003 contain adapter documentation,
+  acceptance evidence and integrated report. Project MEMORY.md records durable
+  authority, journal and test-environment rules. See the complete PR diff.
+- Commands/tests/results: isolated directory-mode pytest includes all 706 tracked
+  test files. Final application-source macOS run: 5,920 passed, 24 Windows-only
+  skipped, 93 subtests passed, exit 0. Final published b2ebaf2 Linux snapshot:
+  Python 3.11.18 and 3.13.18 each 5,896 passed, 48 skipped, 93 subtests passed,
+  exit 0. Linux uses non-root Debian 13/aarch64, SQLite 3.46.1, private writable
+  copies and offline owned sockets. All Linux skips are classified; browser and
+  optional dependency gaps passed on macOS. Later test-only fixture checks pass
+  16/16 and 12/12 on macOS. Node tests 39/39, strict desktop TypeScript and build
+  pass. Current 31-file Ruff F/AST passes. Lead reconciled both Linux JUnit totals,
+  log/artifact hashes and all 31 changed Python hashes against current source.
+- Evidence: merge-final-regression.json is immutable SHA 47d8ac15...ecc07;
+  merge-linux-regression.json is SHA 9c739bb9...ec37. Final executable fingerprint
+  remains c45ddab4...f2ae across all gates. merge-review.md links full receipts,
+  failed attempts, fixture diagnosis, source hashes and independent review.
+- Native result: fresh tasks 3eb473eb-440e-44f2-bad7-fdfe7f4ff865/testpilot and
+  af67b10d-694d-48a0-850d-f872c5625232/testpilot2 returned 17,400/20,000 cents.
+  Distinct registered identity, profile, memory, session, run and PID bindings
+  pass independent checks; native windows overlap 9.822 seconds. Each has exactly
+  one submit/native/publication intent. Authentication negatives pass; tools and
+  guarded caller private opens 0; pre/post snapshots match; owned processes exited.
+  Native models/configuration unchanged. Both earlier failed pairs remain
+  non-replayable with zero publication; neither counts as successful acceptance.
+- Decisions: preserve approval/recovery/source binding, MCP and unsupported
+  remote denial. No model substitution, private-memory read by Codex, persistent
+  service activation or webserver restart. No more native runs needed/authorized.
+  Hosted Actions never dispatched despite valid trigger opportunities; cause
+  unknown. No required hosted branch check exists. Complete local Linux matrix
+  satisfies compatibility review, with the hosted limitation retained explicitly.
+- Lessons Learned:
+  - Mistake: stale executor fixtures lacked authority; journal checks assumed
+    stable sidecar links; several fixtures depended on scheduler/buffer timing.
+  - Root Cause: fixture contracts lagged runtime contracts, while concurrent
+    SQLite unlink and process/pipe timing expose transient observations.
+  - Future Trigger: tests enter real permission paths, concurrent journal checks
+    inspect sidecars, or tests assert state immediately after fork/readiness.
+  - Required Behavior Change: use exact valid tools/authority, narrowly recheck
+    safe sidecars, synchronize observed state and scope injection to owned files.
+  - Verification Step: full macOS/Linux suites, denial/replacement fixtures,
+    four-process journal reproduction and independent review; FIFO 100/100 probe.
+  - Durable Memory Update: project MEMORY.md updated; no global memory update.
+- Known limits: Windows-only cases not executed. Linux is local aarch64, not a
+  hosted x86_64 replay. Existing build warnings and background cleanup/logging
+  diagnostics remain recorded. Trusted-host metadata/instrumentation does not
+  prove OS confinement, remote provider identity or a full private-file inventory.
+- Next recommended steps: merge PR #1, sync master and record the merge SHA.
+- Notes for next agent: preserve the failed/private fixtures, immutable bound
+  receipts, untracked AGENTS.md, four conflicted PID files and two conflicted test
+  copies. Existing server PID 28093 remains. Task containers were removed; Docker
+  Desktop was restored to its initial stopped state. Feature branch tracks
+  origin/codex/agent-routing-003. Master stays 9cd8c535 until the authorized merge.
+
+## 2026-11-08 14:13 EST — Codex — AGENT-ROUTING-003 persistent named-agent pair
+
+- Task/result: completed both named-agent adapter paths and independent live
+  validation. PASSED: testpilot and testpilot2 retained separate registered
+  identities, native context/memory, configured model routing and fresh sessions.
+  Native run windows overlapped by 13.912 seconds. Branch codex/agent-routing-003
+  starts at 2289860b; no master merge or persistent activation.
+- Team: Codex lead owns design, integration, paired client/live run, validation,
+  docs and Git. Luna/high diagnosed/fixed the scheduling fixtures and another
+  Luna/high mapped the adapter. Terra 6.1/high implemented the adapter: identity,
+  approval, native mutable state and memory ownership span several components.
+  One Sol 6.1/high reviewer checked consequential cross-target authority/privacy
+  boundaries and independently checked sanitized live evidence. Requested model
+  selections accepted; effective delegated model identities are not exposed.
+  Applied registry-listed STE debugging, planning and bounded review guidance.
+- Changes/files: cowagent_native.py selects either enabled target, checks memory
+  ownership and emits validated execution metadata; cowagent_adapter.py binds
+  credentials to target and serializes each native instance; cowagent_cli.py
+  adds target inspection/metadata; operator_review.py binds named runtime IDs.
+  Three CowAgent test files cover selection, scope, aliasing, serialization,
+  cross-target denial and recovery. Corrected tests/test_parallel_tool_calls.py.
+  Added docs/agent-routing-003 plan, paired runner, fixtures, receipts, report and
+  review. Updated project MEMORY.md and this ledger. Generic delegation unchanged.
+- Fixture gate before implementation: reproduced four failures/two passes.
+  agent=None caused authority evaluation failure, and toy tool classes lacked
+  exact permission descriptors. Fixtures now use a real read-only context and
+  registered SubagentTool; only execution is stubbed. Four affected cases, whole
+  file 6/6 and broader five-file selection 60/60 passed before adapter changes.
+- Commands/results: private COW_DATA_DIR focused native/adapter/enrollment/
+  operator-review/approved-dispatch selection: 97 passed. Final 15-file focused
+  regression: 202 passed in 5.02s. After review alias fix, native file: 22 passed,
+  including three new symlink/hardlink cases. Final fixture-only Path.home
+  isolation correction: five recovery cases passed; separate receipt preserves
+  the original enrolled probe digest. Ruff F, AST/JSON/link checks and
+  staged diff checks pass. Original and final source hashes retained separately.
+  No full-suite claim or replay of accepted model work.
+- Live invocation: docs/agent-routing-003/run_acceptance.py --execute used the
+  existing config/registry with two private authenticated Unix-socket processes,
+  not another webserver. Task c2613519-d79d-4d8b-bb68-db7041931507 (testpilot,
+  PID 33418) net 17,400 cents; task 64299e66-5053-4560-898a-b9e5150e89b6
+  (testpilot2, PID 33422) net 20,000 cents. Both accepted three rows/excluded two;
+  distinct profile/memory/session/run/PID bindings independently checked.
+  Both inherit custom/nvidia/nemotron-3.5-super-vl:free; no model was changed.
+- Evidence: one submit/native/publication intent per task; exact artifact and
+  dataset hashes checked independently. Signed target overrides and cross-target
+  task specs rejected. Wrong credentials got no authenticated response, with
+  endpoint liveness separately confirmed. Unapproved tasks denied; duplicates
+  retained completed sessions. Native tool events zero, guarded caller private
+  opens zero. Private fixture /private/tmp/cowagent-routing003-ll5hc8if retained;
+  launch secrets/raw native logs are not published.
+- Preservation: both native pre/post snapshots match profile/config/source and
+  known context metadata. Owned processes exited; original listener PID 28093
+  stayed on 127.0.0.1:9899. Native bookkeeping/index writes are permitted and not
+  claimed absent; task/session receipts live in adapter/operator journals rather
+  than manual chat history. No live DB reset, WAL/SHM rename, profile or config edit.
+- Review/decisions: no remaining actionable finding. Corrected pre-initialization
+  DB symlink/hardlink alias denial and made preservation failure block acceptance.
+  One target per process isolates mutable native state; per-runtime work is
+  serialized. Keep the two mechanisms distinct: restricted generic delegation
+  versus approved persistent named context. Scope stays two targets and fixed
+  fictional analysis. Settled native recovery history is allowed; startup work
+  that could resume/verify remains blocked.
+- Lessons Learned:
+  - Mistake: stale fixtures bypassed valid Agent construction; initial path
+    equality could accept an aliased DB, and acceptance completed before postflight.
+  - Root Cause: tests omitted the real authority contract; path resolution erased
+    ownership information; preservation was recorded without gating success.
+  - Future Trigger: tests enter the permission gateway or new registered targets
+    share a native runtime/storage environment.
+  - Required Behavior Change: use registered tools/valid authority; check DB
+    containment and inodes before opening; require preservation before completion.
+  - Verification Step: original four failures reproduced, then 60 passes; alias fixtures prove
+    Bridge uncalled; live exact results/bindings/intents/postflight independently
+    checked. No accepted task rerun.
+  - Durable Memory Update: project MEMORY.md records named selection, ownership,
+    concurrency and fixture rules. No global memory update.
+- Known limits: trusted-host evidence, not OS confinement or remote provider
+  attestation. Metadata is not a private-file content inventory. External
+  filesystem changes after preflight are not locked; same-runtime serialization
+  does not serialize other manual sessions/processes. Cancellation cooperative;
+  no live crash/revocation campaign or hard cost/all-descendant guarantee.
+- Next recommended steps: none for AGENT-ROUTING-003. Broader target enrollment,
+  memory-aware output contracts or persistent service activation need separate scope.
+- Notes for next agent: preserve the private receipt fixture and existing server.
+  Preserve untracked AGENTS.md/four conflicted PID files. Two additional test
+  conflict copies appeared while replacing the fixture; cause unproven, retained
+  unstaged. Tracked path was recovered and patched in place. Publish this branch
+  to origin with same-name upstream, fetch and verify 0/0; do not infer master merge.
+
+## 2026-11-08 13:48 EST — Codex — AGENT-ROUTING-002 live native delegation audit
+
+- Task/result: completed the audit and live test on the existing service.
+  Assessment PARTIAL: default invoked native agent_delegate for testpilot and
+  testpilot2; both calculated correctly and completed once, sequentially. Both
+  returned agent_id CowAgent. Native target routing is verified, but persistent
+  receiver instructions, skills, memory manager and history are excluded.
+- Team: Codex lead owns live invocation, collection, integration, handoff and
+  Git. Luna/high workers mapped the console path and authority/recovery path;
+  the latter ran focused tests. One independent Luna/high reviewer checked the
+  arithmetic, source, sanitized evidence and report. Requested models accepted;
+  effective worker model identities are not independently exposed.
+- Changes/files: docs/agent-routing-002 contains fixed fictional tasks, a
+  one-submit console probe, scoped read-only collector/offline reconciliation,
+  runtime/events/results/postflight/test/static receipts, report and review.
+  Updated project MEMORY.md and this ledger. No application code changed.
+- Runtime: reused PID 28093 on 127.0.0.1:9899 with the existing TestData config
+  and CowAgent-Runtime workspace. No second server/restart/config/profile/model
+  or permission change. One fresh default session added only the two roster
+  members. Self-evolution and external API remained disabled.
+- Live results: parent session audit-routing-002-688ad1f790384d589c86c02672885352;
+  tasks 5d027a42-3314-4424-8ea4-be99c00f5e22 and
+  998f52a9-f68d-49ea-a182-2c880f04c4bf. A net 17,400 cents; B net 20,000 cents;
+  counts and exclusions match. A ended 18:35:36.584Z, B began .616Z. Both frozen
+  specs use custom/nvidia/nemotron-3.5-super-vl:free with no fallback. Two allowed
+  supervisor tool decisions; no worker tool events in retained SSE or recovery
+  effects. Independent verification does not trust the returned self-name.
+- Writes/preservation: one new source session/roster preference, four message
+  rows, three display run rows, two recovery tasks/attempts/verification rows;
+  no receiver chat rows. Native verification remains unverified without caller
+  check contracts; the audit independently checks arithmetic. Database bytes
+  are not claimed unchanged. Config/registry/nine source hashes unchanged and
+  known core-file metadata unchanged. Private memory bodies and prior chat
+  contents were not read. Preserved AGENTS.md and four conflicted PID files.
+- Commands/results: isolated COW_DATA_DIR pytest selection in focused-checks.json
+  passed 55/55. Earlier expanded five-file selection: 56 pass, four parallel-safe
+  fixture failures (agent=None makes permission evaluation fail before tool
+  execution). Retained exact IDs/error; no product fix or full regression.
+  Ruff F, AST/JSON parsing, offline reconciliation and staged diff checks pass.
+  No accepted model interaction was rerun.
+- Review/decisions: recommend both mechanisms with distinct contracts: native
+  delegation for restricted ephemeral work; 001 authenticated adapter for
+  persistent named context. The latter is still enrolled only for testpilot.
+  Reviewer findings corrected exact target/attempt/event reconciliation and
+  independently recomputed identity/result flags. SSE-to-journal correlation
+  uses isolated session, unique target/task identifier and time; retained SSE
+  has no shared durable task key. Raw summary hashes cannot be recomputed from
+  sanitized output alone. No architectural change was made.
+- Lessons Learned:
+  - Mistake: the first collector assumed each receiver index held chat tables.
+  - Root Cause: workspace memory ownership was confused with global namespaced
+    conversation storage and source-owned display runs.
+  - Future Trigger: checking delegated session persistence across agents.
+  - Required Behavior Change: trace the conversation-store binding before a
+    metadata query; use owner/session predicates and native target task fields.
+  - Verification Step: scoped rows, exact two-target reconciliation and read-only
+    independent review; the failed query caused no write or model replay.
+  - Durable Memory Update: project MEMORY.md records live semantics, routing
+    evidence and conversation-store ownership. No global memory update.
+- Known issues/limits: wrong worker self-identity; generic context is intentional
+  native behavior; four out-of-scope fixture failures retained. Local model
+  configuration is not remote attestation. No hostile-host/OS isolation proof,
+  live file-denial probe, cancellation/crash campaign or broad regression. Core
+  metadata checks are not a full private-file content inventory.
+- Next recommended steps: none for this audit. If persistent TestPilot2 access
+  is needed, scope its adapter enrollment/validation separately; do not change
+  native isolation or activate a service from this report alone.
+- Notes for next agent: read docs/agent-routing-002/README.md. Keep the existing
+  server running and preserve audit records and unrelated files. Branch is
+  codex/agent-routing-002 from 90c3cd8f; publish to same name on origin, fetch and
+  verify upstream 0/0. No master merge or deployment is authorized by this task.
+
+## 2026-11-08 11:52 EST — Codex — AGENT-ROUTING-001 registered TestPilot experiment
+
+- Task/result: proved one authenticated Codex delegation to the existing
+  registered testpilot with its native prompt, inherited model, memory manager
+  and execution path. Fictional read-only analysis passed independent arithmetic
+  and artifact checks. Milestone complete; no master merge or production service
+  activation. Branch codex/agent-routing-001 from master 9cd8c535.
+- Team: Codex lead owns native entry point, enrollment, real acceptance, docs and
+  Git. Luna/high mapped manual routing/contracts, wrote enrollment/native tests
+  and independently verified retained evidence. Terra 6.1/high implemented the
+  adapter: concurrent approval, cancellation and recovery exceeded routine Luna
+  work. One Sol 6.1/high reviewer covered private-memory and atomic authority
+  boundaries. Requested models accepted; effective worker identities not exposed.
+  Applied registry-listed STE planning and delegation guidance.
+- Changes/files: new agent/external/cowagent_adapter.py, cowagent_native.py and
+  cowagent_cli.py; strict CowAgent enrollment variant in operator_review.py;
+  three focused test files; docs/agent-routing-001 plan, runner, report, receipts,
+  trace and review; project MEMORY.md and this ledger.
+- Native path: registry-owned testpilot/TestPilot inherits custom provider and
+  nvidia/nemotron-3.5-super-vl:free. Manual Nov 6 runtime routing logs and current
+  source were traced. Existing agent_delegate intentionally omits persistent
+  context, so the adapter uses native get_agent/run_stream under receiver identity
+  and read-only permission with a fresh server-owned session. Caller attribution
+  stays user content; no replacement system prompt/model or generic authority.
+- Reused contracts: authenticated private Unix IPC, OperatorControl,
+  ApprovalJournal, ExternalSupervisor and AnalysisVerifier. One-shot native and
+  publication intents require current approval. Uncertain work never replays.
+  Exact expected report equality gates publication; private raw output cannot
+  escape in schema-valid text fields. No native chat/runtime source was changed.
+- Commands/results: private-COW_DATA_DIR pytest on the 12 files recorded in
+  focused-validation.json: 163 passed in 3.87s, no skips/failures. Ruff F,
+  syntax checks and staged diff checks pass. Product source hashes match; one
+  test trailing blank was removed with identical AST (final-validation.json).
+  One real --execute acceptance finished in the existing TestPilot model with
+  zero tool events; unapproved submission denied. Task 4bb04826-e64e-43d4-9c4c-a010777786eb
+  has one submit/native/publication intent and stable session f96a59e3-108e-4b06-9ac8-55cebf1aac79.
+  Seven records yield four accepted, three exceptions and net 18,000 cents.
+  Independent Luna arithmetic, source hash, artifact SHA and SQLite metadata
+  checks passed. No accepted model interaction was rerun for bookkeeping.
+- Postflight: native config/profile/credential-file/source snapshot unchanged;
+  zero context create/remove events; caller audit recorded zero private opens.
+  Native start/completion metadata binds testpilot/model/session/run. The owned
+  process exited. Private fixture /private/tmp/cowagent-routing-kwzz7xni retained;
+  launch secret and raw native logs are not published.
+- Review/decisions: no remaining blocker. Corrected config-level MCP and scheduler
+  backup preflight, same-model provider fallback attribution, output parse-error
+  privacy and provider agent/session metadata. Startup refuses unrelated work;
+  native memory/index maintenance remains native-owned. Manual UI chat persistence
+  is distinct from this adapter's task journal and fresh in-memory native session.
+- Lessons Learned:
+  - Mistake: initial preflight omitted fallback startup sources; initial output
+    handling left a raw JSON exception and did not check same-model provider fallback.
+  - Root Cause: primary config paths and final model name do not cover all native
+    initialization/model routes; parser exceptions can retain private output.
+  - Future Trigger: externally controlled access to a registered persistent Agent.
+  - Required Behavior Change: trace primary and fallback routes; preserve routing
+    metadata; normalize private-output errors and gate exact safe output.
+  - Verification Step: negative MCP/backup/fallback/parser tests; actual registered
+    execution metadata and independent artifact/journal/source checks.
+  - Durable Memory Update: project MEMORY.md records named/native versus restricted
+    child semantics, approval/export contract and trusted-host limits.
+- Known limits: Python-open guard is not OS confinement or hostile same-account
+  isolation. Provider is locally configured and checked, not remotely attested.
+  Read-only task permission does not promise no native bookkeeping/index writes.
+  Cancellation is cooperative; no hard cost/all-descendant guarantee. Restart and
+  revocation have focused fixture coverage, not a new live crash campaign. No new
+  full regression/UI replay; unchanged native paths retain prior baseline evidence.
+- Next recommended steps: none for AGENT-ROUTING-001. Broader outputs, more targets
+  or persistent activation require a separately scoped task.
+- Notes for next agent: docs/agent-routing-001/README.md describes the trace,
+  source/evidence limits and opt-in runner. Preserve unrelated untracked AGENTS.md
+  and three conflicted PID files. Parent publishes this task branch to the same
+  name on origin under the standing maintainer preference, then fetches and checks
+  0/0. Do not infer a master merge or production activation from this experiment.
+
 ## 2026-11-07 23:37 EST — Codex — EXTERNAL-003B merge review and SQLite diagnostic
 
 - Task/result: completed the maintainer-authorized merge review for EXTERNAL-003B

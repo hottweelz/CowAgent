@@ -16,6 +16,11 @@ _CURRENT_FIELDS = frozenset({
     'cli_version', 'model', 'modelProvider', 'policy_revision',
     'provider_config_sha256', 'config_sha256',
 })
+_COWAGENT_KIND = 'cowagent-registered/1'
+_COWAGENT_FIELDS = frozenset({
+    'runtime_kind', 'agent_id', 'model', 'provider', 'config_sha256',
+    'profile_sha256', 'source_sha256',
+})
 
 
 def _sha256(value):
@@ -23,18 +28,21 @@ def _sha256(value):
 
 
 def _snapshot(value, *, enrollment=False):
-    fields = _CURRENT_FIELDS | ({'probe_sha256'} if enrollment else set())
+    named = isinstance(value, dict) and 'runtime_kind' in value
+    fields = (_COWAGENT_FIELDS if named else _CURRENT_FIELDS) | ({'probe_sha256'} if enrollment else set())
     if not isinstance(value, dict) or set(value) != fields:
         raise ProtocolError('Invalid public enrollment snapshot')
     for key, item in value.items():
         if key.endswith('_sha256'):
             valid = _sha256(item)
-        elif key in ('model', 'modelProvider') and item is None:
+        elif not named and key in ('model', 'modelProvider') and item is None:
             valid = True  # Unspecified selection stays owned by the native runtime.
         else:
             valid = isinstance(item, str) and 0 < len(item) <= 128
         if not valid:
             raise ProtocolError('Invalid public enrollment field: ' + key)
+    if named and (value['runtime_kind'] != _COWAGENT_KIND or value['agent_id'] not in ('testpilot', 'testpilot2')):
+        raise ProtocolError('Unsupported registered CowAgent identity')
     return json.loads(canonical(value))
 
 
@@ -58,13 +66,16 @@ def build_enrollment_review(enrollment, *, current, observed_probe_sha256):
     current = _snapshot(current)
     if not _sha256(observed_probe_sha256):
         raise ProtocolError('Invalid observed probe fingerprint')
-    reasons = [key + '_mismatch' for key in sorted(_CURRENT_FIELDS)
+    fields = _COWAGENT_FIELDS if 'runtime_kind' in enrollment else _CURRENT_FIELDS
+    if set(current) != fields:
+        raise ProtocolError('Enrollment runtime kinds differ')
+    reasons = [key + '_mismatch' for key in sorted(fields)
                if enrollment[key] != current[key]]
     if enrollment['probe_sha256'] != observed_probe_sha256:
         reasons.append('probe_sha256_mismatch')
-    if enrollment['cli_version'] != CODEX_VERSION:
+    if fields == _CURRENT_FIELDS and enrollment['cli_version'] != CODEX_VERSION:
         reasons.append('unsupported_cli_version')
-    if enrollment['policy_revision'] != ANALYSIS_POLICY_REVISION:
+    if fields == _CURRENT_FIELDS and enrollment['policy_revision'] != ANALYSIS_POLICY_REVISION:
         reasons.append('unsupported_policy_revision')
     return _packet({
         'kind': 'enrollment', 'enrollment': enrollment, 'current': current,
@@ -104,6 +115,9 @@ def build_task_review(spec, enrollment_review, *, now=None):
     enrollment_review = _enrollment_packet(enrollment_review)
     payload = json.loads(spec['task']['content'])
     reasons = []
+    if ('runtime_kind' in enrollment_review['enrollment'] and
+            spec['runtime_id'] != 'cowagent.' + enrollment_review['enrollment']['agent_id']):
+        reasons.append('runtime_id_mismatch')
     if enrollment_review['status'] == 'blocked':
         reasons.append('enrollment_blocked')
     if spec['authority']['expires_at'] <= now:

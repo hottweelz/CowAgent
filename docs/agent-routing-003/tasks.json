@@ -1,0 +1,117 @@
+{
+  "schema": "cow.named-pair.fixtures/1",
+  "tasks": [
+    {
+      "agent_id": "testpilot",
+      "label": "AGENT-ROUTING-003-A",
+      "payload": {
+        "schema_version": 1,
+        "currency": "USD",
+        "records": [
+          {
+            "id": "A1",
+            "status": "paid",
+            "amount_cents": 12500
+          },
+          {
+            "id": "A2",
+            "status": "paid",
+            "amount_cents": 7300
+          },
+          {
+            "id": "A3",
+            "status": "refund",
+            "amount_cents": -2400
+          },
+          {
+            "id": "A4",
+            "status": "void",
+            "amount_cents": 500
+          },
+          {
+            "id": "A5",
+            "status": "refund",
+            "amount_cents": 900
+          }
+        ]
+      },
+      "expected": {
+        "accepted_count": 3,
+        "totals": {
+          "paid_cents": 19800,
+          "refund_cents": -2400,
+          "net_cents": 17400,
+          "pending_cents": 0
+        },
+        "exceptions": [
+          {
+            "index": 3,
+            "id": "A4",
+            "reason": "excluded_status"
+          },
+          {
+            "index": 4,
+            "id": "A5",
+            "reason": "invalid_sign"
+          }
+        ]
+      }
+    },
+    {
+      "agent_id": "testpilot2",
+      "label": "AGENT-ROUTING-003-B",
+      "payload": {
+        "schema_version": 1,
+        "currency": "USD",
+        "records": [
+          {
+            "id": "B1",
+            "status": "paid",
+            "amount_cents": 6000
+          },
+          {
+            "id": "B2",
+            "status": "paid",
+            "amount_cents": 15450
+          },
+          {
+            "id": "B3",
+            "status": "refund",
+            "amount_cents": -1450
+          },
+          {
+            "id": "B4",
+            "status": "paid",
+            "amount_cents": -700
+          },
+          {
+            "id": "B2",
+            "status": "refund",
+            "amount_cents": -500
+          }
+        ]
+      },
+      "expected": {
+        "accepted_count": 3,
+        "totals": {
+          "paid_cents": 21450,
+          "refund_cents": -1450,
+          "net_cents": 20000,
+          "pending_cents": 0
+        },
+        "exceptions": [
+          {
+            "index": 3,
+            "id": "B4",
+            "reason": "invalid_sign"
+          },
+          {
+            "index": 4,
+            "id": "B2",
+            "reason": "duplicate_id"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -3,30 +3,16 @@
 from types import SimpleNamespace
 
 from agent.protocol.agent_stream import AgentStreamExecutor
-from agent.tools.base_tool import BaseTool, ToolResult
+from agent.tools.base_tool import ToolResult
+from agent.tools.web_search.web_search import WebSearch
 
 from tests.trajectory_eval import EvalCase, run_eval_case
 
 
-class _LookupTool(BaseTool):
-    name = "lookup"
-    params = {
-        "type": "object",
-        "properties": {"query": {"type": "string"}},
-        "required": ["query"],
-    }
-
-    def __init__(self, results):
-        self.results = list(results)
-
-    def execute(self, params):
-        result = self.results.pop(0)
-        if isinstance(result, Exception):
-            raise result
-        return result
-
-
 class _TestAgent:
+    def effective_cwd(self):
+        return "/tmp"
+
     def effective_permission_mode(self):
         return "full-access"
 
@@ -73,13 +59,25 @@ class _ScriptedExecutor(AgentStreamExecutor):
 def _call(index=1, query="status"):
     return {
         "id": "lookup-%s" % index,
-        "name": "lookup",
+        "name": "web_search",
         "arguments": {"query": query},
     }
 
 
 def _run(case, responses, results=None):
-    tool = _LookupTool(results or []) if results is not None else None
+    tool = None
+    if results is not None:
+        tool = WebSearch({})
+        scripted_results = list(results)
+
+        def execute(_params):
+            result = scripted_results.pop(0)
+            if isinstance(result, Exception):
+                raise result
+            return result
+
+        # Exercise the native registered descriptor without making a search.
+        tool.execute = execute
 
     def make_executor(recorder):
         return _ScriptedExecutor(responses, tool, recorder)
@@ -101,7 +99,7 @@ def test_direct_answer_has_no_tool_trajectory():
 
 def test_successful_tool_call_is_recorded():
     result = _run(
-        EvalCase("successful_tool_call", "Look up status", ("lookup",)),
+        EvalCase("successful_tool_call", "Look up status", ("web_search",)),
         [("", [_call()]), ("Status is ready", [])],
         [ToolResult.success("ready")],
     )
@@ -111,7 +109,7 @@ def test_successful_tool_call_is_recorded():
     assert result.tool_call_count == 1
     assert result.successful_tool_calls == 1
     assert result.failed_tool_calls == 0
-    assert result.selected_tools == ["lookup"]
+    assert result.selected_tools == ["web_search"]
 
 
 def test_failed_tool_call_is_distinguished_from_runtime_error():
@@ -130,13 +128,13 @@ def test_failed_tool_call_is_distinguished_from_runtime_error():
 
 def test_tool_calls_record_arguments_and_status():
     result = _run(
-        EvalCase("recorded_call", "Look up status", ("lookup",)),
+        EvalCase("recorded_call", "Look up status", ("web_search",)),
         [("", [_call()]), ("Status is ready", [])],
         [ToolResult.success("ready")],
     )
 
     assert result.tool_calls == [{
-        "tool_name": "lookup",
+        "tool_name": "web_search",
         "arguments": {"query": "status"},
         "status": "success",
     }]
@@ -147,8 +145,8 @@ def test_expected_tools_and_arguments_pass():
         EvalCase(
             "expected_arguments",
             "Look up status",
-            ("lookup",),
-            expected_arguments={"lookup": {"query": "status"}},
+            ("web_search",),
+            expected_arguments={"web_search": {"query": "status"}},
         ),
         [("", [_call()]), ("Status is ready", [])],
         [ToolResult.success("ready")],
@@ -160,7 +158,7 @@ def test_expected_tools_and_arguments_pass():
 
 def test_missing_expected_tool_fails_expectations():
     result = _run(
-        EvalCase("missing_tool", "Look up status", ("lookup", "send_message")),
+        EvalCase("missing_tool", "Look up status", ("web_search", "send_message")),
         [("", [_call()]), ("Status is ready", [])],
         [ToolResult.success("ready")],
     )
@@ -176,8 +174,8 @@ def test_wrong_arguments_fail_expectations():
         EvalCase(
             "wrong_arguments",
             "Look up the weather",
-            ("lookup",),
-            expected_arguments={"lookup": {"query": "status"}},
+            ("web_search",),
+            expected_arguments={"web_search": {"query": "status"}},
         ),
         [("", [_call(query="weather")]), ("It is sunny", [])],
         [ToolResult.success("sunny")],
@@ -193,14 +191,14 @@ def test_forbidden_tool_fails_expectations():
         EvalCase(
             "forbidden_tool",
             "Answer directly",
-            forbidden_tools=("lookup",),
+            forbidden_tools=("web_search",),
         ),
         [("", [_call()]), ("Status is ready", [])],
         [ToolResult.success("ready")],
     )
 
     assert not result.passed
-    assert result.expectation_failures == ["forbidden tool 'lookup' was called"]
+    assert result.expectation_failures == ["forbidden tool 'web_search' was called"]
 
 
 def test_expected_status_mismatch_fails_expectations():
@@ -225,14 +223,14 @@ def test_eval_suite_of_recorded_cases_all_pass():
             EvalCase(
                 "suite_lookup",
                 "Look up status",
-                ("lookup",),
-                expected_arguments={"lookup": {"query": "status"}},
+                ("web_search",),
+                expected_arguments={"web_search": {"query": "status"}},
             ),
             [("", [_call()]), ("Status is ready", [])],
             [ToolResult.success("ready")],
         ),
         (
-            EvalCase("suite_lookup_failure", "Look up status", ("lookup",)),
+            EvalCase("suite_lookup_failure", "Look up status", ("web_search",)),
             [("", [_call()]), ("I could not look it up", [])],
             [ToolResult.fail("service unavailable")],
         ),

@@ -1,0 +1,10 @@
+{
+  "test_file": "tests/test_cowagent_native.py",
+  "accepted_sha256": "70acc1ea890a17762b6518a916739c604924ea5024d77e1cdf355cbb2c72b174",
+  "final_sha256": "069aa8bd3dcda6482b88c753bdb2b426135289c8f449c2c04b0b23fdabd52c9a",
+  "change": "removed one trailing blank line; AST unchanged",
+  "accepted_tests_reused": 163,
+  "product_source_unchanged_since_live_run": true,
+  "ruff": "passed",
+  "staged_diff_check": "passed"
+}

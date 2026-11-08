@@ -15,9 +15,24 @@ from agent.tools.bash.bash import Bash
 from agent.tools.write.write import Write
 
 
+class _AgentContext:
+    """Small full-access session for exercising the real tool gateway."""
+
+    def __init__(self):
+        self.root = "/tmp"
+
+    def effective_permission_mode(self):
+        return "full-access"
+
+    def effective_cwd(self):
+        return self.root
+
+
 def _executor():
     """Executor with just enough wired up to run _execute_tool's guards."""
     executor = object.__new__(AgentStreamExecutor)
+    executor.agent = _AgentContext()
+    executor.cancel_event = None
     executor.tools = {"write": Write({"cwd": "/tmp"}), "bash": Bash({"cwd": "/tmp"})}
     executor._record_tool_result = lambda *args, **kwargs: None
     return executor

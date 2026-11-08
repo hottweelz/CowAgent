@@ -1,5 +1,83 @@
 # CowAgent project facts
 
+- Operator journal privacy checks recheck only otherwise-private regular
+  SQLite sidecars whose transient link count is zero during unlink. Missing
+  sidecars or valid replacements are allowed; unsafe or persistently zero-link
+  entries and zero-link primary databases remain denied. This handles concurrent
+  connection cleanup without weakening owner, mode, symlink or hardlink checks.
+
+- Guest sharing accepts only supported exact wrapper/native tool pairs with
+  the configured path/write shape and an exact GuestAgent/tool/work-root binding.
+  PathGuard maps virtual paths before the native permission gateway; restricted
+  filesystem calls still use FileBroker. Restricted privileged tools, unknown
+  tools, MCP execution and legacy remote invocation remain denied. See the
+  [integrated routing review](docs/agent-routing-003/merge-review.md).
+- Full local regression uses directory-mode `pytest tests/` collection. A
+  programmatic runner on macOS must be file-backed with a main guard for spawn.
+  Put the selected virtual environment first on PATH for subprocess fixtures.
+  Optional parser coverage needs the document packages in
+  `requirements-optional.txt`; native browser fixtures use separate temporary
+  profiles and require `COW_BROWSER_NATIVE_TEST=1`. Windows checks require Windows.
+  Container gates need a disposable writable checkout and non-root user, process
+  tools/init, and cached tokenizer assets before network isolation. The FTS5
+  integrity fixture assumes SQLite 3.44 or newer. Keep SQLite fault injection
+  scoped to the fixture DB; keep subprocess readiness outside buffered text
+  reads when later using communicate().
+
+- AGENT-ROUTING-003 extends the persistent named-agent adapter to `testpilot`
+  and `testpilot2`. Each endpoint has one enrolled registered identity and a
+  credential runtime ID of `cowagent.<agent_id>`. The task cannot override the
+  target. Each native process retains its receiver's profile, native prompt,
+  configured model and memory manager. Same-runtime execution is serialized;
+  two separately enrolled target processes were observed to overlap safely in
+  the bounded fictional analysis acceptance. No persistent activation occurred.
+- Native preflight rejects overlapping supported workspaces, memory DB paths
+  outside their owning workspace and shared DB inodes before initialization.
+  Actual memory-manager workspace/configured/opened DB paths must match after
+  initialization. Receipts carry public identity, model/provider, profile hash,
+  opaque memory-scope hash and native session/run/process/timing metadata.
+  Preflight permits settled recovery history but blocks queued/running tasks
+  and completed tasks missing current-attempt verification. See
+  [AGENT-ROUTING-003](docs/agent-routing-003/README.md).
+- Tests that enter the real tool permission gateway need a valid Agent authority
+  context and an exact registered tool descriptor. The parallel-tool fixtures
+  use a read-only session and stub only registered SubagentTool execution;
+  `agent=None` and unregistered toy tools do not test authorized scheduling.
+
+- AGENT-ROUTING-002 audited the existing live supervisor delegating to both
+  `testpilot` and `testpilot2`. Both restricted native tasks completed once in
+  sequence with correct fictional calculations, but each claimed `CowAgent` in
+  its output. Target identity must come from native task/peer metadata, not the
+  model's self-name. Neither child loaded persistent receiver context or memory.
+  BullGod should expose restricted native delegation and approved persistent
+  named-agent invocation as distinct mechanisms. This audit did not extend the
+  then TestPilot-only enrollment; AGENT-ROUTING-003 adds TestPilot2. See
+  [AGENT-ROUTING-002](docs/agent-routing-002/README.md).
+- Native conversation tables reside in the default memory index and are scoped
+  by `agent_id`; receiver memory indexes are not separate conversation stores.
+  Delegation display runs belong to the source session. Use the task journal's
+  target identity and session plus native peer events when checking routing.
+
+- AGENT-ROUTING-001 adds an opt-in Codex-to-CowAgent named-agent experiment for
+  registered `testpilot`. The persistent native `get_agent`/`run_stream` path
+  preserves registered instructions, profile model inheritance and native
+  memory ownership; existing `agent_delegate` remains a separate restricted,
+  memory-less worker path. Do not treat them as interchangeable.
+- The named adapter reuses private authenticated IPC, atomic operator approval
+  and intent gates, and independent analysis verification. Its strict enrollment
+  binds the selected `testpilot` or `testpilot2`, config/profile/source and
+  model/provider fingerprints.
+  Only fixed fictional `analyze_records` tasks are supported. Server-owned fresh
+  sessions use native read-only permission without generic worker authority.
+  Exact result equality gates publication so arbitrary private output cannot
+  pass through schema-valid strings. Uncertain attempts never replay.
+- Native startup preflight checks scheduler primary/backup stores, recovery work,
+  evolution, MCP files/config, target onboarding and credential synchronization.
+  Read-only task authority does not prohibit native index/bookkeeping writes.
+  Caller Python-open instrumentation is not OS confinement. The controlled
+  experiment passed with one real TestPilot run; no persistent service or broader
+  production activation is authorized. See [AGENT-ROUTING-001](docs/agent-routing-001/README.md).
+
 - Maintainer preference (2026-11-07): push completed task commits for tracking.
   Publish new CowAgent task branches to the same branch name on the existing
   `origin` fork (`hottweelz/CowAgent`) and establish upstream tracking without

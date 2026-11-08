@@ -18,8 +18,17 @@ class TrackingConnection(sqlite3.Connection):
         return super().close()
 
 
-def _tracked_connect(real_connect, connections, fail_at=None, failure=None):
+def _tracked_connect(real_connect, connections, db_path, fail_at=None, failure=None):
+    target_path = Path(db_path).resolve()
+
     def connect(*args, **kwargs):
+        database = args[0] if args else kwargs.get("database")
+        try:
+            is_target = Path(os.fsdecode(os.fspath(database))).resolve() == target_path
+        except (TypeError, ValueError):
+            is_target = False
+        if not is_target:
+            return real_connect(*args, **kwargs)
         if fail_at == "connect":
             raise failure
         kwargs["factory"] = TrackingConnection
@@ -66,7 +75,7 @@ def test_initialization_propagates_sqlite_error_and_closes_open_connection(
     monkeypatch.setattr(
         sqlite3,
         "connect",
-        _tracked_connect(real_connect, connections, fail_at, failure),
+        _tracked_connect(real_connect, connections, db_path, fail_at, failure),
     )
 
     with pytest.raises(sqlite3.OperationalError) as caught:
@@ -91,12 +100,12 @@ def test_initialization_error_log_has_operation_path_and_traceback(
     failure = sqlite3.OperationalError(f"injected failure {fail_at}")
     connections = []
     real_connect = sqlite3.connect
+    db_path = tmp_path / "index.db"
     monkeypatch.setattr(
         sqlite3,
         "connect",
-        _tracked_connect(real_connect, connections, fail_at, failure),
+        _tracked_connect(real_connect, connections, db_path, fail_at, failure),
     )
-    db_path = tmp_path / "index.db"
 
     with pytest.raises(sqlite3.OperationalError) as caught:
         MemoryStorage(db_path)
@@ -251,11 +260,13 @@ def test_unsupported_trigram_cleanup_io_error_is_not_suppressed(tmp_path, monkey
     failure = sqlite3.OperationalError("disk I/O error")
     connections = []
     monkeypatch.setattr(MemoryStorage, "_create_trigram_objects", staticmethod(unavailable))
+    db_path = tmp_path / "index.db"
     monkeypatch.setattr(
         sqlite3, "connect",
-        _tracked_connect(sqlite3.connect, connections, "trigram_detach", failure),
+        _tracked_connect(sqlite3.connect, connections, db_path,
+                         "trigram_detach", failure),
     )
     with pytest.raises(sqlite3.OperationalError) as caught:
-        MemoryStorage(tmp_path / "index.db")
+        MemoryStorage(db_path)
     assert caught.value is failure
     assert len(connections) == 1 and connections[0].was_closed

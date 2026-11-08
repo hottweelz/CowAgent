@@ -9,43 +9,36 @@ model's context on a second copy.
 from pathlib import Path
 
 from agent.protocol.agent_stream import AgentStreamExecutor
-from agent.tools.base_tool import BaseTool, ToolResult
+from agent.tools.base_tool import ToolResult
+from agent.tools.read.read import Read
 
 
-class _Reporting(BaseTool):
-    name = "reporting"
-    params = {"type": "object", "properties": {}}
+class _AgentContext:
+    """Small full-access session for exercising the real tool gateway."""
 
-    def execute(self, params):
-        return ToolResult.success('{"ok": true}', display="## Findings\n\nAll clear.")
+    def __init__(self, root):
+        self.root = str(root)
 
+    def effective_permission_mode(self):
+        return "full-access"
 
-class _Plain(BaseTool):
-    name = "plain"
-    params = {"type": "object", "properties": {}}
-
-    def execute(self, params):
-        return ToolResult.success("just text")
+    def effective_cwd(self):
+        return self.root
 
 
-class _IdAware(BaseTool):
-    name = "id_aware"
-    params = {"type": "object", "properties": {}}
-
-    def __init__(self):
-        self.seen = "unset"
-
-    def execute(self, params):
-        self.seen = self.tool_call_id
-        return ToolResult.success("ok")
+def _read_tool(result):
+    """Use a registered native tool and stub only its raw implementation."""
+    tool = Read()
+    tool.execute = lambda params: result
+    return tool
 
 
-def _executor(tool):
+def _executor(tool, tmp_path):
     events = []
     executor = object.__new__(AgentStreamExecutor)
     executor.tools = {tool.name: tool}
     executor.model = None
-    executor.agent = None
+    executor.agent = _AgentContext(tmp_path)
     executor.cancel_event = None
     executor._record_tool_result = lambda *a, **kw: None
     executor._check_consecutive_failures = lambda *a, **kw: (False, None, False)
@@ -53,41 +46,47 @@ def _executor(tool):
     return executor, events
 
 
-def _run(tool):
-    executor, events = _executor(tool)
-    result = executor._execute_tool({"id": "call_1", "name": tool.name, "arguments": {}})
+def _run(tool, tmp_path):
+    executor, events = _executor(tool, tmp_path)
+    result = executor._execute_tool({"id": "call_1", "name": tool.name,
+                                     "arguments": {"path": "fixture.txt"}})
     ends = [data for kind, data in events if kind == "tool_execution_end"]
     return result, ends[0]
 
 
-def test_the_readable_form_travels_with_the_event():
-    result, end = _run(_Reporting())
+def test_the_readable_form_travels_with_the_event(tmp_path):
+    result, end = _run(_read_tool(ToolResult.success(
+        '{"ok": true}', display="## Findings\n\nAll clear.")), tmp_path)
 
     assert end["display"] == "## Findings\n\nAll clear."
     assert end["result"] == '{"ok": true}'
 
 
-def test_the_readable_form_stays_out_of_the_model_s_context():
+def test_the_readable_form_stays_out_of_the_model_s_context(tmp_path):
     """The returned dict becomes the tool_result the model reads. A second
     rendering of the same outcome there would just cost context."""
-    result, _ = _run(_Reporting())
+    result, _ = _run(_read_tool(ToolResult.success(
+        '{"ok": true}', display="## Findings\n\nAll clear.")), tmp_path)
 
     assert "display" not in result
     assert result["result"] == '{"ok": true}'
 
 
-def test_a_tool_whose_result_already_reads_well_sends_nothing_extra():
-    _, end = _run(_Plain())
+def test_a_tool_whose_result_already_reads_well_sends_nothing_extra(tmp_path):
+    _, end = _run(_read_tool(ToolResult.success("just text")), tmp_path)
 
     assert "display" not in end
 
 
-def test_a_tool_can_tell_which_call_it_is_running():
+def test_a_tool_can_tell_which_call_it_is_running(tmp_path):
     """A tool that reports work of its own needs to say which entry in the
     client's view that work belongs under."""
-    tool = _IdAware()
+    tool = Read()
+    tool.seen = "unset"
+    tool.execute = lambda params: (setattr(tool, "seen", tool.tool_call_id)
+                                   or ToolResult.success("ok"))
 
-    _run(tool)
+    _run(tool, tmp_path)
 
     assert tool.seen == "call_1"
     # Cleared afterwards, like every other per-call slot the loop assigns.

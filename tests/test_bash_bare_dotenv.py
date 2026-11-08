@@ -1,3 +1,4 @@
+import shlex
 import sys
 from agent.tools.bash.bash import Bash
 
@@ -10,7 +11,7 @@ def test_bare_dotenv_key_does_not_break_native_shell(tmp_path, monkeypatch):
     monkeypatch.setenv("USERPROFILE", str(home))
     monkeypatch.setenv("COW_BARE_KEY", "inherited")
     monkeypatch.setenv("COW_EMPTY_KEY", "old")
-    command = f"{sys.executable} -c \"import os; print(os.environ['COW_BARE_KEY'] + ':' + os.environ['COW_EMPTY_KEY'])\""
+    command = f"{shlex.quote(sys.executable)} -c \"import os; print(os.environ['COW_BARE_KEY'] + ':' + os.environ['COW_EMPTY_KEY'])\""
     result = Bash({"cwd": str(tmp_path)}).execute({"command": command})
     assert result.status == "success", result.result
     assert "inherited:" in result.result["output"]

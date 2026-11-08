@@ -1,0 +1,13 @@
+{
+  "milestone": "AGENT-ROUTING-003",
+  "before": {"selection": "tests/test_parallel_tool_calls.py", "passed": 2, "failed": 4,
+    "error": "Authorization denied: evaluation failed."},
+  "cause": "The executor fixture had agent=None; resolve_authority rejects missing Agent authority. The custom tool classes also lacked exact registered permission descriptors.",
+  "correction": "Supply a minimal read-only session and the registered parallel-safe SubagentTool. Patch only its execution body; run the actual authorization gateway.",
+  "after": {"original_four": {"passed": 4, "failed": 0}, "whole_file": {"passed": 6, "failed": 0},
+    "expanded_selection": {"passed": 60, "failed": 0,
+      "files": ["tests/test_isolation_delegation.py", "tests/test_agent_delegation.py", "tests/test_recovery_runtime.py", "tests/test_recovery_store.py", "tests/test_parallel_tool_calls.py"]}},
+  "isolation": "Private temporary COW_DATA_DIR per pytest process; no live runtime state or model calls",
+  "diff_check": "passed",
+  "filesystem_note": "Two conflict copies appeared during fixture replacement. Cause is unproven. Canonical tracked file was recovered and patched in place; conflict copies are preserved, not staged."
+}

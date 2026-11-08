@@ -1,0 +1,7 @@
+{
+  "selection": "tests/test_cowagent_native.py::test_preflight_recovery_metadata",
+  "summary": "5 passed in 0.25s",
+  "change": "Patch Path.home in disposable fixture instead of changing HOME environment",
+  "test_file_sha256": "8569f421b6da13f6b9178c512b7e920f30033d70441c7fd2d319857bbfd59539",
+  "native_source_unchanged": true
+}

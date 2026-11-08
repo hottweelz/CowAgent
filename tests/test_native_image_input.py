@@ -6,6 +6,7 @@ from unittest.mock import patch
 import pytest
 
 from agent.protocol.agent_stream import _IMAGE_NOT_ATTACHED, AgentStreamExecutor
+from agent.protocol.agent import Agent
 from agent.tools.vision.vision import Vision
 from config import conf
 from models.claudeapi.claude_api_bot import ClaudeAPIBot
@@ -48,8 +49,10 @@ def workspace(tmp_path, monkeypatch):
 
 
 def _executor(workspace, model, history=None):
-    agent = SimpleNamespace(name="t", messages=[], tools=[], workspace_dir=None, memory_manager=None,
-                            _current_session_id="s", _current_agent_id="default")
+    agent = Agent(system_prompt="", name="t", model=model, tools=[],
+                  workspace_dir=str(workspace), enable_skills=False, skip_context_files=True)
+    agent._current_session_id = "s"
+    agent._current_agent_id = "default"
     vision = Vision({"cwd": str(workspace)})
     return AgentStreamExecutor(agent=agent, model=model, system_prompt="", tools=[vision], max_turns=3,
                                messages=list(history or []))

@@ -20,11 +20,13 @@ def test_read_fifo_returns_error_without_waiting_for_writer(tmp_path, alias):
         [sys.executable, "-c", code, str(tmp_path), str(path)],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        text=True,
+        # A text wrapper can prefetch the JSON while reading readiness, leaving
+        # communicate() nothing to read. Keep this pipe unbuffered and binary.
+        bufsize=0,
     )
     try:
         for line in process.stdout:
-            if line.strip() == "ready":
+            if line.strip() == b"ready":
                 break
         else:
             pytest.fail("child exited before the FIFO read")

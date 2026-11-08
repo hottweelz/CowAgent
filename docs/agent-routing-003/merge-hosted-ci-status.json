@@ -1,0 +1,28 @@
+{
+  "captured_at": "2026-11-08T20:40:08.963546+00:00",
+  "repository": "hottweelz/CowAgent",
+  "pull_request": 1,
+  "observed_head": "66017d38d6fd8af8cecbbe1efd378c7542d1f02f",
+  "actions_permissions": {
+    "enabled": true,
+    "allowed_actions": "all",
+    "sha_pinning_required": false
+  },
+  "tests_workflow": {
+    "id": 410039630,
+    "name": "Tests",
+    "path": ".github/workflows/test.yml",
+    "state": "active",
+    "html_url": "https://github.com/hottweelz/CowAgent/blob/master/.github/workflows/test.yml"
+  },
+  "workflow_runs_total": 0,
+  "check_runs_total": 0,
+  "trigger_attempts": [
+    "Opened draft PR through connector",
+    "Enabled already-active Tests workflow by REST PUT",
+    "Closed and reopened same PR once",
+    "Pushed legitimate documentation commit66017d38, producing a synchronize opportunity"
+  ],
+  "diagnosis": "No dispatch cause established. Active workflow, enabled Actions, matching default-branch workflow, no trigger filters or skip annotations, current same-repository PR head. APIs returned no Actions run. No hosted CI pass is claimed.",
+  "fallback": "Sequential disposable Linux Python3.11 and3.13 compatibility runs from exact published source; results are separate from hosted CI."
+}

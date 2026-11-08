@@ -1,0 +1,55 @@
+{
+  "status": "aborted_before_publication",
+  "fixture": "/private/tmp/cowagent-routing003-ks35kh6c",
+  "receipt_sha256": "81da3a5ee3804f6e12677a347cfba116518821395578533f33888adc3ba95bae",
+  "error": "Operator journal files are not private and owned",
+  "site": "agent/external/operator_control.py::_guard",
+  "hypothesis": "Transient SQLite sidecar stat/unlink race; not yet confirmed. Surviving files have expected private mode, owner and link count.",
+  "new_attempts_authorized": false,
+  "workers": [
+    {
+      "agent_id": "testpilot",
+      "task_id": "ad196d1a-6e90-4fe6-a93b-4d1dd0f3551a",
+      "last_observation": {
+        "cancel_requested": false,
+        "reason": "dispatch_intent",
+        "result": null,
+        "revision": 3,
+        "runtime_id": "cowagent.testpilot",
+        "session_id": "8a5cf187-bb20-4bc6-8c55-0016c34d1807",
+        "state": "running",
+        "task_hash": "a49f06ee58d913f4f13dd5fcaf8ccc99ba02f43dce6a2415ab304f49030144f4",
+        "task_id": "ad196d1a-6e90-4fe6-a93b-4d1dd0f3551a",
+        "termination_confirmed": false
+      },
+      "intent_counts": {
+        "submit_intent": 1,
+        "native_intent": 1,
+        "publication_intent": 0
+      },
+      "native_snapshot_unchanged": true
+    },
+    {
+      "agent_id": "testpilot2",
+      "task_id": "6c1e4b65-f72e-4358-baba-fb6902ac7d2c",
+      "last_observation": {
+        "cancel_requested": false,
+        "reason": "dispatch_intent",
+        "result": null,
+        "revision": 3,
+        "runtime_id": "cowagent.testpilot2",
+        "session_id": "80465f9f-ec8a-4643-9d3a-a2de6da79704",
+        "state": "running",
+        "task_hash": "bec01c2890507148402b6e1804462948aedd076e3a7b8cabc0133f5a0df1b99d",
+        "task_id": "6c1e4b65-f72e-4358-baba-fb6902ac7d2c",
+        "termination_confirmed": false
+      },
+      "intent_counts": {
+        "submit_intent": 1,
+        "native_intent": 1,
+        "publication_intent": 0
+      },
+      "native_snapshot_unchanged": true
+    }
+  ]
+}

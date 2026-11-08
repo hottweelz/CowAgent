@@ -1,0 +1,436 @@
+{
+  "caller_private_open_attempts": 0,
+  "ended_at": 1794164966.7075388,
+  "finished": true,
+  "fixture": "/private/tmp/cowagent-routing003-ll5hc8if",
+  "model_results_verified": true,
+  "native_run_overlap_seconds": 13.912434816360474,
+  "owned_processes_exited": true,
+  "parallel_observed": true,
+  "schema": "cow.agent-routing-003.acceptance/1",
+  "started_at": 1794164847.3332832,
+  "workers": [
+    {
+      "agent_id": "testpilot",
+      "artifact_sha256": "0b756368b78f77167e882f3ae3656894af63d702251ae762590bf2738f29fcc3",
+      "authenticated_target_override_denied": true,
+      "cross_target_spec_denied": true,
+      "discovery": {
+        "approval_operations": [
+          "analyze_records"
+        ],
+        "cancellation": "cooperative",
+        "epoch": "a94eaff5-6c20-4e3f-96dc-a716122ad410",
+        "model": "nvidia/nemotron-3.5-super-vl:free",
+        "name": "CowAgent registered agent",
+        "native_capabilities": {
+          "agent_id": "testpilot",
+          "config_sha256": "a79cad07eb2dbb83a5b9eb65d145fe2047a729e980088da52955167664cd961a",
+          "model": "nvidia/nemotron-3.5-super-vl:free",
+          "profile_sha256": "b165eda4eeae3160bb4c873227e33c8fdc868cd64200ee52bfaaa3cb490ee214",
+          "provider": "custom",
+          "runtime_kind": "cowagent-registered/1",
+          "source_sha256": "fbd5b6a0ecbdcb7dc4aeb6bbb66313c97e7346dc379689ab158a1b681ef09a96"
+        },
+        "operations": [
+          "analyze_records"
+        ],
+        "protocol": "cow.external/1",
+        "runtime_id": "cowagent.testpilot",
+        "session_ownership": "runtime"
+      },
+      "duplicate_retained_session": true,
+      "enrollment": {
+        "agent_id": "testpilot",
+        "config_sha256": "a79cad07eb2dbb83a5b9eb65d145fe2047a729e980088da52955167664cd961a",
+        "model": "nvidia/nemotron-3.5-super-vl:free",
+        "probe_sha256": "9b69f6d7da453371bc68973470109dcb7797a689da33edd1144938116c5c722a",
+        "profile_sha256": "b165eda4eeae3160bb4c873227e33c8fdc868cd64200ee52bfaaa3cb490ee214",
+        "provider": "custom",
+        "runtime_kind": "cowagent-registered/1",
+        "source_sha256": "fbd5b6a0ecbdcb7dc4aeb6bbb66313c97e7346dc379689ab158a1b681ef09a96"
+      },
+      "independent_binding_match": true,
+      "independent_result_match": true,
+      "intent_counts": {
+        "native_intent": 1,
+        "publication_intent": 1,
+        "submit_intent": 1
+      },
+      "label": "AGENT-ROUTING-003-A",
+      "native_snapshot_unchanged": true,
+      "postflight": {
+        "context_metadata": {
+          "entries": {
+            "AGENT.md": {
+              "exists": true,
+              "mtime_ns": 1793999506477508486,
+              "size": 1496
+            },
+            "BOOTSTRAP.md": {
+              "exists": false,
+              "mtime_ns": null,
+              "size": null
+            },
+            "MEMORY.md": {
+              "exists": true,
+              "mtime_ns": 1794002419719105319,
+              "size": 547
+            },
+            "RULE.md": {
+              "exists": true,
+              "mtime_ns": 1793999506475982523,
+              "size": 4655
+            },
+            "USER.md": {
+              "exists": true,
+              "mtime_ns": 1793999506475286896,
+              "size": 508
+            },
+            "skills": {
+              "exists": false,
+              "mtime_ns": null,
+              "size": null
+            }
+          },
+          "memory_scope_sha256": "c4ba9e5723311e60baf71b20492fabdfe462966987d138205982ae6677e5d2ac"
+        },
+        "preflight": "passed",
+        "snapshot": {
+          "agent_id": "testpilot",
+          "config_sha256": "a79cad07eb2dbb83a5b9eb65d145fe2047a729e980088da52955167664cd961a",
+          "model": "nvidia/nemotron-3.5-super-vl:free",
+          "profile_sha256": "b165eda4eeae3160bb4c873227e33c8fdc868cd64200ee52bfaaa3cb490ee214",
+          "provider": "custom",
+          "runtime_kind": "cowagent-registered/1",
+          "source_sha256": "fbd5b6a0ecbdcb7dc4aeb6bbb66313c97e7346dc379689ab158a1b681ef09a96"
+        }
+      },
+      "preflight": {
+        "context_metadata": {
+          "entries": {
+            "AGENT.md": {
+              "exists": true,
+              "mtime_ns": 1793999506477508486,
+              "size": 1496
+            },
+            "BOOTSTRAP.md": {
+              "exists": false,
+              "mtime_ns": null,
+              "size": null
+            },
+            "MEMORY.md": {
+              "exists": true,
+              "mtime_ns": 1794002419719105319,
+              "size": 547
+            },
+            "RULE.md": {
+              "exists": true,
+              "mtime_ns": 1793999506475982523,
+              "size": 4655
+            },
+            "USER.md": {
+              "exists": true,
+              "mtime_ns": 1793999506475286896,
+              "size": 508
+            },
+            "skills": {
+              "exists": false,
+              "mtime_ns": null,
+              "size": null
+            }
+          },
+          "memory_scope_sha256": "c4ba9e5723311e60baf71b20492fabdfe462966987d138205982ae6677e5d2ac"
+        },
+        "preflight": "passed",
+        "snapshot": {
+          "agent_id": "testpilot",
+          "config_sha256": "a79cad07eb2dbb83a5b9eb65d145fe2047a729e980088da52955167664cd961a",
+          "model": "nvidia/nemotron-3.5-super-vl:free",
+          "profile_sha256": "b165eda4eeae3160bb4c873227e33c8fdc868cd64200ee52bfaaa3cb490ee214",
+          "provider": "custom",
+          "runtime_kind": "cowagent-registered/1",
+          "source_sha256": "fbd5b6a0ecbdcb7dc4aeb6bbb66313c97e7346dc379689ab158a1b681ef09a96"
+        }
+      },
+      "report": {
+        "accepted_count": 3,
+        "dataset_sha256": "f3e75e0b393b91ef9d053237c117136db30b79bc4efac86a2593b04e4de03b02",
+        "exceptions": [
+          {
+            "id": "A4",
+            "index": 3,
+            "reason": "excluded_status"
+          },
+          {
+            "id": "A5",
+            "index": 4,
+            "reason": "invalid_sign"
+          }
+        ],
+        "record_count": 5,
+        "schema_version": 1,
+        "task_id": "c2613519-d79d-4d8b-bb68-db7041931507",
+        "totals": {
+          "net_cents": 17400,
+          "paid_cents": 19800,
+          "pending_cents": 0,
+          "refund_cents": -2400
+        }
+      },
+      "status": {
+        "acceptance_status": "passed",
+        "cancel_requested": false,
+        "execution_status": "completed",
+        "external_state_status": "confirmed",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 5,
+        "runtime_id": "cowagent.testpilot",
+        "runtime_result": {
+          "adapter_version": "cow.cowagent/1",
+          "agent_id": "testpilot",
+          "agent_name": "TestPilot",
+          "artifact": "report.json",
+          "memory_owner": "runtime",
+          "memory_scope_sha256": "c4ba9e5723311e60baf71b20492fabdfe462966987d138205982ae6677e5d2ac",
+          "model": "nvidia/nemotron-3.5-super-vl:free",
+          "native_finished_at": 1794164965.662775,
+          "native_pid": 33418,
+          "native_run_id": "9df4f8dac5f84019b57a7bb56993731f",
+          "native_started_at": 1794164848.581501,
+          "permission_mode": "read-only",
+          "profile_sha256": "b165eda4eeae3160bb4c873227e33c8fdc868cd64200ee52bfaaa3cb490ee214",
+          "prompt_source": "native",
+          "provider": "custom",
+          "publication_status": "published",
+          "session_id": "37484f4d-0a39-461e-a226-a1820bbd34a5",
+          "sha256": "0b756368b78f77167e882f3ae3656894af63d702251ae762590bf2738f29fcc3",
+          "source": "codex",
+          "tool_event_count": 0
+        },
+        "session_id": "37484f4d-0a39-461e-a226-a1820bbd34a5",
+        "task_id": "c2613519-d79d-4d8b-bb68-db7041931507",
+        "termination_confirmed": true,
+        "transport_status": "acknowledged",
+        "verification_checked_at": "2026-11-08T19:09:25.850271+00:00",
+        "verified": true
+      },
+      "task_id": "c2613519-d79d-4d8b-bb68-db7041931507",
+      "unapproved_denied": true,
+      "wrong_credential_no_authenticated_response": true
+    },
+    {
+      "agent_id": "testpilot2",
+      "artifact_sha256": "e998b0989f9360183aff4bff853e0330d04549606dfdaac8c06eab5e0af7a49a",
+      "authenticated_target_override_denied": true,
+      "cross_target_spec_denied": true,
+      "discovery": {
+        "approval_operations": [
+          "analyze_records"
+        ],
+        "cancellation": "cooperative",
+        "epoch": "d01e3964-05ca-46cd-94ce-eea343232ff5",
+        "model": "nvidia/nemotron-3.5-super-vl:free",
+        "name": "CowAgent registered agent",
+        "native_capabilities": {
+          "agent_id": "testpilot2",
+          "config_sha256": "a79cad07eb2dbb83a5b9eb65d145fe2047a729e980088da52955167664cd961a",
+          "model": "nvidia/nemotron-3.5-super-vl:free",
+          "profile_sha256": "59f4b6955a22a088536a2d908e82a5581b55896e8a4c981d701c01a24cabe912",
+          "provider": "custom",
+          "runtime_kind": "cowagent-registered/1",
+          "source_sha256": "fbd5b6a0ecbdcb7dc4aeb6bbb66313c97e7346dc379689ab158a1b681ef09a96"
+        },
+        "operations": [
+          "analyze_records"
+        ],
+        "protocol": "cow.external/1",
+        "runtime_id": "cowagent.testpilot2",
+        "session_ownership": "runtime"
+      },
+      "duplicate_retained_session": true,
+      "enrollment": {
+        "agent_id": "testpilot2",
+        "config_sha256": "a79cad07eb2dbb83a5b9eb65d145fe2047a729e980088da52955167664cd961a",
+        "model": "nvidia/nemotron-3.5-super-vl:free",
+        "probe_sha256": "9b69f6d7da453371bc68973470109dcb7797a689da33edd1144938116c5c722a",
+        "profile_sha256": "59f4b6955a22a088536a2d908e82a5581b55896e8a4c981d701c01a24cabe912",
+        "provider": "custom",
+        "runtime_kind": "cowagent-registered/1",
+        "source_sha256": "fbd5b6a0ecbdcb7dc4aeb6bbb66313c97e7346dc379689ab158a1b681ef09a96"
+      },
+      "independent_binding_match": true,
+      "independent_result_match": true,
+      "intent_counts": {
+        "native_intent": 1,
+        "publication_intent": 1,
+        "submit_intent": 1
+      },
+      "label": "AGENT-ROUTING-003-B",
+      "native_snapshot_unchanged": true,
+      "postflight": {
+        "context_metadata": {
+          "entries": {
+            "AGENT.md": {
+              "exists": true,
+              "mtime_ns": 1794162190065619975,
+              "size": 1497
+            },
+            "BOOTSTRAP.md": {
+              "exists": false,
+              "mtime_ns": null,
+              "size": null
+            },
+            "MEMORY.md": {
+              "exists": true,
+              "mtime_ns": 1794162190062079173,
+              "size": 145
+            },
+            "RULE.md": {
+              "exists": true,
+              "mtime_ns": 1793999506475982523,
+              "size": 4655
+            },
+            "USER.md": {
+              "exists": true,
+              "mtime_ns": 1793999506475286896,
+              "size": 508
+            },
+            "skills": {
+              "exists": false,
+              "mtime_ns": null,
+              "size": null
+            }
+          },
+          "memory_scope_sha256": "2cbffee4688af213b3ebb864688c171e117373d21957de7efd112df303a39fe5"
+        },
+        "preflight": "passed",
+        "snapshot": {
+          "agent_id": "testpilot2",
+          "config_sha256": "a79cad07eb2dbb83a5b9eb65d145fe2047a729e980088da52955167664cd961a",
+          "model": "nvidia/nemotron-3.5-super-vl:free",
+          "profile_sha256": "59f4b6955a22a088536a2d908e82a5581b55896e8a4c981d701c01a24cabe912",
+          "provider": "custom",
+          "runtime_kind": "cowagent-registered/1",
+          "source_sha256": "fbd5b6a0ecbdcb7dc4aeb6bbb66313c97e7346dc379689ab158a1b681ef09a96"
+        }
+      },
+      "preflight": {
+        "context_metadata": {
+          "entries": {
+            "AGENT.md": {
+              "exists": true,
+              "mtime_ns": 1794162190065619975,
+              "size": 1497
+            },
+            "BOOTSTRAP.md": {
+              "exists": false,
+              "mtime_ns": null,
+              "size": null
+            },
+            "MEMORY.md": {
+              "exists": true,
+              "mtime_ns": 1794162190062079173,
+              "size": 145
+            },
+            "RULE.md": {
+              "exists": true,
+              "mtime_ns": 1793999506475982523,
+              "size": 4655
+            },
+            "USER.md": {
+              "exists": true,
+              "mtime_ns": 1793999506475286896,
+              "size": 508
+            },
+            "skills": {
+              "exists": false,
+              "mtime_ns": null,
+              "size": null
+            }
+          },
+          "memory_scope_sha256": "2cbffee4688af213b3ebb864688c171e117373d21957de7efd112df303a39fe5"
+        },
+        "preflight": "passed",
+        "snapshot": {
+          "agent_id": "testpilot2",
+          "config_sha256": "a79cad07eb2dbb83a5b9eb65d145fe2047a729e980088da52955167664cd961a",
+          "model": "nvidia/nemotron-3.5-super-vl:free",
+          "profile_sha256": "59f4b6955a22a088536a2d908e82a5581b55896e8a4c981d701c01a24cabe912",
+          "provider": "custom",
+          "runtime_kind": "cowagent-registered/1",
+          "source_sha256": "fbd5b6a0ecbdcb7dc4aeb6bbb66313c97e7346dc379689ab158a1b681ef09a96"
+        }
+      },
+      "report": {
+        "accepted_count": 3,
+        "dataset_sha256": "f875f30110cef9ad7708c86603759f56894a982d203622531c0f24db705ec70a",
+        "exceptions": [
+          {
+            "id": "B4",
+            "index": 3,
+            "reason": "invalid_sign"
+          },
+          {
+            "id": "B2",
+            "index": 4,
+            "reason": "duplicate_id"
+          }
+        ],
+        "record_count": 5,
+        "schema_version": 1,
+        "task_id": "64299e66-5053-4560-898a-b9e5150e89b6",
+        "totals": {
+          "net_cents": 20000,
+          "paid_cents": 21450,
+          "pending_cents": 0,
+          "refund_cents": -1450
+        }
+      },
+      "status": {
+        "acceptance_status": "passed",
+        "cancel_requested": false,
+        "execution_status": "completed",
+        "external_state_status": "confirmed",
+        "last_error": "",
+        "observation_current": true,
+        "result_provenance": "authenticated_runtime_claim",
+        "revision": 5,
+        "runtime_id": "cowagent.testpilot2",
+        "runtime_result": {
+          "adapter_version": "cow.cowagent/1",
+          "agent_id": "testpilot2",
+          "agent_name": "TestPilot2",
+          "artifact": "report.json",
+          "memory_owner": "runtime",
+          "memory_scope_sha256": "2cbffee4688af213b3ebb864688c171e117373d21957de7efd112df303a39fe5",
+          "model": "nvidia/nemotron-3.5-super-vl:free",
+          "native_finished_at": 1794164862.493939,
+          "native_pid": 33422,
+          "native_run_id": "a5b8a34617c443be96c66d0377462ecc",
+          "native_started_at": 1794164848.581504,
+          "permission_mode": "read-only",
+          "profile_sha256": "59f4b6955a22a088536a2d908e82a5581b55896e8a4c981d701c01a24cabe912",
+          "prompt_source": "native",
+          "provider": "custom",
+          "publication_status": "published",
+          "session_id": "cd6b289b-5ce8-40ac-ad35-c042966dfb84",
+          "sha256": "e998b0989f9360183aff4bff853e0330d04549606dfdaac8c06eab5e0af7a49a",
+          "source": "codex",
+          "tool_event_count": 0
+        },
+        "session_id": "cd6b289b-5ce8-40ac-ad35-c042966dfb84",
+        "task_id": "64299e66-5053-4560-898a-b9e5150e89b6",
+        "termination_confirmed": true,
+        "transport_status": "acknowledged",
+        "verification_checked_at": "2026-11-08T19:09:25.859676+00:00",
+        "verified": true
+      },
+      "task_id": "64299e66-5053-4560-898a-b9e5150e89b6",
+      "unapproved_denied": true,
+      "wrong_credential_no_authenticated_response": true
+    }
+  ]
+}

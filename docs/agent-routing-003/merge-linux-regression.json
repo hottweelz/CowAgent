@@ -1,0 +1,263 @@
+{
+  "application_state": {
+    "HEAD": "b2ebaf2ddc89f94bab76dae1e5ca06e154d6933b",
+    "changed_python_file_count": 31,
+    "changed_python_hash_map_canonical_sha256": "d06e3f7a91bfcb9d28813606ec38b3b637ff272e36f9bddb7b346297934c3b8b",
+    "changed_python_hash_map_file_sha256": "623626beb12ea81aed69f411bfee08573bb199054b3eea4a0c1b306f0bc00586",
+    "changed_python_hash_map_path": "/private/tmp/cowagent-linux-regression.YOaHyP/final-changed-python-hashes.json",
+    "git_archive_sha256": "5ded3fd133f6ad0b1783173260c365eae1f5af9500d04da07699bcc5071c7204",
+    "native_fingerprint_input_file_count": 249,
+    "native_source_fingerprint": "c45ddab4aa00d8c57dc6c9b7370739ab6ee1a7e5f8fcd90381a565d49506f2ae",
+    "native_source_fingerprint_function": "agent/external/cowagent_native.py::source_fingerprint()",
+    "native_source_fingerprint_matches_pre_post": true,
+    "tree": "6cdd51222bd5bdb840fc3d152e835b2244554782"
+  },
+  "captured_local": "2026-11-08T16:37:23-05:00",
+  "coverage_and_limits": {
+    "containers": "Both task-owned test containers were stopped and removed after evidence capture; the local task-built 3.11 dependency image was also removed. Docker Desktop remains running.",
+    "host_service": "The existing host listener at 127.0.0.1:9899 remained PID 28093 after the runs; containers had no network attachment during pytest.",
+    "hosted_github_actions": "Still unverified. Repository Actions dispatch produced no runs; this receipt proves local Linux compatibility only.",
+    "linux_architecture": "Docker Linux aarch64 on Docker Desktop. This is not an x86_64 hosted runner replay.",
+    "native_browser": "Not installed or run in Linux, per task instruction; opt-in tests are reported as skips."
+  },
+  "prior_attempts": [
+    {
+      "classification": "Invalid setup diagnostic, not a gate result",
+      "diagnosis": "Most failures were direct fixture writes to the readonly checkout; four tokenizer tests attempted a forbidden public asset fetch; process and SQLite environment mismatches were corrected for the final gate.",
+      "environment": "Bookworm SQLite 3.40.1, root, readonly /workspace, no procps/--init, no tokenizer cache.",
+      "snapshot": "66017d38d6fd8af8cecbbe1efd378c7542d1f02f",
+      "summary": "31 failed, 5855 passed, 56 skipped, 2 errors, 93 subtests passed in 204.74s; exit 1."
+    },
+    {
+      "classification": "Superseded gate attempt before final fixture synchronization",
+      "diagnosis": "Only test_chrome_singleton_lock.py::test_a_zombie_does_not_count_as_alive failed. The fixture did not synchronize child exit before querying ps; final snapshot uses waitid(WEXITED|WNOWAIT).",
+      "snapshot": "8b137cf0137582e17e17ae548d8c948ee781a6d7",
+      "summary": "1 failed, 5895 passed, 48 skipped, 33 warnings, 93 subtests passed in 201.33s; exit 1."
+    },
+    {
+      "focused_repair_context": "Final two-file host fixture selection passed 16/16; final zombie test file passed 12/12; focused FTS5 recovery passed 1/1 on SQLite 3.46.1. No source changes were made during this Linux gate."
+    }
+  ],
+  "results_by_python": {
+    "3.11": {
+      "artifacts": {
+        "dependency_freeze": "/private/tmp/cowagent-linux-regression.YOaHyP/artifacts/python311-b2eb/pip-freeze.txt",
+        "dependency_freeze_sha256": "f38cd2d0ec09c28fa703e1b9eb9f5e7e2f6984ab2c707ce050d13298eba74876",
+        "junit": "/private/tmp/cowagent-linux-regression.YOaHyP/artifacts/python311-b2eb/junit.xml",
+        "junit_sha256": "3085adfa49b3b6cd8eea68a6c6235da9f1b6bbee905a014cdb104f8d90aa0213",
+        "log": "/private/tmp/cowagent-linux-regression.YOaHyP/artifacts/python311-b2eb/pytest.log",
+        "log_sha256": "f8351a8ffeea0df40b8158858d3bf02879178054ff07e4e9ac7787b32620f02b",
+        "source_post": "/private/tmp/cowagent-linux-regression.YOaHyP/artifacts/python311-b2eb/source-post.json",
+        "source_pre": "/private/tmp/cowagent-linux-regression.YOaHyP/artifacts/python311-b2eb/source-pre.json"
+      },
+      "base_image": "python:3.11-slim-trixie",
+      "base_image_id": "sha256:c5ba0da6ef694b3d8d1bc8bc9a1beadd026f679fe2df2f31a366d70146a0b0ed",
+      "base_repo_digest": "python@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535",
+      "container_id": "4a3799d0dcc467132bb9bcfc34ccb5003d8cfeabe5cc2c950bff5903016aa146",
+      "environment": {
+        "COW_BROWSER_NATIVE_TEST": "unset; native browser tests remain opt-in and were exercised in the successful macOS gate",
+        "HOME": "tests/conftest.py sets isolated temporary HOME and USERPROFILE; container has no user home bind mount",
+        "TIKTOKEN_CACHE_DIR": "/artifacts/tiktoken-cache; static cl100k_base asset installed during setup and reused offline",
+        "architecture": "aarch64",
+        "cwd": "/workspace-run",
+        "data": "/cow-data is task-owned writable mount; tests/conftest.py redirects COW_DATA_DIR to an isolated temporary directory",
+        "dependency_freeze": "/private/tmp/cowagent-linux-regression.YOaHyP/artifacts/python311-b2eb/pip-freeze.txt",
+        "dependency_freeze_sha256": "f38cd2d0ec09c28fa703e1b9eb9f5e7e2f6984ab2c707ce050d13298eba74876",
+        "docker_network": "none during pytest",
+        "init": "Docker --init enabled",
+        "optional_document_parsers": {
+          "XlsxWriter": "3.3.1",
+          "et-xmlfile": "2.0.0",
+          "lxml": "6.1.3",
+          "openpyxl": "3.1.5",
+          "pypdf": "7.0.0",
+          "python-docx": "1.2.0",
+          "python-pptx": "1.0.2"
+        },
+        "os": "Debian GNU/Linux 13 (trixie)",
+        "system_tools": {
+          "bash": "5.2.37",
+          "git": "2.47.3",
+          "node": "20.19.2",
+          "procps": "4.0.4",
+          "ripgrep": "14.1.1"
+        },
+        "uid": 1000,
+        "workspace_mount": "/workspace is readonly git archive; /workspace-run is a separate writable copy of the same archive for repository-local test fixtures"
+      },
+      "invocation": "docker exec --user 1000:1000 -e TIKTOKEN_CACHE_DIR=/artifacts/tiktoken-cache <3.11-container> sh /tmp/run-test.sh",
+      "prepared_image_id": "sha256:c0003fdc1269be7baef5741d6e134a10b16cd69766b69607dd181977b6941f62",
+      "pytest_command": "/venv/bin/python /tmp/run_regression.py -q --tb=short --junitxml=/artifacts/junit.xml tests/",
+      "python": "3.11.18",
+      "result": {
+        "errors": 0,
+        "exit_code": 0,
+        "failed": 0,
+        "junit_elapsed_seconds": 200.647,
+        "junit_errors": 0,
+        "junit_failures": 0,
+        "junit_total_including_subtests": 6037,
+        "named_cases": 5944,
+        "passed": 5896,
+        "pytest_elapsed_seconds": 200.74,
+        "skip_counts_by_reason": {
+          "Native macOS sips unavailable": 1,
+          "PowerShell backend is Windows-only and needs a PowerShell on PATH": 6,
+          "Requires native macOS sips": 3,
+          "Windows integration test": 4,
+          "backslash is only a separator on Windows": 2,
+          "could not import 'playwright.sync_api': No module named 'playwright'": 3,
+          "could not import 'tokenizers': No module named 'tokenizers'": 2,
+          "filesystem distinguishes Unicode canonical forms": 1,
+          "filesystem distinguishes filename case": 1,
+          "filesystem is case-sensitive; premise doesn't apply": 1,
+          "native Windows cmd.exe background integration": 1,
+          "native Windows cmd.exe integration": 8,
+          "only the Windows filesystem folds case": 1,
+          "opt-in installed browser test": 12,
+          "os.path.join only discards the left side for a drive-qualified tail": 1,
+          "runs the command through cmd.exe": 1
+        },
+        "skipped": 48,
+        "subtests_passed": 93,
+        "terminal_summary": "5896 passed, 48 skipped, 33 warnings, 93 subtests passed in 200.74s (0:03:20)",
+        "warnings": 33
+      },
+      "source_integrity": {
+        "native_fingerprint_input_file_count": 249,
+        "native_source_fingerprint": "c45ddab4aa00d8c57dc6c9b7370739ab6ee1a7e5f8fcd90381a565d49506f2ae",
+        "native_source_fingerprint_function": "agent/external/cowagent_native.py::source_fingerprint()",
+        "native_source_hash_aggregate_pre_post_match": true,
+        "native_source_pre_post_match": true,
+        "tracked_test_file_count": 706,
+        "tracked_test_hash_aggregate": "b07ba0af42aeac63a92fd12ae588478dae8fc1238f3698705394a43c7c1475a0",
+        "tracked_test_hash_aggregate_pre_post_match": true
+      },
+      "sqlite": "3.46.1"
+    },
+    "3.13": {
+      "artifacts": {
+        "dependency_freeze": "/private/tmp/cowagent-linux-regression.YOaHyP/artifacts/python313-b2eb/pip-freeze.txt",
+        "dependency_freeze_sha256": "b8c72ed899a2940bdaff8585335a1d1a2554eb7e62c876e4c6aef881dbbdc7c1",
+        "junit": "/private/tmp/cowagent-linux-regression.YOaHyP/artifacts/python313-b2eb/junit.xml",
+        "junit_sha256": "a605ea7929ebe8aa1f65bac6f1ea3f968eb6ad18b83c15fba4f1c1a091300784",
+        "log": "/private/tmp/cowagent-linux-regression.YOaHyP/artifacts/python313-b2eb/pytest.log",
+        "log_sha256": "12b55e4ccd2f944928fdc3c159a9b90c005245abdc37ed020b46027aa9368607",
+        "source_post": "/private/tmp/cowagent-linux-regression.YOaHyP/artifacts/python313-b2eb/source-post.json",
+        "source_pre": "/private/tmp/cowagent-linux-regression.YOaHyP/artifacts/python313-b2eb/source-pre.json"
+      },
+      "base_image": "python:3.13-slim-trixie",
+      "base_image_id": "sha256:1c0252262bd9a91b72301c941e478fff5c3dfeb23f146d034d590631cdc75e87",
+      "base_repo_digest": "python@sha256:e48f59cdba69a3cbd9ed2cf0f348d90d45a8d350d98134cf1070bc106ee9ed90",
+      "container_id": "6e33099cc8700c516f3c7d52ad92c14325fa32aff25fd67530cb7a754cd3a084",
+      "environment": {
+        "COW_BROWSER_NATIVE_TEST": "unset; native browser tests remain opt-in and were exercised in the successful macOS gate",
+        "HOME": "tests/conftest.py sets isolated temporary HOME and USERPROFILE; container has no user home bind mount",
+        "TIKTOKEN_CACHE_DIR": "/artifacts/tiktoken-cache; static cl100k_base asset installed during setup and reused offline",
+        "architecture": "aarch64",
+        "cwd": "/workspace-run",
+        "data": "/cow-data is task-owned writable mount; tests/conftest.py redirects COW_DATA_DIR to an isolated temporary directory",
+        "dependency_freeze": "/private/tmp/cowagent-linux-regression.YOaHyP/artifacts/python313-b2eb/pip-freeze.txt",
+        "dependency_freeze_sha256": "b8c72ed899a2940bdaff8585335a1d1a2554eb7e62c876e4c6aef881dbbdc7c1",
+        "docker_network": "none during pytest",
+        "init": "Docker --init enabled",
+        "optional_document_parsers": {
+          "XlsxWriter": "3.3.1",
+          "et-xmlfile": "2.0.0",
+          "lxml": "6.1.3",
+          "openpyxl": "3.1.5",
+          "pypdf": "7.0.0",
+          "python-docx": "1.2.0",
+          "python-pptx": "1.0.2"
+        },
+        "os": "Debian GNU/Linux 13 (trixie)",
+        "system_tools": {
+          "bash": "5.2.37",
+          "git": "2.47.3",
+          "node": "20.19.2",
+          "procps": "4.0.4",
+          "ripgrep": "14.1.1"
+        },
+        "uid": 1000,
+        "workspace_mount": "/workspace is readonly git archive; /workspace-run is a separate writable copy of the same archive for repository-local test fixtures"
+      },
+      "invocation": "docker exec --user 1000:1000 -e TIKTOKEN_CACHE_DIR=/artifacts/tiktoken-cache <3.13-container> sh /tmp/run-test.sh",
+      "pytest_command": "/venv/bin/python /tmp/run_regression.py -q --tb=short --junitxml=/artifacts/junit.xml tests/",
+      "python": "3.13.18",
+      "result": {
+        "errors": 0,
+        "exit_code": 0,
+        "failed": 0,
+        "junit_elapsed_seconds": 203.033,
+        "junit_errors": 0,
+        "junit_failures": 0,
+        "junit_total_including_subtests": 6037,
+        "named_cases": 5944,
+        "passed": 5896,
+        "pytest_elapsed_seconds": 203.11,
+        "skip_counts_by_reason": {
+          "Native macOS sips unavailable": 1,
+          "PowerShell backend is Windows-only and needs a PowerShell on PATH": 6,
+          "Requires native macOS sips": 3,
+          "Windows integration test": 4,
+          "backslash is only a separator on Windows": 2,
+          "could not import 'playwright.sync_api': No module named 'playwright'": 3,
+          "could not import 'tokenizers': No module named 'tokenizers'": 2,
+          "filesystem distinguishes Unicode canonical forms": 1,
+          "filesystem distinguishes filename case": 1,
+          "filesystem is case-sensitive; premise doesn't apply": 1,
+          "native Windows cmd.exe background integration": 1,
+          "native Windows cmd.exe integration": 8,
+          "only the Windows filesystem folds case": 1,
+          "opt-in installed browser test": 12,
+          "os.path.join only discards the left side for a drive-qualified tail": 1,
+          "runs the command through cmd.exe": 1
+        },
+        "skipped": 48,
+        "subtests_passed": 93,
+        "terminal_summary": "5896 passed, 48 skipped, 37 warnings, 93 subtests passed in 203.11s (0:03:23)",
+        "warnings": 37
+      },
+      "source_integrity": {
+        "native_fingerprint_input_file_count": 249,
+        "native_source_fingerprint": "c45ddab4aa00d8c57dc6c9b7370739ab6ee1a7e5f8fcd90381a565d49506f2ae",
+        "native_source_fingerprint_function": "agent/external/cowagent_native.py::source_fingerprint()",
+        "native_source_hash_aggregate_pre_post_match": true,
+        "native_source_pre_post_match": true,
+        "tracked_test_file_count": 706,
+        "tracked_test_hash_aggregate": "b07ba0af42aeac63a92fd12ae588478dae8fc1238f3698705394a43c7c1475a0",
+        "tracked_test_hash_aggregate_pre_post_match": true
+      },
+      "sqlite": "3.46.1"
+    }
+  },
+  "runner": {
+    "browser": "Native browser opt-in unset in Linux containers; successful macOS full gate covered browser and optional dependency cases.",
+    "isolation": "Runner clears inherited environment and sets task-owned COW_DATA_DIR, PYTHONDONTWRITEBYTECODE=1, and venv/system PATH. Tests/conftest.py sets isolated HOME/USERPROFILE and its own temporary COW_DATA_DIR.",
+    "network": "Docker network none during pytest; runner socket connect/connect_ex guard allows only runner-owned loopback fixture ports or owned Unix sockets; port 9899 denied. The public cl100k_base tokenizer data was prefetched during dependency setup and reused offline.",
+    "path": "/private/tmp/cowagent-linux-regression.YOaHyP/run_regression-writable.py",
+    "pytest_cli": "/venv/bin/python /tmp/run_regression.py -q --tb=short --junitxml=/artifacts/junit.xml tests/",
+    "sha256": "4bff79f6a4067334bd51dd5b37818b52bc9a4aeccbe5b4167669d63372e9bff8",
+    "wrapper_path": "/private/tmp/cowagent-linux-regression.YOaHyP/run-test.sh",
+    "wrapper_sha256": "7398c101d58f9ff6cf49fbadc0b4692d74faa5917ff6d7eb9d46bdb9b244ee14"
+  },
+  "scope": "Full CI directory-mode pytest tests/ from the published immutable snapshot; Python 3.11 and Python 3.13 run sequentially.",
+  "skip_classification": {
+    "linux_platform_or_filesystem_or_opt_in": 19,
+    "note": "The 12 opt-in native browser cases and 5 Playwright/tokenizers import skips are covered by the successful macOS full regression evidence. Windows cmd.exe and PowerShell skips are platform-specific. macOS sips and filesystem normalization/case assumptions are OS-specific.",
+    "optional_dependency_unavailable_in_linux": 5,
+    "total_per_python_version": 48,
+    "windows_only": 24
+  },
+  "status": "passed",
+  "task": "Final local Linux compatibility regression for AGENT-ROUTING-001..003 after fixture-only Linux race corrections",
+  "test_manifest": {
+    "sha256": "794494dabb2ed2e757fcdb36c5c049ebb79c270eca1b6ebd9b8dea68708ae2bc",
+    "source": "git ls-tree -r --name-only HEAD -- tests/, filtered to tracked tests/test*.py paths",
+    "tracked_test_files": 706,
+    "tracked_test_hash_aggregate": "b07ba0af42aeac63a92fd12ae588478dae8fc1238f3698705394a43c7c1475a0",
+    "tracked_test_hash_pre_post_match_both_python_versions": true,
+    "untracked_conflict_copies": "Not present in the git archive and not included in the tracked test denominator.",
+    "writable_copy_preflight": "Byte-for-byte content match to readonly /workspace archive before each full run."
+  }
+}

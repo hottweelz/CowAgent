@@ -120,15 +120,24 @@ class OperatorControl:
                 or directory.st_uid != self.uid or directory.st_mode & 0o077):
             raise ProtocolError('Operator state directory is not private and owned')
         for path in (self.path, *(Path(str(self.path) + suffix) for suffix in ('-wal', '-shm', '-journal'))):
-            try:
-                value = path.lstat()
-            except FileNotFoundError:
-                if path == self.path and not allow_missing:
-                    raise ProtocolError('Operator journal is not initialized')
-                continue
-            if (not stat.S_ISREG(value.st_mode) or value.st_uid != self.uid
-                    or value.st_mode & 0o077 or value.st_nlink != 1):
-                raise ProtocolError('Operator journal files are not private and owned')
+            # SQLite removes WAL/SHM when its last connection closes. Some
+            # filesystems can report an already-unlinked inode during lstat.
+            # Recheck only that transient sidecar case; every extant result is
+            # still subject to all ownership, mode, type and link checks.
+            for attempt in range(4):
+                try:
+                    value = path.lstat()
+                except FileNotFoundError:
+                    if path == self.path and not allow_missing:
+                        raise ProtocolError('Operator journal is not initialized')
+                    break
+                if (not stat.S_ISREG(value.st_mode) or value.st_uid != self.uid
+                        or value.st_mode & 0o077):
+                    raise ProtocolError('Operator journal files are not private and owned')
+                if value.st_nlink == 1:
+                    break
+                if path == self.path or value.st_nlink != 0 or attempt == 3:
+                    raise ProtocolError('Operator journal files are not private and owned')
 
     @contextmanager
     def _connect(self):

@@ -1,0 +1,113 @@
+{
+  "caller_audit_guard": "denied native workspace, data directory and ~/.cow opens",
+  "caller_private_open_attempts": 0,
+  "discovery": {
+    "approval_operations": [
+      "analyze_records"
+    ],
+    "cancellation": "cooperative",
+    "epoch": "ad8e6257-88e9-4a6c-8f6c-4bc8f9b8aa05",
+    "model": "nvidia/nemotron-3.5-super-vl:free",
+    "name": "CowAgent registered agent",
+    "native_capabilities": {
+      "agent_id": "testpilot",
+      "config_sha256": "a79cad07eb2dbb83a5b9eb65d145fe2047a729e980088da52955167664cd961a",
+      "model": "nvidia/nemotron-3.5-super-vl:free",
+      "profile_sha256": "b165eda4eeae3160bb4c873227e33c8fdc868cd64200ee52bfaaa3cb490ee214",
+      "provider": "custom",
+      "runtime_kind": "cowagent-registered/1",
+      "source_sha256": "6e548e6e155a06837579ea445aaa3ee032be709b5a38dc2b823c4e377b7bc9d9"
+    },
+    "operations": [
+      "analyze_records"
+    ],
+    "protocol": "cow.external/1",
+    "runtime_id": "cowagent.testpilot",
+    "session_ownership": "runtime"
+  },
+  "enrollment": {
+    "agent_id": "testpilot",
+    "config_sha256": "a79cad07eb2dbb83a5b9eb65d145fe2047a729e980088da52955167664cd961a",
+    "model": "nvidia/nemotron-3.5-super-vl:free",
+    "probe_sha256": "20771cd8d6f8723b8ef07870ca9896ab5a31a48c26f7e94b6ab5408f91601f5c",
+    "profile_sha256": "b165eda4eeae3160bb4c873227e33c8fdc868cd64200ee52bfaaa3cb490ee214",
+    "provider": "custom",
+    "runtime_kind": "cowagent-registered/1",
+    "source_sha256": "6e548e6e155a06837579ea445aaa3ee032be709b5a38dc2b823c4e377b7bc9d9"
+  },
+  "fixture": "/private/tmp/cowagent-routing-kwzz7xni",
+  "intent_counts": {
+    "native_intent": 1,
+    "publication_intent": 1,
+    "submit_intent": 1
+  },
+  "native_process_pid": 25263,
+  "schema": "cow.agent-routing.acceptance/1",
+  "status": {
+    "acceptance_status": "passed",
+    "cancel_requested": false,
+    "execution_status": "completed",
+    "external_state_status": "confirmed",
+    "last_error": "",
+    "observation_current": true,
+    "result_provenance": "authenticated_runtime_claim",
+    "revision": 5,
+    "runtime_id": "cowagent.testpilot",
+    "runtime_result": {
+      "adapter_version": "cow.cowagent/1",
+      "artifact": "report.json",
+      "memory_owner": "runtime",
+      "native_run_id": "feb7c160d5d94cb28afab9f30bb4ab3c",
+      "permission_mode": "read-only",
+      "prompt_source": "native",
+      "publication_status": "published",
+      "session_id": "f96a59e3-108e-4b06-9ac8-55cebf1aac79",
+      "sha256": "a69068c8b3daa395b9a86aaf37e70a1b9d741c28c934253281bf9c6dbd9b8d91",
+      "source": "codex",
+      "tool_event_count": 0
+    },
+    "session_id": "f96a59e3-108e-4b06-9ac8-55cebf1aac79",
+    "task_id": "4bb04826-e64e-43d4-9c4c-a010777786eb",
+    "termination_confirmed": true,
+    "transport_status": "acknowledged",
+    "verification_checked_at": "2026-11-08T16:47:47.738401+00:00",
+    "verified": true
+  },
+  "task": {
+    "authority": {
+      "expires_at": 1794156755.6497269,
+      "operations": [
+        "analyze_records"
+      ],
+      "resource": "4bb04826-e64e-43d4-9c4c-a010777786eb"
+    },
+    "conversation_id": "agent-routing-001",
+    "idempotency_key": "one-native-analysis",
+    "owner_id": "maintainer",
+    "runtime_id": "cowagent.testpilot",
+    "source_id": "codex",
+    "task": {
+      "artifact": "report.json",
+      "content": "{\"currency\":\"USD\",\"records\":[{\"amount_cents\":12500,\"id\":\"fictional-a\",\"status\":\"paid\"},{\"amount_cents\":7500,\"id\":\"fictional-b\",\"status\":\"paid\"},{\"amount_cents\":-2000,\"id\":\"fictional-c\",\"status\":\"refund\"},{\"amount_cents\":3000,\"id\":\"fictional-d\",\"status\":\"pending\"},{\"amount_cents\":900,\"id\":\"fictional-a\",\"status\":\"paid\"},{\"amount_cents\":100,\"id\":\"fictional-e\",\"status\":\"void\"},{\"amount_cents\":400,\"id\":\"fictional-f\",\"status\":\"refund\"}],\"schema_version\":1}",
+      "operation": "analyze_records"
+    },
+    "task_id": "4bb04826-e64e-43d4-9c4c-a010777786eb",
+    "verification": {
+      "acceptance": [],
+      "external_state": []
+    }
+  },
+  "unapproved_denied": true,
+  "postflight_snapshot_unchanged": true,
+  "native_log_metadata": [
+    "[INFO][2026-11-08 11:47:36][cowagent_native.py:179] - [NamedRouting] start caller=codex agent=testpilot session=f96a59e3-108e-4b06-9ac8-55cebf1aac79 run=feb7c160d5d94cb28afab9f30bb4ab3c model=nvidia/nemotron-3.5-super-vl:free permission=read-only",
+    "[INFO][2026-11-08 11:47:47][cowagent_native.py:197] - [NamedRouting] complete caller=codex agent=testpilot session=f96a59e3-108e-4b06-9ac8-55cebf1aac79 run=feb7c160d5d94cb28afab9f30bb4ab3c tool_events=0"
+  ],
+  "native_lifecycle_context_creation_events": 0,
+  "actual_native_model_turns": 1,
+  "independent_arithmetic": {
+    "net_cents": 18000,
+    "valid_records": 4,
+    "exceptions": 3
+  }
+}

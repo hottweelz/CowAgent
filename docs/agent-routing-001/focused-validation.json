@@ -1,0 +1,31 @@
+{
+  "milestone": "AGENT-ROUTING-001",
+  "focused_passed": 163,
+  "failed": 0,
+  "skipped": 0,
+  "ruff": "passed",
+  "diff_check": "passed",
+  "files": {
+    "agent/external/operator_review.py": "d927911938ac439fd2c57ad89e27a741e5141dc5d9a95ac164cd7e97560420e8",
+    "agent/external/cowagent_adapter.py": "76ac83d70dd16276ca4be65d495d2a7d1985b4dff2f947eb4f9c2ac2bde4adc7",
+    "agent/external/cowagent_native.py": "165da906a1b5e12adad4bc7cca6a4c62428a3daf885c56faf5a4a06267c0f122",
+    "agent/external/cowagent_cli.py": "6d3fa7fb920188fbcd47abf5d6570908ba8d4661039b1825cdef1343afc3a858",
+    "tests/test_cowagent_adapter.py": "e93c0e7202255666fbab63401ba6d15d90601cd514d7e222de43cb2065fca902",
+    "tests/test_cowagent_enrollment.py": "136950d7caefee19667aa0e8b1545cd1ce4c2614f080ab6d431624f2912eb35a",
+    "tests/test_cowagent_native.py": "70acc1ea890a17762b6518a916739c604924ea5024d77e1cdf355cbb2c72b174"
+  },
+  "test_files": [
+    "tests/test_cowagent_adapter.py",
+    "tests/test_cowagent_enrollment.py",
+    "tests/test_cowagent_native.py",
+    "tests/test_external_operator_review.py",
+    "tests/test_approved_dispatch.py",
+    "tests/test_external_operator_control.py",
+    "tests/test_external_contract.py",
+    "tests/test_external_supervisor.py",
+    "tests/test_isolation_delegation.py",
+    "tests/test_agent_initializer_routing.py",
+    "tests/test_agent_registry.py",
+    "tests/test_agent_routing.py"
+  ]
+}
