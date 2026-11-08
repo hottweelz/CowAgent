@@ -1,74 +1,107 @@
 name: Tests
 
-# Runs the full backend test suite on every push to master and on every PR.
-# Previously only a single file (test_bash_streaming.py) was exercised in CI;
-# the ~130-file suite never ran here, so regressions could slip past the
-# release pipeline. This workflow is the safety net for that gap.
-
 on:
   push:
     branches: [master]
   pull_request:
+  workflow_dispatch:
+    inputs:
+      base_sha:
+        description: Full commit SHA for the changed-file lint base
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
-    name: pytest (${{ matrix.python }})
-    runs-on: ubuntu-latest
+    name: pytest (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.11", "3.13"]
-
+        include:
+          - os: macos-latest
+            python: '3.13'
+          - os: ubuntu-latest
+            python: '3.11'
+          - os: ubuntu-latest
+            python: '3.13'
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
           cache: pip
-
-      - name: Install dependencies
+          cache-dependency-path: |
+            requirements.txt
+            scripts/requirements-ci.txt
+      - name: Install test dependencies
+        run: python -m pip install -r requirements.txt -r scripts/requirements-ci.txt
+      - name: Check SQLite version
+        run: python -c "import sqlite3; print(sqlite3.sqlite_version); assert sqlite3.sqlite_version_info >= (3, 44, 0), 'SQLite 3.44 or newer is required'"
+      - name: Prepare public tokenizer cache
+        env:
+          TIKTOKEN_CACHE_DIR: ${{ runner.temp }}/cow-tiktoken-cache
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install pytest
-          python -m pip install -r requirements.txt
-
+          mkdir -p "$TIKTOKEN_CACHE_DIR"
+          python -c "import tiktoken; tiktoken.get_encoding('cl100k_base')"
       - name: Run backend test suite
-        run: python -m pytest tests/ -q
+        env:
+          TIKTOKEN_CACHE_DIR: ${{ runner.temp }}/cow-tiktoken-cache
+        run: python scripts/ci_test.py tests/ -q --junitxml=test-results.xml
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-${{ matrix.os }}-py${{ matrix.python }}
+          path: test-results.xml
+          if-no-files-found: ignore
 
-  lint:
-    name: ruff (F-class gate)
+  javascript:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+      - name: Web JavaScript tests
+        run: node --test tests/test_usage_display.mjs tests/web_scroll.test.cjs tests/web_message_mutation.test.cjs
+      - name: Install desktop dependencies
+        working-directory: desktop
+        run: npm ci
+      - name: Desktop scroll tests
+        run: node --test desktop/tests/chat-scroll.test.mjs
+      - name: Desktop type check and build
+        working-directory: desktop
+        run: |
+          ./node_modules/.bin/tsc --noEmit -p tsconfig.json
+          npm run build
+
+  lint:
+    name: ruff (changed Python files)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+          persist-credentials: false
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-
-      - name: Install ruff
-        run: python -m pip install ruff
-
-      - name: Run ruff (fatal on real-bug F-class violations, changed files only)
-        # F = pyflakes (unused imports, undefined names, dead code) — these are
-        # real defects and must stay green on the files this PR touches. The
-        # codebase carries thousands of legacy E/W/B (style/bugbear) violations
-        # and pre-existing F debt on master, so the gate is scoped to changed
-        # Python files instead of scanning the whole repo: that keeps new
-        # regressions out without forcing an unrelated codebase-wide cleanup.
-        # F403/F405 (star-imports) are an intentional re-export pattern.
+          python-version: '3.13'
+      - run: python -m pip install -r scripts/requirements-ci.txt
+      - name: Check changed Python files
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: |
-          files=$(git diff --name-only "${BASE_SHA}" HEAD -- '*.py' || true)
-          if [ -z "$files" ]; then
-            echo "No Python files changed; skipping ruff."
-            exit 0
-          fi
-          ruff check $files --select F --ignore F403,F405
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || inputs.base_sha }}
+        run: python scripts/ci_lint.py

@@ -1,0 +1,117 @@
+{
+  "captured_at": "2026-11-08T23:18:54.897240+00:00",
+  "run": {
+    "id": 42534178341,
+    "name": "Windows Bash Streaming Tests",
+    "event": "workflow_dispatch",
+    "status": "completed",
+    "conclusion": "success",
+    "head_branch": "master",
+    "head_sha": "fe00855a9f7b896115b2268492e11aa82d9bdc10",
+    "run_attempt": 1,
+    "created_at": "2026-11-08T23:14:04Z",
+    "run_started_at": "2026-11-08T23:14:04Z",
+    "updated_at": "2026-11-08T23:16:02Z",
+    "html_url": "https://github.com/hottweelz/CowAgent/actions/runs/42534178341"
+  },
+  "job": {
+    "id": 128894715127,
+    "name": "windows-bash-tests",
+    "status": "completed",
+    "conclusion": "success",
+    "started_at": "2026-11-08T23:14:10Z",
+    "completed_at": "2026-11-08T23:16:01Z",
+    "runner_name": "GitHub Actions 1000002142",
+    "runner_group_name": "GitHub Actions",
+    "labels": [
+      "windows-latest"
+    ],
+    "html_url": "https://github.com/hottweelz/CowAgent/actions/runs/42534178341/job/128894715127",
+    "steps": [
+      {
+        "name": "Set up job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 1,
+        "started_at": "2026-11-08T23:14:10Z",
+        "completed_at": "2026-11-08T23:14:11Z"
+      },
+      {
+        "name": "Checkout repository",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 2,
+        "started_at": "2026-11-08T23:14:11Z",
+        "completed_at": "2026-11-08T23:14:18Z"
+      },
+      {
+        "name": "Set up Python",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 3,
+        "started_at": "2026-11-08T23:14:18Z",
+        "completed_at": "2026-11-08T23:14:21Z"
+      },
+      {
+        "name": "Install dependencies",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 4,
+        "started_at": "2026-11-08T23:14:21Z",
+        "completed_at": "2026-11-08T23:15:45Z"
+      },
+      {
+        "name": "Run Windows Bash streaming tests",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 5,
+        "started_at": "2026-11-08T23:15:45Z",
+        "completed_at": "2026-11-08T23:15:56Z"
+      },
+      {
+        "name": "Post Set up Python",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 9,
+        "started_at": "2026-11-08T23:15:56Z",
+        "completed_at": "2026-11-08T23:15:58Z"
+      },
+      {
+        "name": "Post Checkout repository",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 10,
+        "started_at": "2026-11-08T23:15:58Z",
+        "completed_at": "2026-11-08T23:16:00Z"
+      },
+      {
+        "name": "Complete job",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 11,
+        "started_at": "2026-11-08T23:16:00Z",
+        "completed_at": "2026-11-08T23:16:00Z"
+      }
+    ]
+  },
+  "logs": {
+    "retrieved_via": "GitHub connector fetch_workflow_job_logs",
+    "path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-reliability-001-47vmhc57/windows-job.log",
+    "sha256": "af02baa93e4e32458e4aaa8d4d700549b10e62aaa44f14824d223b489d5ee92c",
+    "summary": [
+      "2026-11-08T23:15:56.5721831Z ======================== 11 passed, 5 skipped in 9.75s ========================"
+    ]
+  },
+  "distinct_evidence": {
+    "workflow_recognized": true,
+    "dispatch_event_accepted_http": 204,
+    "run_created": true,
+    "runner_started": true,
+    "job_completed_successfully": true,
+    "logs_retrieved": true
+  },
+  "limits": [
+    "This is the existing Windows Bash streaming file, not full Windows coverage.",
+    "Manual dispatch works. Earlier missing automatic push/PR runs remain unexplained."
+  ]
+}

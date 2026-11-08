@@ -1,0 +1,251 @@
+{
+  "captured_at": "2026-11-08T23:08:51.074308+00:00",
+  "requested_baseline": "fe00855a9f7b896115b2268492e11aa82d9bdc10",
+  "workspace": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent",
+  "commands": {
+    "status": {
+      "exit_code": 0,
+      "stdout": "## master...origin/master\n?? \".cow [conflicted 2].pid\"\n?? \".cow [conflicted 3].pid\"\n?? \".cow [conflicted 4].pid\"\n?? \".cow [conflicted].pid\"\n?? AGENTS.md\n?? \"tests/test_parallel_tool_calls [conflicted 2].py\"\n?? \"tests/test_parallel_tool_calls [conflicted].py\"",
+      "stderr": ""
+    },
+    "heads": {
+      "exit_code": 0,
+      "stdout": "fe00855a9f7b896115b2268492e11aa82d9bdc10\nfe00855a9f7b896115b2268492e11aa82d9bdc10\nfe00855a9f7b896115b2268492e11aa82d9bdc10",
+      "stderr": ""
+    },
+    "branches": {
+      "exit_code": 0,
+      "stdout": "refs/codex/turn-diffs/checkpoints/2ea65379fc66a44c199f69e8f732bfa1/60f84d33a99f3a8aa6809648171e5a37/1794112867166/81e576aa-b8ff-48ff-8f9a-6bb5419b5f55 1177f529cbc198be66aa3907f26ede7fc38157a3  \nrefs/heads/audit/efficiency-001-context-cache 8eef97dcb744cd7073947f8d1e5942b2484369d0 refs/remotes/origin/audit/efficiency-001-context-cache \nrefs/heads/audit/orchestration-001-native 06e0a4ddd0b4512d039d5a2c8e4cd2561c7f44f5 refs/remotes/origin/audit/orchestration-001-native \nrefs/heads/codex/agent-routing-001 90c3cd8f72ffe7a47cb20925fa538eda479317c6 refs/remotes/origin/codex/agent-routing-001 \nrefs/heads/codex/agent-routing-002 2289860bf9eccdc4c94f5beaa3a4c3db85c74704 refs/remotes/origin/codex/agent-routing-002 \nrefs/heads/codex/agent-routing-003 5527fd1f60898c5e93ea13bc25b3d4aa71b82e45 refs/remotes/origin/codex/agent-routing-003 \nrefs/heads/codex/routing-closeout-ref-recovery 1e5e15bd175d1f020e30768b792497d1f1d051be  \nrefs/heads/codex/routing-closeout-verified 2b6df30a66f79b37577112517add8e56c7b22288  \nrefs/heads/feat/external-001-runtime-contract bfd64e39feaa198da80c301da507949c5617c329 refs/remotes/origin/feat/external-001-runtime-contract \nrefs/heads/feat/external-002-codex-adapter e5b2fca5e0a7e180437fe3084290b33032ea2681 refs/remotes/origin/feat/external-002-codex-adapter \nrefs/heads/feat/external-003-operator-controls 036d957fb0c318565283d1909a5ae19373076cff refs/remotes/origin/feat/external-003-operator-controls \nrefs/heads/feat/external-003b-approved-dispatch 2ea1c29f2c25ca7086afa1dbb7e35b43e9fb6dbc refs/remotes/origin/feat/external-003b-approved-dispatch \nrefs/heads/feat/recovery-001-durable-tasks 8ed52509ddfaebcf271c1f91c1391492f482763e refs/remotes/origin/feat/recovery-001-durable-tasks \nrefs/heads/feat/verification-001-task-outcomes b8b4b40b16a02781044b9e5ab9e7a382974e7ac5 refs/remotes/origin/feat/verification-001-task-outcomes \nrefs/heads/fix/channels-icon-type-contract e642eec11c4fba1b193d49c7dadb3d02d4667ce0 refs/remotes/origin/fix/channels-icon-type-contract \nrefs/heads/fix/isolation-001-worker-authority 5b0bb0be33cbb2604dc80ee43629c1b6f6e316d7 refs/remotes/origin/fix/isolation-001-worker-authority \nrefs/heads/fix/memory-sqlite-io 37d947bba26d6969e2f43a4db81d391560345057 refs/remotes/origin/fix/memory-sqlite-io \nrefs/heads/master fe00855a9f7b896115b2268492e11aa82d9bdc10 refs/remotes/origin/master \nrefs/heads/release/orchestration-release-001 e642eec11c4fba1b193d49c7dadb3d02d4667ce0 refs/remotes/origin/release/orchestration-release-001 \nrefs/remotes/origin/HEAD fe00855a9f7b896115b2268492e11aa82d9bdc10  \nrefs/remotes/origin/audit/efficiency-001-context-cache 8eef97dcb744cd7073947f8d1e5942b2484369d0  \nrefs/remotes/origin/audit/orchestration-001-native 06e0a4ddd0b4512d039d5a2c8e4cd2561c7f44f5  \nrefs/remotes/origin/codex/agent-routing-001 90c3cd8f72ffe7a47cb20925fa538eda479317c6  \nrefs/remotes/origin/codex/agent-routing-002 2289860bf9eccdc4c94f5beaa3a4c3db85c74704  \nrefs/remotes/origin/codex/agent-routing-003 5527fd1f60898c5e93ea13bc25b3d4aa71b82e45  \nrefs/remotes/origin/feat/external-001-runtime-contract bfd64e39feaa198da80c301da507949c5617c329  \nrefs/remotes/origin/feat/external-002-codex-adapter e5b2fca5e0a7e180437fe3084290b33032ea2681  \nrefs/remotes/origin/feat/external-003-operator-controls 036d957fb0c318565283d1909a5ae19373076cff  \nrefs/remotes/origin/feat/external-003b-approved-dispatch 2ea1c29f2c25ca7086afa1dbb7e35b43e9fb6dbc  \nrefs/remotes/origin/feat/recovery-001-durable-tasks 8ed52509ddfaebcf271c1f91c1391492f482763e  \nrefs/remotes/origin/feat/verification-001-task-outcomes b8b4b40b16a02781044b9e5ab9e7a382974e7ac5  \nrefs/remotes/origin/fix/channels-icon-type-contract e642eec11c4fba1b193d49c7dadb3d02d4667ce0  \nrefs/remotes/origin/fix/isolation-001-worker-authority 5b0bb0be33cbb2604dc80ee43629c1b6f6e316d7  \nrefs/remotes/origin/fix/memory-sqlite-io 37d947bba26d6969e2f43a4db81d391560345057  \nrefs/remotes/origin/master fe00855a9f7b896115b2268492e11aa82d9bdc10  \nrefs/remotes/origin/release/orchestration-release-001 e642eec11c4fba1b193d49c7dadb3d02d4667ce0  \nrefs/remotes/upstream/HEAD 94309bac5fb89c30f07849175571887914a28621  \nrefs/remotes/upstream/dev-rag-enhance 5c65196e44cbc4bd4c20468461b0d39fa11ec2cc  \nrefs/remotes/upstream/docs-desc-fill 4823fd1fbd838bcdc7865a25453eabcae02b5531  \nrefs/remotes/upstream/feat-add-mimo bccce2d7cbde47f221eac886855687c03c8819fc  \nrefs/remotes/upstream/feat-async-task bd9e7ea444010dc01182dfd6ffe68359029c71ca  \nrefs/remotes/upstream/feat-browser-tool 8ea2455766ba94f1f122419e1a7f15b4f42fe90a  \nrefs/remotes/upstream/feat-config-update 1c71c4e38bfab060f60bf2bfca0c4b9227bf51df  \nrefs/remotes/upstream/feat-cow-agent d085a3c7d7a58079b1ec7e8ec82d1b8bcd4db00e  \nrefs/remotes/upstream/feat-cow-cli db85b9808ed600925430c814c3ad421b2fa4b0bb  \nrefs/remotes/upstream/feat-cow-desktop 6211e63f900040afc2f6b8dfc0e9b855a1cfb82d  \nrefs/remotes/upstream/feat-desktop-browser 5d55ec0f8cf2f3a4cec3d177aa63f6908d8063f8  \nrefs/remotes/upstream/feat-docs 6db22827f21b12d4ee248eca8918ac43ce12c7ff  \nrefs/remotes/upstream/feat-i18n 9e6a2cc2c059df3c0dd90f3e91fd197361a0eba8  \nrefs/remotes/upstream/feat-knowledge 5162da5654a0f455d55c907671e64a3d15b3891a  \nrefs/remotes/upstream/feat-mcp-oauth 8c7cda89dc3a5848fe54872d17a661ecf4d9d4a8  \nrefs/remotes/upstream/feat-mulit-session 90e4d494b231248f2108c249d298bae043ca81bc  \nrefs/remotes/upstream/feat-multi-agent b37eb30b83444dc5d10db077e0697198ec641618  \nrefs/remotes/upstream/feat-multi-channel 7cce2244992f6672c50491c9e9b7d62d42b1f793  \nrefs/remotes/upstream/feat-multi-model 2517f2add8f5dc2d0512f2baf3b1c52a02255213  \nrefs/remotes/upstream/feat-multimodel 26693acc3f8d299983bfbb63694ca3fe4b8ba323  \nrefs/remotes/upstream/feat-qq-channel a4d54f58c8f65d3421a4ee6d7164a959f1ab37f7  \nrefs/remotes/upstream/feat-readme-refactoring 29af855ecdb19d974d3ad236a5aecaa56ff011af  \nrefs/remotes/upstream/feat-self-evolution ff584f8421a8d5ba0a62fb9b79d7e07819c177d6  \nrefs/remotes/upstream/feat-skill-hub db16bdf8cb93405913ec57a89427e28d2301f1f8  \nrefs/remotes/upstream/feat-space-specification 58465ebc9ee3dd7c35c23c82e722db0ffc43a403  \nrefs/remotes/upstream/feat-superagent-multiagent 54f5e02846ab5c103707a844a436701a88e2c725  \nrefs/remotes/upstream/feat-telegram e3eacc77d751a1932dd8f678a055e911cc5a66c4  \nrefs/remotes/upstream/feat-theme-system e8d9fb4e51ec7a4c17cc61f515e0bd304dd0a934  \nrefs/remotes/upstream/feat-web-config 7d258b5202151a3213fd4580f0f212ac226b5d20  \nrefs/remotes/upstream/feat-web-console 394853c0fbc0a1cdfeb71d105fe2e69c06592721  \nrefs/remotes/upstream/feat-web-console-upgrade 4f7064575e72f90da6c422867ade974129e30c75  \nrefs/remotes/upstream/feat-web-files 30c6d9b5ae1a38ab592d873036eb47b54558c3b4  \nrefs/remotes/upstream/feat-wecom-bot d4bdd9b1b7352e7e80d4ef7c87f8eece7d3d9ef2  \nrefs/remotes/upstream/feat-wecom-bot-qrcode 66b71c50e989e45b277e439b1a4a36155161b7ad  \nrefs/remotes/upstream/feat-workspace-preview 2af92414b2d276acbc7543710937353575c0fca6  \nrefs/remotes/upstream/feat-workspace-project 2b06a983377b7836999efb02e8c32ae38e912e5e  \nrefs/remotes/upstream/feat/search-files-tool 7ccc2067c2dd4644e6c398a31ba2df8dab891e97  \nrefs/remotes/upstream/master 94309bac5fb89c30f07849175571887914a28621  \nrefs/remotes/upstream/refactor/split-web-channel-py ce3bbce2c0db660caf7df367f352604b720c291d  \nrefs/tags/1.0.0 e366b60c352dbab009f137744f224aa97d23791a  \nrefs/tags/1.0.1 2aa146341f331c100336ba5f5ec4f04450ada058  \nrefs/tags/1.0.2 bca0939c9df842755dc40022bd810a6eeb48d421  \nrefs/tags/1.0.3 cfa738087f49aa5cf7ddd6f82dae36634652447c  \nrefs/tags/1.0.4 ad7ab088fe8745aafd168a4d6a7da4046f8091d0  \nrefs/tags/1.0.5 38ad01a3877a40985f911920a7f91c0bbfbd1425  \nrefs/tags/1.0.6 a660aa2133833f9c30b8a5d7e0e0dc7547ddd354  \nrefs/tags/1.1.0 d3cc52b794d09ec83c6e3bd51e4be4fcecd5b7f0  \nrefs/tags/1.1.0-beta 5aedce647f1722359799c4177474cbf5863ac014  \nrefs/tags/1.1.1 e226c93eeb043d2db3f7b00376e9f0c62415156f  \nrefs/tags/1.1.2 3c91575ebea46fdab7482cc083f52a08f01c2cfa  \nrefs/tags/1.1.3 167f10c9f9e04956005db142b3a43f23ef331e91  \nrefs/tags/1.1.4 950a9f2ee0addf2602914b16a1f9ee145dded98b  \nrefs/tags/1.1.5.1 66a81cd47cef3efceec41e88559a039322d3033d  \nrefs/tags/1.1.5.2 d9ef5a6612838b390cebab159f6959f119338ab1  \nrefs/tags/1.1.5.3 4ad2997717e02a3ab84511515ccfb0aa0695366d  \nrefs/tags/1.1.6 47cc65a78734005c655214b69c2ad9a114e2d8ac  \nrefs/tags/1.1.7 18d82bc1f0379951378479e2fac0ecf396f23ed8  \nrefs/tags/1.1.7.1 cec674cb47a1ddff4d3952ae9b47c983cdf2e62b  \nrefs/tags/1.1.7.2 6076e2ed0a9c55bf9a4b5d38e72f88860bf11b97  \nrefs/tags/1.1.7.3 02a95345aa0ae9b6869f5fbbd4338cb6d78c41cd  \nrefs/tags/1.1.7.4 7458a6298ffd4649941beeed83a92504073ab3d8  \nrefs/tags/1.1.8 371e38cfa6d44d29271260b0a9d964e7c4ebf075  \nrefs/tags/1.1.8.1 186e18fe94c801308a53c7a822a4f77e5f371a3a  \nrefs/tags/1.1.8.2 94004b095b176ae8072b055a50ebb668b36efb7b  \nrefs/tags/1.2.0 2cf71dd6f2fd9f55650efc99ba92d2d928072883  \nrefs/tags/1.2.0.1 938e3b5cf240310612a1cb781147dd8a324c901b  \nrefs/tags/1.2.1 9a20c1cb0297fcd6ae1cf8ae867a0484eb22239c  \nrefs/tags/1.2.1.1 c9306633b2f9a4dfed37e33861652c28011119fc  \nrefs/tags/1.2.1.2 2ea8b4ef73ffea2048d7f916fe34e4c41f89ad73  \nrefs/tags/1.2.1.3 8c48a27e1a2566659730c870a9c00b722606db26  \nrefs/tags/1.2.2 8779eab36ba4708bc432e9c3aeb8b4e66e570d9b  \nrefs/tags/1.2.2.1 bf4ae9a0515a75197111677921d12eaa802665a4  \nrefs/tags/1.2.2.2 ee91c86a29b03d1e8b956c55f121abd6b82f2dec  \nrefs/tags/1.2.3 78332d882ba495ed19a130b2387017282ca67f4a  \nrefs/tags/1.2.3.1 2f732e5493c6288f6a04405e858618fe87a25c90  \nrefs/tags/1.2.3.2 e8aae27ee9c1f3d323ade2414b631c3d0655ccc4  \nrefs/tags/1.2.5 a52f54d988312fafaecc9963e13b656dec6a7cbf  \nrefs/tags/1.3.0 8528c9b262f54b484b29f1a1864e982faf0aaeea  \nrefs/tags/1.3.0.1 3001ba92668bc642aac115d3221dc9f902ab3461  \nrefs/tags/1.3.0.2 2133c1d6afee5f5f92d201c41994f950a77b9aed  \nrefs/tags/1.3.0.3 9d2cb75c84cd08e5b723dd414919ac38c1a7b417  \nrefs/tags/1.3.1 a582a46ce95a6608898772cefe910a0a2bea0a33  \nrefs/tags/1.3.2 2db46733928af7d8b12fb818e155a80d9023b1fa  \nrefs/tags/1.3.3 41762a1c579cdcc73b3f08447cf7cabd58947b83  \nrefs/tags/1.3.4 ca916b7ce52fe07d00e40c3af1ffb979b4e1df82  \nrefs/tags/1.3.5 88bf345b91093aabc82b7301e1c4c04a149c5b86  \nrefs/tags/1.3.6 a64d7c42b1a30da62279ff196665799da987ffa4  \nrefs/tags/1.3.7 dedf9763751a15ad9ac3792845737a6266003fb5  \nrefs/tags/1.3.8 04d5c1ab01c6400f1af2a0ca2d2053ecf8879b4f  \nrefs/tags/1.3.9 7c8fb7eaccf578479e284d437a89bfb8d8bb4087  \nrefs/tags/1.3.9.5 21b956b98398a78cf8568a1e47b98753758ad068  \nrefs/tags/1.4.0 058c167f79e8bea0bb97fce78e4f34d112763f5d  \nrefs/tags/1.5.0 a2ec1a063d38adbe80b1acbf709d8ca319f2f7ac  \nrefs/tags/1.5.1 061d8a3a5f87df7cbcd6785774beff32781874b9  \nrefs/tags/1.5.2 0b2ce485860c9bbf53ef422466f3a4b4dfbc7552  \nrefs/tags/1.5.3 ae4077ed6cc91612751ec4fa89dccbe667a27397  \nrefs/tags/1.5.4 c049a619dcea44025609a22369ffa2471da04789  \nrefs/tags/1.5.5 eae95dfef5480387ef6fff7fc537af94500143b3  \nrefs/tags/1.5.6 d0fd78497d43b7368709d6e29912d08bb7a16b5d  \nrefs/tags/1.5.7 5346dfdd8b52a2291f59d8250eb0f17dedd30b93  \nrefs/tags/1.5.7.1 74ebbdd7617b08bfc4afb4c095b0c38356387536  \nrefs/tags/1.5.8 93b14d38f46254c2603ba7b304a67ca7795902e2  \nrefs/tags/1.5.9 31ac80a07479dfc85f51d5a20087a492003d7aea  \nrefs/tags/1.6.0 096d5776d19b423156513696e975d68c90b94df9  \nrefs/tags/1.6.5 e381d1bfb8bbe53349ea4bbe2b629d0e45f61e95  \nrefs/tags/1.6.6 405372d1a73d8592203e31d8fdb0556e4308cf1a  \nrefs/tags/1.6.7 cad3b691a94881420e8258d51e875d6f92353fc9  \nrefs/tags/1.6.8 22391ba1a54bc5fb5322a11d73fa845b91844291  \nrefs/tags/1.6.9 de2c031797b23b1b8b9d55c111a556a92d19970e  \nrefs/tags/1.7.0 3f5b976a87fd8460cafeb3bd64004b17b388462d  \nrefs/tags/1.7.1 469524e8ae7da12fa7e07d2a3724b8e30ab7d1ed  \nrefs/tags/1.7.2 883f0d449b54aa1208ba2b82168280a40690cdd5  \nrefs/tags/1.7.3 22d67b3a596f8c96cc2f8b2e5ed58a47c8bb53bb  \nrefs/tags/1.7.4 16324e72837b9898dfaca76897cdcdb27044dc06  \nrefs/tags/1.7.5 7167310ccde1c44ba2a73335009443ad58715176  \nrefs/tags/1.7.6 a77e4bfb7a4f5b8de974e249cd5bc8e2cfc34978  \nrefs/tags/2.0.0 ce63de3c58910ce637577733c1a673e4e0ec55cb  \nrefs/tags/2.0.1 a24b26a1ef9c3e307d742f6f99954131ab1e8a3b  \nrefs/tags/2.0.2 e99837a8b9ae946db58c1e9aff1b20acecead99c  \nrefs/tags/2.0.3 8bb16c48c06c058f66ab1bd2d3faf7326b840195  \nrefs/tags/2.0.4 5958b69ec93c8ffc0bab9b18d25133aee0b6b403  \nrefs/tags/2.0.5 830b8f2971a7d8c146c2dddc0c03b877ae4bd54a  \nrefs/tags/2.0.6 60e9d98d0a3ab731920f188cb4be2011e71accbf  \nrefs/tags/2.0.7 ce4c0a0aa4e66a9e211ff32049a936844a945e59  \nrefs/tags/2.0.8 55aaf60a57ea6e9f4b8a54797572d98f65e88d2f  \nrefs/tags/2.0.9 069bffa3e8f076a0cd0dd29fa473c42a777ad06b  \nrefs/tags/2.1.0 feaa9076b0d5eb60cab5ada6aec20f09d4d774fb  \nrefs/tags/2.1.1 8cb53e612919ddbd8231dd86e6c060222b517536  \nrefs/tags/2.1.2 01373465b0603bf9a80ab5f8a45d34b9c310366e  \nrefs/tags/2.1.3 bf0c26d3c484f910b8fdad4389af6898022c6262  \nrefs/tags/2.1.4 a78fb711adbe0080016103a40d823fab29dd323d  \nrefs/tags/2.1.5 e3ac1b952500f60934862c6bf0bd0de91b415ed8  \nrefs/tags/2.1.6 c5fc2a822edaf5eb00408327354a7409792e3577  \nrefs/tags/2.1.7 bdbae391b2ad05e90de8df92ab0c9d947a30ba4e  \nrefs/tags/2.1.8 6a6a8bc81cccf3a50169fd0bc4babb4d3d4fbd1d  \nrefs/tags/2.1.9 be1782cb3977ee9fa56482d4a5a7d405feb35c8c  \nrefs/tags/2.2.0 c94f3bba903fa6f4e4b2330d7f8f27de1b1be7f5  \nrefs/tags/2.2.1 61499724b195a4c3b1bac79a11957879d32c0351  \nrefs/tags/2.2.2 8c90b740f58c7a3ca6931b1f0c0287192bba9650",
+      "stderr": ""
+    },
+    "remotes": {
+      "exit_code": 0,
+      "stdout": "origin\thttps://github.com/hottweelz/CowAgent.git (fetch)\norigin\thttps://github.com/hottweelz/CowAgent.git (push)\nupstream\thttps://github.com/zhayujie/CowAgent.git (fetch)\nupstream\thttps://github.com/zhayujie/CowAgent.git (push)",
+      "stderr": ""
+    },
+    "worktrees": {
+      "exit_code": 0,
+      "stdout": "worktree /Volumes/Predator SSD GM7 1TB/Projects/CowAgent\nHEAD fe00855a9f7b896115b2268492e11aa82d9bdc10\nbranch refs/heads/master\n\nworktree /private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-isolation-baseline-t7gh60q2/source\nHEAD c2c39a2e0823f1556ecdc79f9e07911fff207a05\ndetached",
+      "stderr": ""
+    },
+    "git_dirs": {
+      "exit_code": 0,
+      "stdout": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent\n/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.git\n.git",
+      "stderr": ""
+    },
+    "version": {
+      "exit_code": 0,
+      "stdout": "git version 2.50.1 (Apple Git-155)",
+      "stderr": ""
+    },
+    "ref_format": {
+      "exit_code": 0,
+      "stdout": "files",
+      "stderr": ""
+    },
+    "config": {
+      "exit_code": 0,
+      "stdout": "file:/Users/jamestylee/.gitconfig\tsafe.directory *\nfile:.git/config\tcore.repositoryformatversion 0\nfile:.git/config\tcore.filemode true\nfile:.git/config\tcore.bare false\nfile:.git/config\tcore.logallrefupdates true\nfile:.git/config\tcore.ignorecase true\nfile:.git/config\tcore.precomposeunicode true\nfile:.git/config\tremote.origin.url https://github.com/hottweelz/CowAgent.git\nfile:.git/config\tremote.origin.fetch +refs/heads/*:refs/remotes/origin/*\nfile:.git/config\tbranch.master.remote origin\nfile:.git/config\tbranch.master.merge refs/heads/master\nfile:.git/config\tremote.upstream.url https://github.com/zhayujie/CowAgent.git\nfile:.git/config\tremote.upstream.fetch +refs/heads/*:refs/remotes/upstream/*\nfile:.git/config\tbranch.fix/memory-sqlite-io.remote origin\nfile:.git/config\tbranch.fix/memory-sqlite-io.merge refs/heads/fix/memory-sqlite-io\nfile:.git/config\tbranch.audit/efficiency-001-context-cache.remote origin\nfile:.git/config\tbranch.audit/efficiency-001-context-cache.merge refs/heads/audit/efficiency-001-context-cache\nfile:.git/config\tbranch.audit/orchestration-001-native.remote origin\nfile:.git/config\tbranch.audit/orchestration-001-native.merge refs/heads/audit/orchestration-001-native\nfile:.git/config\tbranch.fix/isolation-001-worker-authority.remote origin\nfile:.git/config\tbranch.fix/isolation-001-worker-authority.merge refs/heads/fix/isolation-001-worker-authority\nfile:.git/config\tbranch.feat/recovery-001-durable-tasks.remote origin\nfile:.git/config\tbranch.feat/recovery-001-durable-tasks.merge refs/heads/feat/recovery-001-durable-tasks\nfile:.git/config\tbranch.feat/verification-001-task-outcomes.remote origin\nfile:.git/config\tbranch.feat/verification-001-task-outcomes.merge refs/heads/feat/verification-001-task-outcomes\nfile:.git/config\tbranch.release/orchestration-release-001.remote origin\nfile:.git/config\tbranch.release/orchestration-release-001.merge refs/heads/release/orchestration-release-001\nfile:.git/config\tbranch.fix/channels-icon-type-contract.remote origin\nfile:.git/config\tbranch.fix/channels-icon-type-contract.merge refs/heads/fix/channels-icon-type-contract\nfile:.git/config\tbranch.feat/external-001-runtime-contract.remote origin\nfile:.git/config\tbranch.feat/external-001-runtime-contract.merge refs/heads/feat/external-001-runtime-contract\nfile:.git/config\tbranch.feat/external-002-codex-adapter.remote origin\nfile:.git/config\tbranch.feat/external-002-codex-adapter.merge refs/heads/feat/external-002-codex-adapter\nfile:.git/config\tbranch.feat/external-003-operator-controls.remote origin\nfile:.git/config\tbranch.feat/external-003-operator-controls.merge refs/heads/feat/external-003-operator-controls\nfile:.git/config\tbranch.feat/external-003b-approved-dispatch.remote origin\nfile:.git/config\tbranch.feat/external-003b-approved-dispatch.merge refs/heads/feat/external-003b-approved-dispatch\nfile:.git/config\tbranch.codex/agent-routing-001.remote origin\nfile:.git/config\tbranch.codex/agent-routing-001.merge refs/heads/codex/agent-routing-001\nfile:.git/config\tbranch.codex/agent-routing-002.remote origin\nfile:.git/config\tbranch.codex/agent-routing-002.merge refs/heads/codex/agent-routing-002\nfile:.git/config\tbranch.codex/agent-routing-003.remote origin\nfile:.git/config\tbranch.codex/agent-routing-003.merge refs/heads/codex/agent-routing-003",
+      "stderr": ""
+    },
+    "head_reflog": {
+      "exit_code": 0,
+      "stdout": "fe00855a9f7b896115b2268492e11aa82d9bdc10 HEAD@{2026-11-08T16:49:00-05:00} Sync verified routing closeout\n2b6df30a66f79b37577112517add8e56c7b22288 HEAD@{2026-11-08T16:47:46-05:00} Restore verified remote master after conflict ref preservation\n2b6df30a66f79b37577112517add8e56c7b22288 HEAD@{2026-11-08T16:46:29-05:00} Restore verified merged master after observed local ref rewrite\n1e5e15bd175d1f020e30768b792497d1f1d051be HEAD@{2026-11-08T16:44:35-05:00} commit: docs: record validated routing merge into master\n9577d6b5da831efbad0a208a26032d90b2ef812d HEAD@{2026-11-08T16:43:37-05:00} merge origin/master: Fast-forward\n9cd8c535739942b4987cdac8caed7a56a4ef079f HEAD@{2026-11-08T16:43:36-05:00} checkout: moving from codex/agent-routing-003 to master\n5527fd1f60898c5e93ea13bc25b3d4aa71b82e45 HEAD@{2026-11-08T16:42:49-05:00} commit: docs: complete integrated routing regression gate\nb2ebaf2ddc89f94bab76dae1e5ca06e154d6933b HEAD@{2026-11-08T16:19:17-05:00} commit: test: wait for zombie state before checking process liveness\n8b137cf0137582e17e17ae548d8c948ee781a6d7 HEAD@{2026-11-08T16:09:17-05:00} commit: test: isolate FIFO and SQLite regression fixtures\n66017d38d6fd8af8cecbbe1efd378c7542d1f02f HEAD@{2026-11-08T15:30:44-05:00} commit: docs: link routing gate to draft review\n7e911d2e0238a5ce8315f7bc45582ada78cd204e HEAD@{2026-11-08T15:27:18-05:00} commit: fix: repair integrated routing baseline regressions\nd696114e2c54d4903b90a59b360f663cc8e2f5e7 HEAD@{2026-11-08T14:14:53-05:00} commit: feat: route authenticated tasks to two persistent named agents\n2289860bf9eccdc4c94f5beaa3a4c3db85c74704 HEAD@{2026-11-08T13:52:32-05:00} checkout: moving from codex/agent-routing-002 to codex/agent-routing-003\n2289860bf9eccdc4c94f5beaa3a4c3db85c74704 HEAD@{2026-11-08T13:47:41-05:00} commit: docs: audit live native multi-agent delegation\n90c3cd8f72ffe7a47cb20925fa538eda479317c6 HEAD@{2026-11-08T13:30:37-05:00} checkout: moving from codex/agent-routing-001 to codex/agent-routing-002\n90c3cd8f72ffe7a47cb20925fa538eda479317c6 HEAD@{2026-11-08T11:53:16-05:00} commit: Prove approved delegation to registered TestPilot\n9cd8c535739942b4987cdac8caed7a56a4ef079f HEAD@{2026-11-08T11:35:12-05:00} checkout: moving from master to codex/agent-routing-001\n9cd8c535739942b4987cdac8caed7a56a4ef079f HEAD@{2026-11-07T23:40:08-05:00} merge feat/external-003b-approved-dispatch: Merge made by the 'ort' strategy.\nedb704336a1dca0d6d8f81f11432c3097916bc58 HEAD@{2026-11-07T23:40:08-05:00} checkout: moving from feat/external-003b-approved-dispatch to master\n2ea1c29f2c25ca7086afa1dbb7e35b43e9fb6dbc HEAD@{2026-11-07T23:39:46-05:00} commit: Close EXTERNAL-003B merge review and fix SQLite fixture cleanup race",
+      "stderr": ""
+    },
+    "master_reflog": {
+      "exit_code": 0,
+      "stdout": "fe00855a9f7b896115b2268492e11aa82d9bdc10 master@{2026-11-08T16:49:00-05:00} Sync verified routing closeout\n2b6df30a66f79b37577112517add8e56c7b22288 master@{2026-11-08T16:47:46-05:00} Restore verified remote master after conflict ref preservation\n2b6df30a66f79b37577112517add8e56c7b22288 master@{2026-11-08T16:46:29-05:00} Restore verified merged master after observed local ref rewrite\n1e5e15bd175d1f020e30768b792497d1f1d051be master@{2026-11-08T16:44:35-05:00} commit: docs: record validated routing merge into master\n9577d6b5da831efbad0a208a26032d90b2ef812d master@{2026-11-08T16:43:37-05:00} merge origin/master: Fast-forward\n9cd8c535739942b4987cdac8caed7a56a4ef079f master@{2026-11-07T23:40:08-05:00} merge feat/external-003b-approved-dispatch: Merge made by the 'ort' strategy.\nedb704336a1dca0d6d8f81f11432c3097916bc58 master@{2026-11-07T20:27:09-05:00} commit: Record verified EXTERNAL-002B integration on master\ne5b2fca5e0a7e180437fe3084290b33032ea2681 master@{2026-11-07T20:26:32-05:00} merge feat/external-002-codex-adapter: Fast-forward\ne642eec11c4fba1b193d49c7dadb3d02d4667ce0 master@{2026-11-07T15:01:57-05:00} merge release/orchestration-release-001: Fast-forward\nc2c39a2e0823f1556ecdc79f9e07911fff207a05 master@{2026-11-06T22:46:42-05:00} commit: Consolidate SQLite and efficiency release verification\n8eef97dcb744cd7073947f8d1e5942b2484369d0 master@{2026-11-06T22:43:25-05:00} merge audit/efficiency-001-context-cache: Fast-forward\n19e84350d6c5459133fc7d0c573d1b6600e55ff7 master@{2026-11-06T15:59:14-05:00} clone: from https://github.com/hottweelz/CowAgent.git",
+      "stderr": ""
+    },
+    "upstream": {
+      "exit_code": 0,
+      "stdout": "0\t0",
+      "stderr": ""
+    },
+    "published": {
+      "exit_code": 0,
+      "stdout": "fe00855a9f7b896115b2268492e11aa82d9bdc10\trefs/heads/master",
+      "stderr": ""
+    },
+    "listener": {
+      "exit_code": 0,
+      "stdout": "COMMAND   PID       USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME\nPython  28093 jamestylee    7u  IPv4 0x2d1cb0ed848268f      0t0  TCP 127.0.0.1:9899 (LISTEN)",
+      "stderr": ""
+    },
+    "filesystem": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "git_metadata": {
+    "HEAD": {
+      "sha256": "f6f2b945f6c411b02ba3da9c7ace88dcf71b6af65ba2e0d89aa82900042b5a10",
+      "size": 23,
+      "inode": 3242477,
+      "mtime_ns": 1794174216862472203,
+      "mode": "0o644",
+      "content": "ref: refs/heads/master\n"
+    },
+    "config": {
+      "sha256": "38514a3dd56a6c1e48666a30e3aec8e208831e2b8e48f4a6b973d85664e745cf",
+      "size": 2656,
+      "inode": 3183870,
+      "mtime_ns": 1794165295958803213,
+      "mode": "0o644"
+    },
+    "packed-refs": {
+      "sha256": "adde081f91e9a5bb191d97716d9eb53fcf5c512aae5ba7b39e79f3eac39ca769",
+      "size": 11494,
+      "inode": 3244634,
+      "mtime_ns": 1794174540622694806,
+      "mode": "0o644",
+      "content": "# pack-refs with: peeled fully-peeled sorted \n1177f529cbc198be66aa3907f26ede7fc38157a3 refs/codex/turn-diffs/checkpoints/2ea65379fc66a44c199f69e8f732bfa1/60f84d33a99f3a8aa6809648171e5a37/1794112867166/81e576aa-b8ff-48ff-8f9a-6bb5419b5f55\n8eef97dcb744cd7073947f8d1e5942b2484369d0 refs/heads/audit/efficiency-001-context-cache\n06e0a4ddd0b4512d039d5a2c8e4cd2561c7f44f5 refs/heads/audit/orchestration-001-native\n90c3cd8f72ffe7a47cb20925fa538eda479317c6 refs/heads/codex/agent-routing-001\nbfd64e39feaa198da80c301da507949c5617c329 refs/heads/feat/external-001-runtime-contract\ne5b2fca5e0a7e180437fe3084290b33032ea2681 refs/heads/feat/external-002-codex-adapter\n036d957fb0c318565283d1909a5ae19373076cff refs/heads/feat/external-003-operator-controls\n2ea1c29f2c25ca7086afa1dbb7e35b43e9fb6dbc refs/heads/feat/external-003b-approved-dispatch\n8ed52509ddfaebcf271c1f91c1391492f482763e refs/heads/feat/recovery-001-durable-tasks\nb8b4b40b16a02781044b9e5ab9e7a382974e7ac5 refs/heads/feat/verification-001-task-outcomes\ne642eec11c4fba1b193d49c7dadb3d02d4667ce0 refs/heads/fix/channels-icon-type-contract\n5b0bb0be33cbb2604dc80ee43629c1b6f6e316d7 refs/heads/fix/isolation-001-worker-authority\n37d947bba26d6969e2f43a4db81d391560345057 refs/heads/fix/memory-sqlite-io\nfe00855a9f7b896115b2268492e11aa82d9bdc10 refs/heads/master\ne642eec11c4fba1b193d49c7dadb3d02d4667ce0 refs/heads/release/orchestration-release-001\n8eef97dcb744cd7073947f8d1e5942b2484369d0 refs/remotes/origin/audit/efficiency-001-context-cache\n06e0a4ddd0b4512d039d5a2c8e4cd2561c7f44f5 refs/remotes/origin/audit/orchestration-001-native\n90c3cd8f72ffe7a47cb20925fa538eda479317c6 refs/remotes/origin/codex/agent-routing-001\nbfd64e39feaa198da80c301da507949c5617c329 refs/remotes/origin/feat/external-001-runtime-contract\ne5b2fca5e0a7e180437fe3084290b33032ea2681 refs/remotes/origin/feat/external-002-codex-adapter\n036d957fb0c318565283d1909a5ae19373076cff refs/remotes/origin/feat/external-003-operator-controls\n2ea1c29f2c25ca7086afa1dbb7e35b43e9fb6dbc refs/remotes/origin/feat/external-003b-approved-dispatch\n8ed52509ddfaebcf271c1f91c1391492f482763e refs/remotes/origin/feat/recovery-001-durable-tasks\nb8b4b40b16a02781044b9e5ab9e7a382974e7ac5 refs/remotes/origin/feat/verification-001-task-outcomes\ne642eec11c4fba1b193d49c7dadb3d02d4667ce0 refs/remotes/origin/fix/channels-icon-type-contract\n5b0bb0be33cbb2604dc80ee43629c1b6f6e316d7 refs/remotes/origin/fix/isolation-001-worker-authority\n37d947bba26d6969e2f43a4db81d391560345057 refs/remotes/origin/fix/memory-sqlite-io\nfe00855a9f7b896115b2268492e11aa82d9bdc10 refs/remotes/origin/master\ne642eec11c4fba1b193d49c7dadb3d02d4667ce0 refs/remotes/origin/release/orchestration-release-001\n5c65196e44cbc4bd4c20468461b0d39fa11ec2cc refs/remotes/upstream/dev-rag-enhance\n4823fd1fbd838bcdc7865a25453eabcae02b5531 refs/remotes/upstream/docs-desc-fill\nbccce2d7cbde47f221eac886855687c03c8819fc refs/remotes/upstream/feat-add-mimo\nbd9e7ea444010dc01182dfd6ffe68359029c71ca refs/remotes/upstream/feat-async-task\n8ea2455766ba94f1f122419e1a7f15b4f42fe90a refs/remotes/upstream/feat-browser-tool\n1c71c4e38bfab060f60bf2bfca0c4b9227bf51df refs/remotes/upstream/feat-config-update\nd085a3c7d7a58079b1ec7e8ec82d1b8bcd4db00e refs/remotes/upstream/feat-cow-agent\ndb85b9808ed600925430c814c3ad421b2fa4b0bb refs/remotes/upstream/feat-cow-cli\n6211e63f900040afc2f6b8dfc0e9b855a1cfb82d refs/remotes/upstream/feat-cow-desktop\n5d55ec0f8cf2f3a4cec3d177aa63f6908d8063f8 refs/remotes/upstream/feat-desktop-browser\n6db22827f21b12d4ee248eca8918ac43ce12c7ff refs/remotes/upstream/feat-docs\n9e6a2cc2c059df3c0dd90f3e91fd197361a0eba8 refs/remotes/upstream/feat-i18n\n5162da5654a0f455d55c907671e64a3d15b3891a refs/remotes/upstream/feat-knowledge\n8c7cda89dc3a5848fe54872d17a661ecf4d9d4a8 refs/remotes/upstream/feat-mcp-oauth\n90e4d494b231248f2108c249d298bae043ca81bc refs/remotes/upstream/feat-mulit-session\nb37eb30b83444dc5d10db077e0697198ec641618 refs/remotes/upstream/feat-multi-agent\n7cce2244992f6672c50491c9e9b7d62d42b1f793 refs/remotes/upstream/feat-multi-channel\n2517f2add8f5dc2d0512f2baf3b1c52a02255213 refs/remotes/upstream/feat-multi-model\n26693acc3f8d299983bfbb63694ca3fe4b8ba323 refs/remotes/upstream/feat-multimodel\na4d54f58c8f65d3421a4ee6d7164a959f1ab37f7 refs/remotes/upstream/feat-qq-channel\n29af855ecdb19d974d3ad236a5aecaa56ff011af refs/remotes/upstream/feat-readme-refactoring\nff584f8421a8d5ba0a62fb9b79d7e07819c177d6 refs/remotes/upstream/feat-self-evolution\ndb16bdf8cb93405913ec57a89427e28d2301f1f8 refs/remotes/upstream/feat-skill-hub\n58465ebc9ee3dd7c35c23c82e722db0ffc43a403 refs/remotes/upstream/feat-space-specification\n54f5e02846ab5c103707a844a436701a88e2c725 refs/remotes/upstream/feat-superagent-multiagent\ne3eacc77d751a1932dd8f678a055e911cc5a66c4 refs/remotes/upstream/feat-telegram\ne8d9fb4e51ec7a4c17cc61f515e0bd304dd0a934 refs/remotes/upstream/feat-theme-system\n7d258b5202151a3213fd4580f0f212ac226b5d20 refs/remotes/upstream/feat-web-config\n394853c0fbc0a1cdfeb71d105fe2e69c06592721 refs/remotes/upstream/feat-web-console\n4f7064575e72f90da6c422867ade974129e30c75 refs/remotes/upstream/feat-web-console-upgrade\n30c6d9b5ae1a38ab592d873036eb47b54558c3b4 refs/remotes/upstream/feat-web-files\nd4bdd9b1b7352e7e80d4ef7c87f8eece7d3d9ef2 refs/remotes/upstream/feat-wecom-bot\n66b71c50e989e45b277e439b1a4a36155161b7ad refs/remotes/upstream/feat-wecom-bot-qrcode\n2af92414b2d276acbc7543710937353575c0fca6 refs/remotes/upstream/feat-workspace-preview\n2b06a983377b7836999efb02e8c32ae38e912e5e refs/remotes/upstream/feat-workspace-project\n7ccc2067c2dd4644e6c398a31ba2df8dab891e97 refs/remotes/upstream/feat/search-files-tool\n94309bac5fb89c30f07849175571887914a28621 refs/remotes/upstream/master\nce3bbce2c0db660caf7df367f352604b720c291d refs/remotes/upstream/refactor/split-web-channel-py\ne366b60c352dbab009f137744f224aa97d23791a refs/tags/1.0.0\n2aa146341f331c100336ba5f5ec4f04450ada058 refs/tags/1.0.1\nbca0939c9df842755dc40022bd810a6eeb48d421 refs/tags/1.0.2\ncfa738087f49aa5cf7ddd6f82dae36634652447c refs/tags/1.0.3\nad7ab088fe8745aafd168a4d6a7da4046f8091d0 refs/tags/1.0.4\n38ad01a3877a40985f911920a7f91c0bbfbd1425 refs/tags/1.0.5\na660aa2133833f9c30b8a5d7e0e0dc7547ddd354 refs/tags/1.0.6\nd3cc52b794d09ec83c6e3bd51e4be4fcecd5b7f0 refs/tags/1.1.0\n5aedce647f1722359799c4177474cbf5863ac014 refs/tags/1.1.0-beta\ne226c93eeb043d2db3f7b00376e9f0c62415156f refs/tags/1.1.1\n3c91575ebea46fdab7482cc083f52a08f01c2cfa refs/tags/1.1.2\n167f10c9f9e04956005db142b3a43f23ef331e91 refs/tags/1.1.3\n950a9f2ee0addf2602914b16a1f9ee145dded98b refs/tags/1.1.4\n66a81cd47cef3efceec41e88559a039322d3033d refs/tags/1.1.5.1\nd9ef5a6612838b390cebab159f6959f119338ab1 refs/tags/1.1.5.2\n4ad2997717e02a3ab84511515ccfb0aa0695366d refs/tags/1.1.5.3\n47cc65a78734005c655214b69c2ad9a114e2d8ac refs/tags/1.1.6\n18d82bc1f0379951378479e2fac0ecf396f23ed8 refs/tags/1.1.7\ncec674cb47a1ddff4d3952ae9b47c983cdf2e62b refs/tags/1.1.7.1\n6076e2ed0a9c55bf9a4b5d38e72f88860bf11b97 refs/tags/1.1.7.2\n02a95345aa0ae9b6869f5fbbd4338cb6d78c41cd refs/tags/1.1.7.3\n7458a6298ffd4649941beeed83a92504073ab3d8 refs/tags/1.1.7.4\n371e38cfa6d44d29271260b0a9d964e7c4ebf075 refs/tags/1.1.8\n186e18fe94c801308a53c7a822a4f77e5f371a3a refs/tags/1.1.8.1\n94004b095b176ae8072b055a50ebb668b36efb7b refs/tags/1.1.8.2\n2cf71dd6f2fd9f55650efc99ba92d2d928072883 refs/tags/1.2.0\n938e3b5cf240310612a1cb781147dd8a324c901b refs/tags/1.2.0.1\n9a20c1cb0297fcd6ae1cf8ae867a0484eb22239c refs/tags/1.2.1\nc9306633b2f9a4dfed37e33861652c28011119fc refs/tags/1.2.1.1\n2ea8b4ef73ffea2048d7f916fe34e4c41f89ad73 refs/tags/1.2.1.2\n8c48a27e1a2566659730c870a9c00b722606db26 refs/tags/1.2.1.3\n8779eab36ba4708bc432e9c3aeb8b4e66e570d9b refs/tags/1.2.2\nbf4ae9a0515a75197111677921d12eaa802665a4 refs/tags/1.2.2.1\nee91c86a29b03d1e8b956c55f121abd6b82f2dec refs/tags/1.2.2.2\n78332d882ba495ed19a130b2387017282ca67f4a refs/tags/1.2.3\n2f732e5493c6288f6a04405e858618fe87a25c90 refs/tags/1.2.3.1\ne8aae27ee9c1f3d323ade2414b631c3d0655ccc4 refs/tags/1.2.3.2\na52f54d988312fafaecc9963e13b656dec6a7cbf refs/tags/1.2.5\n8528c9b262f54b484b29f1a1864e982faf0aaeea refs/tags/1.3.0\n3001ba92668bc642aac115d3221dc9f902ab3461 refs/tags/1.3.0.1\n2133c1d6afee5f5f92d201c41994f950a77b9aed refs/tags/1.3.0.2\n9d2cb75c84cd08e5b723dd414919ac38c1a7b417 refs/tags/1.3.0.3\na582a46ce95a6608898772cefe910a0a2bea0a33 refs/tags/1.3.1\n2db46733928af7d8b12fb818e155a80d9023b1fa refs/tags/1.3.2\n41762a1c579cdcc73b3f08447cf7cabd58947b83 refs/tags/1.3.3\nca916b7ce52fe07d00e40c3af1ffb979b4e1df82 refs/tags/1.3.4\n88bf345b91093aabc82b7301e1c4c04a149c5b86 refs/tags/1.3.5\na64d7c42b1a30da62279ff196665799da987ffa4 refs/tags/1.3.6\ndedf9763751a15ad9ac3792845737a6266003fb5 refs/tags/1.3.7\n04d5c1ab01c6400f1af2a0ca2d2053ecf8879b4f refs/tags/1.3.8\n7c8fb7eaccf578479e284d437a89bfb8d8bb4087 refs/tags/1.3.9\n21b956b98398a78cf8568a1e47b98753758ad068 refs/tags/1.3.9.5\n058c167f79e8bea0bb97fce78e4f34d112763f5d refs/tags/1.4.0\na2ec1a063d38adbe80b1acbf709d8ca319f2f7ac refs/tags/1.5.0\n061d8a3a5f87df7cbcd6785774beff32781874b9 refs/tags/1.5.1\n0b2ce485860c9bbf53ef422466f3a4b4dfbc7552 refs/tags/1.5.2\nae4077ed6cc91612751ec4fa89dccbe667a27397 refs/tags/1.5.3\nc049a619dcea44025609a22369ffa2471da04789 refs/tags/1.5.4\neae95dfef5480387ef6fff7fc537af94500143b3 refs/tags/1.5.5\nd0fd78497d43b7368709d6e29912d08bb7a16b5d refs/tags/1.5.6\n5346dfdd8b52a2291f59d8250eb0f17dedd30b93 refs/tags/1.5.7\n74ebbdd7617b08bfc4afb4c095b0c38356387536 refs/tags/1.5.7.1\n93b14d38f46254c2603ba7b304a67ca7795902e2 refs/tags/1.5.8\n31ac80a07479dfc85f51d5a20087a492003d7aea refs/tags/1.5.9\n096d5776d19b423156513696e975d68c90b94df9 refs/tags/1.6.0\ne381d1bfb8bbe53349ea4bbe2b629d0e45f61e95 refs/tags/1.6.5\n405372d1a73d8592203e31d8fdb0556e4308cf1a refs/tags/1.6.6\ncad3b691a94881420e8258d51e875d6f92353fc9 refs/tags/1.6.7\n22391ba1a54bc5fb5322a11d73fa845b91844291 refs/tags/1.6.8\nde2c031797b23b1b8b9d55c111a556a92d19970e refs/tags/1.6.9\n3f5b976a87fd8460cafeb3bd64004b17b388462d refs/tags/1.7.0\n469524e8ae7da12fa7e07d2a3724b8e30ab7d1ed refs/tags/1.7.1\n883f0d449b54aa1208ba2b82168280a40690cdd5 refs/tags/1.7.2\n22d67b3a596f8c96cc2f8b2e5ed58a47c8bb53bb refs/tags/1.7.3\n16324e72837b9898dfaca76897cdcdb27044dc06 refs/tags/1.7.4\n7167310ccde1c44ba2a73335009443ad58715176 refs/tags/1.7.5\na77e4bfb7a4f5b8de974e249cd5bc8e2cfc34978 refs/tags/1.7.6\nce63de3c58910ce637577733c1a673e4e0ec55cb refs/tags/2.0.0\na24b26a1ef9c3e307d742f6f99954131ab1e8a3b refs/tags/2.0.1\ne99837a8b9ae946db58c1e9aff1b20acecead99c refs/tags/2.0.2\n8bb16c48c06c058f66ab1bd2d3faf7326b840195 refs/tags/2.0.3\n5958b69ec93c8ffc0bab9b18d25133aee0b6b403 refs/tags/2.0.4\n830b8f2971a7d8c146c2dddc0c03b877ae4bd54a refs/tags/2.0.5\n60e9d98d0a3ab731920f188cb4be2011e71accbf refs/tags/2.0.6\nce4c0a0aa4e66a9e211ff32049a936844a945e59 refs/tags/2.0.7\n55aaf60a57ea6e9f4b8a54797572d98f65e88d2f refs/tags/2.0.8\n069bffa3e8f076a0cd0dd29fa473c42a777ad06b refs/tags/2.0.9\nfeaa9076b0d5eb60cab5ada6aec20f09d4d774fb refs/tags/2.1.0\n8cb53e612919ddbd8231dd86e6c060222b517536 refs/tags/2.1.1\n01373465b0603bf9a80ab5f8a45d34b9c310366e refs/tags/2.1.2\nbf0c26d3c484f910b8fdad4389af6898022c6262 refs/tags/2.1.3\na78fb711adbe0080016103a40d823fab29dd323d refs/tags/2.1.4\ne3ac1b952500f60934862c6bf0bd0de91b415ed8 refs/tags/2.1.5\nc5fc2a822edaf5eb00408327354a7409792e3577 refs/tags/2.1.6\nbdbae391b2ad05e90de8df92ab0c9d947a30ba4e refs/tags/2.1.7\n6a6a8bc81cccf3a50169fd0bc4babb4d3d4fbd1d refs/tags/2.1.8\nbe1782cb3977ee9fa56482d4a5a7d405feb35c8c refs/tags/2.1.9\nc94f3bba903fa6f4e4b2330d7f8f27de1b1be7f5 refs/tags/2.2.0\n61499724b195a4c3b1bac79a11957879d32c0351 refs/tags/2.2.1\n8c90b740f58c7a3ca6931b1f0c0287192bba9650 refs/tags/2.2.2\n"
+    },
+    "refs/heads/codex/agent-routing-002": {
+      "sha256": "6ec7ad937f83142cc77ff3d1891f3bfa5aacab20feecf63a9a4e3fc38213838b",
+      "size": 41,
+      "inode": 3172490,
+      "mtime_ns": 1794163661563933328,
+      "mode": "0o644",
+      "content": "2289860bf9eccdc4c94f5beaa3a4c3db85c74704\n"
+    },
+    "refs/heads/codex/agent-routing-003": {
+      "sha256": "3a58bb8a4450bbcd5d2b795dbb6f7b0254836efd747aa80ef29bff76ddc8d16a",
+      "size": 41,
+      "inode": 3242158,
+      "mtime_ns": 1794174169448091715,
+      "mode": "0o644",
+      "content": "5527fd1f60898c5e93ea13bc25b3d4aa71b82e45\n"
+    },
+    "refs/heads/codex/routing-closeout-ref-recovery": {
+      "sha256": "0a25cf1274e56fca11428268a5e26d0f2621d228a7b85faf07722bb740fee06b",
+      "size": 41,
+      "inode": 3243497,
+      "mtime_ns": 1794174360627141837,
+      "mode": "0o644",
+      "content": "1e5e15bd175d1f020e30768b792497d1f1d051be\n"
+    },
+    "refs/heads/codex/routing-closeout-verified": {
+      "sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+      "size": 41,
+      "inode": 3243518,
+      "mtime_ns": 1794174360732598674,
+      "mode": "0o644",
+      "content": "2b6df30a66f79b37577112517add8e56c7b22288\n"
+    },
+    "refs/remotes/origin/HEAD": {
+      "sha256": "cdc65e67690c4c6475174e5ec662b70655246a2f3924354778835ab3be70aa76",
+      "size": 32,
+      "inode": 3268102,
+      "mtime_ns": 1794178475943413180,
+      "mode": "0o644",
+      "content": "ref: refs/remotes/origin/master\n"
+    },
+    "refs/remotes/origin/codex/agent-routing-002": {
+      "sha256": "6ec7ad937f83142cc77ff3d1891f3bfa5aacab20feecf63a9a4e3fc38213838b",
+      "size": 41,
+      "inode": 3172510,
+      "mtime_ns": 1794163663758001190,
+      "mode": "0o644",
+      "content": "2289860bf9eccdc4c94f5beaa3a4c3db85c74704\n"
+    },
+    "refs/remotes/origin/codex/agent-routing-003": {
+      "sha256": "3a58bb8a4450bbcd5d2b795dbb6f7b0254836efd747aa80ef29bff76ddc8d16a",
+      "size": 41,
+      "inode": 3242174,
+      "mtime_ns": 1794174171567048763,
+      "mode": "0o644",
+      "content": "5527fd1f60898c5e93ea13bc25b3d4aa71b82e45\n"
+    },
+    "refs/remotes/upstream/HEAD": {
+      "sha256": "e3eb87d65e7317c9b13a187e8ce3086e7b6763b174ef49975a4b827f7ae32ffd",
+      "size": 34,
+      "inode": 3268117,
+      "mtime_ns": 1794178477528576879,
+      "mode": "0o644",
+      "content": "ref: refs/remotes/upstream/master\n"
+    }
+  },
+  "lock_files": [],
+  "untracked_files": {
+    ".cow [conflicted 2].pid": {
+      "size": 5,
+      "sha256": "68c8043af16c0fd44cf199d230d7521c6d54d69f3c74ced7df43a5ec9f867a09",
+      "mode": "0o644"
+    },
+    ".cow [conflicted 3].pid": {
+      "size": 5,
+      "sha256": "3467d9fe4a3d7903e77a32cfe460ba86cfcc660dcdfc63b7fca0c2a84f7e3073",
+      "mode": "0o644"
+    },
+    ".cow [conflicted 4].pid": {
+      "size": 5,
+      "sha256": "572e6d624cd6187a2313986881c41d911458be8c4c649718339f470c463b4727",
+      "mode": "0o644"
+    },
+    ".cow [conflicted].pid": {
+      "size": 5,
+      "sha256": "20553d8bc1c88861a5863f18349edb074a81387325706a10c2312acfe163312a",
+      "mode": "0o644"
+    },
+    "AGENTS.md": {
+      "size": 27736,
+      "sha256": "ebd0f7b6480fc01aacf8d1c5e04ad981cd14e7b58e245ee91bd894a6cfae513b",
+      "mode": "0o644"
+    },
+    "tests/test_parallel_tool_calls [conflicted 2].py": {
+      "size": 4504,
+      "sha256": "fecd12b1aa48779f79a7d844a3bed55bf413cbbf77ea023a317e3ace93bf6b97",
+      "mode": "0o644"
+    },
+    "tests/test_parallel_tool_calls [conflicted].py": {
+      "size": 4504,
+      "sha256": "fecd12b1aa48779f79a7d844a3bed55bf413cbbf77ea023a317e3ace93bf6b97",
+      "mode": "0o644"
+    }
+  },
+  "recovery_manifest": {
+    "path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-routing-conflict-refs-w_675qxf/manifest.json",
+    "exists": true,
+    "sha256": "c477506fc977ea31529351651a4579b3e8742480653eb8cd54672acd1f3184d1",
+    "entries": [
+      {
+        "source": ".git/refs/heads/master [conflicted 2]",
+        "preserved": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-routing-conflict-refs-w_675qxf/heads/master [conflicted 2]",
+        "value": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+        "sha256": "0a25cf1274e56fca11428268a5e26d0f2621d228a7b85faf07722bb740fee06b",
+        "preserved_hash_matches": true
+      },
+      {
+        "source": ".git/refs/heads/master [conflicted 3]",
+        "preserved": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-routing-conflict-refs-w_675qxf/heads/master [conflicted 3]",
+        "value": "2b6df30a66f79b37577112517add8e56c7b22288",
+        "sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "preserved_hash_matches": true
+      },
+      {
+        "source": ".git/refs/heads/master [conflicted]",
+        "preserved": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-routing-conflict-refs-w_675qxf/heads/master [conflicted]",
+        "value": "9577d6b5da831efbad0a208a26032d90b2ef812d",
+        "sha256": "fd9d3876c9c53b19345b32a21922d32349796c4f9b0ed57e7788729881a9b871",
+        "preserved_hash_matches": true
+      },
+      {
+        "source": ".git/refs/heads/master [conflicted 4]",
+        "preserved": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-routing-conflict-refs-w_675qxf/heads/master [conflicted 4]",
+        "value": "2b6df30a66f79b37577112517add8e56c7b22288",
+        "sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "preserved_hash_matches": true
+      },
+      {
+        "source": ".git/refs/remotes/origin/master [conflicted 3]",
+        "preserved": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-routing-conflict-refs-w_675qxf/remotes/origin/master [conflicted 3]",
+        "value": "2b6df30a66f79b37577112517add8e56c7b22288",
+        "sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "preserved_hash_matches": true
+      }
+    ]
+  }
+}

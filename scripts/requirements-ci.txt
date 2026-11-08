@@ -1,0 +1,9 @@
+pytest>=8,<10
+pytest-subtests>=0.13,<1
+ruff>=0.9,<1
+
+# Document parsers use the same specifications as requirements-optional.txt.
+pypdf
+python-docx
+openpyxl
+python-pptx
