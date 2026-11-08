@@ -999,3 +999,30 @@ def test_reporting_trouble_does_not_take_the_run_down(spawn_tool, enabled, monke
 
     assert result.status == "success"
     assert len(json.loads(result.result)["results"]) == 2
+
+
+@pytest.mark.parametrize("existing_error", [None, "Specific timeout_seconds diagnostic"])
+def test_recovery_timeout_without_error_reports_reason_before_parent_deadline(
+        parent, workspace, spawn_tool, enabled, monkeypatch, existing_error):
+    """A recovery timeout can finish the worker before the parent times out."""
+    from agent.recovery.verification import task_result
+
+    _capture_children(monkeypatch)
+    timed_out = task_result({'task_id': 'fixture', 'attempt_id': 'attempt',
+                             'state': 'timed_out', 'result': None, 'error': existing_error})
+    monkeypatch.setattr('agent.recovery.runtime.execute_task', lambda *args, **kwargs: dict(timed_out))
+    states = []
+    results = run_tasks(parent, [SubagentTask(goal='hang')], load_templates(str(workspace)),
+                        enabled, on_state=lambda _index, state: states.append(state))
+    assert results[0]['status'] == 'timed_out'
+    assert 'timeout_seconds' in results[0]['error']
+    assert 'timeout_seconds' in states[-1]['error']
+    if existing_error:
+        assert results[0]['error'] == existing_error
+
+    events = _events_from(spawn_tool)
+    spawn_tool.execute({'tasks': [{'goal': 'hang'}, {'goal': 'hang too'}]})
+    ends = [data for kind, data in events if kind == 'tool_execution_end']
+    assert len(ends) == 2
+    assert all(end['status'] == 'error' for end in ends)
+    assert all('timeout_seconds' in end['result'] for end in ends)

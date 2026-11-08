@@ -356,6 +356,11 @@ def _run_one(parent, template, task: SubagentTask, index: int, cancel_event,
         result["status"] = "failed"
         result["error"] = "Worker initialization or execution failed"
 
+    # Recovery can reach its own deadline before the parent pool does. Its
+    # timed-out journal result may have no error, so supply the reason before
+    # notifying the parent or closing the UI card.
+    if result.get("status") == "timed_out" and not result.get("error"):
+        result["error"] = "Sub agent timed out. Split the task or raise subagent.timeout_seconds."
     result["duration_seconds"] = round(time.time() - started, 2)
     _close_run(run_store, run_id, result)
     _notify(on_state, index, result)

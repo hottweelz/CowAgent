@@ -1,5 +1,21 @@
 # CowAgent project facts
 
+- INFRA-RELIABILITY-001 observed pCloud **Backup**, not its Sync tab, covering
+  `/Volumes/Predator SSD GM7 1TB/Projects` on 2026-11-08. Being outside the pCloud
+  mount does not exclude a path from Backup. Do not keep active Git metadata in
+  file-sync conflict handling. A live relocation requires an approved, rehearsed
+  multi-worktree migration and rollback. See the infrastructure report; exact
+  historical writer attribution and safe migration remain unresolved.
+- The infrastructure branch's ordinary CI uses `scripts/ci_test.py` with a
+  prepared absolute TIKTOKEN_CACHE_DIR and temporary HOME/data. It clears inherited
+  model settings and guards Python connections to owned fixtures, excluding9899.
+  This does not confine native/subprocess networking. Native agents/models and
+  production state stay outside ordinary CI. `scripts/git_ref_watch.py` is a
+  bounded read-only detector, not writer attribution or automatic repair.
+- A recovery worker can finish timed_out before the parent pool deadline. The
+  subagent result must carry a timeout diagnostic before its state callback and
+  UI closure; preserve a more specific existing error.
+
 - Operator journal privacy checks recheck only otherwise-private regular
   SQLite sidecars whose transient link count is zero during unlink. Missing
   sidecars or valid replacements are allowed; unsafe or persistently zero-link

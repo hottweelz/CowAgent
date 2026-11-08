@@ -2,7 +2,8 @@ pytest>=8,<10
 pytest-subtests>=0.13,<1
 ruff>=0.9,<1
 
-# Document parsers use the same specifications as requirements-optional.txt.
+# Tokenizer and document parsers use the same specifications as requirements-optional.txt.
+tiktoken>=0.3.2
 pypdf
 python-docx
 openpyxl

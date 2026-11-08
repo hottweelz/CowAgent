@@ -1,0 +1,97 @@
+{
+  "task": "INFRA-RELIABILITY-001",
+  "status": "BLOCKED_FOR_LIVE_MIGRATION",
+  "timestamp_local": "2026-11-08",
+  "owner": "Codex delegated Git migration rehearsal worker",
+  "parent_owns": [
+    "live repository",
+    "approval",
+    "lifecycle",
+    "handoff",
+    "Git sync"
+  ],
+  "scope": "Disposable repositories under /private/tmp only. No live checkout, Git config, service, pCloud setting, or remote was changed.",
+  "runtime": {
+    "git": "2.50.1 (Apple Git-155)",
+    "paths_with_spaces": true,
+    "live_repo_branch_observed": "codex/infra-reliability-001",
+    "live_repo_writes": false
+  },
+  "fixture": {
+    "primary_checkout": "/private/tmp/cowagent-git-migration.6GetyK/checkout with spaces",
+    "external_git_dir": "/private/tmp/cowagent-git-migration.6GetyK/external metadata/CowAgent.git",
+    "linked_worktree": "/private/tmp/cowagent-git-migration.6GetyK/linked detached worktree",
+    "upstream": "local bare repository in the same disposable root",
+    "pre_move_snapshot": "/private/tmp/cowagent-git-migration.6GetyK/pre-move-full-gitdir.snapshot",
+    "postmove_gitdir_copy": "/private/tmp/cowagent-git-migration.6GetyK/postmove-gitdir-copy",
+    "initial_state": [
+      "initial commit",
+      "main branch",
+      "origin/main upstream",
+      "detached linked worktree",
+      "dirty tracked file",
+      "untracked file"
+    ],
+    "dirty_content": "tracked.txt appended with 'dirty tracked'; untracked file.txt contains 'untracked content'"
+  },
+  "commands_rehearsed": [
+    "git init --bare <temporary-root>/local-upstream.git",
+    "git init -b main '<temporary-root>/checkout with spaces'",
+    "git -C '<temporary-root>/checkout with spaces' config user.name 'CowAgent Rehearsal'",
+    "git -C '<temporary-root>/checkout with spaces' config user.email rehearsal@example.invalid",
+    "git -C '<temporary-root>/checkout with spaces' add tracked.txt && git -C '<temporary-root>/checkout with spaces' commit -m baseline",
+    "git -C '<temporary-root>/checkout with spaces' remote add origin <temporary-root>/local-upstream.git && git -C '<temporary-root>/checkout with spaces' push -u origin main",
+    "git -C '<temporary-root>/checkout with spaces' worktree add --detach '<temporary-root>/linked detached worktree' HEAD",
+    "cp -a '<temporary-root>/checkout with spaces/.git' '<temporary-root>/pre-move-full-gitdir.snapshot'",
+    "git init --separate-git-dir='<temporary-root>/external metadata/CowAgent.git' '<temporary-root>/checkout with spaces'",
+    "git -C '<temporary-root>/checkout with spaces' worktree repair '<temporary-root>/checkout with spaces' '<temporary-root>/linked detached worktree'",
+    "git -C '<temporary-root>/checkout with spaces' config --local core.worktree '<temporary-root>/checkout with spaces'",
+    "git -C '<temporary-root>/checkout with spaces' worktree repair '<temporary-root>/checkout with spaces' '<temporary-root>/linked detached worktree'",
+    "git -C '<temporary-root>/checkout with spaces' add tracked.txt 'untracked file.txt' && git -C '<temporary-root>/checkout with spaces' commit -m 'post-move rehearsal commit'",
+    "git -C '<temporary-root>/checkout with spaces' push origin main && git -C '<temporary-root>/checkout with spaces' fetch origin",
+    "cp -a '<temporary-root>/external metadata/CowAgent.git' '<temporary-root>/postmove-gitdir-copy'",
+    "mv '<temporary-root>/checkout with spaces/.git' '<temporary-root>/postmove-primary-gitfile' && mv '<temporary-root>/external metadata/CowAgent.git' '<temporary-root>/checkout with spaces/.git'",
+    "git -C '<temporary-root>/checkout with spaces' worktree repair '<temporary-root>/checkout with spaces' '<temporary-root>/linked detached worktree'",
+    "git -C '<temporary-root>/linked detached worktree' worktree repair '<temporary-root>/linked detached worktree'",
+    "git -C '<temporary-root>/checkout with spaces' worktree list --porcelain"
+  ],
+  "results": {
+    "separate_git_dir_with_existing_linked_worktree": "FAIL for acceptance. Git moved the primary .git directory and wrote an absolute gitfile. Dirty tracked and untracked content, refs, origin/main, and the detached worktree files remained readable. However, worktree list reported the external metadata directory as the primary worktree. repair reported 'gitdir unreadable: <external>/gitdir'.",
+    "core_worktree_hypothesis": "DISPROVED. Before init core.worktree was unset; it remained unset after init. Setting it to the unchanged absolute checkout path did not correct worktree list or repair. Repair still reported gitdir unreadable and listed the external metadata directory as the primary worktree. rev-parse for both actual paths and status still worked, but this is not sufficient acceptance.",
+    "commit_push_fetch": "PASS in the disposable repository. New commit 01f09d439cac104b81c683ec9c35a6305ab7743e was pushed to and fetched from the local bare upstream. The bare refs/heads/main and local HEAD resolved to the same commit; branch tracking remained origin/main.",
+    "rollback": "PASS for commit/ref/content preservation; REPAIR REQUIRED. A full postmove metadata copy was retained. Moving the metadata directory back to checkout/.git preserved HEAD, origin/main, the new commit, and committed tracked/untracked content. Repair from the main checkout printed '.git file broken' for the linked worktree; repair from the linked worktree then completed without an error, and worktree list showed the original checkout and detached linked path. The detached worktree remained at its original baseline commit, as expected. The original pre-move snapshot remained separate and intact.",
+    "pre_move_snapshot": "A pre/post SHA-256 file manifest comparison after the first successful separate-dir init showed no snapshot changes. Snapshot and postmove metadata copies were retained in the disposable root."
+  },
+  "evidence_sha256": {
+    "pre_move_snapshot_file_manifest": "3b944d902448d1bd4b764327fb4f71d964238851c7f3e284f7eb02ba0075485d",
+    "postmove_gitdir_copy_file_manifest": "295c6d796b40783e182acc6c7ac40c97e9a3bee0202b8e2df777e2312174a5fe",
+    "pre_move_HEAD_file": "28d25bf82af4c0e2b72f50959b2beb859e3e60b9630a5e8c603dad4ddb2b6e80",
+    "postmove_copy_HEAD_file": "28d25bf82af4c0e2b72f50959b2beb859e3e60b9630a5e8c603dad4ddb2b6e80",
+    "postmove_commit": "01f09d439cac104b81c683ec9c35a6305ab7743e"
+  },
+  "authoritative_local_git_docs": [
+    "git init --help: --separate-git-dir relocates an existing repository; git init is safe to rerun.",
+    "git worktree --help: repair reconnects worktrees after supported manual moves; if main and linked worktrees are moved, run repair in main and pass each linked worktree's new path.",
+    "git worktree repair -h: usage is git worktree repair [<path>...].",
+    "git config --help: core.worktree sets the working-tree root, but is ignored when GIT_COMMON_DIR is set."
+  ],
+  "limitations": [
+    "Do not execute the candidate live migration from this procedure. One diagnostic failed, so the parent must use an independent falsifiable hypothesis or request another bounded rehearsal before considering a live change.",
+    "Rehearsal did not validate a real pCloud pause/resume or active-transfer settle procedure.",
+    "An absolute .git pointer is machine- and path-specific. A relocated metadata target must not be assumed portable to another machine or checkout location.",
+    "No conflicting artifact was deleted or overwritten. The temporary failed attempts remain under their /private/tmp roots for audit."
+  ],
+  "followup_2026_11_08": {
+    "status": "BLOCKED_FOR_LIVE_MIGRATION",
+    "scope": "Disposable repositories only; no live Git, sync, config or service changes.",
+    "source": "https://github.com/git/git/blob/v2.50.1/worktree.c#L94-L118",
+    "hypothesis": "Git determines the main worktree listing from the common directory path by stripping only /.git, independently of core.worktree.",
+    "falsifiable_check": "Create a fresh separate-git-dir repository with a detached worktree; compare worktree list before and after core.worktree points at the primary checkout.",
+    "result": "Confirmed in disposable fixture: both lists report external CowAgent.git as main, not actual primary path.",
+    "fixture": "/private/tmp/cow-git-topology-jldm1xnt",
+    "bare_conversion": "Experimental core.bare conversion and temporary linked-worktree registration preserved staged diff, unstaged diff, untracked file, existing detached worktree, upstream and main path; a local commit, push and fetch passed. Not established as supported or safe for live migration.",
+    "rollback": "Initial worktree repair failed because the converted primary registration still pointed to a .git path now restored as a directory. Moving the stale registration aside in the disposable fixture enabled repair; HEAD and origin/main both retained ae227c4367bf3c014a977c41c6d814ac3002be2f. Manual metadata change is not a validated live rollback.",
+    "sync_limit": "The primary .git pointer remains under pCloud backup; restoring or conflicting an old pointer can break the checkout. Approval and a verified pause/exclusion and pointer/snapshot strategy are needed before any future live execution.",
+    "next": "Do not execute live; establish documented topology and failure-safe rollback including pCloud resume and all existing worktrees."
+  }
+}

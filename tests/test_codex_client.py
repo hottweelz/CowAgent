@@ -16,6 +16,24 @@ def client(script):
     return CodexClient([sys.executable, "-I", "-u", "-c", script], os.getcwd(), env)
 
 
+def process_is_running(pid):
+    """Treat Linux zombies as stopped; they cannot execute but may await PID 1 reaping."""
+    proc_stat = f"/proc/{pid}/stat"
+    if os.path.exists("/proc/self/stat"):
+        try:
+            with open(proc_stat, encoding="ascii") as source:
+                stat = source.read()
+        except FileNotFoundError:
+            return False
+        state = stat[stat.rfind(")") + 2:].split(maxsplit=1)[0]
+        return state not in {"Z", "X"}
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    return True
+
+
 def test_interleaving_concurrent_and_denials():
     c = client('''
 import json, sys
@@ -120,8 +138,7 @@ def test_close_cleans_group_when_leader_already_exited():
     try:
         c.close(grace=.2)
         assert not c._reader.is_alive()
-        with pytest.raises(ProcessLookupError):
-            os.kill(child_pid, 0)
+        assert not process_is_running(child_pid)
     finally:
         try:
             os.kill(child_pid, signal.SIGKILL)
