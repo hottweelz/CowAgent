@@ -24,7 +24,7 @@ class CodexRuntime:
     """
 
     def __init__(self, root, socket_path, credential, policy, *, client_factory=CodexClient,
-                 turn_timeout=180):
+                 turn_timeout=180, approval_gate=None):
         from agent.external import analysis
         self.analysis = analysis
         self.root = _private_directory(root)
@@ -34,6 +34,7 @@ class CodexRuntime:
         if set(credential.operations) != {'analyze_records'}:
             raise ValueError('Codex runtime requires analyze_records enrollment')
         self.policy = policy
+        self.approval_gate = approval_gate
         self.client_factory = client_factory
         self.turn_timeout = turn_timeout
         self.epoch = str(uuid.uuid4())
@@ -114,7 +115,7 @@ class CodexRuntime:
                     raise Rejection('unavailable') from None
                 return {'protocol': contract.VERSION, 'runtime_id': self.credential.runtime_id,
                         'name': 'Codex app-server', 'model': model, 'native_capabilities': native,
-                        'operations': ['analyze_records'], 'approval_operations': [],
+                        'operations': ['analyze_records'], 'approval_operations': ['analyze_records'],
                         'session_ownership': 'runtime', 'cancellation': 'cooperative', 'epoch': self.epoch}
             if action == 'submit':
                 if set(payload) != {'spec', 'approval'}:
@@ -124,7 +125,13 @@ class CodexRuntime:
                     if spec['task']['operation'] != 'analyze_records':
                         raise contract.ProtocolError('Unsupported operation')
                     self.analysis.normalize_payload(spec['task']['content'])
-                except (contract.ProtocolError, TypeError, ValueError):
+                    if self.approval_gate is None:
+                        raise contract.ProtocolError('Operator approval gate is required')
+                    self.approval_gate.validate_submission(
+                        spec, payload['approval'], self.credential,
+                        enrollment=getattr(self.policy, 'enrollment', None),
+                    )
+                except (contract.ProtocolError, KeyError, TypeError, ValueError):
                     raise Rejection('unauthorized') from None
                 task_hash = contract.digest(spec)
                 self.db.execute('BEGIN IMMEDIATE')
@@ -192,7 +199,7 @@ class CodexRuntime:
         self.db.execute('UPDATE tasks SET ' + ','.join(k + '=?' for k in values) + ' WHERE task_id=?', (*values.values(), task_id))
 
     def _progress(self, row, **extra):
-        value = {'adapter_version': 'cow.codex/1', 'native_session_id': row['native_session'],
+        value = {'adapter_version': 'cow.codex/2', 'native_session_id': row['native_session'],
                  'native_thread_id': row['native_thread'], 'native_turn_id': row['native_turn'],
                  'native_status': 'unknown', 'publication_status': 'not_published',
                  'termination_scope': 'unconfirmed', 'descendants_terminated': False,
@@ -355,6 +362,35 @@ class CodexRuntime:
                 self.reconciling.discard(task_id)
                 self.workers.discard(threading.current_thread())
 
+    def _sync_operator_cancel(self, task_id, spec, approval):
+        """Observe a durable operator fence even while the supervisor is offline.
+
+        Only the first local cancellation transition requests an interrupt here.
+        Lost interruptions still require an explicit cancel repeat.
+        """
+        try:
+            cancelled = self.approval_gate is None or self.approval_gate.should_cancel(
+                spec, approval, self.credential, enrollment=getattr(self.policy, 'enrollment', None),
+            )
+        except Exception:
+            cancelled = True  # Lost authority is a visible cancellation, not permission.
+        if not cancelled:
+            return
+        with self.mutex:
+            row = self._row(task_id)
+            if row['state'] in contract.TERMINAL or row['cancel_requested']:
+                return
+            self._update(task_id, cancel_requested=1, reason='operator_authority_cancel_requested')
+            active = self.clients.get(task_id)
+            if active and row['native_thread'] and row['native_turn']:
+                try:
+                    claimed = self.approval_gate.claim_cancel(task_id)
+                except Exception:
+                    claimed = False
+                if claimed:
+                    threading.Thread(target=self._interrupt,
+                                     args=(active, row['native_thread'], row['native_turn']), daemon=True).start()
+
     def _work(self, task_id):
         client = None
         intent = False
@@ -365,6 +401,10 @@ class CodexRuntime:
                     self._update(task_id, state='cancelled', reason='cancelled_before_dispatch')
                     return
                 spec = contract.authorize(json.loads(row['spec']), self.credential, json.loads(row['approval']))
+                approval = json.loads(row['approval'])
+                self.approval_gate.validate_submission(
+                    spec, approval, self.credential, enrollment=getattr(self.policy, 'enrollment', None),
+                )
                 self._update(task_id, state='running', reason='starting')
             workspace = _private_directory(self.root / 'workspaces' / task_id)
             argv, env, expected = self.policy.launch(workspace)
@@ -387,6 +427,12 @@ class CodexRuntime:
                     self._update(task_id, state='cancelled', reason='cancelled_before_dispatch')
                     return
                 contract.authorize(spec, self.credential, json.loads(row['approval']))
+                # The operator journal is the authoritative linearization point.
+                # Its approval check and one-shot native intent are one commit.
+                self.approval_gate.authorize_native(
+                    spec, approval, self.credential, enrollment=getattr(self.policy, 'enrollment', None),
+                    native_thread=native_thread, native_session=native_session,
+                )
                 # Commit intent before issuing turn/start. Any ambiguity prevents replay.
                 self._update(task_id, intent=1, reason='dispatch_intent')
                 intent = True
@@ -402,6 +448,7 @@ class CodexRuntime:
                 self._update(task_id, native_turn=native_turn, progress=contract.canonical(progress), reason='turn_started')
                 if self._row(task_id)['cancel_requested']:
                     threading.Thread(target=self._interrupt, args=(client, native_thread, native_turn), daemon=True).start()
+            self._sync_operator_cancel(task_id, spec, approval)
             deadline = time.monotonic() + self.turn_timeout
             final_text = None
             child_states = {}
@@ -409,6 +456,7 @@ class CodexRuntime:
             root_status = None
             deadline_interrupted = False
             while True:
+                self._sync_operator_cancel(task_id, spec, approval)
                 if time.monotonic() >= deadline:
                     if deadline_interrupted:
                         break
@@ -490,6 +538,15 @@ class CodexRuntime:
                     self._update(task_id, state='failed', progress=contract.canonical(progress), reason='missing_or_oversized_output')
                     return
                 contract.authorize(spec, self.credential, json.loads(row['approval']))
+                try:
+                    self.approval_gate.authorize_publication(
+                        spec, approval, self.credential, enrollment=getattr(self.policy, 'enrollment', None),
+                    )
+                except contract.ProtocolError:
+                    progress['publication_status'] = 'fenced'
+                    self._update(task_id, state='cancelled', cancel_requested=1,
+                                 progress=contract.canonical(progress), reason='operator_publication_fenced')
+                    return
                 data = final_text.encode('utf-8')
                 # Persist the irreversible seal before publication. Recovery never republishes.
                 self._update(task_id, publication_intent=1, reason='publication_intent')
@@ -498,13 +555,14 @@ class CodexRuntime:
                 progress.update({'publication_status': 'published', 'artifact': spec['task']['artifact'],
                                  'sha256': hashlib.sha256(data).hexdigest()})
                 self._update(task_id, state='completed', result=contract.canonical(progress), reason='')
-        except Exception:
+        except Exception as exc:
             with self.mutex:
                 if not self.closed:
                     row = self._row(task_id)
                     if row and row['state'] not in contract.TERMINAL:
                         self._update(task_id, state='running' if intent else 'failed',
-                                     reason='dispatch_uncertain' if intent else 'startup_failed')
+                                     reason='dispatch_uncertain' if intent else
+                                     'approval_unavailable' if isinstance(exc, contract.ProtocolError) else 'startup_failed')
         finally:
             if client is not None:
                 try:

@@ -96,9 +96,30 @@
   current state without regranting. Audit preserves decision snapshots. Expiry
   is checked after writer-lock acquisition; state ancestors must be trusted.
   This authenticates a local account, not human presence; same-account code,
-  root and the system clock are trusted. Decisions remain disconnected from
-  dispatch. A future atomic approval/revocation/submit-intent boundary and fresh
-  runtime checks are required before activation. See
+  root and the system clock are trusted. The standalone CLI never dispatches
+  work. Explicit dispatch integration is provided by EXTERNAL-003B below; owner
+  review is still required before production activation. See
   [EXTERNAL-003](docs/external-003/README.md). Real external actions remain disabled
   pending separately tested authority and verification contracts and activation
   authorization.
+- EXTERNAL-003B uses ApprovalJournal to colocate operator decisions and external
+  task/send/native/publication intents in one private operator.db WAL/FULL
+  journal. Each one-shot admission checks current identity/spec, credential,
+  approval/enrollment revisions and post-lock expiry in the same transaction.
+  Native admission follows fresh Codex attestation. Generic/ungated analysis
+  submissions and claimed approval labels fail closed; only analyze_records is
+  available through the real adapter (cow.codex/2).
+- Operator revocation/replacement atomically fences bound tasks and queues
+  cancellation. Runtime polling and supervisor delivery share one claim;
+  unknown delivery requires explicit cancel retry. Reconciliation may deliver
+  that already-requested cancellation once, but never resubmits a task or
+  republishes an artifact. Revocation after native/publication intent commit
+  cannot retract that authorization. Adapter restart has no live native client
+  for interruption; cancellation intent is not termination proof.
+- EXTERNAL-003B's actual Codex acceptance passed with two delegated model turns,
+  operator revocation, host/native-intent crash recovery and independent artifact
+  verification. Empty native-thread history returned thread-not-loaded; this is
+  recorded as unavailable, with separate outbound RPC evidence, not as empty
+  public history. The [report](docs/external-003b/README.md) records evidence and
+  limits. Production activation, broader service actions and master merge remain
+  unauthorized by this milestone.

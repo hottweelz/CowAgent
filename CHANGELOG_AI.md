@@ -1,5 +1,77 @@
 # AI handoff ledger
 
+## 2026-11-07 23:16 EST — Codex — EXTERNAL-003B approval-enforced dispatch
+
+- Task/result: implemented and validated approval-enforced bounded analysis on
+  feat/external-003b-approved-dispatch from 036d957f. Ready for review; no master
+  merge or production activation. Consequential external operations remain out
+  of scope and unsupported by the Codex adapter.
+- Team: Codex lead owns lifecycle, adapter hooks, real acceptance, integration,
+  docs and Git. Luna/high mapped runtime seams, migrated adapter fixtures and ran
+  release gates. Terra 6.1/high built the shared journal/supervisor integration
+  and adapted the native runner; interacting transactions and recovery exceeded
+  routine implementation. One Sol 6.1/high architect/reviewer covered atomicity
+  and uncertain cross-process effects. Requested models accepted; effective
+  delegated identities not independently exposed. STE planning/review guidance.
+- Changes/files: approved_dispatch.py; operator_control.py, supervisor.py and
+  codex_adapter.py; test_approved_dispatch.py and updated test_codex_adapter.py;
+  docs/external-003b plan, runners, README, review and native/regression receipts;
+  project MEMORY.md and this ledger. Policy/model/authentication and live
+  CowAgent state remain unchanged; no application worker or service registration.
+- Contract: current approval and durable host/native/publication intent share one
+  SQLite transaction in operator.db. Native intent follows fresh attestation.
+  Prior intents never permit replay. Revocation/replacement writes cancellation
+  fences with the operator decision. Polling and supervisor delivery share one
+  cancellation claim; uncertain interruption requires explicit retry. Legacy
+  analysis and caller-label approvals reject. Adapter reports cow.codex/2.
+- Actual native evidence: installed CLI 0.165.0 and existing selected runtime.
+  Unapproved/revoked/legacy/unsupported requests denied. One approved native turn
+  survived supervisor SIGKILL after acceptance; same identity, no duplicate and
+  independently verified seven-record artifact (net 13,000 cents). Revocation
+  after actual attestation prevented native admission. A second model turn was
+  revoked during observed activity; scoped cancellation confirmed, no artifact.
+  Adapter SIGKILL after native intent but before outbound turn/start preserved
+  identity/intent and did not replay or publish; running/unknown stays explicit.
+- Commands/results: real --execute acceptance initially passed denials/success
+  then encountered empty-thread history RPC -32600. Corrected receipt collection
+  and --resume continued only uncovered cases with new task IDs; final passed.
+  Config hash remained 7d926393...874cc throughout; captured owned groups cleaned
+  up, no all-descendant/cost guarantee. `.venv/bin/python
+  docs/external-003b/run_regression.py`: 1,527 pass, 15 skip, 1,542 IDs/131 files,
+  zero failures/errors. Seven exact unchanged browser cases reused: 1,534 unique
+  passes/eight Windows skips. Fresh Node39, strict renderer zero diagnostics and
+  desktop build pass; recorded existing warnings. Ruff F/compile passed for eight
+  changed/new files. Native/product and static hashes match current source.
+- Review: one blocking cancellation claim overlap corrected and independently
+  confirmed by private IPC lost-interrupt/reconcile/explicit-retry regression.
+  No remaining blocking source finding for this scope. Unknown-task rejection
+  normalized; shared-journal foreign keys enabled; legacy bypass tested.
+- Lessons Learned:
+  - Mistake: two cancellation paths could independently deliver the same intent;
+    the first harness also assumed fresh observers could list empty threads.
+  - Root Cause: durable cancellation delivery needs shared ownership; public
+    history availability is separate from whether a turn/start was attempted.
+  - Future Trigger: multiple cancellation/recovery paths or pre-turn crash probes.
+  - Required Behavior Change: claim delivery before IPC and preserve uncertainty;
+    record missing history explicitly and capture outbound RPC attempt metadata.
+  - Verification Step: explicit-retry regression and actual continued acceptance;
+    accepted success was reused after product/config hashes matched, never rerun.
+  - Durable Memory Update: recorded atomic gates, claim ownership, intent ordering
+    and empty-thread history limits in project MEMORY.md.
+- Known issues: no human-presence or hostile same-account isolation claim.
+  Revocation after intent cannot retract authorized turn/publication. Adapter
+  restart lacks a live client for interruption. A separate non-failing temporary
+  test index logged SQLITE_IOERR_FSTAT (1802); root cause unconfirmed and recorded,
+  not suppressed or represented as a clean log. No memory-code change in scope.
+- Next recommended steps: owner review before merge/activation; then explicit
+  uncertainty resolution and operational credential/retention controls. Investigate
+  the separate temporary-index diagnostic without modifying production memory.
+- Notes for next agent: real fixtures retained at
+  /private/tmp/cowagent-003b-qy6xduds; IPC secret stays private and is not published.
+  Receipts preserve the initial observer failure. Push this completed branch and
+  verify upstream 0/0 at closeout. Preserve untracked AGENTS.md and three conflicted
+  PID files. Master remains edb70433; do not infer activation authority from tests.
+
 ## 2026-11-07 20:57 EST — Codex — EXTERNAL-003 local enrollment and approvals
 
 - Task/result: implemented the owner's selected enrollment/approval focus on

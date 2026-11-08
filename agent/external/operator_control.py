@@ -136,6 +136,7 @@ class OperatorControl:
         db = sqlite3.connect(str(self.path), timeout=30)
         try:
             db.row_factory = sqlite3.Row
+            db.execute('PRAGMA foreign_keys=ON')
             db.execute('PRAGMA synchronous=FULL')
             with db:
                 yield db
@@ -267,6 +268,17 @@ class OperatorControl:
             db.execute('INSERT INTO operator_state VALUES (?,?,?,?) '
                        'ON CONFLICT(target_id) DO UPDATE SET revision=excluded.revision,body=excluded.body',
                        (target, digest(scope), revision + 1, canonical(body)))
+            # Fence bound work atomically with the changed decision.
+            if db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='external_approval_bindings'").fetchone():
+                if action in ('enroll', 'revoke_enrollment'):
+                    bound = db.execute('SELECT task_id FROM external_approval_bindings WHERE scope_hash=?', (digest(scope),)).fetchall()
+                else:
+                    bound = db.execute('SELECT task_id FROM external_approval_bindings WHERE scope_hash=? AND task_id=?', (digest(scope), target[5:])).fetchall()
+                for item in bound:
+                    tid = item['task_id']
+                    db.execute('UPDATE external_tasks SET cancel_requested=1 WHERE task_id=?', (tid,))
+                    db.execute("UPDATE external_approval_bindings SET cancel_status=CASE WHEN cancel_status='none' THEN 'pending' ELSE cancel_status END WHERE task_id=?", (tid,))
+                    db.execute('INSERT INTO external_events(task_id,kind,body) VALUES (?,?,?)', (tid, 'cancel_requested', canonical({'reason': 'operator_decision_changed'})))
             db.execute('INSERT INTO operator_decisions(request_id,request_hash,scope_hash,receipt) VALUES (?,?,?,?)',
                        (request['request_id'], digest(request), digest(scope), canonical(receipt)))
             return {'receipt': receipt, 'duplicate': False, 'current': self._current(db, target, scope, now)}
