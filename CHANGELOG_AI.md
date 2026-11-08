@@ -1,5 +1,58 @@
 # AI handoff ledger
 
+## 2026-11-07 20:35 EST — Codex — EXTERNAL-003 review-only foundation
+
+- Task/result: completed the requested EXTERNAL-002B merge and published master
+  edb70433; fetch confirmed master/origin-master 0 ahead, 0 behind. Began
+  EXTERNAL-003 on feat/external-003-operator-controls. Its first slice is complete;
+  the broader operator-control milestone remains started. Real external actions
+  and production orchestration remain disabled.
+- Team: Codex lead owns scope, packet builders, integration, docs, self-review
+  and Git. Luna/high was requested for bounded test implementation; effective
+  worker identity is not independently exposed. Prior merge validator/reviewer
+  evidence is retained. No additional native runtime or external worker pool.
+- Changes/files: agent/external/operator_review.py adds pure, versioned enrollment
+  and analysis task drafts; tests/test_external_operator_review.py covers their
+  behavior. docs/external-003/README.md and validation.json record scope,
+  evidence and ordered next work. Project MEMORY.md and this ledger updated.
+- Commands/results: focused pytest 22 passed; related contract, analysis,
+  Codex analysis policy and artifact verification pytest 50 passed. No skips or
+  failures in final runs. Ruff F and in-memory compilation passed for both new
+  files. Ten source/test hashes bind the receipt. Full merged baseline remains
+  1,456 Python passes/eight Windows skips, Node39, strict renderer tsc and desktop
+  build; unchanged UI/runtime source did not require another execution.
+- Decisions: review packets bind caller-supplied fingerprints, claimed identity,
+  normalized task/criteria and proposed authority. They are not authenticated
+  approval or runtime attestation. Drift/expiry blocks drafts; invalid operations,
+  wider grants and modified enrollment packets are rejected. Unsupported caller
+  checks stay visible. Execution, acceptance and external-state outcomes remain
+  distinct and unobserved/unverified. Existing dispatch/activation paths unchanged.
+- Lessons Learned:
+  - Mistake: the first delegated test draft expected blocked packets for invalid
+    operations instead of the agreed ProtocolError rejection.
+  - Root Cause: the tests conflated structurally invalid requests with valid
+    drafts that have mismatched observations or expired authority.
+  - Future Trigger: new review-packet failure cases.
+  - Required Behavior Change: distinguish request rejection from blocked drafts
+    when deriving tests from the contract.
+  - Verification Step: corrected assertions; all 22 packet tests passed with
+    no product behavior change.
+  - Durable Memory Update: project MEMORY.md records drafts are not authority;
+    test-authoring mismatch needs no additional durable rule.
+- Known issues: authenticated operator identity, durable grant/revocation audit,
+  stale approval/restart rules and dispatch integration are not implemented in
+  this first slice. Broader effects require their own contracts. GitHub returned
+  no status/workflow run for merged master; no remote CI pass claimed. Existing
+  runtime/platform/build limits remain in the merged report.
+- Next recommended steps: define authenticated operator decisions and durable
+  audit; test grant/revocation, stale approvals, conflicting callers and restart
+  behavior before connecting bounded analysis dispatch. Add explicit uncertainty
+  resolution without native replay. Do not activate broader external actions.
+- Notes for next agent: publish this branch to the same name on origin and
+  verify 0/0 as final closeout; standing maintainer preference permits upstream
+  setup. Preserve untracked AGENTS.md and three conflicted PID files. No native
+  credentials, production configuration, memory, history or journals changed.
+
 ## 2026-11-07 20:24 EST — Codex — EXTERNAL-002B merge approval
 
 - Task/result: completed the owner-requested merge gate for product bc88ca4b

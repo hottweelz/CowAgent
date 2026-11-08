@@ -85,3 +85,11 @@
   EXTERNAL-002B master integration is complete; EXTERNAL-003 continues on a
   separate development branch. Production activation and broader effects
   remain unauthorized.
+- EXTERNAL-003 begins with pure `cow.external.operator-review/1` enrollment and
+  bounded-analysis task drafts. Fingerprints bind supplied observations, task,
+  proposed authority and criteria; they do not authenticate an operator or
+  prove fresh runtime state. Drafts never grant approval or enable execution.
+  Authenticated decisions, durable audit and connection to dispatch remain
+  future work. See [EXTERNAL-003](docs/external-003/README.md). Real external
+  actions remain disabled pending separately tested authority and verification
+  contracts and activation authorization.

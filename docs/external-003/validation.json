@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-11-08T01:34:48Z",
+  "base_master": "edb704336a1dca0d6d8f81f11432c3097916bc58",
+  "branch": "feat/external-003-operator-controls",
+  "scope": "read-only review-packet builders; no approval or dispatch integration",
+  "checks": [
+    {
+      "name": "operator_review",
+      "command": ".venv/bin/python -m pytest -q tests/test_external_operator_review.py --junitxml=<temporary-path>/results.xml",
+      "exit_code": 0,
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "junit_sha256": "af6fcc7153d5697ab997e86c2e4b593e95d38539cff582d484c4cd3edc07f0a7",
+      "test_ids_sha256": "7075e981f8b531815dcc0db589ed1238968f00f8913cf50b020728c884f32e95"
+    },
+    {
+      "name": "related_regression",
+      "command": ".venv/bin/python -m pytest -q tests/test_external_contract.py tests/test_external_analysis.py tests/test_codex_analysis_policy.py tests/test_verification_checks.py --junitxml=<temporary-path>/results.xml",
+      "exit_code": 0,
+      "passed": 50,
+      "failed": 0,
+      "skipped": 0,
+      "junit_sha256": "c868364537cba6c2fb4591f339cb9d353d03e3b80358f8d7e67e20cdb78e6054",
+      "test_ids_sha256": "93a4b698fe6434e1f7c06f39289848b4ad1b3aa559ce7fba36d8aa87e7445a0c"
+    }
+  ],
+  "unique_passed": 72,
+  "static": {
+    "ruff_F": {
+      "files": [
+        "agent/external/operator_review.py",
+        "tests/test_external_operator_review.py"
+      ],
+      "exit_code": 0
+    },
+    "in_memory_compilation": {
+      "files": [
+        "agent/external/operator_review.py",
+        "tests/test_external_operator_review.py"
+      ],
+      "exit_code": 0
+    }
+  },
+  "source_sha256": {
+    "agent/external/operator_review.py": "124c51f81b62fb46b0e1dda192c499faac550e9f6c9d40b7469f3fdd088b9c89",
+    "tests/test_external_operator_review.py": "02326b93b5c649960d70968845fcb880b51288b2eb2bbf0d7fa9e0961607bdf8",
+    "agent/external/contract.py": "b0ea61a9361500e35234d594e4169300ab3dac6bbc0c941eaab8c764103ad47f",
+    "agent/external/analysis.py": "6c39859621662489d1ab91517313f32675967636f5e3f99d99d0a4d60deb4889",
+    "agent/external/codex_policy.py": "4e613f3a2021934f3a8911d2893971c72af89f0f115de2fcdadb513e5e513820",
+    "agent/recovery/verification.py": "b7fd961dfb379c0e6fd4cc68c5e0e5a0f3b61983dccfda733a8ac4ae3b7d4ce6",
+    "tests/test_external_contract.py": "3578064e98dfcbcab435818f8880e0bdb5986bd6ed31804bfe943b3b3b535299",
+    "tests/test_external_analysis.py": "779c38322489f825d687ebfec8fa091dacf5441b96ba168e4ce49a735c940412",
+    "tests/test_codex_analysis_policy.py": "4ad1d852831898dc6d9fd5d973946796e789124234c4b466daf5dfb95aa7a4d9",
+    "tests/test_verification_checks.py": "f5e459d46ded0b7ab8001880e44a65aa951b4487d63ffbe32ae0a97f6fa5a1fc"
+  },
+  "initial_test_draft": "Three assertions initially expected a blocked packet for unsupported operations. The agreed API rejects invalid operations with ProtocolError. Test assertions were corrected; product behavior was unchanged.",
+  "review": {
+    "lead_self_review": "passed",
+    "delegated_test_author": "Luna/high requested; effective worker model not independently exposed"
+  },
+  "activation": {
+    "approval_granting_implemented": false,
+    "dispatch_connected": false,
+    "external_actions_enabled": false,
+    "new_native_model_calls": 0
+  },
+  "master_remote_check": {
+    "commit": "edb704336a1dca0d6d8f81f11432c3097916bc58",
+    "ahead": 0,
+    "behind": 0,
+    "github_statuses": [],
+    "github_workflow_runs": [],
+    "remote_CI_pass_claimed": false
+  },
+  "retained_merge_gates": {
+    "report": "../external-002b/merge-review.md",
+    "python_passed": 1456,
+    "windows_only_skipped": 8,
+    "node_passed": 39,
+    "strict_renderer_typecheck": "passed",
+    "desktop_build": "passed_with_recorded_warnings",
+    "rerun_for_this_unwired_module": false
+  },
+  "limitations": [
+    "Supplied observations are not authenticated or live attestation.",
+    "Review packets cannot grant authority; operator decisions and durable audit are future work.",
+    "Existing adapter activation, native configuration, and production data were not changed.",
+    "No UI, model-runtime or external-service behavior is added or certified by these tests."
+  ]
+}
