@@ -1,7 +1,8 @@
 # EXTERNAL-002B: bounded supervisory runtime integration
 
-**Decision: READY FOR REVIEW for the enrolled read-only analysis and artifact
-contract.** This is not approval to merge or activate production orchestration.
+**Decision: APPROVED FOR MERGE for the enrolled read-only analysis and artifact
+contract.** The owner authorized integration after the completed
+[merge review](merge-review.md). Production orchestration remains inactive.
 Other operations and untested runtime configurations remain unsupported.
 
 CowAgent now supervises a real Codex runtime through the EXTERNAL-001 contract.

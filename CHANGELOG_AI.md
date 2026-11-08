@@ -1,5 +1,39 @@
 # AI handoff ledger
 
+## 2026-11-07 20:24 EST — Codex — EXTERNAL-002B merge approval
+
+- Task/result: completed the owner-requested merge gate for product bc88ca4b
+  and its EXTERNAL-001/002 dependencies. APPROVED for fast-forward integration
+  into fork master from e642eec1. Production activation and broader external
+  actions remain disabled. EXTERNAL-003 starts on a separate branch afterward.
+- Team: Codex lead owns scope, merge, docs and Git. Luna/high independently
+  validated the committed evidence and activation boundaries. Reused the prior
+  completed Sol engineering review; no redundant architecture review or model
+  execution. Used STE branch-completion guidance within the owner's merge choice.
+- Changes/files: merge-review.md, EXTERNAL-002B README status, project MEMORY.md
+  and this ledger. Product source, tests and retained execution receipts unchanged.
+- Commands/results: fetched origin; verified clean tracked tree, ancestor chain
+  e642eec1 -> bfd64e39 -> 26c8e77d -> bc88ca4b, 78 static and nine native source
+  hashes plus artifact hash; reconciled 1,464 JUnit IDs and seven exact browser
+  reruns. Accepted 1,456 Python passes/eight platform skips, Node39, strict tsc,
+  build/static and actual native receipts remain valid. GitHub returned no
+  feature-commit status/workflow run; no remote CI pass is claimed.
+- Decisions: preserve the feature branch/history. Fast-forward only; verify the
+  merged source against the receipts and publish master before branching anew.
+  Upstream-only image workflow conditions and manual release triggers do not
+  activate this adapter on the fork. No new worker/tool registration exists.
+- Lessons Learned: none. MEMORY.md records the task-specific merge authorization;
+  it does not grant activation or broader effect authority.
+- Known issues: retained platform/version, descendant-exit and cost-ceiling
+  limits; eight Windows-only skips and existing build warnings. Untracked
+  AGENTS.md and three conflicted PID files remain unrelated and preserved.
+- Next recommended steps: perform the authorized fast-forward and verify remote
+  synchronization; start EXTERNAL-003's operator review/control foundation on a
+  new branch. Real external actions stay disabled pending their own contracts.
+- Notes for next agent: merge approval is docs/external-002b/merge-review.md.
+  Native evidence is reused because product hashes match. Do not turn merge
+  approval into production activation or implicit uncertain replay.
+
 ## 2026-11-07 19:41 EST — Codex — EXTERNAL-002B bounded native supervision
 
 - Task/result: reassessed EXTERNAL-002 on feat/external-002-codex-adapter from
