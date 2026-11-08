@@ -1,11 +1,12 @@
 # AI handoff ledger
 
-## 2026-11-08 16:43 EST — Codex — AGENT-ROUTING-001..003 integrated gate passed
+## 2026-11-08 16:45 EST — Codex — AGENT-ROUTING-001..003 merged after integrated gate
 
 - Task/result: the required full regression and compatibility gate passed.
   The maintainer authorized master merge and baseline repairs. Final native
-  acceptance passed on the one explicitly authorized final fresh pair. PR #1 is
-  ready for merge; this entry records the completed gate before that operation.
+  acceptance passed on the one explicitly authorized final fresh pair. PR #1 merged
+  as 9577d6b5da831efbad0a208a26032d90b2ef812d. Local master fast-forwarded
+  to origin/master; the merge tree exactly matches reviewed head 5527fd1f.
 - Team: Codex lead owns integration, acceptance, documentation and Git. Luna/high
   workers handled test execution, evidence and bounded fixture repairs. Terra
   6.1/high repaired guest authorization and the journal race because those fixes
@@ -67,12 +68,21 @@
   hosted x86_64 replay. Existing build warnings and background cleanup/logging
   diagnostics remain recorded. Trusted-host metadata/instrumentation does not
   prove OS confinement, remote provider identity or a full private-file inventory.
-- Next recommended steps: merge PR #1, sync master and record the merge SHA.
+- Next recommended steps: none for this merge milestone. Hosted CI dispatch
+  diagnosis, Windows execution and persistent activation remain separate work.
 - Notes for next agent: preserve the failed/private fixtures, immutable bound
   receipts, untracked AGENTS.md, four conflicted PID files and two conflicted test
   copies. Existing server PID 28093 remains. Task containers were removed; Docker
   Desktop was restored to its initial stopped state. Feature branch tracks
-  origin/codex/agent-routing-003. Master stays 9cd8c535 until the authorized merge.
+  origin/codex/agent-routing-003 and is retained. Master tracks origin/master;
+  fetch/rev-list verified 0/0 after merge. This documentation-only closeout is
+  the sole follow-up commit; it leaves every tested Python hash unchanged.
+  The seven listed untracked files are preserved. Local master and tracking refs
+  later reverted to the old base without reflog entries; a closeout push was
+  safely rejected. The rejected commit is preserved on
+  codex/routing-closeout-ref-recovery. Its tree differs from the verified merge
+  only in these two documentation files. The corrected closeout uses the verified
+  remote merge as its explicit parent; no forced push. Cause remains unproven.
 
 ## 2026-11-08 14:13 EST — Codex — AGENT-ROUTING-003 persistent named-agent pair
 

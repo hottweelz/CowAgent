@@ -5,7 +5,8 @@ Integration review: [PR #1](https://github.com/hottweelz/CowAgent/pull/1).
 
 The starting feature head was `d696114e`, three commits ahead with no divergence.
 The maintainer authorized baseline repairs after the complete regression found
-failures. The integrated gate has passed. The master merge is authorized.
+failures. The integrated gate passed and PR #1 merged into master as
+`9577d6b5da831efbad0a208a26032d90b2ef812d` on 2026-11-08.
 
 ## Repairs and compatibility
 
@@ -216,9 +217,24 @@ Linux compatibility; it does not claim an x86_64 GitHub-hosted replay.
 ## Merge decision
 
 The full integrated regression, compatibility review and independent final native
-acceptance have passed. No actionable source or native finding remains. The gate
-permits the authorized master merge through PR #1. Final documentation changes
+acceptance have passed. No actionable source or native finding remains. PR #1
+merged reviewed head `5527fd1f60898c5e93ea13bc25b3d4aa71b82e45`; the merged
+tree exactly matches that head. Local master fast-forwarded to origin/master and
+fetch/rev-list verified 0/0. Final documentation changes
 leave the tested executable and fixture hashes unchanged. The hosted dispatch
 failure and Windows coverage limit remain recorded; no hosted CI success is
 claimed. Persistent service activation and any additional native run are outside
 this completed merge gate.
+
+Post-merge inspection confirmed the same executable fingerprint and all 31 Python
+hashes. The original listener remains PID 28093 on 127.0.0.1:9899. Task containers
+were removed and Docker Desktop restored to its initial stopped state. The seven
+pre-existing untracked governance/conflict files and feature branch are preserved.
+
+During closeout, local master and its tracking ref reverted to the old base
+without reflog entries. GitHub retained the verified merge and rejected the
+non-fast-forward push. The rejected local commit is preserved on
+`codex/routing-closeout-ref-recovery`; its only tree differences from the merge
+are this report and the handoff. Closeout uses the verified remote merge as its
+explicit parent. No forced push or source reconstruction is required. The cause
+of the local ref rewrites is unproven.
