@@ -1,6 +1,6 @@
 # AI handoff ledger
 
-## 2026-11-08 16:45 EST — Codex — AGENT-ROUTING-001..003 merged after integrated gate
+## 2026-11-08 16:49 EST — Codex — AGENT-ROUTING-001..003 merged after integrated gate
 
 - Task/result: the required full regression and compatibility gate passed.
   The maintainer authorized master merge and baseline repairs. Final native
@@ -14,7 +14,8 @@
   checked consequential authentication, memory and recovery boundaries and the
   final native evidence. Explicit model requests were accepted; effective worker
   model identities are not independently exposed. STE finishing, review and
-  dependency guidance used.
+  dependency guidance used. One final Luna/high read-only worker confirmed the
+  conflict-ref evidence during Git closeout; the responsible writer is unknown.
 - Changes/files: agent/permission/policy.py permits only exact bound guest/native
   wrappers, retaining PathGuard, FileBroker and restricted privileged denial.
   agent/external/operator_control.py rechecks only otherwise-private zero-link
@@ -69,20 +70,25 @@
   diagnostics remain recorded. Trusted-host metadata/instrumentation does not
   prove OS confinement, remote provider identity or a full private-file inventory.
 - Next recommended steps: none for this merge milestone. Hosted CI dispatch
-  diagnosis, Windows execution and persistent activation remain separate work.
+  diagnosis, Windows execution, local conflict-writer investigation and persistent
+  activation remain separate work.
 - Notes for next agent: preserve the failed/private fixtures, immutable bound
   receipts, untracked AGENTS.md, four conflicted PID files and two conflicted test
   copies. Existing server PID 28093 remains. Task containers were removed; Docker
   Desktop was restored to its initial stopped state. Feature branch tracks
   origin/codex/agent-routing-003 and is retained. Master tracks origin/master;
   fetch/rev-list verified 0/0 after merge. This documentation-only closeout is
-  the sole follow-up commit; it leaves every tested Python hash unchanged.
+  follow-up records leave every tested Python hash unchanged.
   The seven listed untracked files are preserved. Local master and tracking refs
   later reverted to the old base without reflog entries; a closeout push was
   safely rejected. The rejected commit is preserved on
   codex/routing-closeout-ref-recovery. Its tree differs from the verified merge
   only in these two documentation files. The corrected closeout uses the verified
-  remote merge as its explicit parent; no forced push. Cause remains unproven.
+  remote merge as its explicit parent; no forced push. Generated invalid ref copies
+  were moved byte-for-byte to the task-owned backup documented in merge-review.md.
+  Packing the two verified master refs restored stable resolution; fetch and
+  rev-list then passed at 0/0. This repairs local Git metadata, not the unknown
+  conflict writer. Preserve recovery refs and backup evidence for later diagnosis.
 
 ## 2026-11-08 14:13 EST — Codex — AGENT-ROUTING-003 persistent named-agent pair
 

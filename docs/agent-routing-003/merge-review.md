@@ -238,3 +238,13 @@ non-fast-forward push. The rejected local commit is preserved on
 are this report and the handoff. Closeout uses the verified remote merge as its
 explicit parent. No forced push or source reconstruction is required. The cause
 of the local ref rewrites is unproven.
+
+The generated invalid ref copies were preserved byte-for-byte under
+`/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-routing-conflict-refs-w_675qxf/`
+with a SHA-256 manifest. A bounded independent read-only check confirmed the
+copied commit IDs and timestamps, but did not identify the writer. Packing only
+`refs/heads/master` and `refs/remotes/origin/master` restored stable resolution;
+`git fetch --prune origin` succeeded and `git rev-list --left-right --count
+HEAD...@{u}` returned `0 0`. The local metadata repair does not establish that the
+external conflict-writing cause is fixed. Investigate that separately before
+relying on future loose-ref updates. Recovery refs and the backup are retained.
