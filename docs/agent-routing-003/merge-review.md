@@ -1,6 +1,8 @@
 # Integrated merge review
 
 This gate covers AGENT-ROUTING-001 through 003 against master `9cd8c535`.
+Draft integration review: [PR #1](https://github.com/hottweelz/CowAgent/pull/1).
+
 The starting feature head was `d696114e`, three commits ahead with no divergence.
 The maintainer authorized baseline repairs after the complete regression found
 failures. Master must remain unchanged until the gate passes.

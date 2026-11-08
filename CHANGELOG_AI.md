@@ -74,7 +74,9 @@
 - Notes for next agent: preserve both failed fixtures/old task IDs and original
   accepted native receipt. Preserve untracked AGENTS.md/four conflicted PID files
   and two conflicted test copies. Parent owns Git; source changes are frozen for
-  the final regression. No commit/push/master merge yet in this gate.
+  the final regression. Repairs/evidence committed as 7e911d2e and pushed to tracked origin with 0/0.
+  Draft PR: https://github.com/hottweelz/CowAgent/pull/1. Master is unchanged.
+  A third fresh-pair decision is pending; do not infer authorization.
 
 ## 2026-11-08 14:13 EST — Codex — AGENT-ROUTING-003 persistent named-agent pair
 
