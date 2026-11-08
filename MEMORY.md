@@ -82,6 +82,52 @@
   Independent analysis and caller criteria must pass before verification is
   claimed. [EXTERNAL-002B](docs/external-002b/README.md) records passing real and
   fixture tests, supported enrollment and limits. The owner-authorized
-  EXTERNAL-002B master integration is complete; EXTERNAL-003 continues on a
-  separate development branch. Production activation and broader effects
-  remain unauthorized.
+  EXTERNAL-002B master integration is complete. The owner-approved EXTERNAL-003
+  and EXTERNAL-003B consolidation adds local approvals and enforced dispatch.
+  Production activation and broader effects remain unauthorized.
+- EXTERNAL-003 begins with pure `cow.external.operator-review/1` enrollment and
+  bounded-analysis task drafts. Fingerprints bind supplied observations, task,
+  proposed authority and criteria; they do not authenticate an operator or
+  prove fresh runtime state. Drafts never grant approval or enable execution.
+  The explicit local operator CLI now derives the account from real/effective
+  UID and records enrollment/task approval/revocation in a private WAL/FULL
+  operator journal. Scope/spec hashes, expected revisions, enrollment revision
+  and expiry bind decisions; exact replays return historical receipts plus
+  current state without regranting. Audit preserves decision snapshots. Expiry
+  is checked after writer-lock acquisition; state ancestors must be trusted.
+  This authenticates a local account, not human presence; same-account code,
+  root and the system clock are trusted. The standalone CLI never dispatches
+  work. Explicit dispatch integration is provided by EXTERNAL-003B below; owner
+  review is still required before production activation. See
+  [EXTERNAL-003](docs/external-003/README.md). Real external actions remain disabled
+  pending separately tested authority and verification contracts and activation
+  authorization.
+- EXTERNAL-003B uses ApprovalJournal to colocate operator decisions and external
+  task/send/native/publication intents in one private operator.db WAL/FULL
+  journal. Each one-shot admission checks current identity/spec, credential,
+  approval/enrollment revisions and post-lock expiry in the same transaction.
+  Native admission follows fresh Codex attestation. Generic/ungated analysis
+  submissions and claimed approval labels fail closed; only analyze_records is
+  available through the real adapter (cow.codex/2).
+- Operator revocation/replacement atomically fences bound tasks and queues
+  cancellation. Runtime polling and supervisor delivery share one claim;
+  unknown delivery requires explicit cancel retry. Reconciliation may deliver
+  that already-requested cancellation once, but never resubmits a task or
+  republishes an artifact. Revocation after native/publication intent commit
+  cannot retract that authorization. Adapter restart has no live native client
+  for interruption; cancellation intent is not termination proof.
+- EXTERNAL-003B's actual Codex acceptance passed with two delegated model turns,
+  operator revocation, host/native-intent crash recovery and independent artifact
+  verification. Empty native-thread history returned thread-not-loaded; this is
+  recorded as unavailable, with separate outbound RPC evidence, not as empty
+  public history. The [report](docs/external-003b/README.md) records evidence and
+  limits. The maintainer authorized master consolidation after merge review;
+  production activation and broader service actions remain unauthorized.
+- MemoryStorage.close() closes the foreground connection without joining
+  asynchronous maintenance. Disposable shared-database fixtures must wait for
+  maintenance before unlinking the database or removing its directory. Deletion
+  during the background open reproduces SQLITE_IOERR_FSTAT (1802) at the WAL
+  pragma on SQLite 3.45.3. The shared-db test teardown enforces this ordering
+  and retains the database if its bounded wait fails. See the
+  [diagnostic investigation](docs/external-003b/sqlite-diagnostic.md); this is
+  distinct from the earlier renamed-WAL SQLITE_IOERR_SHORT_READ (522).

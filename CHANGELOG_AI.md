@@ -1,5 +1,252 @@
 # AI handoff ledger
 
+## 2026-11-07 23:37 EST — Codex — EXTERNAL-003B merge review and SQLite diagnostic
+
+- Task/result: completed the maintainer-authorized merge review for EXTERNAL-003B
+  and its EXTERNAL-003 dependencies from master edb70433 through b92c535f.
+  Approved for master consolidation with the test-only correction below.
+  Production orchestration and consequential external actions remain disabled.
+- Team: Codex lead owns diagnosis, correction, docs, integration and Git sync.
+  Luna/high traced test lifecycle and independently checked retained evidence
+  and the fresh full regression. The existing Sol 6.1/high reviewer checked
+  merge boundaries and the correction; concurrent authority and cancellation
+  require stronger reasoning than routine Luna review. Requested models were
+  accepted; effective delegated identities are not independently exposed.
+  Applied STE systematic-debugging and finishing-a-development-branch guidance.
+- Changes/files: tests/test_shared_db_recovery.py now waits for maintenance in
+  all three fixture teardowns before deletion/log restoration; timeout fails and
+  preserves the fixture. Added three event-barrier regression cases. Updated
+  docs/external-003b README/review; added sqlite-diagnostic.md and
+  merge-validation.json. Updated project MEMORY.md and this handoff.
+- Diagnosis: maintenance opens a second SQLite connection asynchronously;
+  foreground close does not join it. Deleting the fixture after that open but
+  before its WAL pragma reproduces real SQLITE_IOERR_FSTAT (1802) on SQLite
+  3.45.3. All three new cases failed before the correction with the exact native
+  code/name, then passed afterward. The original log lacks a test-ID binding;
+  exact historical case attribution remains unknown. This is separate from the
+  previous renamed-WAL SHORT_READ (522), not proof of a new production failure.
+- Verification: focused shared-db/storage-I/O/FTS selection: 40 passed in 3.62s;
+  reviewer independently confirmed three barrier cases in 0.20s. Ruff F,
+  in-memory compile and diff checks passed. Existing protected runner:
+  `.venv/bin/python docs/external-003b/run_regression.py` — 1,530 pass, 15 skip,
+  1,545 IDs/131 files, zero failures/errors. Fresh run.log has zero FSTAT/1802 or
+  background-maintenance diagnostics; ten deliberate injected error records
+  remain distinguishable. Seven exact native-browser receipts reuse unchanged
+  hashes: 1,537 unique passes and eight Windows-only skips.
+- Evidence/review: all 14 final native source hashes, eight regression static
+  hashes and nine browser/UI hashes matched. Reused actual Codex success,
+  revocation, host/native-intent crash and independent-verification evidence;
+  no new model call. Reused Node39, strict renderer zero diagnostics and desktop
+  build receipts with recorded warnings. No new blocking review finding.
+- Decisions: fix the test resource lifetime rather than change production
+  storage. Preserve original diagnostic/native/regression receipts and explain
+  the correction in an additive merge receipt. Source under agent/ is unchanged
+  from b92c535f. Native model, authentication, policy and production state remain
+  unchanged. Consolidate into master and push both feature and master refs;
+  verify equal integration trees and upstream 0/0 at closeout.
+- Lessons Learned:
+  - Mistake: fixture deletion assumed foreground close stopped maintenance.
+  - Root Cause: asynchronous SQLite resource lifetime exceeded fixture lifetime.
+  - Future Trigger: cleanup removes a database used by background work.
+  - Required Behavior Change: join that work before deletion; timeout preserves
+    the fixture and fails the check instead of deleting an active database.
+  - Verification Step: barrier regression establishes the real open/delete order
+    and full-suite log inspection distinguishes unexpected from injected errors.
+  - Durable Memory Update: recorded asynchronous close and teardown ordering in
+    project MEMORY.md. No global memory update.
+- Known issues/limits: historical emitting test is unknown; native empty-thread
+  history remains unavailable, not empty. Task-effect cancellation is not
+  descendant-exit or hard-cost proof. Uncertain work never replays. Windows-only
+  cases remain skipped and retained build warnings remain documented.
+- Next recommended steps: explicit uncertainty resolution and operational
+  credential/retention controls before any separately authorized activation.
+- Notes for next agent: see merge-validation.json for exact receipts and hashes.
+  Preserve untracked AGENTS.md and the three conflicted PID files. Do not infer
+  production activation or new external authority from master consolidation.
+
+## 2026-11-07 23:16 EST — Codex — EXTERNAL-003B approval-enforced dispatch
+
+- Task/result: implemented and validated approval-enforced bounded analysis on
+  feat/external-003b-approved-dispatch from 036d957f. Ready for review; no master
+  merge or production activation. Consequential external operations remain out
+  of scope and unsupported by the Codex adapter.
+- Team: Codex lead owns lifecycle, adapter hooks, real acceptance, integration,
+  docs and Git. Luna/high mapped runtime seams, migrated adapter fixtures and ran
+  release gates. Terra 6.1/high built the shared journal/supervisor integration
+  and adapted the native runner; interacting transactions and recovery exceeded
+  routine implementation. One Sol 6.1/high architect/reviewer covered atomicity
+  and uncertain cross-process effects. Requested models accepted; effective
+  delegated identities not independently exposed. STE planning/review guidance.
+- Changes/files: approved_dispatch.py; operator_control.py, supervisor.py and
+  codex_adapter.py; test_approved_dispatch.py and updated test_codex_adapter.py;
+  docs/external-003b plan, runners, README, review and native/regression receipts;
+  project MEMORY.md and this ledger. Policy/model/authentication and live
+  CowAgent state remain unchanged; no application worker or service registration.
+- Contract: current approval and durable host/native/publication intent share one
+  SQLite transaction in operator.db. Native intent follows fresh attestation.
+  Prior intents never permit replay. Revocation/replacement writes cancellation
+  fences with the operator decision. Polling and supervisor delivery share one
+  cancellation claim; uncertain interruption requires explicit retry. Legacy
+  analysis and caller-label approvals reject. Adapter reports cow.codex/2.
+- Actual native evidence: installed CLI 0.165.0 and existing selected runtime.
+  Unapproved/revoked/legacy/unsupported requests denied. One approved native turn
+  survived supervisor SIGKILL after acceptance; same identity, no duplicate and
+  independently verified seven-record artifact (net 13,000 cents). Revocation
+  after actual attestation prevented native admission. A second model turn was
+  revoked during observed activity; scoped cancellation confirmed, no artifact.
+  Adapter SIGKILL after native intent but before outbound turn/start preserved
+  identity/intent and did not replay or publish; running/unknown stays explicit.
+- Commands/results: real --execute acceptance initially passed denials/success
+  then encountered empty-thread history RPC -32600. Corrected receipt collection
+  and --resume continued only uncovered cases with new task IDs; final passed.
+  Config hash remained 7d926393...874cc throughout; captured owned groups cleaned
+  up, no all-descendant/cost guarantee. `.venv/bin/python
+  docs/external-003b/run_regression.py`: 1,527 pass, 15 skip, 1,542 IDs/131 files,
+  zero failures/errors. Seven exact unchanged browser cases reused: 1,534 unique
+  passes/eight Windows skips. Fresh Node39, strict renderer zero diagnostics and
+  desktop build pass; recorded existing warnings. Ruff F/compile passed for eight
+  changed/new files. Native/product and static hashes match current source.
+- Review: one blocking cancellation claim overlap corrected and independently
+  confirmed by private IPC lost-interrupt/reconcile/explicit-retry regression.
+  No remaining blocking source finding for this scope. Unknown-task rejection
+  normalized; shared-journal foreign keys enabled; legacy bypass tested.
+- Lessons Learned:
+  - Mistake: two cancellation paths could independently deliver the same intent;
+    the first harness also assumed fresh observers could list empty threads.
+  - Root Cause: durable cancellation delivery needs shared ownership; public
+    history availability is separate from whether a turn/start was attempted.
+  - Future Trigger: multiple cancellation/recovery paths or pre-turn crash probes.
+  - Required Behavior Change: claim delivery before IPC and preserve uncertainty;
+    record missing history explicitly and capture outbound RPC attempt metadata.
+  - Verification Step: explicit-retry regression and actual continued acceptance;
+    accepted success was reused after product/config hashes matched, never rerun.
+  - Durable Memory Update: recorded atomic gates, claim ownership, intent ordering
+    and empty-thread history limits in project MEMORY.md.
+- Known issues: no human-presence or hostile same-account isolation claim.
+  Revocation after intent cannot retract authorized turn/publication. Adapter
+  restart lacks a live client for interruption. A separate non-failing temporary
+  test index logged SQLITE_IOERR_FSTAT (1802); root cause unconfirmed and recorded,
+  not suppressed or represented as a clean log. No memory-code change in scope.
+- Next recommended steps: owner review before merge/activation; then explicit
+  uncertainty resolution and operational credential/retention controls. Investigate
+  the separate temporary-index diagnostic without modifying production memory.
+- Notes for next agent: real fixtures retained at
+  /private/tmp/cowagent-003b-qy6xduds; IPC secret stays private and is not published.
+  Receipts preserve the initial observer failure. Push this completed branch and
+  verify upstream 0/0 at closeout. Preserve untracked AGENTS.md and three conflicted
+  PID files. Master remains edb70433; do not infer activation authority from tests.
+
+## 2026-11-07 20:57 EST — Codex — EXTERNAL-003 local enrollment and approvals
+
+- Task/result: implemented the owner's selected enrollment/approval focus on
+  feat/external-003-operator-controls from fcfd0377. Local decisions are tested;
+  live orchestration and real external actions remain disabled. No master merge.
+- Team: Codex lead owns contract, state implementation, integration, docs and Git.
+  Luna/high mapped existing authentication, built the CLI and implemented focused
+  tests in bounded assignments. One Sol 6.1/high review covered OS identity,
+  SQLite revisions, expiry and replay across boundaries; this needed stronger
+  security reasoning than routine Luna work. Requested models accepted; effective
+  worker identity not independently exposed. Used STE planning guidance.
+- Changes/files: new operator_control.py, operator_cli.py and their two test
+  files; EXTERNAL-003 plan, README, operator-review.md and operator-validation.json;
+  project MEMORY.md and this ledger. Existing adapter, supervisor, native runtime,
+  UI, production state and native credentials/configuration unchanged.
+- Contract: derive operator identity from the local POSIX account, not a supplied
+  label. Require private canonical state and trusted ancestors. One WAL/FULL
+  transaction commits revisioned approval/revocation with an audit snapshot.
+  Freeze scope/spec/review/enrollment revision and expiry. Duplicate requests
+  expose historical receipts plus current state and cannot reinstate revocations.
+  Re-enrollment invalidates older task approvals. All responses disable execution.
+- Commands/results: pytest operator-control file 26 passed, CLI file ten passed,
+  review/contract/supervisor regression 43 passed: 79 unique passes, no skips or
+  failures in final runs. CLI acceptance used separate actual Python processes
+  and disposable SQLite. Ruff F and in-memory compilation passed for four files.
+  Retained unchanged release baseline: Python 1,456/eight Windows skips, Node39,
+  strict renderer and desktop build pass with recorded warnings. No fresh native
+  model/service calls; no redundant full UI/runtime replay.
+- Review/corrections: no remaining blocking finding. Expiry now samples time
+  after writer-lock acquisition; independent actual-clock contention rejected
+  expired work with empty audit. Oversized numeric expiry becomes ProtocolError.
+  Trusted ancestors are enforced. Missing-state error normalized. Corrected
+  negative tests to isolate expiry and removed an unused test import after Ruff.
+- Lessons Learned:
+  - Mistake: early clock sampling could become stale during lock wait; initial
+    negative tests could reject for a different task/time mismatch.
+  - Root Cause: admission time must follow resource acquisition, and negative
+    tests need a valid control case differing only at the intended boundary.
+  - Future Trigger: expiry with contention, CAS approvals or retry/replay tests.
+  - Required Behavior Change: recheck time after ownership; freeze one task and
+    observe the actual write-lock attempt before advancing the fixture clock.
+  - Verification Step: final lock-wait test asserts the exact expiry error with
+    no approval write; independent real-clock reproduction confirms behavior.
+  - Durable Memory Update: recorded post-lock expiry, revision/replay and local
+    account limits in project MEMORY.md.
+- Known issues: account identity is not human presence. Same-account code/root
+  and system clock are trusted; audit is not tamper-proof. No second-UID attack
+  test or hard isolation claim. Approval records are not dispatch credentials;
+  revocation does not cancel running tasks. Windows unsupported. Prior untracked
+  AGENTS.md and three conflicted PID files remain preserved.
+- Next recommended steps: review account authentication requirements, then define
+  and test an atomic decision/revocation/submit-intent boundary with fresh runtime
+  enrollment before any bounded dispatch activation. Uncertainty resolution,
+  retention and broader service actions remain separate work.
+- Notes for next agent: push this completed commit to its tracked branch and
+  verify fetch/0/0 at closeout. Do not merge or activate based on a local approval
+  record. Current master remains the approved EXTERNAL-002B integration.
+
+## 2026-11-07 20:35 EST — Codex — EXTERNAL-003 review-only foundation
+
+- Task/result: completed the requested EXTERNAL-002B merge and published master
+  edb70433; fetch confirmed master/origin-master 0 ahead, 0 behind. Began
+  EXTERNAL-003 on feat/external-003-operator-controls. Its first slice is complete;
+  the broader operator-control milestone remains started. Real external actions
+  and production orchestration remain disabled.
+- Team: Codex lead owns scope, packet builders, integration, docs, self-review
+  and Git. Luna/high was requested for bounded test implementation; effective
+  worker identity is not independently exposed. Prior merge validator/reviewer
+  evidence is retained. No additional native runtime or external worker pool.
+- Changes/files: agent/external/operator_review.py adds pure, versioned enrollment
+  and analysis task drafts; tests/test_external_operator_review.py covers their
+  behavior. docs/external-003/README.md and validation.json record scope,
+  evidence and ordered next work. Project MEMORY.md and this ledger updated.
+- Commands/results: focused pytest 22 passed; related contract, analysis,
+  Codex analysis policy and artifact verification pytest 50 passed. No skips or
+  failures in final runs. Ruff F and in-memory compilation passed for both new
+  files. Ten source/test hashes bind the receipt. Full merged baseline remains
+  1,456 Python passes/eight Windows skips, Node39, strict renderer tsc and desktop
+  build; unchanged UI/runtime source did not require another execution.
+- Decisions: review packets bind caller-supplied fingerprints, claimed identity,
+  normalized task/criteria and proposed authority. They are not authenticated
+  approval or runtime attestation. Drift/expiry blocks drafts; invalid operations,
+  wider grants and modified enrollment packets are rejected. Unsupported caller
+  checks stay visible. Execution, acceptance and external-state outcomes remain
+  distinct and unobserved/unverified. Existing dispatch/activation paths unchanged.
+- Lessons Learned:
+  - Mistake: the first delegated test draft expected blocked packets for invalid
+    operations instead of the agreed ProtocolError rejection.
+  - Root Cause: the tests conflated structurally invalid requests with valid
+    drafts that have mismatched observations or expired authority.
+  - Future Trigger: new review-packet failure cases.
+  - Required Behavior Change: distinguish request rejection from blocked drafts
+    when deriving tests from the contract.
+  - Verification Step: corrected assertions; all 22 packet tests passed with
+    no product behavior change.
+  - Durable Memory Update: project MEMORY.md records drafts are not authority;
+    test-authoring mismatch needs no additional durable rule.
+- Known issues: authenticated operator identity, durable grant/revocation audit,
+  stale approval/restart rules and dispatch integration are not implemented in
+  this first slice. Broader effects require their own contracts. GitHub returned
+  no status/workflow run for merged master; no remote CI pass claimed. Existing
+  runtime/platform/build limits remain in the merged report.
+- Next recommended steps: define authenticated operator decisions and durable
+  audit; test grant/revocation, stale approvals, conflicting callers and restart
+  behavior before connecting bounded analysis dispatch. Add explicit uncertainty
+  resolution without native replay. Do not activate broader external actions.
+- Notes for next agent: publish this branch to the same name on origin and
+  verify 0/0 as final closeout; standing maintainer preference permits upstream
+  setup. Preserve untracked AGENTS.md and three conflicted PID files. No native
+  credentials, production configuration, memory, history or journals changed.
+
 ## 2026-11-07 20:24 EST — Codex — EXTERNAL-002B merge approval
 
 - Task/result: completed the owner-requested merge gate for product bc88ca4b

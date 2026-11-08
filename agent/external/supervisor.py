@@ -53,10 +53,16 @@ class ExternalSupervisor:
     def prepare(self, spec):
         spec = normalize_spec(spec)
         self._identity(spec)
+        if spec['task']['operation'] == 'analyze_records':
+            from .approved_dispatch import ApprovalJournal
+            if not isinstance(self.journal, ApprovalJournal):
+                raise ProtocolError('Analysis requires an approval journal')
         return self.journal.create(self.transport.credential.supervisor_id, spec)
 
     def approve(self, task_id, *, approved_by, expires_at):
         row = self._owned(task_id)
+        if row['spec']['task']['operation'] == 'analyze_records':
+            raise ProtocolError('Analysis requires an operator decision')
         approval = {'approved_by': approved_by, 'expires_at': expires_at, 'task_hash': digest(row['spec'])}
         authorize(row['spec'], self.transport.credential, approval)
         with self.journal.lock(task_id):
@@ -74,8 +80,14 @@ class ExternalSupervisor:
                 if row['submission_started'] or row['cancel_requested']:
                     # Includes a crash after send intent. Only status can reconcile it.
                     return outcomes(row)
-                authorize(row['spec'], self.transport.credential, row['approval'])
-                self.journal.event(task_id, 'submit_intent', {'task_hash': row['spec_hash']}, transport_status='sending')
+                if row['spec']['task']['operation'] == 'analyze_records':
+                    from .approved_dispatch import ApprovalJournal
+                    if not isinstance(self.journal, ApprovalJournal):
+                        raise ProtocolError('Analysis requires an approval journal')
+                    row = self.journal.begin_submit(task_id, self.transport.credential)
+                else:
+                    authorize(row['spec'], self.transport.credential, row['approval'])
+                    self.journal.event(task_id, 'submit_intent', {'task_hash': row['spec_hash']}, transport_status='sending')
                 try:
                     observation = self.transport.submit(row['spec'], row['approval'])
                     return outcomes(self.journal.observe(task_id, observation))
@@ -92,6 +104,8 @@ class ExternalSupervisor:
         with self.journal.lock(task_id) as row:
             if action == 'cancel':
                 self.journal.event(task_id, 'cancel_requested', {'requested_at': time.time()})
+                if hasattr(self.journal, 'claim_cancel'):
+                    self.journal.claim_cancel(task_id)
             if not row['submission_started']:
                 return outcomes(self._owned(task_id))
             try:
@@ -114,9 +128,31 @@ class ExternalSupervisor:
     def result(self, task_id):
         return self._query(task_id, 'result')
 
+    def flush_pending_cancellations(self):
+        """Claim once before IPC; a lost reply requires an explicit retry."""
+        if not hasattr(self.journal, 'pending_cancellations'):
+            return []
+        results = []
+        for row in self.journal.pending_cancellations(self.transport.credential.supervisor_id, self.transport.credential.runtime_id):
+            spec = row['spec']
+            if (spec['owner_id'], spec['source_id'], spec['conversation_id']) != (self.owner_id, self.source_id, self.conversation_id):
+                continue
+            try:
+                with self.journal.lock(row['task_id']):
+                    if self.journal.claim_cancel(row['task_id']):
+                        try:
+                            value = self.transport.cancel(spec)
+                            results.append(outcomes(self.journal.observe(row['task_id'], value)))
+                        except (RemoteRejected, TransportUnavailable, ProtocolError, ValueError):
+                            self.journal.event(row['task_id'], 'cancel_unavailable', {'error': 'cancellation_outcome_unknown'}, transport_status='unreachable')
+                            results.append(outcomes(self._owned(row['task_id'])))
+            except ExternalBusy:
+                continue
+        return results
+
     def reconcile(self):
         """After host restart, query existing IDs only. Never submit or restart."""
-        results = []
+        results = self.flush_pending_cancellations()
         for row in self.journal.pending(self.transport.credential.supervisor_id, self.transport.credential.runtime_id):
             spec = row['spec']
             if (spec['owner_id'], spec['source_id'], spec['conversation_id']) != (self.owner_id, self.source_id, self.conversation_id):

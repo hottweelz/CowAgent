@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "phase": "EXTERNAL-003 local operator enrollment and approvals",
+  "recorded_at_utc": "2026-11-08T01:57:35Z",
+  "base_commit": "fcfd03770c3760dac3b0ff78473e65013e85f5ea",
+  "branch": "feat/external-003-operator-controls",
+  "python": "3.13.1",
+  "sqlite": "3.45.3",
+  "platform": "Darwin",
+  "checks": [
+    {
+      "name": "operator_control",
+      "command": ".venv/bin/python -m pytest -q tests/test_external_operator_control.py --junitxml=TEMP_RESULT.xml",
+      "exit_code": 0,
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0,
+      "junit_sha256": "bf100f99a8538d99175792f74e87068e334b6660944dff701ba8df3b139621d1",
+      "test_ids": [
+        "tests.test_external_operator_control::test_changed_effective_account_is_rejected",
+        "tests.test_external_operator_control::test_clock_is_sampled_after_waiting_for_decision_lock",
+        "tests.test_external_operator_control::test_enrollment_approval_uses_local_actor_and_keeps_execution_disabled",
+        "tests.test_external_operator_control::test_enrollment_rejects_blocked_review_and_extra_payload_authority",
+        "tests.test_external_operator_control::test_expired_approval_is_rejected_at_commit[approve_task-None-110.0]",
+        "tests.test_external_operator_control::test_expired_approval_is_rejected_at_commit[enroll-payload0-None]",
+        "tests.test_external_operator_control::test_initialization_is_explicit_private_and_owner_only",
+        "tests.test_external_operator_control::test_reenrollment_invalidates_prior_task_approval",
+        "tests.test_external_operator_control::test_request_cannot_forge_operator_identity",
+        "tests.test_external_operator_control::test_restart_keeps_approval_audit_and_current_revoked_status",
+        "tests.test_external_operator_control::test_revoked_task_duplicate_command_returns_history_without_regrant",
+        "tests.test_external_operator_control::test_same_request_id_with_different_payload_is_a_conflict",
+        "tests.test_external_operator_control::test_status_inspects_expired_enrollment_and_task_approvals",
+        "tests.test_external_operator_control::test_task_approval_binds_exact_review_authority_scope_and_enrollment",
+        "tests.test_external_operator_control::test_task_approval_rejects_a_caller_scope_mismatch",
+        "tests.test_external_operator_control::test_task_approval_rejects_wider_operations",
+        "tests.test_external_operator_control::test_task_approval_rejects_wrong_review_revision_or_expiry[changes0]",
+        "tests.test_external_operator_control::test_task_approval_rejects_wrong_review_revision_or_expiry[changes1]",
+        "tests.test_external_operator_control::test_task_approval_rejects_wrong_review_revision_or_expiry[changes2]",
+        "tests.test_external_operator_control::test_two_instances_competing_for_one_revision_commit_once",
+        "tests.test_external_operator_control::test_unrepresentable_expiry_is_rejected_without_audit_write",
+        "tests.test_external_operator_control::test_unsafe_state_directory_or_journal_is_rejected[group_writable]",
+        "tests.test_external_operator_control::test_unsafe_state_directory_or_journal_is_rejected[hardlink]",
+        "tests.test_external_operator_control::test_unsafe_state_directory_or_journal_is_rejected[symlink]",
+        "tests.test_external_operator_control::test_unsafe_writable_ancestor_is_rejected_before_leaf_creation",
+        "tests.test_external_operator_control::test_wrong_caller_and_changed_immutable_task_are_rejected"
+      ]
+    },
+    {
+      "name": "operator_cli",
+      "command": ".venv/bin/python -m pytest -q tests/test_external_operator_cli.py --junitxml=TEMP_RESULT.xml",
+      "exit_code": 0,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "junit_sha256": "94180fd7a5f1e02dbd19a2b778b8b1ba624d7db736c928fbef7e55795fea39fe",
+      "test_ids": [
+        "tests.test_external_operator_cli::test_activation_commands_are_not_supported[activate]",
+        "tests.test_external_operator_cli::test_activation_commands_are_not_supported[dispatch]",
+        "tests.test_external_operator_cli::test_activation_commands_are_not_supported[enable]",
+        "tests.test_external_operator_cli::test_init_and_commands_route_to_operator_control",
+        "tests.test_external_operator_cli::test_json_input_is_bounded_and_invalid_json_is_rejected",
+        "tests.test_external_operator_cli::test_operator_identity_arguments_are_not_supported",
+        "tests.test_external_operator_cli::test_real_cli_persists_decisions_across_processes_and_replays_history",
+        "tests.test_external_operator_cli::test_scope_requires_exact_fields_and_json_stdin_is_supported",
+        "tests.test_external_operator_cli::test_state_directory_is_required",
+        "tests.test_external_operator_cli::test_uninitialized_state_fails_without_constructing_control"
+      ]
+    },
+    {
+      "name": "related_regression",
+      "command": ".venv/bin/python -m pytest -q tests/test_external_operator_review.py tests/test_external_contract.py tests/test_external_supervisor.py --junitxml=TEMP_RESULT.xml",
+      "exit_code": 0,
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0,
+      "junit_sha256": "dd5d6de5aa2fcd9f16c4a6b752dcf1c4069f0c60bba4c45d621b2773cfba4d7b",
+      "test_ids": [
+        "tests.test_external_contract::test_runtime_rejects_forged_and_expired_wire_requests",
+        "tests.test_external_contract::test_scope_and_private_socket_access_fail_closed",
+        "tests.test_external_contract::test_signed_response_is_bound_to_request_runtime_action_and_expiry",
+        "tests.test_external_contract::test_task_cannot_override_runtime_owned_configuration[credentials-value2]",
+        "tests.test_external_contract::test_task_cannot_override_runtime_owned_configuration[model-foreign-model]",
+        "tests.test_external_contract::test_task_cannot_override_runtime_owned_configuration[session_id-borrowed-session]",
+        "tests.test_external_contract::test_task_cannot_override_runtime_owned_configuration[tools-value3]",
+        "tests.test_external_operator_review::test_analysis_task_packet_binds_identity_hash_and_verification_criteria",
+        "tests.test_external_operator_review::test_authority_expiry_boundary_blocks_task_review",
+        "tests.test_external_operator_review::test_enrollment_drift_blocks_review[config_sha256-4444444444444444444444444444444444444444444444444444444444444444]",
+        "tests.test_external_operator_review::test_enrollment_drift_blocks_review[probe_sha256-6666666666666666666666666666666666666666666666666666666666666666]",
+        "tests.test_external_operator_review::test_enrollment_drift_blocks_review[provider_config_sha256-5555555555555555555555555555555555555555555555555555555555555555]",
+        "tests.test_external_operator_review::test_enrollment_rejects_unknown_or_credential_fields[access_token]",
+        "tests.test_external_operator_review::test_enrollment_rejects_unknown_or_credential_fields[api_key]",
+        "tests.test_external_operator_review::test_enrollment_rejects_unknown_or_credential_fields[credential]",
+        "tests.test_external_operator_review::test_matching_enrollment_snapshot_is_review_only_and_binds_observation",
+        "tests.test_external_operator_review::test_review_builders_do_not_open_files_start_processes_or_create_sockets",
+        "tests.test_external_operator_review::test_review_packets_do_not_retain_mutable_input_references",
+        "tests.test_external_operator_review::test_task_hash_changes_when_data_or_authority_changes",
+        "tests.test_external_operator_review::test_task_review_blocks_unsupported_operation_or_broader_authority[analyze_records-operations2]",
+        "tests.test_external_operator_review::test_task_review_blocks_unsupported_operation_or_broader_authority[record_effect-operations0]",
+        "tests.test_external_operator_review::test_task_review_blocks_unsupported_operation_or_broader_authority[write_artifact-operations1]",
+        "tests.test_external_operator_review::test_task_review_rejects_non_finite_review_time[-inf]",
+        "tests.test_external_operator_review::test_task_review_rejects_non_finite_review_time[inf]",
+        "tests.test_external_operator_review::test_task_review_rejects_non_finite_review_time[nan]",
+        "tests.test_external_operator_review::test_task_review_rejects_tampered_enrollment_packet[<lambda>0]",
+        "tests.test_external_operator_review::test_task_review_rejects_tampered_enrollment_packet[<lambda>1]",
+        "tests.test_external_operator_review::test_task_review_rejects_tampered_enrollment_packet[<lambda>2]",
+        "tests.test_external_operator_review::test_unsupported_cli_or_policy_revision_blocks_enrollment",
+        "tests.test_external_supervisor::test_cancel_request_is_not_termination_and_disconnect_is_not_death",
+        "tests.test_external_supervisor::test_concurrent_host_requests_and_conflicting_duplicate",
+        "tests.test_external_supervisor::test_delegation_preserves_ownership_and_requires_independent_evidence",
+        "tests.test_external_supervisor::test_enrollment_scope_expiry_and_unsupported_verification",
+        "tests.test_external_supervisor::test_permission_expiry_while_queued_prevents_effect[approval]",
+        "tests.test_external_supervisor::test_permission_expiry_while_queued_prevents_effect[grant]",
+        "tests.test_external_supervisor::test_prepare_queries_do_not_poison_submission_and_unsent_cancel_prevents_it",
+        "tests.test_external_supervisor::test_runtime_process_restarts_preserve_effect_boundaries[after_completion]",
+        "tests.test_external_supervisor::test_runtime_process_restarts_preserve_effect_boundaries[after_effect]",
+        "tests.test_external_supervisor::test_runtime_process_restarts_preserve_effect_boundaries[after_intent]",
+        "tests.test_external_supervisor::test_runtime_process_restarts_preserve_effect_boundaries[before_intent]",
+        "tests.test_external_supervisor::test_stale_identity_and_verification_failure_never_trigger_execution",
+        "tests.test_external_supervisor::test_supervisor_process_death_never_resubmits_uncertain_request[after_send]",
+        "tests.test_external_supervisor::test_supervisor_process_death_never_resubmits_uncertain_request[before_send]"
+      ]
+    }
+  ],
+  "unique_passed": 79,
+  "static": {
+    "ruff_F": {
+      "files": [
+        "agent/external/operator_control.py",
+        "agent/external/operator_cli.py",
+        "tests/test_external_operator_control.py",
+        "tests/test_external_operator_cli.py"
+      ],
+      "exit_code": 0
+    },
+    "in_memory_compilation": {
+      "files": [
+        "agent/external/operator_control.py",
+        "agent/external/operator_cli.py",
+        "tests/test_external_operator_control.py",
+        "tests/test_external_operator_cli.py"
+      ],
+      "exit_code": 0
+    }
+  },
+  "source_sha256": {
+    "agent/external/operator_control.py": "25e2a6969d1542b472d8faed497bec9034bad74d659bd4de63eaf4e1e902681d",
+    "agent/external/operator_cli.py": "823665e96793ba80d9618963dc01b55bdf4d313b59c16ca4113584a483a3468e",
+    "tests/test_external_operator_control.py": "bba95ebd4baba7e982db101639873fb8369512bde53ab8e2ac796788c5a1f05e",
+    "tests/test_external_operator_cli.py": "039e5e3bdd9c81dd4ca7dff24922955bd048186000a092fa5e7ae0199a62ee0a",
+    "agent/external/operator_review.py": "124c51f81b62fb46b0e1dda192c499faac550e9f6c9d40b7469f3fdd088b9c89",
+    "agent/external/contract.py": "b0ea61a9361500e35234d594e4169300ab3dac6bbc0c941eaab8c764103ad47f",
+    "agent/external/supervisor.py": "40f5c111698bab612424600475003f22a34b1ac60771dd7bea31035232aaf1b5",
+    "agent/external/journal.py": "07bacbf82f4662ab30ef38526c277fb0003a7340353c5f10e8ee623058736bb3",
+    "tests/test_external_operator_review.py": "02326b93b5c649960d70968845fcb880b51288b2eb2bbf0d7fa9e0961607bdf8",
+    "tests/test_external_contract.py": "3578064e98dfcbcab435818f8880e0bdb5986bd6ed31804bfe943b3b3b535299",
+    "tests/test_external_supervisor.py": "19933e8a26c45b8f05705c2237127230e343c6f0dfc31dbf8e12c2dc645caa8d"
+  },
+  "independent_review": {
+    "report": "operator-review.md",
+    "decision": "no_remaining_blocking_product_finding",
+    "requested_model": "Sol 6.1 high",
+    "effective_model_independently_exposed": false,
+    "narrow_confirmation_tests": 5,
+    "actual_wall_clock_writer_contention": "expired_request_rejected_audit_empty"
+  },
+  "execution_evidence": {
+    "cli_real_subprocess_workflow": "init_enroll_approve_revoke_restart_status_replay",
+    "competing_decisions": "one_commit_one_stale_revision_rejection",
+    "exact_replay_after_revocation": "historical_approval_receipt_current_revoked",
+    "writer_lock_expiry": "SQLite_attempt_observed_clock_advanced_no_approval_write",
+    "audit_snapshots": "original_approval_preserved_after_revocation",
+    "OS_actor": "current_uid_derived_and_changed_euid_fixture_denied",
+    "unsafe_paths": "symlink_hardlink_group_write_and_unsafe_ancestor_rejected"
+  },
+  "corrections": [
+    "Clock sampled after writer lock rather than before waiting.",
+    "Unrepresentable numeric expiry becomes controlled ProtocolError.",
+    "Trusted ancestor ownership/modes enforced before initialization and each connection.",
+    "Missing state directory becomes controlled ProtocolError without creation.",
+    "Negative tests isolate expiry using one frozen spec and observed SQLite lock attempt.",
+    "Unused test import removed after initial Ruff failure."
+  ],
+  "preservation": {
+    "native_model_calls": 0,
+    "external_service_calls": 0,
+    "production_data_or_configuration_modified": false,
+    "native_credentials_read_or_copied": false,
+    "dispatch_connected": false,
+    "external_actions_enabled": false,
+    "master_merged_for_this_phase": false
+  },
+  "retained_gates": {
+    "report": "../external-002b/merge-review.md",
+    "python_passed": 1456,
+    "platform_skipped": 8,
+    "node_passed": 39,
+    "strict_renderer_typecheck": "passed",
+    "desktop_build": "passed_with_recorded_warnings",
+    "rerun": false,
+    "reason": "Existing adapter, UI, native dispatch and runtime source unchanged."
+  },
+  "limits": [
+    "Authenticates local OS account, not distinct human or presence.",
+    "Same-account code, root and system clock are trusted; audit is not tamper-proof.",
+    "No second-UID attack, hard isolation or live runtime attestation demonstrated.",
+    "Approval records do not authorize dispatch; revocation does not cancel running work.",
+    "POSIX implementation tested on macOS; Windows unsupported."
+  ]
+}
