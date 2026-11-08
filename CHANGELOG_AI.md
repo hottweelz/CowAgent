@@ -1,5 +1,80 @@
 # AI handoff ledger
 
+## 2026-11-08 11:52 EST — Codex — AGENT-ROUTING-001 registered TestPilot experiment
+
+- Task/result: proved one authenticated Codex delegation to the existing
+  registered testpilot with its native prompt, inherited model, memory manager
+  and execution path. Fictional read-only analysis passed independent arithmetic
+  and artifact checks. Milestone complete; no master merge or production service
+  activation. Branch codex/agent-routing-001 from master 9cd8c535.
+- Team: Codex lead owns native entry point, enrollment, real acceptance, docs and
+  Git. Luna/high mapped manual routing/contracts, wrote enrollment/native tests
+  and independently verified retained evidence. Terra 6.1/high implemented the
+  adapter: concurrent approval, cancellation and recovery exceeded routine Luna
+  work. One Sol 6.1/high reviewer covered private-memory and atomic authority
+  boundaries. Requested models accepted; effective worker identities not exposed.
+  Applied registry-listed STE planning and delegation guidance.
+- Changes/files: new agent/external/cowagent_adapter.py, cowagent_native.py and
+  cowagent_cli.py; strict CowAgent enrollment variant in operator_review.py;
+  three focused test files; docs/agent-routing-001 plan, runner, report, receipts,
+  trace and review; project MEMORY.md and this ledger.
+- Native path: registry-owned testpilot/TestPilot inherits custom provider and
+  nvidia/nemotron-3.5-super-vl:free. Manual Nov 6 runtime routing logs and current
+  source were traced. Existing agent_delegate intentionally omits persistent
+  context, so the adapter uses native get_agent/run_stream under receiver identity
+  and read-only permission with a fresh server-owned session. Caller attribution
+  stays user content; no replacement system prompt/model or generic authority.
+- Reused contracts: authenticated private Unix IPC, OperatorControl,
+  ApprovalJournal, ExternalSupervisor and AnalysisVerifier. One-shot native and
+  publication intents require current approval. Uncertain work never replays.
+  Exact expected report equality gates publication; private raw output cannot
+  escape in schema-valid text fields. No native chat/runtime source was changed.
+- Commands/results: private-COW_DATA_DIR pytest on the 12 files recorded in
+  focused-validation.json: 163 passed in 3.87s, no skips/failures. Ruff F,
+  syntax checks and staged diff checks pass. Product source hashes match; one
+  test trailing blank was removed with identical AST (final-validation.json).
+  One real --execute acceptance finished in the existing TestPilot model with
+  zero tool events; unapproved submission denied. Task 4bb04826-e64e-43d4-9c4c-a010777786eb
+  has one submit/native/publication intent and stable session f96a59e3-108e-4b06-9ac8-55cebf1aac79.
+  Seven records yield four accepted, three exceptions and net 18,000 cents.
+  Independent Luna arithmetic, source hash, artifact SHA and SQLite metadata
+  checks passed. No accepted model interaction was rerun for bookkeeping.
+- Postflight: native config/profile/credential-file/source snapshot unchanged;
+  zero context create/remove events; caller audit recorded zero private opens.
+  Native start/completion metadata binds testpilot/model/session/run. The owned
+  process exited. Private fixture /private/tmp/cowagent-routing-kwzz7xni retained;
+  launch secret and raw native logs are not published.
+- Review/decisions: no remaining blocker. Corrected config-level MCP and scheduler
+  backup preflight, same-model provider fallback attribution, output parse-error
+  privacy and provider agent/session metadata. Startup refuses unrelated work;
+  native memory/index maintenance remains native-owned. Manual UI chat persistence
+  is distinct from this adapter's task journal and fresh in-memory native session.
+- Lessons Learned:
+  - Mistake: initial preflight omitted fallback startup sources; initial output
+    handling left a raw JSON exception and did not check same-model provider fallback.
+  - Root Cause: primary config paths and final model name do not cover all native
+    initialization/model routes; parser exceptions can retain private output.
+  - Future Trigger: externally controlled access to a registered persistent Agent.
+  - Required Behavior Change: trace primary and fallback routes; preserve routing
+    metadata; normalize private-output errors and gate exact safe output.
+  - Verification Step: negative MCP/backup/fallback/parser tests; actual registered
+    execution metadata and independent artifact/journal/source checks.
+  - Durable Memory Update: project MEMORY.md records named/native versus restricted
+    child semantics, approval/export contract and trusted-host limits.
+- Known limits: Python-open guard is not OS confinement or hostile same-account
+  isolation. Provider is locally configured and checked, not remotely attested.
+  Read-only task permission does not promise no native bookkeeping/index writes.
+  Cancellation is cooperative; no hard cost/all-descendant guarantee. Restart and
+  revocation have focused fixture coverage, not a new live crash campaign. No new
+  full regression/UI replay; unchanged native paths retain prior baseline evidence.
+- Next recommended steps: none for AGENT-ROUTING-001. Broader outputs, more targets
+  or persistent activation require a separately scoped task.
+- Notes for next agent: docs/agent-routing-001/README.md describes the trace,
+  source/evidence limits and opt-in runner. Preserve unrelated untracked AGENTS.md
+  and three conflicted PID files. Parent publishes this task branch to the same
+  name on origin under the standing maintainer preference, then fetches and checks
+  0/0. Do not infer a master merge or production activation from this experiment.
+
 ## 2026-11-07 23:37 EST — Codex — EXTERNAL-003B merge review and SQLite diagnostic
 
 - Task/result: completed the maintainer-authorized merge review for EXTERNAL-003B

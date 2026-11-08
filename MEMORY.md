@@ -1,5 +1,24 @@
 # CowAgent project facts
 
+- AGENT-ROUTING-001 adds an opt-in Codex-to-CowAgent named-agent experiment for
+  registered `testpilot`. The persistent native `get_agent`/`run_stream` path
+  preserves registered instructions, profile model inheritance and native
+  memory ownership; existing `agent_delegate` remains a separate restricted,
+  memory-less worker path. Do not treat them as interchangeable.
+- The named adapter reuses private authenticated IPC, atomic operator approval
+  and intent gates, and independent analysis verification. Its strict enrollment
+  binds `testpilot`, config/profile/source and model/provider fingerprints.
+  Only fixed fictional `analyze_records` tasks are supported. Server-owned fresh
+  sessions use native read-only permission without generic worker authority.
+  Exact result equality gates publication so arbitrary private output cannot
+  pass through schema-valid strings. Uncertain attempts never replay.
+- Native startup preflight checks scheduler primary/backup stores, recovery work,
+  evolution, MCP files/config, target onboarding and credential synchronization.
+  Read-only task authority does not prohibit native index/bookkeeping writes.
+  Caller Python-open instrumentation is not OS confinement. The controlled
+  experiment passed with one real TestPilot run; no persistent service or broader
+  production activation is authorized. See [AGENT-ROUTING-001](docs/agent-routing-001/README.md).
+
 - Maintainer preference (2026-11-07): push completed task commits for tracking.
   Publish new CowAgent task branches to the same branch name on the existing
   `origin` fork (`hottweelz/CowAgent`) and establish upstream tracking without
