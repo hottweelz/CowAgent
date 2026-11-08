@@ -1,14 +1,17 @@
 # EXTERNAL-003B: approval-enforced dispatch and revocation
 
-**Decision: READY FOR REVIEW for explicitly enrolled `analyze_records` tasks.**
+**Decision: APPROVED FOR MASTER INTEGRATION for explicitly enrolled `analyze_records` tasks.**
 Actual Codex execution, revocation, crash recovery and independent artifact
-verification passed. This branch does not activate production orchestration or
-authorize a master merge. No email, publishing, payment, browser or other service
-operation was added.
+verification passed. The maintainer authorized consolidation into master after
+merge review and investigation of the temporary-index SQLite diagnostic.
+Production orchestration remains disabled. No email, publishing, payment,
+browser or other service operation was added.
 
 Base: EXTERNAL-003 `036d957f`; branch `feat/external-003b-approved-dispatch`.
 The [plan](plan.md), [review](review.md), [native receipts](native-receipts.json)
-and [regression receipt](regression.json) describe the verified scope.
+and [regression receipt](regression.json) describe the verified scope. The later
+[merge validation](merge-validation.json) and [SQLite investigation](sqlite-diagnostic.md)
+record the integration gate without replacing the original evidence.
 
 ## Atomic authorization
 
@@ -106,6 +109,12 @@ Published receipts exclude IPC secrets, OAuth material, raw prompts and logs.
 
 ## Regression and review
 
+- Merge gate after the fixture correction: **1,530 fresh passes, 15 skips**,
+  1,545 IDs/131 files, zero failures/errors. Seven unchanged native-browser
+  receipts give **1,537 unique passes and eight Windows-only skips**. The fresh
+  log contains no FSTAT/1802 or background-maintenance diagnostic. Ten deliberate
+  injected memory-error records remain visible and are classified in the merge
+  receipt. The following original gate is retained for provenance.
 - Full protected Python suite: **1,527 passed, 15 skipped**, 1,542 unique IDs
   across 131 files, zero failures/errors. Seven exact native-browser cases reused
   with matching source hashes give **1,534 unique passes and eight Windows-only
@@ -121,12 +130,14 @@ Published receipts exclude IPC secrets, OAuth material, raw prompts and logs.
   claim. The fix and lost-interrupt regression were independently confirmed; no
   blocking source finding remains for this bounded contract.
 
-The full suite logged `SQLITE_IOERR_FSTAT` (1802) at `PRAGMA journal_mode=WAL` for
-an ephemeral test index. This differs from the suite's deliberate injected I/O
-errors. It caused no failing test, but its root cause is unconfirmed. The
-diagnostic is retained in the regression receipt as an unresolved test-environment
-issue; a passing suite is not presented as a clean log. Memory implementation was
-not changed by this milestone.
+The original full suite logged `SQLITE_IOERR_FSTAT` (1802) for a temporary index.
+Merge investigation reproduced the exact error when test teardown deleted the
+database while background maintenance was opening it. Three fixture teardowns
+now wait for maintenance before deletion; three deterministic regression cases
+failed before the correction and pass afterward. The exact historical test ID
+is unavailable. See the [investigation](sqlite-diagnostic.md) for attribution
+limits and the [merge receipt](merge-validation.json) for the fresh suite/log gate.
+Production memory implementation is unchanged.
 
 ## Deployment limits and next step
 
@@ -139,6 +150,5 @@ The synthetic legacy test operations do not gain native Codex authority.
 The local OS account, root and system clock remain trusted. This is not proof of
 human presence, malicious same-account isolation or tamper-proof audit. Broader
 operations require their own authority and independent effect-verification
-contracts. Review this branch before merge or activation. Explicit uncertainty
-resolution, operational key/retention controls and the separate temporary-index
-diagnostic remain follow-up work.
+contracts. Master integration does not authorize activation. Explicit uncertainty
+resolution and operational key/retention controls remain follow-up work.

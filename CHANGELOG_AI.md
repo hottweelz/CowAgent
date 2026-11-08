@@ -1,5 +1,69 @@
 # AI handoff ledger
 
+## 2026-11-07 23:37 EST — Codex — EXTERNAL-003B merge review and SQLite diagnostic
+
+- Task/result: completed the maintainer-authorized merge review for EXTERNAL-003B
+  and its EXTERNAL-003 dependencies from master edb70433 through b92c535f.
+  Approved for master consolidation with the test-only correction below.
+  Production orchestration and consequential external actions remain disabled.
+- Team: Codex lead owns diagnosis, correction, docs, integration and Git sync.
+  Luna/high traced test lifecycle and independently checked retained evidence
+  and the fresh full regression. The existing Sol 6.1/high reviewer checked
+  merge boundaries and the correction; concurrent authority and cancellation
+  require stronger reasoning than routine Luna review. Requested models were
+  accepted; effective delegated identities are not independently exposed.
+  Applied STE systematic-debugging and finishing-a-development-branch guidance.
+- Changes/files: tests/test_shared_db_recovery.py now waits for maintenance in
+  all three fixture teardowns before deletion/log restoration; timeout fails and
+  preserves the fixture. Added three event-barrier regression cases. Updated
+  docs/external-003b README/review; added sqlite-diagnostic.md and
+  merge-validation.json. Updated project MEMORY.md and this handoff.
+- Diagnosis: maintenance opens a second SQLite connection asynchronously;
+  foreground close does not join it. Deleting the fixture after that open but
+  before its WAL pragma reproduces real SQLITE_IOERR_FSTAT (1802) on SQLite
+  3.45.3. All three new cases failed before the correction with the exact native
+  code/name, then passed afterward. The original log lacks a test-ID binding;
+  exact historical case attribution remains unknown. This is separate from the
+  previous renamed-WAL SHORT_READ (522), not proof of a new production failure.
+- Verification: focused shared-db/storage-I/O/FTS selection: 40 passed in 3.62s;
+  reviewer independently confirmed three barrier cases in 0.20s. Ruff F,
+  in-memory compile and diff checks passed. Existing protected runner:
+  `.venv/bin/python docs/external-003b/run_regression.py` — 1,530 pass, 15 skip,
+  1,545 IDs/131 files, zero failures/errors. Fresh run.log has zero FSTAT/1802 or
+  background-maintenance diagnostics; ten deliberate injected error records
+  remain distinguishable. Seven exact native-browser receipts reuse unchanged
+  hashes: 1,537 unique passes and eight Windows-only skips.
+- Evidence/review: all 14 final native source hashes, eight regression static
+  hashes and nine browser/UI hashes matched. Reused actual Codex success,
+  revocation, host/native-intent crash and independent-verification evidence;
+  no new model call. Reused Node39, strict renderer zero diagnostics and desktop
+  build receipts with recorded warnings. No new blocking review finding.
+- Decisions: fix the test resource lifetime rather than change production
+  storage. Preserve original diagnostic/native/regression receipts and explain
+  the correction in an additive merge receipt. Source under agent/ is unchanged
+  from b92c535f. Native model, authentication, policy and production state remain
+  unchanged. Consolidate into master and push both feature and master refs;
+  verify equal integration trees and upstream 0/0 at closeout.
+- Lessons Learned:
+  - Mistake: fixture deletion assumed foreground close stopped maintenance.
+  - Root Cause: asynchronous SQLite resource lifetime exceeded fixture lifetime.
+  - Future Trigger: cleanup removes a database used by background work.
+  - Required Behavior Change: join that work before deletion; timeout preserves
+    the fixture and fails the check instead of deleting an active database.
+  - Verification Step: barrier regression establishes the real open/delete order
+    and full-suite log inspection distinguishes unexpected from injected errors.
+  - Durable Memory Update: recorded asynchronous close and teardown ordering in
+    project MEMORY.md. No global memory update.
+- Known issues/limits: historical emitting test is unknown; native empty-thread
+  history remains unavailable, not empty. Task-effect cancellation is not
+  descendant-exit or hard-cost proof. Uncertain work never replays. Windows-only
+  cases remain skipped and retained build warnings remain documented.
+- Next recommended steps: explicit uncertainty resolution and operational
+  credential/retention controls before any separately authorized activation.
+- Notes for next agent: see merge-validation.json for exact receipts and hashes.
+  Preserve untracked AGENTS.md and the three conflicted PID files. Do not infer
+  production activation or new external authority from master consolidation.
+
 ## 2026-11-07 23:16 EST — Codex — EXTERNAL-003B approval-enforced dispatch
 
 - Task/result: implemented and validated approval-enforced bounded analysis on

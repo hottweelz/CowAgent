@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "task": "EXTERNAL-003B SQLite fixture cleanup merge validation",
+  "decision": "APPROVED_FOR_MASTER_INTEGRATION",
+  "feature_branch": "feat/external-003b-approved-dispatch",
+  "feature_head_before_fixture_test_commit": "b92c535f055915867dacae594b6f92c7e2c3c46f",
+  "master_base": "edb70433",
+  "recorded_at": "2026-11-07T23:39:37-05:00",
+  "python_regression": {
+    "command": ".venv/bin/python docs/external-003b/run_regression.py",
+    "exit_code": 0,
+    "test_files": 131,
+    "test_ids": 1545,
+    "passed": 1530,
+    "skipped": 15,
+    "failed": 0,
+    "errors": 0,
+    "duration_seconds": 58.973,
+    "junit_timestamp": "2026-11-07T23:33:25.687298-05:00",
+    "baseline_receipt": "docs/external-003b/regression.json",
+    "baseline_test_ids": 1542,
+    "new_test_ids": [
+      "tests.test_shared_db_recovery::test_fixture_teardown_waits_for_maintenance_before_removing_database[TestSharedDbRecovery]",
+      "tests.test_shared_db_recovery::test_fixture_teardown_waits_for_maintenance_before_removing_database[TestTrigramUpdateTrigger]",
+      "tests.test_shared_db_recovery::test_fixture_teardown_waits_for_maintenance_before_removing_database[TestTrigramTokenizerUnavailable]"
+    ],
+    "junit_path": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-external-003b-_c10nqs8/junit.xml",
+    "junit_sha256": "52228bfe38cebaab02119c2227d1b07b987ae583c672e4ff47b9834834baf972",
+    "pytest_log_path": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-external-003b-_c10nqs8/pytest.txt",
+    "pytest_log_sha256": "edebfcd698a5bfcb0b896330753e4588773ad40b6e98f5bf264afd93e4bbc341",
+    "private_run_log_path": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-external-003b-_c10nqs8/data/run.log",
+    "private_run_log_sha256": "fbcae7b3b7d3bb9888f11ca8e62e1305832f9b5a6dd6495c2849853327c537ad",
+    "private_run_log_lines": 1760,
+    "current_log_diagnostics": {
+      "sqlite_ioerr_fstat_1802": 0,
+      "background_maintenance_errors": 0,
+      "deliberate_injected_storage_error_records": 10,
+      "deliberate_injected_sqlite_io_failure_records": 8,
+      "deliberate_monkeypatched_disk_io_error_records": 2,
+      "junit_failures_and_errors": 0
+    },
+    "previous_attempt_history": {
+      "before_fixture_patch": {
+        "new_barrier_tests_failed": 3,
+        "failure": "Each exposed the real SQLITE_IOERR_FSTAT (1802) during WAL open after fixture cleanup raced background maintenance.",
+        "raw_red_log_retained": false,
+        "source": "Parent-reported root harness result."
+      },
+      "deterministic_diagnostic": {
+        "path": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-sqlite-diag-mpwzbifc/data/run.log",
+        "sha256": "3f206681fa810540740952bbc10116d386b67ea2aa35cf92ed26e06e88e66d89",
+        "bytes": 831,
+        "observed_fstat_1802": 1,
+        "observed_background_maintenance_warning": 1
+      }
+    }
+  },
+  "fixture_change": {
+    "path": "tests/test_shared_db_recovery.py",
+    "sha256": "e738aa356210597053b51a7d17cd16213306a00c46a83653108b5aa666d95540",
+    "summary": "Three fixture teardowns wait for the named memory-db-maintenance thread before removing the temporary database; three deterministic barriers reproduce and prevent the cleanup race.",
+    "production_memory_source_unchanged_from_b92": true,
+    "agent_memory_storage_sha256": "b407beec5c1b158ff1df90d93989e8b6767da8c0e7658e3aed9a212e39105d88",
+    "focused_validation": {
+      "tests": 40,
+      "passed": 40,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 3.621,
+      "junit_path": "/private/tmp/cowagent-003b-sqlite-focused.xml",
+      "junit_sha256": "39a7af5a80635fbe6e32e6464d3e2e318514e223c2d17c11810f578634a92b7b"
+    },
+    "independent_review": {
+      "result": "approved",
+      "barrier_cases_passed": 3,
+      "barrier_cases_total": 3,
+      "reviewer": "Sol 6.1"
+    }
+  },
+  "reused_evidence": {
+    "static_receipt": "docs/external-003b/regression.json",
+    "static_source_hashes": 8,
+    "static_source_hashes_match": true,
+    "native_receipt": "docs/external-003b/native-receipts.json",
+    "final_native_source_hashes": 14,
+    "final_native_source_hashes_match": true,
+    "browser_receipt": "docs/external-003b/regression.json",
+    "browser_cases": 7,
+    "browser_source_hashes": 3,
+    "browser_source_hashes_match": true,
+    "ui_receipt": "docs/external-003b/regression.json",
+    "ui_gates": {
+      "node": "39 passed",
+      "renderer_typecheck": "passed, strict, zero diagnostics",
+      "desktop_build": "passed with existing warnings"
+    },
+    "ui_source_hashes": 6,
+    "ui_source_hashes_match": true,
+    "reran_native_or_ui_gates": false
+  },
+  "limits": [
+    "No real Codex or production-data calls were made in this validation.",
+    "The three pre-fix pytest barrier failures were observed in root tool output; their raw stdout was not saved as a file. The initial deterministic SQLite reproduction log and green full-suite log are retained at the paths above.",
+    "Master integration is authorized; production activation and broader external operations remain disabled."
+  ],
+  "deduplicated_result": {
+    "passed": 1537,
+    "skipped_windows_only": 8,
+    "test_ids": 1545,
+    "reused_exact_browser_cases": 7
+  }
+}

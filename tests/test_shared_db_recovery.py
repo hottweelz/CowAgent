@@ -20,6 +20,8 @@ import unittest
 import unittest.mock
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from agent.memory.conversation_store import ConversationStore
@@ -31,6 +33,7 @@ def _wait_for_maintenance():
     for t in threading.enumerate():
         if t.name == "memory-db-maintenance":
             t.join(timeout=10)
+            assert not t.is_alive(), "Maintenance did not stop; retain the fixture database"
 
 
 class TestSharedDbRecovery(unittest.TestCase):
@@ -45,8 +48,11 @@ class TestSharedDbRecovery(unittest.TestCase):
         self._log.setLevel(logging.CRITICAL + 1)
 
     def tearDown(self):
-        self._log.setLevel(self._log_level)
-        shutil.rmtree(self.tmp, ignore_errors=True)
+        try:
+            _wait_for_maintenance()
+            shutil.rmtree(self.tmp, ignore_errors=True)
+        finally:
+            self._log.setLevel(self._log_level)
 
     # -- helpers -------------------------------------------------------
 
@@ -317,6 +323,7 @@ class TestTrigramUpdateTrigger(unittest.TestCase):
         self.db = self.tmp / "index.db"
 
     def tearDown(self):
+        _wait_for_maintenance()
         shutil.rmtree(self.tmp, ignore_errors=True)
 
     def _chunk(self, text: str, embedding=None) -> MemoryChunk:
@@ -390,8 +397,11 @@ class TestTrigramTokenizerUnavailable(unittest.TestCase):
         self._log.setLevel(logging.CRITICAL + 1)
 
     def tearDown(self):
-        self._log.setLevel(self._log_level)
-        shutil.rmtree(self.tmp, ignore_errors=True)
+        try:
+            _wait_for_maintenance()
+            shutil.rmtree(self.tmp, ignore_errors=True)
+        finally:
+            self._log.setLevel(self._log_level)
 
     def test_an_unopenable_trigram_index_is_detached_rather_than_breaking_writes(self):
         MemoryStorage(self.db).close()
@@ -444,6 +454,82 @@ class TestTrigramTokenizerUnavailable(unittest.TestCase):
         )
         storage.delete_by_path("knowledge/notes/a.md")
         storage.close()
+
+
+@pytest.mark.parametrize("case_type", [
+    TestSharedDbRecovery, TestTrigramUpdateTrigger, TestTrigramTokenizerUnavailable,
+])
+def test_fixture_teardown_waits_for_maintenance_before_removing_database(case_type, monkeypatch):
+    """A foreground close must not let cleanup unlink a background SQLite open."""
+    case = case_type()
+    case.setUp()
+    opened = threading.Event()
+    release = threading.Event()
+    cleanup_boundary = threading.Event()
+    cleanup_done = threading.Event()
+    workers = []
+    errors = []
+    real_connect = sqlite3.connect
+
+    class PausedConnection(sqlite3.Connection):
+        def execute(self, sql, *args, **kwargs):
+            if (threading.current_thread().name == "memory-db-maintenance"
+                    and sql == "PRAGMA journal_mode=WAL"):
+                workers.append(threading.current_thread())
+                opened.set()
+                if not release.wait(10):
+                    raise AssertionError("Maintenance barrier timed out")
+            try:
+                return super().execute(sql, *args, **kwargs)
+            except sqlite3.Error as exc:
+                errors.append((exc.sqlite_errorcode, exc.sqlite_errorname))
+                raise
+
+    def connect(*args, **kwargs):
+        return real_connect(*args, factory=PausedConnection, **kwargs)
+
+    def cleanup():
+        try:
+            case.tearDown()
+        except Exception as exc:
+            errors.append(repr(exc))
+        finally:
+            cleanup_done.set()
+            cleanup_boundary.set()
+
+    monkeypatch.setattr(sqlite3, "connect", connect)
+    storage = MemoryStorage(case.db)
+    cleaner = None
+    try:
+        assert opened.wait(10)
+        storage.close()  # Deliberately nonblocking: maintenance is still paused.
+        worker = workers[0]
+        real_join = worker.join
+
+        def observed_join(*args, **kwargs):
+            cleanup_boundary.set()
+            return real_join(*args, **kwargs)
+
+        monkeypatch.setattr(worker, "join", observed_join)
+        cleaner = threading.Thread(target=cleanup)
+        cleaner.start()
+        assert cleanup_boundary.wait(10)
+        protected = case.db.exists() and not cleanup_done.is_set()
+    finally:
+        release.set()
+        if cleaner is not None:
+            cleaner.join(10)
+        else:
+            case.tearDown()
+        for worker in workers:
+            worker.join(10)
+        storage.close()
+
+    assert protected, "Fixture removed the database while maintenance was opening it"
+    assert cleanup_done.is_set()
+    assert not any(worker.is_alive() for worker in workers)
+    assert not case.tmp.exists()
+    assert errors == []
 
 
 if __name__ == "__main__":

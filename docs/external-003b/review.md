@@ -1,7 +1,8 @@
 # EXTERNAL-003B bounded engineering review
 
 Decision: **No remaining blocking source finding for approved bounded analysis.**
-This does not authorize a master merge or production activation.
+The maintainer later authorized master integration after the final review below.
+Production activation remains unauthorized.
 
 One Sol 6.1/high architect/reviewer assessed the approval/send boundary and the
 final implementation. Cross-process authority, WAL transaction atomicity and
@@ -49,3 +50,22 @@ request alone cannot prove termination. The review did not execute native Codex.
 The parent's separate actual acceptance passed and is documented in
 [README.md](README.md) and [native-receipts.json](native-receipts.json), including
 the empty-thread history limitation and retained initial harness failure.
+
+## Final merge review
+
+The same reviewer confirmed `edb70433` is the exact merge base of `b92c535f`.
+The intervening EXTERNAL-003 review-packet and local-operator commits are the
+intended dependencies. All eight recorded regression source/test/runner hashes
+matched. No application startup registration, model/native-policy change,
+production configuration change or authority expansion was found.
+
+The separate SQLite investigation required only test teardown changes. The
+reviewer approved the wait-before-delete correction and independently ran all
+three barrier cases: **3 passed in 0.20 seconds**. A bounded wait that times out
+fails teardown and preserves the database. Production asynchronous close, WAL,
+indexing and diagnostics remain unchanged. Attribution to the precise historical
+test is not claimed.
+
+**Merge recommendation: approved**, subject to the fresh protected regression
+recorded in [merge-validation.json](merge-validation.json). The earlier real
+Codex and UI evidence is reused only where recorded source hashes still match.

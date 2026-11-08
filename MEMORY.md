@@ -82,9 +82,9 @@
   Independent analysis and caller criteria must pass before verification is
   claimed. [EXTERNAL-002B](docs/external-002b/README.md) records passing real and
   fixture tests, supported enrollment and limits. The owner-authorized
-  EXTERNAL-002B master integration is complete; EXTERNAL-003 continues on a
-  separate development branch. Production activation and broader effects
-  remain unauthorized.
+  EXTERNAL-002B master integration is complete. The owner-approved EXTERNAL-003
+  and EXTERNAL-003B consolidation adds local approvals and enforced dispatch.
+  Production activation and broader effects remain unauthorized.
 - EXTERNAL-003 begins with pure `cow.external.operator-review/1` enrollment and
   bounded-analysis task drafts. Fingerprints bind supplied observations, task,
   proposed authority and criteria; they do not authenticate an operator or
@@ -121,5 +121,13 @@
   verification. Empty native-thread history returned thread-not-loaded; this is
   recorded as unavailable, with separate outbound RPC evidence, not as empty
   public history. The [report](docs/external-003b/README.md) records evidence and
-  limits. Production activation, broader service actions and master merge remain
-  unauthorized by this milestone.
+  limits. The maintainer authorized master consolidation after merge review;
+  production activation and broader service actions remain unauthorized.
+- MemoryStorage.close() closes the foreground connection without joining
+  asynchronous maintenance. Disposable shared-database fixtures must wait for
+  maintenance before unlinking the database or removing its directory. Deletion
+  during the background open reproduces SQLITE_IOERR_FSTAT (1802) at the WAL
+  pragma on SQLite 3.45.3. The shared-db test teardown enforces this ordering
+  and retains the database if its bounded wait fails. See the
+  [diagnostic investigation](docs/external-003b/sqlite-diagnostic.md); this is
+  distinct from the earlier renamed-WAL SQLITE_IOERR_SHORT_READ (522).
