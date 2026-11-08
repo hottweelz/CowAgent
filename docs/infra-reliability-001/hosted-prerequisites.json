@@ -1,0 +1,27 @@
+{
+  "source_run": 42534913045,
+  "artifact_id": 13639041372,
+  "junit_sha256": "f78372b3a47d1a40e442d82ebd862e11b0573aa756adf4939aee816c9401b6aa",
+  "skip_reasons": {
+    "native Windows cmd.exe integration": 8,
+    "native Windows cmd.exe background integration": 1,
+    "Windows integration test": 4,
+    "opt-in installed browser test": 12,
+    "could not import 'playwright.sync_api': No module named 'playwright'": 3,
+    "native POSIX search binary unavailable": 19,
+    "could not import 'tokenizers': No module named 'tokenizers'": 2,
+    "filesystem is case-sensitive; premise doesn't apply": 1,
+    "backslash is only a separator on Windows": 2,
+    "runs the command through cmd.exe": 1,
+    "requires the real ripgrep executable": 4,
+    "native ripgrep is not installed": 6,
+    "PowerShell backend is Windows-only and needs a PowerShell on PATH": 6,
+    "only the Windows filesystem folds case": 1,
+    "os.path.join only discards the left side for a drive-qualified tail": 1,
+    "Native macOS sips unavailable": 1,
+    "Requires native macOS sips": 3,
+    "filesystem distinguishes filename case": 1,
+    "filesystem distinguishes Unicode canonical forms": 1
+  },
+  "finding": "29 missing ripgrep skips and5 missingoptionalPythonfixture dependencies reduce ordinary CI coverage; installprerequisites beforefinalgate. Windows/nativebrowser/platform skipsremainclassified."
+}

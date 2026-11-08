@@ -3,6 +3,7 @@ import queue
 import signal
 import sys
 import threading
+from io import StringIO
 
 import pytest
 
@@ -16,22 +17,45 @@ def client(script):
     return CodexClient([sys.executable, "-I", "-u", "-c", script], os.getcwd(), env)
 
 
-def process_is_running(pid):
+def linux_process_is_running(proc_stat):
     """Treat Linux zombies as stopped; they cannot execute but may await PID 1 reaping."""
-    proc_stat = f"/proc/{pid}/stat"
+    try:
+        with open(proc_stat, encoding="ascii") as source:
+            stat = source.read()
+    except (FileNotFoundError, ProcessLookupError):
+        return False
+    state = stat[stat.rfind(")") + 2:].split(maxsplit=1)[0]
+    return state not in {"Z", "X"}
+
+
+def process_is_running(pid):
     if os.path.exists("/proc/self/stat"):
-        try:
-            with open(proc_stat, encoding="ascii") as source:
-                stat = source.read()
-        except FileNotFoundError:
-            return False
-        state = stat[stat.rfind(")") + 2:].split(maxsplit=1)[0]
-        return state not in {"Z", "X"}
+        return linux_process_is_running(f"/proc/{pid}/stat")
     try:
         os.kill(pid, 0)
     except ProcessLookupError:
         return False
     return True
+
+
+def test_linux_process_state_handles_reap_during_stat_read(monkeypatch):
+    class ReapedDuringRead:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return False
+
+        def read(self):
+            raise ProcessLookupError(3, "No such process")
+
+    monkeypatch.setattr("builtins.open", lambda *_args, **_kwargs: ReapedDuringRead())
+    assert not linux_process_is_running("/proc/123/stat")
+
+
+def test_linux_process_state_rejects_live_process(monkeypatch):
+    monkeypatch.setattr("builtins.open", lambda *_args, **_kwargs: StringIO("123 (child) S 1"))
+    assert linux_process_is_running("/proc/123/stat")
 
 
 def test_interleaving_concurrent_and_denials():

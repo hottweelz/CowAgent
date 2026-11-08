@@ -8,3 +8,7 @@ pypdf
 python-docx
 openpyxl
 python-pptx
+
+# Local synthetic tokenizer and template fixtures; no model download.
+tokenizers
+jinja2
