@@ -8,6 +8,19 @@ from agent.tools.scheduler.task_store import TaskStore
 from bridge.context import Context, ContextType
 
 
+class _AgentContext:
+    """Small full-access session for exercising the real tool gateway."""
+
+    def __init__(self, root):
+        self.root = str(root)
+
+    def effective_permission_mode(self):
+        return "full-access"
+
+    def effective_cwd(self):
+        return self.root
+
+
 @pytest.fixture
 def tool(tmp_path):
     scheduler = SchedulerTool({"channel_type": "web"})
@@ -68,9 +81,9 @@ def test_successful_lifecycle_and_error_like_user_text_remain_successful(tool):
     assert tool.execute({"action": "list_recipients"}).status == "success"
 
 
-def test_rejected_operation_reaches_executor_card_and_retry_history(tool):
+def test_rejected_operation_reaches_executor_card_and_retry_history(tool, tmp_path):
     events = []
-    executor = AgentStreamExecutor(agent=None, model=None, system_prompt="",
+    executor = AgentStreamExecutor(agent=_AgentContext(tmp_path), model=None, system_prompt="",
                                    tools=[tool], on_event=events.append)
     result = executor._execute_tool({"id": "missing", "name": "scheduler",
                                      "arguments": {"action": "disable", "task_id": "gone"}})

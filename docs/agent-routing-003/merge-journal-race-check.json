@@ -1,0 +1,57 @@
+{
+  "after": {
+    "exitcodes": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "invalid_stat_count": 80,
+    "results": [
+      {},
+      {},
+      {},
+      {}
+    ],
+    "stat_shapes": {
+      "{\"mode\": \"0o600\", \"nlink\": 0, \"owner_matches\": true, \"regular\": true, \"sidecar\": \"-shm\"}": 40,
+      "{\"mode\": \"0o600\", \"nlink\": 0, \"owner_matches\": true, \"regular\": true, \"sidecar\": \"-wal\"}": 40
+    }
+  },
+  "before": {
+    "invalid_stat_count": 78,
+    "results": [
+      {
+        "ProtocolError: Operator journal files are not private and owned": 23
+      },
+      {
+        "ProtocolError: Operator journal files are not private and owned": 21
+      },
+      {
+        "ProtocolError: Operator journal files are not private and owned": 14
+      },
+      {
+        "ProtocolError: Operator journal files are not private and owned": 20
+      }
+    ],
+    "stat_shapes": {
+      "{\"mode\": \"0o600\", \"nlink\": 0, \"owner_matches\": true, \"regular\": true, \"sidecar\": \"-shm\"}": 36,
+      "{\"mode\": \"0o600\", \"nlink\": 0, \"owner_matches\": true, \"regular\": true, \"sidecar\": \"-wal\"}": 42
+    }
+  },
+  "description": "Fixture-only OperatorControl concurrency diagnosis; no native agents or model calls",
+  "fixture_proves": "zero-link sidecar race causes the same guard error; it does not establish the earlier live failure cause",
+  "iterations_per_worker": 2000,
+  "workers": 4,
+  "focused_tests": {
+    "selection": [
+      "tests/test_external_operator_control.py",
+      "tests/test_approved_dispatch.py"
+    ],
+    "passed": 43,
+    "failed": 0
+  },
+  "review": "Independent reviewer found no actionable security gap; exact live triggering stat is not known.",
+  "temporary_script": "/private/tmp/cow-journal-race-diagnosis.py",
+  "source_sha256": "e2766e72a3049479e249213666f36b4ee772324f5f30a5de47a2caf237f396fc"
+}

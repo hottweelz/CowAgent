@@ -1,5 +1,24 @@
 # CowAgent project facts
 
+- Operator journal privacy checks recheck only otherwise-private regular
+  SQLite sidecars whose transient link count is zero during unlink. Missing
+  sidecars or valid replacements are allowed; unsafe or persistently zero-link
+  entries and zero-link primary databases remain denied. This handles concurrent
+  connection cleanup without weakening owner, mode, symlink or hardlink checks.
+
+- Guest sharing accepts only supported exact wrapper/native tool pairs with
+  the configured path/write shape and an exact GuestAgent/tool/work-root binding.
+  PathGuard maps virtual paths before the native permission gateway; restricted
+  filesystem calls still use FileBroker. Restricted privileged tools, unknown
+  tools, MCP execution and legacy remote invocation remain denied. See the
+  [integrated routing review](docs/agent-routing-003/merge-review.md).
+- Full local regression uses directory-mode `pytest tests/` collection. A
+  programmatic runner on macOS must be file-backed with a main guard for spawn.
+  Put the selected virtual environment first on PATH for subprocess fixtures.
+  Optional parser coverage needs the document packages in
+  `requirements-optional.txt`; native browser fixtures use separate temporary
+  profiles and require `COW_BROWSER_NATIVE_TEST=1`. Windows checks require Windows.
+
 - AGENT-ROUTING-003 extends the persistent named-agent adapter to `testpilot`
   and `testpilot2`. Each endpoint has one enrolled registered identity and a
   credential runtime ID of `cowagent.<agent_id>`. The task cannot override the

@@ -1,5 +1,8 @@
 # Independent review
 
+This is the original milestone review. The [integrated merge review](merge-review.md)
+records later source changes and their separate validation.
+
 One bounded Sol 6.1/high engineering review covered authentication, native
 identity, private-memory ownership, concurrency and the acceptance client.
 Stronger reasoning was selected for the cross-target authority and data-integrity

@@ -847,15 +847,25 @@ def test_a_hard_link_is_refused(guard):
         g.resolve("alias.md")
 
 
+def _attach_direct_tool_context(tool, work):
+    # Direct wrapper calls still enter the real native tool gateway.
+    from agent.protocol.agent import Agent
+    agent = Agent('', workspace_dir=str(work), enable_skills=False, skip_context_files=True)
+    agent.permission_mode = 'full-access'
+    tool.context = agent
+    return agent
+
+
 @pytest.mark.skipif(os.name == "nt", reason="symlinks and hard links behave differently on Windows")
 @pytest.mark.parametrize("backend", ["auto", "_backend_grep", "_backend_python"])
 def test_search_does_not_follow_links_out_of_a_mount(guard, backend):
     from agent.guest.tools import build_guest_tools
 
-    g, _, knowledge, secret = guard
+    g, work, knowledge, secret = guard
     os.symlink(secret / "MEMORY.md", knowledge / "link.md")
     os.link(secret / "MEMORY.md", knowledge / "alias.md")
     search = build_guest_tools({"tools": ["search_files"], "limits": {}}, g)[0]
+    _attach_direct_tool_context(search, work)
     if backend != "auto":
         if backend == "_backend_grep" and not shutil.which("grep"):
             pytest.skip("grep not installed")
@@ -918,6 +928,7 @@ def test_vision_reads_only_mounted_files_and_web_images_follow_the_network_rules
     monkeypatch.setattr(Vision, "execute", fake_execute)
 
     offline = build_guest_tools({"tools": ["vision"], "network": {"enabled": False}, "limits": {}}, g)[0]
+    _attach_direct_tool_context(offline, work)
     assert offline.execute({"image": "pic.png", "question": "?"}).status == "success"
     assert seen == [os.path.join(os.path.realpath(work), "pic.png")]
     assert offline.execute({"image": "../../owner/MEMORY.md", "question": "?"}).status == "error"
@@ -925,6 +936,7 @@ def test_vision_reads_only_mounted_files_and_web_images_follow_the_network_rules
 
     online = build_guest_tools({"tools": ["vision"], "network": {"enabled": True, "allow_domains": ["example.com"]},
                                 "limits": {}}, g)[0]
+    _attach_direct_tool_context(online, work)
     assert online.execute({"image": "https://evil.io/a.png", "question": "?"}).status == "error"
     assert online.execute({"image": "https://example.com/a.png", "question": "?"}).status == "success"
     assert len(seen) == 2
@@ -935,6 +947,8 @@ def test_guest_read_tool_cannot_reach_owner_files(guard):
 
     g, work, _, _ = guard
     tools = {t.name: t for t in build_guest_tools({"tools": ["read", "write", "send"], "limits": {}}, g)}
+    for tool in tools.values():
+        _attach_direct_tool_context(tool, work)
     result = tools["read"].execute({"path": "../../owner/MEMORY.md"})
     assert result.status == "error"
     assert "owner memory" not in str(result.result)
@@ -1163,3 +1177,78 @@ def test_fetching_stops_when_the_work_dir_is_full(guard):
     (work / "big.bin").write_bytes(b"x" * (1024 * 1024))
     result = fetch.execute({"url": "https://example.com/report.pdf"})
     assert result.status == "error" and "storage is full" in result.result
+
+
+def _guest_agent_for_tools(guard, tools):
+    from agent.guest.runtime import GuestAgent
+    agent = GuestAgent(None, tools, {'name': 'Fixture', 'guest_md': '',
+                                    'mounts': guard.describe(), 'language': 'en'},
+                       guard.work_dir)
+    for tool in tools:
+        tool.context = agent
+    return agent
+
+
+def test_guest_wrapper_descriptor_rejects_spoofs_and_invalid_bindings(guard, monkeypatch):
+    import agent.permission.authority as authority
+    from agent.guest.tools import GuestTool, GuestSend, build_guest_tools
+    from agent.permission import authorize
+    from agent.tools.read.read import Read
+    from agent.tools.bash.bash import Bash
+
+    monkeypatch.setattr(authority, '_registry_profiles', lambda: [])
+    g, work, _, _ = guard
+    read = build_guest_tools({'tools': ['read']}, g)[0]
+    agent = _guest_agent_for_tools(g, [read])
+    assert authorize(read, {}, agent)[0].allowed
+    read.name = 'write'
+    assert authorize(read, {}, agent)[0].code == 'unknown_tool'
+    read.name = 'read'
+    read.path_keys = []
+    assert authorize(read, {}, agent)[0].code == 'unknown_tool'
+    read.path_keys = ['path']
+    read.inner.name = 'write'
+    assert authorize(read, {}, agent)[0].code == 'unknown_tool'
+    read.inner.name = 'read'
+    read.inner = Bash()
+    assert authorize(read, {}, agent)[0].code == 'unknown_tool'
+    class ReadSubclass(Read):
+        pass
+    spoof = GuestTool(ReadSubclass({'cwd': str(work)}), g, ['path'])
+    assert authorize(spoof, {}, agent)[0].code == 'unknown_tool'
+    class WrapperSubclass(GuestTool):
+        pass
+    spoof = WrapperSubclass(Read({'cwd': str(work)}), g, ['path'])
+    assert authorize(spoof, {}, agent)[0].code == 'unknown_tool'
+    other = GuestSend(g)
+    assert authorize(other, {}, agent)[0].code == 'guest_binding_denied'
+    other.context = agent
+    assert other.execute_tool({'path': 'anything'}).ext_data['code'] == 'guest_binding_denied'
+    other_guard = PathGuard.build(str(work.parent / 'other'))
+    read.inner = Read({'cwd': str(work)})
+    read.guard = other_guard
+    assert authorize(read, {}, agent)[0].code == 'guest_binding_denied'
+
+
+def test_restricted_guest_maps_path_then_native_gateway_enforces_authority(guard, monkeypatch):
+    import agent.permission.authority as authority
+    from agent.guest.tools import build_guest_tools
+    from agent.permission import Authority
+
+    monkeypatch.setattr(authority, '_registry_profiles', lambda: [])
+    g, work, knowledge, _ = guard
+    (work / 'ok.txt').write_text('fixture')
+    (work / 'MEMORY.md').write_text('private fixture')
+    tools = build_guest_tools({'tools': ['read', 'write', 'send']}, g)
+    agent = _guest_agent_for_tools(g, tools)
+    agent.effective_permission_mode = lambda: 'read-only'
+    agent.authority = Authority('read-only', frozenset({'fs.read'}),
+                                (str(work), str(knowledge)), (), restricted=True)
+    by_name = {tool.name: tool for tool in tools}
+    assert by_name['read'].execute_tool({'path': '/work/ok.txt'}).status == 'success'
+    assert by_name['read'].execute_tool({'path': '/data/knowledge/faq.md'}).status == 'success'
+    assert by_name['read'].execute_tool({'path': '/work/MEMORY.md'}).status == 'error'
+    assert by_name['read'].execute_tool({'path': '../../owner/MEMORY.md'}).status == 'error'
+    assert by_name['write'].execute_tool({'path': '/work/new.txt', 'content': 'no'}).status == 'error'
+    assert by_name['send'].execute_tool({'path': '/work/ok.txt'}).status == 'error'
+    assert not (work / 'new.txt').exists()

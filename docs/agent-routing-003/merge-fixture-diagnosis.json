@@ -1,0 +1,30 @@
+{
+  "selection": [
+    "tests/test_bash_bare_dotenv.py",
+    "tests/test_native_image_input.py::test_rejected_image_request_retries_without_images"
+  ],
+  "exit_code": 1,
+  "summary": "2 failed in 0.97s",
+  "baseline_comparison": "Both failing test files and Bash/executor/accounting implementation are unchanged from master9cd8c535",
+  "findings": [
+    {
+      "test": "bare dotenv shell",
+      "cause": "sys.executable is interpolated without shell quoting; this checkout path contains spaces",
+      "fix": "Use shlex.quote for executable path"
+    },
+    {
+      "test": "native image fallback",
+      "cause": "SimpleNamespace Agent fixture lacks request-accounting methods",
+      "fix": "Use a real lightweight Agent with fixture model; disable skills/context files"
+    }
+  ],
+  "product_changes_needed": false,
+  "custom_network_driver_used": false,
+  "repair_verification": {
+    "command": "COW_DATA_DIR=<private temp> PATH=<repo>/.venv/bin:$PATH .venv/bin/python -m pytest -q --tb=short tests/test_bash_bare_dotenv.py tests/test_native_image_input.py tests/test_update_service_timeouts.py",
+    "passed": 17,
+    "failed": 0,
+    "elapsed_seconds": 1.49,
+    "notes": "The third file requires python on PATH; no source edit was needed for it. Both original failures were fixed only in test fixtures."
+  }
+}

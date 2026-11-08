@@ -1,0 +1,16 @@
+{
+  "task": "Legacy001 privacy audit root canonicalization",
+  "method": "Actual client main and installed Python audit hook in disposable subprocess; subprocess.run intercepted before native startup",
+  "results": {
+    "old": {
+      "data": "opened",
+      "workspace": "opened"
+    },
+    "new": {
+      "data": "blocked",
+      "workspace": "blocked"
+    }
+  },
+  "native_or_model_calls": 0,
+  "evidence_root": "/private/tmp/cow-routing-legacy-guard-uelzjtf2"
+}

@@ -29,14 +29,14 @@ def main():
     args = parser.parse_args()
     if not args.execute:
         parser.error('The live experiment requires --execute')
-    config = Path(args.config).absolute()
-    private_workspace = Path(args.private_workspace).absolute()
+    config = Path(args.config).resolve()
+    private_workspace = Path(args.private_workspace).resolve()
     os.umask(0o077)
     root = Path(tempfile.mkdtemp(prefix='cowagent-routing-', dir='/private/tmp'))
     os.environ['COW_DATA_DIR'] = str(root / 'caller-data')
     (root / 'caller-data').mkdir()
     blocked = []
-    denied = (config.parent, private_workspace, Path.home() / '.cow')
+    denied = (config.parent, private_workspace, (Path.home() / '.cow').resolve())
 
     def audit(event, values):
         if event != 'open' or not values or not isinstance(values[0], (str, bytes, os.PathLike)):

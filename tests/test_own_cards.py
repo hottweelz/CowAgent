@@ -8,47 +8,24 @@ of the generic card - but only for as long as it actually draws its own, since
 a refusal that draws nothing has to be visible somewhere.
 """
 
+import os
+
 from agent.protocol.agent_stream import AgentStreamExecutor
-from agent.tools.base_tool import BaseTool, ToolResult
+from agent.permission.policy import READ_ONLY
+from agent.tools.base_tool import ToolResult
+from agent.tools.current_time.current_time import TimeTool
+from agent.tools.subagent.subagent import SubagentTool
 
 
-class _Quiet(BaseTool):
-    """Says it draws its own cards, and does."""
+class _ReadOnlySession:
+    def effective_permission_mode(self):
+        return READ_ONLY
 
-    name = "quiet"
-    params = {"type": "object", "properties": {}}
+    def effective_cwd(self):
+        return os.getcwd()
 
-    def renders_own_cards(self, arguments):
-        return True
-
-    def execute(self, params):
-        self.emit_event("tool_execution_start", {"tool_call_id": "unit_1", "tool_name": "unit"})
-        self.emit_event("tool_execution_end", {"tool_call_id": "unit_1", "tool_name": "unit"})
-        return ToolResult.success("done")
-
-
-class _Refusing(_Quiet):
-    """Says it draws its own cards, then turns back at its own front door."""
-
-    name = "refusing"
-
-    def execute(self, params):
-        return ToolResult.fail("that setting is off")
-
-
-class _Throwing(_Quiet):
-    name = "throwing"
-
-    def execute(self, params):
-        raise RuntimeError("fell over")
-
-
-class _Ordinary(BaseTool):
-    name = "ordinary"
-    params = {"type": "object", "properties": {}}
-
-    def execute(self, params):
-        return ToolResult.success("done")
+    def protected_paths(self):
+        return []
 
 
 def _run(tool, arguments=None):
@@ -56,7 +33,7 @@ def _run(tool, arguments=None):
     executor = object.__new__(AgentStreamExecutor)
     executor.tools = {tool.name: tool}
     executor.model = None
-    executor.agent = None
+    executor.agent = _ReadOnlySession()
     executor.cancel_event = None
     executor._record_tool_result = lambda *a, **kw: None
     executor._check_consecutive_failures = lambda *a, **kw: (False, None, False)
@@ -70,7 +47,15 @@ def _cards_for(events, call_id):
 
 
 def test_the_generic_card_gives_way_to_the_tool_s_own():
-    events = _run(_Quiet())
+    tool = SubagentTool()
+
+    def execute(params):
+        tool.emit_event("tool_execution_start", {"tool_call_id": "unit_1", "tool_name": "unit"})
+        tool.emit_event("tool_execution_end", {"tool_call_id": "unit_1", "tool_name": "unit"})
+        return ToolResult.success("done")
+
+    tool.execute = execute
+    events = _run(tool, {"tasks": [{"goal": "one"}, {"goal": "two"}]})
 
     assert _cards_for(events, "call_1") == []
     assert _cards_for(events, "unit_1") == ["tool_execution_start", "tool_execution_end"]
@@ -79,7 +64,9 @@ def test_the_generic_card_gives_way_to_the_tool_s_own():
 def test_a_refusal_that_draws_nothing_is_still_seen():
     """Nothing was on screen to carry the message, so the generic card comes
     back rather than the call disappearing."""
-    events = _run(_Refusing())
+    tool = SubagentTool()
+    tool.execute = lambda params: ToolResult.fail("that setting is off")
+    events = _run(tool, {"tasks": [{"goal": "one"}, {"goal": "two"}]})
 
     assert _cards_for(events, "call_1") == ["tool_execution_start", "tool_execution_end"]
     assert events[-1][1]["result"] == "that setting is off"
@@ -87,17 +74,18 @@ def test_a_refusal_that_draws_nothing_is_still_seen():
 
 def test_a_tool_that_throws_says_so():
     """Whatever it had drawn is stranded mid-spin, so the generic card comes
-    back to close the call out. (What the message says is another matter:
-    `execute_tool` swallows the exception and returns None, so the loop
-    reports the None rather than the original error.)"""
-    events = _run(_Throwing())
+    back to close the call out. The tool gateway returns a safe error."""
+    tool = SubagentTool()
+    tool.execute = lambda params: (_ for _ in ()).throw(RuntimeError("fixture failure"))
+    events = _run(tool, {"tasks": [{"goal": "one"}, {"goal": "two"}]})
 
     assert _cards_for(events, "call_1") == ["tool_execution_start", "tool_execution_end"]
     assert events[-1][1]["status"] == "error"
+    assert events[-1][1]["result"] == "Authorization or execution failed."
 
 
 def test_every_other_tool_is_unaffected():
-    events = _run(_Ordinary())
+    events = _run(TimeTool(), {})
 
     assert _cards_for(events, "call_1") == ["tool_execution_start", "tool_execution_end"]
 

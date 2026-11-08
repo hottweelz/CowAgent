@@ -1,5 +1,81 @@
 # AI handoff ledger
 
+## 2026-11-08 15:20 EST — Codex — AGENT-ROUTING-001..003 integrated merge gate (in progress)
+
+- Task/result: maintainer authorized master merge only after full regression and
+  compatibility review, then authorized baseline repairs. Master remains at
+  9cd8c535; feature started at d696114e, three commits ahead without divergence.
+  The first repaired full gate passed, but fresh live acceptance exposed a
+  journal race. Final-source regression passed 5,920 tests; Linux CI and successful final-source
+  native acceptance remain pending. No merge.
+- Team: Codex lead owns scope, integration, live acceptance, docs and Git.
+  Luna/high workers ran the full suite, diagnosed/fixed bounded authority and
+  alias fixtures, and repaired the remaining five executor fixture files.
+  Terra 6.1/high repaired guest authorization and the operator journal race:
+  these require integration across native permission and concurrent state paths.
+  One Sol 6.1/high reviewer checked consequential authorization, memory and
+  recovery boundaries. Model selections were explicit; effective identities are
+  not independently exposed. STE finishing, review and dependency guidance used.
+- Changes/files: agent/permission/policy.py recognizes exact bound guest wrappers
+  and retains PathGuard plus native FileBroker enforcement. operator_control.py
+  rechecks only private zero-link SQLite sidecars. Test/runner fixtures
+  correct stale authority fixtures, sanitized errors, remote denial, image
+  accounting and shell quoting; legacy001 caller guard resolves alias roots.
+  docs/agent-routing-003 retains integrated failures, fixes, tests and live
+  attempts. Project MEMORY.md records durable guard and test-environment facts.
+- Commands/results: directory-mode full suite with private state, owned fixture
+  network only, .venv PATH, optional document parsers and native browser opt-in:
+  5912 passed, 24 Windows-only skips, 93 passing subtests in 225.67s, exit 0.
+  All 706 tracked test files included; only two untracked conflict copies ignored.
+  Original full run retained 46 failures. Corrected fixture groups:31/25/52/17
+  passes; guest/isolation 107 passes. Node 39 passes, strict desktop typecheck and
+  build pass. Current 28-file Ruff F/AST pass. Full receipt ebe2fedf...fa307 stays
+  immutable because live attempts bound it; merge-final-regression.json covers the later journal fix:5,920 passes, 24 Windows-only
+  skips, 93 subtests in 224.75s, exit 0, with unchanged 28-file source/test hashes.
+- Live results: first fresh pair failed fixed JSON validation (TestPilot returned
+  only an opening brace). Each task has 1 submit / 1 native / 0 publication. Maintainer
+  explicitly authorized one new pair; it aborted in operator journal privacy
+  checking. Each new task also has 1 submit / 1 native / 0 publication. Both pairs retain
+  uncertain/unverified protocol state; neither is successful acceptance. Owned
+  processes exited, native pre/post snapshots match, caller private opens 0,
+  original server PID 28093 remains. No old task was replayed. No further native
+  pair is authorized yet. Safe attempts and diagnoses are in docs003.
+- Journal diagnosis: real model-free 4-process x 2,000 connection cycles reproduced
+  78 guard failures from 78 regular mode 0600 owner-matching zero-link WAL/SHM
+  observations. Bounded sidecar recheck yields 80 observed zero-link stats and 0
+  errors. 43 focused operator/approval tests pass. This proves a matching race,
+  not the exact transient stat that caused the live abort. Reviewer found no
+  actionable security gap; invalid primary DB/owner/mode/link/type still deny.
+- Decisions: preserve MCP and legacy remote denial, exact named identity and
+  source-bound approval. Retain failed receipts. Keep model/config/profile and
+  original server unchanged. Publish a draft PR for Linux 3.11/3.13 CI; do not
+  merge until final gate and live evidence are resolved. No deployment/service
+  activation. Optional doc libraries installed only in existing .venv; repository
+  dependency files unchanged, environment freeze retained in temp evidence.
+- Lessons Learned:
+  - Mistake: incomplete synthetic Agent fixtures hid feature checks behind
+    authorization errors; static private-file checks assumed all link counts
+    remain 1 during SQLite sidecar cleanup.
+  - Root Cause: fixtures lagged authority/accounting contracts, and lstat can
+    return a just-unlinked private sidecar with link count 0 during concurrency.
+  - Future Trigger: executor tests enter real authorization, or an operator
+    journal has concurrent connections and transient WAL/SHM files.
+  - Required Behavior Change: use valid authority/exact tools; distinguish a
+    transient private sidecar from an unsafe extant file without weakening checks.
+  - Verification Step: full suite, focused denial/replacement tests, real
+    concurrent journal reproduction and independent review.
+  - Durable Memory Update: project MEMORY.md updated; no global memory update.
+- Known issues: no successful live acceptance on final source yet. Windows-only
+  checks need Windows. Existing build warnings and full-suite background-thread
+  cleanup/logging diagnostics remain recorded, with exit 0. Trusted-host evidence
+  is not OS confinement or remote model attestation.
+- Next recommended steps: publish draft PR and check Linux CI; obtain an explicit decision before another fresh native
+  pair. Merge and sync master only after the gate is complete.
+- Notes for next agent: preserve both failed fixtures/old task IDs and original
+  accepted native receipt. Preserve untracked AGENTS.md/four conflicted PID files
+  and two conflicted test copies. Parent owns Git; source changes are frozen for
+  the final regression. No commit/push/master merge yet in this gate.
+
 ## 2026-11-08 14:13 EST — Codex — AGENT-ROUTING-003 persistent named-agent pair
 
 - Task/result: completed both named-agent adapter paths and independent live

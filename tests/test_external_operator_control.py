@@ -462,3 +462,58 @@ def test_enrollment_rejects_blocked_review_and_extra_payload_authority(control):
                                          "approved_by": "forged"}, expected_revision=0)
     with pytest.raises(contract.ProtocolError):
         control.apply(request, now=100.0)
+
+
+@pytest.mark.parametrize('replacement', ['missing', 'private', 'hardlink', 'bad_mode', 'foreign_owner', 'symlink', 'zero'])
+def test_sidecar_zero_link_is_rechecked_without_weakening_guard(control, monkeypatch, replacement):
+    from pathlib import Path
+    from types import SimpleNamespace
+    sidecar = Path(str(control.path) + '-wal')
+    sidecar.touch(mode=0o600)
+    original = Path.lstat
+    genuine = original(sidecar)
+    calls = []
+    def result(mode=genuine.st_mode, uid=genuine.st_uid, links=1):
+        return SimpleNamespace(st_mode=mode, st_uid=uid, st_nlink=links)
+    def lstat(path):
+        if path != sidecar:
+            return original(path)
+        calls.append(True)
+        if len(calls) == 1 or replacement == 'zero':
+            return result(links=0)
+        if replacement == 'missing':
+            raise FileNotFoundError
+        if replacement == 'private':
+            return result()
+        if replacement == 'hardlink':
+            return result(links=2)
+        if replacement == 'bad_mode':
+            return result(mode=stat.S_IFREG | 0o644)
+        if replacement == 'foreign_owner':
+            return result(uid=control.uid + 1)
+        return result(mode=stat.S_IFLNK | 0o777)
+    monkeypatch.setattr(Path, 'lstat', lstat)
+    if replacement in ('missing', 'private'):
+        control._guard()
+        assert len(calls) == 2
+    else:
+        with pytest.raises(contract.ProtocolError, match='not private and owned'):
+            control._guard()
+        assert len(calls) == (4 if replacement == 'zero' else 2)
+
+
+def test_zero_link_primary_database_is_not_retried(control, monkeypatch):
+    from pathlib import Path
+    from types import SimpleNamespace
+    original = Path.lstat
+    genuine = original(control.path)
+    calls = []
+    def lstat(path):
+        if path == control.path:
+            calls.append(True)
+            return SimpleNamespace(st_mode=genuine.st_mode, st_uid=genuine.st_uid, st_nlink=0)
+        return original(path)
+    monkeypatch.setattr(Path, 'lstat', lstat)
+    with pytest.raises(contract.ProtocolError, match='not private and owned'):
+        control._guard()
+    assert len(calls) == 1

@@ -1,0 +1,10 @@
+{
+  "caller_private_open_attempts": 0,
+  "ended_at": 1794168955.259073,
+  "finished": false,
+  "fixture": "/private/tmp/cowagent-routing003-ks35kh6c",
+  "owned_processes_exited": true,
+  "schema": "cow.agent-routing-003.acceptance/1",
+  "started_at": 1794168944.8829818,
+  "workers": []
+}

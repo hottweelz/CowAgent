@@ -1,5 +1,10 @@
 # AGENT-ROUTING-003: two persistent named agents
 
+This report records the original milestone source and accepted runs. See the
+[integrated merge review](merge-review.md) for later baseline repairs, full
+regression results and fresh native acceptance attempts. Historical acceptance
+does not attest to a later executable-source fingerprint.
+
 **PASSED on 2026-11-08.** Both registered agents completed one independently
 verified task through the authenticated adapter. Native execution windows
 overlapped by **13.912 seconds**. Distinct profile, memory-scope, session, run and
