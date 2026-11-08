@@ -1,97 +1,78 @@
 # AI handoff ledger
 
-## 2026-11-08 15:20 EST — Codex — AGENT-ROUTING-001..003 integrated merge gate (in progress)
+## 2026-11-08 16:43 EST — Codex — AGENT-ROUTING-001..003 integrated gate passed
 
-- Task/result: maintainer authorized master merge only after full regression and
-  compatibility review, then authorized baseline repairs. Master remains at
-  9cd8c535; feature started at d696114e, three commits ahead without divergence.
-  The first repaired full gate passed, but fresh live acceptance exposed a
-  journal race. Final-source regression passed 5,920 tests; Final-source native acceptance passed on one further explicitly authorized
-  pair. Linux compatibility is pending; hosted Actions did not dispatch. No merge.
-- Team: Codex lead owns scope, integration, live acceptance, docs and Git.
-  Luna/high workers ran the full suite, diagnosed/fixed bounded authority and
-  alias fixtures, and repaired the remaining five executor fixture files.
-  Terra 6.1/high repaired guest authorization and the operator journal race:
-  these require integration across native permission and concurrent state paths.
-  One Sol 6.1/high reviewer checked consequential authorization, memory and
-  recovery boundaries. Model selections were explicit; effective identities are
-  not independently exposed. STE finishing, review and dependency guidance used.
-- Changes/files: agent/permission/policy.py recognizes exact bound guest wrappers
-  and retains PathGuard plus native FileBroker enforcement. operator_control.py
-  rechecks only private zero-link SQLite sidecars. Test/runner fixtures
-  correct stale authority fixtures, sanitized errors, remote denial, image
-  accounting and shell quoting; legacy001 caller guard resolves alias roots.
-  docs/agent-routing-003 retains integrated failures, fixes, tests and live
-  attempts. Project MEMORY.md records durable guard and test-environment facts.
-- Commands/results: directory-mode full suite with private state, owned fixture
-  network only, .venv PATH, optional document parsers and native browser opt-in:
-  5912 passed, 24 Windows-only skips, 93 passing subtests in 225.67s, exit 0.
-  All 706 tracked test files included; only two untracked conflict copies ignored.
-  Original full run retained 46 failures. Corrected fixture groups:31/25/52/17
-  passes; guest/isolation 107 passes. Node 39 passes, strict desktop typecheck and
-  build pass. Current 28-file Ruff F/AST pass. Full receipt ebe2fedf...fa307 stays
-  immutable because live attempts bound it; merge-final-regression.json covers the later journal fix:5,920 passes, 24 Windows-only
-  skips, 93 subtests in 224.75s, exit 0, with unchanged 28-file source/test hashes.
-- Live results: first fresh pair failed fixed JSON validation (TestPilot returned
-  only an opening brace). Each task has 1 submit / 1 native / 0 publication. Maintainer
-  explicitly authorized one new pair; it aborted in operator journal privacy
-  checking. Each new task also has 1 submit / 1 native / 0 publication. Both pairs retain
-  uncertain/unverified protocol state; neither is successful acceptance. Owned
-  processes exited, native pre/post snapshots match, caller private opens 0,
-  original server PID 28093 remains. No old task was replayed. The maintainer then explicitly authorized one final pair on the repaired
-  source; it passed with fresh IDs,17400/20000c,9.822s overlap and one
-  submit/native/publication per target. All bindings and hashes independently
-  match, tools/caller private opens0, snapshots equal, owned processes exited.
-  No more native runs are needed or authorized. Safe attempts and diagnoses are in docs003.
-- Journal diagnosis: real model-free 4-process x 2,000 connection cycles reproduced
-  78 guard failures from 78 regular mode 0600 owner-matching zero-link WAL/SHM
-  observations. Bounded sidecar recheck yields 80 observed zero-link stats and 0
-  errors. 43 focused operator/approval tests pass. This proves a matching race,
-  not the exact transient stat that caused the live abort. Reviewer found no
-  actionable security gap; invalid primary DB/owner/mode/link/type still deny.
-- Decisions: preserve MCP and legacy remote denial, exact named identity and
-  source-bound approval. Retain failed receipts. Keep model/config/profile and
-  original server unchanged. Publish a draft PR for Linux 3.11/3.13 CI; do not
-  merge until final gate and live evidence are resolved. No deployment/service
-  activation. Optional doc libraries installed only in existing .venv; repository
-  dependency files unchanged, environment freeze retained in temp evidence.
+- Task/result: the required full regression and compatibility gate passed.
+  The maintainer authorized master merge and baseline repairs. Final native
+  acceptance passed on the one explicitly authorized final fresh pair. PR #1 is
+  ready for merge; this entry records the completed gate before that operation.
+- Team: Codex lead owns integration, acceptance, documentation and Git. Luna/high
+  workers handled test execution, evidence and bounded fixture repairs. Terra
+  6.1/high repaired guest authorization and the journal race because those fixes
+  span native permission and concurrent state paths. One Sol 6.1/high reviewer
+  checked consequential authentication, memory and recovery boundaries and the
+  final native evidence. Explicit model requests were accepted; effective worker
+  model identities are not independently exposed. STE finishing, review and
+  dependency guidance used.
+- Changes/files: agent/permission/policy.py permits only exact bound guest/native
+  wrappers, retaining PathGuard, FileBroker and restricted privileged denial.
+  agent/external/operator_control.py rechecks only otherwise-private zero-link
+  SQLite sidecars. The legacy001 caller guard resolves denied roots. Executor
+  fixtures now use valid authority and exact tools. Other fixtures correct shell
+  quoting, image accounting, FIFO buffering, DB fault-injection ownership and
+  child-exit synchronization. docs/agent-routing-001..003 contain adapter documentation,
+  acceptance evidence and integrated report. Project MEMORY.md records durable
+  authority, journal and test-environment rules. See the complete PR diff.
+- Commands/tests/results: isolated directory-mode pytest includes all 706 tracked
+  test files. Final application-source macOS run: 5,920 passed, 24 Windows-only
+  skipped, 93 subtests passed, exit 0. Final published b2ebaf2 Linux snapshot:
+  Python 3.11.18 and 3.13.18 each 5,896 passed, 48 skipped, 93 subtests passed,
+  exit 0. Linux uses non-root Debian 13/aarch64, SQLite 3.46.1, private writable
+  copies and offline owned sockets. All Linux skips are classified; browser and
+  optional dependency gaps passed on macOS. Later test-only fixture checks pass
+  16/16 and 12/12 on macOS. Node tests 39/39, strict desktop TypeScript and build
+  pass. Current 31-file Ruff F/AST passes. Lead reconciled both Linux JUnit totals,
+  log/artifact hashes and all 31 changed Python hashes against current source.
+- Evidence: merge-final-regression.json is immutable SHA 47d8ac15...ecc07;
+  merge-linux-regression.json is SHA 9c739bb9...ec37. Final executable fingerprint
+  remains c45ddab4...f2ae across all gates. merge-review.md links full receipts,
+  failed attempts, fixture diagnosis, source hashes and independent review.
+- Native result: fresh tasks 3eb473eb-440e-44f2-bad7-fdfe7f4ff865/testpilot and
+  af67b10d-694d-48a0-850d-f872c5625232/testpilot2 returned 17,400/20,000 cents.
+  Distinct registered identity, profile, memory, session, run and PID bindings
+  pass independent checks; native windows overlap 9.822 seconds. Each has exactly
+  one submit/native/publication intent. Authentication negatives pass; tools and
+  guarded caller private opens 0; pre/post snapshots match; owned processes exited.
+  Native models/configuration unchanged. Both earlier failed pairs remain
+  non-replayable with zero publication; neither counts as successful acceptance.
+- Decisions: preserve approval/recovery/source binding, MCP and unsupported
+  remote denial. No model substitution, private-memory read by Codex, persistent
+  service activation or webserver restart. No more native runs needed/authorized.
+  Hosted Actions never dispatched despite valid trigger opportunities; cause
+  unknown. No required hosted branch check exists. Complete local Linux matrix
+  satisfies compatibility review, with the hosted limitation retained explicitly.
 - Lessons Learned:
-  - Mistake: incomplete synthetic Agent fixtures hid feature checks behind
-    authorization errors; static private-file checks assumed all link counts
-    remain 1 during SQLite sidecar cleanup.
-  - Root Cause: fixtures lagged authority/accounting contracts, and lstat can
-    return a just-unlinked private sidecar with link count 0 during concurrency.
-  - Future Trigger: executor tests enter real authorization, or an operator
-    journal has concurrent connections and transient WAL/SHM files.
-  - Required Behavior Change: use valid authority/exact tools; distinguish a
-    transient private sidecar from an unsafe extant file without weakening checks.
-  - Verification Step: full suite, focused denial/replacement tests, real
-    concurrent journal reproduction and independent review.
+  - Mistake: stale executor fixtures lacked authority; journal checks assumed
+    stable sidecar links; several fixtures depended on scheduler/buffer timing.
+  - Root Cause: fixture contracts lagged runtime contracts, while concurrent
+    SQLite unlink and process/pipe timing expose transient observations.
+  - Future Trigger: tests enter real permission paths, concurrent journal checks
+    inspect sidecars, or tests assert state immediately after fork/readiness.
+  - Required Behavior Change: use exact valid tools/authority, narrowly recheck
+    safe sidecars, synchronize observed state and scope injection to owned files.
+  - Verification Step: full macOS/Linux suites, denial/replacement fixtures,
+    four-process journal reproduction and independent review; FIFO 100/100 probe.
   - Durable Memory Update: project MEMORY.md updated; no global memory update.
-- Known issues: Final native acceptance passed; Linux fallback remains pending. Windows-only
-  checks need Windows. Existing build warnings and full-suite background-thread
-  cleanup/logging diagnostics remain recorded, with exit 0. Trusted-host evidence
-  is not OS confinement or remote model attestation.
-- Next recommended steps: finish local Linux Python3.11/3.13 compatibility validation; retain the
-  unavailable hosted-CI evidence. Merge and sync master only after the gate is complete.
-- Notes for next agent: preserve both failed fixtures/old task IDs and original
-  accepted native receipt. Preserve untracked AGENTS.md/four conflicted PID files
-  and two conflicted test copies. Parent owns Git; source changes are frozen for
-  the final regression. Repairs/evidence committed as 7e911d2e and pushed to tracked origin with 0/0.
-  Draft PR: https://github.com/hottweelz/CowAgent/pull/1. Master is unchanged.
-  Third-pair authorization was explicit and consumed by the successful final
-  receipt. Hosted CI has no runs; use the assigned local Linux fallback gate.
-  Linux first diagnostic used a read-only/root Bookworm container and is invalid
-  as a CI gate: fixture writes failed, procps/init were missing, SQLite3.40 was
-  below the FTS fixture's3.44 premise, and tokenizer assets were absent offline.
-  Corrected non-root writable/init/procps focused27cases passed. A100-iteration
-  probe proves buffered FIFO readiness can lose JSON; a separate worker is fixing
-  that fixture and scoping SQLite connect accounting to its owned DB. App source
-  remains c45ddab4...f2ae. Do not rerun native agents for test-only changes.
-  Both fixture corrections are now complete: final binary-output probe100/100
-  retained JSON; focused host16/16 and current30-file Ruff/AST pass. Only tests
-  changed, so native c45... acceptance remains valid. Linux worker owns temporary
-  containers/evidence and must run both full versions from the new snapshot.
+- Known limits: Windows-only cases not executed. Linux is local aarch64, not a
+  hosted x86_64 replay. Existing build warnings and background cleanup/logging
+  diagnostics remain recorded. Trusted-host metadata/instrumentation does not
+  prove OS confinement, remote provider identity or a full private-file inventory.
+- Next recommended steps: merge PR #1, sync master and record the merge SHA.
+- Notes for next agent: preserve the failed/private fixtures, immutable bound
+  receipts, untracked AGENTS.md, four conflicted PID files and two conflicted test
+  copies. Existing server PID 28093 remains. Task containers were removed; Docker
+  Desktop was restored to its initial stopped state. Feature branch tracks
+  origin/codex/agent-routing-003. Master stays 9cd8c535 until the authorized merge.
 
 ## 2026-11-08 14:13 EST — Codex — AGENT-ROUTING-003 persistent named-agent pair
 

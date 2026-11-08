@@ -1,11 +1,11 @@
 # Integrated merge review
 
 This gate covers AGENT-ROUTING-001 through 003 against master `9cd8c535`.
-Draft integration review: [PR #1](https://github.com/hottweelz/CowAgent/pull/1).
+Integration review: [PR #1](https://github.com/hottweelz/CowAgent/pull/1).
 
 The starting feature head was `d696114e`, three commits ahead with no divergence.
 The maintainer authorized baseline repairs after the complete regression found
-failures. Master must remain unchanged until the gate passes.
+failures. The integrated gate has passed. The master merge is authorized.
 
 ## Repairs and compatibility
 
@@ -71,12 +71,12 @@ Windows-only tests require a Windows host. Local browser fixtures use separate
 temporary profiles and local HTML, without the user's browser profile.
 
 The prior native receipts remain historical evidence for their recorded source.
-The guest policy change alters the executable fingerprint, so a fresh paired
-acceptance is required before merging. The existing webserver must stay running.
+The guest policy change altered the executable fingerprint, which required the
+fresh paired acceptance recorded below. The existing webserver stayed running.
 
 ## Full local regression
 
-The final run passed **5,912 tests**, with **24 Windows-only skips** and **93
+The first repaired run passed **5,912 tests**, with **24 Windows-only skips** and **93
 passing subtests**, in 225.67 seconds (exit 0). All 706 tracked test files were
 included. JUnit reconciles 5,936 named cases plus 93 subtests. All 12 opt-in native
 browser cases passed; no optional document-parser test was skipped. Source/test
@@ -86,7 +86,7 @@ output are retained in the receipt; they did not produce a test failure.
 The immutable full regression receipt SHA-256 is
 `ebe2fedfd589188982853989d0729c45a83b2a81d258542b5fbf76f4b16fa307`.
 That receipt precedes the journal-race repair below. Current Ruff F and AST
-parsing also passed on all 30 changed Python files; see
+parsing also passed on all 31 changed Python files; see
 [merge-final-static.json](merge-final-static.json).
 
 ## Fresh native acceptance
@@ -104,8 +104,8 @@ approvals, with unchanged native models and configuration. This second pair also
 privacy guard rejected a file observation. Each task again has one submit/native
 intent and zero publication intents; both snapshots match and owned processes
 exited. See [attempt 2](merge-native-attempt-2.json) and its
-[diagnosis](merge-native-attempt-2-diagnosis.json). No further native pair is
-authorized yet, and neither attempt counts as successful live acceptance.
+[diagnosis](merge-native-attempt-2-diagnosis.json). Neither failed attempt counts as successful live acceptance. The separately
+authorized final pair is recorded below.
 
 ## Journal race repair
 
@@ -185,4 +185,40 @@ background connections. Final host checks on these two files passed 16/16.
 These are test-only corrections; executable fingerprint and native acceptance
 remain unchanged. See [merge-fixture-followup.json](merge-fixture-followup.json).
 
-Full Linux results remain pending; master is unchanged.
+The first full run on the corrected environment exposed one remaining fixture
+race: the zombie test queried process state before the child had exited. The
+fixture now uses `waitid(WEXITED | WNOWAIT)` before inspection, leaving final
+reaping unchanged. Its host file passed 12/12. No application code changed.
+
+Both final full Linux runs passed on published snapshot `b2ebaf2ddc89f94bab76dae1e5ca06e154d6933b`:
+
+| Environment | Passed | Skipped | Passing subtests | Exit |
+| --- | ---: | ---: | ---: | ---: |
+| macOS, final executable source | 5,920 | 24 | 93 | 0 |
+| Linux aarch64, Python 3.11.18 | 5,896 | 48 | 93 | 0 |
+| Linux aarch64, Python 3.13.18 | 5,896 | 48 | 93 | 0 |
+
+The Linux runs took 200.74 and 203.11 seconds. Each includes all 706 tracked test
+files and 5,944 named cases; JUnit reports 6,037 with subtests. The 48 skips are
+24 Windows cases, 19 platform/filesystem/browser opt-in cases and five unavailable
+optional Playwright/tokenizers cases. The macOS gate covered the browser and
+optional dependency cases. Windows execution remains unverified.
+
+See [merge-linux-regression.json](merge-linux-regression.json), SHA-256
+`9c739bb900c939dafd2b303d3937dda283146b3aed54deae8c96a886f384ec37`.
+The lead independently checked both JUnit totals, zero failures/errors, terminal
+summaries, artifact hashes and all 31 changed Python hashes against current
+source. Both pre/post source and 706-file test manifests match. Linux ran on
+Debian 13 with SQLite 3.46.1, as UID1000, with private writable source copies,
+process utilities/init and no container network during tests. This proves local
+Linux compatibility; it does not claim an x86_64 GitHub-hosted replay.
+
+## Merge decision
+
+The full integrated regression, compatibility review and independent final native
+acceptance have passed. No actionable source or native finding remains. The gate
+permits the authorized master merge through PR #1. Final documentation changes
+leave the tested executable and fixture hashes unchanged. The hosted dispatch
+failure and Windows coverage limit remain recorded; no hosted CI success is
+claimed. Persistent service activation and any additional native run are outside
+this completed merge gate.
