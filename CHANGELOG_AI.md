@@ -6,8 +6,8 @@
   compatibility review, then authorized baseline repairs. Master remains at
   9cd8c535; feature started at d696114e, three commits ahead without divergence.
   The first repaired full gate passed, but fresh live acceptance exposed a
-  journal race. Final-source regression passed 5,920 tests; Linux CI and successful final-source
-  native acceptance remain pending. No merge.
+  journal race. Final-source regression passed 5,920 tests; Final-source native acceptance passed on one further explicitly authorized
+  pair. Linux compatibility is pending; hosted Actions did not dispatch. No merge.
 - Team: Codex lead owns scope, integration, live acceptance, docs and Git.
   Luna/high workers ran the full suite, diagnosed/fixed bounded authority and
   alias fixtures, and repaired the remaining five executor fixture files.
@@ -38,8 +38,11 @@
   checking. Each new task also has 1 submit / 1 native / 0 publication. Both pairs retain
   uncertain/unverified protocol state; neither is successful acceptance. Owned
   processes exited, native pre/post snapshots match, caller private opens 0,
-  original server PID 28093 remains. No old task was replayed. No further native
-  pair is authorized yet. Safe attempts and diagnoses are in docs003.
+  original server PID 28093 remains. No old task was replayed. The maintainer then explicitly authorized one final pair on the repaired
+  source; it passed with fresh IDs,17400/20000c,9.822s overlap and one
+  submit/native/publication per target. All bindings and hashes independently
+  match, tools/caller private opens0, snapshots equal, owned processes exited.
+  No more native runs are needed or authorized. Safe attempts and diagnoses are in docs003.
 - Journal diagnosis: real model-free 4-process x 2,000 connection cycles reproduced
   78 guard failures from 78 regular mode 0600 owner-matching zero-link WAL/SHM
   observations. Bounded sidecar recheck yields 80 observed zero-link stats and 0
@@ -65,18 +68,30 @@
   - Verification Step: full suite, focused denial/replacement tests, real
     concurrent journal reproduction and independent review.
   - Durable Memory Update: project MEMORY.md updated; no global memory update.
-- Known issues: no successful live acceptance on final source yet. Windows-only
+- Known issues: Final native acceptance passed; Linux fallback remains pending. Windows-only
   checks need Windows. Existing build warnings and full-suite background-thread
   cleanup/logging diagnostics remain recorded, with exit 0. Trusted-host evidence
   is not OS confinement or remote model attestation.
-- Next recommended steps: publish draft PR and check Linux CI; obtain an explicit decision before another fresh native
-  pair. Merge and sync master only after the gate is complete.
+- Next recommended steps: finish local Linux Python3.11/3.13 compatibility validation; retain the
+  unavailable hosted-CI evidence. Merge and sync master only after the gate is complete.
 - Notes for next agent: preserve both failed fixtures/old task IDs and original
   accepted native receipt. Preserve untracked AGENTS.md/four conflicted PID files
   and two conflicted test copies. Parent owns Git; source changes are frozen for
   the final regression. Repairs/evidence committed as 7e911d2e and pushed to tracked origin with 0/0.
   Draft PR: https://github.com/hottweelz/CowAgent/pull/1. Master is unchanged.
-  A third fresh-pair decision is pending; do not infer authorization.
+  Third-pair authorization was explicit and consumed by the successful final
+  receipt. Hosted CI has no runs; use the assigned local Linux fallback gate.
+  Linux first diagnostic used a read-only/root Bookworm container and is invalid
+  as a CI gate: fixture writes failed, procps/init were missing, SQLite3.40 was
+  below the FTS fixture's3.44 premise, and tokenizer assets were absent offline.
+  Corrected non-root writable/init/procps focused27cases passed. A100-iteration
+  probe proves buffered FIFO readiness can lose JSON; a separate worker is fixing
+  that fixture and scoping SQLite connect accounting to its owned DB. App source
+  remains c45ddab4...f2ae. Do not rerun native agents for test-only changes.
+  Both fixture corrections are now complete: final binary-output probe100/100
+  retained JSON; focused host16/16 and current30-file Ruff/AST pass. Only tests
+  changed, so native c45... acceptance remains valid. Linux worker owns temporary
+  containers/evidence and must run both full versions from the new snapshot.
 
 ## 2026-11-08 14:13 EST — Codex — AGENT-ROUTING-003 persistent named-agent pair
 

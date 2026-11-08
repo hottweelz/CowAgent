@@ -18,6 +18,11 @@
   Optional parser coverage needs the document packages in
   `requirements-optional.txt`; native browser fixtures use separate temporary
   profiles and require `COW_BROWSER_NATIVE_TEST=1`. Windows checks require Windows.
+  Container gates need a disposable writable checkout and non-root user, process
+  tools/init, and cached tokenizer assets before network isolation. The FTS5
+  integrity fixture assumes SQLite 3.44 or newer. Keep SQLite fault injection
+  scoped to the fixture DB; keep subprocess readiness outside buffered text
+  reads when later using communicate().
 
 - AGENT-ROUTING-003 extends the persistent named-agent adapter to `testpilot`
   and `testpilot2`. Each endpoint has one enrolled registered identity and a

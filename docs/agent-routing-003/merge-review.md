@@ -86,7 +86,7 @@ output are retained in the receipt; they did not produce a test failure.
 The immutable full regression receipt SHA-256 is
 `ebe2fedfd589188982853989d0729c45a83b2a81d258542b5fbf76f4b16fa307`.
 That receipt precedes the journal-race repair below. Current Ruff F and AST
-parsing also passed on all 28 changed Python files; see
+parsing also passed on all 30 changed Python files; see
 [merge-final-static.json](merge-final-static.json).
 
 ## Fresh native acceptance
@@ -134,4 +134,55 @@ receipt remains immutable because it was bound to the two live attempts.
 
 Final source fingerprint:
 `c45ddab4aa00d8c57dc6c9b7370739ab6ee1a7e5f8fcd90381a565d49506f2ae`.
-Linux CI and successful fresh native acceptance remain pending; merge is blocked.
+## Final native acceptance
+
+The maintainer then explicitly authorized one final fresh pair on the repaired
+source. Both targets passed. See [merge-native-receipt.json](merge-native-receipt.json).
+
+| Target | Task | Net cents | Native PID |
+| --- | --- | ---: | ---: |
+| testpilot | 3eb473eb-440e-44f2-bad7-fdfe7f4ff865 | 17,400 | 44244 |
+| testpilot2 | af67b10d-694d-48a0-850d-f872c5625232 | 20,000 | 44248 |
+
+Each target has one submit, native and publication intent. Separate identity,
+profile, memory-scope, session, run and process bindings match native inspection.
+The native windows overlap by 9.822101116 seconds. Both exact reports and hashes
+were independently recomputed. Authentication negatives and duplicate handling
+pass. Tool events and caller guarded private opens are zero; native pre/post
+snapshots match and owned processes exited. Existing server PID 28093 remains.
+Fresh task IDs differ from both aborted pairs; no old task was replayed.
+
+The independent reviewer confirmed the final source/probe/receipt bindings:
+source `c45ddab4aa00d8c57dc6c9b7370739ab6ee1a7e5f8fcd90381a565d49506f2ae`,
+probe `47d8ac15c5693631776770872f7670abfe9efceab13892f5fbaa03470d1ecc07`,
+receipt `8b7c561fb9effc8ca1585ef2f9bb79fcd73d8eaa95d6e132803a9370af02cf55`.
+There is no outstanding source or native finding. Prior failed attempts remain
+retained and are not counted as successful acceptance.
+
+## Linux compatibility gate
+
+Hosted Actions did not dispatch a run despite enabled permissions, an active
+workflow, a same-repository PR and multiple valid trigger opportunities. The
+read-only audit could not establish a cause. No hosted CI success is claimed;
+[merge-hosted-ci-status.json](merge-hosted-ci-status.json) records the observation.
+No branch rules require hosted checks. The maintainer required full regression
+and compatibility review, not a particular hosted runner. The lead therefore
+selected equivalent disposable local Linux checks for Python 3.11 and 3.13, using
+the published source snapshot, while retaining the hosted-CI limitation.
+
+The first Linux diagnostic used a read-only checkout as root, with missing
+process utilities and old SQLite 3.40.1. This was not a valid CI environment:
+fixtures write within the checkout, permission checks require non-root execution,
+and the FTS integrity fixture requires SQLite 3.44+. That run is retained as
+setup evidence, not interpreted as a product regression.
+
+Corrected focused Linux checks passed 27 cases, and the FTS case passed on
+SQLite 3.46.1. The runner preloads the supported public tokenizer asset during
+setup, then disconnects networking for tests. A buffered FIFO fixture also lost
+its JSON in 100/100 timing probes; the final unbuffered binary fix retained 100/100
+outputs. SQLite fault injection now filters its owned DB to avoid unrelated
+background connections. Final host checks on these two files passed 16/16.
+These are test-only corrections; executable fingerprint and native acceptance
+remain unchanged. See [merge-fixture-followup.json](merge-fixture-followup.json).
+
+Full Linux results remain pending; master is unchanged.

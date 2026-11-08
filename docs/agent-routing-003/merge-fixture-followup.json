@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "files": [
+    "tests/test_read_special_files.py",
+    "tests/test_memory_storage_io.py"
+  ],
+  "changes": [
+    "Unbuffered binary readiness avoids TextIO prefetch loss before communicate; original two-second post-readiness timeout retained.",
+    "SQLite connection tracking and fault injection apply only to owned db_path; other background connections remain unchanged."
+  ],
+  "focused_tests": {
+    "passed": 16,
+    "failed": 0,
+    "elapsed_seconds": 0.64
+  },
+  "binary_fifo_reproduction": {
+    "iterations": 100,
+    "json_outputs_retained": 100,
+    "failures": 0
+  },
+  "prior_buffered_reproduction": "Linux worker observed missing JSON in100/100 exact buffered readiness/communicate probes.",
+  "application_fingerprint": "c45ddab4aa00d8c57dc6c9b7370739ab6ee1a7e5f8fcd90381a565d49506f2ae",
+  "native_acceptance_remains_applicable": true,
+  "notes": "Only tests changed after the final native acceptance. The next complete Linux runs cover these fixture corrections."
+}
