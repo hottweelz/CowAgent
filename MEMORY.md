@@ -81,6 +81,7 @@
   confirmation is distinct from all-descendant exit or a hard cost ceiling.
   Independent analysis and caller criteria must pass before verification is
   claimed. [EXTERNAL-002B](docs/external-002b/README.md) records passing real and
-  fixture tests, supported enrollment and limits. The owner authorized the
-  reviewed EXTERNAL-002B master integration and an EXTERNAL-003 development
-  branch; production activation and broader effects remain unauthorized.
+  fixture tests, supported enrollment and limits. The owner-authorized
+  EXTERNAL-002B master integration is complete; EXTERNAL-003 continues on a
+  separate development branch. Production activation and broader effects
+  remain unauthorized.

@@ -3,8 +3,9 @@
 ## 2026-11-07 20:24 EST — Codex — EXTERNAL-002B merge approval
 
 - Task/result: completed the owner-requested merge gate for product bc88ca4b
-  and its EXTERNAL-001/002 dependencies. APPROVED for fast-forward integration
-  into fork master from e642eec1. Production activation and broader external
+  and its EXTERNAL-001/002 dependencies. Fast-forwarded fork master locally
+  from e642eec1 through approval e5b2fca5; post-merge product hashes match.
+  This completion entry is a documentation-only addition. Production activation and broader external
   actions remain disabled. EXTERNAL-003 starts on a separate branch afterward.
 - Team: Codex lead owns scope, merge, docs and Git. Luna/high independently
   validated the committed evidence and activation boundaries. Reused the prior
@@ -27,8 +28,8 @@
 - Known issues: retained platform/version, descendant-exit and cost-ceiling
   limits; eight Windows-only skips and existing build warnings. Untracked
   AGENTS.md and three conflicted PID files remain unrelated and preserved.
-- Next recommended steps: perform the authorized fast-forward and verify remote
-  synchronization; start EXTERNAL-003's operator review/control foundation on a
+- Next recommended steps: publish and verify master synchronization; start
+  EXTERNAL-003's operator review/control foundation on a
   new branch. Real external actions stay disabled pending their own contracts.
 - Notes for next agent: merge approval is docs/external-002b/merge-review.md.
   Native evidence is reused because product hashes match. Do not turn merge

@@ -1,7 +1,7 @@
 # EXTERNAL-002B: bounded supervisory runtime integration
 
-**Decision: APPROVED FOR MERGE for the enrolled read-only analysis and artifact
-contract.** The owner authorized integration after the completed
+**Decision: MERGED for the enrolled read-only analysis and artifact contract.**
+The owner authorized integration after the completed
 [merge review](merge-review.md). Production orchestration remains inactive.
 Other operations and untested runtime configurations remain unsupported.
 
@@ -12,11 +12,12 @@ verifies a resulting JSON artifact. Codex owns its model, authentication,
 instructions, memory, sessions and internal delegation. CowAgent does not
 perform the delegated reasoning or replace Codex's internal agent manager.
 
-Work continues on `feat/external-002-codex-adapter` from `26c8e77d`.
-EXTERNAL-001 `bfd64e39` and its evidence remain in the ancestry. Fork master
-remains `e642eec1`; no production worker registration, endpoint, merge or
-activation was added. The integration is explicitly constructed by trusted
-host code and is a possible foundation for BullGod.
+The feature branch started from `26c8e77d`. EXTERNAL-001 `bfd64e39` and its
+evidence remain in the ancestry. Fork master was fast-forwarded from `e642eec1`
+through merge approval `e5b2fca5`; product source still matches reviewed
+`bc88ca4b`. No production worker registration, endpoint or activation was added.
+The integration is explicitly constructed by trusted host code and is a possible
+foundation for BullGod. EXTERNAL-003 continues on a separate development branch.
 
 ## Disposition of the previous blocker
 

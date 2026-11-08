@@ -10,6 +10,11 @@ Ancestry includes EXTERNAL-001 `bfd64e39` and EXTERNAL-002 `26c8e77d`.
 Integration uses a fast-forward, retaining the complete evidence and history.
 The merge-review documentation does not change the tested product source.
 
+The authorized local fast-forward completed from `e642eec1` to approval commit
+`e5b2fca5`. After integration, all 78 static and nine native source hashes still
+matched, and the product/test/desktop/CLI tree was identical to `bc88ca4b`.
+This post-merge status update changes documentation only.
+
 ## Gate results
 
 - Independent Luna/high release validation approved the exact product commit.
