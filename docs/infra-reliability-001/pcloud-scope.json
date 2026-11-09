@@ -1,0 +1,45 @@
+{
+  "captured_at": "2026-11-08T23:18:54.899379+00:00",
+  "method": "Read-only macOS Accessibility via System Events; opened existing pCloud Drive UI and selected Sync/Back up tabs. No setting changes.",
+  "sync_tab": {
+    "row_count": 0
+  },
+  "backup_tab": {
+    "row_count": 7,
+    "relevant_row": 7,
+    "name": "Projects",
+    "status": "Active",
+    "local_path_from_static_text_help": "/Volumes/Predator SSD GM7 1TB/Projects"
+  },
+  "repo_under_active_backup": true,
+  "common_git_directory_under_active_backup": true,
+  "unrelated_rows_and_account_fields": "omitted",
+  "attribution_limit": "An active backup relationship is direct evidence. The process responsible for any historical ref rewrite is not yet directly traced.",
+  "exclusions_ui": {
+    "captured_at": "2026-11-08T23:19:48.424039+00:00",
+    "folder_rows": [
+      "1|/Applications",
+      "2|/Library",
+      "3|/private",
+      "4|/System",
+      "5|/bin",
+      "6|/etc",
+      "7|/sbin",
+      "8|/usr"
+    ],
+    "file_patterns": ".ds_store; .ds_store?; .appledouble; ._*; .spotlight-v100; .documentrevisions-v100; .temporaryitems; .trashes; .fseventsd; .~lock.*; ehthumbs.db; thumbs.db; hiberfil.sys; pagefile.sys; $recycle.bin; *.part; .pcloud;",
+    "ui_warning_summary": "Exclusions do not affect folders or files already in backup, sync or ongoing uploads.",
+    "settings_changed": false
+  },
+  "proposed_metadata_location": {
+    "path": "/Users/jamestylee/Library/Application Support/CowAgentGit/CowAgent.git",
+    "already_exists": false,
+    "overlaps_active_backup_roots": []
+  },
+  "backup_root_summary": {
+    "observed_rows": 7,
+    "active_roots": 2,
+    "candidate_metadata_overlaps": 0,
+    "unrelated_names_and_paths": "omitted from published evidence"
+  }
+}

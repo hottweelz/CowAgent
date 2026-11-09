@@ -1,0 +1,39 @@
+{
+  "captured_at": "2026-11-08T23:47:16.324435+00:00",
+  "run_id": 42536243216,
+  "url": "https://github.com/hottweelz/CowAgent/actions/runs/42536243216",
+  "head_sha": "ad85e52815ddeaf1378bcfcdb79cfbe48da2a69c",
+  "event": "pull_request",
+  "conclusion": "failure",
+  "jobs": [
+    {
+      "job_id": 128901071042,
+      "log_path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-reliability-001-47vmhc57/job-128901071042.log",
+      "log_sha256": "79703253ec2aeb231f9320480d196d0ccb34af7bef7fe1b6473d1d6ad40f5631",
+      "failure": "FAILURES ===================================\n______________ test_close_cleans_group_when_leader_already_exited ______________\n\n    def test_close_cleans_group_when_leader_already_exited():\n        child_code = (\n            \"import json,os,signal,time; \"\n            \"signal.signal(signal.SIGTERM, signal.SIG_IGN); \"\n            \"print(json.dumps({'method':'ready','params':{'pid':os.getpid()}}),flush=True); \"\n            \"time.sleep(30)\"\n        )\n        c = client(\"import subprocess,sys,time; subprocess.Popen([sys.executable, '-I', '-u', '-c', \" + repr(child_code) + \"]); time.sleep(.2)\")\n        event = c.next_event(timeout=2)\n        assert event[\"method\"] == \"ready\"\n        child_pid = event[\"params\"][\"pid\"]\n        c._process.wait(timeout=2)\n        try:\n            c.close(grace=.2)\n            assert not c._reader.is_alive()\n>           assert not process_is_running(child_pid)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests/test_codex_client.py:141: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\npid = 2885\n\n    def process_is_running(pid):\n        \"\"\"Treat Linux zombies as stopped; they cannot execute but may await PID 1 reaping.\"\"\"\n        proc_stat = f\"/proc/{pid}/stat\"\n        if os.path.exists(\"/proc/self/stat\"):\n            try:\n                with open(proc_stat, encoding=\"ascii\") as source:\n>                   stat = source.read()\n                           ^^^^^^^^^^^^^\nE                   ProcessLookupError: [Errno 3] No such process\n\ntests/test_codex_client.py:25: ProcessLookupError\n=============================== ",
+      "summary": [
+        "1 failed, 5863 passed, 77 skipped, 33 warnings, 93 subtests passed in 227.39s (0:03:47)"
+      ]
+    },
+    {
+      "job_id": 128901070819,
+      "log_path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-reliability-001-47vmhc57/job-128901070819.log",
+      "log_sha256": "191a0b4a6495c1cff13bd6bd35eb96097a5e891eacdd26c19bcf5ff89e9da730",
+      "failure": "FAILURES ===================================\n______________ test_close_cleans_group_when_leader_already_exited ______________\n\n    def test_close_cleans_group_when_leader_already_exited():\n        child_code = (\n            \"import json,os,signal,time; \"\n            \"signal.signal(signal.SIGTERM, signal.SIG_IGN); \"\n            \"print(json.dumps({'method':'ready','params':{'pid':os.getpid()}}),flush=True); \"\n            \"time.sleep(30)\"\n        )\n        c = client(\"import subprocess,sys,time; subprocess.Popen([sys.executable, '-I', '-u', '-c', \" + repr(child_code) + \"]); time.sleep(.2)\")\n        event = c.next_event(timeout=2)\n        assert event[\"method\"] == \"ready\"\n        child_pid = event[\"params\"][\"pid\"]\n        c._process.wait(timeout=2)\n        try:\n            c.close(grace=.2)\n            assert not c._reader.is_alive()\n>           assert not process_is_running(child_pid)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\ntests/test_codex_client.py:141: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\npid = 3183\n\n    def process_is_running(pid):\n        \"\"\"Treat Linux zombies as stopped; they cannot execute but may await PID 1 reaping.\"\"\"\n        proc_stat = f\"/proc/{pid}/stat\"\n        if os.path.exists(\"/proc/self/stat\"):\n            try:\n                with open(proc_stat, encoding=\"ascii\") as source:\n>                   stat = source.read()\n                           ^^^^^^^^^^^^^\nE                   ProcessLookupError: [Errno 3] No such process\n\ntests/test_codex_client.py:25: ProcessLookupError\n=============================== ",
+      "summary": [
+        "1 failed, 5863 passed, 77 skipped, 37 warnings, 93 subtests passed in 238.90s (0:03:58)"
+      ]
+    },
+    {
+      "job_id": 128901071115,
+      "log_path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-reliability-001-47vmhc57/job-128901071115.log",
+      "log_sha256": "4c6fd358cdc692144c37b91375c71963ef87eaf36fd01ace55a726f87fa92e1a",
+      "failure": null,
+      "summary": [
+        "5871 passed, 70 skipped, 36 warnings, 93 subtests passed in 272.35s (0:04:32)"
+      ]
+    }
+  ],
+  "other_jobs": "JavaScript/typecheck/build and Ruff succeeded",
+  "diagnosis": "Linux /proc stat read raced orphan reaping; catch exactly ESRCH/ENOENT and retain live-state rejection. macOS passed."
+}

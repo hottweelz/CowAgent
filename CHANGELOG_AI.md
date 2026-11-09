@@ -1,5 +1,137 @@
 # AI handoff ledger
 
+## 2026-11-08 19:25 EST — Codex — INFRA-RELIABILITY-001B integration gate
+
+- Task: verify owner removal of Projects from pCloud, preserve Git/runtime and
+  integrate PR #2 only after all gates pass. Migration is superseded and forbidden.
+- Team: lead owns pCloud UI, Git/docs and merge. Two Luna/high workers verified
+  runtime metadata and current published PR/CI evidence. One Sol 6.1/high reviewer
+  assessed combined Git integrity, sync coverage, runtime privacy and CI source
+  binding; those cross-component risks exceed routine fixture verification.
+  STE branch completion and bounded review guidance used. Requested models are
+  explicit; effective worker model identities are not independently attested.
+- Changes/files: documentation only. Added backup-removal-verification.md,
+  backup-removal-review.md and pCloud/Git/runtime/PR receipts under the existing
+  infrastructure report. Updated README, recovery, migration-plan and project
+  MEMORY.md to remove the obsolete active-backup/migration direction.
+- Checks/results: supported pCloud settings show Projects absent, six remaining
+  Backup rows (one active), zero Sync rows and no canonical overlap with checkout,
+  .git or all 21 recorded runtime paths. Same scope after normal window reopen;
+  pCloud PID 891 unchanged. Supplemental readonly DB query locked; no bypass.
+  Git fsck exits 0 with 40 preserved dangling entries; all 177 effective refs
+  agree with Git. Pre/post refs identical across no-prune/no-autoGC fetch and
+  45-second monitor. Existing detached worktree clean at c2c39a2e. Seven original
+  untracked and five conflict backup hashes match; recovery refs unchanged.
+- Runtime: original PID 28093/loopback listener retained; health HTTP 200. Data
+  root and all three agent workspaces unchanged; default/testpilot/testpilot2
+  enabled. Config and both target profile hashes match historical receipts.
+  Four DBs checked by stat only; no private memory read or model task.
+- CI/review: live PR head 2502693a and base fe00855a are compatible (4 ahead/0
+  behind). All eleven tested hashes match c03d35e6. Run 42536883493 and all five
+  jobs remain success. Docs-only head had no new checks; no new pass claimed.
+  Independent integration review completed with no actionable finding and
+  recommends normal merge after documentation publication.
+- Decisions: known active pCloud exposure/current Git integrity is RESOLVED under
+  001B definition; historical writer remains unknown. Actions remains CONTAINED.
+  Owner's conditional merge authority now applies; publish addendum, mark ready,
+  merge normally, then verify actual master/ref/worktree/runtime postflight.
+- Lessons Learned:
+  - Mistake: initial Accessibility reads used a stale process name and a variable
+    name that collided with the System Events dictionary.
+  - Root Cause: the process is pCloud Drive; AppleScript interpreted outLines as
+    its outlines property rather than a local result list.
+  - Future Trigger: application identity or Accessibility collection failures.
+  - Required Behavior Change: resolve the process by PID and use distinct local
+    variable names; verify actual paths rather than treating a failed read as empty.
+  - Verification Step: successful canonical path inventory and identical reopen
+    evidence; distinguish unknown state from zero configured rules.
+  - Durable Memory Update: project MEMORY.md records current backup boundaries;
+    no global memory update.
+- Known limits: configuration scope is not a kernel watch inventory; historical
+  DB inode continuity was never recorded. Browser/full Windows coverage and
+  historical Actions cause remain as previously documented. No CI weakening.
+- Next: perform the authorized normal PR #2 merge, safe local master fast-forward,
+  and postflight. Publish actual merge/master IDs and readiness only after those
+  checks. No repository relocation, server restart or production BullGod activation.
+- Notes: current branch codex/infra-reliability-001 tracks its same-name origin.
+  Preserve all original untracked/recovery files and the detached worktree. New
+  raw evidence is in /var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-001b-0lhnsyxq;
+  runtime snapshot helper is /private/tmp/cow-infra-b-runtime-YAT2TR/snapshot.py.
+  This documentation-only checkpoint uses [skip ci]; tested source is unchanged.
+
+## 2026-11-08 19:02 EST — Codex — INFRA-RELIABILITY-001 published assessment
+
+- Task/result: investigation, branch implementation, hosted validation and review
+  complete. Git reference integrity is BLOCKED; Actions execution is CONTAINED.
+  BullGod discovery/task-selection readiness is No. Draft PR #2 stays unmerged;
+  master and origin/master remain fe00855a9f7b896115b2268492e11aa82d9bdc10.
+- Team: lead owns integration, validation, docs and Git. Luna workers mapped
+  sync/API/CI, rehearsed migration, built the read-only watcher and repaired
+  hosted fixtures. Terra 6.1 handled CI integration, linked-worktree topology and
+  timeout/recovery diagnosis. One Sol 6.1/high reviewer checked consequential
+  Git integrity, rollback, CI authority and final evidence; this needed stronger
+  cross-component reasoning than routine fixture work. Requested models were
+  explicit; effective worker model identities are not independently exposed.
+  STE planning, systematic debugging, evidence and review guidance applied.
+- Changes/files: .github/workflows/test.yml adds macOS 3.13/Linux 3.11+3.13,
+  JS, strict TypeScript/build and fail-closed changed-file Ruff. scripts/ adds
+  isolated CI/lint runners, explicit prerequisites and a bounded read-only ref
+  watcher; tests/ adds corresponding checks and repairs IPC readiness and Linux
+  process-reaping fixtures. agent/subagent/runner.py supplies a missing timeout
+  reason before state/UI closure without changing specific errors or authority.
+  docs/infra-reliability-001 contains the report, source hashes, failed/successful
+  receipts, review and recovery procedures. MEMORY.md records durable rules.
+- Git evidence: pCloud Backup actively includes Projects/CowAgent/.git without
+  an applicable exclusion. Historical writer remains untraced; sudo tracing is
+  unavailable. A 45-second watch/fetch/worktree check saw no mutation, which does
+  not establish isolation. fsck passed with 40 dangling entries and no other
+  errors; nothing was pruned. Separate-git-dir reporting and experimental bare
+  topology rollback did not pass live-migration safety gates. No migration ran.
+- Commands/tests/results: manual Windows run 42534178341 passed 11/5 with logs.
+  Two automatic PR runs exposed and localized fixture/timeout races. Final
+  automatic run 42536883493 at source c03d35e6fd0ca1f35ad125b881db39816090951c
+  passed all five jobs: macOS 5,917 passed/39 skipped; each Linux 5,910/46;
+  each has 93 passing subtests and 5,956 named cases from 708 tracked test files.
+  JS 39 web+5 desktop, strict TypeScript, desktop build and Ruff F passed.
+  Focused CI/watcher/IPC/timeout/tokenizer checks also passed; report has counts.
+- Independent review: no open actionable finding. All eleven changed executable,
+  test, dependency and workflow hashes match the tested commit. Five log hashes,
+  three GitHub ZIP/XML hashes, exact JUnit counts/skips and build/static results
+  independently reconcile. Review reused retained evidence without test reruns.
+- Decisions: preserve failed evidence, recovery refs/backups and all seven original
+  untracked files. No reset, forced push, conflict deletion, live database repair,
+  pCloud change, service restart, native model replay or TestPilot change. The
+  closing commit is documentation only and uses [skip ci]; it does not claim a
+  separate CI run. Earlier native approvals do not cover this changed source.
+- Lessons Learned:
+  - Mistake: mountpoint-only checks missed backup scope; socket existence,
+    process exit and recovery completion were treated as settled states.
+  - Root Cause: pCloud Backup includes ordinary APFS paths; listener startup,
+    orphan reaping and independent recovery deadlines expose transient states.
+  - Future Trigger: ref conflicts, IPC readiness, orphan cleanup or timeout UI.
+  - Required Behavior Change: inspect active backup mappings and actual states;
+    require a successful migration/rollback rehearsal before live authorization.
+  - Verification Step: direct UI/API evidence, deterministic fixtures, hosted
+    matrix, source-bound receipts and independent review.
+  - Durable Memory Update: project MEMORY.md updated in the implementation;
+    no additional closeout update needed. No global memory update.
+- Known limits: active Git backup hazard remains; exact writer and historical
+  missing Actions event cause are unknown. Polling is not PID attribution or
+  prevention. Python socket instrumentation does not confine native/subprocess
+  networking. Browser integration remains separate; Windows execution covers
+  only Bash. Floating Python/action versions and existing warnings remain.
+- Next recommended steps: design and rehearse a Git layout with metadata and
+  controlling pointers outside backup conflicts; preserve portable paths and
+  linked worktrees. Seek live authorization only after that plan passes. Keep
+  BullGod work paused. Review PR #2 explicitly before any integration.
+- Notes for next agent: branch codex/infra-reliability-001 tracks its same-name
+  origin branch. Source c03d35e6 was pushed/fetched at 0/0; lead repeats the normal
+  push/fetch/rev-list gate for this documentation closeout before final handoff.
+  Report: docs/infra-reliability-001/README.md. PR:
+  https://github.com/hottweelz/CowAgent/pull/2. Preserve server PID 28093,
+  existing detached worktree, seven original untracked files and all conflict
+  recovery artifacts. Live runtime, pCloud settings and master remain unchanged.
+
 ## 2026-11-08 16:49 EST — Codex — AGENT-ROUTING-001..003 merged after integrated gate
 
 - Task/result: the required full regression and compatibility gate passed.

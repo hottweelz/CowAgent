@@ -1,0 +1,21 @@
+{
+  "captured_at": "2026-11-08T23:47:44.373751+00:00",
+  "base": "fe00855a9f7b896115b2268492e11aa82d9bdc10",
+  "head": "c03d35e6fd0ca1f35ad125b881db39816090951c",
+  "file_sha256": {
+    ".github/workflows/test.yml": "e2a4afacfaae3440c747dcea6606fb68c9c5bacbb53494ac26ac837303bfc3a7",
+    "agent/subagent/runner.py": "937083cfe7c9f1f652ef757245a6719297ca1023f692b70f70022126cb18c831",
+    "scripts/ci_lint.py": "4a2502c95a076493e688f86292e3a4e16c7ea23b88ba2a6242c0dc157f3e6ff0",
+    "scripts/ci_test.py": "3ea5fc309b9a571bc367d5b429c006906f72908b45771348951dffc3357688d4",
+    "scripts/git_ref_watch.py": "e14a72e26a29c9820acb0a7b375f948392a6145bab47439766f18b7f5e316448",
+    "scripts/requirements-ci.txt": "9a4c77946fdb8987108327defe5d9d085b05aec60cb041e772341e0f553ccaf6",
+    "tests/test_ci_infrastructure.py": "184a16ff52b19a1a202bd51cdc8f58b454786a4d25b151447586d15fe548ea80",
+    "tests/test_codex_adapter.py": "a7642f8484419bff76fb31b52a0d174e205b77e1b2cd4de225955c6dd897d33f",
+    "tests/test_codex_client.py": "f3e081922f29ed66284566f3fdb69ac57d59f92a317932ab1c8ccbb6ce77c508",
+    "tests/test_git_ref_watch.py": "d5f382cf9a2613c3a4f0bfc2c2734ad4abc2c21a340839a7b4d8e5a942b1b112",
+    "tests/test_subagent.py": "62cc170475cbb134f462b7d9116a5bc0d2aff39fb5a726df36bfe174f90146a3"
+  },
+  "tracked_test_files": 708,
+  "test_manifest_sha256": "d23aade56e8338b00fa8151d55acaaa4e8f06d96a643ca81319db7f366cc1d92",
+  "limits": "Source snapshot; hosted conclusions are recorded separately. No native model replay."
+}

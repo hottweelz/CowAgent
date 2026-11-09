@@ -155,13 +155,26 @@ def wait_until(f):
     raise AssertionError('condition did not occur')
 
 
+def unix_socket_accepting(path):
+    """Check that a bound Unix socket is listening, not only present on disk."""
+    probe = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    try:
+        try:
+            probe.connect(str(path))
+        except (FileNotFoundError, ConnectionRefusedError):
+            return False
+        return True
+    finally:
+        probe.close()
+
+
 def test_ipc_submit_duplicate_and_wrong_output_preserved(setup):
     root, socket_path, cred, start, make_spec, journal, control, scope, approved_payload, revoke_task, approve_only = setup
     fake = FakeClient()
     rt = start(fake)
     server = threading.Thread(target=rt.serve, daemon=True)
     server.start()
-    wait_until(socket_path.exists)
+    wait_until(lambda: unix_socket_accepting(socket_path))
     transport = ExternalTransport(socket_path, cred)
     discovery = transport.discover()
     assert discovery['operations'] == ['analyze_records']

@@ -1,0 +1,25 @@
+{
+  "captured_at": "2026-11-08T23:37:53.287098+00:00",
+  "watch_log": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-reliability-001-47vmhc57/live-ref-watch.jsonl",
+  "watch_sha256": "b3edbb7cb3f07986d7a5743ff1c9c53885a4a08bc20093e5ff7332d7ec953b09",
+  "duration_seconds": 45,
+  "interval_seconds": 0.25,
+  "events": 2,
+  "changes": 0,
+  "final": {
+    "expected_ref_mismatches": [],
+    "invalid_conflict_ref_names": [],
+    "result": "ok",
+    "time": 1794180994.6230369,
+    "type": "final"
+  },
+  "controlled_operations": [
+    "git fetch --prune origin (exit0)",
+    "git status --short --branch in existing detached worktree (clean)"
+  ],
+  "limits": [
+    "Polling cannot attribute PID or exclude between-sample changes.",
+    "A clean bounded observation does not prove absence of an intermittent writer.",
+    "Active pCloud Backup still includes .git; no isolation mitigation is implemented."
+  ]
+}

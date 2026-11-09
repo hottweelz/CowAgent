@@ -1,0 +1,44 @@
+{
+  "captured_at": "2026-11-09T00:19:20.454842+00:00",
+  "method": "Supported pCloud Drive desktop settings via read-only macOS Accessibility; local root paths from static-text Help properties",
+  "pcloud_pid": 891,
+  "backup_roots": {
+    "previous_rows": 7,
+    "current_rows": 6,
+    "previous_active_roots": 2,
+    "current_active_roots": 1,
+    "Projects_root_present": false,
+    "overlap_with_checkout_or_git": false,
+    "all_configured_row_paths_checked_including_inactive": true,
+    "unrelated_root_names_and_paths": "omitted"
+  },
+  "sync": {
+    "rows_initial": 0,
+    "rows_after_window_reopen": 0
+  },
+  "persistence": {
+    "method": "close and reopen normal settings window, revisit Sync and Back up tabs",
+    "backup_rows_identical": true,
+    "process_restarted": false
+  },
+  "config_database": {
+    "result": "unavailable",
+    "error": "database is locked",
+    "mode": "ro/query_only",
+    "no_lock_bypass": true
+  },
+  "settings_changed_by_agent": false,
+  "historical_cloud_backups_deleted": false,
+  "evidence_limits": [
+    "Direct evidence of current configured Backup and Sync coverage; not a kernel-level trace of every filesystem watch.",
+    "Read-only database query was locked; no lock bypass, database copy or private index read.",
+    "No inference from absence of open file handles.",
+    "Historical ref writer remains unidentified."
+  ],
+  "runtime_coverage": {
+    "recorded_paths_checked": 21,
+    "overlap_with_any_configured_backup_row": false,
+    "sync_rows": 0,
+    "source": "backup-removal-runtime-before.json"
+  }
+}

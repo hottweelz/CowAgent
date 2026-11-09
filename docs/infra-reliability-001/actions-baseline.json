@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "captured_at": {
+    "date": "2026-11-08",
+    "window_start_utc": "2026-11-08T23:09:53Z",
+    "window_end_utc": "2026-11-08T23:12:00Z",
+    "method": "Read-only GitHub REST API calls via gh; token values were not requested or recorded."
+  },
+  "repository": {
+    "full_name": "hottweelz/CowAgent",
+    "visibility": "public",
+    "disabled": false,
+    "archived": false,
+    "fork": true,
+    "parent": "zhayujie/CowAgent",
+    "default_branch": "master",
+    "caller_permission": "admin",
+    "source": "GET /repos/hottweelz/CowAgent"
+  },
+  "authentication_metadata": {
+    "method": "gh auth status (sanitized output)",
+    "account": "hottweelz",
+    "reported_scopes": ["gist", "read:org", "read:packages", "repo", "workflow"],
+    "secret_material_recorded": false,
+    "limits": "This reports the local gh credential scopes; it does not prove every GitHub-side policy permits workflow execution."
+  },
+  "actions_configuration": {
+    "repository_permissions": {
+      "http_status": 200,
+      "enabled": true,
+      "allowed_actions": "all",
+      "sha_pinning_required": false,
+      "endpoint": "GET /repos/hottweelz/CowAgent/actions/permissions"
+    },
+    "workflow_token_permissions": {
+      "default_workflow_permissions": "read",
+      "can_approve_pull_request_reviews": false,
+      "endpoint": "GET /repos/hottweelz/CowAgent/actions/permissions/workflow"
+    },
+    "workflows": {
+      "recognized_count": 9,
+      "tests": {
+        "id": 410039630,
+        "name": "Tests",
+        "path": ".github/workflows/test.yml",
+        "state": "active",
+        "updated_at": "2026-11-08T20:29:36Z"
+      },
+      "source": "GET /repos/hottweelz/CowAgent/actions/workflows"
+    },
+    "branch_protection": {
+      "master": "GET /repos/hottweelz/CowAgent/branches/master/protection returned HTTP 404, Branch not protected."
+    },
+    "cache_usage": {
+      "active_caches_count": 0,
+      "active_caches_size_in_bytes": 0,
+      "source": "GET /repos/hottweelz/CowAgent/actions/cache/usage"
+    }
+  },
+  "workflow_source_review": {
+    "path": ".github/workflows/test.yml",
+    "local_revision_inspected": "fe00855a9f7b896115b2268492e11aa82d9bdc10",
+    "events": {
+      "push": {"branches": ["master"]},
+      "pull_request": "all default activity types; no branch or path filters"
+    },
+    "jobs": [
+      "pytest on ubuntu-latest with Python 3.11 and 3.13",
+      "ruff F-class gate on ubuntu-latest with Python 3.12"
+    ],
+    "secret_references_observed": false,
+    "skip_annotations_observed": false,
+    "interpretation": "The event declarations and filters inspected do not explain the missing run. The live Actions API recognizes this workflow as active on master."
+  },
+  "run_and_check_evidence": {
+    "all_repository_workflow_runs": {
+      "total_count": 0,
+      "endpoint": "GET /repos/hottweelz/CowAgent/actions/runs"
+    },
+    "tests_workflow_runs": {
+      "total_count": 0,
+      "endpoint": "GET /repos/hottweelz/CowAgent/actions/workflows/410039630/runs"
+    },
+    "check_runs": [
+      {"sha": "fe00855a9f7b896115b2268492e11aa82d9bdc10", "total_count": 0},
+      {"sha": "66017d38d6fd8af8cecbbe1efd378c7542d1f02f", "total_count": 0},
+      {"sha": "5527fd1f60898c5e93ea13bc25b3d4aa71b82e45", "total_count": 0},
+      {"sha": "9577d6b5da831efbad0a208a26032d90b2ef812d", "total_count": 0}
+    ],
+    "check_run_endpoint_pattern": "GET /repos/hottweelz/CowAgent/commits/{sha}/check-runs"
+  },
+  "pull_request": {
+    "number": 1,
+    "head_repository": "hottweelz/CowAgent",
+    "base_repository": "hottweelz/CowAgent",
+    "base_branch": "master",
+    "current_state_at_capture": "closed and merged",
+    "head_sha_at_merge": "5527fd1f60898c5e93ea13bc25b3d4aa71b82e45",
+    "merged_commit": "9577d6b5da831efbad0a208a26032d90b2ef812d",
+    "sources": [
+      "GET /repos/hottweelz/CowAgent/pulls/1",
+      "GET /repos/hottweelz/CowAgent/pulls/1/commits"
+    ]
+  },
+  "event_timeline_utc": [
+    {"time": "2026-11-08T20:27:43Z", "event": "PR #1 opened", "head_sha": "5527fd1f60898c5e93ea13bc25b3d4aa71b82e45"},
+    {"time": "2026-11-08T20:29:48Z", "event": "PR #1 closed"},
+    {"time": "2026-11-08T20:29:50Z", "event": "PR #1 reopened"},
+    {"time": "2026-11-08T20:30:46Z", "event": "push to codex/agent-routing-003", "before": "7e911d2e0238a5ce8315f7bc45582ada78cd204e", "after": "66017d38d6fd8af8cecbbe1efd378c7542d1f02f"},
+    {"time": "2026-11-08T21:09:19Z", "event": "push to codex/agent-routing-003", "before": "66017d38d6fd8af8cecbbe1efd378c7542d1f02f", "after": "8b137cf0137582e17e17ae548d8c948ee781a6d7"},
+    {"time": "2026-11-08T21:43:19Z", "event": "PR #1 marked ready for review"},
+    {"time": "2026-11-08T21:43:29Z", "event": "PR #1 merged", "merge_sha": "9577d6b5da831efbad0a208a26032d90b2ef812d"},
+    {"time": "2026-11-08T21:43:31Z", "event": "push to master", "after": "9577d6b5da831efbad0a208a26032d90b2ef812d"}
+  ],
+  "assessment": {
+    "classification": "Cause not established; Actions execution remains unverified.",
+    "confidence": "High that the recorded API snapshots showed zero runs and that the visible repository configuration had matching triggers; low on the underlying cause because GitHub event-processing and account diagnostics were not available.",
+    "ruled_out_by_observed_evidence": [
+      "Repository Actions disabled",
+      "Actions policy disallowing actions",
+      "Tests workflow absent, inactive, or unrecognized",
+      "A visible workflow branch/path filter excluding the observed PR events",
+      "A required master branch protection check",
+      "A PR head from another repository"
+    ],
+    "not_ruled_out": [
+      "GitHub-side event ingestion, suppression, or transient service fault",
+      "Account or platform eligibility conditions not exposed by these endpoints",
+      "An undocumented policy or backend condition",
+      "Whether GitHub Support or account audit diagnostics identify a specific failed delivery"
+    ],
+    "important_limits": [
+      "Zero runs is evidence of no run records at the queried time; it does not identify why an event did not create a run.",
+      "The repository is user-owned, not organization-owned; organization policy evidence was not available.",
+      "The default read-only GITHUB_TOKEN permissions and inability to approve PR reviews do not establish a dispatch blocker; the inspected test jobs require no write permission.",
+      "The ready_for_review activity is not a default pull_request activity type, but earlier opened, reopened, and synchronize opportunities were observed while the PR was open."
+    ]
+  },
+  "controlled_trigger_plan": {
+    "authorization": "Do not execute from this evidence capture. Parent owns any authorized trigger test.",
+    "minimal_plan": "Use one existing supported workflow_dispatch trigger with a tests-only, no-secret workflow on master; record the dispatch response, resulting run ID/event/ref/SHA, runner start, conclusion, and retrievable job logs. If dispatch is accepted but no run appears, retain request IDs and timestamps for GitHub Support/account diagnostics.",
+    "source": "https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow"
+  },
+  "official_references": [
+    "https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#pull_request",
+    "https://docs.github.com/en/actions/managing-workflow-runs/approving-workflow-runs-from-public-forks",
+    "https://docs.github.com/en/rest/actions/permissions",
+    "https://docs.github.com/en/rest/actions/workflows",
+    "https://docs.github.com/en/rest/actions/workflow-runs",
+    "https://docs.github.com/en/rest/checks/runs"
+  ],
+  "scope": {
+    "file_written": "docs/infra-reliability-001/actions-baseline.json",
+    "GitHub_mutations_performed": false,
+    "other_files_modified_by_this_worker": false
+  }
+}

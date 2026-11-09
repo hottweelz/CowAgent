@@ -1,0 +1,11 @@
+{
+  "captured_at": "2026-11-08T23:52:35.099102+00:00",
+  "command": "git fsck --full",
+  "exit_code": 0,
+  "log": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-reliability-001-47vmhc57/git-fsck.txt",
+  "sha256": "7cc7c2c1ae9667e6f866878b5a1eca2e14692302c2d343c5ff0406c7602f16a8",
+  "lines": 40,
+  "dangling_lines": 40,
+  "other_output": [],
+  "mutations": "none; no prune or cleanup"
+}

@@ -1,0 +1,22 @@
+{
+  "captured_at": "2026-11-08T23:14:04.795036+00:00",
+  "request": {
+    "method": "POST",
+    "endpoint": "repos/hottweelz/CowAgent/actions/workflows/test-windows-bash.yml/dispatches",
+    "body": {
+      "ref": "master"
+    },
+    "expected_source": "fe00855a9f7b896115b2268492e11aa82d9bdc10"
+  },
+  "command_exit_code": 0,
+  "response_headers": [
+    "HTTP/2.0 204 No Content",
+    "Date: Sun, 08 Nov 2026 23:14:04 GMT",
+    "X-Accepted-Oauth-Scopes: ",
+    "X-Github-Request-Id: F28E:194583:19A9F54:546FA98:6AF1023B",
+    "X-Oauth-Scopes: gist, read:org, read:packages, repo, workflow"
+  ],
+  "response_body": "",
+  "stderr": "",
+  "interpretation": "A successful dispatch response alone does not prove a run or job exists."
+}

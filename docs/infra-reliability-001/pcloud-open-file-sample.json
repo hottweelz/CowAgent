@@ -1,0 +1,8 @@
+{
+  "captured_at": "2026-11-08T23:23:29.871581+00:00",
+  "method": "lsof -p 891 -F pfcna; only CowAgent paths retained",
+  "pid": 891,
+  "process": "pCloud Drive",
+  "matches": [],
+  "limit": "Point-in-time open-file sample; no matches do not exclude past or transient access."
+}
