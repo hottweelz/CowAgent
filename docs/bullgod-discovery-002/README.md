@@ -18,7 +18,8 @@ before registry loading or selection. The final source reports
 `filesystem_ownership_ignored`. This is a preserved trust boundary, not a
 passing live acceptance run. No permission, config, credential or approval was
 changed to make the check pass. The ownership safeguard now rejects that mount explicitly. All 356 focused tests
-and the corrective independent review pass; fresh hosted validation is pending.
+and the corrective independent review pass. The final hosted matrix passed all
+five jobs on source `10dac8d33f52204f80ee61c6ae19373851e77f82`.
 
 The separately readable private enrollment records are expired. These observations
 cannot supply missing native configuration or proof provenance. No production
@@ -228,9 +229,25 @@ running full-enrollment binding, and complete tested-source proof binding.
 The corrective review reported **PASS**, with no remaining actionable finding.
 The [focused receipt](focused-validation.json) records **356 passed**, including
 54 new reader/acceptance cases. [Review findings](review.md) distinguish source
-review from the blocked live gate. The first hosted run passed all five jobs (6,017 macOS and 6,010 per Linux job).
-[That receipt](hosted-before-ownership-fix.json) is retained for its source.
-The ownership correction adds six cases and requires a fresh hosted gate.
+review from the blocked live gate. Final [hosted run 42558258829](https://github.com/hottweelz/CowAgent/actions/runs/42558258829)
+passed all five jobs on source `10dac8d33f52204f80ee61c6ae19373851e77f82`.
+The [hosted receipt](hosted-validation.json) binds logs, JUnit artifacts and the
+synthetic merge checkout to that source.
+
+| Final hosted job | Result |
+| --- | --- |
+| macOS, Python 3.13 | 6,023 passed; 39 skipped |
+| Linux, Python 3.11 | 6,016 passed; 46 skipped |
+| Linux, Python 3.13 | 6,016 passed; 46 skipped |
+| JavaScript / TypeScript / build | Passed |
+| Ruff | Passed |
+
+Each Python job has 6,062 named cases and 93 passing subtests. All 54 new cases
+pass; no existing cases were removed and skip identities match Gate A exactly.
+The [first hosted receipt](hosted-before-ownership-fix.json) remains attached to
+its earlier source. Documentation-only closeout does not change tested code.
+[Publication/source equivalence](publication.json) and [preservation](preservation.json)
+record the final boundary.
 
 The supported operation remains `analyze_records`. No general coding, arbitrary
 file/network effects, autonomous selection-driven execution, background probe

@@ -1,0 +1,41 @@
+{
+  "schema": "bullgod-discovery-002-publication/1",
+  "captured_at_utc": "2026-11-09T03:59:18.920351+00:00",
+  "pull_request": "https://github.com/hottweelz/CowAgent/pull/4",
+  "draft": true,
+  "merge_authorized": false,
+  "gate_a": "PASSED",
+  "gate_b": "BLOCKED",
+  "master_commit": "f659349785acf98905901a5cc53921436a109dbc",
+  "validated_source_commit": "10dac8d33f52204f80ee61c6ae19373851e77f82",
+  "hosted_run_id": 42558258829,
+  "native_source_fingerprint": "9df28df5addbb7146d62d3f9a678c5a34c81b797202cbd5d3316370f81cc06ad",
+  "focused_tests_passed": 356,
+  "changed_source_test_hashes_match": {
+    "agent/discovery/__init__.py": true,
+    "agent/discovery/contracts.py": true,
+    "agent/discovery/sources.py": true,
+    "agent/discovery/runtime_readers.py": true,
+    "agent/external/approved_dispatch.py": true,
+    "agent/external/codex_adapter.py": true,
+    "agent/external/contract.py": true,
+    "agent/external/cowagent_adapter.py": true,
+    "agent/external/operator_control.py": true,
+    "agent/external/transport.py": true,
+    "agent/external/inspection.py": true,
+    "tests/test_discovery_runtime_readers.py": true,
+    "tests/test_discovery_runtime_acceptance.py": true,
+    "agent/external/filesystem_trust.py": true
+  },
+  "non_documentation_differences_from_validated_source": [],
+  "closeout": "Markdown/JSON only; reuse exact tested source and skip CI for this bookkeeping commit. Final pushed head and 0/0 sync are recorded in the PR body and final task response.",
+  "live_gate": "filesystem_ownership_ignored before registry/binding/selection; actual APFS mount ignores ownership and ancestor mode0775 remains unchanged",
+  "mode_only_permission_request": "withdrawn; insufficient to establish trust",
+  "host_permissions_mounts_credentials_approvals_changed": false,
+  "remaining_required_work": [
+    "Separately authorized storage ownership remediation",
+    "Fresh integrated read-only runtime acceptance after trust restoration"
+  ],
+  "preserved_original_untracked_files": 7,
+  "preserved_recovery_artifacts": 5
+}

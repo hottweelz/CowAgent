@@ -1,5 +1,60 @@
 # AI handoff ledger
 
+## 2026-11-08 22:58 EST — Codex — DISCOVERY-002 publication; live gate BLOCKED
+
+- Result: Gate A PASSED (PR #3 merge 40958f39, master closeout f6593497 with passing
+  automatic master CI). Gate B implementation, fixtures and review pass, but
+  required integrated live acceptance is BLOCKED by actual APFS ownership
+  enforcement and group-writable ancestry. No live eligibility is certified.
+- Team: Sol 6.1/high bounded production and independent security review, justified
+  by cross-component authority/provenance and Darwin ABI reasoning; Luna/high
+  independent acceptance, metadata preservation and hosted reconciliation. Lead
+  owns source integration, actual rejection replay, documentation and Git sync.
+- Changes/files: trusted discovery readers, authenticated inspect, read-only
+  operator journal and Darwin ownership guard; two test files; 002 report,
+  sanitized receipts and runner; MEMORY.md and this handoff. Details below.
+- Tests/results: 356 integrated tests passed; independent corrective review PASS.
+  Final hosted run 42558258829 on 10dac8d3 passed all five jobs: macOS 6023/39,
+  each Linux 6016/46; 6062 named cases plus 93 subtests per job. All 54 new cases
+  pass, no removed cases, exact prior skip identities retained. JavaScript,
+  strict TypeScript/build and Ruff pass. Logs/artifact/XML/source hashes retained.
+- Actual evidence: repaired-source read-only attempt stopped at config read with
+  filesystem_ownership_ignored, before registry/binding/selection. Process,
+  config/profile/model and aggregate conversation metadata unchanged. Separate
+  private authority read found all three credentials/enrollments/tasks expired;
+  journal counts/intents unchanged. Constructor guards were not reached in the
+  blocked live run; do not call this complete integrated no-dispatch acceptance.
+- Preservation/publication: draft PR #4 stays unmerged. Verified tracked source
+  at upstream 0/0; final closeout is documentation-only, with no repeated model or
+  test interactions. git fsck passed with same 40 dangling objects/no other
+  diagnostics. All seven original untracked files, five recovery artifacts, both
+  recovery refs and clean detached worktree preserved. No service restart.
+- Decisions: retain fail-closed boundary and withdrawn mode-only permission
+  request. No host chmod, ownership enablement, mount change, approval refresh,
+  credential modification, model invocation or production activation. Project
+  MEMORY.md records durable reader and filesystem constraints; no global update.
+- Lessons Learned:
+  - Mistake: mode-only remediation was proposed before mount ownership was checked.
+  - Root Cause: statvfs omits Darwin's ownership-ignore flag.
+  - Future Trigger: trusted evidence on macOS storage.
+  - Required Behavior Change: verify native ownership enforcement before proposing
+    mode changes; withdraw insufficient proposals and keep unsafe input rejected.
+  - Verification Step: independent actual path/FD checks and six regressions pass.
+  - Durable Memory Update: the rule is recorded in project MEMORY.md.
+- Known issues: B6 integrated live scenarios remain incomplete. No authoritative
+  native isolated proof/global free capacity or safe Codex executable attestation
+  is available; expired authority and historical submitted task IDs cannot be reused.
+- Next steps: separately review storage ownership impact and obtain explicit
+  authority for any host remediation. Then rerun read-only actual discovery;
+  establish current complete proof/enrollment/exact task approval and runtime
+  admission before any later executor request. DISCOVERY-002 merge needs separate
+  authorization. Keep all original runtime/config/profile/memory data intact.
+- Notes: all ten completion questions are answered in docs/bullgod-discovery-002/
+  README.md. Source tested 10dac8d3; final documentation preserves its code hashes.
+  The goal is not achieved while B6 is blocked. This is the first blocked
+  closeout after all independent implementation/publication work; do not change
+  storage or rerun unchanged blocked probes without new authority/state.
+
 ## 2026-11-08 22:47 EST — Codex — DISCOVERY-002 ownership enforcement correction
 
 - Task/result: actual APFS workspace ignores ownership. A mode-only change cannot
