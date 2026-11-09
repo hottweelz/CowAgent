@@ -10,8 +10,9 @@
   On Darwin, also require statfs64/fstatfs64 ownership enforcement. Python statvfs
   omits MNT_IGNORE_OWNERSHIP; mode bits alone are insufficient. Missing native
   API or ownership-ignored mounts fail closed, including operator initialization
-  before writes. The current external APFS workspace ignores ownership; this
-  milestone does not change mount settings or volume permissions.
+  before writes. The current external APFS workspace ignores ownership; the
+  volume root is now 0755, but ownership enforcement remains disabled; mode bits
+  alone do not establish trust. No mount setting was changed.
   Full tested-source proof and the running adapter's entire frozen enrollment
   must match current authority. Historical focused receipts are insufficient.
   Native proof/global free capacity and safe Codex executable attestation remain

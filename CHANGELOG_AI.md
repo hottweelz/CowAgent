@@ -1,5 +1,38 @@
 # AI handoff ledger
 
+## 2026-11-08 23:03 EST — Codex — Approved volume mode change; ownership gate remains BLOCKED
+
+- Scope/authorization: maintainer explicitly approved only the external volume
+  root mode change 0775-to0755 and a read-only acceptance rerun. Applied exactly
+  that change after verifying the mounted APFS target and original mode. No
+  ownership enablement, mount change, credential or approval change was authorized.
+- Team: lead only for this narrow host operation and documentation. Existing
+  implementation/review/CI team results remain valid; no source code changed.
+- Changes/files: root directory mode now 0755. Added sanitized authorized change
+  and post-change rejection JSON under docs/bullgod-discovery-002; updated README,
+  publication receipt, project MEMORY.md and this handoff.
+- Commands/checks: read-only diskutil plist and lstat before/after; one chmod 0755;
+  existing instrumented acceptance runner; before/after service/config/profile/
+  model and aggregate conversation metadata. Target inode/device/UID/GID unchanged.
+- Result: mode 0755 confirmed; APFS ownership enforcement remains disabled.
+  Acceptance again stopped before binding/selection with
+  filesystem_ownership_ignored. All compared runtime/configuration/count metadata
+  unchanged. No native/model invocation or live task submission. Source 10dac8d3
+  retains the 356-focused/all-five-hosted-job validation; no unnecessary suite rerun.
+- Decisions: honor the late explicit narrow approval, keep the stronger trust
+  guard intact, publish BLOCKED. Enabling ownership needs separate scope and
+  authorization after assessing its effect on other volume data. Do not infer
+  that permission from this one-mode-change approval.
+- Lessons Learned: none; the existing ownership lesson is confirmed by the actual
+  0755 rejection. MEMORY.md updated with current volume mode and remaining limit.
+- Known issues/next: required integrated live selection remains incomplete.
+  Review storage ownership impact, obtain authority for a safe remedy, then
+  rerun read-only acceptance. Existing credentials/approvals remain expired.
+- Git/notes: documentation-only closeout on draft PR #4; recheck push/fetch 0/0.
+  No merge or activation. Preserve original seven untracked files, recovery refs,
+  artifacts, detached worktree and original service. The broader goal is blocked
+  by owner enforcement and is not complete.
+
 ## 2026-11-08 22:58 EST — Codex — DISCOVERY-002 publication; live gate BLOCKED
 
 - Result: Gate A PASSED (PR #3 merge 40958f39, master closeout f6593497 with passing

@@ -29,13 +29,22 @@
   },
   "non_documentation_differences_from_validated_source": [],
   "closeout": "Markdown/JSON only; reuse exact tested source and skip CI for this bookkeeping commit. Final pushed head and 0/0 sync are recorded in the PR body and final task response.",
-  "live_gate": "filesystem_ownership_ignored before registry/binding/selection; actual APFS mount ignores ownership and ancestor mode0775 remains unchanged",
-  "mode_only_permission_request": "withdrawn; insufficient to establish trust",
-  "host_permissions_mounts_credentials_approvals_changed": false,
+  "live_gate": "filesystem_ownership_ignored before registry/binding/selection; actual APFS mount still ignores ownership after explicitly authorized root mode0775-to0755",
+  "mode_only_permission_request": "Initial proposal withdrawn; later explicit user approval applied only0775-to0755 and fresh read-only acceptance",
   "remaining_required_work": [
     "Separately authorized storage ownership remediation",
     "Fresh integrated read-only runtime acceptance after trust restoration"
   ],
   "preserved_original_untracked_files": 7,
-  "preserved_recovery_artifacts": 5
+  "preserved_recovery_artifacts": 5,
+  "host_changes": {
+    "approved_volume_root_mode": "0775 to0755",
+    "ownership_enforcement_changed": false,
+    "mount_settings_changed": false,
+    "credentials_changed": false,
+    "approvals_changed": false,
+    "config_profile_contents_changed": false
+  },
+  "post_change_live_receipt": "after-authorized-mode-change.json",
+  "updated_at_utc": "2026-11-09T04:04:28.776931+00:00"
 }

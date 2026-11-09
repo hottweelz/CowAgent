@@ -9,17 +9,20 @@ jobs. The documentation-only integration closeout is
 [integration report and receipts](../bullgod-discovery-001/integration.md).
 
 Gate B implementation and independent source review are complete, but the
-required trusted live selection gate is **BLOCKED**. The actual config and retained
-public proof files are below a group-writable volume ancestor (mode `0775`).
-The APFS volume also has ownership enforcement disabled. A mode-only change
-cannot establish trusted ownership; the proposed permission request was withdrawn.
-`ReadOnlyNativeConfiguration` rejected that path as `untrusted_record_path`
-before registry loading or selection. The final source reports
-`filesystem_ownership_ignored`. This is a preserved trust boundary, not a
-passing live acceptance run. No permission, config, credential or approval was
-changed to make the check pass. The ownership safeguard now rejects that mount explicitly. All 356 focused tests
-and the corrective independent review pass. The final hosted matrix passed all
-five jobs on source `10dac8d33f52204f80ee61c6ae19373851e77f82`.
+required trusted live selection gate is **BLOCKED**. The actual APFS volume has
+ownership enforcement disabled. Its root initially had mode `0775`. After the
+maintainer explicitly approved that one change, the root was changed to `0755`;
+owner enforcement was not enabled. A fresh read-only check still returned
+`filesystem_ownership_ignored` before registry loading, binding or selection.
+See the [authorized change](authorized-volume-mode-change.json) and
+[post-change rejection](after-authorized-mode-change.json).
+
+The initial mode-only proposal was withdrawn after the ownership issue was
+found. The later explicit approval authorized only the mode change, not ownership
+enablement or any broader storage change. No config/profile content, credential,
+approval or model setting changed. All 356 focused tests, the independent review
+and all five final hosted jobs pass on source
+`10dac8d33f52204f80ee61c6ae19373851e77f82`.
 
 The separately readable private enrollment records are expired. These observations
 cannot supply missing native configuration or proof provenance. No production
@@ -63,8 +66,9 @@ On Darwin, `statfs64`/`fstatfs64` must also show ownership enforcement. The
 fails closed if the authoritative API is missing or fails. Linux retains the
 existing checks. [Mount evidence](mount-ownership.json) confirms the actual
 workspace is rejected and private temporary storage is accepted. No host
-permission or mount setting was changed. This
-is not a signed or tamper-proof audit log, proof of human presence or protection
+ownership-enforcement or mount setting was changed. The later approved root-mode
+change is recorded separately. Operator provenance is not a signed or tamper-proof
+audit log, proof of human presence or protection
 from same-UID/root code. Review packets and content hashes alone do not establish
 provenance. Luna has no path or proof field in task requirements with which to
 replace these trusted host inputs.
@@ -162,9 +166,13 @@ authorization gates. There is no dispatch method or execution grant in this API.
 ## Actual runtime acceptance
 
 **Trusted integrated run: BLOCKED at `read_actual_config`.** No live selection
-scenario ran. The runner preserved its sanitized failure receipt. The group-write
-permission is on an ancestor of both config and public probe sources. The [final ownership rejection](live-ownership-rejection.json) repeats the safe
-stop on repaired source with all before/after metadata unchanged. The guard
+scenario ran. The runner preserved its sanitized failure receipt. Initially,
+group-write permission was also present on an ancestor of config
+and public proof sources; the approved change removed it. Ownership remains
+disabled, so the native mount guard still rejects both sources. The
+[first ownership rejection](live-ownership-rejection.json) and
+[post-permission-change rejection](after-authorized-mode-change.json) both stop
+safely on repaired source with all runtime/configuration metadata unchanged. The guard
 must not be bypassed with a copied config, unchecked registry callback or API
 metadata. A separate read-only private authority inventory and before/after
 service records are available in the [authority receipt](retained-authority.json)
