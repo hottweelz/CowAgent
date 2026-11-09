@@ -1,5 +1,74 @@
 # AI handoff ledger
 
+## 2026-11-09 14:51 EST — Codex — DISCOVERY-002S preparation complete; live maintenance blocked
+
+- Scope/result: inactive startup observer, private one-use launch authentication,
+  default compatibility, exact-source disposable startup/rollback, hosted CI and
+  independent review are complete. Published packet is conditional; no live
+  stop/restart, model task, adapter contact, authority refresh or merge occurred.
+- Team: Sol 6.1/high production and security review for combined authentication,
+  replay, runtime ownership and data integrity; Luna/high tests, launch/migration
+  metadata, fixture diagnosis and hosted reconciliation. Lead owns integration,
+  rehearsal, packet, handoff and Git. No new reviewer or external pool was added.
+- Changes/files: documentation only after executable commit f6502681. Updated
+  discovery README, historical service plan, startup review/validation; added
+  startup acceptance, final hosted receipt, fixed-cwd/final rehearsal receipts,
+  concrete maintenance packet and command-check receipt; this ledger. Existing
+  source and test hashes remain unchanged. MEMORY.md update: not needed.
+- Verification: focused 386 passed in 26.25s; project lint and independent source,
+  corrective and packet review passed. Final disposable candidate PID 16350 and
+  fallback PID 16360 returned health 200 and graceful exit 0. Pinned in-place
+  git restore matched fallback runtime files; fictional rows and unrelated
+  sentinels were preserved. Packet Python blocks parse; fictional request builder
+  runs; fresh pre-signal check passes and 80-second reserve rejects before signal.
+- Hosted: run 42683270955 on f6502681 passed all five jobs. Linux 3.11/3.13 each
+  6,069 passed, 46 skipped; macOS 6,076 passed, 39 skipped; each 93 subtests.
+  JS 39 web + 5 desktop, strict TypeScript/build and Ruff pass. Exact comparison
+  gives 6,115 named cases, 33 added, none removed, unchanged platform skip IDs.
+  Attempt-1 macOS was cancelled with no runner/steps and no reported cause. One
+  targeted retry executed and passed; four successful original executions were
+  carried forward. Earlier source's three CI failures remain recorded; the
+  demonstrated fixture bind/listen race is fixed, but original causation is not
+  asserted. No accepted interaction was replayed only for bookkeeping.
+- Launch/migration: repository .venv Python invocation and dependency compatibility
+  are established. Complete inherited environment was not retained. Current
+  global schema is compatible; testpilot2 secondary has no conversation tables.
+  Startup would add its missing merge marker. Fictional migration/retry checks
+  pass; live writes and normal startup effects remain unapproved.
+- Live boundary: original PID 28093/start 1794162129.482237 remains on
+  127.0.0.1:9899. Port 19882 belonged only to disposable processes; no listener
+  remains. Initial post-exit plain bind was consistent with TCP TIME_WAIT; no
+  process was restarted or killed to clear it. Old process lacks a supported
+  aggregate admission/drain barrier. Health and persisted counts do not prove idle.
+- Decisions: qualify the implementation/preparation scope; retain NO-GO on live
+  execution. Packet pins candidate/fallback, interpreter/data paths, request
+  builder, freshness checks, graceful stop/start and source rollback commands.
+  A source rollback cannot undo runtime-data writes or recreate the old process.
+- Lessons Learned:
+  - Mistake: rehearsal port use was not clearly distinguished from live checks;
+    a packet could become stale between request creation and a stop signal.
+  - Root Cause: implicit endpoint context and creation-time-only request validation.
+  - Future Trigger: mixed live/disposable diagnostics or approval-bound maintenance.
+  - Required Behavior Change: label endpoint role and owner PID; revalidate request
+    provenance/bindings and remaining lifetime immediately before any signal.
+  - Verification Step: original listener remains 9899; final fixture listener is
+    absent; packet fresh/80-second scenarios and independent packet review pass.
+  - Durable Memory Update: none; current operating boundaries are in the packet.
+- Known issues: unsupported all-agent drain; maintenance effects, private in-memory
+  environment handling and fallback acceptance require separate authorization.
+  Earlier launch diagnostics exposed a Codex pooler credential in tool output.
+  No value was copied to repository/evidence files, repeated or rotated; do not
+  retrieve or print it. Loaded old source and lossless live rollback are unverified.
+- Next recommended steps: keep the live service running. Resolve the packet's
+  drain condition and explicitly accept its enumerated effects before authorizing
+  any bounded maintenance window. No further acceptance replay is needed for this
+  unchanged source. PR #4 stays draft and unmerged.
+- Notes for next agent: final evidence is startup-acceptance.md/startup-hosted.json;
+  private bundles cow-discovery002s-enqpmjd8 and cow-discovery002s-hosted-f6502681.
+  Preserve the original seven untracked files, recovery refs/artifacts and existing
+  worktrees. Publish only these documents to the tracked branch; fetch without
+  prune/GC and require 0 ahead / 0 behind. No full environment dump or live signal.
+
 ## 2026-11-09 14:29 EST — Codex — DISCOVERY-002S cold-authentication correction
 
 - Scope/result: goal active; corrected pre-auth import side effects and a

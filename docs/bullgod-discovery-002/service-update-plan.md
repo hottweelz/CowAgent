@@ -1,5 +1,10 @@
 # Controlled service update and discovery invocation plan
 
+Historical reviewed plan from preparation commit `17409b90`. DISCOVERY-002S now
+implements its inactive hook; current qualification is in the
+[acceptance audit](startup-acceptance.md) and [concrete packet](startup-maintenance-packet.md).
+This original plan does not grant live execution authority.
+
 Status: **PLAN ONLY — NOT AUTHORIZATION TO EXECUTE**.
 
 The maintainer selected a verified plan only. This preparation does not install

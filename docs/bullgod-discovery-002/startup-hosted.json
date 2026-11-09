@@ -1,0 +1,199 @@
+{
+  "schema": "cowagent.hosted-ci-reconciliation.v1",
+  "recorded_at_utc": "2026-11-09T19:49:49Z",
+  "run": {
+    "repository": "hottweelz/CowAgent",
+    "workflow": "Tests",
+    "run_id": 42683270955,
+    "attempt": 2,
+    "event": "pull_request",
+    "url": "https://github.com/hottweelz/CowAgent/actions/runs/42683270955",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "f650268162ce5f3be9704f9c6c9f09941981ee16",
+    "head_tree": "1d0f6bed365b1586ae2ace82b56aacccffcdabe0",
+    "base_sha": "f659349785acf98905901a5cc53921436a109dbc",
+    "synthetic_merge_sha": "9280588cecebed694c9ddd6d611faa7252fdd8ad",
+    "synthetic_merge_tree": "1d0f6bed365b1586ae2ace82b56aacccffcdabe0",
+    "synthetic_merge_tree_matches_head_tree": true,
+    "checkout_confirmation": "Both Linux Python job logs show checkout of PR 4 merge ref 9280588cecebed694c9ddd6d611faa7252fdd8ad. GitHub commit metadata confirms its tree matches the source head tree.",
+    "attempt_history": [
+      {
+        "attempt": 1,
+        "status": "completed",
+        "conclusion": "failure",
+        "reason": "macOS job was cancelled while queued; four jobs passed."
+      },
+      {
+        "attempt": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "scope": "targeted rerun of the cancelled macOS job only"
+      }
+    ],
+    "attempt2_job_records": {
+      "129392549110": "Linux Python 3.11 carry-forward record. Its start/completion times and runner ID match attempt 1; no new execution.",
+      "129392550349": "Linux Python 3.13 carry-forward record. Its start/completion times and runner ID match attempt 1; no new execution.",
+      "129392626010": "JavaScript carry-forward record. Its start/completion times and runner ID match attempt 1; no new execution.",
+      "129392638923": "Ruff carry-forward record. Its start/completion times and runner ID match attempt 1; no new execution."
+    }
+  },
+  "jobs": [
+    {
+      "id": 129383207677,
+      "name": "javascript",
+      "status": "completed",
+      "conclusion": "success",
+      "evidence": {
+        "log": "logs/javascript.log",
+        "sha256": "bb90398764ff35f05d435492f8a842b7142cefb0f71fea9e722cff837f5940b8"
+      },
+      "results": "39 web tests passed; 5 desktop scroll tests passed; renderer type check, production build, and main TypeScript compile passed."
+    },
+    {
+      "id": 129383207816,
+      "name": "ruff (changed Python files)",
+      "status": "completed",
+      "conclusion": "success",
+      "evidence": {
+        "log": "logs/ruff.log",
+        "sha256": "6e41573ef0336b6c61fb1af78e690af8b9bb41a43617ce713374a9d7fc10a85b"
+      },
+      "results": "All checks passed."
+    },
+    {
+      "id": 129383208000,
+      "name": "pytest (ubuntu-latest, Python 3.11)",
+      "status": "completed",
+      "conclusion": "success",
+      "results": {
+        "named_tests": 6115,
+        "passed": 6069,
+        "failed": 0,
+        "skipped": 46,
+        "passing_subtests": 93
+      },
+      "evidence": {
+        "log": "logs/ubuntu-py3.11.log",
+        "log_sha256": "4808fad768c40ede33e6699e34665ef42987660d7b9b88b69a5dd4afdb9a6f8f",
+        "junit_xml": "artifacts/ubuntu-py3.11-test-results.xml",
+        "junit_xml_sha256": "9174156acb19c82b9e9ea181296573d9fe27db27ef409f89fd8ff9322f7ab6b8",
+        "artifact_id": 13703353967,
+        "artifact_name": "junit-ubuntu-latest-py3.11",
+        "artifact_zip": "artifacts/junit-ubuntu-py3.11.zip",
+        "artifact_sha256": "fca27c77d75fc175002d7d8250e280d48d817d52a5431f54cab6162337e3d152"
+      }
+    },
+    {
+      "id": 129383207992,
+      "name": "pytest (ubuntu-latest, Python 3.13)",
+      "status": "completed",
+      "conclusion": "success",
+      "results": {
+        "named_tests": 6115,
+        "passed": 6069,
+        "failed": 0,
+        "skipped": 46,
+        "passing_subtests": 93
+      },
+      "evidence": {
+        "log": "logs/ubuntu-py3.13.log",
+        "log_sha256": "a3b65442921a38ce43fd52274057c5df7746a7268aaa65002101c95edeb7185c",
+        "junit_xml": "artifacts/ubuntu-py3.13-test-results.xml",
+        "junit_xml_sha256": "b5663b5996e727558aacc4a4c22b31e90fc99b7463fd7ee1da6a37bee336c9a2",
+        "artifact_id": 13703737608,
+        "artifact_name": "junit-ubuntu-latest-py3.13",
+        "artifact_zip": "artifacts/junit-ubuntu-py3.13.zip",
+        "artifact_sha256": "fcd755ec452e2fc2213b19e0b7b28f3e105485efceb2dd0bbfba4c9be9742d1b"
+      }
+    },
+    {
+      "id": 129383207380,
+      "name": "pytest (macos-latest, Python 3.13)",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "queue_evidence": {
+        "labels": [
+          "macos-latest"
+        ],
+        "runner_assigned": false,
+        "steps": 0,
+        "created_at": "2026-11-09T19:25:58Z",
+        "completed_at": "2026-11-09T19:40:59Z",
+        "reported_cause": null,
+        "job_log_available": false,
+        "annotations": []
+      },
+      "results": "No test execution evidence. Cancellation cause is unknown; do not infer capacity or user action.",
+      "retry_attempt": {
+        "id": 129392547412,
+        "attempt": 2,
+        "status": "completed",
+        "conclusion": "success",
+        "runner": "GitHub Actions 1000002208",
+        "results": {
+          "named_tests": 6115,
+          "passed": 6076,
+          "failed": 0,
+          "skipped": 39,
+          "passing_subtests": 93
+        },
+        "evidence": {
+          "log": "logs/macos-py3.13-attempt2.log",
+          "log_sha256": "99bfaaa3753a9e551f03abb0daa00e6e1f96c35e7eeece7bbeb955ea7b5a473f",
+          "junit_xml": "artifacts/macos-py3.13-attempt2-test-results.xml",
+          "junit_xml_sha256": "832f2fa197d433f5da37362d1167af3e56c9d83c6f8306ab1d3f0132a1fd09d6",
+          "artifact_id": 13705227015,
+          "artifact_name": "junit-macos-latest-py3.13",
+          "artifact_zip": "artifacts/junit-macos-py3.13-attempt2.zip",
+          "artifact_sha256": "ccc301dd071433ec30950fd8b4b3d41f59d82d398119e014dc0bb60303924849"
+        },
+        "source_and_checkout": "Same head f650268162ce5f3be9704f9c6c9f09941981ee16 and merge 9280588cecebed694c9ddd6d611faa7252fdd8ad; merge tree matches head tree."
+      }
+    }
+  ],
+  "python_reconciliation": {
+    "baseline": "accepted BULLGOD-DISCOVERY-002R run 42660051257, attempt 3, source 209f4e0fd53aeb249914755a68a1956d9e6225a0",
+    "baseline_receipt": "docs/bullgod-discovery-002/in-process-hosted-completion.json",
+    "baseline_detailed_receipt": "docs/bullgod-discovery-002/in-process-hosted.json",
+    "baseline_detailed_receipt_sha256": "0aa976133edad428be2b37d6d99675e7325117cf52d71ec0ef13bcba21abdc89",
+    "named_case_counts": {
+      "baseline": 6082,
+      "current_each_executed_platform": 6115,
+      "added": 33,
+      "removed": 0
+    },
+    "new_case_families": {
+      "tests.test_discovery_startup_observer": 31,
+      "tests.test_discovery_startup_migration": 2
+    },
+    "new_case_ids_sha256": "6b579b5325af63efcce98b116c6862f72557e6b93ba62a1c4f43e86cb09077c1",
+    "new_case_ids_match_between_linux_python_jobs": true,
+    "current_all_case_ids_sha256": "15683c8ad9fc119a39cd0fbc07c96bd4dace96e151447cdf7a2c89050a9267f7",
+    "skip_sets": {
+      "linux_count_per_python_job": 46,
+      "linux_skip_ids_sha256": "1fad3d4656fbf2ee7421465e3406283f579ff644a090466c489653f5d2fc33b4",
+      "linux_exact_identity_match_to_baseline": true,
+      "macos": {
+        "attempt_1": "Job 129383207380 was cancelled while queued without runner assignment or test execution.",
+        "attempt_2_job_id": 129392547412,
+        "attempt_2_executed": true,
+        "count": 39,
+        "skip_ids_sha256": "cf60dac725eff78bafa15f21bca1efe2075983bd33dbe9c8e54b1e7ac259dfff",
+        "exact_identity_match_to_baseline": true
+      },
+      "macos_count": 39,
+      "macos_skip_ids_sha256": "cf60dac725eff78bafa15f21bca1efe2075983bd33dbe9c8e54b1e7ac259dfff",
+      "macos_exact_identity_match_to_baseline": true
+    },
+    "comparison_result": "All three executed platforms ran the same 33 new IDs, removed no baseline ID, and retained exact prior platform skip identities. Each platform had 6,115 named cases and 93 passing subtests. All Python jobs passed; the four attempt-1 successes are carried forward and the cancelled macOS job was executed successfully in attempt 2.",
+    "case_ids_match_across_all_three_executed_platforms": true,
+    "subtests_per_platform": 93
+  },
+  "gate": {
+    "hosted_full_matrix": "PASS",
+    "evidence_binding": "Combined same-source execution evidence: four successful attempt-1 jobs plus the successful attempt-2 macOS-only rerun. Attempt-2 API records for the other four jobs retain attempt-1 execution timestamps and runner IDs.",
+    "reruns_performed": 1,
+    "rerun_scope": "Only cancelled macOS job 129383207380 was retried; actual attempt-2 job 129392547412 succeeded."
+  }
+}

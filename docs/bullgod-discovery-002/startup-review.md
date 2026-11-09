@@ -52,3 +52,18 @@ fixture could yield after socket bind but before listen. The fixture now waits
 for the server published after bind/listen and reports sanitized failure codes.
 The reviewer confirmed that boundary and unchanged assertions. This fixes the
 demonstrated race; it does not prove the cause of the original hosted failures.
+
+## Concrete maintenance packet review
+
+The same reviewer checked the new command packet and final same-working-directory
+rehearsal evidence. One packet finding was corrected: a stale request must abort
+before stopping the old service. The final command uses the exact service
+interpreter to recheck private provenance, strict schema, source and launch
+bindings, and requires over 90 seconds of request/task lifetime after validation
+for the proposed 30-second stop and 60-second startup bounds. A fresh fixture
+passes and an 80-second fixture rejects without consuming or signalling.
+
+Final packet review: **PASS for the conditional reference commands, NO-GO for
+live execution**. The unsupported old-process admission/drain barrier, unapproved
+marker/startup effects, private environment handling and fallback acceptance are
+explicit conditions. No review or receipt grants permission to execute them.

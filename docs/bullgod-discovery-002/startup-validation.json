@@ -1,7 +1,7 @@
 {
   "schema": "cow.discovery.startup.validation/1",
   "base_commit": "25890e8cb09d0758df7ba48961232e5214a1375d",
-  "status": "focused_passed_hosted_pending",
+  "status": "preparation_passed_live_maintenance_blocked",
   "selection": [
     "tests/test_discovery_in_process.py",
     "tests/test_discovery_runtime_readers.py",
@@ -56,17 +56,17 @@
     "cause": "Test parameter calculated expiry at collection; elapsed collection-to-execution made the intended >300s request lifetime valid. Corrected relative to request issued_at; no production change."
   },
   "lint": "Changed Python files passed project CI F-class gate with existing F403/F405 exclusions.",
-  "rehearsal_source_matches": false,
+  "rehearsal_source_matches": true,
   "independent_review": "PASS",
   "private_bundle": "cow-discovery002s-enqpmjd8",
   "limitations": [
     "Focused tests do not establish live drain or authorize service update.",
-    "Fresh full hosted matrix and final-fingerprint process rehearsal remain pending."
+    "All-agent drain is unsupported by the existing process; startup effects, environment handling and fallback require separate maintenance authorization."
   ],
   "post_test_change": "none",
   "startup_manifest_sha256": "e7d785f25cf1a40c85b8044beb1466f9c9318bda817b08e3c44ccd64ccc0dd22",
   "startup_manifest_files": 366,
-  "rehearsal_note": "Earlier rehearsal remains exact historical evidence; final fingerprint requires fresh candidate/fallback rehearsal.",
+  "rehearsal_note": "Final source candidate and pinned fallback completed same-cwd process/observation/rollback rehearsal; see startup-final-rehearsal.json.",
   "corrective_review": "PASS: lazy exports/pure unchanged guard/bytecode restoration/cold negative tests/fixture readiness checked.",
   "previous_hosted_run": {
     "id": 42678951272,
@@ -76,5 +76,21 @@
   "corrections": [
     "Cold pre-auth logging counterexample repaired with lazy exports and pure file guard; three cold subprocess regressions added.",
     "Socket-path-before-listen fixture race reproduced deterministically; fixture now waits for runtime.server publication; sanitized failure diagnostics retained. Exact initial CI causation remains unproven."
-  ]
+  ],
+  "tested_source_commit": "f650268162ce5f3be9704f9c6c9f09941981ee16",
+  "hosted": {
+    "run_id": 42683270955,
+    "attempt": 2,
+    "status": "PASS_COMBINED_SAME_SOURCE_ATTEMPTS",
+    "receipt": "startup-hosted.json",
+    "named_tests_per_platform": 6115,
+    "added": 33,
+    "removed": 0,
+    "skip_identities_unchanged": true
+  },
+  "maintenance_packet": {
+    "path": "startup-maintenance-packet.md",
+    "review": "PASS_CONDITIONAL_REFERENCE_COMMANDS",
+    "live_execution": "NO_GO"
+  }
 }

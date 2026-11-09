@@ -1,0 +1,186 @@
+{
+  "scope": "Real disposable source-mode startup/observation/fallback with fictional three-agent data",
+  "live_pid": 28093,
+  "live_start": 1794162129.482237,
+  "stages": [
+    {
+      "label": "inplace-candidate",
+      "pid": 13412,
+      "before": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "command": [
+        "sandbox-exec",
+        "-f",
+        "rehearsal.sb",
+        "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+        "scripts/discovery_startup.py",
+        "--request",
+        "<disposable-root>/request/observation-inplace.json"
+      ],
+      "health": "200/ok",
+      "observation": {
+        "request_sha256": "bfd8502d70eddf9c9171c3ebb18a6b893700efd02a34ad54405192346455bb3f",
+        "epoch": "8bab699ddd3e435d9cf29f01a703b763",
+        "manifest_sha256": "29c395de29cb2a0d5be62b3c63460c721bb135748d653e4fafd455751cc5b9cc",
+        "inventory": [
+          {
+            "active_caller": "unknown",
+            "capability_proof": "unknown",
+            "configured_model": "fixture-model",
+            "configured_provider": "openai",
+            "enabled": true,
+            "identity_fingerprint": "3fb688c606691d4792bb9dae6dd1592a80ac565958662eec3fef28a57aea9c17",
+            "target_id": "default"
+          },
+          {
+            "active_caller": "unknown",
+            "capability_proof": "unknown",
+            "configured_model": "fixture-testpilot",
+            "configured_provider": "openai",
+            "enabled": true,
+            "identity_fingerprint": "7f742bb43cdf31ebbe6882b23b0b992a05e8553bff81a8ee49d0e7f38fe6175c",
+            "target_id": "testpilot"
+          },
+          {
+            "active_caller": "unknown",
+            "capability_proof": "unknown",
+            "configured_model": "fixture-testpilot2",
+            "configured_provider": "openai",
+            "enabled": true,
+            "identity_fingerprint": "c1b63302d79d957ce1bdbdb545bfbb5eeaae86a67aa425e93d4ba6fb720e5da7",
+            "target_id": "testpilot2"
+          }
+        ],
+        "decisions": [
+          {
+            "selection": "denied",
+            "revalidation": {
+              "valid": false,
+              "dispatch_permitted": false,
+              "reasons": [
+                "selection_invalidated"
+              ],
+              "current_status": "denied"
+            }
+          },
+          {
+            "selection": "denied",
+            "revalidation": {
+              "valid": false,
+              "dispatch_permitted": false,
+              "reasons": [
+                "selection_invalidated"
+              ],
+              "current_status": "denied"
+            }
+          }
+        ],
+        "receipt_sha256": "e5ec3cab67fd108ca3b528141d8453b7ad9ad90821017d9bf35acacfbbc016b1"
+      },
+      "running_state": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "exit_code": 0,
+      "after": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "log_sha256": "50c5ab04630bfa5903fbdb46e849d22e31b2b97763e20f3fcc9732c6b5c97c99"
+    },
+    {
+      "label": "inplace-rollback",
+      "pid": 13418,
+      "before": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "command": [
+        "sandbox-exec",
+        "-f",
+        "rehearsal.sb",
+        "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+        "app.py"
+      ],
+      "health": "200/ok",
+      "running_state": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "exit_code": 0,
+      "after": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "log_sha256": "aee0dd0802d971f521898217a346865aedc546d1a1ff8e599c8f57023df5336d"
+    }
+  ],
+  "candidate_commit": "25890e8cb09d0758df7ba48961232e5214a1375d",
+  "rollback_commit": "f659349785acf98905901a5cc53921436a109dbc",
+  "fixed_working_directory": "<disposable-checkout>",
+  "fixture_initial": {
+    "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+    "counts": {
+      "sessions": 3,
+      "messages": 3,
+      "runs": 0
+    }
+  },
+  "rollback_source_command": [
+    "git",
+    "-c",
+    "gc.auto=0",
+    "-c",
+    "maintenance.auto=false",
+    "restore",
+    "--source=f659349785acf98905901a5cc53921436a109dbc",
+    "--worktree",
+    "--",
+    "app.py",
+    "config.py",
+    "agent",
+    "bridge",
+    "common",
+    "models",
+    "channel",
+    "plugins"
+  ],
+  "rollback_runtime_paths_match_pinned_commit": true,
+  "unrelated_sentinels_preserved": true,
+  "live_pid_preserved": true,
+  "status": "passed",
+  "schema": "cow.discovery.startup.inplace-rehearsal/1",
+  "raw_report_sha256": "8575068c049a386b0f817f4f4901a58285715e4d6bff07fc8e1c056e705f08e1",
+  "private_bundle": "cow-discovery002s-enqpmjd8",
+  "limitations": [
+    "Only disposable checkout and fictional records changed. Live PID28093 remained on127.0.0.1:9899; disposable port19882 was used for owned child processes and is free after their graceful exits.",
+    "Candidate and rollback shared working directory/interpreter/environment/data. This verifies source restore command mechanics, not live all-agent drain or rollback of data mutations.",
+    "Runtime paths matched pinned fallback after git restore; docs and unrelated untracked sentinel files were retained. Git HEAD continued to name candidate, with intentional runtime worktree changes."
+  ]
+}

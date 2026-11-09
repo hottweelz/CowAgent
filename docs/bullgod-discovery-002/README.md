@@ -1,5 +1,22 @@
 # BULLGOD-DISCOVERY-002
 
+**DISCOVERY-002S now implements the inactive launch-only startup observer.**
+The [acceptance audit](startup-acceptance.md) separates implementation, private
+authentication, default compatibility, disposable startup/rollback, migration,
+live preservation, hosted CI and review. The [concrete maintenance packet](startup-maintenance-packet.md)
+contains tested source-selection and launch commands but is **NO-GO for live
+execution**: the old process has no supported all-agent drain barrier, and startup
+effects still need explicit acceptance. PID 28093 remains on port 9899. Port 19882
+was used only by isolated disposable processes, which have exited.
+
+Final source `f6502681` passes 386 focused tests, final-fingerprint process rehearsal
+and independent corrective review. [All five hosted jobs pass](startup-hosted.json):
+Linux 3.11/3.13 each pass 6,069 tests with 46 skips; macOS passes 6,076 with 39
+skips. Each Python job has 93 passing subtests. The same 6,115 named cases include
+33 additions, no removals and unchanged platform skip sets. The cancelled first
+macOS job was retried once; four valid job executions were retained. No service
+update or merge is authorized. The earlier 002R results below remain evidence for their source.
+
 **DISCOVERY-002R source implementation is complete; live integration is BLOCKED.**
 The [in-process remediation report](in-process-remediation.md) records the trust
 decision published before code, the internal initialized-runtime bridge, all A–J
@@ -16,14 +33,11 @@ confirms the unchanged service, profiles and aggregate records. Private authorit
 still expires normally and ignored-ownership sources still reject. PR #4 stays
 draft and unmerged. The original 002 results below remain historical evidence.
 
-The [verified service-update plan](service-update-plan.md) is published for review.
-The maintainer selected **plan only**: no startup hook was implemented and no
-service operation was executed. Immutable source/import checks and a disposable
-rollback rehearsal passed. The plan separates service preservation, authenticated
-invocation, actual discovery and hosted macOS gates. Original interpreter invocation,
-secure environment preservation, quiescence and migration readiness remain
-preconditions; the next step is a separately scoped inactive hook implementation
-and validation before requesting a concrete maintenance approval.
+The earlier [verified service-update plan](service-update-plan.md) was a **plan-only**
+deliverable. No startup hook or service operation was part of that step. Its source
+and rollback evidence remains historical. The later DISCOVERY-002S implementation
+and concrete packet above supersede its preparation steps; live execution remains
+blocked by the stated drain and maintenance conditions.
 
 Gate A is **PASSED**. DISCOVERY-001 merged normally through
 [PR #3](https://github.com/hottweelz/CowAgent/pull/3) as

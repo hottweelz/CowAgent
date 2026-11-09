@@ -1,0 +1,21 @@
+{
+  "schema": "cow.discovery.startup.packet-command-check/1",
+  "source_commit": "f650268162ce5f3be9704f9c6c9f09941981ee16",
+  "startup_manifest_sha256": "e7d785f25cf1a40c85b8044beb1466f9c9318bda817b08e3c44ccd64ccc0dd22",
+  "all_python_blocks_parse": true,
+  "request_generator_runs_in_fictional_environment": true,
+  "service_control_blocks_executed": false,
+  "program_sha256": "8668bedf28d90cb345e98f51e0f76c5eacec5f9b41aaf18aec00f84f7b99bba2",
+  "request_sha256": "8be28e380b2d207402b7e353b72bc5399d44841a37ff324b2635cd8e8be26624",
+  "live_environment_read": false,
+  "scope": "Request builder only; live capture/stop/start/rollback blocks were syntax checked, not executed.",
+  "pre_signal_freshness_check": {
+    "fresh_request_passed": true,
+    "remaining_80_seconds_rejected": true,
+    "minimum_remaining_seconds": 90,
+    "request_consumed": false,
+    "live_service_signalled": false,
+    "program_sha256": "f5799f1395885b26fdd07da3038559977b3d0b48ee93425c3c601746727f1fdc",
+    "final_review_adjustment": "Final reserve assertion uses a fresh time.time() after manifest validation; syntax/digest checked, earlier fresh/80s scenario result retained without redundant replay."
+  }
+}

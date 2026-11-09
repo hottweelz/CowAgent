@@ -1,0 +1,195 @@
+{
+  "scope": "Real disposable source-mode startup/observation/fallback with fictional three-agent data",
+  "live_pid": 28093,
+  "live_start": 1794162129.482237,
+  "stages": [
+    {
+      "label": "final-disposable-candidate",
+      "pid": 16350,
+      "before": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "command": [
+        "sandbox-exec",
+        "-f",
+        "rehearsal.sb",
+        "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+        "scripts/discovery_startup.py",
+        "--request",
+        "<disposable-root>/request/observation-final.json"
+      ],
+      "health": "200/ok",
+      "observation": {
+        "request_sha256": "0521c61003d8bc513dd941cddb91c8566a5b735c4edc5e7446b966203cbfd37a",
+        "epoch": "cf33bf4ca77f4a1e99c4283622c3bc70",
+        "manifest_sha256": "e7d785f25cf1a40c85b8044beb1466f9c9318bda817b08e3c44ccd64ccc0dd22",
+        "inventory": [
+          {
+            "active_caller": "unknown",
+            "capability_proof": "unknown",
+            "configured_model": "fixture-model",
+            "configured_provider": "openai",
+            "enabled": true,
+            "identity_fingerprint": "3fb688c606691d4792bb9dae6dd1592a80ac565958662eec3fef28a57aea9c17",
+            "target_id": "default"
+          },
+          {
+            "active_caller": "unknown",
+            "capability_proof": "unknown",
+            "configured_model": "fixture-testpilot",
+            "configured_provider": "openai",
+            "enabled": true,
+            "identity_fingerprint": "7f742bb43cdf31ebbe6882b23b0b992a05e8553bff81a8ee49d0e7f38fe6175c",
+            "target_id": "testpilot"
+          },
+          {
+            "active_caller": "unknown",
+            "capability_proof": "unknown",
+            "configured_model": "fixture-testpilot2",
+            "configured_provider": "openai",
+            "enabled": true,
+            "identity_fingerprint": "c1b63302d79d957ce1bdbdb545bfbb5eeaae86a67aa425e93d4ba6fb720e5da7",
+            "target_id": "testpilot2"
+          }
+        ],
+        "decisions": [
+          {
+            "selection": "denied",
+            "revalidation": {
+              "valid": false,
+              "dispatch_permitted": false,
+              "reasons": [
+                "selection_invalidated"
+              ],
+              "current_status": "denied"
+            }
+          },
+          {
+            "selection": "denied",
+            "revalidation": {
+              "valid": false,
+              "dispatch_permitted": false,
+              "reasons": [
+                "selection_invalidated"
+              ],
+              "current_status": "denied"
+            }
+          }
+        ],
+        "receipt_sha256": "0dd0204a07670b92585cdb609886fc3ee09745c3cb348a4b4c6b16fee9fe98c1"
+      },
+      "running_state": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "exit_code": 0,
+      "after": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "log_sha256": "2c62ab28ac989143207f394da587d37c77c5ba88be0d3d0f068226c2796eccdb"
+    },
+    {
+      "label": "final-disposable-rollback",
+      "pid": 16360,
+      "before": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "command": [
+        "sandbox-exec",
+        "-f",
+        "rehearsal.sb",
+        "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+        "app.py"
+      ],
+      "health": "200/ok",
+      "running_state": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "exit_code": 0,
+      "after": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "log_sha256": "3f8106e131a98fa5ff3f8c89fb1a3dbce4dc4d508c16dc294985317658f30c13"
+    }
+  ],
+  "candidate_commit": "f650268162ce5f3be9704f9c6c9f09941981ee16",
+  "rollback_commit": "f659349785acf98905901a5cc53921436a109dbc",
+  "fixed_working_directory": "<disposable-checkout>",
+  "fixture_initial": {
+    "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+    "counts": {
+      "sessions": 3,
+      "messages": 3,
+      "runs": 0
+    }
+  },
+  "rollback_source_command": [
+    "git",
+    "-c",
+    "gc.auto=0",
+    "-c",
+    "maintenance.auto=false",
+    "restore",
+    "--source=f659349785acf98905901a5cc53921436a109dbc",
+    "--worktree",
+    "--",
+    "app.py",
+    "config.py",
+    "agent",
+    "bridge",
+    "common",
+    "models",
+    "channel",
+    "plugins"
+  ],
+  "rollback_runtime_paths_match_pinned_commit": true,
+  "unrelated_sentinels_preserved": true,
+  "live_pid_preserved": true,
+  "status": "passed",
+  "live_listener_verified": [
+    {
+      "host": "127.0.0.1",
+      "port": 9899
+    }
+  ],
+  "disposable_listener_absent": true,
+  "disposable_port_rebind_with_reuseaddr": true,
+  "postflight_note": "Immediate plain bind initially returned EADDRINUSE after graceful exit; lsof found no listener and SO_REUSEADDR bind succeeded, consistent with TCP TIME_WAIT. No process was restarted or killed for this check.",
+  "schema": "cow.discovery.startup.final-rehearsal/1",
+  "raw_report_sha256": "932b61eb14da79f85093e098293404eeedf431fc24f67feb533534b1daae03f3",
+  "private_bundle": "cow-discovery002s-enqpmjd8",
+  "limitations": [
+    "Only owned fixture processes used19882; live PID28093 stayed on9899 and was never stopped.",
+    "Real startup, observation and in-place rollback used fictional config/records and sandboxed outbound/live-data access.",
+    "No claim of live all-agent drain or lossless rollback of runtime-data mutations."
+  ]
+}
