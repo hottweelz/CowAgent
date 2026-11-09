@@ -1,0 +1,127 @@
+{
+  "schema": "cowagent.first-bootstrap.baseline.v1",
+  "captured_at_utc": "2026-11-09T21:46:57Z",
+  "scope": "Phase 1 Git, CI, and executable-source evidence; Phase 8 evidence reconciliation",
+  "repository": "hottweelz/CowAgent",
+  "local_checkout": {
+    "branch": "codex/first-bootstrap-001",
+    "head": "8d182026be2380fc574eeecd13edcffa5ed1dcb1",
+    "status": "tracked files clean at start; untracked AGENTS.md present; milestone evidence files are being added",
+    "remote_urls": [
+      "origin",
+      "upstream"
+    ],
+    "note": "No fetch or Git metadata mutation was performed by this worker.",
+    "post_parent_fetch": {
+      "origin/codex/bullgod-service-drain": "8d182026be2380fc574eeecd13edcffa5ed1dcb1",
+      "origin/master": "f659349785acf98905901a5cc53921436a109dbc",
+      "sync": "Parent performed fetch without prune and confirmed branch synchronization at 0 ahead / 0 behind; worker did not fetch or mutate Git metadata."
+    }
+  },
+  "github_snapshot": {
+    "pr4": {
+      "number": 4,
+      "head": "a507a400985512683c870ef4fe059fa5982ad13e",
+      "base": "master",
+      "base_sha": "f659349785acf98905901a5cc53921436a109dbc",
+      "draft": true,
+      "merged": false
+    },
+    "pr5": {
+      "number": 5,
+      "head": "8d182026be2380fc574eeecd13edcffa5ed1dcb1",
+      "base": "codex/bullgod-discovery-002",
+      "base_sha": "a507a400985512683c870ef4fe059fa5982ad13e",
+      "draft": true,
+      "merged": false
+    },
+    "current_master": "f659349785acf98905901a5cc53921436a109dbc",
+    "source": "GitHub read-only metadata tools; parent also independently checked current heads this turn"
+  },
+  "ancestry": {
+    "pr4_head_is_ancestor_of_pr5": true,
+    "tested_source_is_ancestor_of_pr5": true,
+    "current_master_is_ancestor_of_pr5": true,
+    "tested_executable_commit": "005c1e4805c75017467b817baa2a8bbbe3f7511d",
+    "tested_executable_tree": "d9d8c64ef453e4e44860e2516c070258b1957b1d",
+    "tested_source_sha256_receipt": {
+      "local_full_regression_receipt": "c7f3cf545a47b17a8924dd67daaa7d6fa1618fa914417aa73353ecc7ad8898ea",
+      "hosted_receipt": "9ce3af209d14d9c12009e52685291b211380c0deb181a93594ec211480b8bf98",
+      "private_hosted_receipt_match": true
+    },
+    "documentation_commits_after_tested_source": [
+      "8d182026be2380fc574eeecd13edcffa5ed1dcb1"
+    ],
+    "difference": "The source-to-PR5 diff names documentation, MEMORY.md, and CHANGELOG_AI.md only; no executable files differ. The hosted synthetic merge tree equals the tested source tree.",
+    "pr4_documentation_commit_before_pr5_executable": "a507a400985512683c870ef4fe059fa5982ad13e"
+  },
+  "hosted_ci": {
+    "run_id": 42699928448,
+    "url": "https://github.com/hottweelz/CowAgent/actions/runs/42699928448",
+    "event": "pull_request",
+    "head_sha": "005c1e4805c75017467b817baa2a8bbbe3f7511d",
+    "status": "completed",
+    "conclusion": "success",
+    "attempt": 1,
+    "jobs": [
+      "linux_py311",
+      "linux_py313",
+      "macos_py313",
+      "javascript",
+      "ruff (changed Python files)"
+    ],
+    "reruns": 0,
+    "evidence": "docs/bullgod-discovery-002/service-drain-hosted.json",
+    "current_branch_source_reconciliation": "Parent verified after no-prune fetch that source 005c1e48 to branch head 8d182026 differs in seven documentation/MEMORY/CHANGELOG paths only."
+  },
+  "review_state": {
+    "github_review_submissions": {
+      "pr4": 0,
+      "pr5": 0
+    },
+    "github_inline_review_threads": {
+      "pr4": 0,
+      "pr5": 0
+    },
+    "independent_review": "The latest project handoff records two corrected findings (settlement barrier/generation fencing and detached-provider coverage); targeted verification cleared both. This is project evidence, not a submitted GitHub review."
+  },
+  "rehearsal_manifest": {
+    "candidate_commit": "005c1e4805c75017467b817baa2a8bbbe3f7511d",
+    "candidate_source_tree": "d9d8c64ef453e4e44860e2516c070258b1957b1d",
+    "startup_manifest_file_count": 368,
+    "startup_owner_binding_verified": true,
+    "evidence": "docs/bullgod-discovery-002/service-drain-rehearsal.json",
+    "limit": "The receipt reports 368 files and exact source binding; no independent manifest regeneration or new process rehearsal was performed."
+  },
+  "recovery_preservation": {
+    "source": "docs/infra-reliability-001/baseline.json",
+    "manifest_path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-routing-conflict-refs-w_675qxf/manifest.json",
+    "manifest_sha256_matches": true,
+    "preserved_recovery_artifacts": {
+      "recorded": 5,
+      "present_and_sha256_matching": 5
+    },
+    "original_primary_checkout_untracked_paths": {
+      "recorded": 7,
+      "present_and_sha256_matching": 7
+    },
+    "note": "Checked names, existence, and recorded hashes only. No artifact was opened for operational use, edited, or removed."
+  },
+  "git_safety": {
+    "commands_used": [
+      "git status",
+      "git log/show",
+      "git branch/remote/worktree listing",
+      "git merge-base",
+      "git diff",
+      "git fsck --full --no-reflogs --unreachable"
+    ],
+    "fetch_prune_gc_reset_force_or_ref_write": false,
+    "fsck_observation": "Read-only fsck reported unreachable objects in the shared repository. No cleanup was attempted; retain the existing recovery procedures."
+  },
+  "out_of_scope": [
+    "No live process, listener, private environment, data root, credentials, or service call was inspected by this worker.",
+    "No live service action, model call, adapter contact, or signal was performed.",
+    "No GitHub PR mutation or Git synchronization was performed."
+  ]
+}

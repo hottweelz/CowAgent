@@ -1,0 +1,149 @@
+{
+  "captured_at": "2026-11-09T21:48:22.577574+00:00",
+  "method": "SQLite mode=ro/query_only; schema and aggregate status/counts only; no bodies read",
+  "databases": [
+    {
+      "path_relative": "agents/testpilot/memory/long-term/index.db",
+      "bytes": 114688,
+      "wal_present": true,
+      "shm_present": true,
+      "tables": [
+        "_meta",
+        "chunks",
+        "chunks_fts",
+        "chunks_fts_config",
+        "chunks_fts_data",
+        "chunks_fts_docsize",
+        "chunks_fts_idx",
+        "chunks_fts_trigram",
+        "chunks_fts_trigram_config",
+        "chunks_fts_trigram_data",
+        "chunks_fts_trigram_docsize",
+        "chunks_fts_trigram_idx",
+        "files"
+      ],
+      "counts": {
+        "files": {
+          "rows": 1
+        },
+        "chunks": {
+          "rows": 1
+        }
+      }
+    },
+    {
+      "path_relative": "agents/testpilot2/memory/long-term/index.db",
+      "bytes": 4096,
+      "wal_present": true,
+      "shm_present": true,
+      "tables": [
+        "_meta",
+        "chunks",
+        "chunks_fts",
+        "chunks_fts_config",
+        "chunks_fts_data",
+        "chunks_fts_docsize",
+        "chunks_fts_idx",
+        "chunks_fts_trigram",
+        "chunks_fts_trigram_config",
+        "chunks_fts_trigram_data",
+        "chunks_fts_trigram_docsize",
+        "chunks_fts_trigram_idx",
+        "files"
+      ],
+      "counts": {
+        "files": {
+          "rows": 1
+        },
+        "chunks": {
+          "rows": 1
+        }
+      }
+    },
+    {
+      "path_relative": "memory/long-term/index.db",
+      "bytes": 188416,
+      "wal_present": true,
+      "shm_present": true,
+      "tables": [
+        "_meta",
+        "_migration_meta",
+        "artifacts",
+        "chunks",
+        "chunks_fts",
+        "chunks_fts_config",
+        "chunks_fts_data",
+        "chunks_fts_docsize",
+        "chunks_fts_idx",
+        "chunks_fts_trigram",
+        "chunks_fts_trigram_config",
+        "chunks_fts_trigram_data",
+        "chunks_fts_trigram_docsize",
+        "chunks_fts_trigram_idx",
+        "files",
+        "messages",
+        "runs",
+        "sessions",
+        "sqlite_sequence"
+      ],
+      "counts": {
+        "sessions": {
+          "rows": 13
+        },
+        "messages": {
+          "rows": 39
+        },
+        "runs": {
+          "rows": 18,
+          "status_counts": {
+            "done": 11,
+            "failed": 7
+          }
+        },
+        "files": {
+          "rows": 1
+        },
+        "chunks": {
+          "rows": 1
+        }
+      }
+    },
+    {
+      "path_relative": "memory/recovery/tasks.db",
+      "bytes": 73728,
+      "wal_present": false,
+      "shm_present": false,
+      "tables": [
+        "recovery_attempts",
+        "recovery_effects",
+        "recovery_tasks",
+        "recovery_verifications"
+      ],
+      "counts": {
+        "recovery_tasks": {
+          "rows": 2,
+          "state_counts": {
+            "completed": 2
+          }
+        },
+        "recovery_attempts": {
+          "rows": 2,
+          "state_counts": {
+            "completed": 2
+          }
+        },
+        "recovery_effects": {
+          "rows": 0
+        },
+        "recovery_verifications": {
+          "rows": 2
+        }
+      },
+      "completed_without_current_verification": 0
+    }
+  ],
+  "expected_marker_presence": {
+    "merged_agent:testpilot": true,
+    "merged_agent:testpilot2": false
+  }
+}

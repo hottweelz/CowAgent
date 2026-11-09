@@ -1,0 +1,53 @@
+{
+  "captured_at": "2026-11-09T21:46:04.472323+00:00",
+  "pid": 28093,
+  "start_epoch": 1794162129.482237,
+  "cwd": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent",
+  "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+  "invocation_expected": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+  "environment_selected_matches": {
+    "COW_DATA_DIR": true,
+    "VIRTUAL_ENV": true,
+    "__PYVENV_LAUNCHER__": true,
+    "_": true
+  },
+  "data_root_expected": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData",
+  "argv_shape": {
+    "app_py_present": true,
+    "argument_count": 2
+  },
+  "threads": 31,
+  "children": [],
+  "uid_matches_operator": true,
+  "listeners": [
+    {
+      "host": "127.0.0.1",
+      "port": 9899
+    }
+  ],
+  "established_tcp_count": 0,
+  "health": {
+    "http": 200,
+    "status": "ok"
+  },
+  "loaded_commit": "unattested",
+  "effects": "Read-only process metadata and GET /api/health; no control action",
+  "source_timing": {
+    "process_started_utc": "2026-11-08T18:22:09.482237+00:00",
+    "latest_reflog_before_start": [
+      1794156796,
+      "90c3cd8f72ffe7a47cb20925fa538eda479317c6"
+    ],
+    "earliest_reflog_after_start": [
+      1794162637,
+      "90c3cd8f72ffe7a47cb20925fa538eda479317c6"
+    ],
+    "limit": "Reflog does not attest working tree bytes or Python loaded modules."
+  },
+  "selected_startup_flags": {
+    "use_linkai": false,
+    "source_mode_appdata_dir_default": true,
+    "desktop_mode_enabled": false,
+    "cloud_deployment_id_present": false
+  }
+}

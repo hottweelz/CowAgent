@@ -1,0 +1,632 @@
+{
+  "schema": "cow.first-bootstrap.rehearsal/1",
+  "legacy_commit": "90c3cd8f72ffe7a47cb20925fa538eda479317c6",
+  "fallback_commit": "f659349785acf98905901a5cc53921436a109dbc",
+  "candidate_head": "8d182026be2380fc574eeecd13edcffa5ed1dcb1",
+  "candidate_executable_commit": "005c1e4805c75017467b817baa2a8bbbe3f7511d",
+  "port": 19886,
+  "status": "bounded fixture passed",
+  "steps": [
+    {
+      "name": "legacy",
+      "health": "200/ok",
+      "pid": 42597,
+      "exit_code": 0
+    },
+    {
+      "name": "candidate",
+      "health": "200/ok",
+      "pid": 42618,
+      "observer": {
+        "ids": [
+          "default",
+          "testpilot",
+          "testpilot2"
+        ],
+        "statuses": [
+          "denied",
+          "denied"
+        ],
+        "dispatch_permitted": false,
+        "adapter_contact": false,
+        "one_shot_consumed": true,
+        "manifest_sha256": "210cece16670f2d7dc39e15eb8d2ea299388170f05f68710afd6968e7159f36f",
+        "initialization_epoch": "935310bbe16d48b4acc8d97a2bf5efb6"
+      },
+      "held": {
+        "active": {
+          "fictional_run": 2
+        },
+        "agents": {
+          "testpilot": 1,
+          "testpilot2": 1
+        },
+        "blockers": [
+          "admission_open",
+          "probe_stale"
+        ],
+        "closed": false,
+        "drained": false,
+        "epoch": "324baff9e1e342b49ef29f32984fbfa0",
+        "pid": 42618,
+        "registered_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "required_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ]
+      },
+      "busy": {
+        "active": {
+          "fictional_run": 2
+        },
+        "agents": {
+          "testpilot": 1,
+          "testpilot2": 1
+        },
+        "blockers": [
+          "probe_stale"
+        ],
+        "closed": true,
+        "drained": false,
+        "epoch": "324baff9e1e342b49ef29f32984fbfa0",
+        "pid": 42618,
+        "registered_agents": [
+          "default",
+          "testpilot",
+          "testpilot2"
+        ],
+        "registered_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "required_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "runtime_epoch": "935310bbe16d48b4acc8d97a2bf5efb6"
+      },
+      "closed_request_status": 503,
+      "settled": {
+        "active": {},
+        "agents": {},
+        "blockers": [],
+        "closed": true,
+        "drained": true,
+        "epoch": "324baff9e1e342b49ef29f32984fbfa0",
+        "pid": 42618,
+        "registered_agents": [
+          "default",
+          "testpilot",
+          "testpilot2"
+        ],
+        "registered_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "required_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "runtime_epoch": "935310bbe16d48b4acc8d97a2bf5efb6"
+      },
+      "exit_code": 0
+    },
+    {
+      "name": "fallback",
+      "health": "200/ok",
+      "pid": 42623,
+      "exit_code": 0
+    }
+  ],
+  "database_digests": {
+    "closed_interval": {
+      "agents/testpilot/memory/long-term/index.db": "2fff22ce9db76b75dc7a1fec622c08468a1c3fa3656e2af2e0cca8c15e9aee84",
+      "agents/testpilot2/memory/long-term/index.db": "cc4594c39dd75a7cc63336e1445ca7cc6ac4ea29f0b9566dd854efd0a4897742",
+      "memory/long-term/index.db": "2a52e09b647d2fdc0c3953372b9860fd448a82e0a58eb377e3dc122ee0019dae",
+      "memory/recovery/tasks.db": "8919e9702f7e9dd124b33e6af807a5154fa4c1e97a73db46f4c97cce39eef75b"
+    },
+    "candidate": {
+      "agents/testpilot/memory/long-term/index.db": "2fff22ce9db76b75dc7a1fec622c08468a1c3fa3656e2af2e0cca8c15e9aee84",
+      "agents/testpilot2/memory/long-term/index.db": "cc4594c39dd75a7cc63336e1445ca7cc6ac4ea29f0b9566dd854efd0a4897742",
+      "memory/long-term/index.db": "2a52e09b647d2fdc0c3953372b9860fd448a82e0a58eb377e3dc122ee0019dae",
+      "memory/recovery/tasks.db": "8919e9702f7e9dd124b33e6af807a5154fa4c1e97a73db46f4c97cce39eef75b"
+    },
+    "fallback": {
+      "agents/testpilot/memory/long-term/index.db": "2fff22ce9db76b75dc7a1fec622c08468a1c3fa3656e2af2e0cca8c15e9aee84",
+      "agents/testpilot2/memory/long-term/index.db": "cc4594c39dd75a7cc63336e1445ca7cc6ac4ea29f0b9566dd854efd0a4897742",
+      "memory/long-term/index.db": "2a52e09b647d2fdc0c3953372b9860fd448a82e0a58eb377e3dc122ee0019dae",
+      "memory/recovery/tasks.db": "8919e9702f7e9dd124b33e6af807a5154fa4c1e97a73db46f4c97cce39eef75b"
+    }
+  },
+  "fallback_matches_backup": true,
+  "fictional_memory_file_preserved": true,
+  "indexed_memory_and_verification_preserved": true,
+  "fresh_fictional_ids": true,
+  "additional_checks": {
+    "wal": "online backup includes committed WAL frame and excludes uncommitted transaction",
+    "interruption": "SIGTERM after team migration returned, immediately before conversation migration; no claim of mid-transaction crash",
+    "restart_health": "200/ok",
+    "restart_exit": 0,
+    "post_restart": "SQLite integrity, fictional memory and completed recovery history verified",
+    "fallback_repeat": "restored closed-interval backup; health 200; exit 0; SQLite logical dumps and fictional memory match",
+    "interrupted_exit_code": -15
+  },
+  "enabled_plugins": {
+    "health": "200/ok",
+    "drained": false,
+    "blockers": [
+      "plugin_runtime_untracked"
+    ],
+    "requested_enabled": [
+      "Banwords",
+      "Finish",
+      "Godcmd",
+      "Keyword",
+      "Role",
+      "cow_cli",
+      "linkai"
+    ],
+    "exit_code": 0
+  },
+  "migration_fault_test": {
+    "test": "tests/test_discovery_startup_migration.py",
+    "result": "2 passed (prior run; executable tests unchanged)",
+    "scope": "copy committed with marker failure retries idempotently; not process crash mid-transaction"
+  },
+  "limitations": [
+    "Legacy is modeled by the reflog-bracketed launch baseline; loaded live commit is unknown.",
+    "Fixture plugins disabled and browser launch replaced by true; these settings do not establish live effects.",
+    "Fictional coordinator leases are not model runs or real external dispatch.",
+    "Outbound network is denied; absence of actual provider effects is not a general exactly-once guarantee.",
+    "Interruption occurred between migration stages, not inside a transaction or asynchronous merge.",
+    "The backup restores fixture file roots; completeness of live state paths is not established.",
+    "Enabled plugin booleans were reproduced with fictional config and placeholder; browser was not launched."
+  ],
+  "prior_secondary_master_transition": {
+    "legacy_commit": "f659349785acf98905901a5cc53921436a109dbc",
+    "candidate_head": "8d182026be2380fc574eeecd13edcffa5ed1dcb1",
+    "steps": [
+      {
+        "name": "legacy",
+        "health": "200/ok",
+        "pid": 41293,
+        "exit_code": 0
+      },
+      {
+        "name": "candidate",
+        "health": "200/ok",
+        "pid": 41331,
+        "observer": {
+          "ids": [
+            "default",
+            "testpilot",
+            "testpilot2"
+          ],
+          "statuses": [
+            "denied",
+            "denied"
+          ],
+          "dispatch_permitted": false,
+          "adapter_contact": false,
+          "one_shot_consumed": true,
+          "manifest_sha256": "210cece16670f2d7dc39e15eb8d2ea299388170f05f68710afd6968e7159f36f",
+          "initialization_epoch": "3cf7ba218231429ca5c61b33bf47d56d"
+        },
+        "held": {
+          "active": {
+            "fictional_run": 2
+          },
+          "agents": {
+            "testpilot": 1,
+            "testpilot2": 1
+          },
+          "blockers": [
+            "admission_open",
+            "probe_stale"
+          ],
+          "closed": false,
+          "drained": false,
+          "epoch": "69ca0d84869949a887203750e0c64ebf",
+          "pid": 41331,
+          "registered_components": [
+            "agent",
+            "chat",
+            "evolution",
+            "extensions",
+            "http",
+            "memory",
+            "recovery",
+            "scheduler",
+            "startup"
+          ],
+          "required_components": [
+            "agent",
+            "chat",
+            "evolution",
+            "extensions",
+            "http",
+            "memory",
+            "recovery",
+            "scheduler",
+            "startup"
+          ]
+        },
+        "busy": {
+          "active": {
+            "fictional_run": 2
+          },
+          "agents": {
+            "testpilot": 1,
+            "testpilot2": 1
+          },
+          "blockers": [
+            "probe_stale"
+          ],
+          "closed": true,
+          "drained": false,
+          "epoch": "69ca0d84869949a887203750e0c64ebf",
+          "pid": 41331,
+          "registered_agents": [
+            "default",
+            "testpilot",
+            "testpilot2"
+          ],
+          "registered_components": [
+            "agent",
+            "chat",
+            "evolution",
+            "extensions",
+            "http",
+            "memory",
+            "recovery",
+            "scheduler",
+            "startup"
+          ],
+          "required_components": [
+            "agent",
+            "chat",
+            "evolution",
+            "extensions",
+            "http",
+            "memory",
+            "recovery",
+            "scheduler",
+            "startup"
+          ],
+          "runtime_epoch": "3cf7ba218231429ca5c61b33bf47d56d"
+        },
+        "closed_request_status": 503,
+        "settled": {
+          "active": {},
+          "agents": {},
+          "blockers": [],
+          "closed": true,
+          "drained": true,
+          "epoch": "69ca0d84869949a887203750e0c64ebf",
+          "pid": 41331,
+          "registered_agents": [
+            "default",
+            "testpilot",
+            "testpilot2"
+          ],
+          "registered_components": [
+            "agent",
+            "chat",
+            "evolution",
+            "extensions",
+            "http",
+            "memory",
+            "recovery",
+            "scheduler",
+            "startup"
+          ],
+          "required_components": [
+            "agent",
+            "chat",
+            "evolution",
+            "extensions",
+            "http",
+            "memory",
+            "recovery",
+            "scheduler",
+            "startup"
+          ],
+          "runtime_epoch": "3cf7ba218231429ca5c61b33bf47d56d"
+        },
+        "exit_code": 0
+      },
+      {
+        "name": "fallback",
+        "health": "200/ok",
+        "pid": 41336,
+        "exit_code": 0
+      }
+    ],
+    "database_digests": {
+      "closed_interval": {
+        "memory/long-term/index.db": "55cd609e61acc8a508fdd8149f9d173b7fdc04cf0f74d620fa963efeac71bae1",
+        "memory/recovery/tasks.db": "44f4698ee32e23b879e9a5b88ce81341f64bc8c1568d9fa93648b2b699524b5b"
+      },
+      "candidate": {
+        "memory/long-term/index.db": "55cd609e61acc8a508fdd8149f9d173b7fdc04cf0f74d620fa963efeac71bae1",
+        "memory/recovery/tasks.db": "44f4698ee32e23b879e9a5b88ce81341f64bc8c1568d9fa93648b2b699524b5b"
+      },
+      "fallback": {
+        "memory/long-term/index.db": "55cd609e61acc8a508fdd8149f9d173b7fdc04cf0f74d620fa963efeac71bae1",
+        "memory/recovery/tasks.db": "44f4698ee32e23b879e9a5b88ce81341f64bc8c1568d9fa93648b2b699524b5b"
+      }
+    },
+    "fallback_matches_backup": true,
+    "fixture_sha256": {
+      "driver_fixture.py": "67f5759a55c5cb2e08ae7cd3c6271d5d4a4747e7f6abeb35569e6e72ba2d946c",
+      "plugins_fixture.py": "e34da022a03ddf99de77a60f616b2b951ab0b3d57c96d5efc3caf420256c562a",
+      "recovery_fixture.py": "0062352744f659ad3ae747b14895946d653a569399fd2142b738a07a8260627d",
+      "request_fixture.py": "e73c68caf96209f34326bf6723e4f8895bb521a5dfc0d7191958a1646c66e4d8",
+      "seed_fixture.py": "7f8f811f986d499084965fec74b33671dc142d8385926717c2f19e5ea265591e",
+      "rehearsal.py": "3324bce5723cb01b5f4c16dd90a9f16aa53c2fc63afd7e76be482f6eb5cba956"
+    },
+    "classification": "secondary prior fictional master-to-candidate-to-master sequence",
+    "fallback_commit": "f659349785acf98905901a5cc53921436a109dbc"
+  },
+  "fixture_sha256": {
+    "driver_fixture.py": "dbefdee0f9edbdba611fbfcad7529dc75cc6d4a04da8ce7f1372b9451e92e72a",
+    "plugins_fixture.py": "e34da022a03ddf99de77a60f616b2b951ab0b3d57c96d5efc3caf420256c562a",
+    "recovery_fixture.py": "5b1931ce6f3b0612614c9f6f59a0f79a531bd426b4573dce22054389049c6ad2",
+    "request_fixture.py": "e73c68caf96209f34326bf6723e4f8895bb521a5dfc0d7191958a1646c66e4d8",
+    "seed_fixture.py": "9ece1b152621c5418d23f58de4e53dfac891e71a3969e2fbc370e887150c7e52",
+    "rehearsal.py": "a9ca6fc1577a33d4d5ac4cf654a2f63c746cdf65090f093da40400deaf175c5b"
+  },
+  "executed_fixture_sha256": {
+    "driver_fixture.py": "dbefdee0f9edbdba611fbfcad7529dc75cc6d4a04da8ce7f1372b9451e92e72a",
+    "plugins_fixture.py": "e34da022a03ddf99de77a60f616b2b951ab0b3d57c96d5efc3caf420256c562a",
+    "recovery_fixture.py": "5b1931ce6f3b0612614c9f6f59a0f79a531bd426b4573dce22054389049c6ad2",
+    "request_fixture.py": "e73c68caf96209f34326bf6723e4f8895bb521a5dfc0d7191958a1646c66e4d8",
+    "seed_fixture.py": "9ece1b152621c5418d23f58de4e53dfac891e71a3969e2fbc370e887150c7e52",
+    "rehearsal.py": "a9ca6fc1577a33d4d5ac4cf654a2f63c746cdf65090f093da40400deaf175c5b"
+  },
+  "post_execution_edit": "None; executed and published fixture hashes match.",
+  "per_agent_scopes_preserved": [
+    "testpilot",
+    "testpilot2"
+  ],
+  "prior_secondary_two_database_transition": {
+    "legacy_commit": "90c3cd8f72ffe7a47cb20925fa538eda479317c6",
+    "fallback_commit": "f659349785acf98905901a5cc53921436a109dbc",
+    "candidate_head": "8d182026be2380fc574eeecd13edcffa5ed1dcb1",
+    "steps": [
+      {
+        "name": "legacy",
+        "health": "200/ok",
+        "pid": 41612,
+        "exit_code": 0
+      },
+      {
+        "name": "candidate",
+        "health": "200/ok",
+        "pid": 41632,
+        "observer": {
+          "ids": [
+            "default",
+            "testpilot",
+            "testpilot2"
+          ],
+          "statuses": [
+            "denied",
+            "denied"
+          ],
+          "dispatch_permitted": false,
+          "adapter_contact": false,
+          "one_shot_consumed": true,
+          "manifest_sha256": "210cece16670f2d7dc39e15eb8d2ea299388170f05f68710afd6968e7159f36f",
+          "initialization_epoch": "7a6e57d23077452db8d7db94b7d93bf3"
+        },
+        "held": {
+          "active": {
+            "fictional_run": 2
+          },
+          "agents": {
+            "testpilot": 1,
+            "testpilot2": 1
+          },
+          "blockers": [
+            "admission_open",
+            "probe_stale"
+          ],
+          "closed": false,
+          "drained": false,
+          "epoch": "82404a9394e445d78f7b947ea5414909",
+          "pid": 41632,
+          "registered_components": [
+            "agent",
+            "chat",
+            "evolution",
+            "extensions",
+            "http",
+            "memory",
+            "recovery",
+            "scheduler",
+            "startup"
+          ],
+          "required_components": [
+            "agent",
+            "chat",
+            "evolution",
+            "extensions",
+            "http",
+            "memory",
+            "recovery",
+            "scheduler",
+            "startup"
+          ]
+        },
+        "busy": {
+          "active": {
+            "fictional_run": 2
+          },
+          "agents": {
+            "testpilot": 1,
+            "testpilot2": 1
+          },
+          "blockers": [
+            "probe_stale"
+          ],
+          "closed": true,
+          "drained": false,
+          "epoch": "82404a9394e445d78f7b947ea5414909",
+          "pid": 41632,
+          "registered_agents": [
+            "default",
+            "testpilot",
+            "testpilot2"
+          ],
+          "registered_components": [
+            "agent",
+            "chat",
+            "evolution",
+            "extensions",
+            "http",
+            "memory",
+            "recovery",
+            "scheduler",
+            "startup"
+          ],
+          "required_components": [
+            "agent",
+            "chat",
+            "evolution",
+            "extensions",
+            "http",
+            "memory",
+            "recovery",
+            "scheduler",
+            "startup"
+          ],
+          "runtime_epoch": "7a6e57d23077452db8d7db94b7d93bf3"
+        },
+        "closed_request_status": 503,
+        "settled": {
+          "active": {},
+          "agents": {},
+          "blockers": [],
+          "closed": true,
+          "drained": true,
+          "epoch": "82404a9394e445d78f7b947ea5414909",
+          "pid": 41632,
+          "registered_agents": [
+            "default",
+            "testpilot",
+            "testpilot2"
+          ],
+          "registered_components": [
+            "agent",
+            "chat",
+            "evolution",
+            "extensions",
+            "http",
+            "memory",
+            "recovery",
+            "scheduler",
+            "startup"
+          ],
+          "required_components": [
+            "agent",
+            "chat",
+            "evolution",
+            "extensions",
+            "http",
+            "memory",
+            "recovery",
+            "scheduler",
+            "startup"
+          ],
+          "runtime_epoch": "7a6e57d23077452db8d7db94b7d93bf3"
+        },
+        "exit_code": 0
+      },
+      {
+        "name": "fallback",
+        "health": "200/ok",
+        "pid": 41637,
+        "exit_code": 0
+      }
+    ],
+    "database_digests": {
+      "closed_interval": {
+        "memory/long-term/index.db": "511553619e9240dcc0c62814c5b9b6ffbed928eec99d721b6fc6958df96ba78c",
+        "memory/recovery/tasks.db": "a765534766c7817b9c146e11057b9bf3a431ddd0ff5c9459ec446ce9c332b04d"
+      },
+      "candidate": {
+        "memory/long-term/index.db": "511553619e9240dcc0c62814c5b9b6ffbed928eec99d721b6fc6958df96ba78c",
+        "memory/recovery/tasks.db": "a765534766c7817b9c146e11057b9bf3a431ddd0ff5c9459ec446ce9c332b04d"
+      },
+      "fallback": {
+        "memory/long-term/index.db": "511553619e9240dcc0c62814c5b9b6ffbed928eec99d721b6fc6958df96ba78c",
+        "memory/recovery/tasks.db": "a765534766c7817b9c146e11057b9bf3a431ddd0ff5c9459ec446ce9c332b04d"
+      }
+    },
+    "fallback_matches_backup": true,
+    "fixture_sha256": {
+      "driver_fixture.py": "dbefdee0f9edbdba611fbfcad7529dc75cc6d4a04da8ce7f1372b9451e92e72a",
+      "plugins_fixture.py": "e34da022a03ddf99de77a60f616b2b951ab0b3d57c96d5efc3caf420256c562a",
+      "recovery_fixture.py": "5b1931ce6f3b0612614c9f6f59a0f79a531bd426b4573dce22054389049c6ad2",
+      "request_fixture.py": "e73c68caf96209f34326bf6723e4f8895bb521a5dfc0d7191958a1646c66e4d8",
+      "seed_fixture.py": "7f8f811f986d499084965fec74b33671dc142d8385926717c2f19e5ea265591e",
+      "rehearsal.py": "ca2c6bc7f12d441fcd282e769add23ffd3a6a28235e2a97e468218f600639efe"
+    },
+    "executed_fixture_sha256": {
+      "driver_fixture.py": "67f5759a55c5cb2e08ae7cd3c6271d5d4a4747e7f6abeb35569e6e72ba2d946c",
+      "plugins_fixture.py": "e34da022a03ddf99de77a60f616b2b951ab0b3d57c96d5efc3caf420256c562a",
+      "recovery_fixture.py": "0062352744f659ad3ae747b14895946d653a569399fd2142b738a07a8260627d",
+      "request_fixture.py": "e73c68caf96209f34326bf6723e4f8895bb521a5dfc0d7191958a1646c66e4d8",
+      "seed_fixture.py": "7f8f811f986d499084965fec74b33671dc142d8385926717c2f19e5ea265591e",
+      "rehearsal.py": "ca2c6bc7f12d441fcd282e769add23ffd3a6a28235e2a97e468218f600639efe"
+    },
+    "post_execution_edit": "Removed two unused imports only (time in driver_fixture, hashlib in recovery_fixture); runtime source and fixture behavior unchanged. Executed and publication hashes are recorded separately.",
+    "classification": "prior two-database fixture; per-agent databases were not seeded"
+  }
+}

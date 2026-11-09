@@ -1,0 +1,12 @@
+{
+  "backup_rows": 6,
+  "canonical_paths_checked": 6,
+  "all_rows_resolved": true,
+  "target_overlap": false,
+  "method": "Read-only settings AXHelp path fields; unrelated roots omitted",
+  "captured_at": "2026-11-09T21:52:00.322266+00:00",
+  "sync_rows": 0,
+  "settings_changed": false,
+  "settings_window_restored_closed": true,
+  "limits": "Configured Backup/Sync roots only; no kernel watcher attribution or historical writer identification."
+}

@@ -1,0 +1,39 @@
+{
+  "captured_at": "2026-11-09T21:57:50.537460+00:00",
+  "method": "Directory and stat metadata only; no file contents or credential digests",
+  "roots": {
+    "data": {
+      "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData",
+      "regular_files": 40,
+      "bytes": 1005932,
+      "symlinks": 0,
+      "other_types": 0,
+      "unreadable_entries": 0,
+      "external_symlink_targets": 0
+    },
+    "workspace": {
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace",
+      "regular_files": 48,
+      "bytes": 1899924,
+      "symlinks": 0,
+      "other_types": 0,
+      "unreadable_entries": 0,
+      "external_symlink_targets": 0
+    },
+    "source_plugins": {
+      "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/plugins",
+      "regular_files": 77,
+      "bytes": 611127,
+      "symlinks": 0,
+      "other_types": 0,
+      "unreadable_entries": 0,
+      "external_symlink_targets": 0
+    }
+  },
+  "limits": [
+    "File-set membership is not a point-in-time backup or proof of no writers.",
+    "No live backup, file copy, SQLite checkpoint or restoration was performed.",
+    "Operator authority outside these roots remains untouched; no launch binding consumes it.",
+    "Source plugin directory includes code and mutable configuration; preserve selected local configuration through source activation."
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "captured_at": "2026-11-09T22:09:14.640325+00:00",
+  "original_pid": 28093,
+  "original_start_epoch": 1794162129.482237,
+  "live_listener": "127.0.0.1:9899",
+  "health": "200/ok",
+  "rehearsal_listener_19886_absent": true,
+  "rehearsal_port_bind_available": true,
+  "live_signal_or_start": false,
+  "no_quiescence_claim": true,
+  "inspection_note": "Global psutil socket enumeration was denied by macOS for another PID. Used owned-process metadata, bounded lsof listener check and disposable-port bind; no privilege escalation.",
+  "original_untracked_hashes_preserved": 7,
+  "recovery_artifact_hashes_preserved": 5,
+  "recovery_manifest_unchanged": true,
+  "recovery_refs_unchanged": {
+    "codex/routing-closeout-ref-recovery": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+    "codex/routing-closeout-verified": "2b6df30a66f79b37577112517add8e56c7b22288"
+  },
+  "primary_checkout_head_unchanged": true
+}

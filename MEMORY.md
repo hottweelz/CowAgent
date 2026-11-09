@@ -1,5 +1,19 @@
 # CowAgent project facts
 
+- First-bootstrap qualification must account for source-mode plugin state in the
+  process CWD (`plugins/plugins.json`), not only COW_DATA_DIR. Plugin activation
+  makes the new coordinator fail closed with `plugin_runtime_untracked`; healthy
+  startup and a disabled-plugin fixture do not qualify enabled plugin lifetimes.
+  A legacy client-exclusion policy and consistent private recovery remain separate
+  from the new coordinator's positive drain contract. See
+  [FIRST-BOOTSTRAP-001](docs/first-bootstrap-001/README.md).
+- For a reviewed same-directory runtime source selection from an older Git index,
+  worktree-only restore can leave newly added Python files untracked on fallback.
+  Require a clean initial index/worktree, scope both `--staged --worktree` restores
+  to the approved runtime paths, verify the exact Python path set and bytes, and
+  preserve untracked/ignored state. HEAD does not identify the resulting loaded
+  files; do not automatically commit the staged deployment selection.
+
 - Maintainer decision (2026-11-09): the CODEX_POOLER_API_KEY diagnostic finding
   is ACCEPTED RISK / NO FURTHER ACTION. It is not a prerequisite for DISCOVERY-002,
   PR #4 or later BullGod milestones. Do not rotate, revoke, investigate, escalate
