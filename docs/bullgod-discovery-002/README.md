@@ -1,5 +1,13 @@
 # BULLGOD-DISCOVERY-002
 
+**DISCOVERY-002R remediation is in progress.** The maintainer authorized an
+internal bridge and controlled read-only tests under the same draft PR. The
+[in-process trust decision](in-process-remediation.md) was published before
+implementation; the [fresh baseline](in-process-baseline.json) preserves the
+existing service and recovery evidence. Host ownership changes, restarts,
+dispatch and production activation remain prohibited. The prior results below
+do not validate the new implementation or establish a successful live bridge.
+
 Gate A is **PASSED**. DISCOVERY-001 merged normally through
 [PR #3](https://github.com/hottweelz/CowAgent/pull/3) as
 `40958f392bca59009224fcebfd1b636a861615ab`. Automatic master CI passed all five

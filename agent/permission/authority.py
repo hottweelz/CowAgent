@@ -87,7 +87,7 @@ def _registry_profiles():
     return _current_registry().list(include_disabled=True)
 
 
-def resolve_authority(agent) -> Authority:
+def resolve_authority(agent, *, registry=None) -> Authority:
     if agent is None:
         raise ValueError('Missing agent authority')
     mode = agent.effective_permission_mode()
@@ -97,10 +97,11 @@ def resolve_authority(agent) -> Authority:
     if not isinstance(root, str) or not os.path.isabs(root):
         raise ValueError('Missing workspace root')
     supplied = getattr(agent, 'authority', None)
-    denied = list(agent.protected_paths()) if callable(getattr(agent, 'protected_paths', None)) else []
+    denied = (list(agent.protected_paths() if registry is None else agent.protected_paths(registry=registry))
+              if callable(getattr(agent, 'protected_paths', None)) else [])
     # Each profile is protected even when a project grant is an ancestor of a
     # custom sibling workspace. Never guess ownership from a project path.
-    profiles = _registry_profiles()
+    profiles = _registry_profiles() if registry is None else registry.list(include_disabled=True)
     owner = getattr(agent, '_current_agent_id', None)
     own_workspace = getattr(agent, 'workspace_dir', None)
     if not owner and own_workspace:
@@ -123,9 +124,9 @@ def resolve_authority(agent) -> Authority:
     return derive_authority(baseline, supplied)
 
 
-def restricted_authority(agent) -> Authority:
+def restricted_authority(agent, *, registry=None) -> Authority:
     """Attenuate an agent's current authority for a new worker."""
-    auth = resolve_authority(agent)
+    auth = resolve_authority(agent, registry=registry)
     mode = WORKSPACE_WRITE if auth.mode == FULL_ACCESS else auth.mode
     return Authority(mode, auth.capabilities & SAFE_CAPABILITIES, auth.read_roots,
                      auth.write_roots if mode != READ_ONLY else (), auth.denied_paths, True)

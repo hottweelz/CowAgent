@@ -1,5 +1,45 @@
 # AI handoff ledger
 
+## 2026-11-09 11:58 EST — Codex — DISCOVERY-002R source gate and private authority read
+
+- Scope: implemented the published initialized-runtime boundary on draft PR #4;
+  actual integration into the unchanged original PID is still BLOCKED by absent
+  safe ingress. No service/host changes, dispatch, authority refresh or merge.
+- Team: Sol 6.1/high production and independent review for instance/caller/private
+  authority reasoning; Luna/high lifecycle tests and preservation. Lead integration,
+  focused run, guarded authority inventory, documents and Git. No external pools.
+- Changes/files: initialized_runtime.py; runtime_readers.py; bridge/agent_bridge.py;
+  optional registry injection in permission/authority.py and protocol/agent.py;
+  test_discovery_in_process.py; 002R report/receipts/review, MEMORY.md and ledger.
+- Checks/results: independent 20 new cases pass; lead integrated15-file selection
+  passes345 in24.96s, no failures/skips. Compilation/Ruff F/diff checks pass.
+  Independent source+test review PASS; AST/whitespace checked without duplicate
+  pytest. Full hosted matrix is pending this published candidate.
+- Corrections: coherent cached-route/turn-policy snapshots; inherited ambient
+  parent cannot claim root; stale hosts reject before binding/contact; initialized
+  protected-path calculation does not create a data directory. Defaults unchanged.
+- Actual authority: guarded private readers confirm all three credentials,
+  enrollments and exact task approvals expired. Historical submission_started
+  remains set. No socket contact/DB writes; one dependency import architecture
+  subprocess attempt was blocked before launch and recorded, not hidden.
+- Decision: new factory does not authenticate external native snapshots/proof
+  from process metadata; receiver authority/native proof/free capacity unknown.
+  Revalidation retains dispatch_permitted=false. MEMORY.md updated with this rule.
+- Lessons Learned:
+  - Mistake: initial caller scope checked explicit ancestry but omitted ambient parent.
+  - Root Cause: discovery lifecycle did not mirror _begin_run parent semantics.
+  - Future Trigger: deriving authority from an active runtime turn.
+  - Required Behavior Change: bind exact objects and the actual execution lifecycle,
+    including ambient parent and finally invalidation; reject mixed observations.
+  - Verification Step: inherited-parent/copied-context/route-drift tests pass.
+  - Durable Memory Update: initialized caller/lifetime boundary recorded in MEMORY.md.
+- Known issue/next: complete full hosted matrix and independent preservation
+  after this read, publish A–J/final answers, verify GitHub0/0. No live native
+  observation exists; do not report PARTIAL/PASSED from fixture evidence.
+- Notes: preserve original seven untracked files/recovery refs/artifacts/worktree.
+  Runtime PID28093 must remain unchanged; original process cannot be retrospectively
+  stamped with this source's initialization anchor. Goal is not complete.
+
 ## 2026-11-09 11:34 EST — Codex — DISCOVERY-002R trust decision before implementation
 
 - Scope: maintainer authorizes an internal runtime bridge and controlled read-only

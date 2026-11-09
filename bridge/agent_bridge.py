@@ -668,6 +668,11 @@ class AgentBridge:
         except Exception as e:
             logger.warning(f"[AgentBridge] Evolution trigger init failed: {e}")
 
+        # Established only by normal successful initialization. Read-only
+        # discovery must not retroactively register an old/uninitialized owner.
+        from agent.discovery.initialized_runtime import _install_runtime_anchor
+        _install_runtime_anchor(self)
+
     def create_agent(self, system_prompt: str, tools: List = None, **kwargs) -> Agent:
         """
         Create the super agent with COW integration
@@ -1337,6 +1342,10 @@ class AgentBridge:
         because it bounds what this conversation may change regardless of who is
         speaking.
         """
+        if agent is not None:
+            # Reapplication (including failure) invalidates the former applied
+            # observation before any authoritative settings are read.
+            agent._discovery_applied_session = None
         if agent is None or not session_id:
             return
         try:
@@ -1360,6 +1369,8 @@ class AgentBridge:
                 # A delegated turn's session has no prefs; it carries the
                 # delegating conversation's mode instead.
                 agent.apply_permission_mode(chosen_permission)
+            from agent.discovery.initialized_runtime import _record_applied_session
+            _record_applied_session(self, agent, session_id, agent_id, prefs)
         except Exception:
             raise SessionAuthorityError("Session permission authority unavailable") from None
 
@@ -1703,6 +1714,11 @@ class AgentBridge:
             # Open the run before anything is persisted, so both the user turn
             # and the reply are attributed to it and the work is addressable
             # while it is still in flight.
+            # Match _begin_run's ambient-parent semantics. A caller from an
+            # older execution path may have a parent run without carrying the
+            # new discovery scope or an explicit delegation Context field.
+            from common.utils import current_agent_run_id
+            discovery_parent_run = current_agent_run_id()
             run_id, run_token, run_store = self._begin_run(
                 session_id, resolved_agent_id, context
             )
@@ -1759,19 +1775,22 @@ class AgentBridge:
                 if scoped_session_id:
                     steer_inbox = get_steer_registry().register(scoped_session_id)
                 # Use agent's run_stream method with event handler
-                response = agent.run_stream(
-                    user_message=model_query,
-                    on_event=on_run_event,
-                    clear_history=clear_history,
-                    cancel_event=cancel_event,
-                    steer_inbox=steer_inbox,
-                    # A scheduled task may legitimately have nothing to report
-                    # (e.g. "notify me only if the price drops"). Nobody is
-                    # waiting on this run, so an empty answer stays empty and
-                    # the scheduler sends no message at all.
-                    allow_empty_response=bool(context and context.get("is_scheduled_task")),
-                    on_executor=writer.bind if writer is not None else None,
-                )
+                from agent.discovery.initialized_runtime import _active_reply
+                with _active_reply(self, agent, context, session_id, resolved_agent_id,
+                                   speaker_agent_id, run_id, discovery_parent_run):
+                    response = agent.run_stream(
+                        user_message=model_query,
+                        on_event=on_run_event,
+                        clear_history=clear_history,
+                        cancel_event=cancel_event,
+                        steer_inbox=steer_inbox,
+                        # A scheduled task may legitimately have nothing to report
+                        # (e.g. "notify me only if the price drops"). Nobody is
+                        # waiting on this run, so an empty answer stays empty and
+                        # the scheduler sends no message at all.
+                        allow_empty_response=bool(context and context.get("is_scheduled_task")),
+                        on_executor=writer.bind if writer is not None else None,
+                    )
             except Exception:
                 # Keep the steps finished before the failure.
                 if writer is not None:

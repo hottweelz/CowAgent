@@ -2,6 +2,7 @@
 
 ## Decision published before implementation
 
+Published as `cf4956dfd359c0e6fdbc97583586a88c1ca54efa` before production edits.
 2026-11-09. Continue draft PR #4 on `codex/bullgod-discovery-002`.
 The maintainer authorized design, implementation and controlled read-only tests.
 No merge, production activation, service restart, host permission or mount change
@@ -75,6 +76,15 @@ unknown; no supplied caller dictionary or file fallback fills the gap. Any small
 pure-function extraction must retain existing execution semantics and must not
 create another policy engine or registry.
 
+The implementation retains an immutable receipt of the existing successful
+`apply_session_prefs` operation, bound to its Agent, session and owner. Discovery
+does not reread that file. Failed or reapplied preferences invalidate the old
+receipt. The root reply scope derives its speaker and zero-depth lineage from
+the actual routing/cache binding and checks for a preexisting ambient parent run;
+asserted or inherited nested ancestry cannot supply a root grant.
+An unrelated cached persistent Agent cannot establish an isolated receiver's
+project or permission boundary.
+
 Only internal trusted server code may construct or invoke this factory. No new
 HTTP route, tool argument, debugger injection, credential or externally callable
 bootstrap is added. This is an application trust boundary, not a sandbox against
@@ -90,9 +100,13 @@ Selection and revalidation cannot dispatch or contact an adapter implicitly.
 
 Named/external bindings continue through the existing authenticated inspection
 and private journal contract. In-process native state does not authenticate an
-external approval or probe. In particular, any config used by the existing
-external snapshot must pass its private-source guard before that snapshot reads
-it. Keep `native_isolated`, `persistent_named` and `external_runtime` separate.
+external approval or probe. The new initialized factory conservatively leaves
+external native snapshot/proof unavailable. It never calls the disk snapshot
+reader, which hashes config, private environment and source files; the process
+view cannot authenticate those inputs or attest the adapter's loaded code.
+Guarded journal expiry observations remain available before that limit. The
+legacy host path is unchanged. Keep `native_isolated`, `persistent_named` and
+`external_runtime` separate.
 
 ### Existing process deployment limit
 

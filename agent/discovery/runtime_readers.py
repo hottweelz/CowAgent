@@ -371,7 +371,7 @@ class _TrustedExternalSource:
             # both operator approval and the fresh runtime's authenticated claim.
             current_native = None
             if named and binding.config_path is not None:
-                current_native = native_snapshot(binding.config_path, target, registry, self.host._settings())
+                current_native = self.host._native_snapshot(binding, target, registry)
                 candidate.model = _public_route(current_native['model'], model=True)
                 candidate.provider = _public_route(current_native['provider'])
                 state.update(current_source_fingerprint=current_native['source_sha256'],
@@ -383,7 +383,7 @@ class _TrustedExternalSource:
                     candidate.reasons.append('capability_configuration_mismatch')
                     candidate.proof_status = 'invalid'
             try:
-                receipt_hash = _receipt(binding, enrollment, state)
+                receipt_hash = self.host._receipt(binding, enrollment, state)
             except (DiscoveryError, KeyError, TypeError, ValueError, OSError) as exc:
                 reason = str(exc) if isinstance(exc, DiscoveryError) else 'proof_receipt_invalid'
                 candidate.reasons.append(reason)
@@ -598,12 +598,51 @@ class TrustedDiscoveryHost:
                                         external_source=_TrustedExternalSource(self), policy=policy, clock=clock)
 
     def _settings(self):
+        if getattr(self, '_initialized_runtime', None) is not None:
+            return self._initialized_runtime.settings()
         if self.native_configuration is not None:
             return self.native_configuration.settings()
         from config import conf
         return dict(conf())
 
+    @classmethod
+    def from_initialized_runtime(cls, agent_bridge, *, external_bindings_source=lambda: (),
+                                 policy=None, clock=time.time):
+        """Observe a genuine already initialized owner, without lazy getters.
+
+        There is deliberately no caller/epoch/settings override. Caller scope
+        comes only from the normal active reply lifecycle. In-process native
+        metadata does not authenticate file-backed external adapter evidence.
+        """
+        from .initialized_runtime import InitializedRuntime, InitializedNativeSource
+        runtime = InitializedRuntime(agent_bridge)
+        host = cls.__new__(cls)
+        host.bindings_source = external_bindings_source
+        host.clock = clock
+        host.native_configuration = None
+        host._initialized_runtime = runtime
+        host._observations = {}
+        host.service = DiscoveryService(runtime.registry, native_source=InitializedNativeSource(runtime),
+                                        external_source=_TrustedExternalSource(host), policy=policy, clock=clock)
+        return host
+
+    def _native_snapshot(self, binding, target, registry):
+        if getattr(self, '_initialized_runtime', None) is not None:
+            # native_snapshot also reads ~/.cow/.env and current source files.
+            # Initialized settings cannot waive any of those paths' provenance
+            # or attest which disk code an external process actually loaded.
+            raise DiscoveryError('initialized_private_native_evidence_unavailable')
+        return native_snapshot(binding.config_path, target, registry, self._settings())
+
+    def _receipt(self, binding, enrollment, state):
+        if (getattr(self, '_initialized_runtime', None) is not None
+                and 'runtime_kind' in enrollment.get('review', {}).get('enrollment', {})):
+            raise DiscoveryError('initialized_private_native_evidence_unavailable')
+        return _receipt(binding, enrollment, state)
+
     def _bindings(self):
+        if getattr(self, '_initialized_runtime', None) is not None:
+            self._initialized_runtime.validate()
         bindings = tuple(self.bindings_source())
         if any(not isinstance(v, ExistingRuntimeBinding) or not isinstance(v.supervisor, ExternalSupervisor)
                for v in bindings):

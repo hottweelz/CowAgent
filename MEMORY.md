@@ -1,5 +1,20 @@
 # CowAgent project facts
 
+- BULLGOD-DISCOVERY-002R adds the internal
+  `TrustedDiscoveryHost.from_initialized_runtime` path on the draft 002 branch.
+  It requires an actually initialized server-owned AgentBridge and validates
+  owner, registry/router/initializer, PID and epoch. Active caller observations
+  come only from the real reply lifecycle and expire at its finally boundary,
+  including copied execution contexts. Applied session state and cached caller
+  routes remain distinct from isolated receiver authority and configured routes.
+  Missing receiver authority, native capability proof and free capacity remain
+  unknown. This path does not use disk native snapshots to authenticate private
+  adapter evidence; guarded journal reads remain separate. No public endpoint
+  or retroactive initialization is provided. Editing source cannot load this
+  bridge into an already running process with reload disabled; fixture success
+  is not live integration evidence. See the
+  [trust decision](docs/bullgod-discovery-002/in-process-remediation.md).
+
 - BULLGOD-DISCOVERY-002 adds host-only `TrustedDiscoveryHost`, existing private
   binding readers and authenticated non-dispatching `inspect` on running adapters.
   Selection/revalidation never contact IPC or authorize dispatch. Trusted files

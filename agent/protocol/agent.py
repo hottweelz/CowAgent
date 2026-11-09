@@ -272,19 +272,27 @@ class Agent:
             roots.append(self.workspace_dir)
         return roots
 
-    def protected_paths(self) -> list:
+    def protected_paths(self, *, registry=None) -> list:
         """Files that decide what the Agent may run or reach: MCP servers,
         session permissions, project directories, config and credentials.
 
         Most sit inside the writable roots, so workspace-write refuses them
         explicitly; otherwise a session could grant itself more than its mode.
         """
-        from config import get_data_root
+        from config import get_data_root, get_root
         from common.state_dir import shared_root
         from agent.workspace import project_store, session_prefs
-        paths = [os.path.join(get_data_root(), "config.json"),
-                 session_prefs._store_file(), project_store._store_file()]
-        bases = {str(shared_root())}
+        # The initialized host can supply its actual registry. Keep the normal
+        # execution path unchanged; observation must not rebuild it from files.
+        shared = str(shared_root()) if registry is None else registry.get(require_enabled=False).workspace
+        # get_data_root() ensures its directory. Initialized observation needs
+        # the same path without that write, even when the directory exists.
+        data_root = (get_data_root() if registry is None else
+                     os.path.expanduser(os.environ["COW_DATA_DIR"]) if os.environ.get("COW_DATA_DIR") else get_root())
+        paths = [os.path.join(data_root, "config.json"),
+                 session_prefs._store_file() if registry is None else os.path.join(shared, "session_prefs.json"),
+                 project_store._store_file() if registry is None else os.path.join(shared, "projects.json")]
+        bases = {shared}
         if self.workspace_dir:
             bases.add(self.workspace_dir)
         for base in bases:
