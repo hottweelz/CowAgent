@@ -6,6 +6,7 @@ interactive sign-ins that cannot be reduced to a form: the WeChat QR code,
 and Feishu's one-click app registration.
 """
 
+from common import runtime_drain
 from collections import OrderedDict
 import json
 import os
@@ -474,11 +475,11 @@ class ChannelsHandler:
             try:
                 mgr = _live_channel_manager()
                 if mgr:
-                    threading.Thread(
-                        target=mgr.restart,
+                    runtime_drain.start_thread(
+                        "channel_control", mgr.restart,
                         args=(channel_name,),
                         daemon=True,
-                    ).start()
+                    )
                     logger.info(f"[WebChannel] Channel '{channel_name}' restart triggered")
             except Exception as e:
                 logger.warning(f"[WebChannel] Failed to restart channel '{channel_name}': {e}")
@@ -569,7 +570,7 @@ class ChannelsHandler:
                 logger.error(f"[WebChannel] Failed to start channel '{channel_name}': {e}",
                              exc_info=True)
 
-        threading.Thread(target=_do_start, daemon=True).start()
+        runtime_drain.start_thread("channel_control", _do_start, daemon=True)
 
         return json.dumps({
             "status": "success",
@@ -609,7 +610,7 @@ class ChannelsHandler:
                 logger.warning(f"[WebChannel] Failed to stop channel '{channel_name}': {e}",
                                exc_info=True)
 
-        threading.Thread(target=_do_stop, daemon=True).start()
+        runtime_drain.start_thread("channel_control", _do_stop, daemon=True)
 
         return json.dumps({
             "status": "success",
@@ -691,7 +692,7 @@ class ChannelsHandler:
                     exc_info=True,
                 )
 
-        threading.Thread(target=_do_start, daemon=True).start()
+        runtime_drain.start_thread("channel_control", _do_start, daemon=True)
         return json.dumps({
             "status": "success",
             "instance_id": inst.instance_id,
@@ -727,7 +728,7 @@ class ChannelsHandler:
                         f"[WebChannel] Failed to restart instance '{inst.instance_id}': {e}",
                         exc_info=True,
                     )
-            threading.Thread(target=_do_restart, daemon=True).start()
+            runtime_drain.start_thread("channel_control", _do_restart, daemon=True)
         logger.info(
             f"[WebChannel] Channel instance '{inst.instance_id}' saved, "
             f"restart={'yes' if changed else 'no'}"
@@ -793,7 +794,7 @@ class ChannelsHandler:
                     exc_info=True,
                 )
 
-        threading.Thread(target=_do_stop, daemon=True).start()
+        runtime_drain.start_thread("channel_control", _do_stop, daemon=True)
         return json.dumps({"status": "success", "instance_id": instance_id}, ensure_ascii=False)
 
     def _prune_legacy_channel_type(self, channel_name: str, remaining):
@@ -909,7 +910,7 @@ class WeixinQrHandler:
             WeixinQrHandler._restart_kicked[instance_id] = time.monotonic()
             mgr = _live_channel_manager()
             if mgr:
-                threading.Thread(target=mgr.restart, args=(instance_id,), daemon=True).start()
+                runtime_drain.start_thread("channel_control", mgr.restart, args=(instance_id,), daemon=True)
                 logger.info(f"[WebChannel] Weixin instance '{instance_id}' idle without QR, restarting for a new code")
         # Either the channel is mid-login and has not fetched a code yet, or a
         # restart is under way; the client retries shortly.
@@ -1161,7 +1162,7 @@ class FeishuRegisterHandler:
                         cls._state["error"] = err_msg
                 logger.warning(f"[FeishuRegister] Register failed ({err_cls}): {err_msg}")
 
-        threading.Thread(target=_worker, daemon=True, name="feishu-register").start()
+        runtime_drain.start_thread("channel_control", _worker, daemon=True, name="feishu-register")
 
     def GET(self):
         """启动一次新的注册会话。如果已有 pending/done 会话则覆盖。"""

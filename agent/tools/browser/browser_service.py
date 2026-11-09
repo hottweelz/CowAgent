@@ -7,6 +7,7 @@ automatically shuts down the browser (and its thread) after a configurable
 period of inactivity to free resources.
 """
 
+from common.runtime_drain import tracked
 import os
 import sys
 import json
@@ -536,6 +537,8 @@ class BrowserService:
 
         Raises if the browser does not become ready in time.
         """
+        from common.runtime_drain import mark_unsupported
+        mark_unsupported("browser_runtime_untracked")
         with self._lock:
             if self._alive and self._thread and self._thread.is_alive():
                 return
@@ -978,6 +981,7 @@ class BrowserService:
         except Exception as e:
             logger.debug(f"[Browser] {label} close error: {e}")
 
+    @tracked("browser")
     def _submit(self, fn: Callable, *args, **kwargs):
         """Submit *fn* to the background thread and block until it completes."""
         # If the browser died externally (e.g. user closed the window), tear

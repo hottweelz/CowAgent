@@ -13,6 +13,8 @@ from models.session_manager import SessionManager
 from bridge.context import Context, ContextType
 from bridge.reply import Reply, ReplyType
 from common.log import logger
+from common import runtime_drain
+from common.runtime_drain import tracked as tracked_runtime_work
 from config import conf, pconf
 import threading
 from common import memory, state_dir, utils
@@ -129,6 +131,7 @@ class LinkAIBot(Bot, OpenAICompatibleBot):
             reply = Reply(ReplyType.ERROR, "Bot不支持处理{}类型的消息".format(context.type))
             return reply
 
+    @tracked_runtime_work("legacy_provider")
     def _chat(self, query, context, retry_count=0) -> Reply:
         """
         发起对话请求
@@ -231,6 +234,9 @@ class LinkAIBot(Bot, OpenAICompatibleBot):
                         reply_content += knowledge_suffix
                 # image process
                 if response["choices"][0].get("img_urls"):
+                    # Image publication runs on a detached thread. It is not
+                    # covered by the reply call once that thread is started.
+                    runtime_drain.mark_unsupported("legacy_provider_untracked")
                     thread = threading.Thread(target=self._send_image, args=(context.get("channel"), context, response["choices"][0].get("img_urls")))
                     thread.start()
                     reply_content = response["choices"][0].get("text_content")

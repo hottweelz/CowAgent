@@ -18,6 +18,8 @@ from agent.registry import AgentProfile, AgentRegistry
 
 @pytest.fixture(autouse=True)
 def clear_launch_state(monkeypatch):
+    from common import runtime_drain
+    monkeypatch.setattr(runtime_drain, "_installed", None)
     monkeypatch.setattr(observer, "_pending", None)
     monkeypatch.delenv("COW_DESKTOP", raising=False)
 
@@ -352,10 +354,15 @@ def test_invalid_owner_is_rejected_before_private_binding_reader(tmp_path, monke
 
 def test_source_startup_runs_observer_after_owner_before_channels(monkeypatch):
     import app
+    from common import service_lifecycle
 
     order = []
     launch = object()
     owner = object()
+    # This test isolates orchestration order. Genuine-owner validation is
+    # exercised separately below and in the disposable service rehearsal.
+    monkeypatch.setattr(service_lifecycle, "bind_initialized",
+                        lambda coordinator, got_owner, channels: order.append("lifecycle"))
     monkeypatch.setattr(observer, "begin_startup", lambda _path: launch)
     monkeypatch.setattr(observer, "observe_and_publish", lambda got_launch, got_owner: (
         order.append("observe") if got_launch is launch and got_owner is owner else None
@@ -385,7 +392,35 @@ def test_source_startup_runs_observer_after_owner_before_channels(monkeypatch):
     monkeypatch.setattr(app, "set_channel_manager", lambda _manager: None)
     app.run()
 
-    assert order.index("owner") < order.index("observe") < order.index("channels")
+    assert order.index("owner") < order.index("lifecycle") < order.index("observe") < order.index("channels")
+
+
+def test_real_runtime_owner_tracks_two_agents_until_last_completion(initialized_owner):
+    from common import runtime_drain
+
+    coordinator = runtime_drain.install(runtime_drain.RuntimeDrain())
+    coordinator.bind_owner(initialized_owner)
+    first = coordinator.reserve("agent", "owner")
+    second = coordinator.reserve("agent", "testpilot")
+    coordinator.close_admission()
+    assert coordinator.wait(0)["agents"] == {"owner": 1, "testpilot": 1}
+    first.release()
+    assert coordinator.wait(0)["drained"] is False
+    second.release()
+    assert coordinator.wait(1)["drained"] is True
+
+
+def test_real_owner_cannot_substitute_for_missing_component_coverage(initialized_owner):
+    from common import service_lifecycle
+
+    coordinator = service_lifecycle.prepare()
+    service_lifecycle.bind_initialized(coordinator, initialized_owner, ["web", "telegram"])
+    receipt = service_lifecycle.drain(initialized_owner, 0.2)
+    assert receipt["drained"] is False
+    assert "missing_component:recovery" in receipt["blockers"]
+    assert "http_not_ready" in receipt["blockers"]
+    assert "non_web_ingress" in receipt["blockers"]
+    assert receipt["registered_agents"] == ["owner", "testpilot"]
 
 
 def test_ordinary_source_start_has_no_observer_and_keeps_startup_order(monkeypatch):

@@ -377,6 +377,9 @@ def _truncate_evolution_result(result: str) -> str:
     return result[:_MAX_EVOLUTION_SUMMARY_CHARS - len(suffix)].rstrip() + suffix
 
 
+from common.runtime_drain import tracked
+
+@tracked("evolution_execution")
 def run_evolution_for_session(
     agent_bridge,
     session_id: str,

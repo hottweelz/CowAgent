@@ -22,6 +22,7 @@ from urllib.parse import quote, unquote
 
 from common.atomic_write import write_text_atomic
 from common.log import logger
+from common import runtime_drain
 from config import conf
 from agent.memory.config import MemoryConfig
 from agent.memory.manager import MemoryManager
@@ -122,8 +123,7 @@ class KnowledgeService:
             except Exception as exc:
                 error.append(exc)
 
-        thread = threading.Thread(target=runner)
-        thread.start()
+        thread = runtime_drain.start_thread("memory_knowledge_sync", runner)
         thread.join()
         if error:
             raise error[0]
@@ -156,6 +156,7 @@ class KnowledgeService:
         old_paths = set(old_paths)
         if not old_paths and not force:
             return
+        lease = runtime_drain.reserve("memory_knowledge_reindex")
         key = str(Path(self.knowledge_dir).resolve())
         with KnowledgeService._reindex_lock:
             queue = KnowledgeService._reindex_queues.setdefault(
@@ -166,16 +167,28 @@ class KnowledgeService:
             # A worker re-reads the queue before it exits, so what was just
             # added is covered by the one already on the job.
             if worker is not None and worker.is_alive():
+                lease.release()
                 return
-            worker = threading.Thread(target=self._drain_reindex_queue, args=(key,),
-                                      name="knowledge-reindex", daemon=True)
-            queue["worker"] = worker
+            worker = None
             # Started while holding the lock, so the slot is never occupied by a
             # thread that has not begun: a second caller would read it as dead
             # and start a rival sync of the same index, and wait_for_reindex
             # would try to join it. The worker's first move is to take this same
             # lock, so it waits out the rest of this block.
-            worker.start()
+            try:
+                worker = threading.Thread(
+                    target=lease.run,
+                    args=(self._drain_reindex_queue, key),
+                    name="knowledge-reindex", daemon=True,
+                )
+                worker.start()
+                queue["worker"] = worker
+            except BaseException:
+                lease.release()
+                queue["worker"] = None
+                queue["paths"].update(old_paths)
+                queue["force"] = queue["force"] or force
+                raise
 
     def _drain_reindex_queue(self, key: str):
         while True:
@@ -218,6 +231,7 @@ class KnowledgeService:
             pass
         return fallback
 
+    @runtime_drain.tracked("memory_knowledge")
     def rebuild_index_md(self, renamed: Optional[dict] = None) -> bool:
         """Regenerate knowledge/index.md from the actual directory tree.
 
@@ -377,6 +391,7 @@ class KnowledgeService:
                 raise ValueError("invalid conflict strategy")
         return rel_path, destination, "write"
 
+    @runtime_drain.tracked("memory_knowledge")
     def create_document(self, path: str, content: str = "", overwrite: bool = False) -> dict:
         rel_path, full_path = self._resolve_path(path, kind="document")
         self._ensure_not_protected(rel_path)
@@ -392,6 +407,7 @@ class KnowledgeService:
         self._reindex(old_paths, force=True)
         return {"path": rel_path, "created": True, "overwritten": bool(old_paths)}
 
+    @runtime_drain.tracked("memory_knowledge")
     def update_document(self, path: str, content: str,
                         expected_mtime: Optional[float] = None) -> dict:
         """Rewrite an existing document and reindex it.
@@ -425,6 +441,7 @@ class KnowledgeService:
         return {"path": rel_path, "updated": True,
                 "size": result["size"], "mtime": result["mtime"]}
 
+    @runtime_drain.tracked("memory_knowledge")
     def import_documents(self, target_category: str, files: Iterable[dict],
                          conflict_strategy: str = "skip") -> dict:
         if not isinstance(files, list):
@@ -476,6 +493,7 @@ class KnowledgeService:
             self._reindex(old_paths, force=True)
         return {"results": results, "imported": imported, "skipped": skipped, "failed": failed}
 
+    @runtime_drain.tracked("memory_knowledge")
     def create_category(self, path: str) -> dict:
         rel_path, full_path = self._resolve_path(path, kind="category")
         if full_path.exists():
@@ -483,6 +501,7 @@ class KnowledgeService:
         full_path.mkdir(parents=True)
         return {"path": rel_path, "created": True}
 
+    @runtime_drain.tracked("memory_knowledge")
     def rename_category(self, path: str, new_path: str) -> dict:
         old_rel, old_full = self._resolve_path(path, kind="category", allow_missing=False)
         new_rel, new_full = self._resolve_path(new_path, kind="category")
@@ -504,6 +523,7 @@ class KnowledgeService:
         self._reindex(renamed.keys())
         return {"old_path": old_rel, "path": new_rel, "moved_documents": len(old_documents)}
 
+    @runtime_drain.tracked("memory_knowledge")
     def delete_category(self, path: str, confirm: bool = False) -> dict:
         rel_path, full_path = self._resolve_path(path, kind="category")
         if not full_path.exists():
@@ -525,6 +545,7 @@ class KnowledgeService:
         self._reindex(documents)
         return {"path": rel_path, "deleted": True, "deleted_documents": len(documents)}
 
+    @runtime_drain.tracked("memory_knowledge")
     def delete_documents(self, paths: Iterable[str]) -> dict:
         if not isinstance(paths, list):
             raise ValueError("paths must be a list")
@@ -558,6 +579,7 @@ class KnowledgeService:
             self._reindex(deleted)
         return {"results": results, "deleted": sum(1 for item in results if item["deleted"])}
 
+    @runtime_drain.tracked("memory_knowledge")
     def move_documents(self, paths: Iterable[str], target_category: str) -> dict:
         if not isinstance(paths, list):
             raise ValueError("paths must be a list")

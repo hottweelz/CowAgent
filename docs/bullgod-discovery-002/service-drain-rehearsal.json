@@ -1,0 +1,218 @@
+{
+  "candidate_commit": "005c1e4805c75017467b817baa2a8bbbe3f7511d",
+  "fallback_commit": "a507a400985512683c870ef4fe059fa5982ad13e",
+  "scope": "owned disposable startup, fictional held work, drain and rollback; no model or adapter execution",
+  "disposable_port": 19884,
+  "stages": [
+    {
+      "label": "candidate",
+      "before": {
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        },
+        "fictional_rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6"
+      },
+      "pid": 36746,
+      "health": "200/ok",
+      "startup_manifest_sha256": "210cece16670f2d7dc39e15eb8d2ea299388170f05f68710afd6968e7159f36f",
+      "inventory_ids": [
+        "default",
+        "testpilot",
+        "testpilot2"
+      ],
+      "held": {
+        "active": {
+          "fictional_run": 2
+        },
+        "agents": {
+          "testpilot": 1,
+          "testpilot2": 1
+        },
+        "blockers": [
+          "admission_open",
+          "probe_stale"
+        ],
+        "closed": false,
+        "drained": false,
+        "epoch": "1986dd1c78cd4558b01d6d4fbf7cca13",
+        "pid": 36746,
+        "registered_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "required_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ]
+      },
+      "busy": {
+        "active": {
+          "fictional_run": 2
+        },
+        "agents": {
+          "testpilot": 1,
+          "testpilot2": 1
+        },
+        "blockers": [
+          "probe_stale"
+        ],
+        "closed": true,
+        "drained": false,
+        "epoch": "1986dd1c78cd4558b01d6d4fbf7cca13",
+        "pid": 36746,
+        "registered_agents": [
+          "default",
+          "testpilot",
+          "testpilot2"
+        ],
+        "registered_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "required_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "runtime_epoch": "4b7c1746898244f69e2bf7c2ddad4563"
+      },
+      "new_request_after_close": 503,
+      "health_after_close": "200/ok",
+      "settled": {
+        "active": {},
+        "agents": {},
+        "blockers": [],
+        "closed": true,
+        "drained": true,
+        "epoch": "1986dd1c78cd4558b01d6d4fbf7cca13",
+        "pid": 36746,
+        "registered_agents": [
+          "default",
+          "testpilot",
+          "testpilot2"
+        ],
+        "registered_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "required_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "runtime_epoch": "4b7c1746898244f69e2bf7c2ddad4563"
+      },
+      "running_state": {
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        },
+        "fictional_rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6"
+      },
+      "exit_code": 0,
+      "after": {
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        },
+        "fictional_rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6"
+      },
+      "startup_initialization_epoch": "4b7c1746898244f69e2bf7c2ddad4563"
+    },
+    {
+      "label": "fallback",
+      "before": {
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        },
+        "fictional_rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6"
+      },
+      "pid": 36755,
+      "health": "200/ok",
+      "running_state": {
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        },
+        "fictional_rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6"
+      },
+      "exit_code": 0,
+      "after": {
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        },
+        "fictional_rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6"
+      }
+    }
+  ],
+  "inplace_fallback_verified": true,
+  "live_pid_preserved": true,
+  "live_port": 9899,
+  "status": "passed",
+  "schema": "cow.service-drain.rehearsal/1",
+  "private_bundle": "cow-service-drain-9tkkzl3f",
+  "test_controller": "Private parent-owned stdin pipe invoking the internal Python control; not a shipped or public endpoint.",
+  "limits": [
+    "Held work is fictional coordinator work under two registered IDs, not real TestPilot model execution.",
+    "The initialized owner, startup services, HTTP middleware, private launch authentication and fallback process are real.",
+    "No live-process quiescence or lossless rollback of live writes is established.",
+    "Plugins disabled, no MCP/cloud/external activity, no model dispatch; outbound and live-data filesystem access denied by OS sandbox."
+  ],
+  "fixture_artifacts_sha256": {
+    "driver.py": "67f5759a55c5cb2e08ae7cd3c6271d5d4a4747e7f6abeb35569e6e72ba2d946c",
+    "make_request.py": "e73c68caf96209f34326bf6723e4f8895bb521a5dfc0d7191958a1646c66e4d8",
+    "rehearse.py": "09c5f4d2e019a72aa8fadbb51d080ceda8d941e7de0fd02f8437682cf8be6ef4",
+    "rehearsal.sb": "92b30da3f3591bc0fa792c53a87f6f072a17a4cb3ee03a8741f8cb74b57b5ae8"
+  },
+  "startup_manifest_files": 368,
+  "startup_and_drain_owner_binding_verified": true
+}

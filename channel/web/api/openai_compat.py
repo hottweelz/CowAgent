@@ -487,11 +487,11 @@ def _stream_completion(
             finally:
                 registry.unregister(cancel_key)
 
-    worker = threading.Thread(
-        target=execute, name="openai-chat-completion", daemon=True
-    )
+    from common import runtime_drain
     try:
-        worker.start()
+        runtime_drain.start_thread(
+            "openai_stream", execute, name="openai-chat-completion", daemon=True
+        )
     except Exception:
         registry.unregister(cancel_key)
         raise

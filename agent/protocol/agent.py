@@ -5,6 +5,7 @@ import time
 import threading
 
 from common.log import logger
+from common.runtime_drain import tracked as tracked_runtime_work
 from agent.protocol.accounting import fingerprint, request_snapshot
 
 
@@ -772,6 +773,7 @@ class Agent:
 
         return action
 
+    @tracked_runtime_work("agent_run")
     def run_stream(self, user_message: str, on_event=None, clear_history: bool = False,
                    skill_filter=None, cancel_event=None, steer_inbox=None,
                    allow_empty_response: bool = False, on_executor=None) -> str:

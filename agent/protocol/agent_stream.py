@@ -2314,9 +2314,28 @@ class AgentStreamExecutor:
                 # session - into the worker thread, so anything the tool writes
                 # lands where the same call would have landed on this thread.
                 ctx = contextvars.copy_context()
-                futures[call["id"]] = pool.submit(
-                    ctx.run, self._execute_tool, call, copy.copy(self.tools[call["name"]])
+                from common import runtime_drain
+                from common.runtime_identity import current_agent_id
+
+                lease = runtime_drain.reserve(
+                    "parallel_tool", current_agent_id() or ""
                 )
+                try:
+                    # Activate inside the copied context. Activating first and
+                    # then calling ctx.run would restore the copied parent
+                    # context and hide the new lease from nested work.
+                    future = pool.submit(
+                        ctx.run, lease.run, self._execute_tool, call,
+                        copy.copy(self.tools[call["name"]]),
+                    )
+                    future.add_done_callback(
+                        lambda done, reserved=lease: reserved.release()
+                        if done.cancelled() else None
+                    )
+                except BaseException:
+                    lease.release()
+                    raise
+                futures[call["id"]] = future
             return self._collect_parallel_results(futures)
         finally:
             # Workers stop at their own next checkpoint; joining would delay the cancel.

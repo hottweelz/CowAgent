@@ -9,6 +9,7 @@ import uuid
 from typing import Callable, Optional
 
 from common.log import logger
+from common.runtime_drain import tracked as tracked_runtime_work
 
 
 class ChatService:
@@ -27,6 +28,7 @@ class ChatService:
         """
         self.agent_bridge = agent_bridge
 
+    @tracked_runtime_work("chat_service")
     def run(
         self,
         query: str,

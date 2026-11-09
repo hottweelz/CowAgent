@@ -22,6 +22,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from common.log import logger
+from common import runtime_drain
 
 
 # Runs this process opened and has not finished yet. A run stored as
@@ -793,6 +794,7 @@ class ConversationStore:
         agent_id = extras.get("agent_id")
         return agent_id if isinstance(agent_id, str) else ""
 
+    @runtime_drain.tracked("memory_conversation")
     def append_messages(
         self,
         session_id: str,
@@ -925,6 +927,7 @@ class ConversationStore:
             finally:
                 conn.close()
 
+    @runtime_drain.tracked("memory_conversation")
     def clear_context(self, session_id: str) -> int:
         """
         Set the context boundary to after the current last message.
@@ -1025,6 +1028,7 @@ class ConversationStore:
                 conn.close()
         return result
 
+    @runtime_drain.tracked("memory_conversation")
     def clear_session(self, session_id: str) -> None:
         """Delete all messages and the session record for a given session_id."""
         with self._lock:
@@ -1043,6 +1047,7 @@ class ConversationStore:
             finally:
                 conn.close()
 
+    @runtime_drain.tracked("memory_conversation")
     def delete_message_pair(self, session_id: str, user_seq: int, delete_user: bool = True, cascade: bool = False) -> int:
         """Delete a user message and/or its corresponding assistant reply.
 
@@ -1136,6 +1141,7 @@ class ConversationStore:
             finally:
                 conn.close()
 
+    @runtime_drain.tracked("memory_conversation")
     def prune_scheduled_messages(
         self,
         session_id: str,
@@ -1231,6 +1237,7 @@ class ConversationStore:
             finally:
                 conn.close()
 
+    @runtime_drain.tracked("memory_conversation")
     def cleanup_old_sessions(self, max_age_days: Optional[int] = None) -> int:
         """
         Delete sessions that have not been active within max_age_days.
@@ -1280,6 +1287,7 @@ class ConversationStore:
             logger.info(f"[ConversationStore] Pruned {deleted} expired sessions")
         return deleted
 
+    @runtime_drain.tracked("memory_conversation")
     def attach_extras_to_last_assistant(
         self,
         session_id: str,
@@ -1311,6 +1319,7 @@ class ConversationStore:
             finally:
                 conn.close()
 
+    @runtime_drain.tracked("memory_conversation")
     def attach_extras_to_assistant(
         self, session_id: str, message_seq: int, extras: Dict[str, Any], snapshot: tuple
     ) -> Optional[int]:
@@ -1402,6 +1411,7 @@ class ConversationStore:
         "task_id, task_source, status, started_at, ended_at, error, extras"
     )
 
+    @runtime_drain.tracked("memory_conversation")
     def create_run(
         self,
         run_id: str,
@@ -1451,6 +1461,7 @@ class ConversationStore:
             finally:
                 conn.close()
 
+    @runtime_drain.tracked("memory_conversation")
     def finish_run(
         self,
         run_id: str,
@@ -1505,6 +1516,7 @@ class ConversationStore:
             finally:
                 conn.close()
 
+    @runtime_drain.tracked("memory_conversation")
     def update_run_extras(self, run_id: str, extras: Dict[str, Any]) -> bool:
         """Merge keys into a run's sidecar without touching its lifecycle.
 
@@ -1657,6 +1669,7 @@ class ConversationStore:
                 conn.close()
         return [self._run_row_to_dict(r) for r in rows]
 
+    @runtime_drain.tracked("memory_conversation")
     def delete_run(self, run_id: str, agent_id: Optional[str] = None) -> bool:
         """Delete a single run row. Returns True if a row was removed.
 
@@ -2033,6 +2046,7 @@ class ConversationStore:
             "has_more": (page - 1) * page_size + page_size < total,
         }
 
+    @runtime_drain.tracked("memory_conversation")
     def rename_session(self, session_id: str, title: str) -> bool:
         """Update the title of a session. Returns True if the session existed."""
         with self._lock:
@@ -2047,6 +2061,7 @@ class ConversationStore:
             finally:
                 conn.close()
 
+    @runtime_drain.tracked("memory_conversation")
     def upsert_title(self, session_id: str, title: str, channel_type: str = "") -> bool:
         """Set a session's title, creating its record first when missing.
 
@@ -2079,6 +2094,7 @@ class ConversationStore:
             finally:
                 conn.close()
 
+    @runtime_drain.tracked("memory_conversation")
     def set_pinned(self, session_id: str, pinned: bool) -> bool:
         """Pin or unpin a session. Returns True if the session existed."""
         with self._lock:
@@ -2093,6 +2109,7 @@ class ConversationStore:
             finally:
                 conn.close()
 
+    @runtime_drain.tracked("memory_conversation")
     def set_context_usage(self, session_id: str, usage: Optional[dict]) -> bool:
         """Store a session's context-usage snapshot (None clears it). Best-effort;
         returns True if the session existed."""
@@ -2197,6 +2214,7 @@ class ConversationStore:
     # Artifacts
     # ------------------------------------------------------------------
 
+    @runtime_drain.tracked("memory_conversation")
     def record_artifacts(
         self,
         session_id: str,
@@ -2340,6 +2358,7 @@ class ConversationStore:
         ]
         return {"items": items, "has_more": len(rows) > limit}
 
+    @runtime_drain.tracked("memory_conversation")
     def set_artifact_title(self, artifact_id: int, title: str) -> bool:
         """Name one row for the view; an empty title falls back to the file name."""
         if not self._artifacts_ready:
@@ -2356,6 +2375,7 @@ class ConversationStore:
             finally:
                 conn.close()
 
+    @runtime_drain.tracked("memory_conversation")
     def set_artifact_pinned(self, artifact_id: int, pinned: bool) -> Optional[int]:
         """Pin one row to the top of the timeline, or unpin it.
 
@@ -2377,6 +2397,7 @@ class ConversationStore:
             finally:
                 conn.close()
 
+    @runtime_drain.tracked("memory_conversation")
     def delete_artifact(self, artifact_id: int) -> bool:
         """Drop one row from the index. The file itself is left alone."""
         if not self._artifacts_ready:
@@ -2414,6 +2435,7 @@ class ConversationStore:
     # Internal helpers
     # ------------------------------------------------------------------
 
+    @runtime_drain.tracked("memory_conversation")
     def _init_db(self) -> None:
         self._db_path.parent.mkdir(parents=True, exist_ok=True)
         conn = self._raw_connect()
@@ -2926,6 +2948,7 @@ def _migration_done(conn: sqlite3.Connection, key: str) -> bool:
         return False
 
 
+@runtime_drain.tracked("memory_conversation_migration")
 def migrate_conversations_to_global(kickoff_async: bool = True) -> None:
     """Bring every Agent's conversations into the one global file.
 
@@ -2987,16 +3010,15 @@ def migrate_conversations_to_global(kickoff_async: bool = True) -> None:
     clear_conversation_store_cache()
 
     if kickoff_async:
-        threading.Thread(
-            target=_merge_secondary_agents,
-            args=(),
-            name="conv-merge",
-            daemon=True,
-        ).start()
+        runtime_drain.start_thread(
+            "memory_conversation_migration", _merge_secondary_agents,
+            name="conv-merge", daemon=True,
+        )
     else:
         _merge_secondary_agents()
 
 
+@runtime_drain.tracked("memory_conversation_migration")
 def _merge_secondary_agents() -> None:
     """Copy each non-default Agent's conversation tables into the global file.
 

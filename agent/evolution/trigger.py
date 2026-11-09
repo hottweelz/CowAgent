@@ -21,6 +21,11 @@ import threading
 import time
 
 from common.log import logger
+from common.runtime_drain import AdmissionClosed, current, tracked, work
+import weakref
+
+_registration_lock = threading.Lock()
+_registered = weakref.WeakSet()
 
 from agent.evolution.config import get_evolution_config
 from agent.evolution.executor import run_evolution_for_session
@@ -91,6 +96,12 @@ def mark_run_active(agent, active: bool) -> None:
 
 def start_evolution_trigger(agent_bridge) -> None:
     """Start the idle-scan thread once per process (idempotent)."""
+    coordinator = current()
+    if coordinator is not None:
+        with _registration_lock:
+            if coordinator not in _registered:
+                coordinator.register_component("evolution")
+                _registered.add(coordinator)
     if getattr(agent_bridge, "_evolution_trigger_started", False):
         return
     agent_bridge._evolution_trigger_started = True
@@ -106,15 +117,19 @@ def _scan_loop(agent_bridge) -> None:
     while True:
         try:
             time.sleep(_SCAN_INTERVAL_SECONDS)
-            cfg = get_evolution_config()
-            if not cfg.enabled:
-                continue
-            _scan_once(agent_bridge, cfg)
+            with work("evolution_scan"):
+                cfg = get_evolution_config()
+                if not cfg.enabled:
+                    continue
+                _scan_once(agent_bridge, cfg)
+        except AdmissionClosed:
+            break
         except Exception as e:
             logger.warning(f"[Evolution] Scan loop error: {e}")
             time.sleep(_SCAN_INTERVAL_SECONDS)
 
 
+@tracked("evolution_scan")
 def _scan_once(agent_bridge, cfg) -> None:
     now = time.time()
     # Snapshot to avoid holding the dict while running long evolutions.

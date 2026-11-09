@@ -177,6 +177,9 @@ def _report(task):
     return report
 
 
+from common.runtime_drain import tracked
+
+@tracked("recovery_verification")
 def verify_task(store, task_id, *, claim=None, force=False):
     """Append independent evidence without changing execution or retrying work."""
     if claim is not None:

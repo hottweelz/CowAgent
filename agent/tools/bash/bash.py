@@ -2,6 +2,7 @@
 Bash tool - Execute bash commands
 """
 
+from common.runtime_drain import tracked
 import os
 import re
 import signal
@@ -117,6 +118,7 @@ SAFETY:
         if template:
             self.description = template.replace("{cwd}", self.cwd)
 
+    @tracked("shell")
     def execute(self, args: Dict[str, Any]) -> ToolResult:
         """
         Execute a bash command
@@ -124,6 +126,8 @@ SAFETY:
         :param args: Dictionary containing the command and optional timeout
         :return: Command output or error
         """
+        from common.runtime_drain import mark_unsupported
+        mark_unsupported("shell_descendants_unattested")
         command = (args.get("command") or "").strip()
         timeout = args.get("timeout", self.default_timeout)
         run_in_background = bool(args.get("run_in_background", False))

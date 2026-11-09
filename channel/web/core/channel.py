@@ -37,7 +37,7 @@ from channel.web.core._common import (
     _scoped_agent_id, SERVING, _session_roster, SSEStreamState,
     _steer_reply_text, VIDEO_EXTENSIONS, WebMessage,
 )
-from common import i18n
+from common import i18n, runtime_drain
 from common.log import logger
 from common.singleton import singleton
 from config import conf
@@ -696,11 +696,11 @@ class WebChannel(ChatChannel):
                 return False
             if not self._tts_provider_ready():
                 return False
-            threading.Thread(
-                target=self._synthesize_tts_async,
+            runtime_drain.start_thread(
+                "web_tts", self._synthesize_tts_async,
                 args=(request_id, session_id, text, context.get("agent_id")),
                 daemon=True,
-            ).start()
+            )
             return True
         except Exception as e:
             logger.debug(f"[WebChannel] auto-tts dispatch skipped: {e}")
@@ -1189,7 +1189,7 @@ class WebChannel(ChatChannel):
             if use_sse:
                 context["on_event"] = self._make_sse_callback(request_id)
 
-            threading.Thread(target=self.produce, args=(context,)).start()
+            runtime_drain.start_thread("web_handoff", self.produce, args=(context,), daemon=False)
 
             return json.dumps({
                 "status": "success",
@@ -1273,12 +1273,15 @@ class WebChannel(ChatChannel):
             while True:
                 time.sleep(SWEEP_INTERVAL)
                 try:
-                    reclaimed = self._sweep_sse_streams()
-                    if reclaimed:
-                        logger.info(
-                            f"[WebChannel] SSE janitor reclaimed {reclaimed} "
-                            f"idle stream(s)"
-                        )
+                    with runtime_drain.work("sse_sweep"):
+                        reclaimed = self._sweep_sse_streams()
+                        if reclaimed:
+                            logger.info(
+                                f"[WebChannel] SSE janitor reclaimed {reclaimed} "
+                                f"idle stream(s)"
+                            )
+                except runtime_drain.AdmissionClosed:
+                    return
                 except Exception as e:
                     logger.warning(f"[WebChannel] SSE janitor error: {e}")
 
@@ -1532,7 +1535,7 @@ class WebChannel(ChatChannel):
             logger.error(f"Error polling response: {e}")
             return json.dumps({"status": "error", "message": str(e)})
 
-    def startup(self):
+    def _prepare_startup(self):
         configured_host = conf().get("web_host", "")
         host = configured_host or ("0.0.0.0" if _is_password_enabled() else "127.0.0.1")
         # The desktop app passes its chosen port via COW_WEB_PORT so its backend
@@ -1619,7 +1622,7 @@ class WebChannel(ChatChannel):
         # web.py resolves handler names out of the namespace they live in.
         # channel_factory only ever reaches this class through that module, so
         # it is already imported by the time startup() runs.
-        from channel.web.web_channel import build_app
+        from channel.web.web_channel import build_app, drain_wsgi
         app = build_app()
 
         # 完全禁用web.py的HTTP日志输出
@@ -1633,7 +1636,7 @@ class WebChannel(ChatChannel):
 
         # Build WSGI app with middleware (same as runsimple but without print)
         func = web.httpserver.StaticMiddleware(app.wsgifunc())
-        func = web.httpserver.LogMiddleware(func)
+        func = drain_wsgi(web.httpserver.LogMiddleware(func))
 
         # The desktop shell probes and loads the console over plain http.
         https_enabled = bool(conf().get("web_https_enabled", False)) and os.environ.get("COW_DESKTOP") != "1"
@@ -1696,6 +1699,13 @@ class WebChannel(ChatChannel):
         self._serve_loopback(build, host, port)
         SERVING.set()
         _log_startup_banner(scheme)
+        return server, build, host, port, scheme
+
+    def startup(self):
+        # The accept loop is long-lived; only the bounded setup is work.
+        with runtime_drain.work("web_startup"):
+            server, build, host, port, scheme = self._prepare_startup()
+        from channel.web.api.integrations import record_listen
         while True:
             try:
                 server.serve()
@@ -1740,6 +1750,7 @@ class WebChannel(ChatChannel):
                 self._rebind_to = (host, port, on_bound)
             server.stop()
 
+        runtime_drain.mark_unsupported("web_rebind")
         threading.Thread(target=swap, daemon=True, name="web-rebind").start()
 
     def _can_fall_back(self, host: str) -> bool:

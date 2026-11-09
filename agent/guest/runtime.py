@@ -34,6 +34,7 @@ from typing import Any, Callable, Deque, Dict, Iterable, List, Optional, Tuple
 
 from agent.guest import policy, store
 from agent.guest.paths import GuestPathError, PathGuard
+from common.runtime_drain import AdmissionClosed, tracked as tracked_runtime_work
 from agent.guest.share import ShareState
 from agent.guest.tools import build_guest_tools
 from agent.protocol.agent import Agent
@@ -465,6 +466,7 @@ class GuestService:
 
     # --- turns ---------------------------------------------------------------
 
+    @tracked_runtime_work("guest_begin")
     def begin(self, state: ShareState, visitor_id: str, session_id: str, text: str,
               attachments: Iterable[str] = ()) -> GuestTurn:
         """Check and reserve a turn, and record the visitor's message.
@@ -518,6 +520,7 @@ class GuestService:
             raise
         return turn
 
+    @tracked_runtime_work("guest_execution")
     def execute(self, turn: GuestTurn, on_event: Optional[EventSink] = None) -> TurnResult:
         """Run a turn to the end, store the reply and return it. Blocks for
         as long as the Agent works; ``on_event`` sees its progress."""
@@ -534,6 +537,7 @@ class GuestService:
             if session is not None:
                 session.last_active = time.time()
 
+    @tracked_runtime_work("guest_run_turn")
     def run_turn(self, state: ShareState, visitor_id: str, session_id: str, text: str,
                  attachments: Iterable[str] = (), on_event: Optional[EventSink] = None) -> TurnResult:
         """``begin`` and ``execute`` in one call, for front ends that wait."""
@@ -779,9 +783,14 @@ class GuestService:
             time.sleep(300)
             try:
                 self.sweep()
+            except AdmissionClosed:
+                # Admission closure must stop periodic filesystem cleanup
+                # before it starts a new pass.
+                return
             except Exception as e:
                 logger.warning(f"[GuestShare] Sweep failed: {e}")
 
+    @tracked_runtime_work("guest_sweep")
     def sweep(self, now: Optional[float] = None) -> None:
         now = now or time.time()
         with self._lock:
