@@ -3,14 +3,16 @@
 Internal capability discovery, deterministic eligibility and selection. Baseline:
 `0805c82ef55342b105c835cee77c21d6e385c434`. Branch:
 `codex/bullgod-discovery-001`. This milestone does not activate BullGod or dispatch
-work. Publication is a draft PR; integration requires separate authorization.
+work. DISCOVERY-002 Gate A subsequently authorized integration: PR #3 merged as
+`40958f392bca59009224fcebfd1b636a861615ab`; automatic master CI passed. See the
+[integration report](integration.md).
 
 **PASSED** for this development milestone. Focused validation, independent review
 and all five hosted CI jobs pass on source
 `ff09850d089622bd9dca30508b0ce03d21cbcdb4`.
 The [hosted receipt](hosted-validation.json) reconciles logs, JUnit cases, skips
 and the exact checked-out source tree.
-[Draft PR #3](https://github.com/hottweelz/CowAgent/pull/3) publishes the work.
+[Merged PR #3](https://github.com/hottweelz/CowAgent/pull/3) publishes the work.
 
 ## Architecture and authoritative state
 
@@ -279,7 +281,8 @@ new credential registry, memory engine, arbitrary coding or tool execution throu
 the existing external adapters, continuous probes, cost/quality prediction, slot
 reservation, provider-parallelism guarantees, hard termination and exactly-once
 effects. No production activation, service restart, profile/memory/provider
-change or merge is part of this milestone.
+change was part of the development milestone. The subsequent authorized merge is
+recorded in the integration report.
 
 ## Completion questions
 

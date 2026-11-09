@@ -1,5 +1,53 @@
 # AI handoff ledger
 
+## 2026-11-08 21:30 EST — Codex — DISCOVERY-002 Gate A integration passed
+
+- Task/result: owner authorized DISCOVERY-001 integration. PR #3 marked ready
+  and merged normally with expected-head 9293315e as 40958f39. HEAD/master/
+  origin/master equal the merge at 0/0. Gate B remains unstarted until this
+  report/receipt closeout is published.
+- Team: Luna/high verified Git/runtime preservation and collected hosted CI;
+  Sol 6.1/high independently reviewed the seven source/test files and existing
+  identity/proof/approval/authority/execution dependencies. Stronger review was
+  required for consequential cross-component security reasoning. Lead owned
+  integration, focused validation, docs and Git. STE branch completion/review used.
+- Changes/files: documentation only under docs/bullgod-discovery-001 (integration
+  report, premerge/postflight/hosted receipts and README), MEMORY.md and this
+  handoff. Existing implementation is unchanged from validated source ff09850d.
+- Tests/results: 258 focused discovery/native/adapter/operator/recovery tests
+  passed; one disposable SQL-authorizer probe passed. All seven operator/external
+  tables retain identical rows, zero total_changes and zero mutating SQL attempts.
+  Only BEGIN/SELECT/COMMIT traced. Independent review PASS, no open findings.
+  Existing hosted evidence hashes match; automatic master Tests run 42550651190
+  passed all five jobs. Reconciled logs/JUnit match all 6,008 named cases and
+  exact prior skip sets: macOS 5,969/39; Linux 5,962/46; 93 subtests each.
+- Integrity/preservation: pre/post git fsck --full passed with 40 preserved dangling
+  objects and no other diagnostics; seven original untracked/five recovery
+  artifacts/both recovery refs preserved; detached worktree clean. Original
+  PID 28093 remains healthy at 127.0.0.1:9899 with config/provider/profile hashes,
+  memory/database metadata unchanged. No private memory content read.
+- Decisions: reuse source-equivalent PR evidence; normal merge only; update
+  inactive local master through non-forced fast-forward fetch before switching
+  to the identical tree. Closeout docs use [skip ci] and preserve tested code.
+- Lessons Learned:
+  - Mistake: a nominally read-only SQLite observation can be confused with
+    filesystem immutability.
+  - Root Cause: ordinary connection/WAL housekeeping is distinct from record DML.
+  - Future Trigger: approving observational journal readers.
+  - Required Behavior Change: inspect the call graph and verify zero DML plus
+    unchanged records; state any connection bookkeeping limit explicitly.
+  - Verification Step: SQL authorizer, total_changes and all-table snapshots.
+  - Durable Memory Update: project MEMORY.md updated; no global memory update.
+- Known limits: Gate A does not certify live proof/admission for any target.
+  Missing host readers remain Gate B work. Ordinary Windows/native-browser
+  exclusions stay recorded; no production activation or service restart.
+- Next: once this source-bound closeout is synchronized, create
+  codex/bullgod-discovery-002 from verified master and implement trusted runtime
+  evidence/read-only admission under the supplied goal. Do not merge 002.
+- Notes: private Gate A evidence root is cow-discovery002-y05588lk/gate-a under
+  the host temporary directory. Preserve all original artifacts and service.
+  Verify final master 0/0 after closeout push; then document exact 002 branch base.
+
 ## 2026-11-08 20:56 EST — Codex — BULLGOD-DISCOVERY-001 PASSED; draft PR #3
 
 - Task/result: internal capability discovery, eligibility and deterministic

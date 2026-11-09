@@ -1,0 +1,63 @@
+{
+  "captured_at": "2026-11-09T02:23:07.507213+00:00",
+  "candidate": "9293315ec7910452896ef18bc040b9ed60b8c316",
+  "baseline": "0805c82ef55342b105c835cee77c21d6e385c434",
+  "focused": {
+    "passed": 258,
+    "failed": 0,
+    "errors": 0,
+    "elapsed_seconds": 8.73,
+    "selection": [
+      "test_discovery_contracts",
+      "test_bullgod_discovery",
+      "test_approved_dispatch",
+      "test_agent_registry",
+      "test_agent_delegation",
+      "test_agent_delegation_timeout",
+      "test_cowagent_adapter",
+      "test_cowagent_enrollment",
+      "test_cowagent_native",
+      "test_external_supervisor",
+      "test_external_operator_control",
+      "test_external_operator_review",
+      "test_recovery_runtime"
+    ],
+    "log_sha256": "2684e44127400e8a1d11ee42cb2594439c399d8fd201b64e004650cb82766221",
+    "junit_sha256": "b2502c59b2dfe55cf49deb58d3f1e57305ead26ebe07b82e8aca371b23afed5a"
+  },
+  "preview_sql_probe": {
+    "passed": true,
+    "tables_compared": [
+      "external_approval_bindings",
+      "external_events",
+      "external_tasks",
+      "external_verifications",
+      "operator_decisions",
+      "operator_metadata",
+      "operator_state"
+    ],
+    "all_rows_unchanged": true,
+    "total_changes_delta": 0,
+    "mutating_sql_attempts": 0,
+    "statement_verbs": [
+      "BEGIN",
+      "COMMIT",
+      "SELECT"
+    ],
+    "snapshot_sha256": "bb7150da2f31fff8a657135ce966bbd940bf14e08c3317938505cf18f5d87f89",
+    "scope": "Disposable real OperatorControl/ApprovalJournal fixture; no live authority accessed.",
+    "limit": "Verifies application records and SQL writes; ordinary SQLite connection bookkeeping is not filesystem immutability."
+  },
+  "independent_review": {
+    "result": "PASS",
+    "actionable_findings": [],
+    "reviewer": "discovery002_gate_a_review",
+    "requested_model": "gpt-6.1-sol",
+    "requested_effort": "high",
+    "effective_model_independently_attested": false,
+    "scope": "Seven published implementation/test files and registry/native authority/model/adapter/operator/recovery dependencies; retained source and CI receipt verification.",
+    "limitations": "No live eligibility or Gate B claim. SQLite connection housekeeping is not application record mutation."
+  },
+  "merge_authorized_by": "User BULLGOD-DISCOVERY-002 Gate A4",
+  "gate_b_started": false
+}

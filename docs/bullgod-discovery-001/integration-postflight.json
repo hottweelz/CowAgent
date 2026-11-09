@@ -1,0 +1,109 @@
+{
+  "captured_at": "2026-11-09T02:25:10Z",
+  "merge": "40958f392bca59009224fcebfd1b636a861615ab",
+  "head_master_origin_master_equal": true,
+  "ahead_behind": [
+    0,
+    0
+  ],
+  "git_fsck": {
+    "exit_code": 0,
+    "dangling_objects_preserved": 40,
+    "other_diagnostics": 0
+  },
+  "original_untracked": {
+    ".cow [conflicted 2].pid": {
+      "actual_sha256": "68c8043af16c0fd44cf199d230d7521c6d54d69f3c74ced7df43a5ec9f867a09",
+      "expected_sha256": "68c8043af16c0fd44cf199d230d7521c6d54d69f3c74ced7df43a5ec9f867a09",
+      "match": true
+    },
+    ".cow [conflicted 3].pid": {
+      "actual_sha256": "3467d9fe4a3d7903e77a32cfe460ba86cfcc660dcdfc63b7fca0c2a84f7e3073",
+      "expected_sha256": "3467d9fe4a3d7903e77a32cfe460ba86cfcc660dcdfc63b7fca0c2a84f7e3073",
+      "match": true
+    },
+    ".cow [conflicted 4].pid": {
+      "actual_sha256": "572e6d624cd6187a2313986881c41d911458be8c4c649718339f470c463b4727",
+      "expected_sha256": "572e6d624cd6187a2313986881c41d911458be8c4c649718339f470c463b4727",
+      "match": true
+    },
+    ".cow [conflicted].pid": {
+      "actual_sha256": "20553d8bc1c88861a5863f18349edb074a81387325706a10c2312acfe163312a",
+      "expected_sha256": "20553d8bc1c88861a5863f18349edb074a81387325706a10c2312acfe163312a",
+      "match": true
+    },
+    "AGENTS.md": {
+      "actual_sha256": "ebd0f7b6480fc01aacf8d1c5e04ad981cd14e7b58e245ee91bd894a6cfae513b",
+      "expected_sha256": "ebd0f7b6480fc01aacf8d1c5e04ad981cd14e7b58e245ee91bd894a6cfae513b",
+      "match": true
+    },
+    "tests/test_parallel_tool_calls [conflicted 2].py": {
+      "actual_sha256": "fecd12b1aa48779f79a7d844a3bed55bf413cbbf77ea023a317e3ace93bf6b97",
+      "expected_sha256": "fecd12b1aa48779f79a7d844a3bed55bf413cbbf77ea023a317e3ace93bf6b97",
+      "match": true
+    },
+    "tests/test_parallel_tool_calls [conflicted].py": {
+      "actual_sha256": "fecd12b1aa48779f79a7d844a3bed55bf413cbbf77ea023a317e3ace93bf6b97",
+      "expected_sha256": "fecd12b1aa48779f79a7d844a3bed55bf413cbbf77ea023a317e3ace93bf6b97",
+      "match": true
+    }
+  },
+  "recovery_manifest_sha256": "c477506fc977ea31529351651a4579b3e8742480653eb8cd54672acd1f3184d1",
+  "five_recovery_artifacts_match": true,
+  "recovery_refs": {
+    "codex/routing-closeout-ref-recovery": {
+      "actual": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+      "expected": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+      "match": true
+    },
+    "codex/routing-closeout-verified": {
+      "actual": "2b6df30a66f79b37577112517add8e56c7b22288",
+      "expected": "2b6df30a66f79b37577112517add8e56c7b22288",
+      "match": true
+    }
+  },
+  "existing_detached_worktree_clean": true,
+  "runtime": {
+    "pid": 28093,
+    "same_process_start_verified": true,
+    "listener": [
+      {
+        "host": "127.0.0.1",
+        "port": 9899,
+        "status": "LISTEN"
+      }
+    ],
+    "health": {
+      "http_status": 200,
+      "status": "ok"
+    },
+    "checks": {
+      "agent_profile_hashes_match": true,
+      "config_sha256_match": true,
+      "data_root_stat_match": true,
+      "database_file_stats_match": true,
+      "health_match": true,
+      "memory_file_stats_match": true,
+      "model_config_match": true,
+      "process_match": true,
+      "provider_env_presence_match": true,
+      "workspace_stats_match": true
+    },
+    "agent_profile_hashes": {
+      "default": "a329220d39521791e9152b22b2f69db9d8fcbd9dfef245f0112fbafc4d764fec",
+      "testpilot": "b165eda4eeae3160bb4c873227e33c8fdc868cd64200ee52bfaaa3cb490ee214",
+      "testpilot2": "59f4b6955a22a088536a2d908e82a5581b55896e8a4c981d701c01a24cabe912"
+    },
+    "config_sha256": "b7eb23e63dc1c4c02d9ae2e6ca23bb8b96c6d41824f63575bd9f9fde3e6c014a",
+    "private_memory_contents_read": false
+  },
+  "limits": [
+    "Config/profiles/provider/memory/database comparisons concern hashes or file metadata, not private memory contents.",
+    "Does not establish absence of kernel sync watches."
+  ],
+  "private_evidence_hashes": {
+    "postmerge-preservation.json": "d5e2b118504f5ba526dcc9e7735d3513998fb492593cce76e9c0f672198189f8",
+    "runtime-postmerge-comparison-sanitized.json": "8c0e9e5efce4e52172abe6775990be0a1da570fceb287f710cd3a53d6f147a42",
+    "git-fsck.log": "7cc7c2c1ae9667e6f866878b5a1eca2e14692302c2d343c5ff0406c7602f16a8"
+  }
+}

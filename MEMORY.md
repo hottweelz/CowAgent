@@ -1,6 +1,7 @@
 # CowAgent project facts
 
-- BULLGOD-DISCOVERY-001 adds the internal `agent.discovery` derived view over
+- BULLGOD-DISCOVERY-001 was integrated through PR #3 at merge 40958f39 after
+  focused integration review and passing automatic master CI. It adds the internal `agent.discovery` derived view over
   AgentRegistry and existing enrolled ExternalSupervisor bindings. It has no
   identity database or dispatch method. Strict task requirements and versioned
   policy filter before deterministic preference/load/model/ID ranking. Every

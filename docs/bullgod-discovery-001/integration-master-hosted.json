@@ -1,0 +1,217 @@
+{
+  "receipt_type": "gate-a-post-merge-hosted-validation",
+  "task": "BULLGOD-DISCOVERY-002 Gate A",
+  "captured_at": "2026-11-09T02:31:14Z",
+  "source": {
+    "pr_number": 3,
+    "merged_commit": "40958f392bca59009224fcebfd1b636a861615ab",
+    "merge_commit_parents": [
+      "0805c82ef55342b105c835cee77c21d6e385c434",
+      "9293315ec7910452896ef18bc040b9ed60b8c316"
+    ],
+    "prior_reviewed_head": "9293315ec7910452896ef18bc040b9ed60b8c316",
+    "merged_tree_sha256": "5d90e1dabd39d97ad74eac3d3320ac927abb3354",
+    "prior_reviewed_tree_sha256": "5d90e1dabd39d97ad74eac3d3320ac927abb3354",
+    "tree_match": true,
+    "interpretation": "The master merge commit has the same Git tree as the previously reviewed PR head; the merge introduced no source-tree delta."
+  },
+  "run": {
+    "id": 42550651190,
+    "url": "https://github.com/hottweelz/CowAgent/actions/runs/42550651190",
+    "workflow": "Tests",
+    "workflow_id": 410039630,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "40958f392bca59009224fcebfd1b636a861615ab",
+    "created_at": "2026-11-09T02:23:19Z",
+    "completed_at": "2026-11-09T02:29:20Z"
+  },
+  "jobs": [
+    {
+      "id": 128945234655,
+      "name": "pytest (macos-latest, Python 3.13)",
+      "artifact_id": 13645665470,
+      "artifact_name": "junit-macos-latest-py3.13",
+      "artifact_size_bytes": 113255,
+      "started_at": "2026-11-09T02:23:22Z",
+      "completed_at": "2026-11-09T02:29:18Z",
+      "status": "completed",
+      "conclusion": "success",
+      "checked_out_sha": "40958f392bca59009224fcebfd1b636a861615ab",
+      "checked_out_sha_occurrences": 3,
+      "log_sha256": "f03f1af0143902097850e6b029bea0c00a6e3a465c6c3791ac9069f090d68e84",
+      "log_bytes": 130850,
+      "pytest_summary": "5969 passed, 39 skipped, 36 warnings, 93 subtests passed in 308.66s (0:05:08)",
+      "named_testcases": 6008,
+      "named_passed": 5969,
+      "named_skipped": 39,
+      "junit_tests_including_subtests": 6101,
+      "junit_failures": 0,
+      "junit_errors": 0,
+      "passing_subtests": 93,
+      "added_named_cases_vs_prior": 0,
+      "removed_named_cases_vs_prior": 0,
+      "skip_identities_exact_match_prior": true,
+      "new_discovery_cases_present_and_passed": 52,
+      "xml_sha256": "6a4287380a2472e754a19213395f7976d14a8c218b8a7cb3aac524336b0ad150",
+      "xml_bytes": 830538,
+      "artifact_zip_sha256": "241214cfdd16273abfb2b216466325326db70a84fcfbc58799ad37423468fef0",
+      "artifact_digest_matches_upload_log": true
+    },
+    {
+      "id": 128945234624,
+      "name": "pytest (ubuntu-latest, Python 3.11)",
+      "artifact_id": 13645119230,
+      "artifact_name": "junit-ubuntu-latest-py3.11",
+      "artifact_size_bytes": 111595,
+      "started_at": "2026-11-09T02:23:22Z",
+      "completed_at": "2026-11-09T02:28:11Z",
+      "status": "completed",
+      "conclusion": "success",
+      "checked_out_sha": "40958f392bca59009224fcebfd1b636a861615ab",
+      "checked_out_sha_occurrences": 3,
+      "log_sha256": "d9fa855754f8dda552e48b5d79128043d03cc39a426c9e8d191efd5d3630f230",
+      "log_bytes": 139797,
+      "pytest_summary": "5962 passed, 46 skipped, 33 warnings, 93 subtests passed in 240.29s (0:04:00)",
+      "named_testcases": 6008,
+      "named_passed": 5962,
+      "named_skipped": 46,
+      "junit_tests_including_subtests": 6101,
+      "junit_failures": 0,
+      "junit_errors": 0,
+      "passing_subtests": 93,
+      "added_named_cases_vs_prior": 0,
+      "removed_named_cases_vs_prior": 0,
+      "skip_identities_exact_match_prior": true,
+      "new_discovery_cases_present_and_passed": 52,
+      "xml_sha256": "1053794c2589b11e82fbcccfa338fdb910b5283a36bdf3cde29a7c238d97ad3e",
+      "xml_bytes": 831878,
+      "artifact_zip_sha256": "10fe099e6ef038cc6909ad9d40e2dc726cbfc0a8fc7f3f732309408e4c7945f5",
+      "artifact_digest_matches_upload_log": true
+    },
+    {
+      "id": 128945234631,
+      "name": "pytest (ubuntu-latest, Python 3.13)",
+      "artifact_id": 13644909919,
+      "artifact_name": "junit-ubuntu-latest-py3.13",
+      "artifact_size_bytes": 112089,
+      "started_at": "2026-11-09T02:23:22Z",
+      "completed_at": "2026-11-09T02:28:42Z",
+      "status": "completed",
+      "conclusion": "success",
+      "checked_out_sha": "40958f392bca59009224fcebfd1b636a861615ab",
+      "checked_out_sha_occurrences": 3,
+      "log_sha256": "b07bd4eb9f61e5e616aff4895c266ddd1dc7a0fc9ce0d29c4056bbad047aa309",
+      "log_bytes": 138896,
+      "pytest_summary": "5962 passed, 46 skipped, 37 warnings, 93 subtests passed in 259.21s (0:04:19)",
+      "named_testcases": 6008,
+      "named_passed": 5962,
+      "named_skipped": 46,
+      "junit_tests_including_subtests": 6101,
+      "junit_failures": 0,
+      "junit_errors": 0,
+      "passing_subtests": 93,
+      "added_named_cases_vs_prior": 0,
+      "removed_named_cases_vs_prior": 0,
+      "skip_identities_exact_match_prior": true,
+      "new_discovery_cases_present_and_passed": 52,
+      "xml_sha256": "7d04e5f60ca845518af7c11f6d1e0f263e3fa67a3555fa530e13d007ececd6cb",
+      "xml_bytes": 831878,
+      "artifact_zip_sha256": "1fa052a2b89200adc9584d1e5fdca9e941282f374ec93f61e4f5ebc0f4d7dd25",
+      "artifact_digest_matches_upload_log": true
+    },
+    {
+      "id": 128945234402,
+      "name": "javascript",
+      "started_at": "2026-11-09T02:23:22Z",
+      "completed_at": "2026-11-09T02:23:54Z",
+      "status": "completed",
+      "conclusion": "success",
+      "checked_out_sha": "40958f392bca59009224fcebfd1b636a861615ab",
+      "checked_out_sha_occurrences": 3,
+      "log_sha256": "49d9f52a88e9df92a6ebbc60348226e9d0e39f1cc3d8f337b79408aff62bc9e5",
+      "log_bytes": 57333,
+      "web_tests": {
+        "passed": 39,
+        "failed": 0,
+        "skipped": 0
+      },
+      "desktop_scroll_tests": {
+        "passed": 5,
+        "failed": 0,
+        "skipped": 0
+      },
+      "strict_typescript": "passed",
+      "renderer_main_build": "passed"
+    },
+    {
+      "id": 128945234611,
+      "name": "ruff (changed Python files)",
+      "started_at": "2026-11-09T02:23:22Z",
+      "completed_at": "2026-11-09T02:23:39Z",
+      "status": "completed",
+      "conclusion": "success",
+      "checked_out_sha": "40958f392bca59009224fcebfd1b636a861615ab",
+      "checked_out_sha_occurrences": 2,
+      "log_sha256": "96add9daf3676cf9342897283cecf9ad44645f9056e69cde049e9d93959824ab",
+      "log_bytes": 53592,
+      "result": "All checks passed"
+    }
+  ],
+  "python_reconciliation": {
+    "prior_hosted_receipt": "docs/bullgod-discovery-001/hosted-validation.json",
+    "prior_run_id": 42546970682,
+    "prior_named_case_count_per_job": 6008,
+    "current_named_case_count_per_job": 6008,
+    "all_three_named_case_sets_exactly_match_prior": true,
+    "named_case_id_set_sha256": "38f88032d7eac54f37e172f8f20b37bce714b19f836c6378a58d774259606fe7",
+    "current_junit_tests_including_subtests_each": 6101,
+    "passing_subtests_each": 93,
+    "junit_failures_each": 0,
+    "junit_errors_each": 0,
+    "new_discovery_case_count": 52,
+    "new_discovery_case_ids_sha256": "36b62db0698fed9fae210e26c34a9491f2c4c05660ecb200e7855261fe148cb8",
+    "all_52_new_discovery_cases_present_and_passing_in_each_job": true,
+    "removed_cases_each": 0,
+    "skip_identity_sets_match_exactly": true,
+    "skip_identity_sha256": {
+      "macos": "cf60dac725eff78bafa15f21bca1efe2075983bd33dbe9c8e54b1e7ac259dfff",
+      "linux": "1fad3d4656fbf2ee7421465e3406283f579ff644a090466c489653f5d2fc33b4"
+    },
+    "skip_counts": {
+      "macos": 39,
+      "ubuntu_python_3_11": 46,
+      "ubuntu_python_3_13": 46
+    },
+    "skip_classification": {
+      "macos": {
+        "windows_only": 24,
+        "opt_in_browser": 15
+      },
+      "linux_each": {
+        "windows_only": 24,
+        "opt_in_browser": 15,
+        "macos_or_filesystem": 7
+      }
+    },
+    "method": "Compare named testcase identities and skipped flags from each current downloaded JUnit against its same-platform prior downloaded JUnit, then compare exact skip identity sets and the prior receipt\u2019s 52 new discovery IDs."
+  },
+  "verification_actions": {
+    "test_run_repeated": false,
+    "jobs_rerun": false,
+    "GitHub_mutated": false,
+    "runtime_or_model_invoked": false,
+    "repository_files_edited": false
+  },
+  "limits": [
+    "These are automatic hosted regression results, not real-runtime or model acceptance.",
+    "Platform-gated Windows, browser and filesystem-specific skips remain per the exact identity sets in the prior and current JUnit files.",
+    "Existing desktop build warnings are retained in the JavaScript log; the job concluded successfully."
+  ],
+  "lead_check": {
+    "all_log_xml_hashes_match": true,
+    "closeout_documentation_only": true,
+    "seven_reviewed_source_test_hashes_unchanged": true
+  }
+}
