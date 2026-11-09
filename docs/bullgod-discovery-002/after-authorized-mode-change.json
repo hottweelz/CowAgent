@@ -1,0 +1,31 @@
+{
+  "schema": "cow.discovery.after-authorized-mode-change/1",
+  "failure": {
+    "authorized_file_read_counts": {},
+    "captured_at_utc": "2026-11-09T04:02:15Z",
+    "error_class": "ProtocolError",
+    "error_code": "filesystem_ownership_ignored",
+    "schema": "bullgod-discovery-002-readonly-live-acceptance/1",
+    "stage": "read_actual_config",
+    "status": "BLOCKED"
+  },
+  "volume_root_mode": "0755",
+  "ownership_enforcement_enabled": false,
+  "before_after_checks": {
+    "agent_declarations": true,
+    "agents_http_status": true,
+    "config_sha256": true,
+    "config_size": true,
+    "health": true,
+    "model_config": true,
+    "process": true,
+    "profile_sha256": true,
+    "provider_env_exists": true,
+    "registered_agent_ids": true,
+    "conversation_counts": true
+  },
+  "all_metadata_unchanged": true,
+  "selection_reached": false,
+  "host_permission_change": "Only explicitly approved0775-to0755; owner enforcement unchanged",
+  "no_approval_or_credential_refresh": true
+}

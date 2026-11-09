@@ -1,0 +1,32 @@
+{
+  "authorized_file_read_counts": {},
+  "binding_loading_reached": false,
+  "configuration_guard": "canonical owner-controlled files and non-group-writable/non-world-writable ancestors except sticky directories",
+  "early_guards_installed": [
+    "subprocess",
+    "socket",
+    "SQLite read-only"
+  ],
+  "error_class": "DiscoveryError",
+  "error_code": "untrusted_record_path",
+  "filesystem_observation": {
+    "external_volume": true,
+    "filesystem": "APFS",
+    "ownership_enforcement_enabled": false,
+    "posix_statvfs_flags_omit_ignore_ownership": true,
+    "source": "read-only diskutil info -plist, GlobalPermissionsEnabled field"
+  },
+  "guard_preserved": true,
+  "interpretation": "Safe rejected config read, not completed integrated live acceptance. Separate authority and runtime receipts must not be treated as trusted registry fallback.",
+  "later_guards_not_reached": [
+    "native/model constructors",
+    "supervisor execution methods"
+  ],
+  "no_filesystem_permission_change": true,
+  "observed_unsafe_ancestor_mode": "0775",
+  "permission_request": "withdrawn: changing0775 to0755 alone does not establish ownership enforcement",
+  "schema": "bullgod-discovery-002-readonly-live-acceptance/1",
+  "selection_reached": false,
+  "stage": "read_actual_config",
+  "status": "BLOCKED"
+}

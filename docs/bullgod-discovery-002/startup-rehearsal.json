@@ -1,0 +1,236 @@
+{
+  "scope": "Real disposable source-mode startup/observation/fallback with fictional three-agent data",
+  "live_pid": 28093,
+  "live_start": 1794162129.482237,
+  "stages": [
+    {
+      "label": "baseline",
+      "pid": 12316,
+      "before": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "command": [
+        "sandbox-exec",
+        "-f",
+        "rehearsal.sb",
+        "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+        "app.py"
+      ],
+      "health": "200/ok",
+      "running_state": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "exit_code": 0,
+      "after": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "log_sha256": "d2cc2cdc143fdfccec23f44a5772161b1ea4072b0a98bd4ac87ee3dd8814b08b"
+    },
+    {
+      "label": "candidate",
+      "pid": 12322,
+      "before": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "command": [
+        "sandbox-exec",
+        "-f",
+        "rehearsal.sb",
+        "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+        "scripts/discovery_startup.py",
+        "--request",
+        "<disposable-root>/request/observation.json"
+      ],
+      "health": "200/ok",
+      "observation": {
+        "request_sha256": "0bae58987443e604520172d0b731e9e77d8436c41f794ac39be79bbb154fa3e3",
+        "epoch": "3f4c3ea6e7114321a9c154b84ad4fb2b",
+        "manifest_sha256": "29c395de29cb2a0d5be62b3c63460c721bb135748d653e4fafd455751cc5b9cc",
+        "inventory": [
+          {
+            "active_caller": "unknown",
+            "capability_proof": "unknown",
+            "configured_model": "fixture-model",
+            "configured_provider": "openai",
+            "enabled": true,
+            "identity_fingerprint": "3fb688c606691d4792bb9dae6dd1592a80ac565958662eec3fef28a57aea9c17",
+            "target_id": "default"
+          },
+          {
+            "active_caller": "unknown",
+            "capability_proof": "unknown",
+            "configured_model": "fixture-testpilot",
+            "configured_provider": "openai",
+            "enabled": true,
+            "identity_fingerprint": "7f742bb43cdf31ebbe6882b23b0b992a05e8553bff81a8ee49d0e7f38fe6175c",
+            "target_id": "testpilot"
+          },
+          {
+            "active_caller": "unknown",
+            "capability_proof": "unknown",
+            "configured_model": "fixture-testpilot2",
+            "configured_provider": "openai",
+            "enabled": true,
+            "identity_fingerprint": "c1b63302d79d957ce1bdbdb545bfbb5eeaae86a67aa425e93d4ba6fb720e5da7",
+            "target_id": "testpilot2"
+          }
+        ],
+        "decisions": [
+          {
+            "selection": "denied",
+            "revalidation": {
+              "valid": false,
+              "dispatch_permitted": false,
+              "reasons": [
+                "selection_invalidated"
+              ],
+              "current_status": "denied"
+            }
+          },
+          {
+            "selection": "denied",
+            "revalidation": {
+              "valid": false,
+              "dispatch_permitted": false,
+              "reasons": [
+                "selection_invalidated"
+              ],
+              "current_status": "denied"
+            }
+          }
+        ],
+        "receipt_sha256": "a9b3a2f78f0c32cdca7aeb6f42a9b6dcec4ea22fac1624a2c3aaac1b5e04e62d"
+      },
+      "running_state": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "exit_code": 0,
+      "after": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "log_sha256": "834cd746ac0e3e3947e6bb1cc9fc23452b290ee290f7c2cc23df8ba8735fe5b5"
+    },
+    {
+      "label": "rollback",
+      "pid": 12327,
+      "before": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "command": [
+        "sandbox-exec",
+        "-f",
+        "rehearsal.sb",
+        "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+        "app.py"
+      ],
+      "health": "200/ok",
+      "running_state": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "exit_code": 0,
+      "after": {
+        "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+        "counts": {
+          "sessions": 3,
+          "messages": 3,
+          "runs": 0
+        }
+      },
+      "log_sha256": "92308f5950f1eace542a51b59de637c13cb10626479f6e9ae07affcd97bb5f71"
+    }
+  ],
+  "fixture_initial": {
+    "rows_sha256": "c6577e99a11866f7262c8f72698609af05d2193285c404df0967632dba59f2f6",
+    "counts": {
+      "sessions": 3,
+      "messages": 3,
+      "runs": 0
+    }
+  },
+  "live_pid_preserved": true,
+  "status": "passed",
+  "schema": "cow.discovery.startup.rehearsal/1",
+  "source": {
+    "source_base": "17409b90806bc8d082dc237d3640f94ab0a6cec0",
+    "fallback": "f659349785acf98905901a5cc53921436a109dbc",
+    "overlays": {
+      "app.py": "7dfd677c6ffbd9d345386b3e045ccb5aa494f87b46f8946679047d62eb8a49eb",
+      "agent/discovery/startup_observer.py": "611316251a0e0d4115d492edd1d020ed9ee5c84e017318434f270df81dea2ee3",
+      "scripts/discovery_startup.py": "bf0540b36f68d7134c81bb4902abd262de19a0e448e2d739c44595977bad6341"
+    },
+    "fictional_config_sha256": "83c085cd81ed7fb29d9906ac2a6dc6c0e6177e682ca7f5ef30f600ba26fac1d0"
+  },
+  "private_bundle": "cow-discovery002s-enqpmjd8",
+  "raw_report_sha256": "be3c51d3b3a4a8cc734f2bf38bc7b536c1a18dca7581b97d0c87a3c29aa9554e",
+  "isolation": {
+    "returncode": 0,
+    "stdout": "{\"sentinel_read_denied\": true, \"outbound_denied\": true}\n",
+    "stderr": ""
+  },
+  "cross_process_recreated_request_replay": {
+    "status": "passed",
+    "still_valid_at_attempt": true,
+    "identical_request_bytes": true,
+    "consumed_marker_sha256": "0bae58987443e604520172d0b731e9e77d8436c41f794ac39be79bbb154fa3e3",
+    "exit_code": 1,
+    "stderr": "Authenticated startup observation rejected\n",
+    "stdout": "",
+    "scope": "recreated canonical request in separate helper process; existing atomic claim rejects before app launch"
+  },
+  "retained_files": {
+    "run_rehearsal.py": "a5a9899b1d785572f7de8359b47bed90077da1e4b5a58cdc1f190d1a243f54af",
+    "make_request.py": "8b73739022681681c8c4b52d2cdd109d764a5b296fd9e7084c43736df7fb10b4",
+    "seed_fictional.py": "41632c446bf08410b58fc74d8d8aa885caf77c03c0d10d63d5109184079bdd9f",
+    "rehearsal.sb": "e7aa0ac9a7e1441cd97e141aed95a206112f36b7c19c96fa772fc6f154cffc6e",
+    "baseline.log": "d2cc2cdc143fdfccec23f44a5772161b1ea4072b0a98bd4ac87ee3dd8814b08b",
+    "candidate.log": "834cd746ac0e3e3947e6bb1cc9fc23452b290ee290f7c2cc23df8ba8735fe5b5",
+    "rollback.log": "92308f5950f1eace542a51b59de637c13cb10626479f6e9ae07affcd97bb5f71"
+  },
+  "limitations": [
+    "Fixture uses synthetic config and records; it does not prove live drain, migration authorization or lossless service replacement.",
+    "OS sandbox denies outbound connections and access to live data/workspace paths. Existing .venv dependencies are used; fixture HOME/data have no credentials.",
+    "Normal startup writes fixture migration markers/assets/logs/PID bookkeeping; conversation/session/run rows remained byte-for-byte equal in normalized SQL results.",
+    "Candidate emitted one LINKAI plugin initialization warning from absent fictional provider configuration; no test model or task was invoked.",
+    "Initial orchestration attempt used .venv Python without psutil and failed before any service launch; orchestration used system Python with psutil thereafter while all service launches used exact .venv Python."
+  ]
+}

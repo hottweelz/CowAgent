@@ -1,0 +1,79 @@
+{
+  "schema": "cow.discovery.ownership-impact-metadata/1",
+  "captured_at_utc": "2026-11-09T04:08:54.412070+00:00",
+  "scope": "Known application directories and current-user process cwd/open-file metadata; no recursive volume scan or file contents",
+  "filesystem_ownership_enforced": false,
+  "reported_uid_gid_are_not_verified_stored_owners": true,
+  "known_path_access": {
+    "repository": {
+      "present": true,
+      "reported_uid": 501,
+      "reported_gid": 20,
+      "mode": "0o755",
+      "owner_process_can_read": true,
+      "owner_process_can_search": true,
+      "owner_process_can_write": true
+    },
+    "runtime_data": {
+      "present": true,
+      "reported_uid": 501,
+      "reported_gid": 20,
+      "mode": "0o755",
+      "owner_process_can_read": true,
+      "owner_process_can_search": true,
+      "owner_process_can_write": true
+    },
+    "runtime_workspace": {
+      "present": true,
+      "reported_uid": 501,
+      "reported_gid": 20,
+      "mode": "0o755",
+      "owner_process_can_read": true,
+      "owner_process_can_search": true,
+      "owner_process_can_write": true
+    },
+    "codex_data": {
+      "present": true,
+      "reported_uid": 501,
+      "reported_gid": 20,
+      "mode": "0o755",
+      "owner_process_can_read": true,
+      "owner_process_can_search": true,
+      "owner_process_can_write": true
+    }
+  },
+  "top_level_entry_type_counts": {
+    "directory": 20,
+    "file": 1
+  },
+  "process_observation_errors": {
+    "open_files": 11,
+    "cwd": 2
+  },
+  "limitations": [
+    "Current access and displayedUID/GID do not prove futureaccess withownershipenforced.",
+    "No privatefilecontents, memorycontents or processarguments/environment were read.",
+    "Other users and privileged processes were not inspected.",
+    "Ownership enablement has volume-wide scope, beyondCowAgent."
+  ],
+  "process_dependency_count": 173,
+  "process_dependency_roles": {
+    "volume_cwd": 169,
+    "runtime_data": 1,
+    "runtime_workspace": 1,
+    "codex_data": 3,
+    "other_volume_data": 7
+  },
+  "original_cowagent_pid_observed": true,
+  "documentation_findings": {
+    "source": "Installed Apple diskutil(8), mount(8), getattrlist(2) and SDK sys/mount.h",
+    "ownership_toggle_scope": "whole_volume_on_current_OS",
+    "requires_root": true,
+    "policy_persists_eject_remount_reboot": true,
+    "setting_stored_on_target_volume": false,
+    "recursive_chown_described": false,
+    "current_mount_update_or_remount_requirement": "not_established_by_read_documentation",
+    "rollback_limit": "disableOwnership restores ignore policy but does not undo changes applications make while enabled",
+    "stat_getattrlist_owner_ids": "VFS presentation under ignored ownership, not verified stored owners"
+  }
+}

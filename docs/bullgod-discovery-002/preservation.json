@@ -1,0 +1,33 @@
+{
+  "captured_at_utc": "2026-11-09T03:53:49.363353+00:00",
+  "checks": {
+    "original_untracked": {
+      ".cow [conflicted 2].pid": true,
+      ".cow [conflicted 3].pid": true,
+      ".cow [conflicted 4].pid": true,
+      ".cow [conflicted].pid": true,
+      "AGENTS.md": true,
+      "tests/test_parallel_tool_calls [conflicted 2].py": true,
+      "tests/test_parallel_tool_calls [conflicted].py": true
+    },
+    "recovery_manifest": true,
+    "recovery_artifacts": {
+      ".git/refs/heads/master [conflicted 2]": true,
+      ".git/refs/heads/master [conflicted 3]": true,
+      ".git/refs/heads/master [conflicted]": true,
+      ".git/refs/heads/master [conflicted 4]": true,
+      ".git/refs/remotes/origin/master [conflicted 3]": true
+    },
+    "recovery_refs": {
+      "codex/routing-closeout-ref-recovery": true,
+      "codex/routing-closeout-verified": true
+    },
+    "detached_worktree_head": true,
+    "detached_worktree_clean": true,
+    "git_fsck": {
+      "exit_code": 0,
+      "dangling_objects": 40,
+      "other_diagnostics": []
+    }
+  }
+}

@@ -1,0 +1,443 @@
+{
+  "receipt_type": "bullgod-discovery-002r-hosted-validation",
+  "task": "BULLGOD-DISCOVERY-002R",
+  "captured_at": "2026-11-09T17:20:13+00:00",
+  "status": "BLOCKED: macOS hosted runner acquisition failed on the initial attempt and the single parent-authorized targeted retry; four jobs passed on the unchanged source.",
+  "pull_request": {
+    "number": 4,
+    "url": "https://github.com/hottweelz/CowAgent/pull/4",
+    "head_sha": "209f4e0fd53aeb249914755a68a1956d9e6225a0",
+    "base_sha": "f659349785acf98905901a5cc53921436a109dbc",
+    "draft": true
+  },
+  "run": {
+    "id": 42660051257,
+    "url": "https://github.com/hottweelz/CowAgent/actions/runs/42660051257",
+    "workflow": "Tests",
+    "workflow_id": 410039630,
+    "event": "pull_request",
+    "attempt_1_status": "completed",
+    "attempt_1_conclusion": "failure",
+    "head_sha": "209f4e0fd53aeb249914755a68a1956d9e6225a0",
+    "created_at": "2026-11-09T16:58:21Z",
+    "updated_at": "2026-11-09T17:13:24Z",
+    "attempt_2_status": "completed",
+    "attempt_2_job_id": 129319168938,
+    "attempt_2_job": "pytest (macos-latest, Python 3.13)",
+    "attempt_2_scope": "parent-authorized targeted rerun of cancelled macOS job only",
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 2,
+    "attempt_2_conclusion": "failure",
+    "attempt_2_updated_at": "2026-11-09T17:31:30Z",
+    "attempt_2_job_result": {
+      "id": 129319168938,
+      "name": "pytest (macos-latest, Python 3.13)",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "started_at": "2026-11-09T17:16:28Z",
+      "completed_at": "2026-11-09T17:31:29Z",
+      "runner_label": "macos-latest",
+      "runner_id": 0,
+      "runner_name": null,
+      "steps": [],
+      "log_available": false,
+      "log_api_error": "404 BlobNotFound",
+      "annotations": [
+        {
+          "level": "failure",
+          "message": "The job was not acquired by Runner of type hosted even after multiple attempts",
+          "duplicate_count": 1
+        },
+        {
+          "level": "notice",
+          "message": "Due to capacity constraints, jobs targeting macOS arm64 runners may experience longer queue times.",
+          "duplicate_count": 3
+        }
+      ],
+      "cancel_actor": "not reported by GitHub API"
+    },
+    "attempt_2_job_results": [
+      {
+        "id": 129319252488,
+        "name": "ruff (changed Python files)",
+        "conclusion": "success",
+        "original_attempt_1_job_id": 129308862955,
+        "started_at": "2026-11-09T16:58:24Z",
+        "completed_at": "2026-11-09T16:58:42Z",
+        "runner_id": 1000002183,
+        "runner_name": "GitHub Actions 1000002183",
+        "steps_match_attempt_1": true,
+        "reexecuted_in_attempt_2": false
+      },
+      {
+        "id": 129319256443,
+        "name": "pytest (ubuntu-latest, Python 3.11)",
+        "conclusion": "success",
+        "original_attempt_1_job_id": 129308863452,
+        "started_at": "2026-11-09T16:58:24Z",
+        "completed_at": "2026-11-09T17:03:37Z",
+        "runner_id": 1000002185,
+        "runner_name": "GitHub Actions 1000002185",
+        "steps_match_attempt_1": true,
+        "reexecuted_in_attempt_2": false
+      },
+      {
+        "id": 129319171435,
+        "name": "javascript",
+        "conclusion": "success",
+        "original_attempt_1_job_id": 129308863467,
+        "started_at": "2026-11-09T16:58:24Z",
+        "completed_at": "2026-11-09T16:58:57Z",
+        "runner_id": 1000002187,
+        "runner_name": "GitHub Actions 1000002187",
+        "steps_match_attempt_1": true,
+        "reexecuted_in_attempt_2": false
+      },
+      {
+        "id": 129319170975,
+        "name": "pytest (ubuntu-latest, Python 3.13)",
+        "conclusion": "success",
+        "original_attempt_1_job_id": 129308863492,
+        "started_at": "2026-11-09T16:58:24Z",
+        "completed_at": "2026-11-09T17:03:27Z",
+        "runner_id": 1000002186,
+        "runner_name": "GitHub Actions 1000002186",
+        "steps_match_attempt_1": true,
+        "reexecuted_in_attempt_2": false
+      }
+    ],
+    "attempt_2_job_scope": "Only macOS job129319168938 was actually newly queued in attempt2; four successes were carried-forward records.",
+    "attempt_2_reconciliation": {
+      "four_success_records_are_carry_forward": true,
+      "evidence": "All four attempt2 job records have the same start/completion timestamps, runner IDs/names and step outcomes as their attempt1 counterparts. No attempt2 execution or new log/XML was observed for them. Linux artifact IDs and digests are unchanged.",
+      "linux_artifacts_reused_from_attempt_1": [
+        {
+          "id": 13695010511,
+          "name": "junit-ubuntu-latest-py3.11",
+          "sha256": "bc104f30629404cb48974a9930d85b92efc654e5f8e1a37a9dc2d0393811d5fe"
+        },
+        {
+          "id": 13694281408,
+          "name": "junit-ubuntu-latest-py3.13",
+          "sha256": "c782001fa3f6036343f3546a8b3f8a3d46657576df23c2ec28a28b8fcf748615"
+        }
+      ]
+    }
+  },
+  "source_binding": {
+    "expected_head_sha": "209f4e0fd53aeb249914755a68a1956d9e6225a0",
+    "head_sha_reported_by_run": true,
+    "base_sha": "f659349785acf98905901a5cc53921436a109dbc",
+    "attempt_1_synthetic_merge_sha": "998223791f2f0f8634631c5c98d4e77125d8d762",
+    "synthetic_merge_message": "Merge 209f4e0fd53aeb249914755a68a1956d9e6225a0 into f659349785acf98905901a5cc53921436a109dbc",
+    "four_available_job_logs_checkout_prefix": "9982237",
+    "four_available_logs_contain_head_and_base_sha": true,
+    "head_tree_sha": "00b14af2a2b2e0c54c5bf5cdee34d124e6501d35",
+    "synthetic_merge_tree_sha": "00b14af2a2b2e0c54c5bf5cdee34d124e6501d35",
+    "local_candidate_tree_sha": "00b14af2a2b2e0c54c5bf5cdee34d124e6501d35",
+    "base_tree_sha": "9f0cc5a25469a53b52e69c5eab994a5dc68d6d58",
+    "head_and_merge_tree_match": true,
+    "base_tree_is_distinct": true,
+    "macos_checkout_observed": false,
+    "interpretation": "Four jobs checked out synthetic merge 9982237\u2026 with the exact published head tree. The cancelled macOS job acquired no runner and performed no checkout."
+  },
+  "attempt_1_jobs": [
+    {
+      "id": 129308862955,
+      "name": "ruff (changed Python files)",
+      "status": "completed",
+      "conclusion": "success",
+      "log": "logs/job-129308862955.log",
+      "log_bytes": 55590,
+      "log_sha256": "1e5f13c681265bf37a857006f8e10bc436562439085c072d0abce8ac005c9423",
+      "checked_out_sha_prefix": "99822379",
+      "head_sha_mentions": 1,
+      "base_sha_mentions": 2,
+      "result": "All checks passed"
+    },
+    {
+      "id": 129308863452,
+      "name": "pytest (ubuntu-latest, Python 3.11)",
+      "status": "completed",
+      "conclusion": "success",
+      "log": "logs/job-129308863452.log",
+      "log_bytes": 141716,
+      "log_sha256": "4ad732bfa704d9806615a610cbb83cbd72c0bf2c4bd5e4b8f4efdd6614383db4",
+      "checked_out_sha_prefix": "9982237",
+      "head_sha_mentions": 1,
+      "base_sha_mentions": 1,
+      "platform": "linux_py311",
+      "pytest_summary": {
+        "passed": 6036,
+        "skipped": 46,
+        "warnings": 33,
+        "subtests_passed": 93,
+        "duration": "263.85s (0:04:23)"
+      },
+      "named_cases": 6082,
+      "junit_tests_including_subtests": 6175,
+      "junit_failures": 0,
+      "junit_errors": 0,
+      "xml_named_passed": 6036,
+      "xml_named_skipped": 46,
+      "xml_named_total": 6082,
+      "xml": "artifacts/junit-ubuntu-latest-py3.11/test-results.xml",
+      "xml_sha256": "4d63fb402d1d69de90f70b9bb3dcac22724924ac3d58e57190ba33d440aa7d1c",
+      "xml_bytes": 842605,
+      "artifact_id": 13695010511,
+      "artifact_name": "junit-ubuntu-latest-py3.11",
+      "artifact_archive_sha256": "bc104f30629404cb48974a9930d85b92efc654e5f8e1a37a9dc2d0393811d5fe",
+      "artifact_size_bytes": 113064,
+      "baseline_named_case_id_sha256": "1f435ab42cc992dba5b4ea8ac3d0d480c94f2ee33eca4ed79a588bea07921fe7",
+      "current_named_case_id_sha256": "48e228d03a2c8531fd53a93aa20b414cc699ac1d65ca944a529c6c257477584a",
+      "baseline_skip_identity_sha256": "1fad3d4656fbf2ee7421465e3406283f579ff644a090466c489653f5d2fc33b4",
+      "current_skip_identity_sha256": "1fad3d4656fbf2ee7421465e3406283f579ff644a090466c489653f5d2fc33b4",
+      "skip_identity_set_exact_match": true,
+      "added_case_count": 20,
+      "added_case_ids_sha256": "8ef20f6707d26510700f4b84284394efd396eee44047c961e878832fddc9dbc1",
+      "added_cases_all_passed": true
+    },
+    {
+      "id": 129308863467,
+      "name": "javascript",
+      "status": "completed",
+      "conclusion": "success",
+      "log": "logs/job-129308863467.log",
+      "log_bytes": 59073,
+      "log_sha256": "9cbb912eccde6ec56f3a27e63922e2f9e869d0c27970fa7b5f20537209fbf887",
+      "checked_out_sha_prefix": "9982237",
+      "head_sha_mentions": 1,
+      "base_sha_mentions": 1,
+      "web_tests": {
+        "passed": 39,
+        "failed": 0,
+        "skipped": 0
+      },
+      "desktop_scroll_tests": {
+        "passed": 5,
+        "failed": 0,
+        "skipped": 0
+      },
+      "strict_typescript": "passed",
+      "renderer_build": "passed",
+      "main_typescript_build": "passed"
+    },
+    {
+      "id": 129308863492,
+      "name": "pytest (ubuntu-latest, Python 3.13)",
+      "status": "completed",
+      "conclusion": "success",
+      "log": "logs/job-129308863492.log",
+      "log_bytes": 140779,
+      "log_sha256": "f4b77fff0f3817cf723a6c6d730ce803c681d1b4f7455ca451be9e31790845dd",
+      "checked_out_sha_prefix": "9982237",
+      "head_sha_mentions": 1,
+      "base_sha_mentions": 1,
+      "platform": "linux_py313",
+      "pytest_summary": {
+        "passed": 6036,
+        "skipped": 46,
+        "warnings": 37,
+        "subtests_passed": 93,
+        "duration": "254.82s (0:04:14)"
+      },
+      "named_cases": 6082,
+      "junit_tests_including_subtests": 6175,
+      "junit_failures": 0,
+      "junit_errors": 0,
+      "xml_named_passed": 6036,
+      "xml_named_skipped": 46,
+      "xml_named_total": 6082,
+      "xml": "artifacts/junit-ubuntu-latest-py3.13/test-results.xml",
+      "xml_sha256": "68117cbe43113ec35dc982f1df45fe3e206f0627f3dded58a23068a78b765bf8",
+      "xml_bytes": 842605,
+      "artifact_id": 13694281408,
+      "artifact_name": "junit-ubuntu-latest-py3.13",
+      "artifact_archive_sha256": "c782001fa3f6036343f3546a8b3f8a3d46657576df23c2ec28a28b8fcf748615",
+      "artifact_size_bytes": 113014,
+      "baseline_named_case_id_sha256": "1f435ab42cc992dba5b4ea8ac3d0d480c94f2ee33eca4ed79a588bea07921fe7",
+      "current_named_case_id_sha256": "48e228d03a2c8531fd53a93aa20b414cc699ac1d65ca944a529c6c257477584a",
+      "baseline_skip_identity_sha256": "1fad3d4656fbf2ee7421465e3406283f579ff644a090466c489653f5d2fc33b4",
+      "current_skip_identity_sha256": "1fad3d4656fbf2ee7421465e3406283f579ff644a090466c489653f5d2fc33b4",
+      "skip_identity_set_exact_match": true,
+      "added_case_count": 20,
+      "added_case_ids_sha256": "8ef20f6707d26510700f4b84284394efd396eee44047c961e878832fddc9dbc1",
+      "added_cases_all_passed": true
+    },
+    {
+      "id": 129308863500,
+      "name": "pytest (macos-latest, Python 3.13)",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "runner_label": "macos-latest",
+      "queued_started_at": "2026-11-09T16:58:22Z",
+      "completed_at": "2026-11-09T17:13:23Z",
+      "runner_id": 0,
+      "runner_name": null,
+      "runner_group_id": 0,
+      "runner_group_name": null,
+      "steps": [],
+      "log_available": false,
+      "log_api_error": "404 BlobNotFound",
+      "annotations": [
+        {
+          "level": "failure",
+          "message": "The job was not acquired by Runner of type hosted even after multiple attempts",
+          "duplicate_count": 1
+        },
+        {
+          "level": "notice",
+          "message": "Due to capacity constraints, jobs targeting macOS arm64 runners may experience longer queue times.",
+          "duplicate_count": 3
+        }
+      ],
+      "cancel_actor": "not reported by GitHub API",
+      "diagnosis": "Hosted runner acquisition failure after repeated attempts; no test process or assertion ran."
+    }
+  ],
+  "python_reconciliation": {
+    "baseline_run_id": 42558258829,
+    "baseline_head_sha": "10dac8d33f52204f80ee61c6ae19373851e77f82",
+    "baseline_receipt_temp_path": "gate-b/hosted-final/hosted-validation.json",
+    "baseline_junit_redownloaded": false,
+    "baseline_named_case_count": 6062,
+    "baseline_named_case_id_sha256": "1f435ab42cc992dba5b4ea8ac3d0d480c94f2ee33eca4ed79a588bea07921fe7",
+    "linux_3_11": {
+      "current_named_cases": 6082,
+      "passed": 6036,
+      "skipped": 46,
+      "subtests_passed": 93,
+      "failures": 0,
+      "errors": 0,
+      "new_cases": 20,
+      "removed_cases": 0,
+      "new_case_class": "tests.test_discovery_in_process",
+      "new_case_ids": [
+        "tests.test_discovery_in_process::test_active_observation_never_reads_private_agent_state",
+        "tests.test_discovery_in_process::test_cached_route_change_during_enumeration_rejects_mixed_observation",
+        "tests.test_discovery_in_process::test_cached_session_model_route_is_reported_separately",
+        "tests.test_discovery_in_process::test_context_mutation_during_turn_invalidates_caller_binding",
+        "tests.test_discovery_in_process::test_copied_context_cannot_reuse_finished_caller_scope",
+        "tests.test_discovery_in_process::test_current_config_disable_invalidates_revalidation",
+        "tests.test_discovery_in_process::test_failed_session_preferences_clear_prior_receipt",
+        "tests.test_discovery_in_process::test_forged_or_unowned_bridge_cannot_create_host",
+        "tests.test_discovery_in_process::test_inherited_ambient_parent_without_delegation_fields_is_not_root",
+        "tests.test_discovery_in_process::test_initialized_observation_does_not_read_private_native_snapshot",
+        "tests.test_discovery_in_process::test_nested_context_does_not_claim_root_lineage",
+        "tests.test_discovery_in_process::test_normal_owner_and_active_reply_are_observed_without_dispatch",
+        "tests.test_discovery_in_process::test_observation_does_not_create_data_root",
+        "tests.test_discovery_in_process::test_registry_replacement_invalidates_initialized_owner",
+        "tests.test_discovery_in_process::test_replaced_initialization_epoch_is_rejected",
+        "tests.test_discovery_in_process::test_scope_closes_when_run_stream_raises",
+        "tests.test_discovery_in_process::test_stale_pid_blocks_external_inspection_before_bindings_or_transport",
+        "tests.test_discovery_in_process::test_stale_process_binding_and_configuration_disable_fail_closed",
+        "tests.test_discovery_in_process::test_task_json_cannot_supply_runtime_or_proof_fields",
+        "tests.test_discovery_in_process::test_wrong_ambient_run_identity_does_not_create_caller_scope"
+      ],
+      "new_case_ids_sha256": "8ef20f6707d26510700f4b84284394efd396eee44047c961e878832fddc9dbc1",
+      "skip_identity_sets_exact_match": true,
+      "skip_identity_sha256": "1fad3d4656fbf2ee7421465e3406283f579ff644a090466c489653f5d2fc33b4",
+      "current_named_case_ids_sha256": "48e228d03a2c8531fd53a93aa20b414cc699ac1d65ca944a529c6c257477584a",
+      "xml_sha256": "4d63fb402d1d69de90f70b9bb3dcac22724924ac3d58e57190ba33d440aa7d1c"
+    },
+    "linux_3_13": {
+      "current_named_cases": 6082,
+      "passed": 6036,
+      "skipped": 46,
+      "subtests_passed": 93,
+      "failures": 0,
+      "errors": 0,
+      "new_cases": 20,
+      "removed_cases": 0,
+      "new_case_class": "tests.test_discovery_in_process",
+      "new_case_ids": [
+        "tests.test_discovery_in_process::test_active_observation_never_reads_private_agent_state",
+        "tests.test_discovery_in_process::test_cached_route_change_during_enumeration_rejects_mixed_observation",
+        "tests.test_discovery_in_process::test_cached_session_model_route_is_reported_separately",
+        "tests.test_discovery_in_process::test_context_mutation_during_turn_invalidates_caller_binding",
+        "tests.test_discovery_in_process::test_copied_context_cannot_reuse_finished_caller_scope",
+        "tests.test_discovery_in_process::test_current_config_disable_invalidates_revalidation",
+        "tests.test_discovery_in_process::test_failed_session_preferences_clear_prior_receipt",
+        "tests.test_discovery_in_process::test_forged_or_unowned_bridge_cannot_create_host",
+        "tests.test_discovery_in_process::test_inherited_ambient_parent_without_delegation_fields_is_not_root",
+        "tests.test_discovery_in_process::test_initialized_observation_does_not_read_private_native_snapshot",
+        "tests.test_discovery_in_process::test_nested_context_does_not_claim_root_lineage",
+        "tests.test_discovery_in_process::test_normal_owner_and_active_reply_are_observed_without_dispatch",
+        "tests.test_discovery_in_process::test_observation_does_not_create_data_root",
+        "tests.test_discovery_in_process::test_registry_replacement_invalidates_initialized_owner",
+        "tests.test_discovery_in_process::test_replaced_initialization_epoch_is_rejected",
+        "tests.test_discovery_in_process::test_scope_closes_when_run_stream_raises",
+        "tests.test_discovery_in_process::test_stale_pid_blocks_external_inspection_before_bindings_or_transport",
+        "tests.test_discovery_in_process::test_stale_process_binding_and_configuration_disable_fail_closed",
+        "tests.test_discovery_in_process::test_task_json_cannot_supply_runtime_or_proof_fields",
+        "tests.test_discovery_in_process::test_wrong_ambient_run_identity_does_not_create_caller_scope"
+      ],
+      "new_case_ids_sha256": "8ef20f6707d26510700f4b84284394efd396eee44047c961e878832fddc9dbc1",
+      "skip_identity_sets_exact_match": true,
+      "skip_identity_sha256": "1fad3d4656fbf2ee7421465e3406283f579ff644a090466c489653f5d2fc33b4",
+      "current_named_case_ids_sha256": "48e228d03a2c8531fd53a93aa20b414cc699ac1d65ca944a529c6c257477584a",
+      "xml_sha256": "68117cbe43113ec35dc982f1df45fe3e206f0627f3dded58a23068a78b765bf8"
+    },
+    "macos_3_13": {
+      "current_xml": "not produced; cancelled before runner acquisition",
+      "new_case_status": "unknown",
+      "skip_identity_status": "unknown"
+    },
+    "gate_a_baseline_verified_transitively": {
+      "run_id": 42550651190,
+      "named_case_id_sha256": "38f88032d7eac54f37e172f8f20b37bce714b19f836c6378a58d774259606fe7",
+      "skip_sha256_linux": "1fad3d4656fbf2ee7421465e3406283f579ff644a090466c489653f5d2fc33b4",
+      "direct_recomparison": "not repeated; accepted 002 run is baseline"
+    }
+  },
+  "queue_failure": {
+    "id": 129308863500,
+    "name": "pytest (macos-latest, Python 3.13)",
+    "status": "completed",
+    "conclusion": "cancelled",
+    "runner_label": "macos-latest",
+    "queued_started_at": "2026-11-09T16:58:22Z",
+    "completed_at": "2026-11-09T17:13:23Z",
+    "runner_id": 0,
+    "runner_name": null,
+    "runner_group_id": 0,
+    "runner_group_name": null,
+    "steps": [],
+    "log_available": false,
+    "log_api_error": "404 BlobNotFound",
+    "annotations": [
+      {
+        "level": "failure",
+        "message": "The job was not acquired by Runner of type hosted even after multiple attempts",
+        "duplicate_count": 1
+      },
+      {
+        "level": "notice",
+        "message": "Due to capacity constraints, jobs targeting macOS arm64 runners may experience longer queue times.",
+        "duplicate_count": 3
+      }
+    ],
+    "cancel_actor": "not reported by GitHub API",
+    "diagnosis": "Hosted runner acquisition failure after repeated attempts; no test process or assertion ran."
+  },
+  "verification_actions": {
+    "attempt_1_jobs_rerun_by_worker": false,
+    "parent_targeted_retry_attempt_2": true,
+    "other_jobs_rerun": false,
+    "new_workflow_created": false,
+    "runtime_or_model_invoked": false,
+    "repository_source_edited": false,
+    "targeted_retry_source_head_unchanged": true,
+    "no_further_retry": true,
+    "attempt_2_success_jobs_reexecuted": false
+  },
+  "limitations": [
+    "Hosted matrix is BLOCKED, not passed: macOS Python 3.13 did not acquire a hosted runner in either attempt and no macOS test suite or JUnit XML exists.",
+    "Attempt2 lists four successes, but their exact timestamps, runner identities and step outcomes match attempt1; these are carried-forward records, not new executions.",
+    "Linux Python 3.11 and 3.13 each report 6,036 passed, 46 skipped and 93 passing subtests; exact comparison finds 20 added tests, no removals and unchanged Linux skip identities.",
+    "Both macOS attempts have the same runner-acquisition annotations. GitHub provided no runner identity, steps, job log, or cancellation actor."
+  ],
+  "matrix_status": "BLOCKED (not PASSED)",
+  "finalized_at": "2026-11-09T17:35:06Z"
+}

@@ -1,0 +1,24 @@
+{
+  "schema": "cow.discovery.authorized-volume-mode-change/1",
+  "captured_at_utc": "2026-11-09T04:01:50.931779+00:00",
+  "authorization": "Explicit user approval of only0775-to0755 and read-only acceptance rerun",
+  "target_role": "workspace_external_volume_root",
+  "before": {
+    "mode": "0o775",
+    "inode": 2,
+    "device": 16777244,
+    "uid": 501,
+    "gid": 20,
+    "ownership_enforcement_enabled": false
+  },
+  "after": {
+    "mode": "0o755",
+    "inode": 2,
+    "device": 16777244,
+    "uid": 501,
+    "gid": 20,
+    "ownership_enforcement_enabled": false
+  },
+  "scope": "Only chmod0755 on the approved volume root; no ownership-enforcement, mount, credentials, approvals or file-content change",
+  "trust_gate_cleared": false
+}

@@ -1,0 +1,43 @@
+{
+  "schema": "bullgod-discovery-002-focused-validation/1",
+  "status": "PASSED",
+  "scope": "isolated deterministic integration and compatibility tests; no real-model or live-admission claim",
+  "base_commit": "f659349785acf98905901a5cc53921436a109dbc",
+  "native_source_fingerprint": "9df28df5addbb7146d62d3f9a678c5a34c81b797202cbd5d3316370f81cc06ad",
+  "changed_source_test_sha256": {
+    "agent/discovery/__init__.py": "97e56bbeac0ae3baa2f3808a1422ef841c2a86428ed8a63650374c1cce28b769",
+    "agent/discovery/contracts.py": "9f1e8b14a7080e9b57165ebdc2fef2d9f0583940c60c46ade33eafd016c77b12",
+    "agent/discovery/sources.py": "f25c72d093ca1addf38cc3f1b57c51d9273dc694914b7de22c77cf8adc5b56b3",
+    "agent/discovery/runtime_readers.py": "d1a5df628e29f02eb104de29f5dd351e5a6905841b3cc6052b2ade36682cdc69",
+    "agent/external/approved_dispatch.py": "c436b07ed52a81ac6e6c0d5f69d8f29da936ce0f8de53b0565a8ef379b371586",
+    "agent/external/codex_adapter.py": "ae37f04dd60ba240b5fe64de1e68a2144293d00e3718f706d94c2783f0ebf2a2",
+    "agent/external/contract.py": "ebecbf5b61cc3a5f55514e3a962c402cbd7d51703f715351a32c488f9dd26c12",
+    "agent/external/cowagent_adapter.py": "f4b79f97cc342c05bc1b1eb0501bebd5b795e39d84e49a88b862ad346dc24c8f",
+    "agent/external/operator_control.py": "3f10a4a80d5f8ac639bf61ba8e3f63c1c6f65fb5b5d730b67bd82f64a787635f",
+    "agent/external/transport.py": "c044d6965736e187052d0e9eff6123641660dfd4c1b6c1912273725e4cf6784a",
+    "agent/external/inspection.py": "18cb6aa372b529fc81d3ed4fbe66ea37c5c22913e841375f2bdf196ede390f6d",
+    "tests/test_discovery_runtime_readers.py": "c232b271fed0c3bc189b4e8f35e1e2cf787fb03c6c2434a442306c19ced3601f",
+    "tests/test_discovery_runtime_acceptance.py": "0fd16d06dfc9b314ae86b43aca738617cacb7a5b0172121f4b8f8b7b58dca420",
+    "agent/external/filesystem_trust.py": "7c2110c8b048615afcc21337349ad6850df2897c787b87ddfa4e88978b5bdaee"
+  },
+  "result": {
+    "tests": 356,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "elapsed_seconds": 45.986,
+  "new_runtime_reader_cases": 33,
+  "new_runtime_acceptance_cases": 21,
+  "artifacts": {
+    "ownership-focused.log": {
+      "sha256": "8fd486885ec5754927eaa8afcaaea503c1eea87250d5cb3ef75769a2cd129219",
+      "bytes": 421
+    },
+    "ownership-focused.xml": {
+      "sha256": "a41a31d00fae005b13ef1362c3b69fa45e4ee02013a5f90a2cffd1f2a2a0b0c0",
+      "bytes": 50192
+    }
+  },
+  "revision_note": "After ownership-ignored filesystem correction; prior350-case receipt preserved separately."
+}

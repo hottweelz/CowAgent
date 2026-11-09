@@ -1,0 +1,315 @@
+{
+  "captured_at_utc": "2026-11-09T16:27:02Z",
+  "conversation_metadata": {
+    "all_counts_match_prior": true,
+    "all_db_stats_stable_during_snapshot": true,
+    "scope": "COUNT(agent_id) grouped by agent_id on sessions/messages/runs only",
+    "tables": {
+      "messages": {
+        "counts": {
+          "default": 7,
+          "testpilot": 30,
+          "testpilot2": 2
+        },
+        "db_stat_stable_during_snapshot": true,
+        "matches_prior_counts": true
+      },
+      "runs": {
+        "counts": {
+          "default": 6,
+          "testpilot": 11,
+          "testpilot2": 1
+        },
+        "db_stat_stable_during_snapshot": true,
+        "matches_prior_counts": true
+      },
+      "sessions": {
+        "counts": {
+          "default": 4,
+          "testpilot": 8,
+          "testpilot2": 1
+        },
+        "db_stat_stable_during_snapshot": true,
+        "matches_prior_counts": true
+      }
+    }
+  },
+  "git": {
+    "all_preserved_artifact_hashes_match": true,
+    "branch": "codex/bullgod-discovery-002",
+    "fsck": {
+      "dangling_objects": 40,
+      "exit_code": 0,
+      "objects_removed": 0,
+      "other_diagnostics": 0
+    },
+    "head": "be33256b18e2234acf97323732e6af5a1ee64f9f",
+    "linked_worktree": [
+      {
+        "clean": true,
+        "detached": true,
+        "head": "c2c39a2e0823f1556ecdc79f9e07911fff207a05",
+        "present": true,
+        "status_exit": 0
+      }
+    ],
+    "master": "f659349785acf98905901a5cc53921436a109dbc",
+    "original_untracked_files_match_baseline": true,
+    "original_untracked_sha256": {
+      ".cow [conflicted 2].pid": "68c8043af16c0fd44cf199d230d7521c6d54d69f3c74ced7df43a5ec9f867a09",
+      ".cow [conflicted 3].pid": "3467d9fe4a3d7903e77a32cfe460ba86cfcc660dcdfc63b7fca0c2a84f7e3073",
+      ".cow [conflicted 4].pid": "572e6d624cd6187a2313986881c41d911458be8c4c649718339f470c463b4727",
+      ".cow [conflicted].pid": "20553d8bc1c88861a5863f18349edb074a81387325706a10c2312acfe163312a",
+      "AGENTS.md": "ebd0f7b6480fc01aacf8d1c5e04ad981cd14e7b58e245ee91bd894a6cfae513b",
+      "tests/test_parallel_tool_calls [conflicted 2].py": "fecd12b1aa48779f79a7d844a3bed55bf413cbbf77ea023a317e3ace93bf6b97",
+      "tests/test_parallel_tool_calls [conflicted].py": "fecd12b1aa48779f79a7d844a3bed55bf413cbbf77ea023a317e3ace93bf6b97"
+    },
+    "pr": {
+      "draft": true,
+      "head": "be33256b18e2234acf97323732e6af5a1ee64f9f",
+      "merged": false,
+      "number": 4
+    },
+    "preserved_artifact_count": 5,
+    "preserved_artifacts": [
+      {
+        "exists": true,
+        "expected_sha256": "0a25cf1274e56fca11428268a5e26d0f2621d228a7b85faf07722bb740fee06b",
+        "matches": true,
+        "sha256": "0a25cf1274e56fca11428268a5e26d0f2621d228a7b85faf07722bb740fee06b",
+        "source_ref": "master [conflicted 2]",
+        "value": "1e5e15bd175d1f020e30768b792497d1f1d051be"
+      },
+      {
+        "exists": true,
+        "expected_sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "matches": true,
+        "sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "source_ref": "master [conflicted 3]",
+        "value": "2b6df30a66f79b37577112517add8e56c7b22288"
+      },
+      {
+        "exists": true,
+        "expected_sha256": "fd9d3876c9c53b19345b32a21922d32349796c4f9b0ed57e7788729881a9b871",
+        "matches": true,
+        "sha256": "fd9d3876c9c53b19345b32a21922d32349796c4f9b0ed57e7788729881a9b871",
+        "source_ref": "master [conflicted]",
+        "value": "9577d6b5da831efbad0a208a26032d90b2ef812d"
+      },
+      {
+        "exists": true,
+        "expected_sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "matches": true,
+        "sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "source_ref": "master [conflicted 4]",
+        "value": "2b6df30a66f79b37577112517add8e56c7b22288"
+      },
+      {
+        "exists": true,
+        "expected_sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "matches": true,
+        "sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "source_ref": "master [conflicted 3]",
+        "value": "2b6df30a66f79b37577112517add8e56c7b22288"
+      }
+    ],
+    "recovery_manifest_matches": true,
+    "recovery_refs": {
+      "codex/routing-closeout-ref-recovery": {
+        "actual": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+        "expected": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+        "matches": true
+      },
+      "codex/routing-closeout-verified": {
+        "actual": "2b6df30a66f79b37577112517add8e56c7b22288",
+        "expected": "2b6df30a66f79b37577112517add8e56c7b22288",
+        "matches": true
+      }
+    },
+    "upstream_divergence": "0\t0"
+  },
+  "operator_external_metadata": {
+    "agents": {
+      "codex": {
+        "counts": {
+          "approval_binding_rows": 5,
+          "external_task_rows": 6,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 3,
+          "operator_decision_rows": 11,
+          "operator_state_rows": 7,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 5
+        },
+        "db_stat_matches_prior": true,
+        "db_stat_stable_during_snapshot": true,
+        "intent_event_counts": {
+          "native_intent": 3,
+          "publication_intent": 1,
+          "submit_intent": 5
+        },
+        "matches_prior_counts": true
+      },
+      "testpilot": {
+        "counts": {
+          "approval_binding_rows": 1,
+          "external_task_rows": 1,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 1,
+          "operator_decision_rows": 2,
+          "operator_state_rows": 2,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 1
+        },
+        "db_stat_matches_prior": true,
+        "db_stat_stable_during_snapshot": true,
+        "intent_event_counts": {
+          "native_intent": 1,
+          "publication_intent": 1,
+          "submit_intent": 1
+        },
+        "matches_prior_counts": true
+      },
+      "testpilot2": {
+        "counts": {
+          "approval_binding_rows": 1,
+          "external_task_rows": 1,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 1,
+          "operator_decision_rows": 2,
+          "operator_state_rows": 2,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 1
+        },
+        "db_stat_matches_prior": true,
+        "db_stat_stable_during_snapshot": true,
+        "intent_event_counts": {
+          "native_intent": 1,
+          "publication_intent": 1,
+          "submit_intent": 1
+        },
+        "matches_prior_counts": true
+      }
+    },
+    "all_counts_and_intents_match_prior": true,
+    "all_db_stats_match_prior": true,
+    "all_db_stats_stable_during_snapshot": true,
+    "scope": "allowlisted COUNT-only reads on operator_state, operator_decisions, external_tasks, external_events, external_verifications.remote_revision, external_approval_bindings metadata columns"
+  },
+  "pcloud": {
+    "active_backup_overlap_any": false,
+    "active_backup_overlap_by_target": {
+      "checkout": false,
+      "git_common_directory": false,
+      "runtime_data": false,
+      "runtime_default_workspace": false,
+      "runtime_testpilot2_workspace": false,
+      "runtime_testpilot_workspace": false
+    },
+    "app_pid": 891,
+    "app_process_remained_running": true,
+    "backup_row_pairs_match_prior_snapshot": true,
+    "backup_rows_active": 1,
+    "backup_rows_inactive": 5,
+    "backup_rows_sha256": "387a268542e61cc3d1fc84b65a84f50b7ee42b722b4bc7253ef32f56748b9be0",
+    "backup_rows_total": 6,
+    "limits": [
+      "Paths came from the normal settings UI accessibility Help values. No file scan or kernel-watch inventory was run."
+    ],
+    "normal_settings_window_returned_to_original_closed_state": true,
+    "sync_entries_observed": 0,
+    "sync_pane_heading_observed": true
+  },
+  "private_evidence_files": [
+    "aggregate-counts-second-summary.json",
+    "aggregate-counts.json",
+    "collect_counts.py",
+    "conversation-final-raw.json",
+    "git-preservation.json",
+    "git-summary.json",
+    "git_preservation.py",
+    "metadata-raw.json",
+    "pcloud-backup-roots-private.json",
+    "pcloud-summary.json",
+    "pcloud-sync-filtered.txt",
+    "pcloud-ui-filtered.txt",
+    "private-input-paths.txt",
+    "runtime-final-raw.json",
+    "runtime-raw.json",
+    "walk.scpt",
+    "walk_pcloud_ui.applescript"
+  ],
+  "recovery_metadata": {
+    "counts": {
+      "attempt_rows": 2,
+      "effect_rows": 0,
+      "mutating_effect_rows": 0,
+      "task_rows": 2,
+      "verification_rows": 2
+    },
+    "db_stat_stable_during_snapshot": true,
+    "grouped_states": {
+      "attempt_state_counts": [
+        [
+          "completed",
+          2
+        ]
+      ],
+      "task_state_counts": [
+        [
+          "completed",
+          2
+        ]
+      ]
+    },
+    "scope": "read-only allowlisted aggregate counts and state groups on task_id/kind/state/attempt_count/generation/attempt_id/number/effect_id/mutating/verification_id only"
+  },
+  "runtime": {
+    "config_matches_prior_baseline": true,
+    "config_sha256": "b7eb23e63dc1c4c02d9ae2e6ca23bb8b96c6d41824f63575bd9f9fde3e6c014a",
+    "data_root_label": "CowAgent-TestData",
+    "health": {
+      "http_status": 200,
+      "status": "ok"
+    },
+    "limitations": [
+      "Config hash is file metadata, not live in-memory or effective environment attestation."
+    ],
+    "listener_9899": [
+      {
+        "host": "127.0.0.1",
+        "port": 9899,
+        "status": "LISTEN"
+      }
+    ],
+    "model_config": {
+      "chat_model": "nvidia/nemotron-3.5-super-vl:free",
+      "chat_provider": "custom",
+      "configured_provider_ids": [
+        "custom",
+        "deepseek"
+      ],
+      "http_status": 200,
+      "status": "success"
+    },
+    "named_profiles_match_prior": {
+      "testpilot": true,
+      "testpilot2": true
+    },
+    "pid": 28093,
+    "process_name": "Python",
+    "process_status": "running",
+    "profile_sha256": {
+      "default": "a329220d39521791e9152b22b2f69db9d8fcbd9dfef245f0112fbafc4d764fec",
+      "testpilot": "b165eda4eeae3160bb4c873227e33c8fdc868cd64200ee52bfaaa3cb490ee214",
+      "testpilot2": "59f4b6955a22a088536a2d908e82a5581b55896e8a4c981d701c01a24cabe912"
+    },
+    "registered_agent_ids": [
+      "default",
+      "testpilot",
+      "testpilot2"
+    ]
+  },
+  "schema": "bullgod-discovery-002r-baseline-preservation/1",
+  "scope": "read-only baseline and preservation checks; no repository writes or Git mutations; no private memory/task/conversation content read"
+}

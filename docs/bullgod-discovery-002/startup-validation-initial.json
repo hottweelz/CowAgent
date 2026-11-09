@@ -1,0 +1,61 @@
+{
+  "schema": "cow.discovery.startup.validation/1",
+  "base_commit": "17409b90806bc8d082dc237d3640f94ab0a6cec0",
+  "status": "focused_passed_hosted_pending",
+  "selection": [
+    "tests/test_discovery_in_process.py",
+    "tests/test_discovery_runtime_readers.py",
+    "tests/test_discovery_runtime_acceptance.py",
+    "tests/test_bullgod_discovery.py",
+    "tests/test_discovery_contracts.py",
+    "tests/test_isolation_delegation.py",
+    "tests/test_isolation_authorization.py",
+    "tests/test_agent_delegation.py",
+    "tests/test_permission_protected_files.py",
+    "tests/test_bridge_step_write_retry.py",
+    "tests/test_singleton_bridge_initialization.py",
+    "tests/test_multi_agent_runtime.py",
+    "tests/test_direct_addressing.py",
+    "tests/test_run_lifecycle.py",
+    "tests/test_chat_model_fallback.py",
+    "tests/test_discovery_startup_observer.py",
+    "tests/test_discovery_startup_migration.py",
+    "tests/test_conversation_global_migration.py",
+    "tests/test_conversation_older_source_migration.py"
+  ],
+  "result": {
+    "passed": 383,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "seconds": 26.07
+  },
+  "runner": "TIKTOKEN_CACHE_DIR=/private/tmp/cow-infra-tiktoken-cache .venv/bin/python scripts/ci_test.py <selection> -q --junitxml=<private-root>/focused.xml",
+  "source_and_test_sha256": {
+    "app.py": "7dfd677c6ffbd9d345386b3e045ccb5aa494f87b46f8946679047d62eb8a49eb",
+    "agent/discovery/startup_observer.py": "611316251a0e0d4115d492edd1d020ed9ee5c84e017318434f270df81dea2ee3",
+    "scripts/discovery_startup.py": "bf0540b36f68d7134c81bb4902abd262de19a0e448e2d739c44595977bad6341",
+    "tests/test_discovery_startup_observer.py": "937b5248621559630a571268bb9e9a22953fdc9da034ec6551c55889cb3f244f",
+    "tests/test_discovery_startup_migration.py": "a97d4628b3e28850351a888ac8cf2bc0fd0e0bd68037559cc2b0aba1a578193f"
+  },
+  "artifacts": {
+    "focused.log": "a63ad4b4c8c58eee665867e4a4490ff1f367704d926b81d0adeaad473fdd0845",
+    "focused.xml": "98ac0327ffaae205a8608bed3e0fd4183fb3f0ebfa004a43216667378c073542",
+    "focused-initial.log": "5e927be4ced4b17d3421a1b8683b140e7f772955dbe7b5677c452a5c1e0f109a",
+    "focused-initial.xml": "80b428a767f974eea9fcdd8b47348896b1094ac4680a2bae4b8549a1a784324b"
+  },
+  "first_integrated_result": {
+    "passed": 382,
+    "failed": 1,
+    "cause": "Test parameter calculated expiry at collection; elapsed collection-to-execution made the intended >300s request lifetime valid. Corrected relative to request issued_at; no production change."
+  },
+  "lint": "Changed Python files passed project CI F-class gate with existing F403/F405 exclusions.",
+  "rehearsal_source_matches": true,
+  "independent_review": "PASS",
+  "private_bundle": "cow-discovery002s-enqpmjd8",
+  "limitations": [
+    "Focused tests and disposable rehearsal do not establish live drain or authorize service update.",
+    "One recovery cleanup diagnostic appeared at end of successful integrated run; no assertion failure or live connection occurred."
+  ],
+  "post_test_change": "Removed trailing blank line from new test file only; executable behavior unchanged."
+}

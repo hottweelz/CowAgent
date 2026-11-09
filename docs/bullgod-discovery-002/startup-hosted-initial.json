@@ -1,0 +1,163 @@
+{
+  "schema": "cowagent.hosted-ci-reconciliation.v1",
+  "recorded_at_utc": "2026-11-09T19:12:00Z",
+  "run": {
+    "repository": "hottweelz/CowAgent",
+    "workflow": "Tests",
+    "run_id": 42678951272,
+    "attempt": 1,
+    "event": "pull_request",
+    "url": "https://github.com/hottweelz/CowAgent/actions/runs/42678951272",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "25890e8cb09d0758df7ba48961232e5214a1375d",
+    "head_tree": "99d572205b6778900db8fd7647d363b9822fcd5b",
+    "base_sha": "f659349785acf98905901a5cc53921436a109dbc",
+    "synthetic_merge_sha": "de2f1ae35dc3a991689bd5324acdaeab96ba2d5d",
+    "synthetic_merge_tree_matches_head_tree": true,
+    "checkout_confirmation": "All three Python job logs show checkout of PR 4 merge ref de2f1ae35dc3a991689bd5324acdaeab96ba2d5d."
+  },
+  "jobs": [
+    {
+      "id": 129367950642,
+      "name": "javascript",
+      "status": "completed",
+      "conclusion": "success",
+      "evidence": {
+        "log": "logs/javascript.log",
+        "sha256": "8ab598334427d6f5d2c65f304c7cf780ffdeffeb71a3b8047595693d458d253f"
+      },
+      "results": "39 web tests passed; 5 desktop scroll tests passed; renderer type check, production build, and main TypeScript compile passed."
+    },
+    {
+      "id": 129367951123,
+      "name": "ruff (changed Python files)",
+      "status": "completed",
+      "conclusion": "success",
+      "evidence": {
+        "log": "logs/ruff.log",
+        "sha256": "1d6f305978936b070d5aa4c83f47573f947567f1feb358b97e10290c164b590b"
+      },
+      "results": "All checks passed."
+    },
+    {
+      "id": 129367950987,
+      "name": "pytest (ubuntu-latest, Python 3.11)",
+      "status": "completed",
+      "conclusion": "success",
+      "results": {
+        "named_tests": 6112,
+        "passed": 6066,
+        "failed": 0,
+        "skipped": 46,
+        "passing_subtests": 93
+      },
+      "evidence": {
+        "log": "logs/ubuntu-py3.11.log",
+        "log_sha256": "522b03b961d66b572e3bf2227b01d73f7b95f5526514d9ddc064ebd5765820fc",
+        "junit_xml": "artifacts/ubuntu-py3.11-test-results.xml",
+        "junit_xml_sha256": "911d7866b783ad4cb05ed9801f3f42423c5d9315c3380e739c500927d10bffc8",
+        "artifact_id": 13702525374,
+        "artifact_name": "junit-ubuntu-latest-py3.11",
+        "artifact_zip": "artifacts/junit-ubuntu-latest-py3.11.zip",
+        "artifact_sha256": "35747e544bc8bd561b6d75a9e641e23b47ebadad0f99fb05b9b595e69f055916"
+      }
+    },
+    {
+      "id": 129367950950,
+      "name": "pytest (ubuntu-latest, Python 3.13)",
+      "status": "completed",
+      "conclusion": "failure",
+      "results": {
+        "named_tests": 6112,
+        "passed": 6063,
+        "failed": 3,
+        "skipped": 46,
+        "passing_subtests": 93
+      },
+      "failures": [
+        {
+          "test": "tests.test_discovery_runtime_readers::test_unavailable_observation_expires_to_unknown_and_invalidates_selection",
+          "assertion": "expected selected; got denied"
+        },
+        {
+          "test": "tests.test_discovery_runtime_readers::test_provenance_and_current_fingerprints_reject_drift[config]",
+          "assertion": "expected selected; got denied"
+        },
+        {
+          "test": "tests.test_discovery_runtime_readers::test_provenance_and_current_fingerprints_reject_drift[profile]",
+          "assertion": "expected selected; got denied"
+        }
+      ],
+      "evidence": {
+        "log": "logs/ubuntu-py3.13.log",
+        "log_sha256": "28132b727f32f9337c5bc2ec24d00dfcbf003591c2b61129b6394d7b7cddc07b",
+        "junit_xml": "artifacts/ubuntu-py3.13-test-results.xml",
+        "junit_xml_sha256": "728cb82f72e664c6cfadc66fa85aceb012c86411403b70c63a75f7b6b188bfe6",
+        "artifact_id": 13701942024,
+        "artifact_name": "junit-ubuntu-latest-py3.13",
+        "artifact_zip": "artifacts/junit-ubuntu-latest-py3.13.zip",
+        "artifact_sha256": "8ec96b3bf63e49540baf2fc24968ab8321599d7371350c9178d91b5a5f1a8e2d"
+      }
+    },
+    {
+      "id": 129367950981,
+      "name": "pytest (macos-latest, Python 3.13)",
+      "status": "completed",
+      "conclusion": "success",
+      "results": {
+        "named_tests": 6112,
+        "passed": 6073,
+        "failed": 0,
+        "skipped": 39,
+        "passing_subtests": 93
+      },
+      "evidence": {
+        "log": "logs/macos-py3.13.log",
+        "log_sha256": "8845e15236ecb7e29b2da675d0da8d220810d08d8538199fb632f2ef5e22bd0a",
+        "junit_xml": "artifacts/macos-py3.13-test-results.xml",
+        "junit_xml_sha256": "efe6919686d6278751141afeaf5433391f43c506a5397caed65ef9d2d369e7b7",
+        "artifact_id": 13702960737,
+        "artifact_name": "junit-macos-latest-py3.13",
+        "artifact_zip": "artifacts/junit-macos-latest-py3.13.zip",
+        "artifact_sha256": "0e0de41e6e0d78107ec9440d89dd929ca73669c79eab22196ff8ebb3ec7d2156"
+      }
+    }
+  ],
+  "python_reconciliation": {
+    "baseline": "accepted BULLGOD-DISCOVERY-002R run 42660051257, attempt 3, source 209f4e0fd53aeb249914755a68a1956d9e6225a0",
+    "baseline_receipt": "docs/bullgod-discovery-002/in-process-hosted-completion.json",
+    "baseline_detailed_receipt": "docs/bullgod-discovery-002/in-process-hosted.json",
+    "baseline_detailed_receipt_sha256": "0aa976133edad428be2b37d6d99675e7325117cf52d71ec0ef13bcba21abdc89",
+    "named_case_counts": {
+      "baseline": 6082,
+      "current": 6112,
+      "added": 30,
+      "removed": 0
+    },
+    "new_case_families": {
+      "tests.test_discovery_startup_observer": 28,
+      "tests.test_discovery_startup_migration": 2
+    },
+    "new_case_ids_sha256": "af8d503cc0d73cb5e9a6218e91c0c5b88d286ee59ccddeba3f52abcdb4e4db39",
+    "new_case_ids_match_across_platforms": true,
+    "current_all_case_ids_sha256": "80e7c189d7a13e978088a1de0a0cf8d94b800de73191d5057c43baedb3bef8c5",
+    "skip_sets": {
+      "linux_count_per_python_job": 46,
+      "linux_skip_ids_sha256": "1fad3d4656fbf2ee7421465e3406283f579ff644a090466c489653f5d2fc33b4",
+      "linux_exact_identity_match_to_baseline": true,
+      "macos_count": 39,
+      "macos_skip_ids_sha256": "cf60dac725eff78bafa15f21bca1efe2075983bd33dbe9c8e54b1e7ac259dfff",
+      "macos_exact_identity_match_to_baseline": true
+    },
+    "subtests": 93,
+    "comparison_result": "All platforms ran the same 30 new IDs, removed no baseline ID, and retained their exact prior platform skip identities. Linux Python 3.13 has three failures in existing runtime-reader tests."
+  },
+  "gate": {
+    "hosted_full_matrix": "FAIL",
+    "reason": "Linux Python 3.13 has three failed existing runtime-reader cases. The other four jobs pass.",
+    "reruns_performed": 0
+  },
+  "raw_receipt_sha256": "2a52866b25d7703bcea1f712b0291c6ab213e7fb1b4922711d283b5a599998c0",
+  "publication_note": "Historical first 002S hosted run; three existing runtime-reader initial selection failures are retained. A later result must not overwrite this evidence."
+}

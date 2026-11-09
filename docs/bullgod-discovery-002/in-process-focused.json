@@ -1,0 +1,54 @@
+{
+  "artifacts": {
+    "focused.log": {
+      "bytes": 421,
+      "sha256": "ae4c3f7950b242777af61e1c79b7351100337584780e647203f4547e7b407ee5"
+    },
+    "focused.xml": {
+      "bytes": 48049,
+      "sha256": "2dfa5e80b1df7830fa6b450d11ef4a9dd3ec83fe75d39848fab9b82ea03ea2b6"
+    }
+  },
+  "base_commit": "cf4956dfd359c0e6fdbc97583586a88c1ca54efa",
+  "hosted_ci": "BLOCKED: macOS hosted runner acquisition failed twice; Linux3.11/3.13, JavaScript/TypeScript/build and Ruff passed; see in-process-hosted.json",
+  "independent_review": "PASS; all actionable findings resolved; AST/diff inspected without duplicate pytest run",
+  "native_source_fingerprint": "1ecd417849013c817087d6b30aab0c485b3853a724ba2f53634c978a1e257731",
+  "new_in_process_cases": 20,
+  "result": {
+    "elapsed_seconds": 24.96,
+    "errors": 0,
+    "failures": 0,
+    "named_cases": 345,
+    "passed": 345,
+    "skipped": 0
+  },
+  "runner": "scripts/ci_test.py; isolated HOME/data and Python fixture network guard",
+  "schema": "bullgod-discovery-002r-focused-validation/1",
+  "scope": "Disposable source tests; not actual original-PID integration.",
+  "selection": [
+    "tests/test_discovery_in_process.py",
+    "tests/test_discovery_runtime_readers.py",
+    "tests/test_discovery_runtime_acceptance.py",
+    "tests/test_bullgod_discovery.py",
+    "tests/test_discovery_contracts.py",
+    "tests/test_isolation_delegation.py",
+    "tests/test_isolation_authorization.py",
+    "tests/test_agent_delegation.py",
+    "tests/test_permission_protected_files.py",
+    "tests/test_bridge_step_write_retry.py",
+    "tests/test_singleton_bridge_initialization.py",
+    "tests/test_multi_agent_runtime.py",
+    "tests/test_direct_addressing.py",
+    "tests/test_run_lifecycle.py",
+    "tests/test_chat_model_fallback.py"
+  ],
+  "source_and_test_sha256": {
+    "agent/discovery/initialized_runtime.py": "43bfafaa08d2a381cdcfea4895b6bcd0ba670216355ed9fdf2a0bf25c80e639c",
+    "agent/discovery/runtime_readers.py": "f54e83798058dc58af837fdb9e81078d4a23759b4cf8ffe50c5efce10aa8b43c",
+    "agent/permission/authority.py": "796a0565e158184468b0ec9642f3c6487acfc3720c439b2f9fbb9c4bc676c9d9",
+    "agent/protocol/agent.py": "f8c364b82db8bb65298156d9bf1996c8cbaa1bb564c67ec8d43d4e291b988e45",
+    "bridge/agent_bridge.py": "218f467dc53bc471db687aecf13b356977419be8c54af178511539ee8357c7dd",
+    "tests/test_discovery_in_process.py": "baae0b299839ba98cbd9a02562fc7efaa0c61b208e395194920b3ec3487430e9"
+  },
+  "status": "PASSED"
+}

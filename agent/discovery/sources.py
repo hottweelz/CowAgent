@@ -16,7 +16,7 @@ from agent.permission.authority import derive_authority, restricted_authority
 
 from .contracts import (
     AdmissionObservation, Candidate, CapabilityContract, CapabilityProof,
-    DiscoveryError, model_id, sha256, token,
+    DiscoveryError, model_id, provider_id, sha256, token,
 )
 
 
@@ -35,7 +35,7 @@ def task_spec_fingerprint(spec):
 
 
 def _public_route(value, *, model=False):
-    return value if (model_id(value) if model else token(value)) else None
+    return value if (model_id(value) if model else provider_id(value)) else None
 
 
 def _attach(candidate, proof, admission, now):
@@ -76,6 +76,8 @@ def _attach(candidate, proof, admission, now):
                       'available_slots': candidate.admission.available_slots,
                       'active_load': candidate.admission.active_load} if candidate.admission else None,
         'approval': candidate.approval_state, 'state': candidate.state_fingerprint,
+        'runtime_state': candidate.runtime_state, 'proof_status': candidate.proof_status,
+        'native_policy': candidate.native_policy,
         'reasons': sorted(set(candidate.reasons)),
     })
     return candidate
@@ -263,18 +265,37 @@ class NativeSource:
 
     @staticmethod
     def _route(profile, registry, settings):
-        # Read existing routing logic without constructing its model/Bridge.
-        # A fallback chain can change the effective provider after selection.
+        # Resolve the existing model/provider precedence from host settings.
+        # Do not read process-global conf when inspecting another service's
+        # configuration. A fallback can change the effective route later.
         fallback = settings.get('chat_fallback') or {}
         if not isinstance(fallback, dict) or fallback.get('enabled'):
             return None, None
         from bridge.agent_bridge import AgentLLMModel
-        route = AgentLLMModel.__new__(AgentLLMModel)
+        from common import const
         default = profile.id == registry.default_agent_id
-        route.set_agent_default(None if default else profile.bot_type,
-                                None if default else profile.model)
-        model = route.model
-        provider = route._primary_provider_id(model)
+        model = (None if default else profile.model) or settings.get('model') or const.DEFAULT_MODEL
+        provider = None if default else profile.bot_type
+        if not provider:
+            if settings.get('use_linkai') and settings.get('linkai_api_key'):
+                provider = const.LINKAI
+            else:
+                provider = settings.get('bot_type')
+        if not provider:
+            # Same inference maps and precedence as _primary_bot_type. These
+            # constants contain no runtime/model objects or configuration IO.
+            provider = AgentLLMModel._MODEL_BOT_TYPE_MAP.get(model)
+            if not provider and (model.lower().startswith('minimax') or model == 'abab6.5-chat'):
+                provider = const.MiniMax
+            if not provider and model in (const.QWEN_TURBO, const.QWEN_PLUS, const.QWEN_MAX):
+                provider = const.QWEN_DASHSCOPE
+            if not provider and model in (const.MOONSHOT, 'moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k'):
+                provider = const.MOONSHOT
+            if not provider:
+                provider = next((value for prefix, value in AgentLLMModel._MODEL_PREFIX_MAP
+                                 if model.lower().startswith(prefix)), const.OPENAI)
+        if not (not default and profile.bot_type):
+            provider = 'openai' if provider == const.CHATGPT else provider
         return _public_route(model, model=True), _public_route(provider)
 
 

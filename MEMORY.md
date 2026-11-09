@@ -1,5 +1,63 @@
 # CowAgent project facts
 
+- DISCOVERY-002S adds a launch-only startup observer. Ordinary `app.py` startup,
+  chat, HTTP and environment values cannot install its process-local launch
+  object. The helper consumes a private canonical path-bound request atomically,
+  retains its per-ID claim, fsyncs claim/receipt directories, and checks UID,
+  interpreter/prefix, data root, expiry and source manifest before initialization
+  and publication. It borrows the normally initialized owner before channels;
+  no caller authority, adapter contact or dispatch is created. Same-UID/root
+  arbitrary code is outside the existing application trust boundary. A source
+  manifest measures launch files, not all loaded Python code. Normal migrations
+  and background services still require separate maintenance preconditions.
+  Cold authentication uses lazy package exports and the pure shared file reader;
+  importing runtime logging before validation would create data/log files.
+  The helper suppresses bytecode for its controlled pre-auth imports and restores
+  the caller's flag; interpreter/site initialization is outside that control.
+
+- A source-mode service's resolved Python executable is not proof of its original
+  invocation path: direct framework Python can bypass the virtual environment.
+  Verify invocation/dependency resolution before preparing a replacement command;
+  `VIRTUAL_ENV` alone is insufficient. SIGTERM saves user data but does not drain
+  active work. Normal startup can migrate state, synchronize assets and start
+  background services; a read-only discovery observer does not make restart
+  read-only. Source-only rollback cannot restore the old process or data writes.
+  See the [conditional maintenance plan](docs/bullgod-discovery-002/service-update-plan.md).
+
+- BULLGOD-DISCOVERY-002R adds the internal
+  `TrustedDiscoveryHost.from_initialized_runtime` path on the draft 002 branch.
+  It requires an actually initialized server-owned AgentBridge and validates
+  owner, registry/router/initializer, PID and epoch. Active caller observations
+  come only from the real reply lifecycle and expire at its finally boundary,
+  including copied execution contexts. Applied session state and cached caller
+  routes remain distinct from isolated receiver authority and configured routes.
+  Missing receiver authority, native capability proof and free capacity remain
+  unknown. This path does not use disk native snapshots to authenticate private
+  adapter evidence; guarded journal reads remain separate. No public endpoint
+  or retroactive initialization is provided. Editing source cannot load this
+  bridge into an already running process with reload disabled; fixture success
+  is not live integration evidence. See the
+  [trust decision](docs/bullgod-discovery-002/in-process-remediation.md).
+
+- BULLGOD-DISCOVERY-002 adds host-only `TrustedDiscoveryHost`, existing private
+  binding readers and authenticated non-dispatching `inspect` on running adapters.
+  Selection/revalidation never contact IPC or authorize dispatch. Trusted files
+  require canonical owned paths and safe ancestors; a group-writable volume
+  ancestor rejects config/proof provenance. Do not bypass this with public API
+  metadata, unchecked native readers or copied files. Private authority inventory
+  can remain available independently, but does not repair blocked live selection.
+  On Darwin, also require statfs64/fstatfs64 ownership enforcement. Python statvfs
+  omits MNT_IGNORE_OWNERSHIP; mode bits alone are insufficient. Missing native
+  API or ownership-ignored mounts fail closed, including operator initialization
+  before writes. The current external APFS workspace ignores ownership; the
+  volume root is now 0755, but ownership enforcement remains disabled; mode bits
+  alone do not establish trust. No mount setting was changed.
+  Full tested-source proof and the running adapter's entire frozen enrollment
+  must match current authority. Historical focused receipts are insufficient.
+  Native proof/global free capacity and safe Codex executable attestation remain
+  unknown when no authoritative current source exists. Source implementation is
+  proposed in the 002 branch; the actual trusted live gate is blocked.
+
 - BULLGOD-DISCOVERY-001 was integrated through PR #3 at merge 40958f39 after
   focused integration review and passing automatic master CI. It adds the internal `agent.discovery` derived view over
   AgentRegistry and existing enrolled ExternalSupervisor bindings. It has no

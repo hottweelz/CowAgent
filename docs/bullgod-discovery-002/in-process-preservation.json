@@ -1,0 +1,381 @@
+{
+  "authority_observation": {
+    "all_three_credentials_enrollments_and_task_approvals_expired": true,
+    "instrumentation": {
+      "process_launch_attempts_blocked": 1,
+      "processes_launched": 0,
+      "socket_contacts": 0,
+      "sql_writes": 0,
+      "writable_db_opens": 0
+    },
+    "instrumentation_note": "One dependency import called croniter.is_32bit -> platform.architecture -> file via subprocess; observer blocked Popen before launch. No model/runtime command was requested. This is an attempted import-time architecture probe, not a completed process or dispatch.",
+    "integrated_live_selection_executed": false,
+    "native_runtime_observed": false,
+    "operator_provenance_checked": true,
+    "private_memory_config_probe_read": false,
+    "source": "Existing private sanitized retained-authority observation; read-only binding and _authority path, separate from this process/count snapshot."
+  },
+  "captured_at_utc": "2026-11-09T16:59:52Z",
+  "conversation_metadata": {
+    "authorizer_scope": "permits SELECT, COUNT(), and agent_id reads on the three named tables only; denies all other reads/writes",
+    "counts_by_table_and_agent": {
+      "messages": {
+        "default": 7,
+        "testpilot": 30,
+        "testpilot2": 2
+      },
+      "runs": {
+        "default": 6,
+        "testpilot": 11,
+        "testpilot2": 1
+      },
+      "sessions": {
+        "default": 4,
+        "testpilot": 8,
+        "testpilot2": 1
+      }
+    },
+    "counts_match_baseline": true,
+    "database_stat_matches_baseline": true,
+    "database_stat_stable_during_post_read": true,
+    "query_scope": "COUNT(agent_id) grouped by agent_id on sessions/messages/runs only"
+  },
+  "git_preservation": {
+    "all_five_recovery_artifacts_match": true,
+    "all_seven_original_untracked_match_baseline": true,
+    "git_fsck_rerun": false,
+    "linked_worktree": [
+      {
+        "clean": true,
+        "detached": true,
+        "head": "c2c39a2e0823f1556ecdc79f9e07911fff207a05",
+        "present": true,
+        "status_exit": 0
+      }
+    ],
+    "original_untracked_sha256": {
+      ".cow [conflicted 2].pid": "68c8043af16c0fd44cf199d230d7521c6d54d69f3c74ced7df43a5ec9f867a09",
+      ".cow [conflicted 3].pid": "3467d9fe4a3d7903e77a32cfe460ba86cfcc660dcdfc63b7fca0c2a84f7e3073",
+      ".cow [conflicted 4].pid": "572e6d624cd6187a2313986881c41d911458be8c4c649718339f470c463b4727",
+      ".cow [conflicted].pid": "20553d8bc1c88861a5863f18349edb074a81387325706a10c2312acfe163312a",
+      "AGENTS.md": "ebd0f7b6480fc01aacf8d1c5e04ad981cd14e7b58e245ee91bd894a6cfae513b",
+      "tests/test_parallel_tool_calls [conflicted 2].py": "fecd12b1aa48779f79a7d844a3bed55bf413cbbf77ea023a317e3ace93bf6b97",
+      "tests/test_parallel_tool_calls [conflicted].py": "fecd12b1aa48779f79a7d844a3bed55bf413cbbf77ea023a317e3ace93bf6b97"
+    },
+    "recovery_artifacts": [
+      {
+        "exists": true,
+        "expected_sha256": "0a25cf1274e56fca11428268a5e26d0f2621d228a7b85faf07722bb740fee06b",
+        "matches": true,
+        "sha256": "0a25cf1274e56fca11428268a5e26d0f2621d228a7b85faf07722bb740fee06b",
+        "source_ref": "master [conflicted 2]",
+        "value": "1e5e15bd175d1f020e30768b792497d1f1d051be"
+      },
+      {
+        "exists": true,
+        "expected_sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "matches": true,
+        "sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "source_ref": "master [conflicted 3]",
+        "value": "2b6df30a66f79b37577112517add8e56c7b22288"
+      },
+      {
+        "exists": true,
+        "expected_sha256": "fd9d3876c9c53b19345b32a21922d32349796c4f9b0ed57e7788729881a9b871",
+        "matches": true,
+        "sha256": "fd9d3876c9c53b19345b32a21922d32349796c4f9b0ed57e7788729881a9b871",
+        "source_ref": "master [conflicted]",
+        "value": "9577d6b5da831efbad0a208a26032d90b2ef812d"
+      },
+      {
+        "exists": true,
+        "expected_sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "matches": true,
+        "sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "source_ref": "master [conflicted 4]",
+        "value": "2b6df30a66f79b37577112517add8e56c7b22288"
+      },
+      {
+        "exists": true,
+        "expected_sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "matches": true,
+        "sha256": "b925e25a11495fcd93b7f36074d11a42a4a2cafec56b1355a2efcdc65fda5128",
+        "source_ref": "master [conflicted 3]",
+        "value": "2b6df30a66f79b37577112517add8e56c7b22288"
+      }
+    ],
+    "recovery_manifest_matches": true,
+    "recovery_refs": {
+      "codex/routing-closeout-ref-recovery": {
+        "actual": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+        "expected": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+        "matches": true
+      },
+      "codex/routing-closeout-verified": {
+        "actual": "2b6df30a66f79b37577112517add8e56c7b22288",
+        "expected": "2b6df30a66f79b37577112517add8e56c7b22288",
+        "matches": true
+      }
+    }
+  },
+  "helper_sha256": {
+    "aggregate_metadata.py": "1de5dfb9a60d82f46facdda658534c887a9546f7050fb1639cc492a70ad7a141",
+    "conversation_snapshot.py": "bac1a6b2e7d84f4c801799eb7a0b32dfd6842bad200e35e48bdab7c446d970aa",
+    "git_preservation.py": "5d014486fdd73551e70e670b56337ac584bd629a79146c5f9a879a1af93490ea",
+    "runtime_snapshot.py": "37517bd1ff2f53c142179c724f270064bf08b3963c2d2454340c01945856fd6a"
+  },
+  "no_dispatch_limits": [
+    "No trusted original-PID bridge ingress or live in-process selection was executed.",
+    "The authority observation reached ExistingRuntimeBinding/_authority only; it did not prove candidate-source behavior inside the running PID.",
+    "One croniter.is_32bit -> platform.architecture subprocess attempt was blocked before launch; this was not a completed process or dispatch.",
+    "The operator/recovery/conversation counters and database stat checks are unchanged from the baseline, but cannot rule out arbitrary unobserved activity outside these sources or during unobserved intervals.",
+    "No private memory or task/conversation content was read; no live model or service restart occurred."
+  ],
+  "operator_metadata": {
+    "agents": {
+      "codex": {
+        "baseline_counts": {
+          "approval_binding_rows": 5,
+          "external_task_rows": 6,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 3,
+          "operator_decision_rows": 11,
+          "operator_state_rows": 7,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 5
+        },
+        "baseline_intent_event_counts": {
+          "native_intent": 3,
+          "publication_intent": 1,
+          "submit_intent": 5
+        },
+        "counts_and_intents_match_baseline": true,
+        "db_stat_matches_baseline": true,
+        "db_stat_stable_during_post_read": true,
+        "post_counts": {
+          "approval_binding_rows": 5,
+          "external_task_rows": 6,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 3,
+          "operator_decision_rows": 11,
+          "operator_state_rows": 7,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 5
+        },
+        "post_intent_event_counts": {
+          "native_intent": 3,
+          "publication_intent": 1,
+          "submit_intent": 5
+        }
+      },
+      "testpilot": {
+        "baseline_counts": {
+          "approval_binding_rows": 1,
+          "external_task_rows": 1,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 1,
+          "operator_decision_rows": 2,
+          "operator_state_rows": 2,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 1
+        },
+        "baseline_intent_event_counts": {
+          "native_intent": 1,
+          "publication_intent": 1,
+          "submit_intent": 1
+        },
+        "counts_and_intents_match_baseline": true,
+        "db_stat_matches_baseline": true,
+        "db_stat_stable_during_post_read": true,
+        "post_counts": {
+          "approval_binding_rows": 1,
+          "external_task_rows": 1,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 1,
+          "operator_decision_rows": 2,
+          "operator_state_rows": 2,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 1
+        },
+        "post_intent_event_counts": {
+          "native_intent": 1,
+          "publication_intent": 1,
+          "submit_intent": 1
+        }
+      },
+      "testpilot2": {
+        "baseline_counts": {
+          "approval_binding_rows": 1,
+          "external_task_rows": 1,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 1,
+          "operator_decision_rows": 2,
+          "operator_state_rows": 2,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 1
+        },
+        "baseline_intent_event_counts": {
+          "native_intent": 1,
+          "publication_intent": 1,
+          "submit_intent": 1
+        },
+        "counts_and_intents_match_baseline": true,
+        "db_stat_matches_baseline": true,
+        "db_stat_stable_during_post_read": true,
+        "post_counts": {
+          "approval_binding_rows": 1,
+          "external_task_rows": 1,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 1,
+          "operator_decision_rows": 2,
+          "operator_state_rows": 2,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 1
+        },
+        "post_intent_event_counts": {
+          "native_intent": 1,
+          "publication_intent": 1,
+          "submit_intent": 1
+        }
+      }
+    },
+    "all_counts_and_intents_match_baseline": true,
+    "all_database_stats_match_baseline": true,
+    "all_database_stats_stable_during_post_reads": true,
+    "query_scope": "SELECT COUNT/grouping only on operator_state.target_id, operator_decisions.request_id, external_tasks.task_id/submission_started, external_events.event_id/kind, external_verifications.remote_revision, external_approval_bindings.task_id/native_intent/publication_intent."
+  },
+  "pcloud": {
+    "current_unchanged_configuration_condition": "Parent reports no pCloud configuration changes since the accepted UI snapshot.",
+    "prior_accepted_snapshot": {
+      "active_backup_overlap_any": false,
+      "active_backup_overlap_by_target": {
+        "checkout": false,
+        "git_common_directory": false,
+        "runtime_data": false,
+        "runtime_default_workspace": false,
+        "runtime_testpilot2_workspace": false,
+        "runtime_testpilot_workspace": false
+      },
+      "app_pid": 891,
+      "app_process_remained_running": true,
+      "backup_row_pairs_match_prior_snapshot": true,
+      "backup_rows_active": 1,
+      "backup_rows_inactive": 5,
+      "backup_rows_sha256": "387a268542e61cc3d1fc84b65a84f50b7ee42b722b4bc7253ef32f56748b9be0",
+      "backup_rows_total": 6,
+      "limits": [
+        "Paths came from the normal settings UI accessibility Help values. No file scan or kernel-watch inventory was run."
+      ],
+      "normal_settings_window_returned_to_original_closed_state": true,
+      "sync_entries_observed": 0,
+      "sync_pane_heading_observed": true
+    },
+    "rechecked": false
+  },
+  "recovery_metadata": {
+    "baseline_counts": {
+      "attempt_rows": 2,
+      "effect_rows": 0,
+      "mutating_effect_rows": 0,
+      "task_rows": 2,
+      "verification_rows": 2
+    },
+    "baseline_states": {
+      "attempt_state_counts": [
+        [
+          "completed",
+          2
+        ]
+      ],
+      "task_state_counts": [
+        [
+          "completed",
+          2
+        ]
+      ]
+    },
+    "counts_and_states_match_baseline": true,
+    "database_stat_matches_baseline": true,
+    "database_stat_stable_during_post_read": true,
+    "post_counts": {
+      "attempt_rows": 2,
+      "effect_rows": 0,
+      "mutating_effect_rows": 0,
+      "task_rows": 2,
+      "verification_rows": 2
+    },
+    "post_states": {
+      "attempt_state_counts": [
+        [
+          "completed",
+          2
+        ]
+      ],
+      "task_state_counts": [
+        [
+          "completed",
+          2
+        ]
+      ]
+    }
+  },
+  "runtime": {
+    "agent_workspace_metadata_matches_baseline": true,
+    "agents_http_status": 200,
+    "config_sha256": "b7eb23e63dc1c4c02d9ae2e6ca23bb8b96c6d41824f63575bd9f9fde3e6c014a",
+    "config_sha256_matches_baseline": true,
+    "health": {
+      "http_status": 200,
+      "status": "ok"
+    },
+    "listener_9899": [
+      {
+        "host": "127.0.0.1",
+        "port": 9899,
+        "status": "LISTEN"
+      }
+    ],
+    "model_config": {
+      "chat_model": "nvidia/nemotron-3.5-super-vl:free",
+      "chat_provider": "custom",
+      "configured_provider_ids": [
+        "custom",
+        "deepseek"
+      ],
+      "http_status": 200,
+      "status": "success"
+    },
+    "model_config_matches_baseline": true,
+    "models_http_status": 200,
+    "pid": 28093,
+    "process_name": "Python",
+    "profile_hashes_match_baseline": true,
+    "profile_sha256": {
+      "default": "a329220d39521791e9152b22b2f69db9d8fcbd9dfef245f0112fbafc4d764fec",
+      "testpilot": "b165eda4eeae3160bb4c873227e33c8fdc868cd64200ee52bfaaa3cb490ee214",
+      "testpilot2": "59f4b6955a22a088536a2d908e82a5581b55896e8a4c981d701c01a24cabe912"
+    },
+    "registered_agent_ids": [
+      "default",
+      "testpilot",
+      "testpilot2"
+    ],
+    "started_at_epoch": 1794162129.482237,
+    "status": "running",
+    "workspace_file_stat_counts": {
+      "database_files": 4,
+      "memory_files": 13,
+      "workspaces": 3
+    },
+    "workspace_file_stat_metadata_matches_baseline": true,
+    "workspace_file_stat_metadata_sha256": "b4961bc63f80c4bdd69b1c06d8ab2b477f91dd7d4d8bcf1e785144be361d6252"
+  },
+  "schema": "bullgod-discovery-002r-post-candidate-preservation/1",
+  "source_candidate": {
+    "branch": "codex/bullgod-discovery-002",
+    "current_service_process_attests_loaded_source": false,
+    "reason": "The preserved service PID was not restarted; this metadata snapshot does not attest that it loaded the new source candidate.",
+    "repository_head": "209f4e0fd53aeb249914755a68a1956d9e6225a0",
+    "upstream_divergence": "0\t0"
+  }
+}

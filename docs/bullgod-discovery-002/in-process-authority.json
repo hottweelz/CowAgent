@@ -1,0 +1,83 @@
+{
+  "bindings": {
+    "codex": {
+      "authority_state_fingerprint": "bee58ca794e98685f66d0bf55d9672aaad6df26a82f9718703feb74436cd9c66",
+      "config_read": false,
+      "credential_expires_at": 1794112216.324484,
+      "credential_operations": [
+        "analyze_records"
+      ],
+      "credential_state": "expired",
+      "enrollment_current": false,
+      "enrollment_expires_at": 1794112156.324484,
+      "enrollment_status": "expired",
+      "operator_provenance_checked": true,
+      "private_memory_read": false,
+      "probe_read": false,
+      "runtime_id": "acceptance-runtime",
+      "task_approval_current": false,
+      "task_approval_status": "expired",
+      "task_binding_reasons": [
+        "submission_already_started"
+      ],
+      "task_expires_at": 1794112156.324484
+    },
+    "testpilot": {
+      "authority_state_fingerprint": "92809fc894cefdd9fb0adca907ad8ad532d07cee9b5b587de815335de80fc6ff",
+      "config_read": false,
+      "credential_expires_at": 1794170414.4918761,
+      "credential_operations": [
+        "analyze_records"
+      ],
+      "credential_state": "expired",
+      "enrollment_current": false,
+      "enrollment_expires_at": 1794170414.4918761,
+      "enrollment_status": "expired",
+      "operator_provenance_checked": true,
+      "private_memory_read": false,
+      "probe_read": false,
+      "runtime_id": "cowagent.testpilot",
+      "task_approval_current": false,
+      "task_approval_status": "expired",
+      "task_binding_reasons": [
+        "submission_already_started"
+      ],
+      "task_expires_at": 1794170414.4918761
+    },
+    "testpilot2": {
+      "authority_state_fingerprint": "afaea171c98c786d84637558e94cecf7a41918a185d215b5fdd0cb48ecfa4900",
+      "config_read": false,
+      "credential_expires_at": 1794170414.961323,
+      "credential_operations": [
+        "analyze_records"
+      ],
+      "credential_state": "expired",
+      "enrollment_current": false,
+      "enrollment_expires_at": 1794170414.961323,
+      "enrollment_status": "expired",
+      "operator_provenance_checked": true,
+      "private_memory_read": false,
+      "probe_read": false,
+      "runtime_id": "cowagent.testpilot2",
+      "task_approval_current": false,
+      "task_approval_status": "expired",
+      "task_binding_reasons": [
+        "submission_already_started"
+      ],
+      "task_expires_at": 1794170414.961323
+    }
+  },
+  "captured_at_utc": "2026-11-09T16:55:55Z",
+  "instrumentation": {
+    "process_launch_attempts_blocked": 1,
+    "processes_launched": 0,
+    "socket_contacts": 0,
+    "sql_writes": 0,
+    "writable_db_opens": 0
+  },
+  "instrumentation_note": "One dependency import called croniter.is_32bit -> platform.architecture -> file via subprocess; observer blocked Popen before launch. No model/runtime command was requested. This is an attempted import-time architecture probe, not a completed process or dispatch.",
+  "integrated_live_selection": false,
+  "native_runtime_observed": false,
+  "schema": "bullgod-discovery-002r-retained-authority/1",
+  "scope": "Existing guarded private journal and credential expiry only; no proof/config source or native host supplied."
+}

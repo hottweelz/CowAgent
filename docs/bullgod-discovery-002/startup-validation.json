@@ -1,0 +1,96 @@
+{
+  "schema": "cow.discovery.startup.validation/1",
+  "base_commit": "25890e8cb09d0758df7ba48961232e5214a1375d",
+  "status": "preparation_passed_live_maintenance_blocked",
+  "selection": [
+    "tests/test_discovery_in_process.py",
+    "tests/test_discovery_runtime_readers.py",
+    "tests/test_discovery_runtime_acceptance.py",
+    "tests/test_bullgod_discovery.py",
+    "tests/test_discovery_contracts.py",
+    "tests/test_isolation_delegation.py",
+    "tests/test_isolation_authorization.py",
+    "tests/test_agent_delegation.py",
+    "tests/test_permission_protected_files.py",
+    "tests/test_bridge_step_write_retry.py",
+    "tests/test_singleton_bridge_initialization.py",
+    "tests/test_multi_agent_runtime.py",
+    "tests/test_direct_addressing.py",
+    "tests/test_run_lifecycle.py",
+    "tests/test_chat_model_fallback.py",
+    "tests/test_discovery_startup_observer.py",
+    "tests/test_discovery_startup_migration.py",
+    "tests/test_conversation_global_migration.py",
+    "tests/test_conversation_older_source_migration.py"
+  ],
+  "result": {
+    "passed": 386,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "seconds": 26.25
+  },
+  "runner": "TIKTOKEN_CACHE_DIR=/private/tmp/cow-infra-tiktoken-cache .venv/bin/python scripts/ci_test.py <selection> -q --junitxml=<private-root>/focused.xml",
+  "source_and_test_sha256": {
+    "app.py": "7dfd677c6ffbd9d345386b3e045ccb5aa494f87b46f8946679047d62eb8a49eb",
+    "agent/discovery/__init__.py": "ba48196724d74c0e1817c9279a6baef11595eb53f373c1dff3b40640ed884f9c",
+    "agent/discovery/private_files.py": "6c61a496264edfa2f695006864a329a05d5d81f5b95119ec623d352e9d7d87e0",
+    "agent/discovery/runtime_readers.py": "1b8492dc0fde2814493639277fe8ad7b8bbcc9b7eb726b9db627de7e9c564fee",
+    "agent/discovery/startup_observer.py": "10ef901d2024394014624ab5f45cebaefce6fd88608c9f50517e15c180ae7f68",
+    "scripts/discovery_startup.py": "4d14a91e7861307a5de2587773419a8b0da4b3da62b89a74b41683f76211b53f",
+    "tests/test_discovery_startup_observer.py": "fae4231a5a7e956553f939ae1f41311f3a4033907489586cf6e27404cf8407b7",
+    "tests/test_discovery_startup_migration.py": "a97d4628b3e28850351a888ac8cf2bc0fd0e0bd68037559cc2b0aba1a578193f",
+    "tests/test_discovery_runtime_readers.py": "4f5dd58c29fa1404a4830958d258e92b403144d48b877a7137d21b2287d11747"
+  },
+  "artifacts": {
+    "focused.log": "d0aae23ebf0428fac44d506175e14b4d58c92e2aebf8a430b95857b1090daead",
+    "focused.xml": "2c5ba9004ce00ceb7a41f2f3e667c7bc0f1805e035d91af686683eaaddae64d5",
+    "focused-initial.log": "5e927be4ced4b17d3421a1b8683b140e7f772955dbe7b5677c452a5c1e0f109a",
+    "focused-initial.xml": "80b428a767f974eea9fcdd8b47348896b1094ac4680a2bae4b8549a1a784324b",
+    "focused-pre-coldfix.log": "a63ad4b4c8c58eee665867e4a4490ff1f367704d926b81d0adeaad473fdd0845",
+    "focused-pre-coldfix.xml": "98ac0327ffaae205a8608bed3e0fd4183fb3f0ebfa004a43216667378c073542"
+  },
+  "first_integrated_result": {
+    "passed": 382,
+    "failed": 1,
+    "cause": "Test parameter calculated expiry at collection; elapsed collection-to-execution made the intended >300s request lifetime valid. Corrected relative to request issued_at; no production change."
+  },
+  "lint": "Changed Python files passed project CI F-class gate with existing F403/F405 exclusions.",
+  "rehearsal_source_matches": true,
+  "independent_review": "PASS",
+  "private_bundle": "cow-discovery002s-enqpmjd8",
+  "limitations": [
+    "Focused tests do not establish live drain or authorize service update.",
+    "All-agent drain is unsupported by the existing process; startup effects, environment handling and fallback require separate maintenance authorization."
+  ],
+  "post_test_change": "none",
+  "startup_manifest_sha256": "e7d785f25cf1a40c85b8044beb1466f9c9318bda817b08e3c44ccd64ccc0dd22",
+  "startup_manifest_files": 366,
+  "rehearsal_note": "Final source candidate and pinned fallback completed same-cwd process/observation/rollback rehearsal; see startup-final-rehearsal.json.",
+  "corrective_review": "PASS: lazy exports/pure unchanged guard/bytecode restoration/cold negative tests/fixture readiness checked.",
+  "previous_hosted_run": {
+    "id": 42678951272,
+    "status": "failed: 3 existing runtime-reader initial selections denied on Linux3.13; other jobs/new30tests pass",
+    "receipt": "startup-hosted-initial.json"
+  },
+  "corrections": [
+    "Cold pre-auth logging counterexample repaired with lazy exports and pure file guard; three cold subprocess regressions added.",
+    "Socket-path-before-listen fixture race reproduced deterministically; fixture now waits for runtime.server publication; sanitized failure diagnostics retained. Exact initial CI causation remains unproven."
+  ],
+  "tested_source_commit": "f650268162ce5f3be9704f9c6c9f09941981ee16",
+  "hosted": {
+    "run_id": 42683270955,
+    "attempt": 2,
+    "status": "PASS_COMBINED_SAME_SOURCE_ATTEMPTS",
+    "receipt": "startup-hosted.json",
+    "named_tests_per_platform": 6115,
+    "added": 33,
+    "removed": 0,
+    "skip_identities_unchanged": true
+  },
+  "maintenance_packet": {
+    "path": "startup-maintenance-packet.md",
+    "review": "PASS_CONDITIONAL_REFERENCE_COMMANDS",
+    "live_execution": "NO_GO"
+  }
+}

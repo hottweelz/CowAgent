@@ -1,0 +1,105 @@
+{
+  "after_at_utc": "2026-11-09T03:18:47Z",
+  "after_counts": {
+    "messages": {
+      "available": true,
+      "counts": {
+        "default": 7,
+        "testpilot": 30,
+        "testpilot2": 2
+      }
+    },
+    "runs": {
+      "available": true,
+      "counts": {
+        "default": 6,
+        "testpilot": 11,
+        "testpilot2": 1
+      }
+    },
+    "sessions": {
+      "available": true,
+      "counts": {
+        "default": 4,
+        "testpilot": 8,
+        "testpilot2": 1
+      }
+    }
+  },
+  "all_compared_metadata_match": true,
+  "before_at_utc": "2026-11-09T03:11:53Z",
+  "before_counts": {
+    "messages": {
+      "available": true,
+      "counts": {
+        "default": 7,
+        "testpilot": 30,
+        "testpilot2": 2
+      }
+    },
+    "runs": {
+      "available": true,
+      "counts": {
+        "default": 6,
+        "testpilot": 11,
+        "testpilot2": 1
+      }
+    },
+    "sessions": {
+      "available": true,
+      "counts": {
+        "default": 4,
+        "testpilot": 8,
+        "testpilot2": 1
+      }
+    }
+  },
+  "checks": {
+    "agent_declarations": true,
+    "config_sha256": true,
+    "conversation_counts_match": true,
+    "database_stat_match": true,
+    "health": true,
+    "model_config": true,
+    "profile_sha256": true,
+    "provider_env_exists": true,
+    "registered_agent_ids": true
+  },
+  "comparison_scope": "sanitized service/config/profile metadata and aggregate conversation row counts",
+  "config_sha256": "b7eb23e63dc1c4c02d9ae2e6ca23bb8b96c6d41824f63575bd9f9fde3e6c014a",
+  "limitations": [
+    "Public service metadata is not a substitute for trusted registry/config provenance.",
+    "Failed live runner stopped before binding and selection; constructor and supervisor method guards were not reached.",
+    "Aggregate conversation checks read only agent_id and counts; no private content or message extras."
+  ],
+  "observed_model_config": {
+    "chat_model": "nvidia/nemotron-3.5-super-vl:free",
+    "chat_provider": "custom",
+    "configured_provider_ids": [
+      "custom",
+      "deepseek"
+    ],
+    "http_status": 200,
+    "status": "success"
+  },
+  "process": {
+    "desktop_token_present": false,
+    "listener_9899": [
+      {
+        "host": "127.0.0.1",
+        "port": 9899,
+        "status": "LISTEN"
+      }
+    ],
+    "name": "Python",
+    "pid": 28093,
+    "started_at_epoch": 1794162129.482237,
+    "status": "running"
+  },
+  "process_identity_unchanged": true,
+  "profile_sha256": {
+    "default": "a329220d39521791e9152b22b2f69db9d8fcbd9dfef245f0112fbafc4d764fec",
+    "testpilot": "b165eda4eeae3160bb4c873227e33c8fdc868cd64200ee52bfaaa3cb490ee214",
+    "testpilot2": "59f4b6955a22a088536a2d908e82a5581b55896e8a4c981d701c01a24cabe912"
+  }
+}

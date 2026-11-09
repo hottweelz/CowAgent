@@ -34,7 +34,7 @@ class ExternalTransport:
                 or not stat.S_ISSOCK(endpoint.st_mode)):
             raise ProtocolError('Endpoint is not private owned IPC')
 
-    def exchange(self, action, payload):
+    def exchange(self, action, payload, *, return_envelope=False):
         request = envelope(self.credential, action, payload)
         raw = canonical(request).encode('utf-8') + b'\n'
         if len(raw) > MAX_MESSAGE_BYTES:
@@ -62,7 +62,15 @@ class ExternalTransport:
             raise RemoteRejected(str(data.get('error', 'invalid_response')))
         if set(data) != {'ok', 'data'} or not isinstance(data['data'], dict):
             raise ProtocolError('Invalid response payload')
-        return data['data']
+        return value if return_envelope else data['data']
+
+    def inspect(self):
+        """Explicit host-only inspection of an already running adapter.
+
+        Preserve the actual nonce, action and MAC; do not translate inspection
+        into discovery or re-sign a runtime response in the host.
+        """
+        return self.exchange('inspect', {}, return_envelope=True)
 
     def discover(self):
         return self.exchange('discover', {})

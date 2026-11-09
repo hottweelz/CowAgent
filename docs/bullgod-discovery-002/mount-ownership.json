@@ -1,0 +1,37 @@
+{
+  "abi": {
+    "flags_offset": 64,
+    "pointer_size": 8,
+    "size": 2168,
+    "structure": "__DARWIN_STRUCT_STATFS64"
+  },
+  "captured_at": "2026-11-09T03:42:09.178674+00:00",
+  "host_permissions_changed": false,
+  "mounts": [
+    {
+      "flags_equal": true,
+      "fstatfs64_flags": "0x4a09218",
+      "guard_result": "rejected_by_mount_guard",
+      "ignore_ownership": true,
+      "kind": "workspace_volume",
+      "statfs64_flags": "0x4a09218",
+      "statvfs_flags": 2
+    },
+    {
+      "flags_equal": true,
+      "fstatfs64_flags": "0x4909080",
+      "guard_result": "accepted_by_mount_guard",
+      "ignore_ownership": false,
+      "kind": "private_temporary_volume",
+      "statfs64_flags": "0x4909080",
+      "statvfs_flags": 0
+    }
+  ],
+  "platform": "darwin",
+  "primary_sources": [
+    "https://github.com/apple-oss-distributions/xnu/blob/main/bsd/sys/mount.h",
+    "https://github.com/apple-oss-distributions/Libc/blob/main/emulated/statvfs.c"
+  ],
+  "schema": "cow.discovery.mount-ownership/1",
+  "statvfs_sufficient": false
+}

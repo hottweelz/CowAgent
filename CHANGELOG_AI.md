@@ -1,5 +1,647 @@
 # AI handoff ledger
 
+## 2026-11-09 14:51 EST — Codex — DISCOVERY-002S preparation complete; live maintenance blocked
+
+- Scope/result: inactive startup observer, private one-use launch authentication,
+  default compatibility, exact-source disposable startup/rollback, hosted CI and
+  independent review are complete. Published packet is conditional; no live
+  stop/restart, model task, adapter contact, authority refresh or merge occurred.
+- Team: Sol 6.1/high production and security review for combined authentication,
+  replay, runtime ownership and data integrity; Luna/high tests, launch/migration
+  metadata, fixture diagnosis and hosted reconciliation. Lead owns integration,
+  rehearsal, packet, handoff and Git. No new reviewer or external pool was added.
+- Changes/files: documentation only after executable commit f6502681. Updated
+  discovery README, historical service plan, startup review/validation; added
+  startup acceptance, final hosted receipt, fixed-cwd/final rehearsal receipts,
+  concrete maintenance packet and command-check receipt; this ledger. Existing
+  source and test hashes remain unchanged. MEMORY.md update: not needed.
+- Verification: focused 386 passed in 26.25s; project lint and independent source,
+  corrective and packet review passed. Final disposable candidate PID 16350 and
+  fallback PID 16360 returned health 200 and graceful exit 0. Pinned in-place
+  git restore matched fallback runtime files; fictional rows and unrelated
+  sentinels were preserved. Packet Python blocks parse; fictional request builder
+  runs; fresh pre-signal check passes and 80-second reserve rejects before signal.
+- Hosted: run 42683270955 on f6502681 passed all five jobs. Linux 3.11/3.13 each
+  6,069 passed, 46 skipped; macOS 6,076 passed, 39 skipped; each 93 subtests.
+  JS 39 web + 5 desktop, strict TypeScript/build and Ruff pass. Exact comparison
+  gives 6,115 named cases, 33 added, none removed, unchanged platform skip IDs.
+  Attempt-1 macOS was cancelled with no runner/steps and no reported cause. One
+  targeted retry executed and passed; four successful original executions were
+  carried forward. Earlier source's three CI failures remain recorded; the
+  demonstrated fixture bind/listen race is fixed, but original causation is not
+  asserted. No accepted interaction was replayed only for bookkeeping.
+- Launch/migration: repository .venv Python invocation and dependency compatibility
+  are established. Complete inherited environment was not retained. Current
+  global schema is compatible; testpilot2 secondary has no conversation tables.
+  Startup would add its missing merge marker. Fictional migration/retry checks
+  pass; live writes and normal startup effects remain unapproved.
+- Live boundary: original PID 28093/start 1794162129.482237 remains on
+  127.0.0.1:9899. Port 19882 belonged only to disposable processes; no listener
+  remains. Initial post-exit plain bind was consistent with TCP TIME_WAIT; no
+  process was restarted or killed to clear it. Old process lacks a supported
+  aggregate admission/drain barrier. Health and persisted counts do not prove idle.
+- Decisions: qualify the implementation/preparation scope; retain NO-GO on live
+  execution. Packet pins candidate/fallback, interpreter/data paths, request
+  builder, freshness checks, graceful stop/start and source rollback commands.
+  A source rollback cannot undo runtime-data writes or recreate the old process.
+- Lessons Learned:
+  - Mistake: rehearsal port use was not clearly distinguished from live checks;
+    a packet could become stale between request creation and a stop signal.
+  - Root Cause: implicit endpoint context and creation-time-only request validation.
+  - Future Trigger: mixed live/disposable diagnostics or approval-bound maintenance.
+  - Required Behavior Change: label endpoint role and owner PID; revalidate request
+    provenance/bindings and remaining lifetime immediately before any signal.
+  - Verification Step: original listener remains 9899; final fixture listener is
+    absent; packet fresh/80-second scenarios and independent packet review pass.
+  - Durable Memory Update: none; current operating boundaries are in the packet.
+- Known issues: unsupported all-agent drain; maintenance effects, private in-memory
+  environment handling and fallback acceptance require separate authorization.
+  Earlier launch diagnostics exposed a Codex pooler credential in tool output.
+  No value was copied to repository/evidence files, repeated or rotated; do not
+  retrieve or print it. Loaded old source and lossless live rollback are unverified.
+- Next recommended steps: keep the live service running. Resolve the packet's
+  drain condition and explicitly accept its enumerated effects before authorizing
+  any bounded maintenance window. No further acceptance replay is needed for this
+  unchanged source. PR #4 stays draft and unmerged.
+- Notes for next agent: final evidence is startup-acceptance.md/startup-hosted.json;
+  private bundles cow-discovery002s-enqpmjd8 and cow-discovery002s-hosted-f6502681.
+  Preserve the original seven untracked files, recovery refs/artifacts and existing
+  worktrees. Publish only these documents to the tracked branch; fetch without
+  prune/GC and require 0 ahead / 0 behind. No full environment dump or live signal.
+
+## 2026-11-09 14:29 EST — Codex — DISCOVERY-002S cold-authentication correction
+
+- Scope/result: goal active; corrected pre-auth import side effects and a
+  demonstrated test readiness race. Final focused386 and corrective review pass;
+  new full hosted matrix and final-fingerprint rehearsal remain pending. No live
+  service stop/restart, model/task/adapter call, authority refresh or merge.
+- Team: same Sol6.1/high production/security reviewer for import/guard/API trust;
+  Luna/high cold tests, bounded CI race diagnosis and hosted evidence. Lead owns
+  source integration, packet/rehearsal and Git.
+- Changes: lazy discovery exports; exact file guard moved to pure private_files.py
+  and reexported; observer uses pure reader; helper temporarily suppresses bytecode
+  writes. Added3 cold negative cases. Runtime-reader fixture waits for published
+  server rather than socket path and reports sanitized denial diagnostics. Updated
+  validation/review/MEMORY; retained initial CI and focused receipts.
+- Checks: actual cold missingrequest counterexample first created fictional
+  COW_DATA_DIR/run.log; repaired missing/schema/expiry cases create neither data nor
+  logs. Clean-env minimal-source probe creates no source pycache. Integrated19-file
+  wrapper selection386passed26.25s; project lint/diff checks pass. Reviewer PASS
+  after checking lazy API identities, unchanged guard, bytecode restoration and
+  corrected cold-test isolation. Final startup manifest e7d785f25cf1a40c85b8044beb1466f9c9318bda817b08e3c44ccd64ccc0dd22.
+- Hosted history: run42678951272/source25890e8c ended4/5passed. Linux3.13 failed3
+  existing initial-selection assertions; new30allpass, no removals/changedskips.
+  Linux3.11 6066/46, macOS6073/39, each93subtests. Raw/sanitized failed evidence
+  retained in cow-discovery002s-hosted-25890e8c and startup-hosted-initial.json.
+- Diagnosis: local sixcases and33-filecases pass. Paused server_activate probe
+  proves socketpathname can exist before listen: inspect unavailable/selection
+  denied until release. Patchedfixture yields after server publication;33pass.
+  Exact original CI causation is unproven; keep diagnostics and require fresh CI.
+- Additional evidence: exact git restore fallback command exercised in disposable
+  fixed-cwd checkout using pinnedcommits; candidate13412/fallback13418 healthy,
+  gracefulexit0, fictional rowhashes/unrelatedsentinels preserved. Its old-source
+  evidence remains valid but does not cover new corrective fingerprint.
+- Lessons Learned:
+  - Mistake: warm interpreter tests missed cold logging side effects; fixture
+    treated a Unix socket path as listener readiness.
+  - Root Cause: eager package imports; bind precedes listen/server publication.
+  - Future Trigger: pre-auth startup boundary or socket-server fixture startup.
+  - Required Behavior Change: verify fresh process with isolated nonexistent data
+    root; use actual ready publication and retain diagnostic denial codes.
+  - Verification Step: cold3pass, deterministic raceprobe, integrated386pass,
+    independent corrective review; hosted result still required.
+  - Durable Memory Update: project MEMORY.md records pure cold authentication.
+- Known issues/next: source publication then new full hosted CI and final candidate/
+  fallback rehearsal. Complete startup-maintenance-packet.md with testedfingerprint,
+  all-agentdrain no-go and marker-write effect; no live approval exists. Packet and
+  in-place receipt are currently untracked parent files; do not discard.
+- Notes: user asked about ports. Rechecked original PID28093/start1794162129.482237
+  listens127.0.0.1:9899;19882is disposable fixture-only and was free after children
+  exited. Label future fixture probes clearly. Preserve original7untracked files,
+  recovery refs/artifacts and worktrees; no prune/GC/force. Earlier diagnostic
+  credential exposure remains disclosed; no value persisted or rotation performed.
+
+## 2026-11-09 13:57 EST — Codex — DISCOVERY-002S source and disposable startup gate
+
+- Scope: implement inactive launch-only observer, preserve PID28093, qualify
+  negative/default tests and disposable startup/rollback. Hosted CI and concrete
+  maintenance packet remain pending; goal remains active. No live stop/restart,
+  task/model dispatch, ownership change, approval refresh or merge.
+- Team: Sol6.1/high production and independent security review for combined
+  replay/startup/private-authority boundaries; Luna/high independent tests,
+  launch fidelity and migration/drain metadata. Lead integration/rehearsal/Git.
+- Changes/files: app.py minimal seam; new startup_observer.py and
+  scripts/discovery_startup.py; two new startup observer/migration test files;
+  startup implementation/review/validation/rehearsal/launch/migration receipts;
+  project MEMORY.md and this ledger. Existing source and receipts retained.
+- Checks/results: 383 integrated cases pass through scripts/ci_test.py in26.07s;
+  28 observer cases and10 migration cases covered. Project lint passes.
+  Independent source/test review PASS. Genuine disposable baseline/candidate/
+  fallback processes returned health200 and SIGTERM exit0; normalized fictional
+  conversation rows unchanged. Candidate actualPID/epoch receipt lists3 agents
+  and denies both selections without caller/proof. Fresh-process replay of still
+  valid consumed request exits1. OS sandbox denies outbound/live-data access.
+- Launch: original interpreter path supported by __PYVENV_LAUNCHER__ and related
+  allowlisted process markers, not VIRTUAL_ENV alone; .venv pip check passes.
+  Exact typed shell spelling and complete inherited environment not retained.
+- Migration/drain: testpilot2 secondary has no conversation tables; current global
+  schema is compatible and startup would write only its missing merge marker.
+  That write is not performed/approved. All-agent admission/drain is unsupported;
+  persisted idle counts are insufficient. Live maintenance remains blocked.
+- Lessons Learned:
+  - Mistake: expiry test used collection-time wall clock; a diagnostic parser
+    emitted an entire process environment instead of only approved fields.
+  - Root Cause: test timing depended on collection order; whitespace parsing
+    failed on paths containing spaces.
+  - Future Trigger: relative-deadline fixtures or process launch diagnostics.
+  - Required Behavior Change: derive expiry from fixture issuance; never emit raw
+    process environment and sanitize before tool output with strict field selection.
+  - Verification Step: corrected TTL case plus integrated383 pass; collection
+    method stopped, sanitized receipts contain no credential values.
+  - Durable Memory Update: project MEMORY.md records new launch-only boundary.
+- Known issue: the parser exposed a credential in transient tool stdout. No value
+  was persisted to files or repeated; no rotation/revocation was authorized or done.
+  Parent disclosed the incident. Do not access/dump further full environment.
+- Next: publish source without skip-CI, collect full hosted new-source matrix;
+  verify concrete in-place rollback command in disposable checkout, finish packet
+  and final acceptance audit. Preserve existing accepted rehearsal/source receipts.
+- Notes: original seven untracked files remain; no prune/GC/force operations.
+  Main private bundle cow-discovery002s-enqpmjd8; source fingerprint in validation.
+
+## 2026-11-09 13:21 EST — Codex — verified maintenance plan; hosted macOS gate passed
+
+- Scope/result: completed the maintainer-selected plan-only preparation and one
+  authorized targeted macOS retry. P (live preservation), I (authenticated
+  invocation), and D (actual discovery) remain unexecuted/unimplemented. M passes.
+  No startup hook/product code, restart, stop, host change, authority refresh,
+  dispatch, production activation or merge. PR #4 remains draft and unmerged.
+- Team: Luna/high lifecycle metadata, source-artifact/rehearsal verification and
+  CI reconciliation; Sol 6.1/high bounded invocation design and independent plan
+  review because authentication, startup effects and rollback data integrity
+  interact. Lead owns integration, corrections, docs, Git and final handoff.
+- Changes/files: service-update-plan.md; service-lifecycle-review.json;
+  service-update-verification.json; service-update-review.md;
+  in-process-hosted-completion.json; 002 README/remediation report; MEMORY.md and
+  this ledger. Earlier failed-attempt receipt retained unchanged. Docs/JSON only.
+- Checks/results: pinned candidate209f4e0f/fallbackf6593497 archives match every
+  tracked Git blob/mode (2,034/2,003 entries). Python3.13.1 compilation passes for
+  1,156/1,148 files; guarded disposable imports pass, one croniter architecture
+  subprocess attempt per tree blocked before launch and retained. Synthetic
+  source-pointer rollback passes with unchanged sentinel/trees. No live backup
+  or deployment rehearsal is claimed. JSON, digest, count, link and diff checks pass.
+- Hosted M: run42660051257 attempt3/job129344703641 acquired hosted macOS runner
+  1000002194 and passed 6,043 cases,39 skips,93 subtests; zero failures/errors.
+  Exact head209f4e0f and synthetic merge tree match. Twenty added cases pass,
+  none removed, platform skip sets unchanged. Earlier Linux3.11/3.13 (6,036/46
+  plus93 subtests), JS39+5, strictTS/build and Ruff receipts retained without
+  rerunning or redownloading them. Original two runner-acquisition failures remain.
+- Service facts/limits: PID28093 remains Terminal-owned, .cow.pid absent, health
+  200/ok; config hash/aggregate conversation counts match retained metadata.
+  Scheduler due/in-memory state unknown, testpilot2 merge marker absent and safe
+  secondary counts unavailable. No drain/stop/launch command is yet verified.
+  Source-only rollback cannot restore old in-memory state or reverse data writes.
+- Review: one independent documentation review PASS after parent corrected an
+  unproven framework-executable launch command. No repeat source review/regression.
+- Decisions: plan is reviewable, not execution-ready. The inactive launch-only
+  observer is proposed, not installed. Keep existing private-file guards and
+  expired authority; no public route or caller-context override. Future candidate
+  changes require their own applicable validation and explicit maintenance approval.
+- Lessons Learned:
+  - Mistake: lifecycle mapper proposed a launch command from resolved executable.
+  - Root Cause: executable identity was confused with Python invocation/prefix.
+  - Future Trigger: replacing a source-mode Python service or freezing rollback.
+  - Required Behavior Change: verify invocation path/dependency resolution and
+    securely preserve environment before publishing executable maintenance commands.
+  - Verification Step: env-i stdlib-only probes show framework vs .venv prefixes;
+    unsafe command removed and correction retained in sanitized receipt/review.
+  - Durable Memory Update: project MEMORY.md records invocation and startup limits.
+- Known issues/next: separately scope inactive-hook implementation/testing; resolve
+  supported admission/drain, migration readiness, interpreter/environment and
+  source/data recovery requirements. Freeze exact candidate/commands/outage/rollback
+  packet before asking for service-update approval. Do not repeat unchanged live
+  blocker audits or rerun accepted CI merely for bookkeeping.
+- Notes: requested preparation is complete; broader live discovery milestone is
+  not passed. Preserve the seven original untracked files, recovery refs/artifacts
+  and detached worktree. Retained private bundles: cow-source-plan-d3AFtV,
+  cow-discovery-maintenance-control-plan and cow-discovery-maintenance-ci.
+  Push/fetch must verify upstream0/0; no prune/GC/force operation is authorized.
+
+2026-11-09 12:41 EST - Codex - trivial: third consecutive resumed-goal blocker audit; previous continuation made no progress; current source still has no permitted live ingress and CI job 129319168938 remains terminal/cancelled, with original PID 28093 intact; no safe independent work remains, mark goal BLOCKED after sync, keep PR #4 draft and all operational prohibitions - CHANGELOG_AI.md
+
+2026-11-09 12:39 EST - Codex - trivial: second resumed-goal audit; previous turn made implementation/publication progress; current PR/source and terminal macOS cancellation rechecked, same live-ingress and hosted-runner blockers remain, no safe next action under 002R constraints, goal remains active and incomplete; no probe/rerun/host change - CHANGELOG_AI.md
+
+## 2026-11-09 12:36 EST — Codex — DISCOVERY-002R publication; live and macOS gates BLOCKED
+
+- Result: internal initialized-runtime implementation complete on 209f4e0f;
+  345 focused cases and independent source/test review pass. Live milestone is
+  BLOCKED: no supported trusted ingress to invoke new code in existing PID 28093
+  under no-restart constraints. Full hosted matrix is also BLOCKED by macOS
+  runner acquisition. Do not call this goal complete or production-ready.
+- Team: Sol 6.1/high bounded production and security review (instance/caller/private
+  authority reasoning); Luna/high independent lifecycle tests, hosted receipts
+  and preservation; lead owns integration, actual authority reads, docs and Git.
+- Changes/files: docs/bullgod-discovery-002/in-process-remediation.md answers all
+  A–J scenarios and ten questions; README, focused/review/live/authority/preservation/
+  hosted receipts and this ledger. Final closeout changes only Markdown/JSON.
+- Verification: 345 focused pass, including 20 new cases; exact source hashes bind
+  review and receipt. Hosted run 42660051257: both Linux jobs 6,036 passed / 46 skipped + 93 subtests;
+  JS 39 web + 5 desktop, strictTS/build and Ruff pass. Exactly 20 new cases/no removals/
+  unchanged Linux skips. No hosted macOS tests ran for this source.
+- Infrastructure diagnosis: initial job 129308863500 and one targeted retry
+  129319168938 cancelled before runner/steps after roughly 15 min each. GitHub
+  explicitly reports failure to acquire hosted runner and macOS arm64 capacity
+  notices. Expected runner/test start never occurred; same failure in both IDs
+  supports infrastructure acquisition, not an assertion defect. No third retry,
+  runner substitution, workflow change or test-result substitution.
+- Actual observations: current guarded private records for cowagent.testpilot,
+  cowagent.testpilot2 and acceptance-runtime all expired. Original service,
+  config/profiles/model/workspace metadata and conversation/operator/recovery
+  counters match fresh baseline. No dispatch, new approval/credential, memory
+  content read, restart, mount or permission change. One import-time architecture
+  subprocess attempt was blocked before launch and explicitly retained.
+- Preservation: seven original untracked hashes, both recovery refs, five artifacts/
+  manifest and clean detached worktree intact. pCloud baseline remains accepted;
+  no settings changes or unnecessary repeat. Filesystem ownership guard still
+  rejects actual ignored-ownership source. Public metadata is not private proof.
+- Decisions: keep PR #4 draft/unmerged. Test source remains 209f4e0f / native fingerprint
+  1ecd417849013c817087d6b30aab0c485b3853a724ba2f53634c978a1e257731.
+  Source tests do not attest the old PID. MEMORY.md updated in source commit;
+  no further durable-memory change in this closeout.
+- Lessons Learned: none beyond the prior caller-lifecycle lesson, now verified.
+- Known issues/next: obtain a successful hosted macOS 3.13 check on the same source
+  when runner availability changes; separately establish a permitted live loading/
+  invocation path before A/B acceptance. No implicit restart/activation authority.
+  Later execution still needs current proof, exact authority and fresh admission.
+- Notes: this is the first resumed-goal closeout after completing independent 002R
+  work. Required live acceptance is incomplete. Do not replay unchanged blocked
+  probes, refresh expired authority, or resume the rejected ownership plan.
+  Verify final push/fetch 0/0; original untracked files are intentionally retained.
+
+## 2026-11-09 11:58 EST — Codex — DISCOVERY-002R source gate and private authority read
+
+- Scope: implemented the published initialized-runtime boundary on draft PR #4;
+  actual integration into the unchanged original PID is still BLOCKED by absent
+  safe ingress. No service/host changes, dispatch, authority refresh or merge.
+- Team: Sol 6.1/high production and independent review for instance/caller/private
+  authority reasoning; Luna/high lifecycle tests and preservation. Lead integration,
+  focused run, guarded authority inventory, documents and Git. No external pools.
+- Changes/files: initialized_runtime.py; runtime_readers.py; bridge/agent_bridge.py;
+  optional registry injection in permission/authority.py and protocol/agent.py;
+  test_discovery_in_process.py; 002R report/receipts/review, MEMORY.md and ledger.
+- Checks/results: independent 20 new cases pass; lead integrated15-file selection
+  passes345 in24.96s, no failures/skips. Compilation/Ruff F/diff checks pass.
+  Independent source+test review PASS; AST/whitespace checked without duplicate
+  pytest. Full hosted matrix is pending this published candidate.
+- Corrections: coherent cached-route/turn-policy snapshots; inherited ambient
+  parent cannot claim root; stale hosts reject before binding/contact; initialized
+  protected-path calculation does not create a data directory. Defaults unchanged.
+- Actual authority: guarded private readers confirm all three credentials,
+  enrollments and exact task approvals expired. Historical submission_started
+  remains set. No socket contact/DB writes; one dependency import architecture
+  subprocess attempt was blocked before launch and recorded, not hidden.
+- Decision: new factory does not authenticate external native snapshots/proof
+  from process metadata; receiver authority/native proof/free capacity unknown.
+  Revalidation retains dispatch_permitted=false. MEMORY.md updated with this rule.
+- Lessons Learned:
+  - Mistake: initial caller scope checked explicit ancestry but omitted ambient parent.
+  - Root Cause: discovery lifecycle did not mirror _begin_run parent semantics.
+  - Future Trigger: deriving authority from an active runtime turn.
+  - Required Behavior Change: bind exact objects and the actual execution lifecycle,
+    including ambient parent and finally invalidation; reject mixed observations.
+  - Verification Step: inherited-parent/copied-context/route-drift tests pass.
+  - Durable Memory Update: initialized caller/lifetime boundary recorded in MEMORY.md.
+- Known issue/next: complete full hosted matrix and independent preservation
+  after this read, publish A–J/final answers, verify GitHub0/0. No live native
+  observation exists; do not report PARTIAL/PASSED from fixture evidence.
+- Notes: preserve original seven untracked files/recovery refs/artifacts/worktree.
+  Runtime PID28093 must remain unchanged; original process cannot be retrospectively
+  stamped with this source's initialization anchor. Goal is not complete.
+
+## 2026-11-09 11:34 EST — Codex — DISCOVERY-002R trust decision before implementation
+
+- Scope: maintainer authorizes an internal runtime bridge and controlled read-only
+  tests on draft PR #4. No host changes, restart, dispatch, new authority or merge.
+- Team: Sol 6.1/high production boundary and later independent review for interacting
+  instance/caller/private-proof trust; Luna/high preservation and independent tests.
+  Lead owns lifecycle, documents, integration and Git. No external pools.
+- Changes/files: in-process-remediation.md publishes architecture, constraints and
+  ordered plan before source edits; in-process-baseline.json records fresh evidence.
+- Checks/results: PR/branch/master/worktrees rechecked; upstream 0/0; fsck succeeds
+  with 40 retained dangling objects. Seven originals, two refs, five artifacts,
+  manifest and detached worktree preserved. PID28093/health/config/profiles stable;
+  aggregate conversation/operator counts unchanged; recovery has two completed
+  tasks, zero effects. pCloud UI confirms no active coverage; window restored closed.
+- Decision: derive native evidence only from actual initialized server objects;
+  retain all private-file guards. Current source has no safe existing-process
+  ingress and reload is disabled. Source tests cannot certify that PID's live bridge.
+- Lessons Learned: none; existing filesystem-provenance lesson remains applied.
+  MEMORY.md update: not needed at design publication; review after implementation.
+- Known issue/next: implement bounded bridge and independent adversarial tests,
+  review before live testing, run full hosted CI, publish honest A–J results.
+  Actual live integration may remain blocked without a permitted loading path.
+- Notes: 002R supersedes the prior no-live-retry hold only within its explicit scope.
+  All ownership/restart/activation prohibitions persist. No implementation yet.
+
+2026-11-09 - Codex - trivial: maintainer chose to keep DISCOVERY-002 live acceptance blocked; ownership enablement is not authorized, and no live-gate retry or merge should proceed without new explicit direction - CHANGELOG_AI.md
+
+## 2026-11-08 23:22 EST — Codex — Goal blocked after third ownership audit
+
+- Scope/result: re-read the full DISCOVERY-002 objective and confirmed required
+  B6 integrated live acceptance remains incomplete. Gate A and published source
+  validation remain complete; this is not a goal-completion claim.
+- Team: lead-only bounded audit; no new workers or review loop.
+- Evidence/commands: current diskutil info reports APFS ownership disabled on
+  the same mounted device; root mode 0755 remains applied. Git status shows only
+  seven original untracked files; master/origin/master match f6593497 and feature
+  upstream is 0/0. Previous turn made progress through actual metadata/primary-doc
+  assessment; this turn confirms the unchanged blocker.
+- Changes/files: this handoff only. No source, mount, ownership, runtime, profile,
+  credential or approval change. Existing source 10dac8d3 tests/CI remain valid;
+  no blocked acceptance or test-suite replay.
+- Decision: same ownership/provenance blocker persists for three consecutive goal
+  turns. The reviewed root-only volume-wide remedy still lacks explicit approval.
+  All independent safe work is done; record goal status BLOCKED after sync.
+- Lessons Learned: none. MEMORY.md update: not needed.
+- Known issue/next: await the existing decision on ownership-remediation-plan.md.
+  Only if authorized, revalidate target/state and follow its bounded operation,
+  non-root access checks and rollback limits. Do not infer broader permission
+  from the earlier chmod approval. No remount, restart or live model execution.
+- Notes: draft PR #4 stays unmerged. Preserve original files/recovery artifacts;
+  user input or an external ownership-state change is required to resume B6.
+
+## 2026-11-08 23:17 EST — Codex — Read-only ownership impact assessment and bounded proposal
+
+- Scope/result: continued the incomplete DISCOVERY-002 goal. Previous turn made
+  progress by applying the one authorized mode change, validating rejection and
+  publishing receipts. Current mode 0755/ignored ownership reverified. No root
+  ownership operation, mount change, live task or model execution performed.
+- Team: lead inspected metadata/dependencies and owns docs/Git; existing Luna/high
+  worker reviewed installed Apple diskutil/mount/getattrlist/SDK documentation.
+  No implementation workers or additional engineering review were needed.
+- Evidence: four relevant directory roles have current R/W/X access; 20 root
+  directories and 1 file. 173 current-user processes have a volume cwd/open-file
+  dependency, including original CowAgent, Codex and ChatGPT. Roles overlap;
+  this is not 173 active tasks. 11 open-file and 2 cwd observations unavailable;
+  other users/privileged processes not inspected. No recursion/content/args/env.
+- Findings: documented ownership enable/disable is root-only, volume-wide,
+  persistent on this OS. Current stat/getattrlist UID/GID presentation does not
+  establish stored ownership. Remount necessity not established by docs; do not
+  remount/restart. Rollback restores policy, not intervening application writes.
+- Files/verification: added ownership-impact.json and ownership-remediation-plan.md;
+  linked the report and wrote this handoff. JSON/path-content scan, local links,
+  diff check and unchanged validated source hashes checked. No suite rerun:
+  source 10dac8d3/all-five-hosted-job result remains valid.
+- Decision: proposal is concrete but unexecuted. It requires separate authority
+  beyond the prior 0775-to0755 approval; cannot claim zero impact for other apps.
+  Existing blocked gate remains honest. MEMORY.md update: not needed; this is
+  transient host inventory and an unapproved operation, not a new durable rule.
+- Lessons Learned: none; assessment applies the existing owner-enforcement lesson.
+- Known issues/next: obtain explicit decision on the reviewed volume-wide
+  ownership operation. If authorized, revalidate target identity and baselines,
+  use the documented enable operation, verify native flags/access/health, restore
+  policy on failed checks, and only then run guarded read-only acceptance.
+  No implicit credential/proof refresh, runtime launch, remount or service restart.
+- Notes: owner enforcement remains the same blocker, now seen in two consecutive
+  goal turns. Required B6 acceptance is incomplete; do not mark goal complete.
+  Keep draft PR #4 unmerged, preserve originals, and sync only these documents.
+
+## 2026-11-08 23:03 EST — Codex — Approved volume mode change; ownership gate remains BLOCKED
+
+- Scope/authorization: maintainer explicitly approved only the external volume
+  root mode change 0775-to0755 and a read-only acceptance rerun. Applied exactly
+  that change after verifying the mounted APFS target and original mode. No
+  ownership enablement, mount change, credential or approval change was authorized.
+- Team: lead only for this narrow host operation and documentation. Existing
+  implementation/review/CI team results remain valid; no source code changed.
+- Changes/files: root directory mode now 0755. Added sanitized authorized change
+  and post-change rejection JSON under docs/bullgod-discovery-002; updated README,
+  publication receipt, project MEMORY.md and this handoff.
+- Commands/checks: read-only diskutil plist and lstat before/after; one chmod 0755;
+  existing instrumented acceptance runner; before/after service/config/profile/
+  model and aggregate conversation metadata. Target inode/device/UID/GID unchanged.
+- Result: mode 0755 confirmed; APFS ownership enforcement remains disabled.
+  Acceptance again stopped before binding/selection with
+  filesystem_ownership_ignored. All compared runtime/configuration/count metadata
+  unchanged. No native/model invocation or live task submission. Source 10dac8d3
+  retains the 356-focused/all-five-hosted-job validation; no unnecessary suite rerun.
+- Decisions: honor the late explicit narrow approval, keep the stronger trust
+  guard intact, publish BLOCKED. Enabling ownership needs separate scope and
+  authorization after assessing its effect on other volume data. Do not infer
+  that permission from this one-mode-change approval.
+- Lessons Learned: none; the existing ownership lesson is confirmed by the actual
+  0755 rejection. MEMORY.md updated with current volume mode and remaining limit.
+- Known issues/next: required integrated live selection remains incomplete.
+  Review storage ownership impact, obtain authority for a safe remedy, then
+  rerun read-only acceptance. Existing credentials/approvals remain expired.
+- Git/notes: documentation-only closeout on draft PR #4; recheck push/fetch 0/0.
+  No merge or activation. Preserve original seven untracked files, recovery refs,
+  artifacts, detached worktree and original service. The broader goal is blocked
+  by owner enforcement and is not complete.
+
+## 2026-11-08 22:58 EST — Codex — DISCOVERY-002 publication; live gate BLOCKED
+
+- Result: Gate A PASSED (PR #3 merge 40958f39, master closeout f6593497 with passing
+  automatic master CI). Gate B implementation, fixtures and review pass, but
+  required integrated live acceptance is BLOCKED by actual APFS ownership
+  enforcement and group-writable ancestry. No live eligibility is certified.
+- Team: Sol 6.1/high bounded production and independent security review, justified
+  by cross-component authority/provenance and Darwin ABI reasoning; Luna/high
+  independent acceptance, metadata preservation and hosted reconciliation. Lead
+  owns source integration, actual rejection replay, documentation and Git sync.
+- Changes/files: trusted discovery readers, authenticated inspect, read-only
+  operator journal and Darwin ownership guard; two test files; 002 report,
+  sanitized receipts and runner; MEMORY.md and this handoff. Details below.
+- Tests/results: 356 integrated tests passed; independent corrective review PASS.
+  Final hosted run 42558258829 on 10dac8d3 passed all five jobs: macOS 6023/39,
+  each Linux 6016/46; 6062 named cases plus 93 subtests per job. All 54 new cases
+  pass, no removed cases, exact prior skip identities retained. JavaScript,
+  strict TypeScript/build and Ruff pass. Logs/artifact/XML/source hashes retained.
+- Actual evidence: repaired-source read-only attempt stopped at config read with
+  filesystem_ownership_ignored, before registry/binding/selection. Process,
+  config/profile/model and aggregate conversation metadata unchanged. Separate
+  private authority read found all three credentials/enrollments/tasks expired;
+  journal counts/intents unchanged. Constructor guards were not reached in the
+  blocked live run; do not call this complete integrated no-dispatch acceptance.
+- Preservation/publication: draft PR #4 stays unmerged. Verified tracked source
+  at upstream 0/0; final closeout is documentation-only, with no repeated model or
+  test interactions. git fsck passed with same 40 dangling objects/no other
+  diagnostics. All seven original untracked files, five recovery artifacts, both
+  recovery refs and clean detached worktree preserved. No service restart.
+- Decisions: retain fail-closed boundary and withdrawn mode-only permission
+  request. No host chmod, ownership enablement, mount change, approval refresh,
+  credential modification, model invocation or production activation. Project
+  MEMORY.md records durable reader and filesystem constraints; no global update.
+- Lessons Learned:
+  - Mistake: mode-only remediation was proposed before mount ownership was checked.
+  - Root Cause: statvfs omits Darwin's ownership-ignore flag.
+  - Future Trigger: trusted evidence on macOS storage.
+  - Required Behavior Change: verify native ownership enforcement before proposing
+    mode changes; withdraw insufficient proposals and keep unsafe input rejected.
+  - Verification Step: independent actual path/FD checks and six regressions pass.
+  - Durable Memory Update: the rule is recorded in project MEMORY.md.
+- Known issues: B6 integrated live scenarios remain incomplete. No authoritative
+  native isolated proof/global free capacity or safe Codex executable attestation
+  is available; expired authority and historical submitted task IDs cannot be reused.
+- Next steps: separately review storage ownership impact and obtain explicit
+  authority for any host remediation. Then rerun read-only actual discovery;
+  establish current complete proof/enrollment/exact task approval and runtime
+  admission before any later executor request. DISCOVERY-002 merge needs separate
+  authorization. Keep all original runtime/config/profile/memory data intact.
+- Notes: all ten completion questions are answered in docs/bullgod-discovery-002/
+  README.md. Source tested 10dac8d3; final documentation preserves its code hashes.
+  The goal is not achieved while B6 is blocked. This is the first blocked
+  closeout after all independent implementation/publication work; do not change
+  storage or rerun unchanged blocked probes without new authority/state.
+
+## 2026-11-08 22:47 EST — Codex — DISCOVERY-002 ownership enforcement correction
+
+- Task/result: actual APFS workspace ignores ownership. A mode-only change cannot
+  establish trusted provenance. The pending 0775-to-0755 permission question was
+  withdrawn; no host permission, mount setting, config or live authority changed.
+  Gate A remains PASSED; Gate B trusted live selection remains BLOCKED.
+- Team: same Sol 6.1/high production worker and independent reviewer for the
+  security-sensitive Darwin ABI/authority correction; Luna retained first hosted
+  CI evidence. Lead owns integration, actual read-only replay, docs and Git.
+- Changes/files: new agent/external/filesystem_trust.py uses Apple's explicit
+  statfs64/fstatfs64 ABI and MNT_IGNORE_OWNERSHIP. Trusted reader, operator and
+  recovery guards reject ignored/unknown ownership. Old writable operator setup
+  rejects before creating state. Linux keeps existing checks. Six targeted cases
+  added to test_discovery_runtime_readers; acceptance runner sanitizes the new
+  stop code. Updated 002 reports/receipts and project MEMORY.md.
+- Verification: worker 107 tests passed; independent corrective review PASS with
+  separate actual path/FD mount observations and no remaining finding. Lead's
+  integrated 356 tests passed in 46.02s; Ruff F passed. Actual read-only retry
+  stopped before registry/binding/selection with filesystem_ownership_ignored;
+  all process/config/profile/model/aggregate-conversation metadata unchanged.
+- Hosted: prior head b82117e9 passed all five jobs in run42556509225 (macOS6017,
+  Linux6010 each; 6056 named cases/93 subtests; 48 new cases, no removed cases,
+  unchanged skip sets). Receipt retained explicitly for that source. This
+  corrective source requires a new hosted run before final publication.
+- Decisions: ownership enforcement is separate from permission mode; statvfs
+  masks the required Darwin flag. No unsafe fallback or synthetic live proof.
+  MEMORY.md updated; no global memory update.
+- Lessons Learned:
+  - Mistake: mode bits were initially treated as sufficient owner-trust evidence.
+  - Root Cause: macOS can ignore ownership, and Python statvfs masks that flag.
+  - Future Trigger: owner-based authorization on a macOS mount.
+  - Required Behavior Change: query the authoritative native mount flag; reject
+    ignored ownership or unavailable API before trusted reads or state creation.
+  - Verification Step: 0755/0600 paths on simulated ignored mounts reject; real
+    workspace rejects and private temporary storage accepts; Linux bypasses API.
+  - Durable Memory Update: project filesystem trust constraint now records this.
+- Known issues/next: finish fresh hosted CI and final sanitized closeout. Actual
+  integrated selection needs a separately authorized storage/ownership remedy;
+  a mode-only chmod is insufficient. Retained credentials/approvals remain expired.
+- Notes: draft PR #4 remains unmerged. Preserve original PID28093, seven original
+  untracked files, recovery references/artifacts and detached worktree. No paid
+  model, live task replay or new enrollment/approval is authorized by this fix.
+
+## 2026-11-08 22:27 EST — Codex — DISCOVERY-002 draft publication and live trust blockage
+
+- Task/result: Gate A PASSED; PR #3 integrated as 40958f39 and automatic master
+  CI passed. Gate B source is implemented/reviewed, but trusted live selection
+  is BLOCKED at config ancestry (non-sticky group-writable volume, mode 0775).
+  No guard bypass, filesystem permission change, new approval or runtime launch.
+- Team: Sol 6.1/high production and independent review for cross-component
+  provenance/authority/IPC reasoning; Luna/high independent fixtures, live
+  metadata/preservation and hosted evidence. Lead owns integration/docs/Git.
+- Changes/files: agent/discovery trusted readers and diagnostics; narrow
+  agent/external read-only journal/inspect hooks; two new test files; 002 plan,
+  report, runner, focused/review/preservation receipts; project MEMORY.md.
+- Checks/results: 350 focused tests passed, including 48 new cases; Ruff F and
+  runner syntax passed; independent review PASS after four corrective findings.
+  git fsck --full passed, 40 unchanged dangling objects/no other diagnostics.
+  Seven original untracked files, five recovery artifacts, both recovery refs
+  and clean detached worktree preserved. Hosted 002 matrix pending publication.
+- Live evidence: actual strict config read stopped before registry loading or
+  selection. Separate service metadata/counts remain unchanged. Safe private
+  authority inventory is separate evidence, not a replacement trusted registry.
+  Missing native/Codex proof or admission remains unknown; no model call made.
+- Decisions: retain guard; publish a draft with explicit blocker; no 002 merge.
+  MEMORY.md updated with trusted-source, full-proof and frozen-enrollment rules.
+- Lessons Learned:
+  - Mistake: live source ancestry was checked only after implementation fixtures.
+  - Root Cause: private temporary fixtures did not model the external volume's
+    group-write permission.
+  - Future Trigger: connecting trusted readers to existing files on shared storage.
+  - Required Behavior Change: inspect owner/mode/canonical ancestry before assuming
+    trusted config or proof readability; keep unsafe evidence rejected.
+  - Verification Step: actual path rejection is preserved and reported; any
+    future approved host permission change needs a fresh read-only acceptance.
+  - Durable Memory Update: recorded in project MEMORY.md; no global memory change.
+- Known issues/next: complete hosted matrix and sanitized evidence publication,
+  then obtain maintainer direction for the storage trust boundary. Credentials
+  and retained approvals remain expired. No positive live selection is claimed.
+- Notes: source commit 7985be47 is based on verified master f6593497. Preserve
+  original service PID 28093 and all unrelated files. Do not merge 002 or refresh
+  live authority to convert this blocked result into a pass.
+
+## 2026-11-08 22:04 EST — Codex — DISCOVERY-002 trusted readers; Gate B in progress
+
+- Scope: active user goal is the DISCOVERY-002 attachment. Gate A is complete:
+  PR #3 merged 40958f39, master CI 42550651190 passed, sanitized integration
+  report published in docs-only master f6593497 at 0/0. Gate B branch
+  codex/bullgod-discovery-002 starts at f659349785acf98905901a5cc53921436a109dbc.
+  No 002 merge or production activation authorized.
+- Team/ownership: Sol 6.1/high production worker discovery002_runtime_readers owns
+  agent/discovery, narrow agent/external hooks and test_discovery_runtime_readers.
+  Luna/high discovery_native_audit owns test_discovery_runtime_acceptance only.
+  Luna/high discovery002_gate_a_preservation owns the read-only acceptance script
+  under docs/bullgod-discovery-002 and private metadata receipts. Sol 6.1/high
+  discovery002_gate_a_review owns the one independent Gate B review. Stronger
+  production/review routing is justified by cross-component provenance, HMAC,
+  SQLite and accidental-dispatch boundaries. Lead owns docs/integration/Git.
+- Implementation: ReadOnlyNativeConfiguration, ExistingRuntimeBinding factory,
+  TrustedDiscoveryHost; operator/audit/probe provenance and current fingerprints;
+  read-only operator/approval opening; explicit authenticated inspect on existing
+  adapters before request-row writes; select/revalidate never contact runtimes.
+  Source callbacks remain backward compatible. No credentials/approvals minted.
+- Verification: core broader 191 tests passed, then 66 affected after refinements;
+  independent acceptance 19 passed. Parent integrated 330 passed before review fixes.
+  Ruff/diff checks passed. No final hosted Gate B gate or PR yet.
+- Review findings under correction: disabled native profile aborted all candidates;
+  negative runtime observation lacked expiry; inspection did not compare the
+  running adapter's frozen enrollment; historical focused probe receipt checked
+  only 4 source files instead of binding the full tested source. Core owns fixes
+  and regressions; acceptance owner updates positive fixtures to full-source-bound
+  regression evidence. Same reviewer will check only corrective diff afterward.
+- Actual records: all retained named and Codex enrollments/task approvals expired;
+  named approved source differs from current source. Actual Codex runtime ID is
+  acceptance-runtime. Socket files remain but prove no availability. Exact approved
+  probe bytes found: agent-routing-003/merge-final-regression.json and
+  external-002b/authority-probes.json. No live receipt was replaced or refreshed.
+- No-dispatch baseline: original PID 28093 healthy; metadata-only aggregate counts
+  sessions/messages/runs: default 4/7/6, testpilot 8/30/11, testpilot2 1/2/1. SQLite
+  authorizer permits only agent_id COUNT/grouping on these tables; no content,
+  title, transcript, memory-chunk or usage-extras reads. Actual acceptance is running
+  under separate instrumentation and must be repeated only if final source changes.
+- Decisions/limits: operator provenance is private-account trust, not signed audit
+  or protection from same UID/root. Native isolated capability proof/global free
+  capacity and safe Codex executable attestation remain unavailable where existing
+  infrastructure cannot establish them. File config is not live in-memory/env
+  attestation. Final Gate B likely PARTIAL; synthetic fixtures must not fill live
+  proof gaps. Every result remains dispatch_permitted=false.
+- Lessons Learned:
+  - Mistake: partial source-file coverage in an authentic receipt could be treated
+    as proof for a newly enrolled but incompletely tested source tree.
+  - Root Cause: content/provenance matching was conflated with complete tested-source
+    applicability across authority and model dependencies.
+  - Future Trigger: importing historical capability evidence after source changes.
+  - Required Behavior Change: require a complete receipt-bound source fingerprint;
+    reject weaker schemas even if their content hash has operator approval.
+  - Verification Step: old approved four-file receipt under changed dependency
+    must remain unverified; full-source-bound disposable receipt can qualify.
+  - Durable Memory Update: pending final validated contract; no global memory update.
+- Next: finish four review fixes, final live read-only acceptance and no-dispatch
+  comparison; close the same review; run affected integrated checks; publish
+  implementation/report/draft PR and full hosted matrix; reconcile receipts and
+  upstream 0/0. Preserve all seven untracked originals, recovery artifacts and
+  original service; no model calls, profile/memory/provider/credential changes.
+- Notes: task evidence root cow-discovery002-y05588lk under host temp; Gate A
+  receipts in gate-a, actual inventory/validation in gate-b. Runtime count script
+  and before baseline are in /private/tmp/cow-discovery-002-gatea-rFolPk. Production
+  worker should change only concrete review findings; coordinate acceptance rerun.
+
 ## 2026-11-08 21:30 EST — Codex — DISCOVERY-002 Gate A integration passed
 
 - Task/result: owner authorized DISCOVERY-001 integration. PR #3 marked ready
