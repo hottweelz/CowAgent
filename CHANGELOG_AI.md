@@ -1,63 +1,75 @@
 # AI handoff ledger
 
-## 2026-11-08 19:25 EST — Codex — INFRA-RELIABILITY-001B integration gate
+## 2026-11-08 19:36 EST — Codex — INFRA-RELIABILITY-001B integrated and verified
 
-- Task: verify owner removal of Projects from pCloud, preserve Git/runtime and
-  integrate PR #2 only after all gates pass. Migration is superseded and forbidden.
-- Team: lead owns pCloud UI, Git/docs and merge. Two Luna/high workers verified
-  runtime metadata and current published PR/CI evidence. One Sol 6.1/high reviewer
-  assessed combined Git integrity, sync coverage, runtime privacy and CI source
-  binding; those cross-component risks exceed routine fixture verification.
-  STE branch completion and bounded review guidance used. Requested models are
-  explicit; effective worker model identities are not independently attested.
+- Task/result: owner removal of Projects from pCloud is verified. The known
+  active backup exposure and current Git integrity are RESOLVED under 001B.
+  Independent integration review passed; PR #2 merged normally as
+  323fefcd49bae71bbf3c191e23cf7aaca48ecb21. Historical corruption cause remains
+  unknown. Automatic master CI and operational postflight passed. BullGod
+  capability-discovery/task-selection development is ready; no activation occurred.
+- Team: lead owns scope, pCloud UI, integration, docs and Git. Two Luna/high
+  workers verified runtime metadata and current PR/CI evidence. One Sol 6.1/high
+  reviewer assessed combined Git integrity, synchronization coverage, runtime
+  privacy and source-bound CI; these risks need stronger cross-component
+  reasoning than routine fixture checks. STE branch completion/review guidance
+  applied. Requested model identities are not independently runtime-attested.
 - Changes/files: documentation only. Added backup-removal-verification.md,
-  backup-removal-review.md and pCloud/Git/runtime/PR receipts under the existing
-  infrastructure report. Updated README, recovery, migration-plan and project
-  MEMORY.md to remove the obsolete active-backup/migration direction.
-- Checks/results: supported pCloud settings show Projects absent, six remaining
-  Backup rows (one active), zero Sync rows and no canonical overlap with checkout,
-  .git or all 21 recorded runtime paths. Same scope after normal window reopen;
-  pCloud PID 891 unchanged. Supplemental readonly DB query locked; no bypass.
-  Git fsck exits 0 with 40 preserved dangling entries; all 177 effective refs
-  agree with Git. Pre/post refs identical across no-prune/no-autoGC fetch and
-  45-second monitor. Existing detached worktree clean at c2c39a2e. Seven original
-  untracked and five conflict backup hashes match; recovery refs unchanged.
-- Runtime: original PID 28093/loopback listener retained; health HTTP 200. Data
-  root and all three agent workspaces unchanged; default/testpilot/testpilot2
-  enabled. Config and both target profile hashes match historical receipts.
-  Four DBs checked by stat only; no private memory read or model task.
-- CI/review: live PR head 2502693a and base fe00855a are compatible (4 ahead/0
-  behind). All eleven tested hashes match c03d35e6. Run 42536883493 and all five
-  jobs remain success. Docs-only head had no new checks; no new pass claimed.
-  Independent integration review completed with no actionable finding and
-  recommends normal merge after documentation publication.
-- Decisions: known active pCloud exposure/current Git integrity is RESOLVED under
-  001B definition; historical writer remains unknown. Actions remains CONTAINED.
-  Owner's conditional merge authority now applies; publish addendum, mark ready,
-  merge normally, then verify actual master/ref/worktree/runtime postflight.
+  backup-removal-review.md and scoped pCloud/Git/PR/runtime/postflight receipts
+  under docs/infra-reliability-001. Updated the main report, recovery instructions,
+  migration-plan notice and project MEMORY.md. Migration is superseded; all
+  checkout, Git metadata, worktree and runtime paths remain in place.
+- pCloud: Projects absent, six remaining Backup rows (one active), zero Sync
+  rows; no canonical overlap with checkout/.git or all 21 runtime metadata paths.
+  Normal window reopen returns identical scope; original PID 891 retained.
+  Read-only DB query locked; no bypass. No kernel watch-absence claim.
+- Git commands/results: no-prune/no-autoGC fetch, before/after snapshots,
+  git fsck --full and two 45-second reference monitors pass. All 177 effective
+  refs reconcile. fsck preserves 40 dangling entries with no other errors.
+  Integration monitor saw only intended master/tracking updates and HEAD switch.
+  Seven original untracked files, five conflict backups and both recovery refs
+  preserved. Existing detached worktree clean at c2c39a2e; no recreation.
+- Runtime: original PID 28093/loopback listener and health HTTP 200 preserved.
+  COW_DATA_DIR, three agent workspaces, roster, config/profile hashes and all
+  recorded database/core-file stat metadata match before/after. Config and both
+  target profile hashes also match historical receipts. No private memory read,
+  model call, reset, provider/profile change or server restart.
+- Review/CI: no actionable independent-review finding. All eleven implementation
+  hashes equal c03d35e6; prior run 42536883493 applies to the docs-only candidate.
+  Mac 5,917/39, each Linux 5,910/46, 93 subtests each, JS 39+5, strict TypeScript,
+  build and Ruff passed. Master push run 42540144872 also passed all five jobs at
+  merge 323fefcd with identical counts and exact named-case/skip sets. Five logs
+  and three ZIP/XML artifact hashes reconcile. Docs-only commits do not claim CI.
+- Integration: published candidate 7be6edade3569d46f297dda23b514678ac69565d was
+  marked ready and merged with an expected-head check, without bypass. Merge tree
+  equals candidate tree. Local inactive master advanced through a non-forced
+  fetch of the exact published merge commit, then switched to master; this kept
+  working files at the reviewed version throughout. HEAD/master/origin/master
+  matched 323fefcd at 0/0. Final docs-only publication retains all implementation
+  hashes and uses [skip ci]; lead verifies push/fetch/master equality and 0/0
+  immediately after this commit. No pruning or forced update is used.
 - Lessons Learned:
   - Mistake: initial Accessibility reads used a stale process name and a variable
-    name that collided with the System Events dictionary.
-  - Root Cause: the process is pCloud Drive; AppleScript interpreted outLines as
-    its outlines property rather than a local result list.
+    that collided with the System Events dictionary.
+  - Root Cause: process name is pCloud Drive; outLines was interpreted as outlines.
   - Future Trigger: application identity or Accessibility collection failures.
-  - Required Behavior Change: resolve the process by PID and use distinct local
-    variable names; verify actual paths rather than treating a failed read as empty.
+  - Required Behavior Change: resolve by PID, use distinct variable names and
+    distinguish failed reads from zero configured rules.
   - Verification Step: successful canonical path inventory and identical reopen
-    evidence; distinguish unknown state from zero configured rules.
-  - Durable Memory Update: project MEMORY.md records current backup boundaries;
-    no global memory update.
-- Known limits: configuration scope is not a kernel watch inventory; historical
-  DB inode continuity was never recorded. Browser/full Windows coverage and
-  historical Actions cause remain as previously documented. No CI weakening.
-- Next: perform the authorized normal PR #2 merge, safe local master fast-forward,
-  and postflight. Publish actual merge/master IDs and readiness only after those
-  checks. No repository relocation, server restart or production BullGod activation.
-- Notes: current branch codex/infra-reliability-001 tracks its same-name origin.
-  Preserve all original untracked/recovery files and the detached worktree. New
-  raw evidence is in /var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-001b-0lhnsyxq;
-  runtime snapshot helper is /private/tmp/cow-infra-b-runtime-YAT2TR/snapshot.py.
-  This documentation-only checkpoint uses [skip ci]; tested source is unchanged.
+    evidence, with independent scope review.
+  - Durable Memory Update: project MEMORY.md updated; no global memory update.
+- Known limits: historical writer/Actions missing-event cause unknown; current
+  configuration is not a kernel watch inventory. Old DB inode continuity was
+  unrecorded. Browser/full Windows, floating dependency/action versions, existing
+  warnings and Python socket guard limitations remain documented.
+- Next recommended steps: none for INFRA-RELIABILITY-001B. BullGod discovery
+  and task-selection development can begin as the next milestone. Production
+  activation and further native acceptance remain separate authorization.
+- Notes: preserve feature branch and all recovery/untracked files. Postflight is
+  at merge 323fefcd; final closeout changes docs only. Raw evidence root:
+  /var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-001b-0lhnsyxq.
+  Runtime helper: /private/tmp/cow-infra-b-runtime-YAT2TR/snapshot.py. PR #2:
+  https://github.com/hottweelz/CowAgent/pull/2.
 
 ## 2026-11-08 19:02 EST — Codex — INFRA-RELIABILITY-001 published assessment
 

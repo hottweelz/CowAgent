@@ -3,7 +3,8 @@
 Status updated by INFRA-RELIABILITY-001B: the owner removed Projects from pCloud
 Backup. The [removal and integration addendum](backup-removal-verification.md)
 records current evidence and supersedes the earlier Git migration proposal.
-Independent integration review passed; integration/postflight is in progress.
+Independent integration review passed and PR #2 merged as `323fefcd`. Git,
+runtime and automatic master CI postflight passed. See the addendum for receipts.
 
 Repository: hottweelz/CowAgent. Baseline master:
 `fe00855a9f7b896115b2268492e11aa82d9bdc10`.
@@ -15,9 +16,9 @@ Review: [PR #2](https://github.com/hottweelz/CowAgent/pull/2).
 | Git reference integrity | **RESOLVED for the known active backup exposure** | Projects is absent from Backup, Sync is empty, all configured roots exclude the checkout/runtime, and Git integrity checks pass. Historical writer attribution remains unknown. |
 | GitHub Actions execution | **CONTAINED** | Manual dispatch and automatic PR events produced completed hosted jobs with retrievable logs. The final quality matrix passed. The historical missing-event cause remains unknown. |
 
-**BullGod readiness: pending integration postflight.** The independent review
-approved normal PR #2 integration under the owner's new authorization. No BullGod
-discovery, task-selection implementation or production activation is included.
+**BullGod development readiness: Yes.** Normal integration, operational
+postflight and automatic master CI passed. This task did not implement BullGod
+discovery/task selection or activate production orchestration.
 
 ## Initial state and preserved evidence
 
@@ -111,7 +112,7 @@ the earlier zero-run cause remains unexplained.
 
 ## CI quality gate
 
-The proposed Tests workflow defines one ordinary matrix: macOS/Python 3.13,
+The integrated Tests workflow defines one ordinary matrix: macOS/Python 3.13,
 Linux/Python 3.11 and Linux/Python 3.13. Full pytest collection includes existing
 security and authority tests without a duplicate security suite. Separate jobs
 run web/desktop JavaScript tests, strict desktop TypeScript/build and changed-file
@@ -212,7 +213,7 @@ for future incidents, without treating a clean poll as a guarantee.
 ## Evidence inventory
 
 | Evidence | Receipt |
-| Current backup removal and integration gates | [001B addendum](backup-removal-verification.md), [001B review](backup-removal-review.md) |
+| Current backup removal and integration gates | [001B addendum](backup-removal-verification.md), [001B review](backup-removal-review.md), [master CI](backup-removal-master-hosted.json) |
 | --- | --- |
 | Initial refs, configuration, filesystem, worktrees and preserved files | [baseline](baseline.json) |
 | Active backup scope and bounded process sample | [pCloud scope](pcloud-scope.json), [open-file sample](pcloud-open-file-sample.json) |

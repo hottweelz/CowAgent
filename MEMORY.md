@@ -8,7 +8,7 @@
   conflicts recur: being outside the pCloud mount alone does not establish
   isolation. Configuration evidence is not a kernel watch inventory. The
   historical ref writer remains unidentified; preserve recovery artifacts.
-- The infrastructure branch's ordinary CI uses `scripts/ci_test.py` with a
+- The integrated ordinary CI uses `scripts/ci_test.py` with a
   prepared absolute TIKTOKEN_CACHE_DIR and temporary HOME/data. It clears inherited
   model settings and guards Python connections to owned fixtures, excluding9899.
   This does not confine native/subprocess networking. Native agents/models and

@@ -1,0 +1,181 @@
+{
+  "receipt_type": "post-merge-hosted-ci-verification",
+  "task": "INFRA-RELIABILITY-001B",
+  "run": {
+    "id": 42540144872,
+    "url": "https://github.com/hottweelz/CowAgent/actions/runs/42540144872",
+    "workflow": "Tests",
+    "workflow_id": 410039630,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "323fefcd49bae71bbf3c191e23cf7aaca48ecb21",
+    "created_at": "2026-11-09T00:25:57Z",
+    "completed_at": "2026-11-09T00:31:59Z"
+  },
+  "source_binding": {
+    "expected_merge_commit": "323fefcd49bae71bbf3c191e23cf7aaca48ecb21",
+    "run_head_matches_expected": true,
+    "raw_job_logs_contain_expected_sha": true,
+    "job_log_sha_occurrences": {
+      "128913025850": 3,
+      "128913026042": 3,
+      "128913026094": 2,
+      "128913026116": 3,
+      "128913026140": 3
+    },
+    "interpretation": "All five retained job logs record checkout/fetch of the exact merge commit SHA."
+  },
+  "jobs": [
+    {
+      "name": "javascript",
+      "conclusion": "success",
+      "job_id": 128913025850,
+      "raw_log_path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-001b-0lhnsyxq/master-run-42540144872/logs/job-128913025850.log",
+      "raw_log_sha256": "28d298deed23cee86693b03366a349255e8119d02d2aa5909c5dfed5a9ff77f7",
+      "raw_log_bytes": 39455,
+      "merge_sha_occurrences": 3
+    },
+    {
+      "name": "pytest (macos-latest, Python 3.13)",
+      "conclusion": "success",
+      "pytest_summary": "5917 passed, 39 skipped, 36 warnings, 93 subtests passed in 289.69s",
+      "job_id": 128913026042,
+      "raw_log_path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-001b-0lhnsyxq/master-run-42540144872/logs/job-128913026042.log",
+      "raw_log_sha256": "5004bdce033ff8af0a3a194e1235e8d2d72a89e5642f0385c91ade792336778c",
+      "raw_log_bytes": 85094,
+      "merge_sha_occurrences": 3
+    },
+    {
+      "name": "ruff (changed Python files)",
+      "conclusion": "success",
+      "job_id": 128913026094,
+      "raw_log_path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-001b-0lhnsyxq/master-run-42540144872/logs/job-128913026094.log",
+      "raw_log_sha256": "db151128575a7392e21bf2c68f06e3632655cc688f0d802c0ec92bf3306e83b0",
+      "raw_log_bytes": 32075,
+      "merge_sha_occurrences": 2
+    },
+    {
+      "name": "pytest (ubuntu-latest, Python 3.13)",
+      "conclusion": "success",
+      "pytest_summary": "5910 passed, 46 skipped, 37 warnings, 93 subtests passed in 235.41s",
+      "job_id": 128913026116,
+      "raw_log_path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-001b-0lhnsyxq/master-run-42540144872/logs/job-128913026116.log",
+      "raw_log_sha256": "45efc5ffab14695bf4868f12d44904e4bf688fb26a5421ca2e51679315ea0682",
+      "raw_log_bytes": 90008,
+      "merge_sha_occurrences": 3
+    },
+    {
+      "name": "pytest (ubuntu-latest, Python 3.11)",
+      "conclusion": "success",
+      "pytest_summary": "5910 passed, 46 skipped, 33 warnings, 93 subtests passed in 235.93s",
+      "job_id": 128913026140,
+      "raw_log_path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-001b-0lhnsyxq/master-run-42540144872/logs/job-128913026140.log",
+      "raw_log_sha256": "366035651e839b67cb47dd9a9e49149e5eb4b2bfe927338a092246ca754a63e3",
+      "raw_log_bytes": 90365,
+      "merge_sha_occurrences": 3
+    }
+  ],
+  "junit_artifacts": [
+    {
+      "artifact_id": 13640804341,
+      "artifact_name": "junit-ubuntu-latest-py3.11",
+      "job_id": 128913026140,
+      "zip_sha256": "1d556d1e9f74a36444790a165eb5d9400c1e4e8f80410171b7618db59a73aa43",
+      "zip_bytes": 110357,
+      "members": [
+        "test-results.xml"
+      ],
+      "xml_path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-001b-0lhnsyxq/master-run-42540144872/junit/ubuntu-latest-py3.11.xml",
+      "xml_sha256": "5592444d34580de7573bc7fa60b51bf2c095a278a2b875bf4b0d3ed44547150c",
+      "xml_bytes": 824860,
+      "junit_suite": {
+        "tests_including_subtests": 6049,
+        "skipped_including_subtests": 46,
+        "failures": 0,
+        "errors": 0
+      },
+      "named_testcases": 5956,
+      "named_skipped": 46,
+      "named_passed": 5910,
+      "named_failures": 0,
+      "named_errors": 0
+    },
+    {
+      "artifact_id": 13641157258,
+      "artifact_name": "junit-macos-latest-py3.13",
+      "job_id": 128913026042,
+      "zip_sha256": "c1c5416fb1155e0be1bc706d7ee18b1d3e79a61d4d94bad80a9257d6bb265d29",
+      "zip_bytes": 111269,
+      "members": [
+        "test-results.xml"
+      ],
+      "xml_path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-001b-0lhnsyxq/master-run-42540144872/junit/macos-latest-py3.13.xml",
+      "xml_sha256": "abe7da73b8ade66638cf56d339c707c60fdb20cf4fed63059711ef7e5ca4e769",
+      "xml_bytes": 823520,
+      "junit_suite": {
+        "tests_including_subtests": 6049,
+        "skipped_including_subtests": 39,
+        "failures": 0,
+        "errors": 0
+      },
+      "named_testcases": 5956,
+      "named_skipped": 39,
+      "named_passed": 5917,
+      "named_failures": 0,
+      "named_errors": 0
+    },
+    {
+      "artifact_id": 13641401310,
+      "artifact_name": "junit-ubuntu-latest-py3.13",
+      "job_id": 128913026116,
+      "zip_sha256": "48e775e88597f0bcb411c43e7ce9a1e64b9ed67a73a891cdf17899ac5b8e938f",
+      "zip_bytes": 110448,
+      "members": [
+        "test-results.xml"
+      ],
+      "xml_path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-001b-0lhnsyxq/master-run-42540144872/junit/ubuntu-latest-py3.13.xml",
+      "xml_sha256": "2d77be87311f720a20156a2f7b209f9957294cb291bef8fcd1e65ba72aee3d0e",
+      "xml_bytes": 824860,
+      "junit_suite": {
+        "tests_including_subtests": 6049,
+        "skipped_including_subtests": 46,
+        "failures": 0,
+        "errors": 0
+      },
+      "named_testcases": 5956,
+      "named_skipped": 46,
+      "named_passed": 5910,
+      "named_failures": 0,
+      "named_errors": 0
+    }
+  ],
+  "reconciliation": {
+    "python_jobs": 3,
+    "named_cases_each": 5956,
+    "subtests_passed_each": 93,
+    "failures": 0,
+    "errors": 0,
+    "log_and_junit_counts_match": true,
+    "details": "macOS 5917 passed/39 skipped; Linux Python 3.11 and 3.13 each 5910 passed/46 skipped. Each JUnit suite reports 6049 total including subtests."
+  },
+  "retained_evidence_directory": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-001b-0lhnsyxq/master-run-42540144872",
+  "artifact_urls_or_tokens_in_receipt": false,
+  "verification_actions": {
+    "new_test_run": false,
+    "rerun_or_retry": false,
+    "repository_files_edited": false,
+    "external_state_mutated": false
+  },
+  "lead_reconciliation": {
+    "five_log_hashes_match": true,
+    "three_zip_and_xml_hashes_match": true,
+    "named_case_identity_and_exact_skip_sets_match_prior_gate": true,
+    "zero_junit_failures_errors": true,
+    "javascript_passed": {
+      "web": 39,
+      "desktop": 5
+    },
+    "strict_typescript_build_and_ruff_log_markers_present": true
+  }
+}

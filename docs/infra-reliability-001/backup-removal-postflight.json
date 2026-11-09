@@ -1,0 +1,88 @@
+{
+  "captured_at": "2026-11-09T00:28:31.069482+00:00",
+  "merge": {
+    "pr_url": "https://github.com/hottweelz/CowAgent/pull/2",
+    "method": "normal GitHub merge, expected-head fence; no bypass",
+    "merged": true,
+    "sha": "323fefcd49bae71bbf3c191e23cf7aaca48ecb21",
+    "reviewed_head": "7be6edade3569d46f297dda23b514678ac69565d",
+    "tree_matches_reviewed_head": true
+  },
+  "local_sync": {
+    "method": "non-forced fetch of the exact published commit into inactive local master, followed by git switch master; merge-base ancestry and equal working tree verified first",
+    "refs": {
+      "HEAD": "323fefcd49bae71bbf3c191e23cf7aaca48ecb21",
+      "master": "323fefcd49bae71bbf3c191e23cf7aaca48ecb21",
+      "origin/master": "323fefcd49bae71bbf3c191e23cf7aaca48ecb21",
+      "codex/infra-reliability-001": "7be6edade3569d46f297dda23b514678ac69565d",
+      "origin/codex/infra-reliability-001": "7be6edade3569d46f297dda23b514678ac69565d",
+      "codex/routing-closeout-ref-recovery": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+      "codex/routing-closeout-verified": "2b6df30a66f79b37577112517add8e56c7b22288"
+    },
+    "upstream": "origin/master",
+    "ahead": 0,
+    "behind": 0
+  },
+  "ref_monitor": {
+    "duration_seconds": 45,
+    "interval_seconds": 0.25,
+    "exit_code": 0,
+    "expected_changes": [
+      {
+        "after": "323fefcd49bae71bbf3c191e23cf7aaca48ecb21",
+        "before": "absent",
+        "ref": "common:refs/remotes/origin/master"
+      },
+      {
+        "after": "323fefcd49bae71bbf3c191e23cf7aaca48ecb21",
+        "before": "absent",
+        "ref": "common:refs/heads/master"
+      },
+      {
+        "after": "symbolic:refs/heads/master",
+        "before": "symbolic:refs/heads/codex/infra-reliability-001",
+        "ref": "worktree:HEAD"
+      }
+    ],
+    "unexpected_changes": [],
+    "conflicts_or_mismatches": [],
+    "sha256": "acfdfab06d5afd1c7e627069ff51d53c8d3b0fd7e3f7115b5256bf4002e91498"
+  },
+  "fsck": {
+    "command": "git fsck --full",
+    "exit_code": 0,
+    "dangling_entries": 40,
+    "other_errors": [],
+    "sha256": "7cc7c2c1ae9667e6f866878b5a1eca2e14692302c2d343c5ff0406c7602f16a8",
+    "prune_or_gc": false
+  },
+  "detached_worktree": {
+    "path": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-isolation-baseline-t7gh60q2/source",
+    "head": "c2c39a2e0823f1556ecdc79f9e07911fff207a05",
+    "clean": true
+  },
+  "original_untracked_unchanged": {
+    ".cow [conflicted 2].pid": true,
+    ".cow [conflicted 3].pid": true,
+    ".cow [conflicted 4].pid": true,
+    ".cow [conflicted].pid": true,
+    "AGENTS.md": true,
+    "tests/test_parallel_tool_calls [conflicted 2].py": true,
+    "tests/test_parallel_tool_calls [conflicted].py": true
+  },
+  "recovery_manifest_and_five_artifacts_unchanged": true,
+  "implementation_hashes_match_tested_source": 11,
+  "runtime": {
+    "before": "backup-removal-runtime-before.json",
+    "after": "backup-removal-runtime-after.json",
+    "equal_except_capture_time_and_transient_process_status": true,
+    "same_original_pid_and_start_time": true,
+    "same_config_profiles_workspaces_db_and_core_file_metadata": true,
+    "health_status": "ok"
+  },
+  "limits": [
+    "Known configured exposure removed; historical writer unknown.",
+    "Bounded polling cannot guarantee absence of every transient writer.",
+    "Postflight is at merge commit; documentation-only closeout is synchronized separately."
+  ]
+}

@@ -15,12 +15,17 @@ not private configuration or reflog messages.
 ```sh
 repo='/Volumes/Predator SSD GM7 1TB/Projects/CowAgent'
 evidence=$(mktemp -d /private/tmp/cow-ref-observation.XXXXXX)
-python3 scripts/git_ref_watch.py --repo "$repo" --duration 60 --interval 0.25   --output "$evidence/refs.jsonl"   --expect-ref refs/heads/master=fe00855a9f7b896115b2268492e11aa82d9bdc10   --expect-ref refs/remotes/origin/master=fe00855a9f7b896115b2268492e11aa82d9bdc10
+expected_master='<independently verified full master commit SHA>'
+python3 scripts/git_ref_watch.py --repo "$repo" --duration 60 --interval 0.25 \
+  --output "$evidence/refs.jsonl" \
+  --expect-ref "refs/heads/master=$expected_master" \
+  --expect-ref "refs/remotes/origin/master=$expected_master"
 ```
 
-The baseline SHA is valid for this report; replace it only after separately
-verifying a later intentional master change. Exit 2 means a mismatching expected
-ref or an observed invalid conflict ref. A failure remains latched even if the
+Replace the placeholder with the accepted published commit after independently
+checking remote history. The old fe00855a baseline is historical; integration
+and later documentation commits intentionally advance master. Exit 2 means a
+mismatching expected ref or an observed invalid conflict ref. A failure remains latched even if the
 conflict disappears. The monitor does not authorize or repair any update.
 It can miss between-sample changes. A clean run does not establish safety.
 
@@ -125,10 +130,10 @@ gh workflow run test-windows-bash.yml --repo hottweelz/CowAgent --ref master
 This executes the existing Windows Bash test, not the complete matrix. It still
 requires a subsequent run ID, started job, successful conclusion and retrieved
 logs. Use it only for an intended infrastructure check, not repeated polling.
-The proposed Tests dispatch requires a full `base_sha` input and becomes a usable
-default-branch recovery option only after explicit integration review places that
-workflow definition on master. Until then, PR events are the demonstrated path
-for the candidate full matrix. No branch protection was changed to enforce it.
+The integrated Tests workflow is now on master and its manual dispatch requires
+a full `base_sha` input for changed-file lint. Use an independently verified
+comparison base. PR and master-push events are demonstrated automatic paths.
+No branch protection was changed to enforce the gate.
 
 See GitHub's [manual-run procedure](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow)
 and [dispatch API](https://docs.github.com/en/rest/actions/workflows#create-a-workflow-dispatch-event).

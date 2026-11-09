@@ -1,0 +1,272 @@
+{
+  "agents": {
+    "http_status": 200,
+    "prior_testpilot_profile_hash_matches": {
+      "testpilot": true,
+      "testpilot2": true
+    },
+    "registered": [
+      {
+        "enabled": true,
+        "id": "default",
+        "name": "CowAgent",
+        "profile_sha256": "a329220d39521791e9152b22b2f69db9d8fcbd9dfef245f0112fbafc4d764fec",
+        "workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace"
+      },
+      {
+        "enabled": true,
+        "id": "testpilot",
+        "name": "TestPilot",
+        "profile_sha256": "b165eda4eeae3160bb4c873227e33c8fdc868cd64200ee52bfaaa3cb490ee214",
+        "workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot"
+      },
+      {
+        "enabled": true,
+        "id": "testpilot2",
+        "name": "TestPilot2",
+        "profile_sha256": "59f4b6955a22a088536a2d908e82a5581b55896e8a4c981d701c01a24cabe912",
+        "workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2"
+      }
+    ],
+    "status": "success"
+  },
+  "captured_at": "2026-11-09T00:26:49Z",
+  "config_file": {
+    "mtime_ns": 1794004620015338660,
+    "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData/config.json",
+    "sha256": "b7eb23e63dc1c4c02d9ae2e6ca23bb8b96c6d41824f63575bd9f9fde3e6c014a",
+    "size": 2195
+  },
+  "config_sha_matches_2026_11_08_routing_preflight": true,
+  "data_root": {
+    "device": 16777244,
+    "exists": true,
+    "inode": 3077892,
+    "kind": "dir",
+    "mtime_ns": 1794004620015464493,
+    "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData",
+    "size": 256
+  },
+  "database_files": [
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3163542,
+      "kind": "file",
+      "mtime_ns": 1794162332425154914,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/memory/long-term/index.db",
+      "size": 4096
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086186,
+      "kind": "file",
+      "mtime_ns": 1794004660420935588,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/memory/long-term/index.db",
+      "size": 114688
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086176,
+      "kind": "file",
+      "mtime_ns": 1794162334301723043,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/memory/long-term/index.db",
+      "size": 188416
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3161253,
+      "kind": "file",
+      "mtime_ns": 1794162946014931777,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/memory/recovery/tasks.db",
+      "size": 73728
+    }
+  ],
+  "health": {
+    "http_status": 200,
+    "status": "ok"
+  },
+  "memory_files": [
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086173,
+      "kind": "file",
+      "mtime_ns": 1794000658796633767,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/AGENT.md",
+      "size": 1561
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086206,
+      "kind": "file",
+      "mtime_ns": 1794000658797005393,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/USER.md",
+      "size": 508
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086177,
+      "kind": "file",
+      "mtime_ns": 1794000658797757020,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/RULE.md",
+      "size": 4655
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086201,
+      "kind": "file",
+      "mtime_ns": 1794000658798057229,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/MEMORY.md",
+      "size": 145
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086205,
+      "kind": "file",
+      "mtime_ns": 1794000658798353022,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/BOOTSTRAP.md",
+      "size": 2037
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086181,
+      "kind": "file",
+      "mtime_ns": 1793999506477508486,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/AGENT.md",
+      "size": 1496
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086195,
+      "kind": "file",
+      "mtime_ns": 1793999506475286896,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/USER.md",
+      "size": 508
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086189,
+      "kind": "file",
+      "mtime_ns": 1793999506475982523,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/RULE.md",
+      "size": 4655
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086191,
+      "kind": "file",
+      "mtime_ns": 1794002419719105319,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/MEMORY.md",
+      "size": 547
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3162485,
+      "kind": "file",
+      "mtime_ns": 1794162190065619975,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/AGENT.md",
+      "size": 1497
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3162486,
+      "kind": "file",
+      "mtime_ns": 1793999506475286896,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/USER.md",
+      "size": 508
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3162487,
+      "kind": "file",
+      "mtime_ns": 1793999506475982523,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/RULE.md",
+      "size": 4655
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3162488,
+      "kind": "file",
+      "mtime_ns": 1794162190062079173,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/MEMORY.md",
+      "size": 145
+    }
+  ],
+  "model_config": {
+    "chat_model": "nvidia/nemotron-3.5-super-vl:free",
+    "chat_provider": "custom",
+    "configured_provider_ids": [
+      "custom",
+      "deepseek"
+    ],
+    "http_status": 200,
+    "status": "success"
+  },
+  "pid_expected": 28093,
+  "process": {
+    "cow_data_dir": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData",
+    "cwd": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent",
+    "desktop_token_present": false,
+    "exe": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+    "listener_9899": [
+      {
+        "host": "127.0.0.1",
+        "port": 9899,
+        "status": "LISTEN"
+      }
+    ],
+    "name": "Python",
+    "pid": 28093,
+    "started_at_epoch": 1794162129.482237,
+    "status": "running"
+  },
+  "provider_environment_file": {
+    "exists": false,
+    "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData/.env"
+  },
+  "workspaces": [
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086172,
+      "kind": "dir",
+      "mtime_ns": 1794162903903221011,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace",
+      "size": 512
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3086180,
+      "kind": "dir",
+      "mtime_ns": 1794002419719828945,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot",
+      "size": 320
+    },
+    {
+      "device": 16777244,
+      "exists": true,
+      "inode": 3162482,
+      "kind": "dir",
+      "mtime_ns": 1794162332441035294,
+      "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2",
+      "size": 320
+    }
+  ]
+}
