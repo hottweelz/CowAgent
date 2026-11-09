@@ -1,5 +1,18 @@
 # CowAgent project facts
 
+- BULLGOD-DISCOVERY-002 adds host-only `TrustedDiscoveryHost`, existing private
+  binding readers and authenticated non-dispatching `inspect` on running adapters.
+  Selection/revalidation never contact IPC or authorize dispatch. Trusted files
+  require canonical owned paths and safe ancestors; a group-writable volume
+  ancestor rejects config/proof provenance. Do not bypass this with public API
+  metadata, unchecked native readers or copied files. Private authority inventory
+  can remain available independently, but does not repair blocked live selection.
+  Full tested-source proof and the running adapter's entire frozen enrollment
+  must match current authority. Historical focused receipts are insufficient.
+  Native proof/global free capacity and safe Codex executable attestation remain
+  unknown when no authoritative current source exists. Source implementation is
+  proposed in the 002 branch; the actual trusted live gate is blocked.
+
 - BULLGOD-DISCOVERY-001 was integrated through PR #3 at merge 40958f39 after
   focused integration review and passing automatic master CI. It adds the internal `agent.discovery` derived view over
   AgentRegistry and existing enrolled ExternalSupervisor bindings. It has no

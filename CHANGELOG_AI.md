@@ -1,5 +1,111 @@
 # AI handoff ledger
 
+## 2026-11-08 22:27 EST — Codex — DISCOVERY-002 draft publication and live trust blockage
+
+- Task/result: Gate A PASSED; PR #3 integrated as 40958f39 and automatic master
+  CI passed. Gate B source is implemented/reviewed, but trusted live selection
+  is BLOCKED at config ancestry (non-sticky group-writable volume, mode0775).
+  No guard bypass, filesystem permission change, new approval or runtime launch.
+- Team: Sol6.1/high production and independent review for cross-component
+  provenance/authority/IPC reasoning; Luna/high independent fixtures, live
+  metadata/preservation and hosted evidence. Lead owns integration/docs/Git.
+- Changes/files: agent/discovery trusted readers and diagnostics; narrow
+  agent/external read-only journal/inspect hooks; two new test files; 002 plan,
+  report, runner, focused/review/preservation receipts; project MEMORY.md.
+- Checks/results: 350 focused tests passed, including48 new cases; Ruff F and
+  runner syntax passed; independent review PASS after four corrective findings.
+  git fsck --full passed,40 unchanged dangling objects/no other diagnostics.
+  Seven original untracked files, five recovery artifacts, both recovery refs
+  and clean detached worktree preserved. Hosted002 matrix pending publication.
+- Live evidence: actual strict config read stopped before registry loading or
+  selection. Separate service metadata/counts remain unchanged. Safe private
+  authority inventory is separate evidence, not a replacement trusted registry.
+  Missing native/Codex proof or admission remains unknown; no model call made.
+- Decisions: retain guard; publish a draft with explicit blocker; no002 merge.
+  MEMORY.md updated with trusted-source, full-proof and frozen-enrollment rules.
+- Lessons Learned:
+  - Mistake: live source ancestry was checked only after implementation fixtures.
+  - Root Cause: private temporary fixtures did not model the external volume's
+    group-write permission.
+  - Future Trigger: connecting trusted readers to existing files on shared storage.
+  - Required Behavior Change: inspect owner/mode/canonical ancestry before assuming
+    trusted config or proof readability; keep unsafe evidence rejected.
+  - Verification Step: actual path rejection is preserved and reported; any
+    future approved host permission change needs a fresh read-only acceptance.
+  - Durable Memory Update: recorded in project MEMORY.md; no global memory change.
+- Known issues/next: complete hosted matrix and sanitized evidence publication,
+  then obtain maintainer direction for the storage trust boundary. Credentials
+  and retained approvals remain expired. No positive live selection is claimed.
+- Notes: source commit7985be47 is based on verified masterf6593497. Preserve
+  original service PID28093 and all unrelated files. Do not merge002 or refresh
+  live authority to convert this blocked result into a pass.
+
+## 2026-11-08 22:04 EST — Codex — DISCOVERY-002 trusted readers; Gate B in progress
+
+- Scope: active user goal is the DISCOVERY-002 attachment. Gate A is complete:
+  PR #3 merged 40958f39, master CI 42550651190 passed, sanitized integration
+  report published in docs-only master f6593497 at 0/0. Gate B branch
+  codex/bullgod-discovery-002 starts at f659349785acf98905901a5cc53921436a109dbc.
+  No 002 merge or production activation authorized.
+- Team/ownership: Sol 6.1/high production worker discovery002_runtime_readers owns
+  agent/discovery, narrow agent/external hooks and test_discovery_runtime_readers.
+  Luna/high discovery_native_audit owns test_discovery_runtime_acceptance only.
+  Luna/high discovery002_gate_a_preservation owns the read-only acceptance script
+  under docs/bullgod-discovery-002 and private metadata receipts. Sol 6.1/high
+  discovery002_gate_a_review owns the one independent Gate B review. Stronger
+  production/review routing is justified by cross-component provenance, HMAC,
+  SQLite and accidental-dispatch boundaries. Lead owns docs/integration/Git.
+- Implementation: ReadOnlyNativeConfiguration, ExistingRuntimeBinding factory,
+  TrustedDiscoveryHost; operator/audit/probe provenance and current fingerprints;
+  read-only operator/approval opening; explicit authenticated inspect on existing
+  adapters before request-row writes; select/revalidate never contact runtimes.
+  Source callbacks remain backward compatible. No credentials/approvals minted.
+- Verification: core broader 191 tests passed, then 66 affected after refinements;
+  independent acceptance 19 passed. Parent integrated 330 passed before review fixes.
+  Ruff/diff checks passed. No final hosted Gate B gate or PR yet.
+- Review findings under correction: disabled native profile aborted all candidates;
+  negative runtime observation lacked expiry; inspection did not compare the
+  running adapter's frozen enrollment; historical focused probe receipt checked
+  only 4 source files instead of binding the full tested source. Core owns fixes
+  and regressions; acceptance owner updates positive fixtures to full-source-bound
+  regression evidence. Same reviewer will check only corrective diff afterward.
+- Actual records: all retained named and Codex enrollments/task approvals expired;
+  named approved source differs from current source. Actual Codex runtime ID is
+  acceptance-runtime. Socket files remain but prove no availability. Exact approved
+  probe bytes found: agent-routing-003/merge-final-regression.json and
+  external-002b/authority-probes.json. No live receipt was replaced or refreshed.
+- No-dispatch baseline: original PID 28093 healthy; metadata-only aggregate counts
+  sessions/messages/runs: default 4/7/6, testpilot 8/30/11, testpilot2 1/2/1. SQLite
+  authorizer permits only agent_id COUNT/grouping on these tables; no content,
+  title, transcript, memory-chunk or usage-extras reads. Actual acceptance is running
+  under separate instrumentation and must be repeated only if final source changes.
+- Decisions/limits: operator provenance is private-account trust, not signed audit
+  or protection from same UID/root. Native isolated capability proof/global free
+  capacity and safe Codex executable attestation remain unavailable where existing
+  infrastructure cannot establish them. File config is not live in-memory/env
+  attestation. Final Gate B likely PARTIAL; synthetic fixtures must not fill live
+  proof gaps. Every result remains dispatch_permitted=false.
+- Lessons Learned:
+  - Mistake: partial source-file coverage in an authentic receipt could be treated
+    as proof for a newly enrolled but incompletely tested source tree.
+  - Root Cause: content/provenance matching was conflated with complete tested-source
+    applicability across authority and model dependencies.
+  - Future Trigger: importing historical capability evidence after source changes.
+  - Required Behavior Change: require a complete receipt-bound source fingerprint;
+    reject weaker schemas even if their content hash has operator approval.
+  - Verification Step: old approved four-file receipt under changed dependency
+    must remain unverified; full-source-bound disposable receipt can qualify.
+  - Durable Memory Update: pending final validated contract; no global memory update.
+- Next: finish four review fixes, final live read-only acceptance and no-dispatch
+  comparison; close the same review; run affected integrated checks; publish
+  implementation/report/draft PR and full hosted matrix; reconcile receipts and
+  upstream 0/0. Preserve all seven untracked originals, recovery artifacts and
+  original service; no model calls, profile/memory/provider/credential changes.
+- Notes: task evidence root cow-discovery002-y05588lk under host temp; Gate A
+  receipts in gate-a, actual inventory/validation in gate-b. Runtime count script
+  and before baseline are in /private/tmp/cow-discovery-002-gatea-rFolPk. Production
+  worker should change only concrete review findings; coordinate acceptance rerun.
+
 ## 2026-11-08 21:30 EST — Codex — DISCOVERY-002 Gate A integration passed
 
 - Task/result: owner authorized DISCOVERY-001 integration. PR #3 marked ready
