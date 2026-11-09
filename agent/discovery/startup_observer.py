@@ -74,7 +74,7 @@ def _private_directory(path):
 
 
 def _private_bytes(path):
-    from .runtime_readers import _owned_bytes
+    from .private_files import _owned_bytes
     _private_directory(path.parent)
     value = _owned_bytes(path, private=True)
     if stat.S_IMODE(path.lstat().st_mode) != 0o600 or len(value) > MAX_BYTES:

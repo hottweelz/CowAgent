@@ -1,5 +1,57 @@
 # AI handoff ledger
 
+## 2026-11-09 14:29 EST — Codex — DISCOVERY-002S cold-authentication correction
+
+- Scope/result: goal active; corrected pre-auth import side effects and a
+  demonstrated test readiness race. Final focused386 and corrective review pass;
+  new full hosted matrix and final-fingerprint rehearsal remain pending. No live
+  service stop/restart, model/task/adapter call, authority refresh or merge.
+- Team: same Sol6.1/high production/security reviewer for import/guard/API trust;
+  Luna/high cold tests, bounded CI race diagnosis and hosted evidence. Lead owns
+  source integration, packet/rehearsal and Git.
+- Changes: lazy discovery exports; exact file guard moved to pure private_files.py
+  and reexported; observer uses pure reader; helper temporarily suppresses bytecode
+  writes. Added3 cold negative cases. Runtime-reader fixture waits for published
+  server rather than socket path and reports sanitized denial diagnostics. Updated
+  validation/review/MEMORY; retained initial CI and focused receipts.
+- Checks: actual cold missingrequest counterexample first created fictional
+  COW_DATA_DIR/run.log; repaired missing/schema/expiry cases create neither data nor
+  logs. Clean-env minimal-source probe creates no source pycache. Integrated19-file
+  wrapper selection386passed26.25s; project lint/diff checks pass. Reviewer PASS
+  after checking lazy API identities, unchanged guard, bytecode restoration and
+  corrected cold-test isolation. Final startup manifest e7d785f25cf1a40c85b8044beb1466f9c9318bda817b08e3c44ccd64ccc0dd22.
+- Hosted history: run42678951272/source25890e8c ended4/5passed. Linux3.13 failed3
+  existing initial-selection assertions; new30allpass, no removals/changedskips.
+  Linux3.11 6066/46, macOS6073/39, each93subtests. Raw/sanitized failed evidence
+  retained in cow-discovery002s-hosted-25890e8c and startup-hosted-initial.json.
+- Diagnosis: local sixcases and33-filecases pass. Paused server_activate probe
+  proves socketpathname can exist before listen: inspect unavailable/selection
+  denied until release. Patchedfixture yields after server publication;33pass.
+  Exact original CI causation is unproven; keep diagnostics and require fresh CI.
+- Additional evidence: exact git restore fallback command exercised in disposable
+  fixed-cwd checkout using pinnedcommits; candidate13412/fallback13418 healthy,
+  gracefulexit0, fictional rowhashes/unrelatedsentinels preserved. Its old-source
+  evidence remains valid but does not cover new corrective fingerprint.
+- Lessons Learned:
+  - Mistake: warm interpreter tests missed cold logging side effects; fixture
+    treated a Unix socket path as listener readiness.
+  - Root Cause: eager package imports; bind precedes listen/server publication.
+  - Future Trigger: pre-auth startup boundary or socket-server fixture startup.
+  - Required Behavior Change: verify fresh process with isolated nonexistent data
+    root; use actual ready publication and retain diagnostic denial codes.
+  - Verification Step: cold3pass, deterministic raceprobe, integrated386pass,
+    independent corrective review; hosted result still required.
+  - Durable Memory Update: project MEMORY.md records pure cold authentication.
+- Known issues/next: source publication then new full hosted CI and final candidate/
+  fallback rehearsal. Complete startup-maintenance-packet.md with testedfingerprint,
+  all-agentdrain no-go and marker-write effect; no live approval exists. Packet and
+  in-place receipt are currently untracked parent files; do not discard.
+- Notes: user asked about ports. Rechecked original PID28093/start1794162129.482237
+  listens127.0.0.1:9899;19882is disposable fixture-only and was free after children
+  exited. Label future fixture probes clearly. Preserve original7untracked files,
+  recovery refs/artifacts and worktrees; no prune/GC/force. Earlier diagnostic
+  credential exposure remains disclosed; no value persisted or rotation performed.
+
 ## 2026-11-09 13:57 EST — Codex — DISCOVERY-002S source and disposable startup gate
 
 - Scope: implement inactive launch-only observer, preserve PID28093, qualify

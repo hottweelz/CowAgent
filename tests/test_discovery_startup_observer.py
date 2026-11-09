@@ -2,6 +2,7 @@
 
 import json
 import os
+import subprocess
 import sys
 import time
 import types
@@ -531,3 +532,46 @@ def test_helper_rejects_invalid_request_before_app_execution(tmp_path, monkeypat
     assert exc.value.code
     assert path.exists()
     assert observer._pending is None
+
+
+@pytest.mark.parametrize("invalid_case", ["missing", "schema", "expiry"])
+def test_cold_helper_rejects_before_runtime_setup_without_data_or_logs(tmp_path, invalid_case):
+    """A fresh interpreter must reject before config, logging or app startup."""
+    repo = observer.ROOT
+    home = tmp_path / "isolated-home"
+    data_root = tmp_path / "not-created-data"
+    request = tmp_path / "missing-request.json"
+    home.mkdir(mode=0o700)
+    if invalid_case == "schema":
+        request, _ = _write_request(
+            tmp_path / "request-private",
+            changes={"unsupported_field": "reject"},
+        )
+    elif invalid_case == "expiry":
+        request, _ = _write_request(
+            tmp_path / "request-private",
+            changes={"expires_at": lambda value: value["issued_at"] - 1},
+        )
+    env = {
+        "HOME": str(home),
+        "COW_DATA_DIR": str(data_root),
+        "PATH": os.environ.get("PATH", ""),
+        "PYTHONNOUSERSITE": "1",
+    }
+
+    result = subprocess.run(
+        [sys.executable, str(repo / "scripts/discovery_startup.py"), "--request", str(request)],
+        cwd=repo,
+        env=env,
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=False,
+    )
+
+    assert result.returncode != 0
+    assert result.stderr.strip() == "Authenticated startup observation rejected"
+    assert not data_root.exists()
+    assert not home.joinpath(".cow").exists()
+    assert not list(tmp_path.rglob("run.log"))
+    assert "Starting channels" not in result.stdout + result.stderr

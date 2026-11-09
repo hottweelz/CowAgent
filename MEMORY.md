@@ -10,6 +10,10 @@
   arbitrary code is outside the existing application trust boundary. A source
   manifest measures launch files, not all loaded Python code. Normal migrations
   and background services still require separate maintenance preconditions.
+  Cold authentication uses lazy package exports and the pure shared file reader;
+  importing runtime logging before validation would create data/log files.
+  The helper suppresses bytecode for its controlled pre-auth imports and restores
+  the caller's flag; interpreter/site initialization is outside that control.
 
 - A source-mode service's resolved Python executable is not proof of its original
   invocation path: direct framework Python can bypass the virtual environment.

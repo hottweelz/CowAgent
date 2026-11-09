@@ -92,9 +92,9 @@ def trusted(tmp_path, monkeypatch):
     thread = threading.Thread(target=runtime.serve, daemon=True)
     thread.start()
     deadline = time.monotonic() + 3
-    while not runtime.socket_path.exists() and time.monotonic() < deadline:
+    while getattr(runtime, 'server', None) is None and time.monotonic() < deadline:
         time.sleep(.01)
-    assert runtime.socket_path.exists()
+    assert getattr(runtime, 'server', None) is not None, 'runtime server did not become ready'
     supervisor = ExternalSupervisor(journal, ExternalTransport(runtime.socket_path, credential),
                                     owner_id='default', source_id='default', conversation_id='conversation-1')
     binding = ExistingRuntimeBinding(supervisor, spec, probe, config_path)
@@ -114,6 +114,26 @@ def trusted(tmp_path, monkeypatch):
 
 def named(result):
     return next(row for row in result['candidates'] if row['mechanism'] == 'persistent_named')
+
+
+def selection_diagnostic(result, observations):
+    """Return only public decision and inspection status codes for failures."""
+    candidate = next((row for row in result.get('candidates', ())
+                      if row.get('mechanism') == 'persistent_named'), None)
+    return {
+        'status': result.get('status'),
+        'reasons': result.get('reasons'),
+        'named_candidate': None if candidate is None else {
+            'reasons': candidate.get('reasons'),
+            'proof_status': candidate.get('proof_status'),
+            'health': candidate.get('runtime_state', {}).get('health'),
+        },
+        'observations': [
+            {'health': row.get('health'), 'attestation': row.get('attestation'),
+             'dispatch_permitted': row.get('dispatch_permitted')}
+            for row in observations
+        ],
+    }
 
 
 def snapshot(path):
@@ -191,9 +211,9 @@ def test_disabled_profile_does_not_abort_other_candidates(trusted):
 
 def test_unavailable_observation_expires_to_unknown_and_invalidates_selection(trusted, monkeypatch):
     f = trusted
-    f.host.observe_external([f.credential.runtime_id], contact_authorized=True)
+    observed = f.host.observe_external([f.credential.runtime_id], contact_authorized=True)
     selected = f.host.select(f.task)
-    assert selected['status'] == 'selected'
+    assert selected['status'] == 'selected', selection_diagnostic(selected, observed)
     clock = [time.time()]
     f.host.clock = f.host.service.clock = lambda: clock[0]
     monkeypatch.setattr(f.supervisor.transport, 'inspect', lambda: (_ for _ in ()).throw(TransportUnavailable()))
@@ -303,9 +323,9 @@ def test_inspection_tamper_or_substitution_fails_closed(trusted, monkeypatch, mu
 @pytest.mark.parametrize('mutation', ['receipt', 'config', 'profile', 'source_receipt', 'operator_state'])
 def test_provenance_and_current_fingerprints_reject_drift(trusted, mutation, monkeypatch):
     f = trusted
-    f.host.observe_external([f.credential.runtime_id], contact_authorized=True)
+    observed = f.host.observe_external([f.credential.runtime_id], contact_authorized=True)
     selected = f.host.select(f.task)
-    assert selected['status'] == 'selected'
+    assert selected['status'] == 'selected', selection_diagnostic(selected, observed)
     if mutation == 'receipt':
         f.probe.write_text('{}')
     elif mutation == 'config':
