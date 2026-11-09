@@ -1,5 +1,52 @@
 # AI handoff ledger
 
+## 2026-11-09 12:36 EST — Codex — DISCOVERY-002R publication; live and macOS gates BLOCKED
+
+- Result: internal initialized-runtime implementation complete on 209f4e0f;
+  345 focused cases and independent source/test review pass. Live milestone is
+  BLOCKED: no supported trusted ingress to invoke new code in existing PID 28093
+  under no-restart constraints. Full hosted matrix is also BLOCKED by macOS
+  runner acquisition. Do not call this goal complete or production-ready.
+- Team: Sol 6.1/high bounded production and security review (instance/caller/private
+  authority reasoning); Luna/high independent lifecycle tests, hosted receipts
+  and preservation; lead owns integration, actual authority reads, docs and Git.
+- Changes/files: docs/bullgod-discovery-002/in-process-remediation.md answers all
+  A–J scenarios and ten questions; README, focused/review/live/authority/preservation/
+  hosted receipts and this ledger. Final closeout changes only Markdown/JSON.
+- Verification: 345 focused pass, including 20 new cases; exact source hashes bind
+  review and receipt. Hosted run 42660051257: both Linux jobs 6,036 passed / 46 skipped + 93 subtests;
+  JS 39 web + 5 desktop, strictTS/build and Ruff pass. Exactly 20 new cases/no removals/
+  unchanged Linux skips. No hosted macOS tests ran for this source.
+- Infrastructure diagnosis: initial job 129308863500 and one targeted retry
+  129319168938 cancelled before runner/steps after roughly 15 min each. GitHub
+  explicitly reports failure to acquire hosted runner and macOS arm64 capacity
+  notices. Expected runner/test start never occurred; same failure in both IDs
+  supports infrastructure acquisition, not an assertion defect. No third retry,
+  runner substitution, workflow change or test-result substitution.
+- Actual observations: current guarded private records for cowagent.testpilot,
+  cowagent.testpilot2 and acceptance-runtime all expired. Original service,
+  config/profiles/model/workspace metadata and conversation/operator/recovery
+  counters match fresh baseline. No dispatch, new approval/credential, memory
+  content read, restart, mount or permission change. One import-time architecture
+  subprocess attempt was blocked before launch and explicitly retained.
+- Preservation: seven original untracked hashes, both recovery refs, five artifacts/
+  manifest and clean detached worktree intact. pCloud baseline remains accepted;
+  no settings changes or unnecessary repeat. Filesystem ownership guard still
+  rejects actual ignored-ownership source. Public metadata is not private proof.
+- Decisions: keep PR #4 draft/unmerged. Test source remains 209f4e0f / native fingerprint
+  1ecd417849013c817087d6b30aab0c485b3853a724ba2f53634c978a1e257731.
+  Source tests do not attest the old PID. MEMORY.md updated in source commit;
+  no further durable-memory change in this closeout.
+- Lessons Learned: none beyond the prior caller-lifecycle lesson, now verified.
+- Known issues/next: obtain a successful hosted macOS 3.13 check on the same source
+  when runner availability changes; separately establish a permitted live loading/
+  invocation path before A/B acceptance. No implicit restart/activation authority.
+  Later execution still needs current proof, exact authority and fresh admission.
+- Notes: this is the first resumed-goal closeout after completing independent 002R
+  work. Required live acceptance is incomplete. Do not replay unchanged blocked
+  probes, refresh expired authority, or resume the rejected ownership plan.
+  Verify final push/fetch 0/0; original untracked files are intentionally retained.
+
 ## 2026-11-09 11:58 EST — Codex — DISCOVERY-002R source gate and private authority read
 
 - Scope: implemented the published initialized-runtime boundary on draft PR #4;

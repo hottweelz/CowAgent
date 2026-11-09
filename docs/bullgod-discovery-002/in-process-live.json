@@ -1,0 +1,43 @@
+{
+  "candidate_commit": "209f4e0fd53aeb249914755a68a1956d9e6225a0",
+  "captured_at_utc": "2026-11-09T16:59:55Z",
+  "dispatch_permitted": false,
+  "existing_pid": 28093,
+  "existing_pid_native_bridge_invoked": false,
+  "filesystem_content_read": false,
+  "new_credentials_or_approvals": false,
+  "private_source_mount_check": "filesystem_ownership_ignored",
+  "public_api_used_as_privileged_evidence": false,
+  "reason": "No supported authenticated load/invocation hook found for the new bridge in the already running service; reload disabled. Restart/replacement/debugger injection and task bootstrap are outside authorized scope.",
+  "replacement_process_used_as_native_evidence": false,
+  "schema": "bullgod-discovery-002r-live-feasibility/1",
+  "source_evidence": [
+    {
+      "matching_lines": [
+        221
+      ],
+      "meaning": "Service explicitly disables automatic source reload.",
+      "path": "channel/web/web_channel.py",
+      "sha256": "7e56ad8080246ddb136711ac9cc6b7af955fee0554d285ec931ff8520c76581f"
+    },
+    {
+      "matching_lines": [
+        27,
+        28
+      ],
+      "meaning": "Public roster API is an administrative snapshot, not privileged in-process discovery.",
+      "path": "channel/web/api/agents.py",
+      "sha256": "c0742c54f1d54d4a9eca07ad91bbd6c297c36454febafdb056f62f7efc772258"
+    },
+    {
+      "matching_lines": [
+        609
+      ],
+      "meaning": "New factory is internal and requires an actual initialized owner; no HTTP bootstrap added.",
+      "path": "agent/discovery/runtime_readers.py",
+      "sha256": "f54e83798058dc58af837fdb9e81078d4a23759b4cf8ffe50c5efce10aa8b43c"
+    }
+  ],
+  "stage": "existing_process_trusted_ingress",
+  "status": "BLOCKED"
+}

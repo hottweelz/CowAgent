@@ -1,12 +1,17 @@
 # BULLGOD-DISCOVERY-002
 
-**DISCOVERY-002R remediation is in progress.** The maintainer authorized an
-internal bridge and controlled read-only tests under the same draft PR. The
-[in-process trust decision](in-process-remediation.md) was published before
-implementation; the [fresh baseline](in-process-baseline.json) preserves the
-existing service and recovery evidence. Host ownership changes, restarts,
-dispatch and production activation remain prohibited. The prior results below
-do not validate the new implementation or establish a successful live bridge.
+**DISCOVERY-002R source implementation is complete; live integration is BLOCKED.**
+The [in-process remediation report](in-process-remediation.md) records the trust
+decision published before code, the internal initialized-runtime bridge, all A–J
+results and ten completion answers. Source `209f4e0f` passed 345 focused tests
+(including 20 new cases) and independent source/test review. Both Linux jobs, JavaScript/strict TypeScript/build and Ruff passed; the
+[hosted macOS gate](in-process-hosted.json) is BLOCKED after two runner-acquisition
+failures, with no macOS test steps executed. The existing PID has no verified supported authenticated way
+to load/invoke the new bridge under the no-restart constraint; no PARTIAL or
+PASSED live-native result is claimed. [Preservation evidence](in-process-preservation.json)
+confirms the unchanged service, profiles and aggregate records. Private authority
+still expires normally and ignored-ownership sources still reject. PR #4 stays
+draft and unmerged. The original 002 results below remain historical evidence.
 
 Gate A is **PASSED**. DISCOVERY-001 merged normally through
 [PR #3](https://github.com/hottweelz/CowAgent/pull/3) as

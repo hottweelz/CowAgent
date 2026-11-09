@@ -10,7 +10,7 @@
     }
   },
   "base_commit": "cf4956dfd359c0e6fdbc97583586a88c1ca54efa",
-  "hosted_ci": "pending",
+  "hosted_ci": "BLOCKED: macOS hosted runner acquisition failed twice; Linux3.11/3.13, JavaScript/TypeScript/build and Ruff passed; see in-process-hosted.json",
   "independent_review": "PASS; all actionable findings resolved; AST/diff inspected without duplicate pytest run",
   "native_source_fingerprint": "1ecd417849013c817087d6b30aab0c485b3853a724ba2f53634c978a1e257731",
   "new_in_process_cases": 20,
