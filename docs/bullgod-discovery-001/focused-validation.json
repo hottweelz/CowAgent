@@ -1,0 +1,31 @@
+{
+  "captured_at": "2026-11-09T01:40:38.050690+00:00",
+  "baseline": "0805c82ef55342b105c835cee77c21d6e385c434",
+  "command": "TIKTOKEN_CACHE_DIR=<prepared-public-cache> .venv/bin/python scripts/ci_test.py tests/test_discovery_contracts.py tests/test_bullgod_discovery.py tests/test_approved_dispatch.py tests/test_agent_registry.py tests/test_agent_delegation.py tests/test_agent_delegation_timeout.py tests/test_cowagent_adapter.py tests/test_cowagent_enrollment.py tests/test_cowagent_native.py tests/test_external_supervisor.py tests/test_external_operator_control.py -q --junitxml=<private-task-evidence>/focused.xml",
+  "result": {
+    "passed": 224,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "elapsed_seconds": 8.36,
+    "new_contract_cases": 26,
+    "new_acceptance_cases": 26
+  },
+  "source_sha256": {
+    "agent/discovery/__init__.py": "eb4448854a7f6ee179f73f1be179bd0360f2c106a086a7301bfa3aa6aa180dad",
+    "agent/discovery/contracts.py": "95a082edac8fe443eb2f150da88519e667630497ce7810f8b3bc00bddfcb890c",
+    "agent/discovery/service.py": "79aec9efbfc46c17a3603a2642bf33aedb4b0ba5f8436962dfec6d44b3b69b24",
+    "agent/discovery/sources.py": "d045cf3e6deb54dc087f3a0cf23601bc582910cc5653b1fab4414fdaec1cf7fe",
+    "agent/external/approved_dispatch.py": "3e92c92a8596ac96bfdb9d6199939d5c59ca792a57e2dbf32caab5592d088088",
+    "tests/test_discovery_contracts.py": "24f5a25554521992af8da39c2798461dcc3cf45412be2d96ac733ff4ae398fd1",
+    "tests/test_bullgod_discovery.py": "ac6d053f203c535271178d06dbdbdc0d85e259a84557038949b03bb2163517aa"
+  },
+  "junit_sha256": "a15b684c7d35ec36a86447238d8d0b65b09cd4703b4c5bd248b285d0343d58dc",
+  "log_sha256": "e65a44ffc10fdb2000d2cfe213e2753776e2473f7cc3c5ee173c4cc9e9d0a5ec",
+  "other_checks": [
+    "ruff check --select F agent/discovery agent/external/approved_dispatch.py tests/test_discovery_contracts.py tests/test_bullgod_discovery.py",
+    "python -m compileall -q agent/discovery agent/external/approved_dispatch.py",
+    "git diff --check"
+  ],
+  "isolation": "Existing ci_test.py temporary HOME/data, cleared model env and owned Python fixture networking; no live model invocation. Guard does not sandbox subprocess/native networking."
+}

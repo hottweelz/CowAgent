@@ -1,5 +1,17 @@
 # CowAgent project facts
 
+- BULLGOD-DISCOVERY-001 adds the internal `agent.discovery` derived view over
+  AgentRegistry and existing enrolled ExternalSupervisor bindings. It has no
+  identity database or dispatch method. Strict task requirements and versioned
+  policy filter before deterministic preference/load/model/ID ranking. Every
+  selection remains dispatch_permitted=false and requires current executor
+  admission. Missing trusted proof/admission readers fail closed; synthetic
+  acceptance does not certify current live targets. Explicit host observations
+  expire within 30 seconds; discovery never starts a probe or reserves a slot.
+  Existing adapters remain analyze_records-only. Persistent named execution has
+  owned native context and a fresh session; isolated delegation has no persistent
+  target memory. See [BULLGOD-DISCOVERY-001](docs/bullgod-discovery-001/README.md).
+
 - INFRA-RELIABILITY-001B verified the owner's removal of
   `/Volumes/Predator SSD GM7 1TB/Projects` from pCloud Backup on 2026-11-08.
   No remaining configured Backup or Sync root overlaps the checkout, `.git`,

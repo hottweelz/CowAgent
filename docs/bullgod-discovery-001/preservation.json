@@ -1,0 +1,38 @@
+{
+  "captured_at": "2026-11-09T01:41:18Z",
+  "runtime_pid": 28093,
+  "same_process_start": true,
+  "health": {
+    "http_status": 200,
+    "status": "ok"
+  },
+  "runtime_metadata_matches_before": true,
+  "comparison_excludes": [
+    "capture_timestamp",
+    "transient_process_scheduler_status"
+  ],
+  "config_provider_profile_hashes_unchanged": true,
+  "memory_and_database_metadata_unchanged": true,
+  "private_memory_contents_read": false,
+  "seven_original_untracked_hashes_preserved": {
+    ".cow [conflicted 2].pid": true,
+    ".cow [conflicted 3].pid": true,
+    ".cow [conflicted 4].pid": true,
+    ".cow [conflicted].pid": true,
+    "AGENTS.md": true,
+    "tests/test_parallel_tool_calls [conflicted 2].py": true,
+    "tests/test_parallel_tool_calls [conflicted].py": true
+  },
+  "recovery_artifacts_preserved": 5,
+  "recovery_manifest_hash_preserved": true,
+  "recovery_refs_preserved": true,
+  "linked_worktree_clean": true,
+  "limitations": [
+    "Filesystem stat equality does not establish historical inode continuity before this task.",
+    "No claim of live capability validation or provider parallelism."
+  ],
+  "runtime_snapshot_hashes": {
+    "before": "58dc974bdedc3ddd14be6283aa7517350e17a371a2a91053199cd62c006ba14e",
+    "after": "576332134e8f481b268b6881021a11928fba41eb22d9cfa7e9c62711f27a1cf3"
+  }
+}

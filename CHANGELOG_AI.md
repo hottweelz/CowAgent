@@ -1,5 +1,124 @@
 # AI handoff ledger
 
+## 2026-11-08 20:56 EST — Codex — BULLGOD-DISCOVERY-001 PASSED; draft PR #3
+
+- Task/result: internal capability discovery, eligibility and deterministic
+  selection are implemented, validated and independently reviewed. No dispatch
+  path or activation was added. Baseline master 0805c82e; branch
+  codex/bullgod-discovery-001; draft PR #3 remains unmerged.
+- Team: Luna/high native and external source auditors; native worker then owned
+  acceptance tests, external worker owned hosted receipts. Sol 6.1/high core
+  worker and one Sol 6.1/high reviewer were selected because identity/proof/
+  approval/authority integration required consequential cross-component reasoning
+  beyond routine Luna work. Lead owned scope, integration, docs, checks and Git.
+  Model requests were accepted; independent effective-model attestation is absent.
+- Changes/files: new agent/discovery contracts, derived sources, service and API;
+  additive read-only ApprovalJournal.preview_admission; two discovery test files;
+  docs/bullgod-discovery-001 ADR, schema/integration report and receipts; project
+  MEMORY.md and this handoff. Existing execution methods remain unchanged.
+- Checks: clean tracked baseline and exact master/upstream; pCloud six Backup
+  roots with no checkout/Git overlap and zero Sync rows. Original process 28093,
+  health 200, config/provider/profile hashes and memory/DB stat metadata unchanged.
+  Seven original untracked files, five conflict artifacts, both recovery refs
+  and the clean detached worktree preserved. No private memory content read.
+- Validation: isolated focused tests: 224 passed, including 52 new discovery cases;
+  Ruff F, compilation, diff and receipt/link checks passed. Hosted Tests run
+  42546970682 on source ff09850d: macOS 5,969 passed / 39 skipped, each Linux 5,962 / 46,
+  93 passing subtests each; all 52 new cases pass; prior skip sets unchanged. JavaScript 39 + 5,
+  strict TypeScript, desktop build and changed-file Ruff passed. Named test/skip
+  reconciliation and raw log/JUnit hashes are in hosted-validation.json.
+- Review: one independent engineering review PASS after correcting both P2s:
+  explicit native source token before registry.get; actual execution budget
+  compared with caller maximum/deadline/proof ceiling. Added explicit common
+  disabled-identity reason; disabled profiles were already rejected by registry.
+- Decisions: no duplicate roster, scheduler, memory engine, public endpoint or
+  automatic probes. Typed trusted-host proof and admission readers are required;
+  unknown/stale evidence stays ineligible. Native isolated and named persistent
+  context remain distinct; external adapters stay analyze_records-only. Every
+  selection has dispatch_permitted=false and requires executor revalidation.
+- Lessons Learned:
+  - Mistake: candidate runtime ID was initially included in the shared task hash;
+    the original timeout check also treated a caller maximum as actual runtime.
+  - Root Cause: selection constraints were conflated with target-specific
+    approval identity and configured execution behavior.
+  - Future Trigger: comparing targets or applying caller budget constraints.
+  - Required Behavior Change: omit only runtime_id from normalized selection
+    task hash; still verify each full approved spec. Compare actual configured
+    budget with both caller and evidence limits; never rewrite approvals.
+  - Verification Step: two-target temporary operator journals; exact spec/scope
+    mutation tests; actual 30 / proof 600 / request 900 qualifies and proof 20 denies.
+  - Durable Memory Update: project MEMORY.md updated; no global memory update.
+- Known limits: synthetic validation certifies no live target capability. Host
+  proof/admission integrations are absent by default; admission is an observation,
+  not a reservation. Cancellation is cooperative; no hard exit/cost/exactly-once
+  claim. Current native source fingerprints changed, so historical live enrollment
+  cannot be promoted to current proof. Ordinary CI exclusions remain explicit.
+- Publication: implementation ed641066 and acceptance ff09850d published in draft
+  PR #3. Closeout is documentation/receipt-only with [skip ci]; seven reviewed
+  code/test hashes and all non-document tracked content match the successful CI
+  source. Feature upstream 0/0 is checked after push/fetch; master stays 0805c82e.
+  Original seven untracked files remain deliberately preserved. No merge.
+- Next recommended step: maintainer integration review of draft PR #3 using the
+  completed report and source-bound gate; merge only with explicit authorization.
+  Any later Luna dispatch or live evidence refresh needs its separate scope.
+- Notes: all eight completion questions are answered in the report. No live model
+  call, service restart, profile/provider/credential/memory change or production
+  routing change. Private raw evidence remains in the task temp root recorded
+  by the focused and hosted receipts. Do not replay historical acceptance tasks.
+
+## 2026-11-08 20:32 EST — Codex — BULLGOD-DISCOVERY-001 implementation/review in progress
+
+- Task: implement internal derived capability discovery, deterministic eligibility
+  and selection; no dispatch or production activation. Baseline master 0805c82e;
+  working branch codex/bullgod-discovery-001. No merge authorized.
+- Team: two Luna/high workers audited native and external source contracts; the
+  native auditor now owns independent acceptance tests. Sol 6.1/high core worker
+  owns the discovery package and read-only approval preview because identity,
+  proof, approval freshness and permissions require consequential cross-component
+  reasoning. A separate Sol 6.1/high reviewer performs the one required authority
+  review. Lead owns integration/docs/validation/Git. STE design/planning/review used.
+- Changes: agent/discovery contracts/sources/service/API; additive read-only
+  ApprovalJournal.preview_admission; focused contracts tests. Architecture and
+  source-of-truth decision at docs/bullgod-discovery-001/architecture.md.
+- Verification: clean tracked baseline, exact master/upstream 0805c82e at 0/0,
+  existing linked worktree clean, original seven untracked/five recovery artifacts
+  hash-preserved. Current pCloud UI has six nonoverlapping Backup rows and zero
+  Sync rows; window restored closed. Original runtime metadata captured privately.
+  Final focused checks: 224 pass, including 26 core +26 acceptance and existing
+  adapter/native/operator checks; Ruff, compile and diff checks pass. One
+  independent review PASS after both P2 fixes. Full hosted matrix pending.
+- Decisions: derived view over AgentRegistry and enrolled ExternalSupervisor
+  bindings; no second identity or approval database. Explicit trusted-host proof,
+  signed observation and admission readers; missing evidence remains ineligible.
+  Current adapters support analyze_records only, so arbitrary Codex coding is
+  denied. Selection always dispatch_permitted=false, requires execution admission
+  revalidation, and creates no tasks/approvals/intents. Timeout/deadline cannot
+  promise a budget tighter than the actual policy/authority fence.
+- Lessons Learned:
+  - Mistake: full external task hash initially included the candidate runtime ID.
+  - Root Cause: target-bound approval identity differs from target-independent
+    requirements used to compare candidates.
+  - Future Trigger: selecting between separately enrolled runtimes for one task.
+  - Required Behavior Change: selection hash omits only runtime_id from the fully
+    normalized spec; every candidate still checks exact full spec and approval.
+  - Verification Step: two-target real temporary operator journals and task-change
+    adversarial tests; signed envelopes and no-intent assertions.
+  - Durable Memory Update: project MEMORY.md records the discovery contract; no
+    global memory update.
+- Review fixes: require explicit source ID; compare actual execution budget to
+  caller/deadline/proof ceiling. Common disabled-identity check is explicit.
+  Original runtime and all preservation checks pass. Host evidence/admission
+  callbacks are trusted integration dependencies, absent by default; no live
+  eligibility claim. Admission is bounded observation without slot reservation.
+- Next: publish implementation/acceptance commits and draft PR, run full hosted
+  matrix, publish source-bound receipts/final report and required final
+  handoff and verify feature upstream 0/0. Do not merge or run live models.
+- Notes: preserve original runtime PID 28093, agent profiles/memories/providers,
+  credentials, recovery refs and untracked files. Raw evidence/cache root:
+  /var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-bullgod-discovery-001-flohoqs6.
+  Core owns agent/discovery + test_discovery_contracts; Luna owns
+  tests/test_bullgod_discovery.py and tests/discovery_fixture.py. No shared edits.
+
 ## 2026-11-08 19:36 EST — Codex — INFRA-RELIABILITY-001B integrated and verified
 
 - Task/result: owner removal of Projects from pCloud is verified. The known
