@@ -620,7 +620,7 @@ def _warmup_scheduler():
     boot rather than waiting for the first user message."""
     try:
         from bridge.bridge import Bridge
-        Bridge().get_agent_bridge()
+        return Bridge().get_agent_bridge()
     except Exception as e:
         logger.warning(f"[App] Scheduler warmup failed: {e}")
 
@@ -792,6 +792,13 @@ def _scaffold_subagent_assets():
 
 
 def run():
+    # Only the launch helper can install this private, process-local object.
+    # No argv/config/environment setting or public interface enables it.
+    observation_module = sys.modules.get('agent.discovery.startup_observer')
+    try:
+        startup_observation = observation_module.begin_startup(__file__) if observation_module else None
+    except Exception:
+        raise SystemExit('Authenticated startup observation rejected') from None
     try:
         # Before any TLS connection: a packaged build has no OpenSSL CA store.
         bundle = ensure_ca_bundle()
@@ -843,7 +850,12 @@ def run():
             _start_web_watchdog()
             threading.Thread(target=_warmup_scheduler, daemon=True).start()
         else:
-            _warmup_scheduler()
+            owner = _warmup_scheduler()
+            if startup_observation is not None:
+                try:
+                    observation_module.observe_and_publish(startup_observation, owner)
+                except Exception:
+                    raise SystemExit('Authenticated startup observation failed') from None
 
         logger.info(f"[App] Starting channels: {channel_names}")
 
@@ -858,6 +870,8 @@ def run():
     except Exception as e:
         logger.error("App startup failed!")
         logger.exception(e)
+        if startup_observation is not None:
+            raise SystemExit('Authenticated startup observation failed') from None
         # Desktop shell reads exit code 0 as a clean shutdown and would spin on
         # "connecting" until its timeout. Exit non-zero so it surfaces the real
         # error and offers a retry right away.

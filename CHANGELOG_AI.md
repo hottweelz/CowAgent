@@ -1,5 +1,52 @@
 # AI handoff ledger
 
+## 2026-11-09 13:57 EST — Codex — DISCOVERY-002S source and disposable startup gate
+
+- Scope: implement inactive launch-only observer, preserve PID28093, qualify
+  negative/default tests and disposable startup/rollback. Hosted CI and concrete
+  maintenance packet remain pending; goal remains active. No live stop/restart,
+  task/model dispatch, ownership change, approval refresh or merge.
+- Team: Sol6.1/high production and independent security review for combined
+  replay/startup/private-authority boundaries; Luna/high independent tests,
+  launch fidelity and migration/drain metadata. Lead integration/rehearsal/Git.
+- Changes/files: app.py minimal seam; new startup_observer.py and
+  scripts/discovery_startup.py; two new startup observer/migration test files;
+  startup implementation/review/validation/rehearsal/launch/migration receipts;
+  project MEMORY.md and this ledger. Existing source and receipts retained.
+- Checks/results: 383 integrated cases pass through scripts/ci_test.py in26.07s;
+  28 observer cases and10 migration cases covered. Project lint passes.
+  Independent source/test review PASS. Genuine disposable baseline/candidate/
+  fallback processes returned health200 and SIGTERM exit0; normalized fictional
+  conversation rows unchanged. Candidate actualPID/epoch receipt lists3 agents
+  and denies both selections without caller/proof. Fresh-process replay of still
+  valid consumed request exits1. OS sandbox denies outbound/live-data access.
+- Launch: original interpreter path supported by __PYVENV_LAUNCHER__ and related
+  allowlisted process markers, not VIRTUAL_ENV alone; .venv pip check passes.
+  Exact typed shell spelling and complete inherited environment not retained.
+- Migration/drain: testpilot2 secondary has no conversation tables; current global
+  schema is compatible and startup would write only its missing merge marker.
+  That write is not performed/approved. All-agent admission/drain is unsupported;
+  persisted idle counts are insufficient. Live maintenance remains blocked.
+- Lessons Learned:
+  - Mistake: expiry test used collection-time wall clock; a diagnostic parser
+    emitted an entire process environment instead of only approved fields.
+  - Root Cause: test timing depended on collection order; whitespace parsing
+    failed on paths containing spaces.
+  - Future Trigger: relative-deadline fixtures or process launch diagnostics.
+  - Required Behavior Change: derive expiry from fixture issuance; never emit raw
+    process environment and sanitize before tool output with strict field selection.
+  - Verification Step: corrected TTL case plus integrated383 pass; collection
+    method stopped, sanitized receipts contain no credential values.
+  - Durable Memory Update: project MEMORY.md records new launch-only boundary.
+- Known issue: the parser exposed a credential in transient tool stdout. No value
+  was persisted to files or repeated; no rotation/revocation was authorized or done.
+  Parent disclosed the incident. Do not access/dump further full environment.
+- Next: publish source without skip-CI, collect full hosted new-source matrix;
+  verify concrete in-place rollback command in disposable checkout, finish packet
+  and final acceptance audit. Preserve existing accepted rehearsal/source receipts.
+- Notes: original seven untracked files remain; no prune/GC/force operations.
+  Main private bundle cow-discovery002s-enqpmjd8; source fingerprint in validation.
+
 ## 2026-11-09 13:21 EST — Codex — verified maintenance plan; hosted macOS gate passed
 
 - Scope/result: completed the maintainer-selected plan-only preparation and one

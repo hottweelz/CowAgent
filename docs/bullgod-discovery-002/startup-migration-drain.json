@@ -1,0 +1,118 @@
+{
+  "captured_at_utc": "2026-11-09T18:41:37Z",
+  "scope": "read-only migration and lifecycle metadata; no message, prompt, task-action, credential, or private-memory content read; no service control or live write",
+  "conversation_store": {
+    "data_root_configured_workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace",
+    "global_db_relative": "workspace/memory/long-term/index.db",
+    "registered_agents": [
+      "default",
+      "testpilot",
+      "testpilot2"
+    ],
+    "global_schema": {
+      "sessions_columns": [
+        "agent_id",
+        "session_id",
+        "channel_type",
+        "title",
+        "context_start_seq",
+        "created_at",
+        "last_active",
+        "msg_count",
+        "pinned",
+        "context_usage"
+      ],
+      "messages_columns": [
+        "id",
+        "agent_id",
+        "session_id",
+        "seq",
+        "role",
+        "content",
+        "created_at",
+        "extras",
+        "run_id"
+      ],
+      "runs_columns": [
+        "run_id",
+        "agent_id",
+        "user_id",
+        "session_id",
+        "parent_run_id",
+        "task_id",
+        "task_source",
+        "status",
+        "started_at",
+        "ended_at",
+        "error",
+        "extras"
+      ]
+    },
+    "global_counts_by_agent": {
+      "sessions": {
+        "": 4,
+        "testpilot": 8,
+        "testpilot2": 1
+      },
+      "messages": {
+        "": 7,
+        "testpilot": 30,
+        "testpilot2": 2
+      },
+      "runs": {
+        "default": 6,
+        "testpilot": 11,
+        "testpilot2": 1
+      }
+    },
+    "merge_markers": [
+      "merged_agent:testpilot"
+    ],
+    "testpilot2_source_relative": "workspace/agents/testpilot2/memory/long-term/index.db",
+    "testpilot2_source_tables": [
+      "_meta",
+      "chunks",
+      "chunks_fts",
+      "chunks_fts_config",
+      "chunks_fts_data",
+      "chunks_fts_docsize",
+      "chunks_fts_idx",
+      "chunks_fts_trigram",
+      "chunks_fts_trigram_config",
+      "chunks_fts_trigram_data",
+      "chunks_fts_trigram_docsize",
+      "chunks_fts_trigram_idx",
+      "files"
+    ],
+    "testpilot2_source_conversation_tables": [],
+    "interpretation": "Unresolved. Global rows attributed to testpilot2 coexist with no merged_agent:testpilot2 marker and no current source conversation tables. The migration iterates all registered profiles including disabled ones; when the source path exists and the marker is absent, it will execute a merge (possibly zero-row) and write the marker during startup. Existing data provenance and migration completion cannot be proven from present tables. Treat normal restart as a potentially mutating migration and abort maintenance pending explicit decision or a separately authorized recovery plan."
+  },
+  "recovery_and_scheduled_work": {
+    "recovery_task_states": {
+      "completed": 2
+    },
+    "recovery_attempt_states": {
+      "completed": 2
+    },
+    "recovery_effect_rows": 0,
+    "external_tasks_table": "absent from shared recovery database",
+    "scheduler_files_found_under_registered_workspaces": [],
+    "scheduler_due_or_in_memory_state": "unknown; task JSON/content not read, and no live service inspection"
+  },
+  "safe_drain_conclusion": "No supported aggregate drain/admission-close mechanism is established. Health, quiet logs, persisted counts, absent task files, and a SIGTERM are not proof of in-memory quiescence. Do not stop or restart PID 28093. Require operator-approved closure of new work through every configured channel, then an in-process read-only quiescence receipt for all channel turns, all registered-agent runs, scheduler callbacks/due work, recovery futures, evolution jobs, and external in-flight actions; unavailable/unknown is abort.",
+  "raw_receipt_sha256": "4433045362c154615f3166cb6667b22b2988ff28134c2f12185f98fe5dc6f1b5",
+  "assessment_after_source_trace_and_disposable_tests": {
+    "observed_schema_compatibility": "compatible; global composite-key schema already current",
+    "expected_testpilot2_startup_write": "insert merged_agent:testpilot2 marker; zero conversation rows imported or deleted because secondary has no conversation tables",
+    "live_migration_executed": false,
+    "row_provenance": "unknown; current metadata does not establish origin of existing global rows",
+    "live_migration_gate": "BLOCKED under zero-live-write scope until marker write and normal startup effects are explicitly accepted; no data repair required by current evidence",
+    "source_rollback_limit": "fallback shares current migration code; source-only rollback does not undo marker/asset/user-data writes or recover transient state",
+    "tests": [
+      "tests/test_discovery_startup_migration.py",
+      "tests/test_conversation_global_migration.py",
+      "tests/test_conversation_older_source_migration.py"
+    ],
+    "worker_focused_result": "10 passed; parent integrated guarded selection pending"
+  }
+}

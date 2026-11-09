@@ -1,0 +1,56 @@
+{
+  "concrete_future_launch_shape": {
+    "arguments": [
+      "app.py"
+    ],
+    "environment": "Use only after separate approval and preserve the original full inherited environment in memory; no full environment or secret values were retained.",
+    "executable": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+    "executable_restart_command_verified": false,
+    "live_restart_authorized": false,
+    "rollback_shape": "same verified fallback source selection, same working directory, same venv executable, same app.py argument, and approved preserved environment; launch once without any maintenance request.",
+    "working_directory": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent"
+  },
+  "credential_handling": "A failed process-environment parser exposed one credential variable in transient tool output only. Its value was not persisted to this receipt or any file. No rotation or revocation was performed.",
+  "launch_fidelity_conclusion": {
+    "basis": "The process launch-environment markers identify the repository venv launcher; the venv symlink resolves to python3.13. Direct framework executable is not the launch path and must not be used.",
+    "confidence": "high for interpreter path, medium for typed shell command form",
+    "original_interpreter_path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+    "original_typed_command": "not conclusively established; process argv reports app.py and shell history shows `python app.py` but adjacent activation evidence conflicts.",
+    "source_revision_loaded": "unknown"
+  },
+  "process_observation": {
+    "argv_observed": "framework Python executable; app.py",
+    "cwd": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent",
+    "data_root": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData",
+    "desktop_mode": "COW_DESKTOP and COW_DESKTOP_TOKEN absent in allowlisted observation",
+    "pid": 28093,
+    "ppid": 15624,
+    "resolved_executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+    "shell_history": "A matching `python app.py` entry exists, but its nearby activation line names a different project venv; history is not used as authority for the absolute interpreter path.",
+    "venv_launcher_evidence": "Allowlisted process metadata reported VIRTUAL_ENV=/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv and __PYVENV_LAUNCHER__ and _ both naming the venv Python launcher. No other environment values retained."
+  },
+  "residual_unknowns": [
+    "The exact shell command spelling is not proven because the available history context conflicts with the process launch markers.",
+    "The process source revision and all currently loaded Python objects remain unknown.",
+    "The complete inherited environment was not retained; it must not be reconstructed from VIRTUAL_ENV alone.",
+    "No service stop, quiescence, backup, migration, startup, health-after-restart, or rollback behavior was validated."
+  ],
+  "safe_qualification": {
+    "command_not_executed_as_service": "cd \"/Volumes/Predator SSD GM7 1TB/Projects/CowAgent\" && \"/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python\" -c \"import sys; print(sys.executable, sys.prefix)\"",
+    "dependency_metadata": "Installed fastapi 0.162.0, uvicorn 0.54.0, pydantic 2.14.3, httpx 0.28.1, croniter 6.2.4; `pip check` reported no broken requirements. No app modules imported.",
+    "qualification_limit": "This validates interpreter selection and installed metadata only. It does not prove live replacement startup, source identity, quiescence, safe stop, state preservation, or environment equivalence.",
+    "result": "The isolated stdlib-only check returned executable under repository .venv and sys.prefix under repository .venv; base_prefix is framework Python 3.13."
+  },
+  "schema": "cow-discovery002s-launch-fidelity/1",
+  "scope": "read-only launch fidelity and preservation; no app import, app.run, service stop/restart, network request, live data read, credential persistence, or repository edit",
+  "verification": {
+    "app_run_invoked": false,
+    "commands": "ps argv-only check; allowlisted environment-field extraction; venv sys/metadata query; .venv/bin/python -m pip check",
+    "pip_check": "passed: No broken requirements found.",
+    "repo_branch": "codex/bullgod-discovery-002",
+    "repo_head": "17409b90806bc8d082dc237d3640f94ab0a6cec0",
+    "service_control_used": false
+  },
+  "raw_receipt_sha256": "dced4920f37cff9df038dfd1de9e8427e240f7cfa54470935244a29adf4410db",
+  "private_bundle": "cow-discovery002s-launch-oopl1vio"
+}

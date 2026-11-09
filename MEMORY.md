@@ -1,5 +1,16 @@
 # CowAgent project facts
 
+- DISCOVERY-002S adds a launch-only startup observer. Ordinary `app.py` startup,
+  chat, HTTP and environment values cannot install its process-local launch
+  object. The helper consumes a private canonical path-bound request atomically,
+  retains its per-ID claim, fsyncs claim/receipt directories, and checks UID,
+  interpreter/prefix, data root, expiry and source manifest before initialization
+  and publication. It borrows the normally initialized owner before channels;
+  no caller authority, adapter contact or dispatch is created. Same-UID/root
+  arbitrary code is outside the existing application trust boundary. A source
+  manifest measures launch files, not all loaded Python code. Normal migrations
+  and background services still require separate maintenance preconditions.
+
 - A source-mode service's resolved Python executable is not proof of its original
   invocation path: direct framework Python can bypass the virtual environment.
   Verify invocation/dependency resolution before preparing a replacement command;
