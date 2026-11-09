@@ -1,0 +1,133 @@
+{
+  "limitations": [
+    "The symlink switch exercised only disposable source directories and a synthetic sentinel.",
+    "It did not rehearse the current service deployment path or prove actual service data preservation.",
+    "The original service loaded-source revision remains unknown; the rollback commit is a tested baseline, not proof of bit identity with the old process.",
+    "No live restart, activation, health check, model call, authority read, or filesystem ownership change was made."
+  ],
+  "schema": "cow.verified-source-update-plan/1",
+  "scope": "source-only archive, import/compile and disposable pointer rollback rehearsal",
+  "sources": {
+    "candidate": {
+      "archive": "candidate-209f4e0.tar",
+      "archive_sha256": "40a7551459e5d9c9b47b12cfde2bf74f0a932aa7ad6b672051513eaa42b12018",
+      "commit": "209f4e0fd53aeb249914755a68a1956d9e6225a0",
+      "compact_manifest": "candidate-tracked-manifest.jsonl",
+      "compact_manifest_sha256": "6a7fdf6b38f1ed7662bc17f783a248d5bf65fdfa1a35175d1b6beb3f154a720c",
+      "tracked_bytes": 21109850,
+      "tracked_entries": 2034,
+      "tree": "00b14af2a2b2e0c54c5bf5cdee34d124e6501d35",
+      "verified": true
+    },
+    "rollback": {
+      "archive": "rollback-f6593497.tar",
+      "archive_sha256": "6ca204e6b6e00ab983c51bf3b4f16b33629c443a2c1af81d8bee57c7a46a270a",
+      "commit": "f659349785acf98905901a5cc53921436a109dbc",
+      "compact_manifest": "rollback-tracked-manifest.jsonl",
+      "compact_manifest_sha256": "e13e0cc23d167b6e8ec3d0904cf515718b03642935363b4abc911e0eabc3686b",
+      "tracked_bytes": 20768433,
+      "tracked_entries": 2003,
+      "tree": "9f0cc5a25469a53b52e69c5eab994a5dc68d6d58",
+      "verified": true
+    }
+  },
+  "verification": {
+    "compile": {
+      "candidate": {
+        "compiled": true,
+        "failures": [],
+        "python_files": 1156
+      },
+      "rollback": {
+        "compiled": true,
+        "failures": [],
+        "python_files": 1148
+      }
+    },
+    "full_manifest_path": "archive-verification.json",
+    "full_manifest_sha256": "c20d32224d298b22d01cda8cc3fa5708a586a0f78d2c844aa0993d8ab5b170a5",
+    "imports": {
+      "candidate": {
+        "agent_constructed": false,
+        "app_run_called": false,
+        "blocked_attempts": [
+          {
+            "caller": [
+              "croniter.py:54:<module>",
+              "croniter.py:32:is_32bit",
+              "platform.py:788:architecture",
+              "platform.py:737:_syscmd_file"
+            ],
+            "effect": "subprocess.check_output"
+          }
+        ],
+        "errors": [],
+        "live_data_read": false,
+        "model_called": false,
+        "modules": [
+          "agent.discovery",
+          "agent.discovery.initialized_runtime",
+          "agent.discovery.runtime_readers",
+          "config",
+          "agent.permission.authority",
+          "app"
+        ],
+        "service_started": false,
+        "source_root": "candidate",
+        "status": "passed"
+      },
+      "rollback": {
+        "agent_constructed": false,
+        "app_run_called": false,
+        "blocked_attempts": [
+          {
+            "caller": [
+              "croniter.py:54:<module>",
+              "croniter.py:32:is_32bit",
+              "platform.py:788:architecture",
+              "platform.py:737:_syscmd_file"
+            ],
+            "effect": "subprocess.check_output"
+          }
+        ],
+        "errors": [],
+        "live_data_read": false,
+        "model_called": false,
+        "modules": [
+          "config",
+          "agent.permission.authority",
+          "app"
+        ],
+        "service_started": false,
+        "source_root": "rollback",
+        "status": "passed"
+      }
+    },
+    "no_live_data_or_credentials_read": true,
+    "no_service_start_or_stop": true,
+    "python": "3.13.1",
+    "switch_rehearsal": {
+      "activated_pointer": "candidate",
+      "candidate_tree_unchanged": true,
+      "initial_pointer": "rollback",
+      "live_files_changed": false,
+      "passed": true,
+      "rollback_pointer": "rollback",
+      "rollback_tree_unchanged": true,
+      "schema": "cow.source-only-switch-rehearsal/1",
+      "service_stopped_or_restarted": false,
+      "synthetic_state_sha256_after_activation": "f54a5e7a91333acdb996b5d406c4c93249727714e47b3bc24b19b1006876106e",
+      "synthetic_state_sha256_after_rollback": "f54a5e7a91333acdb996b5d406c4c93249727714e47b3bc24b19b1006876106e",
+      "synthetic_state_sha256_before": "f54a5e7a91333acdb996b5d406c4c93249727714e47b3bc24b19b1006876106e"
+    },
+    "tracked_file_blobs_and_modes_match_git": true
+  },
+  "private_bundle": "cow-source-plan-d3AFtV",
+  "raw_receipt_sha256": "bb05f57c2b483cca181378cce8137ada2d825e76ca551472c73e570eac2383ed",
+  "gate_status": {
+    "P": "UNEXECUTED: source-only rehearsal passes; live preservation unverified",
+    "I": "UNIMPLEMENTED: proposed startup hook only",
+    "D": "UNEXECUTED: no real in-process discovery invocation"
+  },
+  "evidence_scope": "Immutable code artifacts and disposable mechanics only; source and state of PID28093 were not changed."
+}

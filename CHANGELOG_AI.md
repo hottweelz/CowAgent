@@ -1,5 +1,63 @@
 # AI handoff ledger
 
+## 2026-11-09 13:21 EST — Codex — verified maintenance plan; hosted macOS gate passed
+
+- Scope/result: completed the maintainer-selected plan-only preparation and one
+  authorized targeted macOS retry. P (live preservation), I (authenticated
+  invocation), and D (actual discovery) remain unexecuted/unimplemented. M passes.
+  No startup hook/product code, restart, stop, host change, authority refresh,
+  dispatch, production activation or merge. PR #4 remains draft and unmerged.
+- Team: Luna/high lifecycle metadata, source-artifact/rehearsal verification and
+  CI reconciliation; Sol 6.1/high bounded invocation design and independent plan
+  review because authentication, startup effects and rollback data integrity
+  interact. Lead owns integration, corrections, docs, Git and final handoff.
+- Changes/files: service-update-plan.md; service-lifecycle-review.json;
+  service-update-verification.json; service-update-review.md;
+  in-process-hosted-completion.json; 002 README/remediation report; MEMORY.md and
+  this ledger. Earlier failed-attempt receipt retained unchanged. Docs/JSON only.
+- Checks/results: pinned candidate209f4e0f/fallbackf6593497 archives match every
+  tracked Git blob/mode (2,034/2,003 entries). Python3.13.1 compilation passes for
+  1,156/1,148 files; guarded disposable imports pass, one croniter architecture
+  subprocess attempt per tree blocked before launch and retained. Synthetic
+  source-pointer rollback passes with unchanged sentinel/trees. No live backup
+  or deployment rehearsal is claimed. JSON, digest, count, link and diff checks pass.
+- Hosted M: run42660051257 attempt3/job129344703641 acquired hosted macOS runner
+  1000002194 and passed 6,043 cases,39 skips,93 subtests; zero failures/errors.
+  Exact head209f4e0f and synthetic merge tree match. Twenty added cases pass,
+  none removed, platform skip sets unchanged. Earlier Linux3.11/3.13 (6,036/46
+  plus93 subtests), JS39+5, strictTS/build and Ruff receipts retained without
+  rerunning or redownloading them. Original two runner-acquisition failures remain.
+- Service facts/limits: PID28093 remains Terminal-owned, .cow.pid absent, health
+  200/ok; config hash/aggregate conversation counts match retained metadata.
+  Scheduler due/in-memory state unknown, testpilot2 merge marker absent and safe
+  secondary counts unavailable. No drain/stop/launch command is yet verified.
+  Source-only rollback cannot restore old in-memory state or reverse data writes.
+- Review: one independent documentation review PASS after parent corrected an
+  unproven framework-executable launch command. No repeat source review/regression.
+- Decisions: plan is reviewable, not execution-ready. The inactive launch-only
+  observer is proposed, not installed. Keep existing private-file guards and
+  expired authority; no public route or caller-context override. Future candidate
+  changes require their own applicable validation and explicit maintenance approval.
+- Lessons Learned:
+  - Mistake: lifecycle mapper proposed a launch command from resolved executable.
+  - Root Cause: executable identity was confused with Python invocation/prefix.
+  - Future Trigger: replacing a source-mode Python service or freezing rollback.
+  - Required Behavior Change: verify invocation path/dependency resolution and
+    securely preserve environment before publishing executable maintenance commands.
+  - Verification Step: env-i stdlib-only probes show framework vs .venv prefixes;
+    unsafe command removed and correction retained in sanitized receipt/review.
+  - Durable Memory Update: project MEMORY.md records invocation and startup limits.
+- Known issues/next: separately scope inactive-hook implementation/testing; resolve
+  supported admission/drain, migration readiness, interpreter/environment and
+  source/data recovery requirements. Freeze exact candidate/commands/outage/rollback
+  packet before asking for service-update approval. Do not repeat unchanged live
+  blocker audits or rerun accepted CI merely for bookkeeping.
+- Notes: requested preparation is complete; broader live discovery milestone is
+  not passed. Preserve the seven original untracked files, recovery refs/artifacts
+  and detached worktree. Retained private bundles: cow-source-plan-d3AFtV,
+  cow-discovery-maintenance-control-plan and cow-discovery-maintenance-ci.
+  Push/fetch must verify upstream0/0; no prune/GC/force operation is authorized.
+
 2026-11-09 12:41 EST - Codex - trivial: third consecutive resumed-goal blocker audit; previous continuation made no progress; current source still has no permitted live ingress and CI job 129319168938 remains terminal/cancelled, with original PID 28093 intact; no safe independent work remains, mark goal BLOCKED after sync, keep PR #4 draft and all operational prohibitions - CHANGELOG_AI.md
 
 2026-11-09 12:39 EST - Codex - trivial: second resumed-goal audit; previous turn made implementation/publication progress; current PR/source and terminal macOS cancellation rechecked, same live-ingress and hosted-runner blockers remain, no safe next action under 002R constraints, goal remains active and incomplete; no probe/rerun/host change - CHANGELOG_AI.md

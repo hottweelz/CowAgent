@@ -4,9 +4,12 @@
 implemented at `209f4e0fd53aeb249914755a68a1956d9e6225a0`, with 345 focused tests
 passing and independent review PASS. The original service has no verified safe
 path to load or invoke the new bridge under the no-restart constraint. This is
-not a PASSED or PARTIAL live-native result. The full hosted gate is also BLOCKED:
-GitHub failed to acquire a macOS runner on both the original attempt and one
-targeted retry. Both Linux jobs, JavaScript/TypeScript/build and Ruff passed.
+not a PASSED or PARTIAL live-native result. The full hosted gate now passes:
+the separately authorized third macOS attempt acquired a runner and passed on
+the exact tested source. Earlier runner-acquisition failures remain recorded.
+Both Linux jobs, JavaScript/TypeScript/build and Ruff evidence were preserved.
+The [service-update plan](service-update-plan.md) is verified for review only;
+its startup hook is not implemented and no service change is authorized.
 
 ## Decision published before implementation
 
@@ -215,36 +218,32 @@ Exact changed-source/test and log/XML hashes are retained in the focused receipt
 The source commit is `209f4e0fd53aeb249914755a68a1956d9e6225a0`, tree
 `00b14af2a2b2e0c54c5bf5cdee34d124e6501d35`.
 
-Hosted validation: **BLOCKED — macOS runner acquisition**.
+Hosted validation: **PASSED on source 209f4e0f**.
 [Run 42660051257](https://github.com/hottweelz/CowAgent/actions/runs/42660051257)
-completed with four passing jobs and an unexecuted macOS requirement. The
-[hosted receipt](in-process-hosted.json) retains both attempts and exact source,
-checkout-tree, log/artifact/XML and test-identity bindings.
+completed successfully after the separately authorized targeted third attempt.
+The [completion receipt](in-process-hosted-completion.json) records actual hosted
+macOS execution and exact source/checkout-tree/log/artifact/XML/test bindings.
+The [earlier receipt](in-process-hosted.json) retains the two acquisition failures
+and the valid Linux/application results without rewriting their history.
 
 | Required hosted job | Result on source 209f4e0f |
 | --- | --- |
-| macOS Python 3.13 | BLOCKED: jobs 129308863500 and targeted retry 129319168938 cancelled before any runner assignment or step |
+| macOS Python 3.13 | 6,043 passed, 39 skipped; 93 passing subtests; job 129344703641 |
 | Linux Python 3.11 | 6,036 passed, 46 skipped; 93 passing subtests |
 | Linux Python 3.13 | 6,036 passed, 46 skipped; 93 passing subtests |
 | JavaScript / strict TypeScript / desktop build | Passed |
 | Ruff | Passed |
 
-Each Linux XML has 6,082 named cases: exactly 20 new in-process cases, no removals,
-and the same skip identities as prior accepted run 42558258829. All new cases
-pass. GitHub's two macOS annotations state that no hosted runner could be acquired
-after multiple attempts and cite macOS arm64 capacity constraints. Neither job
-had a runner or steps; logs were unavailable with BlobNotFound. There is no macOS
-full-regression result for this source. This was infrastructure acquisition
-failure, not a test assertion failure.
-
-The lead requested only one targeted retry of the cancelled macOS job.
-GitHub carried forward the four successful records with their original run
-times, runner identities, steps and artifacts. Source and workflow remained
-unchanged. After the same failure recurred,
-no further rerun, runner substitution or workflow change was attempted. A future
-successful hosted macOS run on this exact source, or justified new-source gate,
-remains necessary. Local focused tests and older macOS receipts do not replace it.
-Hosted fixture results also cannot substitute for actual live integration.
+Each Python XML has 6,082 named cases: exactly 20 new in-process cases, no removals,
+and unchanged platform-specific skip identities relative to accepted run
+42558258829. All new cases pass. The first two macOS jobs had no runner or steps;
+GitHub reported hosted-runner acquisition failure and arm64 capacity constraints.
+After the maintainer requested another targeted attempt, job 129344703641 acquired
+hosted runner 1000002194 and executed the suite successfully. This is hosted
+macOS evidence, not a local substitute. GitHub carried forward the four successful
+jobs; they were not replayed. Source, dependencies declared by the workflow and
+workflow definition were not edited for the retry. Hosted fixture results cannot
+substitute for actual live integration.
 
 ## No-dispatch evidence and limits
 
@@ -293,8 +292,10 @@ are kept separately from live task, model, publication and conversation state.
 10. **What is needed before authorized BullGod execution?** A separately permitted
     way to load and invoke the reviewed bridge in the real service, successful
     trusted live acceptance, current authentic proof/enrollment/exact approvals,
-    receiver authority, fresh authenticated admission, a successful required
-    hosted macOS regression, and explicit activation authority. This report authorizes none of those changes.
+    receiver authority, fresh authenticated admission and explicit activation
+    authority. Hosted macOS regression is now passed for 209f4e0f; future executable
+    changes need their own applicable validation. This report authorizes none of
+    those operational changes.
 
 PR #4 remains draft and unmerged. The live milestone is incomplete; an authorized
 future loading path is required. Ownership changes, restart, task bootstrap and

@@ -1,0 +1,185 @@
+{
+  "captured_at_utc": "2026-11-09T18:14:12Z",
+  "evidence_files": {
+    "aggregate_metadata": "metadata-current.json",
+    "collector": "metadata_snapshot.py",
+    "process_metadata": "process-metadata-sanitized.json",
+    "runtime_snapshot": "runtime-current-raw.json"
+  },
+  "mandatory_abort_gates_before_any_future_stop": [
+    "Use an approved in-process quiesce/drain control that reports no active channel turns, scheduler callback, recovery worker, evolution run, or in-flight external action; public health and DB counts alone do not prove in-memory quiescence.",
+    "Resolve the missing testpilot2 conversation migration marker with schema-safe metadata and establish no pending merge/schema migration, or explicitly authorize the migration/backup plan.",
+    "Establish scheduler due/active state using a metadata-only trusted path; current JSON was deliberately not read, so due work is unknown.",
+    "Use a supported owner/stop mechanism that targets exactly PID 28093 and has no unconditional SIGKILL fallback.",
+    "Keep COW_DATA_DIR, workspace paths, VIRTUAL_ENV and the full inherited environment stable; preserve secrets outside logs/evidence.",
+    "Loaded source of PID28093 is unknown. Do not claim current checkout or fallback commit matches loaded objects; require explicit acceptance of a known-tested fallback and verified future candidate provenance.",
+    "Establish original interpreter invocation path and dependency resolution; do not substitute resolved framework executable for the virtual-environment invocation."
+  ],
+  "planned_templates_not_executed": {
+    "startup_observed_shape": "<original invocation path, not yet established> app.py, with original working directory and securely preserved environment",
+    "stop": "No safe command established. Do not use cow stop/restart/self-restart or web updater. A future explicit PID-targeted SIGTERM is only conditional after proven drain/quiescence; abort rather than force-kill if it does not exit.",
+    "no_executable_restart_command_verified": true
+  },
+  "process": {
+    "argv": [
+      "Python",
+      "app.py"
+    ],
+    "cwd": "<existing-repository>",
+    "desktop_mode": {
+      "COW_DESKTOP_TOKEN_present": false,
+      "COW_DESKTOP_present": false
+    },
+    "environment_metadata": {
+      "COW_DATA_DIR": "<existing-CowAgent-TestData>",
+      "COW_LOG_DIR_present": false,
+      "PYTHONPATH_present": false,
+      "VIRTUAL_ENV": "<existing-repository>/.venv",
+      "other_environment_values": "not read; preserve full inherited service environment securely if replacement is later authorized"
+    },
+    "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+    "name": "Python",
+    "owner_observation": "Terminal-owned foreground source-mode process; no matching CowAgent launchd label found; .cow.pid absent",
+    "parent_chain": [
+      "bash",
+      "login",
+      "Terminal",
+      "launchd"
+    ],
+    "pid": 28093,
+    "ppid": 15624,
+    "started_at_utc": "2026-11-08T18:22:09Z",
+    "status": "running"
+  },
+  "rollback_limits": {
+    "known_good_source_candidate": "f6593497 commit exists (read-only git object check); 209f4e0f is tested candidate mentioned by task context; current process source revision is unknown",
+    "required_for_real_rollback": "separately authorized state-preservation method and verified backups for affected data; none created or read for this assignment",
+    "source_only_rollback": "cannot roll back config, workspace files, skills/assets sync, conversation/scheduler migrations, DB mutations, remote effects, or task outcomes; changing checkout under a live process can mix loaded and lazy-imported source"
+  },
+  "runtime": {
+    "agents_http": 200,
+    "config_sha256": "b7eb23e63dc1c4c02d9ae2e6ca23bb8b96c6d41824f63575bd9f9fde3e6c014a",
+    "conversation_global_counts": {
+      "messages_by_agent": [
+        [
+          "",
+          7
+        ],
+        [
+          "testpilot",
+          30
+        ],
+        [
+          "testpilot2",
+          2
+        ]
+      ],
+      "sessions_by_agent": [
+        [
+          "",
+          4
+        ],
+        [
+          "testpilot",
+          8
+        ],
+        [
+          "testpilot2",
+          1
+        ]
+      ]
+    },
+    "conversation_migration_markers": [
+      [
+        "merged_agent:testpilot",
+        1
+      ]
+    ],
+    "global_conversation_run_counts": [
+      [
+        "done",
+        "",
+        11
+      ],
+      [
+        "failed",
+        "",
+        7
+      ]
+    ],
+    "health": "ok",
+    "health_http": 200,
+    "models_http": 200,
+    "recovery_attempt_counts_by_state": [
+      [
+        "completed",
+        2
+      ]
+    ],
+    "recovery_task_counts_by_state": [
+      [
+        "completed",
+        2
+      ]
+    ],
+    "scheduler_due_state": "unknown; scheduler task JSON was not read because task action fields can contain content",
+    "scheduler_files": {
+      "global": {
+        "available": false,
+        "error": "FileNotFoundError"
+      },
+      "testpilot2_legacy": {
+        "available": false,
+        "error": "FileNotFoundError"
+      },
+      "testpilot_legacy": {
+        "available": false,
+        "error": "FileNotFoundError"
+      }
+    },
+    "secondary_conversation_db_safe_counts": "unavailable because allowlisted queries failed for existing secondary DB schema; no query was broadened",
+    "self_evolution_enabled": false
+  },
+  "scope": "read-only lifecycle and restart-risk map; no service command, update, task execution, credential access, or private memory read was performed",
+  "source_pointers": {
+    "agent_background_services": "bridge/agent_bridge.py:643-670; agent/recovery/service.py:26-71; agent/tools/scheduler/integration.py:64-120,250-315; agent/tools/scheduler/scheduler_service.py:81-170; agent/evolution/trigger.py:92-155",
+    "app_startup": "app.py:794-854",
+    "cli_lifecycle": "cli/commands/process.py:86-215,301-337,340-418",
+    "conversation_migration": "app.py:655-669; agent/memory/conversation_store.py:2929-3058",
+    "pid_register_and_sigterm": "app.py:486-535",
+    "skill_and_asset_writes": "app.py:708-791",
+    "team_migration": "app.py:628-652; agent/team.py:154-214",
+    "web_update": "channel/web/api/update.py:48-67; cli/update_service.py:361-407,459-488,614-676"
+  },
+  "startup_effects": [
+    "config load and PID file registration",
+    "team roster migration/adoption (current metadata: no team.json and no legacy roster keys, so migration is expected to be a no-op)",
+    "conversation migration: synchronous global schema/composite-key check; asynchronous merge of non-default databases; testpilot marker exists but testpilot2 marker absent, so do not assume complete",
+    "built-in skills sync deletes and recopies matching workspace skill directories",
+    "subagent guide/example assets may be created",
+    "non-desktop MCP warmup runs in background",
+    "AgentBridge initializes recovery, scheduler, and evolution threads; config currently disables evolution scans",
+    "channels and web console start"
+  ],
+  "supported_control_assessment": {
+    "authenticated_web_update": "not a bounded update path; starts detached git-pull/pip updater and restarts from PID file or current request PID",
+    "cow_restart": "unsafe now; calls stop then start, which can launch a duplicate",
+    "cow_self_restart": "unsafe now; missing PID resolves to 0 and detached relay starts replacement without stopping current PID",
+    "cow_start": "unsafe now; absent PID file means it can launch a duplicate process",
+    "cow_stop": "unsafe now; it reads only .cow.pid, then SIGTERM and after 3 seconds SIGKILL; current PID is not in that file",
+    "cow_update": "unsafe; stops first, git-pulls, installs dependencies/CLI, then starts",
+    "graceful_signal_behavior": "SIGTERM handler saves user data and exits but does not drain/await in-flight channel, scheduler, recovery, or evolution work",
+    "launchd": "no CowAgent launchd owner/label observed",
+    "safe_supported_stop": "none established for this process"
+  },
+  "raw_receipt_sha256": "fcc6bd82ca03df5a3d5b7daf013f0180dc7aea61885d9b3f7ad1d2630db4ec74",
+  "private_bundle": "cow-discovery-maintenance-control-plan",
+  "interpreter_invocation_check": {
+    "method": "Separate env -i PATH=/usr/bin:/bin Python processes imported only stdlib json/sys and reported executable/prefix/base_prefix; no app imports or service startup.",
+    "resolved_framework_executable_prefix": "/Library/Frameworks/Python.framework/Versions/3.13",
+    "venv_invocation_prefix": "<existing-repository>/.venv",
+    "both_base_prefix": "/Library/Frameworks/Python.framework/Versions/3.13",
+    "result": "Resolved executable path does not identify original invocation path. Direct framework launch bypasses the virtual environment. Original invocation/dependency resolution remains a pre-execution prerequisite.",
+    "raw_receipt_correction": "The mapper proposed a framework-executable command; parent verification rejected that command as unproven and removed it from this publication."
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "receipt_type": "bullgod-discovery-maintenance-hosted-ci/1",
+  "task": "BULLGOD-DISCOVERY-002R macOS hosted retry",
+  "finalized_at": "2026-11-09T18:14:37Z",
+  "status": "PASSED: macOS job passed on one parent-authorized targeted retry; combined matrix evidence uses retained same-source Linux/JS/Ruff jobs.",
+  "matrix_status": "PASSED_COMBINED_ATTEMPTS_SAME_SOURCE",
+  "run": {
+    "id": 42660051257,
+    "url": "https://github.com/hottweelz/CowAgent/actions/runs/42660051257",
+    "workflow": "Tests",
+    "event": "pull_request",
+    "terminal_status": "completed",
+    "terminal_conclusion": "success",
+    "latest_run_attempt": 3,
+    "run_head_sha": "209f4e0fd53aeb249914755a68a1956d9e6225a0",
+    "created_at": "2026-11-09T16:58:21Z",
+    "terminal_updated_at": "2026-11-09T18:12:40Z"
+  },
+  "pull_request": {
+    "number": 4,
+    "state": "open",
+    "draft": true,
+    "run_head_sha": "209f4e0fd53aeb249914755a68a1956d9e6225a0",
+    "current_docs_only_head": "b0585544257eb116cd2b9337716de3ce505024b8",
+    "base_sha": "f659349785acf98905901a5cc53921436a109dbc",
+    "docs_only_head_changed_paths": [
+      "CHANGELOG_AI.md",
+      "docs/bullgod-discovery-002/README.md",
+      "docs/bullgod-discovery-002/in-process-focused.json",
+      "docs/bullgod-discovery-002/in-process-hosted.json",
+      "docs/bullgod-discovery-002/in-process-live.json",
+      "docs/bullgod-discovery-002/in-process-preservation.json",
+      "docs/bullgod-discovery-002/in-process-remediation.md"
+    ]
+  },
+  "source_binding": {
+    "tested_head_sha": "209f4e0fd53aeb249914755a68a1956d9e6225a0",
+    "base_sha": "f659349785acf98905901a5cc53921436a109dbc",
+    "synthetic_merge_sha": "998223791f2f0f8634631c5c98d4e77125d8d762",
+    "tested_head_tree_sha": "00b14af2a2b2e0c54c5bf5cdee34d124e6501d35",
+    "synthetic_merge_tree_sha": "00b14af2a2b2e0c54c5bf5cdee34d124e6501d35",
+    "head_merge_tree_match": true,
+    "base_tree_sha": "9f0cc5a25469a53b52e69c5eab994a5dc68d6d58",
+    "current_docs_only_head_tree_sha": "5b39705cd62ba801be3fb2076fc3f66d2ff76e4f",
+    "macos_log_checkout_prefix": "9982237",
+    "macos_log_contains_head_and_base": true
+  },
+  "retry_history": {
+    "attempt_1_mac_job": {
+      "id": 129308863500,
+      "conclusion": "cancelled",
+      "cause": "hosted runner acquisition failure; no runner/steps/log"
+    },
+    "attempt_2_mac_job": {
+      "id": 129319168938,
+      "conclusion": "cancelled",
+      "cause": "same hosted runner acquisition failure; no runner/steps/log"
+    },
+    "attempt_3_mac_job": {
+      "id": 129344703641,
+      "conclusion": "success",
+      "started_at": "2026-11-09T18:06:56Z",
+      "completed_at": "2026-11-09T18:12:27Z",
+      "runner_label": "macos-latest",
+      "runner_group": "GitHub Actions",
+      "runner_id": 1000002194,
+      "runner_name": "GitHub Actions 1000002194",
+      "steps_all_success": true
+    },
+    "reruns_authorized": 1,
+    "reruns_performed_by_this_worker": 0
+  },
+  "carried_forward_jobs": {
+    "attempt_3_records_match_attempt_1_execution_metadata": true,
+    "jobs": [
+      {
+        "attempt_3_id": 129344705187,
+        "attempt_1_id": 129308862955,
+        "name": "ruff (changed Python files)",
+        "started_at": "2026-11-09T16:58:24Z",
+        "completed_at": "2026-11-09T16:58:42Z",
+        "runner_id": 1000002183,
+        "reexecuted_in_attempt_3": false
+      },
+      {
+        "attempt_3_id": 129344769473,
+        "attempt_1_id": 129308863452,
+        "name": "pytest (ubuntu-latest, Python 3.11)",
+        "started_at": "2026-11-09T16:58:24Z",
+        "completed_at": "2026-11-09T17:03:37Z",
+        "runner_id": 1000002185,
+        "reexecuted_in_attempt_3": false
+      },
+      {
+        "attempt_3_id": 129344710552,
+        "attempt_1_id": 129308863467,
+        "name": "javascript",
+        "started_at": "2026-11-09T16:58:24Z",
+        "completed_at": "2026-11-09T16:58:57Z",
+        "runner_id": 1000002187,
+        "reexecuted_in_attempt_3": false
+      },
+      {
+        "attempt_3_id": 129344706413,
+        "attempt_1_id": 129308863492,
+        "name": "pytest (ubuntu-latest, Python 3.13)",
+        "started_at": "2026-11-09T16:58:24Z",
+        "completed_at": "2026-11-09T17:03:27Z",
+        "runner_id": 1000002186,
+        "reexecuted_in_attempt_3": false
+      }
+    ],
+    "evidence": "Attempt3 success records retain the same started/completed timestamps, runner IDs/names and step results as attempt1. They were not re-executed. Attempt3 added only the authorized macOS execution."
+  },
+  "retained_prior_evidence": {
+    "receipt_sha256": "0aa976133edad428be2b37d6d99675e7325117cf52d71ec0ef13bcba21abdc89",
+    "source_head_sha": "209f4e0fd53aeb249914755a68a1956d9e6225a0",
+    "baseline_run_id": 42558258829,
+    "baseline_named_case_count": 6062,
+    "baseline_named_case_ids_sha256": "1f435ab42cc992dba5b4ea8ac3d0d480c94f2ee33eca4ed79a588bea07921fe7",
+    "linux_artifact_receipts": [
+      {
+        "run_job_id": 129308863452,
+        "artifact_id": 13695010511,
+        "name": "junit-ubuntu-latest-py3.11",
+        "archive_sha256": "bc104f30629404cb48974a9930d85b92efc654e5f8e1a37a9dc2d0393811d5fe",
+        "xml_sha256": "4d63fb402d1d69de90f70b9bb3dcac22724924ac3d58e57190ba33d440aa7d1c",
+        "passed": 6036,
+        "skipped": 46,
+        "subtests": 93
+      },
+      {
+        "run_job_id": 129308863492,
+        "artifact_id": 13694281408,
+        "name": "junit-ubuntu-latest-py3.13",
+        "archive_sha256": "c782001fa3f6036343f3546a8b3f8a3d46657576df23c2ec28a28b8fcf748615",
+        "xml_sha256": "68117cbe43113ec35dc982f1df45fe3e206f0627f3dded58a23068a78b765bf8",
+        "passed": 6036,
+        "skipped": 46,
+        "subtests": 93
+      }
+    ],
+    "javascript_job_id": 129308863467,
+    "web_passed": 39,
+    "desktop_scroll_passed": 5,
+    "strict_typescript_build": "success",
+    "ruff_job_id": 129308862955,
+    "ruff_result": "All checks passed",
+    "baseline_files_redownloaded": false,
+    "published_receipt": "in-process-hosted.json"
+  },
+  "macos_attempt_3": {
+    "job_id": 129344703641,
+    "status": "completed",
+    "conclusion": "success",
+    "runner_id": 1000002194,
+    "log": {
+      "path": "logs/job-129344703641.log",
+      "bytes": 131216,
+      "sha256": "c86394e5006024b01fc8d3b8f412ded289e0685a3cdd311ae2daa30b46ab2809",
+      "checked_out_merge_prefix": "9982237",
+      "pytest_summary": {
+        "passed": 6043,
+        "skipped": 39,
+        "warnings": 36,
+        "subtests_passed": 93,
+        "duration": "299.12s (0:04:59)"
+      }
+    },
+    "artifact": {
+      "id": 13698054418,
+      "name": "junit-macos-latest-py3.13",
+      "archive_sha256": "3e176f58481f754802a9339479b552a3ce971a3d0b00d4838badb4abd7b4d346",
+      "size_bytes": 113211,
+      "xml_path": "artifacts/junit-macos-latest-py3.13/test-results.xml",
+      "xml_sha256": "a04a4da8a8f78b003f78f48c0f96c486eab88826b092c2d0d2f45ef1f28ea19d",
+      "xml_bytes": 841264
+    },
+    "junit": {
+      "named_cases": 6082,
+      "passed": 6043,
+      "skipped": 39,
+      "tests_including_subtests": 6175,
+      "passing_subtests": 93,
+      "failures": 0,
+      "errors": 0,
+      "baseline_named_cases": 6062,
+      "added_cases": 20,
+      "removed_cases": 0,
+      "added_case_class": "tests.test_discovery_in_process",
+      "added_case_ids": [
+        "tests.test_discovery_in_process::test_active_observation_never_reads_private_agent_state",
+        "tests.test_discovery_in_process::test_cached_route_change_during_enumeration_rejects_mixed_observation",
+        "tests.test_discovery_in_process::test_cached_session_model_route_is_reported_separately",
+        "tests.test_discovery_in_process::test_context_mutation_during_turn_invalidates_caller_binding",
+        "tests.test_discovery_in_process::test_copied_context_cannot_reuse_finished_caller_scope",
+        "tests.test_discovery_in_process::test_current_config_disable_invalidates_revalidation",
+        "tests.test_discovery_in_process::test_failed_session_preferences_clear_prior_receipt",
+        "tests.test_discovery_in_process::test_forged_or_unowned_bridge_cannot_create_host",
+        "tests.test_discovery_in_process::test_inherited_ambient_parent_without_delegation_fields_is_not_root",
+        "tests.test_discovery_in_process::test_initialized_observation_does_not_read_private_native_snapshot",
+        "tests.test_discovery_in_process::test_nested_context_does_not_claim_root_lineage",
+        "tests.test_discovery_in_process::test_normal_owner_and_active_reply_are_observed_without_dispatch",
+        "tests.test_discovery_in_process::test_observation_does_not_create_data_root",
+        "tests.test_discovery_in_process::test_registry_replacement_invalidates_initialized_owner",
+        "tests.test_discovery_in_process::test_replaced_initialization_epoch_is_rejected",
+        "tests.test_discovery_in_process::test_scope_closes_when_run_stream_raises",
+        "tests.test_discovery_in_process::test_stale_pid_blocks_external_inspection_before_bindings_or_transport",
+        "tests.test_discovery_in_process::test_stale_process_binding_and_configuration_disable_fail_closed",
+        "tests.test_discovery_in_process::test_task_json_cannot_supply_runtime_or_proof_fields",
+        "tests.test_discovery_in_process::test_wrong_ambient_run_identity_does_not_create_caller_scope"
+      ],
+      "added_case_ids_sha256": "8ef20f6707d26510700f4b84284394efd396eee44047c961e878832fddc9dbc1",
+      "all_added_cases_passed": true,
+      "baseline_skip_identity_sha256": "cf60dac725eff78bafa15f21bca1efe2075983bd33dbe9c8e54b1e7ac259dfff",
+      "current_skip_identity_sha256": "cf60dac725eff78bafa15f21bca1efe2075983bd33dbe9c8e54b1e7ac259dfff",
+      "skip_identity_set_exact_match": true,
+      "current_named_case_ids_sha256": "48e228d03a2c8531fd53a93aa20b414cc699ac1d65ca944a529c6c257477584a"
+    }
+  },
+  "combined_python_reconciliation": {
+    "baseline_run_id": 42558258829,
+    "baseline_head_sha": "10dac8d33f52204f80ee61c6ae19373851e77f82",
+    "named_cases_per_platform": 6082,
+    "added_cases_per_platform": 20,
+    "removed_cases_per_platform": 0,
+    "new_case_class": "tests.test_discovery_in_process",
+    "all_20_new_cases_passed_on_macos_and_both_linux_versions": true,
+    "all_current_named_case_sets_identical": true,
+    "all_three_platform_skip_sets_match_baseline": true,
+    "macos_skip_sha256": "cf60dac725eff78bafa15f21bca1efe2075983bd33dbe9c8e54b1e7ac259dfff",
+    "linux_skip_sha256": "1fad3d4656fbf2ee7421465e3406283f579ff644a090466c489653f5d2fc33b4",
+    "subtests_each": 93
+  },
+  "availability_observation": {
+    "official_github_status_observed_at": "2026-11-09T17:44:33.987Z",
+    "overall": "All Systems Operational",
+    "actions_component": "operational",
+    "unresolved_incidents": 0,
+    "per_macos_arm64_capacity_metric_published": false,
+    "actual_job_assignment_observed": true,
+    "assignment_scope": "macOS runner1000002194 acquired only for job129344703641 at18:06:56Z"
+  },
+  "verification_actions": {
+    "baseline_linux_artifacts_redownloaded": false,
+    "successful_jobs_rerun": false,
+    "one_parent_authorized_macos_retry": true,
+    "other_jobs_rerun": false,
+    "new_workflow_created": false,
+    "repository_workflow_runtime_or_model_changed": false
+  },
+  "limitations": [
+    "This hosted CI receipt does not change the separate live CowAgent ingress/authority blocker.",
+    "The four Linux/JavaScript/Ruff executions are retained from attempt1; only macOS ran anew in attempt3. All evidence is bound to source head209f4e0f and the identical synthetic merge tree."
+  ],
+  "raw_receipt_sha256": "8b026a95709190416b40a60b624608d30f65bfe97a21adbb84125ed5f6941aa7",
+  "private_bundle": "cow-discovery-maintenance-ci",
+  "publication_note": "The current_docs_only_head fields describe the pre-publication snapshot; later Markdown/JSON commits do not change tested executable source.",
+  "retained_prior_evidence_captured_at": "2026-11-09T17:20:13+00:00",
+  "timestamp_note": "The raw captured_at was inherited from the attempt1/2 receipt; finalized_at is the attempt3 combined receipt time."
+}

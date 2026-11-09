@@ -4,14 +4,26 @@
 The [in-process remediation report](in-process-remediation.md) records the trust
 decision published before code, the internal initialized-runtime bridge, all A–J
 results and ten completion answers. Source `209f4e0f` passed 345 focused tests
-(including 20 new cases) and independent source/test review. Both Linux jobs, JavaScript/strict TypeScript/build and Ruff passed; the
-[hosted macOS gate](in-process-hosted.json) is BLOCKED after two runner-acquisition
-failures, with no macOS test steps executed. The existing PID has no verified supported authenticated way
+(including 20 new cases) and independent source/test review. All five hosted jobs
+now pass. The separately authorized targeted macOS attempt acquired a runner and
+passed 6,043 tests, with 39 skips and 93 passing subtests. The
+[completion receipt](in-process-hosted-completion.json) preserves the
+[two earlier acquisition failures](in-process-hosted.json) and reuses the valid
+Linux/application evidence without replay. The existing PID has no verified supported authenticated way
 to load/invoke the new bridge under the no-restart constraint; no PARTIAL or
 PASSED live-native result is claimed. [Preservation evidence](in-process-preservation.json)
 confirms the unchanged service, profiles and aggregate records. Private authority
 still expires normally and ignored-ownership sources still reject. PR #4 stays
 draft and unmerged. The original 002 results below remain historical evidence.
+
+The [verified service-update plan](service-update-plan.md) is published for review.
+The maintainer selected **plan only**: no startup hook was implemented and no
+service operation was executed. Immutable source/import checks and a disposable
+rollback rehearsal passed. The plan separates service preservation, authenticated
+invocation, actual discovery and hosted macOS gates. Original interpreter invocation,
+secure environment preservation, quiescence and migration readiness remain
+preconditions; the next step is a separately scoped inactive hook implementation
+and validation before requesting a concrete maintenance approval.
 
 Gate A is **PASSED**. DISCOVERY-001 merged normally through
 [PR #3](https://github.com/hottweelz/CowAgent/pull/3) as

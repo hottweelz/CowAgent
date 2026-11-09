@@ -1,5 +1,14 @@
 # CowAgent project facts
 
+- A source-mode service's resolved Python executable is not proof of its original
+  invocation path: direct framework Python can bypass the virtual environment.
+  Verify invocation/dependency resolution before preparing a replacement command;
+  `VIRTUAL_ENV` alone is insufficient. SIGTERM saves user data but does not drain
+  active work. Normal startup can migrate state, synchronize assets and start
+  background services; a read-only discovery observer does not make restart
+  read-only. Source-only rollback cannot restore the old process or data writes.
+  See the [conditional maintenance plan](docs/bullgod-discovery-002/service-update-plan.md).
+
 - BULLGOD-DISCOVERY-002R adds the internal
   `TrustedDiscoveryHost.from_initialized_runtime` path on the draft 002 branch.
   It requires an actually initialized server-owned AgentBridge and validates
