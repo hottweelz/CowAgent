@@ -1,0 +1,19 @@
+{
+  "initial_head_index": "a507a400985512683c870ef4fe059fa5982ad13e",
+  "candidate": "8d182026be2380fc574eeecd13edcffa5ed1dcb1",
+  "fallback": "f659349785acf98905901a5cc53921436a109dbc",
+  "worktree_only_left_candidate_files": [
+    "common/runtime_drain.py",
+    "common/service_lifecycle.py"
+  ],
+  "corrected_restore_flags": [
+    "--staged",
+    "--worktree"
+  ],
+  "fallback_python_path_set_exact": true,
+  "fallback_tracked_bytes_match": true,
+  "untracked_and_ignored_sentinels_preserved": true,
+  "original_checkout_modified": false,
+  "private_fixture": "cow-bootstrap-source-switch-sqs6pj_e",
+  "limitation": "No application process or live source/data was modified; staged runtime files intentionally differ from preserved HEAD after selection."
+}

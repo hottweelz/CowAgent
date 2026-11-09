@@ -1,5 +1,82 @@
 # AI handoff ledger
 
+
+## 2026-11-09 17:10 EST — Codex — FIRST-BOOTSTRAP-001 qualification
+
+- Result: NO-GO / legacy Class C. Completed read-only baseline/configuration and
+  effects review, self-contained disposable recovery/transition, one independent
+  review and concrete gated procedure. No live maintenance is authorized.
+- Team: Luna/high baseline/CI and runtime/effects maps; Terra 6.1/high disposable
+  process/SQLite integration because recovery crosses source versions and file/DB
+  boundaries; Sol 6.1/high independent review for consequential interruption,
+  authority and rollback reasoning. Lead owns metadata, procedure, final decision,
+  integration and Git publication. No external review pool or recursive review.
+- Changes/files: docs/first-bootstrap-001/README.md, plan, inventories and receipts,
+  startup-effects/maintenance/recovery/review/validation reports and six standalone
+  fictional fixture scripts; project MEMORY.md and this ledger. Runtime source,
+  dependencies and workflows remain identical to executable 005c1e48 under PR #5
+  head 8d182026. Branch codex/first-bootstrap-001 starts at that validated head.
+- Baseline: PR #4 a507a400 -> PR #5 8d182026, master f6593497; both draft/unmerged.
+  Primary HEAD reflog brackets PID startup at 90c3cd8f, used as modeled legacy;
+  no loaded-source attestation is claimed. Original PID 28093/start remains on
+  9899 with health 200. Current pCloud UI: six Backup paths with zero target
+  overlap, zero Sync pairs; settings/window state preserved. Five recovery
+  artifacts and seven primary untracked paths match retained hashes.
+- Checks/results: actual ordered legacy90c -> candidate8d -> restored masterf659
+  on private port19886, graceful exit0 and health200. Final fixture backup/restore
+  covers four native-schema DBs, independent testpilot/testpilot2 indexed memory,
+  conversation and completed recovery/verification history. SQLite online backup
+  includes committed WAL and excludes an open transaction. Between-stage startup
+  interruption/restart and post-copy/pre-marker fault retry are separately scoped;
+  focused migration tests 2 passed. Fresh fictional IDs; no model/provider dispatch.
+- Admission: private one-shot observer reports three IDs and denied selections;
+  two fictional held leases block drain; close rejects new POST503; completion
+  gives settled drain in disabled-plugin fixture. Seven enabled-plugin variant
+  reaches health but returns plugin_runtime_untracked. This current configuration
+  blocker is not waived by disabled fixtures. Browser startup remains replaced in
+  rehearsal; actual browser/remote/plugin effects and live queues are unverified.
+- Full regression evidence retained for unchanged runtime: local6124/36/93;
+  hosted Linux3.11 and3.13 each6114/46/93, macOS3.13 6121/39/93; JS39+5,
+  strict TypeScript/build and Ruff pass on run42699928448. Counts denote
+  passed/skipped/subtests. No fresh hosted pass is attributed to this docs branch.
+  New six fixture ASTs/JSON and F-class Ruff pass; packet six Python blocks parse;
+  exact request builder passes fresh validation and rejects collision/short expiry.
+- Review: one P2 corrected. Worktree-only restore from primary indexa507 left
+  candidate-added modules behind on fallback. Disposable reproduction confirmed
+  it; scoped --staged --worktree restoration and exact Python-path checks produce
+  fallback bytes/paths while preserving ignored/untracked sentinels. Reviewer
+  cleared the correction; no open actionable findings. Postflight also replaced
+  unsupported global macOS socket enumeration with bounded lsof plus fixture bind.
+- Decisions: Class B is a potential future owner-accepted client-exclusion and
+  interruption policy, not established today. No complete legacy admission fence,
+  no qualified actual private recovery set, enabled plugin coverage and missing
+  production drain invocation prevent live execution. No process signal/restart,
+  APFS change, approval refresh, production activation or merge was performed.
+- Lessons Learned:
+  - Mistake: previous source-only fallback evidence assumed a candidate index.
+  - Root Cause: worktree-only restore can introduce files absent from the older
+    index; a later restore and git diff can ignore those untracked remnants.
+  - Future Trigger: same-directory deployment/rollback from a different index.
+  - Required Behavior Change: test the actual starting index, scope index/worktree
+    changes together, check full managed Python paths and preserve unrelated state.
+  - Verification Step: source-switch-check.json reproduces the fault and proves
+    exact fallback paths/bytes plus preserved ignored/untracked sentinels.
+  - Durable Memory Update: source-mode plugin and source-switch rules recorded
+    in project MEMORY.md. Global Codex memory was not edited.
+- Known limits: live loaded modules/queues/callbacks and uncommitted work unknown;
+  no actual live backup or restore; fixture interruption is not a transaction crash;
+  no real models, native delegation or external effect replay guarantee claimed.
+- Next recommended steps: qualify the seven enabled plugins' callback/worker
+  lifetimes and a private operator drain invocation using disposable tests; complete
+  the actual offline backup/restore manifest; present one bounded Class B exclusion,
+  interruption and effect-acceptance policy before requesting any live window.
+- Notes for next agent: report and all twelve answers are in the milestone README.
+  Final private four-DB rehearsal cow-first-bootstrap-q4mvg1ju; source switch
+  cow-bootstrap-source-switch-sqs6pj_e. Reuse valid evidence unless source/state
+  changes. Publish draft PR onto codex/bullgod-service-drain, preserve the original
+  checkout and no-prune recovery refs. Untracked AGENTS.md is deliberately retained.
+  Parent owns final push/fetch 0/0 verification; no merge is authorized.
+
 ## 2026-11-09 16:22 EST — Codex — BullGod disposable drain and transition qualification
 
 - Result: prepared implementation, independent review, full local/hosted regression

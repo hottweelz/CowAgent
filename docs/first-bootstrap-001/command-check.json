@@ -1,0 +1,19 @@
+{
+  "schema": "cow.first-bootstrap.command-check/1",
+  "python_blocks_parse": 6,
+  "fresh_request_validation": true,
+  "existing_path_recreation_rejected": true,
+  "short_lifetime_rejected": true,
+  "fixture_ast_parse": [
+    "driver_fixture.py",
+    "recovery_fixture.py",
+    "rehearsal.py",
+    "plugins_fixture.py",
+    "request_fixture.py",
+    "seed_fixture.py"
+  ],
+  "live_process_actions": false,
+  "environment": "minimal fictional HOME/data, no inherited provider settings",
+  "request_location": "private owned directory; never consumed to start a service",
+  "live_stop_start_fragments": "syntax checked only; unavailable admission/backup/operator gates prohibit execution"
+}
