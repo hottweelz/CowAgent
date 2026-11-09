@@ -5,7 +5,7 @@ import os
 import time
 from contextlib import contextmanager
 
-from .contract import ProtocolError, authorize, canonical, digest, normalize_spec
+from .contract import ProtocolError, authorize, canonical, digest, finite, normalize_spec
 from .journal import ExternalBusy, ExternalJournal
 
 
@@ -22,6 +22,47 @@ class ApprovalJournal(ExternalJournal):
                     cancel_status TEXT NOT NULL DEFAULT 'none'
                 );
             ''')
+
+    def preview_admission(self, spec, credential, *, now=None):
+        """Inspect current approvals without preparing a task or consuming intent.
+
+        This is a trusted-host discovery aid, never a dispatch receipt. Real
+        dispatch still runs _check in its existing admission transaction.
+        Returned state contains no spec, review packet or credential material.
+        """
+        spec = normalize_spec(spec)
+        now = time.time() if now is None else now
+        if not finite(now):
+            raise ProtocolError('Invalid admission observation time')
+        if spec['task']['operation'] != 'analyze_records' or spec['authority']['operations'] != ['analyze_records']:
+            raise ProtocolError('Bounded analysis authority required')
+        authorize(spec, credential, None, now=now)
+        scope = self._scope(spec, credential)
+        with self.control._connect() as db:
+            db.execute('BEGIN')
+            task = self.control._current(db, 'task-' + spec['task_id'], scope, now)
+            enrollment = self.control._current(db, 'enrollment-' + digest(scope), scope, now)
+            row = db.execute('SELECT spec_hash,supervisor_id,cancel_requested,submission_started FROM external_tasks WHERE task_id=?',
+                             (spec['task_id'],)).fetchone()
+            reasons = []
+            if row and (row['spec_hash'] != digest(spec) or row['supervisor_id'] != credential.supervisor_id):
+                reasons.append('task_binding_mismatch')
+            if row and row['cancel_requested']:
+                reasons.append('task_cancelled')
+            if row and row['submission_started']:
+                reasons.append('submission_already_started')
+            if task.get('task_hash') is not None and task['task_hash'] != digest(spec):
+                reasons.append('task_binding_mismatch')
+            return {'task_approval_current': task['approval_current'],
+                    'task_approval_status': task['approval_status'],
+                    'task_revision': task['revision'],
+                    'enrollment_approval_current': enrollment['approval_current'],
+                    'enrollment_approval_status': enrollment['approval_status'],
+                    'enrollment_revision': enrollment['revision'],
+                    'task_expires_at': task.get('expires_at'),
+                    'enrollment_expires_at': enrollment.get('expires_at'),
+                    'enrollment_review_id': enrollment.get('review_id'),
+                    'reasons': reasons}
 
     @contextmanager
     def lock(self, task_id):
