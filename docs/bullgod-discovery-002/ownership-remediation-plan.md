@@ -51,6 +51,8 @@ cannot undo file changes made by active applications during an enabled interval.
 3. Check both `diskutil info` and native mount flags. Check existing access and
    CowAgent health before any discovery read. If the current mount remains
    ownership-ignored, do not remount it to force success.
+   Run application access checks as the original non-root user; elevate only
+   the ownership enable/disable commands. Root access is not application access.
 4. If access/health changes, the flag does not take effect, or trusted path
    checks still fail, restore the prior policy using
    `sudo /usr/sbin/diskutil disableOwnership <same-verified-device>`, verify it,
