@@ -6,6 +6,9 @@
 - Result: NO-GO / legacy Class C. Completed read-only baseline/configuration and
   effects review, self-contained disposable recovery/transition, one independent
   review and concrete gated procedure. No live maintenance is authorized.
+- Publication: draft PR #6 targets codex/bullgod-service-drain (PR #5); content
+  commit ae8d0b57 is published. Push and no-prune fetch confirmed 0 ahead / 0
+  behind. Tracked files are clean; untracked governance copy AGENTS.md retained.
 - Team: Luna/high baseline/CI and runtime/effects maps; Terra 6.1/high disposable
   process/SQLite integration because recovery crosses source versions and file/DB
   boundaries; Sol 6.1/high independent review for consequential interruption,
@@ -73,9 +76,9 @@
 - Notes for next agent: report and all twelve answers are in the milestone README.
   Final private four-DB rehearsal cow-first-bootstrap-q4mvg1ju; source switch
   cow-bootstrap-source-switch-sqs6pj_e. Reuse valid evidence unless source/state
-  changes. Publish draft PR onto codex/bullgod-service-drain, preserve the original
-  checkout and no-prune recovery refs. Untracked AGENTS.md is deliberately retained.
-  Parent owns final push/fetch 0/0 verification; no merge is authorized.
+  changes. Draft PR #6 is published onto codex/bullgod-service-drain; preserve the
+  original checkout and no-prune recovery refs. Untracked AGENTS.md is deliberately
+  retained. No merge or live execution is authorized.
 
 ## 2026-11-09 16:22 EST — Codex — BullGod disposable drain and transition qualification
 

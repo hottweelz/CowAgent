@@ -2,6 +2,10 @@
 
 **Decision: NO-GO — Material unresolved risk. Legacy class C — UNBOUNDED RISK.**
 
+Published as [draft PR #6](https://github.com/hottweelz/CowAgent/pull/6), based on
+PR #5. Content commit `ae8d0b57` is synchronized with its named upstream; this
+publication note changes documentation only.
+
 The qualification and disposable recovery work is complete. A live maintenance
 window is not yet supportable. This is a specific first-bootstrap decision, not
 a claim that the old process needs to implement the new drain API.
