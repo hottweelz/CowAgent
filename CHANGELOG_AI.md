@@ -1,5 +1,30 @@
 # AI handoff ledger
 
+## 2026-11-08 23:22 EST — Codex — Goal blocked after third ownership audit
+
+- Scope/result: re-read the full DISCOVERY-002 objective and confirmed required
+  B6 integrated live acceptance remains incomplete. Gate A and published source
+  validation remain complete; this is not a goal-completion claim.
+- Team: lead-only bounded audit; no new workers or review loop.
+- Evidence/commands: current diskutil info reports APFS ownership disabled on
+  the same mounted device; root mode 0755 remains applied. Git status shows only
+  seven original untracked files; master/origin/master match f6593497 and feature
+  upstream is 0/0. Previous turn made progress through actual metadata/primary-doc
+  assessment; this turn confirms the unchanged blocker.
+- Changes/files: this handoff only. No source, mount, ownership, runtime, profile,
+  credential or approval change. Existing source 10dac8d3 tests/CI remain valid;
+  no blocked acceptance or test-suite replay.
+- Decision: same ownership/provenance blocker persists for three consecutive goal
+  turns. The reviewed root-only volume-wide remedy still lacks explicit approval.
+  All independent safe work is done; record goal status BLOCKED after sync.
+- Lessons Learned: none. MEMORY.md update: not needed.
+- Known issue/next: await the existing decision on ownership-remediation-plan.md.
+  Only if authorized, revalidate target/state and follow its bounded operation,
+  non-root access checks and rollback limits. Do not infer broader permission
+  from the earlier chmod approval. No remount, restart or live model execution.
+- Notes: draft PR #4 stays unmerged. Preserve original files/recovery artifacts;
+  user input or an external ownership-state change is required to resume B6.
+
 ## 2026-11-08 23:17 EST — Codex — Read-only ownership impact assessment and bounded proposal
 
 - Scope/result: continued the incomplete DISCOVERY-002 goal. Previous turn made
