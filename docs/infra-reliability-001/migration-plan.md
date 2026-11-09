@@ -1,3 +1,7 @@
+> Historical rehearsal only. INFRA-RELIABILITY-001B supersedes migration with
+> verified removal of the Projects backup. Do not execute this failed plan.
+> See [the addendum](backup-removal-verification.md).
+
 # Git metadata migration plan (approval draft)
 
 ## Status

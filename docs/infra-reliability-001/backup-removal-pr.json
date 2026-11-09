@@ -1,0 +1,160 @@
+{
+  "receipt_type": "sanitized-live-pr-verification",
+  "task": "INFRA-RELIABILITY-001B",
+  "verification_scope": "Read-only verification from already collected local git and GitHub API responses. No network calls or tests were repeated for this receipt.",
+  "pull_request": {
+    "url": "https://github.com/hottweelz/CowAgent/pull/2",
+    "number": 2,
+    "state": "open",
+    "draft": true,
+    "mergeable": true,
+    "base_branch": "master",
+    "base_sha": "fe00855a9f7b896115b2268492e11aa82d9bdc10",
+    "head_branch": "codex/infra-reliability-001",
+    "head_sha": "2502693ae2f87bdb825f4b03ad94d04a082226be"
+  },
+  "current_branch_comparison": {
+    "source": "GitHub compare API and local git refs; no fetch performed",
+    "status": "ahead",
+    "ahead_by": 4,
+    "behind_by": 0,
+    "total_commits": 4,
+    "merge_base_sha": "fe00855a9f7b896115b2268492e11aa82d9bdc10",
+    "local_head_sha": "2502693ae2f87bdb825f4b03ad94d04a082226be",
+    "local_master_sha": "fe00855a9f7b896115b2268492e11aa82d9bdc10",
+    "local_origin_master_sha": "fe00855a9f7b896115b2268492e11aa82d9bdc10",
+    "local_origin_pr_sha": "2502693ae2f87bdb825f4b03ad94d04a082226be",
+    "ancestor_check": "fe00855a9f7b896115b2268492e11aa82d9bdc10 is ancestor of 2502693ae2f87bdb825f4b03ad94d04a082226be"
+  },
+  "tested_source_comparison": {
+    "tested_sha": "c03d35e6fd0ca1f35ad125b881db39816090951c",
+    "current_head_sha": "2502693ae2f87bdb825f4b03ad94d04a082226be",
+    "status": "ahead",
+    "ahead_by": 1,
+    "behind_by": 0,
+    "merge_base_sha": "c03d35e6fd0ca1f35ad125b881db39816090951c",
+    "conclusion": "Current head adds one documentation/receipt-only commit; tested implementation, workflow, tests, and dependencies are unchanged. Current head commit message contains [skip ci]."
+  },
+  "docs_only_diff_paths_after_tested_source": [
+    "CHANGELOG_AI.md",
+    "docs/infra-reliability-001/README.md",
+    "docs/infra-reliability-001/closeout-verification.json",
+    "docs/infra-reliability-001/git-object-check.json",
+    "docs/infra-reliability-001/hosted-final.json",
+    "docs/infra-reliability-001/recovery.md",
+    "docs/infra-reliability-001/review.md",
+    "docs/infra-reliability-001/validated-source.json"
+  ],
+  "fingerprint_verification": {
+    "manifest_path": "docs/infra-reliability-001/validated-source.json",
+    "manifest_source_sha": "c03d35e6fd0ca1f35ad125b881db39816090951c",
+    "algorithm": "SHA-256",
+    "files_checked": 11,
+    "mismatches": 0,
+    "result": "pass",
+    "files": {
+      ".github/workflows/test.yml": "e2a4afacfaae3440c747dcea6606fb68c9c5bacbb53494ac26ac837303bfc3a7",
+      "agent/subagent/runner.py": "937083cfe7c9f1f652ef757245a6719297ca1023f692b70f70022126cb18c831",
+      "scripts/ci_lint.py": "4a2502c95a076493e688f86292e3a4e16c7ea23b88ba2a6242c0dc157f3e6ff0",
+      "scripts/ci_test.py": "3ea5fc309b9a571bc367d5b429c006906f72908b45771348951dffc3357688d4",
+      "scripts/git_ref_watch.py": "e14a72e26a29c9820acb0a7b375f948392a6145bab47439766f18b7f5e316448",
+      "scripts/requirements-ci.txt": "9a4c77946fdb8987108327defe5d9d085b05aec60cb041e772341e0f553ccaf6",
+      "tests/test_ci_infrastructure.py": "184a16ff52b19a1a202bd51cdc8f58b454786a4d25b151447586d15fe548ea80",
+      "tests/test_codex_adapter.py": "a7642f8484419bff76fb31b52a0d174e205b77e1b2cd4de225955c6dd897d33f",
+      "tests/test_codex_client.py": "f3e081922f29ed66284566f3fdb69ac57d59f92a317932ab1c8ccbb6ce77c508",
+      "tests/test_git_ref_watch.py": "d5f382cf9a2613c3a4f0bfc2c2734ad4abc2c21a340839a7b4d8e5a942b1b112",
+      "tests/test_subagent.py": "62cc170475cbb134f462b7d9116a5bc0d2aff39fb5a726df36bfe174f90146a3"
+    }
+  },
+  "hosted_run": {
+    "run_id": 42536883493,
+    "url": "https://github.com/hottweelz/CowAgent/actions/runs/42536883493",
+    "workflow_id": 410039630,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "c03d35e6fd0ca1f35ad125b881db39816090951c",
+    "base_sha": "fe00855a9f7b896115b2268492e11aa82d9bdc10",
+    "jobs": [
+      {
+        "job_id": 128903040911,
+        "name": "ruff (changed Python files)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 128903041126,
+        "name": "javascript",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 128903041128,
+        "name": "pytest (ubuntu-latest, Python 3.13)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 128903041154,
+        "name": "pytest (macos-latest, Python 3.13)",
+        "status": "completed",
+        "conclusion": "success"
+      },
+      {
+        "job_id": 128903041206,
+        "name": "pytest (ubuntu-latest, Python 3.11)",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    ],
+    "receipt_test_summary": {
+      "macos_python_3_13": {
+        "passed": 5917,
+        "skipped": 39
+      },
+      "linux_python_3_11": {
+        "passed": 5910,
+        "skipped": 46
+      },
+      "linux_python_3_13": {
+        "passed": 5910,
+        "skipped": 46
+      },
+      "passing_subtests_per_python_job": 93,
+      "javascript_web_passed": 39,
+      "javascript_desktop_passed": 5,
+      "strict_typescript_and_desktop_build": "passed",
+      "ruff": "passed"
+    },
+    "latest_head_ci_note": "Current PR head 2502693a has no check-runs or commit statuses; this receipt does not claim hosted CI ran on the documentation-only commit."
+  },
+  "current_checks_and_protection": {
+    "current_head_check_runs": {
+      "total_count": 0,
+      "status": "none"
+    },
+    "current_head_combined_status": {
+      "state": "pending",
+      "total_count": 0,
+      "statuses": []
+    },
+    "master_branch_api": {
+      "protected": false
+    },
+    "repository_rulesets_api": {
+      "count": 0
+    },
+    "branch_protection_detail_api": {
+      "result": "403 FORBIDDEN",
+      "limitation": "Connected GitHub integration could not access branch-protection detail endpoint; no deeper protection settings inferred."
+    },
+    "merge_observation": "GitHub PR API reports mergeable=true, but draft=true; normal merge remains unavailable while draft. No state was changed."
+  },
+  "actions_taken": {
+    "network_checks_repeated": false,
+    "tests_rerun": false,
+    "repository_files_edited": false,
+    "external_state_mutated": false
+  },
+  "receipt_created_at": "2026-11-09T00:20:37Z"
+}

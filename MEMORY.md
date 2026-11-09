@@ -1,11 +1,13 @@
 # CowAgent project facts
 
-- INFRA-RELIABILITY-001 observed pCloud **Backup**, not its Sync tab, covering
-  `/Volumes/Predator SSD GM7 1TB/Projects` on 2026-11-08. Being outside the pCloud
-  mount does not exclude a path from Backup. Do not keep active Git metadata in
-  file-sync conflict handling. A live relocation requires an approved, rehearsed
-  multi-worktree migration and rollback. See the infrastructure report; exact
-  historical writer attribution and safe migration remain unresolved.
+- INFRA-RELIABILITY-001B verified the owner's removal of
+  `/Volumes/Predator SSD GM7 1TB/Projects` from pCloud Backup on 2026-11-08.
+  No remaining configured Backup or Sync root overlaps the checkout, `.git`,
+  COW_DATA_DIR or agent workspaces. This supersedes Git metadata migration;
+  keep existing paths/worktrees. Recheck actual Backup and Sync mappings if
+  conflicts recur: being outside the pCloud mount alone does not establish
+  isolation. Configuration evidence is not a kernel watch inventory. The
+  historical ref writer remains unidentified; preserve recovery artifacts.
 - The infrastructure branch's ordinary CI uses `scripts/ci_test.py` with a
   prepared absolute TIKTOKEN_CACHE_DIR and temporary HOME/data. It clears inherited
   model settings and guards Python connections to owned fixtures, excluding9899.

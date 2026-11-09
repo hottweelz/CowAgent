@@ -1,7 +1,9 @@
 # INFRA-RELIABILITY-001
 
-Status: investigation and branch validation complete. Keep this branch unmerged
-until an explicit integration review.
+Status updated by INFRA-RELIABILITY-001B: the owner removed Projects from pCloud
+Backup. The [removal and integration addendum](backup-removal-verification.md)
+records current evidence and supersedes the earlier Git migration proposal.
+Independent integration review passed; integration/postflight is in progress.
 
 Repository: hottweelz/CowAgent. Baseline master:
 `fe00855a9f7b896115b2268492e11aa82d9bdc10`.
@@ -10,13 +12,12 @@ Review: [PR #2](https://github.com/hottweelz/CowAgent/pull/2).
 
 | Issue | Assessment | Evidence and remaining limit |
 | --- | --- | --- |
-| Git reference integrity | **BLOCKED** | Active pCloud Backup includes `.git`. The historical writer is not traced, administrator tracing is unavailable, and migration/rollback rehearsals did not establish a safe live procedure. |
+| Git reference integrity | **RESOLVED for the known active backup exposure** | Projects is absent from Backup, Sync is empty, all configured roots exclude the checkout/runtime, and Git integrity checks pass. Historical writer attribution remains unknown. |
 | GitHub Actions execution | **CONTAINED** | Manual dispatch and automatic PR events produced completed hosted jobs with retrievable logs. The final quality matrix passed. The historical missing-event cause remains unknown. |
 
-**BullGod readiness: No.** Correct the active Git backup boundary through an
-approved, successfully rehearsed migration or checkout plan first. Passing CI
-does not remove the local reference-integrity hazard. No BullGod discovery or
-task-selection work was started.
+**BullGod readiness: pending integration postflight.** The independent review
+approved normal PR #2 integration under the owner's new authorization. No BullGod
+discovery, task-selection implementation or production activation is included.
 
 ## Initial state and preserved evidence
 
@@ -39,7 +40,7 @@ has been used.
 The checkout and common Git directory are on local APFS, outside the pCloud Drive
 mount. That does **not** place them outside pCloud Backup.
 
-Read-only macOS Accessibility inspection of pCloud showed an active Backup for
+The original read-only macOS Accessibility inspection showed an active Backup for
 `/Volumes/Predator SSD GM7 1TB/Projects`, which contains CowAgent and `.git`.
 The Sync tab had no rows. Current folder/file exclusions do not cover `.git`.
 The app warns that exclusions do not affect content already included in Backup.
@@ -65,7 +66,7 @@ GitHub Desktop, VS Code and Codex were running, but no captured evidence assigns
 the conflict to those clients. The one linked worktree is recorded and must
 remain usable through any approved migration.
 
-## Proposed containment and recovery
+## Original migration rehearsal (superseded)
 
 A metadata-only move outside active backup roots was rehearsed. Candidate: `$HOME/Library/Application Support/CowAgentGit/CowAgent.git`.
 The separate-directory rehearsal failed the main-worktree reporting/repair gate.
@@ -185,7 +186,8 @@ the logs; this is not a claim that those diagnostics are absent.
 implementation, test, dependency and workflow files. The closing documentation
 commit uses `[skip ci]` to avoid rerunning this valid matrix for receipts alone;
 its implementation hashes must remain identical. It is not a separate CI pass.
-The proposed workflow remains on the draft branch; master is still `fe00855a`.
+That receipt covers the original branch gate. The addendum records subsequent
+integration; no separate run is attributed to documentation-only commits.
 No live model acceptance was replayed. Earlier native approvals bind their own
 source and are not represented as acceptance for this changed source.
 
@@ -196,23 +198,21 @@ attribution, evidence-preserving ref repair and rollback limits. It prohibits
 reset/force-push/deletion and explains why an old snapshot alone is insufficient
 for rollback after newer commits.
 
-The [independent review](review.md) records the source, recovery and final hosted
-evidence checks. Git is BLOCKED: the active-backup hazard is still live and no safe
-migration is validated. A detector is not isolation. Actions is CONTAINED by the
-verified ordinary gate, explicit dispatch path and retrievable failure evidence;
-the historical dispatch defect is not claimed as resolved.
+The [original independent review](review.md) covered source and hosted receipts.
+The [001B integration review](backup-removal-review.md) verifies the owner-removed
+backup exposure, current Git/runtime state and unchanged tested source. Under the
+001B definition, the known active backup exposure is RESOLVED. Actions remains
+CONTAINED; historical writer and missing-event causes remain unknown.
 
-The next step is a bounded Git layout design and disposable migration/rollback
-rehearsal that preserves the portable workflow, existing project paths and linked
-worktree. It must keep both active Git metadata and controlling pointers outside
-backup conflict handling. Seek authorization only after that procedure passes.
-Administrator-scoped writer tracing can provide additional attribution. No live
-migration, pCloud setting change, service restart, TestPilot identity/memory/model
-change or production activation occurred in this assignment.
+The repository stays at its existing path. The owner's removal of the Projects
+backup supersedes migration. Follow the [addendum](backup-removal-verification.md)
+for integration/postflight results. Retain monitoring and recovery instructions
+for future incidents, without treating a clean poll as a guarantee.
 
 ## Evidence inventory
 
 | Evidence | Receipt |
+| Current backup removal and integration gates | [001B addendum](backup-removal-verification.md), [001B review](backup-removal-review.md) |
 | --- | --- |
 | Initial refs, configuration, filesystem, worktrees and preserved files | [baseline](baseline.json) |
 | Active backup scope and bounded process sample | [pCloud scope](pcloud-scope.json), [open-file sample](pcloud-open-file-sample.json) |

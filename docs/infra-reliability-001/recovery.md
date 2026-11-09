@@ -2,7 +2,9 @@
 
 This procedure preserves evidence. It does not authorize a live metadata move,
 backup setting change, forced push, reset or deletion of conflict artifacts.
-The live Git issue remains BLOCKED while pCloud Backup includes `.git`.
+INFRA-RELIABILITY-001B verified that the owner removed Projects from Backup and
+that no remaining Backup/Sync rule covers the checkout or runtime. See the
+[addendum](backup-removal-verification.md). Recheck coverage if conflicts recur.
 
 ## Observe without changing Git
 
@@ -85,12 +87,11 @@ A future operator must preserve commits created after a move before rollback;
 restoring only an older snapshot would discard those commits. Keep the failed
 state as separate evidence and repair pointers only through a validated plan.
 
-Do not resume BullGod development on this active-backup checkout solely because
-a poll or fetch succeeded. First validate and approve a topology that keeps live
-Git metadata and its controlling pointers out of backup conflicts, or establish
-an independent normal development checkout outside the backed-up roots with a
-reviewed path/portability plan. The current service can remain on its existing
-checkout while such a plan is evaluated; service restart is not authorized here.
+The migration proposal is superseded by the owner's removal of the Projects
+backup. Keep the checkout and metadata in place. The addendum records current
+coverage and Git integrity; follow its integration decision. If backup coverage
+returns, stop normal Git writes and investigate before attempting repair. A clean
+poll or fetch alone does not clear a newly detected backup exposure.
 
 ## Detect and investigate a missing Actions run
 
