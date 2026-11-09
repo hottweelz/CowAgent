@@ -1,0 +1,39 @@
+{
+  "captured_at": "2026-11-09T00:01:51.515631+00:00",
+  "stage": "before documentation-only closeout commit",
+  "source_head": "c03d35e6fd0ca1f35ad125b881db39816090951c",
+  "changed_source_hashes_verified": 11,
+  "upstream": "origin/codex/infra-reliability-001",
+  "ahead": 0,
+  "behind": 0,
+  "refs": {
+    "master": "fe00855a9f7b896115b2268492e11aa82d9bdc10",
+    "origin/master": "fe00855a9f7b896115b2268492e11aa82d9bdc10",
+    "codex/routing-closeout-ref-recovery": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+    "codex/routing-closeout-verified": "2b6df30a66f79b37577112517add8e56c7b22288"
+  },
+  "published_master": "fe00855a9f7b896115b2268492e11aa82d9bdc10",
+  "original_untracked_files_unchanged": {
+    ".cow [conflicted 2].pid": true,
+    ".cow [conflicted 3].pid": true,
+    ".cow [conflicted 4].pid": true,
+    ".cow [conflicted].pid": true,
+    "AGENTS.md": true,
+    "tests/test_parallel_tool_calls [conflicted 2].py": true,
+    "tests/test_parallel_tool_calls [conflicted].py": true
+  },
+  "recovery_manifest_and_five_artifacts_unchanged": true,
+  "detached_worktree": {
+    "path": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cowagent-isolation-baseline-t7gh60q2/source",
+    "head": "c2c39a2e0823f1556ecdc79f9e07911fff207a05",
+    "clean": true
+  },
+  "original_listener": [
+    "p28093",
+    "cPython",
+    "f7",
+    "n127.0.0.1:9899"
+  ],
+  "source_test_workflow_changes_since_gate": 0,
+  "limits": "Snapshot; not permanent isolation from pCloud. Final documentation commit push/fetch is checked separately before handoff."
+}

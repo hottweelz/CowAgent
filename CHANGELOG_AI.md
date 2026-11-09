@@ -1,54 +1,77 @@
 # AI handoff ledger
 
-## 2026-11-08 18:39 EST — Codex — INFRA-RELIABILITY-001 gate in progress
+## 2026-11-08 19:02 EST — Codex — INFRA-RELIABILITY-001 published assessment
 
-- Task: investigate Git ref conflicts and Actions dispatch; publish a dedicated
-  branch/report without merge. Baseline fe00855a verified locally/remotely.
-- Team: lead owns integration/Git/docs. Luna workers mapped sync/API/CI, rehearsed
-  Git migration, built the read-only watcher and repaired two hosted fixtures.
-  Terra 6.1 handled cross-platform CI integration, linked-worktree topology
-  diagnosis and the timeout/recovery race. One Sol 6.1 reviewer checked Git
-  integrity, CI authority, rollback and evidence; those risks need stronger
-  cross-component reasoning than routine fixture work. STE plan/debug/review used.
-- Changes: Tests workflow adds macOS3.13/Linux3.11+3.13, JS, strict TS/build and
-  fail-closed changed-file Ruff. Isolated Python CI runner, explicit CI dependencies
-  and bounded read-only ref watcher added. Timeout error fallback now precedes
-  state/UI closure; IPC and Linux zombie fixtures retain strong assertions.
-  docs/infra-reliability-001 records baseline, pCloud scope, dispatch and failures.
-- Evidence: active pCloud Backup includes Projects/CowAgent/.git; no applicable
-  exclusion. Exact historical writer remains untraced. Ref watch/fetch45s had no
-  unexpected change; this does not exclude intermittent writes. Existing detached
-  worktree remains clean. pCloud DB readonly checks were locked; sudo tracing
-  unavailable. Separate-git-dir rehearsal broke main worktree reporting; manual
-  bare conversion rollback was not validated. Live migration remains BLOCKED.
-- Commands/results: Windows manual run42534178341 succeeded11/5 with logs. PR2
-  triggered run42534913045 automatically; JS/typecheck/build/lint passed, Python
-  jobs failed on four unique readiness/process-state/timeout-diagnostic cases.
-  Deterministic timeout repro fixed; related82 tests plus2 expanded cases pass.
-  IPC/client fixtures32 pass; CI runner4 pass; watcher4 pass. Independent review
-  has no open actionable source finding. Final hosted matrix is still required.
-- Decisions: retain historical failed receipts, native acceptance and conflict
-  artifacts. No forced push/reset/deletion, live migration, service restart,
-  pCloud setting change, native model call or TestPilot configuration/memory edit.
+- Task/result: investigation, branch implementation, hosted validation and review
+  complete. Git reference integrity is BLOCKED; Actions execution is CONTAINED.
+  BullGod discovery/task-selection readiness is No. Draft PR #2 stays unmerged;
+  master and origin/master remain fe00855a9f7b896115b2268492e11aa82d9bdc10.
+- Team: lead owns integration, validation, docs and Git. Luna workers mapped
+  sync/API/CI, rehearsed migration, built the read-only watcher and repaired
+  hosted fixtures. Terra 6.1 handled CI integration, linked-worktree topology and
+  timeout/recovery diagnosis. One Sol 6.1/high reviewer checked consequential
+  Git integrity, rollback, CI authority and final evidence; this needed stronger
+  cross-component reasoning than routine fixture work. Requested models were
+  explicit; effective worker model identities are not independently exposed.
+  STE planning, systematic debugging, evidence and review guidance applied.
+- Changes/files: .github/workflows/test.yml adds macOS 3.13/Linux 3.11+3.13,
+  JS, strict TypeScript/build and fail-closed changed-file Ruff. scripts/ adds
+  isolated CI/lint runners, explicit prerequisites and a bounded read-only ref
+  watcher; tests/ adds corresponding checks and repairs IPC readiness and Linux
+  process-reaping fixtures. agent/subagent/runner.py supplies a missing timeout
+  reason before state/UI closure without changing specific errors or authority.
+  docs/infra-reliability-001 contains the report, source hashes, failed/successful
+  receipts, review and recovery procedures. MEMORY.md records durable rules.
+- Git evidence: pCloud Backup actively includes Projects/CowAgent/.git without
+  an applicable exclusion. Historical writer remains untraced; sudo tracing is
+  unavailable. A 45-second watch/fetch/worktree check saw no mutation, which does
+  not establish isolation. fsck passed with 40 dangling entries and no other
+  errors; nothing was pruned. Separate-git-dir reporting and experimental bare
+  topology rollback did not pass live-migration safety gates. No migration ran.
+- Commands/tests/results: manual Windows run 42534178341 passed 11/5 with logs.
+  Two automatic PR runs exposed and localized fixture/timeout races. Final
+  automatic run 42536883493 at source c03d35e6fd0ca1f35ad125b881db39816090951c
+  passed all five jobs: macOS 5,917 passed/39 skipped; each Linux 5,910/46;
+  each has 93 passing subtests and 5,956 named cases from 708 tracked test files.
+  JS 39 web+5 desktop, strict TypeScript, desktop build and Ruff F passed.
+  Focused CI/watcher/IPC/timeout/tokenizer checks also passed; report has counts.
+- Independent review: no open actionable finding. All eleven changed executable,
+  test, dependency and workflow hashes match the tested commit. Five log hashes,
+  three GitHub ZIP/XML hashes, exact JUnit counts/skips and build/static results
+  independently reconcile. Review reused retained evidence without test reruns.
+- Decisions: preserve failed evidence, recovery refs/backups and all seven original
+  untracked files. No reset, forced push, conflict deletion, live database repair,
+  pCloud change, service restart, native model replay or TestPilot change. The
+  closing commit is documentation only and uses [skip ci]; it does not claim a
+  separate CI run. Earlier native approvals do not cover this changed source.
 - Lessons Learned:
-  - Mistake: mountpoint-only checks missed backup scope; process/socket readiness
-    and recovery deadlines were treated as single observations.
-  - Root Cause: pCloud Backup includes ordinary external APFS paths; filesystem
-    entry creation, process reaping and recovery completion are separate states.
-  - Future Trigger: ref conflicts, socket readiness, orphan cleanup or timeout UI.
-  - Required Behavior Change: inspect actual backup mappings and real state;
-    require successful migration/rollback rehearsal before live authorization.
-  - Verification Step: UI/API evidence, disposable tests, hosted jobs and review.
-  - Durable Memory Update: project MEMORY.md records scoped operating rules.
-- Known issues: Git remains BLOCKED; earlier automatic Actions failure cause is
-  unknown. Polling is not PID attribution or prevention; Python socket guard is
-  not subprocess/native confinement. No full Windows coverage claim.
-- Next: run corrected hosted matrix; finalize separate issue classifications,
-  review and report; commit/push/fetch0/0. Do not merge or start BullGod discovery.
-- Next-agent notes: PR https://github.com/hottweelz/CowAgent/pull/2. Preserve seven
-  original untracked files, recovery refs/backups and server PID28093. Live checkout
-  stays fixed; pCloud only inspected. Temporary evidence root is documented in
-  baseline/receipts. No global memory update.
+  - Mistake: mountpoint-only checks missed backup scope; socket existence,
+    process exit and recovery completion were treated as settled states.
+  - Root Cause: pCloud Backup includes ordinary APFS paths; listener startup,
+    orphan reaping and independent recovery deadlines expose transient states.
+  - Future Trigger: ref conflicts, IPC readiness, orphan cleanup or timeout UI.
+  - Required Behavior Change: inspect active backup mappings and actual states;
+    require a successful migration/rollback rehearsal before live authorization.
+  - Verification Step: direct UI/API evidence, deterministic fixtures, hosted
+    matrix, source-bound receipts and independent review.
+  - Durable Memory Update: project MEMORY.md updated in the implementation;
+    no additional closeout update needed. No global memory update.
+- Known limits: active Git backup hazard remains; exact writer and historical
+  missing Actions event cause are unknown. Polling is not PID attribution or
+  prevention. Python socket instrumentation does not confine native/subprocess
+  networking. Browser integration remains separate; Windows execution covers
+  only Bash. Floating Python/action versions and existing warnings remain.
+- Next recommended steps: design and rehearse a Git layout with metadata and
+  controlling pointers outside backup conflicts; preserve portable paths and
+  linked worktrees. Seek live authorization only after that plan passes. Keep
+  BullGod work paused. Review PR #2 explicitly before any integration.
+- Notes for next agent: branch codex/infra-reliability-001 tracks its same-name
+  origin branch. Source c03d35e6 was pushed/fetched at 0/0; lead repeats the normal
+  push/fetch/rev-list gate for this documentation closeout before final handoff.
+  Report: docs/infra-reliability-001/README.md. PR:
+  https://github.com/hottweelz/CowAgent/pull/2. Preserve server PID 28093,
+  existing detached worktree, seven original untracked files and all conflict
+  recovery artifacts. Live runtime, pCloud settings and master remain unchanged.
 
 ## 2026-11-08 16:49 EST — Codex — AGENT-ROUTING-001..003 merged after integrated gate
 

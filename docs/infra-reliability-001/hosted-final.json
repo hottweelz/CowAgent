@@ -1,0 +1,728 @@
+{
+  "captured_at": "2026-11-08T23:55:37.583342+00:00",
+  "status": "passed",
+  "run": {
+    "id": 42536883493,
+    "workflow_id": 410039630,
+    "name": "Tests",
+    "event": "pull_request",
+    "head_branch": "codex/infra-reliability-001",
+    "head_sha": "c03d35e6fd0ca1f35ad125b881db39816090951c",
+    "run_attempt": 1,
+    "created_at": "2026-11-08T23:47:50Z",
+    "run_started_at": "2026-11-08T23:47:50Z",
+    "updated_at": "2026-11-08T23:54:19Z",
+    "html_url": "https://github.com/hottweelz/CowAgent/actions/runs/42536883493",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "jobs": [
+    {
+      "id": 128903040911,
+      "name": "ruff (changed Python files)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T23:47:52Z",
+      "completed_at": "2026-11-08T23:48:09Z",
+      "runner_name": "GitHub Actions 1000002153",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "html_url": "https://github.com/hottweelz/CowAgent/actions/runs/42536883493/job/128903040911",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-08T23:47:53Z",
+          "completed_at": "2026-11-08T23:47:53Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-08T23:47:53Z",
+          "completed_at": "2026-11-08T23:47:55Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-08T23:47:55Z",
+          "completed_at": "2026-11-08T23:47:56Z"
+        },
+        {
+          "name": "Run python -m pip install -r scripts/requirements-ci.txt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-08T23:47:56Z",
+          "completed_at": "2026-11-08T23:48:07Z"
+        },
+        {
+          "name": "Check changed Python files",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-08T23:48:07Z",
+          "completed_at": "2026-11-08T23:48:07Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-08T23:48:07Z",
+          "completed_at": "2026-11-08T23:48:07Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-08T23:48:07Z",
+          "completed_at": "2026-11-08T23:48:07Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-11-08T23:48:07Z",
+          "completed_at": "2026-11-08T23:48:07Z"
+        }
+      ],
+      "log": {
+        "retrieved": true,
+        "path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-reliability-001-47vmhc57/job-128903040911.log",
+        "sha256": "1f6712e93d09ecf462920dbe2e2345a67051e780583fd4e69e16044268b4fea8"
+      }
+    },
+    {
+      "id": 128903041126,
+      "name": "javascript",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T23:47:52Z",
+      "completed_at": "2026-11-08T23:48:16Z",
+      "runner_name": "GitHub Actions 1000002154",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "html_url": "https://github.com/hottweelz/CowAgent/actions/runs/42536883493/job/128903041126",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-08T23:47:53Z",
+          "completed_at": "2026-11-08T23:47:54Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-08T23:47:54Z",
+          "completed_at": "2026-11-08T23:47:56Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-08T23:47:56Z",
+          "completed_at": "2026-11-08T23:47:58Z"
+        },
+        {
+          "name": "Web JavaScript tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-08T23:47:58Z",
+          "completed_at": "2026-11-08T23:47:58Z"
+        },
+        {
+          "name": "Install desktop dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-08T23:47:58Z",
+          "completed_at": "2026-11-08T23:48:05Z"
+        },
+        {
+          "name": "Desktop scroll tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-08T23:48:05Z",
+          "completed_at": "2026-11-08T23:48:05Z"
+        },
+        {
+          "name": "Desktop type check and build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-08T23:48:05Z",
+          "completed_at": "2026-11-08T23:48:14Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-11-08T23:48:14Z",
+          "completed_at": "2026-11-08T23:48:14Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-08T23:48:14Z",
+          "completed_at": "2026-11-08T23:48:14Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-08T23:48:14Z",
+          "completed_at": "2026-11-08T23:48:14Z"
+        }
+      ],
+      "log": {
+        "retrieved": true,
+        "path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-reliability-001-47vmhc57/job-128903041126.log",
+        "sha256": "fd493c718f221250f4eefef40fb5cd54d789e5eb81a3eff5953e822b195a233e"
+      },
+      "node_tests": {
+        "web_passed": 39,
+        "desktop_passed": 5,
+        "failed": 0
+      }
+    },
+    {
+      "id": 128903041128,
+      "name": "pytest (ubuntu-latest, Python 3.13)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T23:47:53Z",
+      "completed_at": "2026-11-08T23:52:49Z",
+      "runner_name": "GitHub Actions 1000002156",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "html_url": "https://github.com/hottweelz/CowAgent/actions/runs/42536883493/job/128903041128",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-08T23:47:54Z",
+          "completed_at": "2026-11-08T23:47:55Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-08T23:47:55Z",
+          "completed_at": "2026-11-08T23:47:57Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-08T23:47:57Z",
+          "completed_at": "2026-11-08T23:47:59Z"
+        },
+        {
+          "name": "Install ripgrep on Linux",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-08T23:47:59Z",
+          "completed_at": "2026-11-08T23:48:06Z"
+        },
+        {
+          "name": "Install ripgrep on macOS",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 5,
+          "started_at": "2026-11-08T23:48:06Z",
+          "completed_at": "2026-11-08T23:48:06Z"
+        },
+        {
+          "name": "Verify ripgrep",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-08T23:48:06Z",
+          "completed_at": "2026-11-08T23:48:06Z"
+        },
+        {
+          "name": "Install test dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-08T23:48:06Z",
+          "completed_at": "2026-11-08T23:48:39Z"
+        },
+        {
+          "name": "Check SQLite version",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-08T23:48:39Z",
+          "completed_at": "2026-11-08T23:48:39Z"
+        },
+        {
+          "name": "Prepare public tokenizer cache",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-08T23:48:39Z",
+          "completed_at": "2026-11-08T23:48:40Z"
+        },
+        {
+          "name": "Run backend test suite",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-08T23:48:40Z",
+          "completed_at": "2026-11-08T23:52:42Z"
+        },
+        {
+          "name": "Upload test results",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-11-08T23:52:42Z",
+          "completed_at": "2026-11-08T23:52:43Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-11-08T23:52:43Z",
+          "completed_at": "2026-11-08T23:52:47Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-11-08T23:52:47Z",
+          "completed_at": "2026-11-08T23:52:47Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-11-08T23:52:47Z",
+          "completed_at": "2026-11-08T23:52:47Z"
+        }
+      ],
+      "log": {
+        "retrieved": true,
+        "path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-reliability-001-47vmhc57/job-128903041128.log",
+        "sha256": "9a1854961965c94757039b4f571c4d4b3e7e083cc2e534ed6ed876c7931b06b6"
+      },
+      "pytest_summary": "5910 passed, 46 skipped, 37 warnings, 93 subtests passed in 238.02s (0:03:58)",
+      "junit": {
+        "artifact_id": 13640355197,
+        "artifact_url": "https://github.com/hottweelz/CowAgent/actions/runs/42536883493/artifacts/13640355197",
+        "zip_sha256": "95e8bcf0af049159167f73817f0145489531e3f1dc886fe9b006c25baf9daa12",
+        "xml_sha256": "78ccecb0d02fb9fe9b1979f39946d1d35fcc77b06a00b409c326fdfee49d2203",
+        "named_cases": 5956,
+        "junit_total_including_subtests": 6049,
+        "passed_named": 5910,
+        "skipped": 46,
+        "errors": 0,
+        "failures": 0,
+        "junit_elapsed_seconds": 237.884,
+        "skip_reasons": {
+          "native Windows cmd.exe integration": 8,
+          "native Windows cmd.exe background integration": 1,
+          "Windows integration test": 4,
+          "opt-in installed browser test": 12,
+          "could not import 'playwright.sync_api': No module named 'playwright'": 3,
+          "filesystem is case-sensitive; premise doesn't apply": 1,
+          "backslash is only a separator on Windows": 2,
+          "runs the command through cmd.exe": 1,
+          "PowerShell backend is Windows-only and needs a PowerShell on PATH": 6,
+          "only the Windows filesystem folds case": 1,
+          "os.path.join only discards the left side for a drive-qualified tail": 1,
+          "Native macOS sips unavailable": 1,
+          "Requires native macOS sips": 3,
+          "filesystem distinguishes filename case": 1,
+          "filesystem distinguishes Unicode canonical forms": 1
+        }
+      }
+    },
+    {
+      "id": 128903041154,
+      "name": "pytest (macos-latest, Python 3.13)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T23:47:53Z",
+      "completed_at": "2026-11-08T23:54:18Z",
+      "runner_name": "GitHub Actions 1000002155",
+      "labels": [
+        "macos-latest"
+      ],
+      "html_url": "https://github.com/hottweelz/CowAgent/actions/runs/42536883493/job/128903041154",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-08T23:47:54Z",
+          "completed_at": "2026-11-08T23:47:55Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-08T23:47:55Z",
+          "completed_at": "2026-11-08T23:47:58Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-08T23:47:58Z",
+          "completed_at": "2026-11-08T23:48:02Z"
+        },
+        {
+          "name": "Install ripgrep on Linux",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 4,
+          "started_at": "2026-11-08T23:48:02Z",
+          "completed_at": "2026-11-08T23:48:02Z"
+        },
+        {
+          "name": "Install ripgrep on macOS",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-08T23:48:02Z",
+          "completed_at": "2026-11-08T23:48:07Z"
+        },
+        {
+          "name": "Verify ripgrep",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-08T23:48:07Z",
+          "completed_at": "2026-11-08T23:48:07Z"
+        },
+        {
+          "name": "Install test dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-08T23:48:07Z",
+          "completed_at": "2026-11-08T23:48:34Z"
+        },
+        {
+          "name": "Check SQLite version",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-08T23:48:34Z",
+          "completed_at": "2026-11-08T23:48:34Z"
+        },
+        {
+          "name": "Prepare public tokenizer cache",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-08T23:48:34Z",
+          "completed_at": "2026-11-08T23:48:36Z"
+        },
+        {
+          "name": "Run backend test suite",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-08T23:48:36Z",
+          "completed_at": "2026-11-08T23:54:06Z"
+        },
+        {
+          "name": "Upload test results",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-11-08T23:54:06Z",
+          "completed_at": "2026-11-08T23:54:09Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-11-08T23:54:09Z",
+          "completed_at": "2026-11-08T23:54:12Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-11-08T23:54:12Z",
+          "completed_at": "2026-11-08T23:54:13Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-11-08T23:54:13Z",
+          "completed_at": "2026-11-08T23:54:16Z"
+        }
+      ],
+      "log": {
+        "retrieved": true,
+        "path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-reliability-001-47vmhc57/job-128903041154.log",
+        "sha256": "076c4d96d7d997f89d4f7a1c99ffbf38a288b984ae1fdca9c4e483480f7c6b2c"
+      },
+      "pytest_summary": "5917 passed, 39 skipped, 35 warnings, 93 subtests passed in 327.54s (0:05:27)",
+      "junit": {
+        "artifact_id": 13639389805,
+        "artifact_url": "https://github.com/hottweelz/CowAgent/actions/runs/42536883493/artifacts/13639389805",
+        "zip_sha256": "533a99b0faf67fa17a0f1784058bddacf8c54d28ba2ad611801e07bcd6f86b52",
+        "xml_sha256": "f8e74933133d681d84978d8957b3f02b4e368749014a49cbdfbac2121613e736",
+        "named_cases": 5956,
+        "junit_total_including_subtests": 6049,
+        "passed_named": 5917,
+        "skipped": 39,
+        "errors": 0,
+        "failures": 0,
+        "junit_elapsed_seconds": 327.083,
+        "skip_reasons": {
+          "native Windows cmd.exe integration": 8,
+          "native Windows cmd.exe background integration": 1,
+          "Windows integration test": 4,
+          "opt-in installed browser test": 12,
+          "could not import 'playwright.sync_api': No module named 'playwright'": 3,
+          "backslash is only a separator on Windows": 2,
+          "runs the command through cmd.exe": 1,
+          "PowerShell backend is Windows-only and needs a PowerShell on PATH": 6,
+          "only the Windows filesystem folds case": 1,
+          "os.path.join only discards the left side for a drive-qualified tail": 1
+        }
+      }
+    },
+    {
+      "id": 128903041206,
+      "name": "pytest (ubuntu-latest, Python 3.11)",
+      "status": "completed",
+      "conclusion": "success",
+      "started_at": "2026-11-08T23:47:52Z",
+      "completed_at": "2026-11-08T23:52:53Z",
+      "runner_name": "GitHub Actions 1000002157",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "html_url": "https://github.com/hottweelz/CowAgent/actions/runs/42536883493/job/128903041206",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-08T23:47:53Z",
+          "completed_at": "2026-11-08T23:47:54Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-08T23:47:54Z",
+          "completed_at": "2026-11-08T23:47:55Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-08T23:47:55Z",
+          "completed_at": "2026-11-08T23:47:57Z"
+        },
+        {
+          "name": "Install ripgrep on Linux",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-08T23:47:57Z",
+          "completed_at": "2026-11-08T23:48:06Z"
+        },
+        {
+          "name": "Install ripgrep on macOS",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 5,
+          "started_at": "2026-11-08T23:48:06Z",
+          "completed_at": "2026-11-08T23:48:06Z"
+        },
+        {
+          "name": "Verify ripgrep",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-08T23:48:06Z",
+          "completed_at": "2026-11-08T23:48:06Z"
+        },
+        {
+          "name": "Install test dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-08T23:48:06Z",
+          "completed_at": "2026-11-08T23:48:48Z"
+        },
+        {
+          "name": "Check SQLite version",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-08T23:48:48Z",
+          "completed_at": "2026-11-08T23:48:48Z"
+        },
+        {
+          "name": "Prepare public tokenizer cache",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-11-08T23:48:48Z",
+          "completed_at": "2026-11-08T23:48:49Z"
+        },
+        {
+          "name": "Run backend test suite",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-11-08T23:48:49Z",
+          "completed_at": "2026-11-08T23:52:49Z"
+        },
+        {
+          "name": "Upload test results",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-11-08T23:52:49Z",
+          "completed_at": "2026-11-08T23:52:50Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-11-08T23:52:50Z",
+          "completed_at": "2026-11-08T23:52:51Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-11-08T23:52:51Z",
+          "completed_at": "2026-11-08T23:52:51Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-11-08T23:52:51Z",
+          "completed_at": "2026-11-08T23:52:51Z"
+        }
+      ],
+      "log": {
+        "retrieved": true,
+        "path": "/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-infra-reliability-001-47vmhc57/job-128903041206.log",
+        "sha256": "1a9002e7feeefaef434795295d6bf0c121c10efb71d050dbc2511f5041d5feb5"
+      },
+      "pytest_summary": "5910 passed, 46 skipped, 33 warnings, 93 subtests passed in 236.52s (0:03:56)",
+      "junit": {
+        "artifact_id": 13639863297,
+        "artifact_url": "https://github.com/hottweelz/CowAgent/actions/runs/42536883493/artifacts/13639863297",
+        "zip_sha256": "c3fc963a1385f4565256a36e270a1cd49938d0e97ff9e30c854d33fbe80883ca",
+        "xml_sha256": "10d8df1813a1f6418471ee2f44c6933db38264232885297805a2437c99c66487",
+        "named_cases": 5956,
+        "junit_total_including_subtests": 6049,
+        "passed_named": 5910,
+        "skipped": 46,
+        "errors": 0,
+        "failures": 0,
+        "junit_elapsed_seconds": 236.401,
+        "skip_reasons": {
+          "native Windows cmd.exe integration": 8,
+          "native Windows cmd.exe background integration": 1,
+          "Windows integration test": 4,
+          "opt-in installed browser test": 12,
+          "could not import 'playwright.sync_api': No module named 'playwright'": 3,
+          "filesystem is case-sensitive; premise doesn't apply": 1,
+          "backslash is only a separator on Windows": 2,
+          "runs the command through cmd.exe": 1,
+          "PowerShell backend is Windows-only and needs a PowerShell on PATH": 6,
+          "only the Windows filesystem folds case": 1,
+          "os.path.join only discards the left side for a drive-qualified tail": 1,
+          "Native macOS sips unavailable": 1,
+          "Requires native macOS sips": 3,
+          "filesystem distinguishes filename case": 1,
+          "filesystem distinguishes Unicode canonical forms": 1
+        }
+      }
+    }
+  ],
+  "tracked_test_files": 708,
+  "named_cases_per_python": 5956,
+  "passing_subtests_per_python": 93,
+  "evidence_chain": {
+    "recognized_workflow_id": 410039630,
+    "accepted_event": "pull_request synchronize for published source commit",
+    "created_run": 42536883493,
+    "runners_started": true,
+    "all_five_jobs_succeeded": true,
+    "all_job_logs_retrieved": true,
+    "all_three_junit_zip_digests_match_github": true,
+    "all_three_junit_counts_match_logs": true
+  },
+  "skip_classification": {
+    "macOS": {
+      "windows_only": 24,
+      "browser_integration": 15,
+      "total": 39
+    },
+    "Linux_each": {
+      "windows_only": 24,
+      "browser_integration": 15,
+      "macOS_or_filesystem": 7,
+      "total": 46
+    }
+  },
+  "limits": [
+    "No native model acceptance or production CowAgent state in hosted jobs.",
+    "Browser integration remains separate:12opt-in cases and3actualChrome Playwright cases.",
+    "Full Windows coverage remains unverified; separate Bash workflow11pass/5skip is limited coverage.",
+    "Historical automatic-dispatch failure cause remains unknown.",
+    "Python dependency ranges and action tags remain floating; npm uses committed lockfile.",
+    "Existing warnings/background cleanup diagnostics are retained in job logs."
+  ]
+}

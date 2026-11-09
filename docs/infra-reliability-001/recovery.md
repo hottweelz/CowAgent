@@ -1,4 +1,4 @@
-# Ref observation and recovery procedure
+# Git and Actions recovery procedures
 
 This procedure preserves evidence. It does not authorize a live metadata move,
 backup setting change, forced push, reset or deletion of conflict artifacts.
@@ -17,7 +17,7 @@ python3 scripts/git_ref_watch.py --repo "$repo" --duration 60 --interval 0.25   
 ```
 
 The baseline SHA is valid for this report; replace it only after separately
-verifying a later intentional master change. Exit2 means a mismatching expected
+verifying a later intentional master change. Exit 2 means a mismatching expected
 ref or an observed invalid conflict ref. A failure remains latched even if the
 conflict disappears. The monitor does not authorize or repair any update.
 It can miss between-sample changes. A clean run does not establish safety.
@@ -91,3 +91,46 @@ Git metadata and its controlling pointers out of backup conflicts, or establish
 an independent normal development checkout outside the backed-up roots with a
 reviewed path/portability plan. The current service can remain on its existing
 checkout while such a plan is evaluated; service restart is not authorized here.
+
+## Detect and investigate a missing Actions run
+
+For an intended ordinary PR or master event, retain its exact head SHA and time.
+Check actual runs rather than inferring execution from workflow YAML:
+
+```sh
+gh run list --repo hottweelz/CowAgent --workflow test.yml --limit 20 \
+  --json databaseId,event,headSha,status,conclusion,url
+```
+
+Match the expected event and head. Record a missing run as a gate failure. Do not
+equate a queued job, HTTP 204 dispatch response, or older successful SHA with a
+successful run. For an actual run, replace RUN_ID below with its returned ID:
+
+```sh
+gh run view RUN_ID --repo hottweelz/CowAgent \
+  --json databaseId,event,headSha,status,conclusion,jobs,url
+gh run view RUN_ID --repo hottweelz/CowAgent --log
+```
+
+If no run exists, capture the workflow state, Actions policy and relevant branch,
+path, event and skip filters through the official API. Do not broaden token
+permissions, disable protection or assume a billing cause. The recognized
+existing Windows Bash workflow supplied a verified diagnostic dispatch path:
+
+```sh
+gh workflow run test-windows-bash.yml --repo hottweelz/CowAgent --ref master
+```
+
+This executes the existing Windows Bash test, not the complete matrix. It still
+requires a subsequent run ID, started job, successful conclusion and retrieved
+logs. Use it only for an intended infrastructure check, not repeated polling.
+The proposed Tests dispatch requires a full `base_sha` input and becomes a usable
+default-branch recovery option only after explicit integration review places that
+workflow definition on master. Until then, PR events are the demonstrated path
+for the candidate full matrix. No branch protection was changed to enforce it.
+
+See GitHub's [manual-run procedure](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow)
+and [dispatch API](https://docs.github.com/en/rest/actions/workflows#create-a-workflow-dispatch-event).
+The historical zero-run cause remains unknown. Preserve failed logs and exact
+source binding before correcting a demonstrated problem. Reuse passing evidence
+when only receipts change; do not replay native model acceptance for CI recovery.
