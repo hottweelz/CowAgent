@@ -1,5 +1,7 @@
 # AI handoff ledger
 
+2026-11-09 - Codex - trivial: maintainer chose to keep DISCOVERY-002 live acceptance blocked; ownership enablement is not authorized, and no live-gate retry or merge should proceed without new explicit direction - CHANGELOG_AI.md
+
 ## 2026-11-08 23:22 EST — Codex — Goal blocked after third ownership audit
 
 - Scope/result: re-read the full DISCOVERY-002 objective and confirmed required
