@@ -27,10 +27,14 @@ def main(argv=None):
         sys.dont_write_bytecode = True
         parser = argparse.ArgumentParser(description=__doc__)
         parser.add_argument('--request', required=True, help='Existing private one-use request JSON')
+        parser.add_argument('--control-dir', help='Existing empty private directory for operator drain control')
         args = parser.parse_args(argv)
         sys.path.insert(0, str(ROOT))
         from agent.discovery.startup_observer import prepare_launch
-        prepare_launch(args.request)
+        launch = prepare_launch(args.request)
+        if args.control_dir is not None:
+            from common.maintenance_control import prepare
+            launch.maintenance_control = prepare(args.control_dir)
     except Exception:
         raise SystemExit('Authenticated startup observation rejected') from None
     finally:

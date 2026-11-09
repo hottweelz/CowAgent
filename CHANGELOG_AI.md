@@ -1,6 +1,64 @@
 # AI handoff ledger
 
 
+## 2026-11-09 18:59 EST — Codex — FIRST-BOOTSTRAP-002 executable candidate
+
+- Scope: implement candidate plugin lifecycle coverage and private authenticated
+  operator drain; qualify legacy external exclusion and actual-state recovery
+  design through disposable fixtures. No live source/process/network/ownership/
+  approval/credential/production or merge actions are authorized.
+- Team: selected Luna/high ingress and recovery units, Terra 6.1/high plugin
+  integration and real-process rehearsal, Sol 6.1/high operator control and one
+  independent security/data-integrity review. Lead owns startup integration,
+  final-source validation, decision and Git publication. Engineering models cover
+  cross-thread/process lifetimes, authority/replay and durability beyond routine
+  evidence work. Workers do not own global Git or handoff.
+- Changes: exact-source/class/handler qualification for seven plugins; tracked
+  event/direct/child work; unknown imports/methods, failures, remote image jobs,
+  extensible command delegation and plugin management retain sticky blockers.
+  Launch-only control uses a private OS-account directory and process/epoch-bound
+  one-shot requests. Separate I/O locks order publication, unlink and fsync before
+  reads. Close is atomic/monotonic; no signals, cancellations or reopening.
+- Files: common maintenance_control/plugin_lifecycle; plugin manager/cow_cli/
+  midjourney; startup observer/app/helper; maintenance CLI; startup/control/plugin/
+  recovery tests; fictional native-schema recovery fixture and milestone plan.
+- Checks: focused integration selection 133 passed before the final extra control
+  concurrency test; latest worker control selection 36 passed, plugin selection
+  24 passed, native recovery manifest selection 6 passed. New/changed F-class lint
+  and diff checks pass. Full local, hosted exact-source CI and real-process
+  integration remain mandatory before qualification/publication closeout.
+- Review: three concrete findings corrected and independently reproduced as fixed:
+  missing plugin imports/registration, broad unwrap accepting replacement methods,
+  and hardlink publication exposing non-durable files. No open source finding;
+  final process/CI evidence review is pending. Do not claim a final gate yet.
+- Established boundary: a disposable gateway rejected submissions but direct
+  listener access bypassed it. PF inspection is denied and no rule was applied.
+  A separately approved scoped OS-boundary test remains necessary for Class B.
+  Four actual SQLite DBs and related paths are inventoried by metadata only;
+  actual private data was not backed up/restored. Current legacy PID/start and
+  9899 health, pCloud exclusion, seven original files and five recovery artifacts
+  remain preserved. git fsck passed with 44 dangling/unreachable lines, no errors.
+- Lessons Learned:
+  - Mistake: file publication made a final name readable before unlink/fsync.
+  - Root Cause: no-replace hardlink publication has an intermediate two-link state
+    and visibility alone is not a durable commit.
+  - Future Trigger: publishing an operator request/receipt across processes.
+  - Required Behavior Change: serialize readers/writers through committed directory
+    sync; readers verify durability; reject external hardlinks and failed sync.
+  - Verification Step: deterministic paused-link/fsync cross-process and thread
+    tests plus independent reproductions; final integrated suite remains required.
+  - Durable Memory Update: defer final project MEMORY contract until integration
+    qualifies the implementation. No global memory changes.
+- Next: freeze this executable candidate; run the real enabled-plugin service and
+  supported CLI on owned port19890; full local directory regression and hosted
+  matrix on exact source; finish actual-state manifest, final review and one
+  Class B/C decision. Publish draft against codex/first-bootstrap-001; no merge.
+- Notes: parent owns named branch codex/first-bootstrap-002 from PR #6 fcbc0d25;
+  primary checkout stays a507a400. The new source does not retrofit PID28093.
+  Preserve no-prune recovery refs and untracked AGENTS.md. Never substitute old
+  CI for changed executable code; retain each prior source's evidence separately.
+
+
 ## 2026-11-09 17:10 EST — Codex — FIRST-BOOTSTRAP-001 qualification
 
 - Result: NO-GO / legacy Class C. Completed read-only baseline/configuration and

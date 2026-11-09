@@ -203,6 +203,8 @@ class MJBot:
         body = {"prompt": prompt, "mode": mode, "auto_translate": self.config.get("auto_translate")}
         if not self.config.get("img_proxy"):
             body["img_proxy"] = False
+        from common.runtime_drain import mark_unsupported
+        mark_unsupported("plugin_remote_image_job_untracked")
         res = requests.post(url=self.base_url + "/generate", json=body, headers=self.headers, timeout=(5, 40))
         ok, data, message = Util.parse_linkai_response(res)
         logger.debug(f"[MJ] image generate, ok={ok}, message={message}")
@@ -241,6 +243,8 @@ class MJBot:
             body["index"] = index
         if not self.config.get("img_proxy"):
             body["img_proxy"] = False
+        from common.runtime_drain import mark_unsupported
+        mark_unsupported("plugin_remote_image_job_untracked")
         res = requests.post(url=self.base_url + "/operate", json=body, headers=self.headers, timeout=(5, 40))
         ok, data, message = Util.parse_linkai_response(res)
         logger.debug(f"[MJ] image operate, ok={ok}, message={message}")
@@ -296,7 +300,8 @@ class MJBot:
             self.tasks[task.id].status = Status.EXPIRED
 
     def _do_check_task(self, task: MJTask, e_context: EventContext):
-        threading.Thread(target=self.check_task_sync, args=(task, e_context)).start()
+        from common.runtime_drain import start_thread
+        start_thread("plugins", self.check_task_sync, args=(task, e_context), daemon=None)
 
     def _process_success_task(self, task: MJTask, res: dict, e_context: EventContext):
         """

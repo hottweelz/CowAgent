@@ -1,3 +1,4 @@
+from common.runtime_drain import tracked
 """
 CowCli plugin - Intercept cow/slash commands in chat messages.
 
@@ -321,6 +322,7 @@ class CowCliPlugin(Plugin):
     # Command dispatch
     # ------------------------------------------------------------------
 
+    @tracked("plugins")
     def execute(self, query: str, session_id: str = "") -> str:
         """Execute a cow/slash command string without a channel context.
 
@@ -345,6 +347,10 @@ class CowCliPlugin(Plugin):
         return self._typo_hint(token, result[1])  # "typo"
 
     def _dispatch(self, cmd: str, args: str, e_context: EventContext, session_id: str = "") -> str:
+        # Command handlers delegate into extensible subsystems; their detached work
+        # is not all covered by the plugin callback lease.
+        from common.runtime_drain import mark_unsupported
+        mark_unsupported("plugin_command_delegation_untracked")
         if cmd in CLI_ONLY_COMMANDS:
             return _t(
                 f"⚠️ `cow {cmd}` 只能在命令行终端中执行。\n请在终端运行: cow {cmd}",
@@ -1286,13 +1292,21 @@ class CowCliPlugin(Plugin):
         # command for the whole download.
         pool = ThreadPoolExecutor(max_workers=1)
         try:
-            future = pool.submit(install_skill, name, agent_id)
+            from common.runtime_drain import submit
+
+            def _install_and_forget():
+                try:
+                    return install_skill(name, agent_id)
+                finally:
+                    _forget_install(key)
+
+            future = submit(pool, "plugins", _install_and_forget)
         except Exception as e:
             pool.shutdown(wait=False)
             _forget_install(key)
             return _t(f"安装失败: {e}", f"Install failed: {e}")
         # Released when the worker really finishes, not when this returns.
-        future.add_done_callback(lambda _done: _forget_install(key))
+        future.add_done_callback(lambda done: _forget_install(key) if done.cancelled() else None)
 
         try:
             result = future.result(timeout=self._INSTALL_TIMEOUT)
@@ -1573,7 +1587,8 @@ class CowCliPlugin(Plugin):
                 logger.warning(f"[CowCli] /memory dream failed: {e}")
                 self._notify(e_context, _t(f"❌ 记忆蒸馏失败: {e}", f"❌ Memory distillation failed: {e}"))
 
-        threading.Thread(target=_run, daemon=True).start()
+        from common.runtime_drain import start_thread
+        start_thread("plugins", _run, daemon=True)
         return _t(
             f"🌙 记忆蒸馏已启动 (整理近 {days} 天的记忆)\n\n整理在后台执行，完成后会通知你。",
             f"🌙 Memory distillation started (processing the last {days} days)\n\nRunning in the background; you'll be notified when it's done.",
@@ -1772,7 +1787,8 @@ class CowCliPlugin(Plugin):
                 logger.exception("[CowCli] /memory rebuild-index failed")
                 self._notify(e_context, _t(f"❌ 索引重建失败: {e}", f"❌ Index rebuild failed: {e}"))
 
-        threading.Thread(target=_run, daemon=True).start()
+        from common.runtime_drain import start_thread
+        start_thread("plugins", _run, daemon=True)
         return _t(
             f"🔧 索引重建已启动 (model={model_label}, dim={dim_label})\n\n"
             f"将重新向量化所有记忆和知识文件，完成后会通知你。",

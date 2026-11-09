@@ -807,6 +807,7 @@ def run():
     except Exception:
         raise SystemExit('Authenticated startup observation rejected') from None
     lifecycle = None
+    maintenance_control = None
     startup_scope = ExitStack()
     try:
         if startup_observation is not None:
@@ -868,6 +869,10 @@ def run():
             if startup_observation is not None:
                 try:
                     service_lifecycle.bind_initialized(lifecycle, owner, channel_names)
+                    prepared_control = getattr(startup_observation, 'maintenance_control', None)
+                    if prepared_control is not None:
+                        from common.maintenance_control import bind_initialized
+                        maintenance_control = bind_initialized(prepared_control, lifecycle, owner)
                     observation_module.observe_and_publish(startup_observation, owner)
                 except Exception:
                     raise SystemExit('Authenticated startup observation failed') from None
@@ -896,6 +901,11 @@ def run():
             os._exit(1)
     finally:
         startup_scope.close()
+        if maintenance_control is not None:
+            maintenance_control.close()
+        prepared_control = getattr(startup_observation, 'maintenance_control', None)
+        if prepared_control is not None:
+            prepared_control.close()
 
 
 if __name__ == "__main__":
