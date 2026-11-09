@@ -1,5 +1,74 @@
 # AI handoff ledger
 
+## 2026-11-09 16:22 EST — Codex — BullGod disposable drain and transition qualification
+
+- Result: prepared implementation, independent review, full local/hosted regression
+  and owned-process startup/drain/rollback are complete on source 005c1e48. Draft
+  PR #5 is based on PR #4. No live transition or production readiness is claimed
+  for unsupported configurations or the old process.
+- Team: same bounded team as the source entry below; Luna/high evidence workers
+  handled full local regression and hosted reconciliation. Lead owns integration,
+  effects review, disposable process control, final handoff and Git publication.
+  Sol 6.1/high review was selected for cross-cutting concurrency/data integrity;
+  only its two concrete findings received targeted verification, both cleared.
+- Changes/files this closeout: docs/bullgod-discovery-002/service-drain.md and
+  service-drain-local.json, service-drain-hosted.json, service-drain-rehearsal.json;
+  discovery README; project MEMORY; this ledger. No executable change follows
+  the frozen tested source.
+- Commands/results: guarded scripts/ci_test.py tests/ -q with JUnit completed
+  exit 0: 6,124 passed, 36 skipped, 93 subtests. Full directory mode and all hosted
+  platforms passed; the earlier two focused-order fixture failures did not recur.
+  Hosted Tests run 42699928448 attempt 1 passed all five jobs without reruns:
+  Linux 3.11/3.13 each 6,114 passed/46 skipped; macOS 6,121 passed/39 skipped;
+  each 93 subtests. JS 39 web + 5 desktop, TypeScript/build and Ruff passed.
+  All hosted platforms have identical 6,160 named IDs: +45, zero removed and
+  unchanged exact skip sets relative to accepted PR #4 source f6502681.
+  PR merge tree equals executable head tree d9d8c64ef453e4e44860e2516c070258b1957b1d.
+- Rehearsal: actual candidate PID 36746 bound disposable 19884, validated its
+  private one-use request and genuine initialized owner/three registered IDs.
+  Two fictional held work leases kept drain false; fresh POST returned 503 after
+  close and health stayed 200. Last completion produced closed/drained true with
+  zero active work/blockers and all nine components. Startup and drain PID/runtime
+  epoch match; 368-file source manifest matches the frozen code. No model or
+  adapter execution was represented by those fictional work leases.
+- Transition: candidate and fallback PID 36755 exited gracefully with code 0.
+  Same-cwd git restore selected pinned fallback a507a400; health and three seeded
+  sessions/messages stayed intact with zero runs and unchanged row digest. An
+  unrelated sentinel survived. Original PID 28093/start remained on 9899. Sandbox
+  denied outbound/live-data access; private fixture settings disabled plugins and
+  used BROWSER=true. No force kill, live stop, ownership change or approval refresh.
+- Effects/decisions: service-drain.md lists log/PID/config, team/conversation
+  migration, asset sync, background services, extensions, browser startup, first
+  Agent initialization and shutdown save effects. Read-only observation does not
+  make them read-only. Internal drain is available only in a freshly instrumented
+  owner; test stdin controller is not a product endpoint or old-process invoker.
+  Keep both PRs draft/unmerged and preserve the original checkout.
+- Lessons Learned:
+  - Mistake: focused test-file combinations exposed an import-order fixture collision.
+  - Root Cause: a legacy SimpleNamespace web stub depended on collection order.
+  - Future Trigger: isolated selections that import web-dependent fixtures differently.
+  - Required Behavior Change: preserve the failing selection, check the affected
+    file separately, then require full directory-mode integration instead of
+    describing a focused pass as full compatibility.
+  - Verification Step: affected file 8/8 alone; full local directory and all three
+    hosted Python platforms pass on the frozen source, with unchanged skip IDs.
+  - Durable Memory Update: runtime admission/coverage/receipt contract recorded in
+    project MEMORY.md; no global memory was edited.
+- Known limits: non-web ingress and marked plugin/MCP/cloud/browser/shell/external/
+  legacy detached work remain unsupported, and their receipts fail closed. PID
+  28093 lacks these hooks; its quiescence is not established. No lossless live
+  rollback, first-agent model execution or actual native delegation is claimed.
+- Next recommended steps: review the source/coverage and startup-effects report.
+  A separately authorized initial service transition still needs old-process
+  quiescence and acceptance of named effects/fallback. Additional feature coverage
+  must be qualified before clearing an unsupported blocker; never infer idle.
+- Notes for next agent: source 005c1e4805c75017467b817baa2a8bbbe3f7511d; private
+  rehearsal cow-service-drain-9tkkzl3f, local cowagent-full-regression.JTCdRk,
+  hosted cow-service-drain-hosted-005c1e48. Reuse valid evidence unless source or
+  relevant state changes. Active worktree has an untracked copy of AGENTS.md;
+  original checkout retains its seven original untracked files. Parent publishes
+  documentation to the tracked branch with no-prune fetch and 0/0 check.
+
 ## 2026-11-09 16:09 EST — Codex — BullGod admission/drain source gate
 
 - Scope: prepare safe admission/drain and controlled transition in disposable

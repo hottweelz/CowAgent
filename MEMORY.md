@@ -8,6 +8,16 @@
   introduce secret logging. Live PID 28093, APFS ownership, approvals and PR #4
   merge remain subject to their separate explicit authorization.
 
+- BullGod lifecycle follow-up installs process-owned drain accounting only during
+  authenticated fresh startup. Close is monotonic; new roots reject, while admitted
+  descendants retain their lease through actual completion and publication.
+  Positive evidence needs a valid initialized owner, closed zero-work barrier,
+  complete component coverage and fresh settled probes. Missing/untracked effects
+  remain blockers. Ordinary startup has no coordinator; source edits cannot add
+  this capability to an existing process. The internal Python control has no
+  HTTP/chat route. See docs/bullgod-discovery-002/service-drain.md for coverage
+  and separate live-transition limits.
+
 - DISCOVERY-002S adds a launch-only startup observer. Ordinary `app.py` startup,
   chat, HTTP and environment values cannot install its process-local launch
   object. The helper consumes a private canonical path-bound request atomically,

@@ -1,5 +1,11 @@
 # BULLGOD-DISCOVERY-002
 
+The [service admission/drain follow-up](service-drain.md) is developed in isolated
+[draft PR #5](https://github.com/hottweelz/CowAgent/pull/5), based on PR #4. Its
+owned-process startup/drain/rollback, full local regression and all five hosted
+CI jobs passed on source `005c1e48`.
+It does not retrofit or authorize a restart of the live process.
+
 **DISCOVERY-002S now implements the inactive launch-only startup observer.**
 The [acceptance audit](startup-acceptance.md) separates implementation, private
 authentication, default compatibility, disposable startup/rollback, migration,

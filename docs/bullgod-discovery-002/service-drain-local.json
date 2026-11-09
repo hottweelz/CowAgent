@@ -1,0 +1,24 @@
+{
+  "branch": "codex/bullgod-service-drain",
+  "command": "TIKTOKEN_CACHE_DIR=/private/tmp/cow-infra-tiktoken-cache '/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python' scripts/ci_test.py tests/ -q --junitxml=<private-root>/full.xml",
+  "failed_test_ids": [],
+  "junit_sha256": "8e628dbd9de39319f01ec91b7f8f4b8aa53d6e1dffaee6ea6a608c1e7bede105",
+  "junit_totals": {
+    "errors": 0,
+    "failures": 0,
+    "reported_testcases": 6253,
+    "skipped": 36
+  },
+  "process_exit": 0,
+  "source_commit": "005c1e4805c75017467b817baa2a8bbbe3f7511d",
+  "stdout_log_sha256": "b7d57a1baa963b330cb8e73d079588ef3da2b06dfbf1219f2e4c5aca452f242b",
+  "summary": {
+    "errors": 0,
+    "failures": 0,
+    "passed": 6124,
+    "skipped": 36,
+    "subtests": 93
+  },
+  "named_cases": 6160,
+  "retained_worker_receipt_sha256": "c7f3cf545a47b17a8924dd67daaa7d6fa1618fa914417aa73353ecc7ad8898ea"
+}
