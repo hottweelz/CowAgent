@@ -24,6 +24,11 @@ approval or model setting changed. All 356 focused tests, the independent review
 and all five final hosted jobs pass on source
 `10dac8d33f52204f80ee61c6ae19373851e77f82`.
 
+A [read-only ownership impact assessment and proposed operation](ownership-remediation-plan.md)
+is now available. It confirms volume-wide scope, administrator requirements,
+shared active application dependencies and rollback limits. Ownership enablement
+has not been authorized or executed.
+
 The separately readable private enrollment records are expired. These observations
 cannot supply missing native configuration or proof provenance. No production
 activation is part of this work.

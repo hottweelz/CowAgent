@@ -1,5 +1,41 @@
 # AI handoff ledger
 
+## 2026-11-08 23:17 EST — Codex — Read-only ownership impact assessment and bounded proposal
+
+- Scope/result: continued the incomplete DISCOVERY-002 goal. Previous turn made
+  progress by applying the one authorized mode change, validating rejection and
+  publishing receipts. Current mode 0755/ignored ownership reverified. No root
+  ownership operation, mount change, live task or model execution performed.
+- Team: lead inspected metadata/dependencies and owns docs/Git; existing Luna/high
+  worker reviewed installed Apple diskutil/mount/getattrlist/SDK documentation.
+  No implementation workers or additional engineering review were needed.
+- Evidence: four relevant directory roles have current R/W/X access; 20 root
+  directories and 1 file. 173 current-user processes have a volume cwd/open-file
+  dependency, including original CowAgent, Codex and ChatGPT. Roles overlap;
+  this is not 173 active tasks. 11 open-file and 2 cwd observations unavailable;
+  other users/privileged processes not inspected. No recursion/content/args/env.
+- Findings: documented ownership enable/disable is root-only, volume-wide,
+  persistent on this OS. Current stat/getattrlist UID/GID presentation does not
+  establish stored ownership. Remount necessity not established by docs; do not
+  remount/restart. Rollback restores policy, not intervening application writes.
+- Files/verification: added ownership-impact.json and ownership-remediation-plan.md;
+  linked the report and wrote this handoff. JSON/path-content scan, local links,
+  diff check and unchanged validated source hashes checked. No suite rerun:
+  source 10dac8d3/all-five-hosted-job result remains valid.
+- Decision: proposal is concrete but unexecuted. It requires separate authority
+  beyond the prior 0775-to0755 approval; cannot claim zero impact for other apps.
+  Existing blocked gate remains honest. MEMORY.md update: not needed; this is
+  transient host inventory and an unapproved operation, not a new durable rule.
+- Lessons Learned: none; assessment applies the existing owner-enforcement lesson.
+- Known issues/next: obtain explicit decision on the reviewed volume-wide
+  ownership operation. If authorized, revalidate target identity and baselines,
+  use the documented enable operation, verify native flags/access/health, restore
+  policy on failed checks, and only then run guarded read-only acceptance.
+  No implicit credential/proof refresh, runtime launch, remount or service restart.
+- Notes: owner enforcement remains the same blocker, now seen in two consecutive
+  goal turns. Required B6 acceptance is incomplete; do not mark goal complete.
+  Keep draft PR #4 unmerged, preserve originals, and sync only these documents.
+
 ## 2026-11-08 23:03 EST — Codex — Approved volume mode change; ownership gate remains BLOCKED
 
 - Scope/authorization: maintainer explicitly approved only the external volume
