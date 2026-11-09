@@ -5,9 +5,11 @@ from .contracts import (
 )
 from .service import DiscoveryService
 from .sources import ExternalBinding, ExternalSource, NativeSource, task_spec_fingerprint
+from .runtime_readers import ExistingRuntimeBinding, ReadOnlyNativeConfiguration, TrustedDiscoveryHost
 
 __all__ = [
     'AdmissionObservation', 'CapabilityContract', 'CapabilityProof', 'DiscoveryError',
     'SelectionPolicy', 'TaskRequirements', 'DiscoveryService', 'ExternalBinding',
     'ExternalSource', 'NativeSource', 'task_spec_fingerprint',
+    'ExistingRuntimeBinding', 'ReadOnlyNativeConfiguration', 'TrustedDiscoveryHost',
 ]

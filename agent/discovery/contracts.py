@@ -39,6 +39,12 @@ def model_id(value):
             and '..' not in value and '://' not in value)
 
 
+def provider_id(value):
+    """Existing native custom-provider IDs, with no paths or URLs."""
+    return token(value) or (isinstance(value, str) and value.startswith('custom:')
+                            and len(value) <= 128 and token(value[len('custom:'):]))
+
+
 def tokens(value, *, choices=None):
     return (isinstance(value, (list, tuple)) and len(value) <= 64
             and all(token(item) and (choices is None or item in choices) for item in value)
@@ -95,8 +101,8 @@ class TaskRequirements:
                 or not self.permitted_mechanisms
                 or not set(self.max_authority) <= EFFECTS
                 or self.model is not None and not model_id(self.model)
-                or any(value is not None and not token(value)
-                       for value in (self.provider, self.requested_agent_id))):
+                or self.provider is not None and not provider_id(self.provider)
+                or self.requested_agent_id is not None and not token(self.requested_agent_id)):
             raise DiscoveryError('invalid_requirements')
         if (set(self.permitted_mechanisms) & set(self.prohibited_mechanisms)
                 or self.persistent_memory == 'required' and self.persistent_context == 'prohibited'
@@ -252,6 +258,9 @@ class Candidate:
     runtime_id: str | None = None
     max_concurrency: int | None = None
     execution_budget_seconds: float | None = None
+    runtime_state: dict = field(default_factory=dict)
+    proof_status: str = 'missing'
+    native_policy: dict | None = None
 
     @property
     def key(self):
@@ -291,4 +300,6 @@ class Candidate:
             'configuration_fingerprint': self.configuration_fingerprint,
             'evidence_fingerprint': self.proof.evidence_fingerprint if self.proof else None,
             'state_fingerprint': self.state_fingerprint, 'expires_at': self.expires_at,
+            'runtime_state': dict(self.runtime_state), 'proof_status': self.proof_status,
+            'native_policy': self.native_policy,
         }

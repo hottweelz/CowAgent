@@ -94,6 +94,11 @@ class CodexRuntime:
         payload = contract.authenticate(request, self.credential, kind='request')
         action = request['action']
         with self.mutex:
+            if action == 'inspect':
+                if payload:
+                    raise Rejection('invalid_request')
+                from .inspection import inspect_running
+                return inspect_running(self, 'external_runtime')
             if self.closed:
                 raise Rejection('unavailable')
             try:

@@ -9,7 +9,7 @@ import time
 import uuid
 
 VERSION = 'cow.external/1'
-ACTIONS = ('discover', 'submit', 'status', 'cancel', 'result')
+ACTIONS = ('discover', 'submit', 'status', 'cancel', 'result', 'inspect')
 LEGACY_OPERATIONS = ('write_artifact', 'record_effect')
 OPERATIONS = LEGACY_OPERATIONS + ('analyze_records',)
 STATES = ('queued', 'running', 'completed', 'cancelled', 'failed', 'needs_review')

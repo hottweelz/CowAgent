@@ -52,7 +52,10 @@ def _disabled(value):
 class OperatorControl:
     """Explicit private local journal; construction never enables an adapter."""
 
-    def __init__(self, state_dir, *, initialize=False):
+    def __init__(self, state_dir, *, initialize=False, read_only=False):
+        if initialize and read_only:
+            raise ProtocolError('Read-only control cannot initialize state')
+        self.read_only = read_only
         if not hasattr(os, 'geteuid') or os.getuid() != os.geteuid():
             raise ProtocolError('Operator control requires an ordinary POSIX account')
         self.uid = os.getuid()
@@ -142,11 +145,20 @@ class OperatorControl:
     @contextmanager
     def _connect(self):
         self._guard()
-        db = sqlite3.connect(str(self.path), timeout=30)
+        db = sqlite3.connect(self.path.as_uri() + '?mode=ro', uri=True, timeout=5) if self.read_only else sqlite3.connect(str(self.path), timeout=30)
         try:
             db.row_factory = sqlite3.Row
-            db.execute('PRAGMA foreign_keys=ON')
-            db.execute('PRAGMA synchronous=FULL')
+            if self.read_only:
+                # Deny writes even if a future caller reaches a mutation method.
+                db.set_authorizer(lambda action, *args: sqlite3.SQLITE_OK if action in {
+                    sqlite3.SQLITE_SELECT, sqlite3.SQLITE_READ, sqlite3.SQLITE_FUNCTION,
+                    sqlite3.SQLITE_TRANSACTION, sqlite3.SQLITE_RECURSIVE,
+                } or action == sqlite3.SQLITE_PRAGMA and (
+                    args[0] == 'table_info' or args[0] == 'journal_mode' and args[1] is None
+                ) else sqlite3.SQLITE_DENY)
+            else:
+                db.execute('PRAGMA foreign_keys=ON')
+                db.execute('PRAGMA synchronous=FULL')
             with db:
                 yield db
         finally:

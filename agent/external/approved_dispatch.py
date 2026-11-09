@@ -10,6 +10,37 @@ from .journal import ExternalBusy, ExternalJournal
 
 
 class ApprovalJournal(ExternalJournal):
+    @classmethod
+    def open_read_only(cls, state_dir):
+        """Borrow an existing initialized journal; never run schema creation.
+
+        POSIX owner/ancestor checks and a SQLite read-only connection retain the
+        existing account trust model. They do not protect against that account.
+        """
+        from .operator_control import OperatorControl
+        control = OperatorControl(state_dir, read_only=True)
+        view = cls.__new__(cls)
+        view.control = view.store = control
+        with control._connect() as db:
+            required = {
+                'operator_metadata': {'singleton', 'version', 'owner_uid'},
+                'operator_state': {'target_id', 'scope_hash', 'revision', 'body'},
+                'operator_decisions': {'sequence', 'request_id', 'request_hash', 'scope_hash', 'receipt'},
+                'external_tasks': {'task_id', 'supervisor_id', 'runtime_id', 'spec', 'spec_hash',
+                                   'submission_started', 'cancel_requested', 'observation'},
+                'external_events': {'event_id', 'task_id', 'kind', 'body'},
+                'external_verifications': {'verification_id', 'task_id', 'spec_hash', 'remote_revision', 'report'},
+                'external_approval_bindings': {'task_id', 'scope_hash', 'task_revision',
+                                               'enrollment_revision', 'receipt', 'native_intent',
+                                               'publication_intent', 'cancel_status'},
+            }
+            for table, columns in required.items():
+                row = db.execute('SELECT type FROM sqlite_master WHERE name=?', (table,)).fetchone()
+                if row is None or row[0] != 'table' or not columns <= {
+                        row['name'] for row in db.execute('PRAGMA table_info(' + table + ')')}:
+                    raise ProtocolError('Existing approval schema unavailable')
+        return view
+
     def __init__(self, control):
         self.control = control
         super().__init__(control)
