@@ -1,5 +1,6 @@
 # encoding:utf-8
 
+from common.runtime_drain import tracked
 import importlib
 import importlib.util
 import json
@@ -232,10 +233,13 @@ class PluginManager:
         for event in self.listening_plugins.keys():
             self.listening_plugins[event].sort(key=lambda name: self.plugins[name].priority, reverse=True)
 
+    @tracked("plugins")
     def activate_plugins(self):  # 生成新开启的插件实例
         failed_plugins = []
         for name, plugincls in self.plugins.items():
             if plugincls.enabled:
+                from common.runtime_drain import mark_unsupported
+                mark_unsupported("plugin_runtime_untracked")
                 if 'GODCMD' in self.instances and name == 'GODCMD':
                     continue
                 # if name not in self.instances:
@@ -257,6 +261,7 @@ class PluginManager:
         self.refresh_order()
         return failed_plugins
 
+    @tracked("plugins")
     def reload_plugin(self, name: str):
         name = name.upper()
         # Keep the loaded config: a plugin only falls back to its own config.json,
@@ -292,6 +297,7 @@ class PluginManager:
                 self.plugins[name].enabled = False
                 logger.info("[desktop] plugin %s disabled (not needed in desktop client)" % name)
 
+    @tracked("plugins")
     def load_plugins(self):
         self.load_config()
         self.scan_plugins()

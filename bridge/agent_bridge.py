@@ -23,6 +23,7 @@ from bridge.context import Context
 from bridge.reply import Reply, ReplyType
 from common import const
 from common.log import logger
+from common.runtime_drain import tracked as tracked_runtime_work
 from common.utils import expand_path
 from config import conf
 from models.openai_compatible_bot import OpenAICompatibleBot
@@ -1505,6 +1506,7 @@ class AgentBridge:
         )
         return count
 
+    @tracked_runtime_work("agent_reply")
     def agent_reply(self, query: str, context: Context = None, 
                    on_event=None, clear_history: bool = False) -> Reply:
         """

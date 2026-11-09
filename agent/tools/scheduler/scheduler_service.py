@@ -8,6 +8,11 @@ from datetime import datetime, timedelta
 from typing import Callable, Optional
 
 from common.log import logger
+from common.runtime_drain import AdmissionClosed, current, reserve, tracked
+import weakref
+
+_registered_drains = weakref.WeakSet()
+_registration_lock = threading.Lock()
 from agent.tools.scheduler.time_utils import (
     format_scheduled_time,
     next_cron_occurrence,
@@ -61,6 +66,12 @@ class SchedulerService:
             task_store: TaskStore instance
             execute_callback: Function to call when executing a task
         """
+        coordinator = current()
+        if coordinator is not None:
+            with _registration_lock:
+                if coordinator not in _registered_drains:
+                    coordinator.register_component("scheduler")
+                    _registered_drains.add(coordinator)
         self.task_store = task_store
         self.execute_callback = execute_callback
         # Whether the callback declares a second positional slot for ``trigger``.
@@ -105,9 +116,10 @@ class SchedulerService:
             
             self.running = False
             self._stop_event.set()
-            if self.thread:
-                self.thread.join(timeout=5)
-            logger.info("[Scheduler] Service stopped")
+            thread = self.thread
+        if thread and thread is not threading.current_thread():
+            thread.join(timeout=5)
+        logger.info("[Scheduler] Service stopped")
     
     def _run_loop(self, stop_event):
         """Main scheduler loop"""
@@ -116,11 +128,14 @@ class SchedulerService:
         while self.running and not stop_event.is_set():
             try:
                 self._check_and_execute_tasks()
+            except AdmissionClosed:
+                break
             except Exception as e:
                 logger.error(f"[Scheduler] Error in scheduler loop: {e}")
 
             stop_event.wait(30)
     
+    @tracked("scheduler_scan")
     def _check_and_execute_tasks(self):
         """Check for due tasks and execute them"""
         now = datetime.now()
@@ -192,6 +207,14 @@ class SchedulerService:
             ValueError: if the task does not exist.
             RuntimeError: if the same task is already executing.
         """
+        lease = reserve("scheduler_manual")
+        try:
+            self._queue_manual_task(task_id, lease)
+        except BaseException:
+            lease.release()
+            raise
+
+    def _queue_manual_task(self, task_id, lease):
         task = self.task_store.get_task(task_id)
         if not task:
             raise ValueError(f"Task '{task_id}' not found")
@@ -215,11 +238,15 @@ class SchedulerService:
             finally:
                 self._release_task(task_id)
 
-        threading.Thread(
-            target=_run,
-            daemon=True,
-            name=f"scheduler-manual-{task_id}",
-        ).start()
+        try:
+            threading.Thread(
+                target=lease.run, args=(_run,),
+                daemon=True,
+                name=f"scheduler-manual-{task_id}",
+            ).start()
+        except BaseException:
+            self._release_task(task_id)
+            raise
 
     def _claim_task(self, task_id: str) -> bool:
         """Prevent scheduled and manual runs of the same task from overlapping."""

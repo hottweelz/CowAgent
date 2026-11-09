@@ -929,6 +929,9 @@ class AgentInitializer:
         Idempotent per workspace: a burst of concurrent session inits dispatches
         at most one sync thread, so messages can't stack up embedding calls.
         """
+        from common.runtime_drain import reserve
+
+        lease = reserve("memory_sync")
         workspace_key = None
         try:
             workspace_key = str(memory_manager.config.get_workspace())
@@ -937,6 +940,7 @@ class AgentInitializer:
 
         with _memory_sync_lock:
             if workspace_key is not None and workspace_key in _memory_sync_inflight:
+                lease.release()
                 return
             if workspace_key is not None:
                 _memory_sync_inflight.add(workspace_key)
@@ -956,9 +960,16 @@ class AgentInitializer:
                     with _memory_sync_lock:
                         _memory_sync_inflight.discard(workspace_key)
 
-        threading.Thread(
-            target=_run, daemon=True, name="memory-sync"
-        ).start()
+        try:
+            threading.Thread(
+                target=lease.run, args=(_run,), daemon=True, name="memory-sync"
+            ).start()
+        except BaseException:
+            lease.release()
+            if workspace_key is not None:
+                with _memory_sync_lock:
+                    _memory_sync_inflight.discard(workspace_key)
+            raise
     
     def _load_tools(self, workspace_root: str, memory_manager, memory_tools: List, session_id: Optional[str] = None, host_agent_id: Optional[str] = None):
         """Load all tools"""
@@ -1279,7 +1290,7 @@ class AgentInitializer:
         """Start a background thread that flushes all agents' memory daily at 23:55."""
         if getattr(self.agent_bridge, '_daily_flush_started', False):
             return
-        self.agent_bridge._daily_flush_started = True
+        from common import runtime_drain
 
         import threading
 
@@ -1297,18 +1308,31 @@ class AgentInitializer:
                         target += datetime.timedelta(days=1)
                     wait_seconds = (target - now).total_seconds()
                     logger.info(f"[DailyFlush] Next flush at {target.strftime('%Y-%m-%d %H:%M:%S')} (in {wait_seconds/3600:.1f}h)")
-                    time.sleep(wait_seconds)
+                    deadline = time.monotonic() + wait_seconds
+                    while True:
+                        coordinator = runtime_drain.current()
+                        if coordinator is not None and coordinator._closed:
+                            return
+                        remaining = deadline - time.monotonic()
+                        if remaining <= 0:
+                            break
+                        time.sleep(min(remaining, 30))
 
-                    self._flush_all_agents()
+                    try:
+                        with runtime_drain.work("memory_daily_flush"):
+                            self._flush_all_agents()
+                    except runtime_drain.AdmissionClosed:
+                        return
                     # Record the scheduled date: a run that crosses midnight must
                     # not mark the new day as already done.
                     last_run_date = target.date()
                 except Exception as e:
                     logger.warning(f"[DailyFlush] Error in daily flush loop: {e}")
-                    time.sleep(3600)
+                    time.sleep(30)
 
-        t = threading.Thread(target=_daily_flush_loop, daemon=True)
-        t.start()
+        thread = threading.Thread(target=_daily_flush_loop, daemon=True)
+        thread.start()
+        self.agent_bridge._daily_flush_started = True
 
     def _flush_all_agents(self):
         """Flush memory for all active agent sessions, then run Deep Dream."""

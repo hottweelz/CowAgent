@@ -9,7 +9,7 @@ from bridge.context import *
 from bridge.reply import *
 from channel.channel import Channel
 from common.dequeue import Dequeue
-from common import memory
+from common import memory, runtime_drain
 from agent.routing import AgentUnavailableError
 from common.i18n import t as _t
 from common.runtime_identity import RuntimeIdentity, use_identity
@@ -540,6 +540,16 @@ class ChatChannel(Channel):
     _BYPASS_QUEUE_COMMANDS = ("/cancel",)
 
     def produce(self, context: Context):
+        lease = runtime_drain.reserve("chat")
+        queued = False
+        try:
+            with lease.activate():
+                queued = self._produce_admitted(context, lease)
+        finally:
+            if not queued:
+                lease.release()
+
+    def _produce_admitted(self, context: Context, lease):
         session_id = context["session_id"]
         try:
             from bridge.bridge import Bridge
@@ -584,10 +594,12 @@ class ChatChannel(Channel):
                     Dequeue(),
                     threading.BoundedSemaphore(conf().get("concurrency_in_session", 1)),
                 ]
+            context._drain_lease = lease
             if context.type == ContextType.TEXT and context.content.startswith("#"):
                 self.sessions[queue_key][0].putleft(context)  # 优先处理管理命令
             else:
                 self.sessions[queue_key][0].put(context)
+        return True
 
     def _handle_cancel_command(self, context: Context, session_id: str) -> None:
         """Cancel any in-flight agent run for *session_id* and reply inline.
@@ -691,12 +703,31 @@ class ChatChannel(Channel):
             context = context_queue.get()
             logger.debug("[chat_channel] consume context: {}".format(context))
             try:
-                future: Future = handler_pool.submit(self._handle, context)
+                lease = getattr(context, "_drain_lease", None)
+                def handle(context):
+                    if lease is None:
+                        return self._handle(context)
+                    with lease.activate():
+                        return self._handle(context)
+                future: Future = handler_pool.submit(handle, context)
             except Exception:
                 # The done callback is what releases the slot; without a future it never runs.
                 semaphore.release()
+                if lease is not None:
+                    lease.release()
                 raise
-            future.add_done_callback(self._thread_pool_callback(session_id, context=context))
+            callback = self._thread_pool_callback(session_id, context=context)
+            def complete(done):
+                try:
+                    if lease is None:
+                        callback(done)
+                    else:
+                        with lease.activate():
+                            callback(done)
+                finally:
+                    if lease is not None:
+                        lease.release()
+            future.add_done_callback(complete)
             with self.lock:
                 if session_id not in self.futures:
                     self.futures[session_id] = []
@@ -760,6 +791,9 @@ class ChatChannel(Channel):
                     message = context.get("msg") if context is not None else None
                     if getattr(message, "msg_id", None) == message_id:
                         removed += 1
+                        lease = getattr(context, "_drain_lease", None)
+                        if lease is not None:
+                            lease.release()
                     else:
                         kept.append(context)
                 for context in kept:
@@ -776,6 +810,14 @@ class ChatChannel(Channel):
             active,
         )
         return removed, active
+
+    @staticmethod
+    def _release_queued(queue):
+        while not queue.empty():
+            context = queue.get_nowait()
+            lease = getattr(context, "_drain_lease", None)
+            if lease is not None:
+                lease.release()
 
     @staticmethod
     def _cancel_futures(futures):
@@ -797,6 +839,7 @@ class ChatChannel(Channel):
                 cnt = self.sessions[queue_key][0].qsize()
                 if cnt > 0:
                     logger.info("Cancel {} messages in session {}".format(cnt, session_id))
+                self._release_queued(self.sessions[queue_key][0])
                 self.sessions[queue_key][0] = Dequeue()
         self._cancel_futures(pending)
 
@@ -808,6 +851,7 @@ class ChatChannel(Channel):
                 cnt = self.sessions[session_id][0].qsize()
                 if cnt > 0:
                     logger.info("Cancel {} messages in session {}".format(cnt, session_id))
+                self._release_queued(self.sessions[session_id][0])
                 self.sessions[session_id][0] = Dequeue()
         self._cancel_futures(pending)
 

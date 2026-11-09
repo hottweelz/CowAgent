@@ -281,6 +281,9 @@ def _completed_result(store, task, *, claim=None, wait=True):
         return result
 
 
+from common.runtime_drain import current, tracked
+
+@tracked("recovery_execution")
 def execute_task(store, task_id, build_child=None, *, bridge=None, cancel_event=None,
                  on_event=None, steer_inbox=None, wait_for_existing=True):
     """Claim once, run with its lock held, and commit a terminal result by CAS."""
@@ -343,6 +346,7 @@ def execute_task(store, task_id, build_child=None, *, bridge=None, cancel_event=
                         break
                 time.sleep(0.05)
     timer = None
+    timer_started = False
     try:
         spec = claim.task['spec']
         # Revalidate even a prepared child: queue time may have changed its grants.
@@ -381,6 +385,7 @@ def execute_task(store, task_id, build_child=None, *, bridge=None, cancel_event=
         timer = threading.Timer(max(0, deadline - time.monotonic()), expire)
         timer.daemon = True
         timer.start()
+        timer_started = True
         with identity_scope(agent_id=spec['target_agent_id'], session_id=spec['target_session_id'],
                             run_id=claim.attempt_id):
             summary = child.run_stream(spec['prompt'], clear_history=True, cancel_event=cancel,
@@ -406,6 +411,8 @@ def execute_task(store, task_id, build_child=None, *, bridge=None, cancel_event=
     finally:
         if timer:
             timer.cancel()
+            if timer_started and current() is not None:
+                timer.join()
         claim.close()
 
 

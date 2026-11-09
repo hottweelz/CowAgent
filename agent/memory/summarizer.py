@@ -15,6 +15,7 @@ from pathlib import Path
 from datetime import datetime
 from common.atomic_write import write_text_atomic
 from common.log import logger
+from common import runtime_drain
 
 
 SUMMARIZE_SYSTEM_PROMPT_ZH = """你是一个对话记录助手。请将对话内容归纳为当天的日常记录。
@@ -285,6 +286,10 @@ class MemoryFlushManager:
         continuity — one LLM call serves both disk persistence and in-context
         injection.
         """
+        try:
+            lease = runtime_drain.reserve("memory_flush")
+        except runtime_drain.AdmissionClosed:
+            return False
         claimed: list = []
         try:
             # Strip scheduler-injected pairs before any further processing.
@@ -294,6 +299,7 @@ class MemoryFlushManager:
             # 11:58 price=1013, normal / ...") and wastes summarisation tokens.
             messages = self._strip_scheduler_pairs(messages)
             if not messages:
+                lease.release()
                 return False
 
             import hashlib
@@ -310,6 +316,7 @@ class MemoryFlushManager:
                     claimed.append(h)
                     deduped.append(m)
             if not deduped:
+                lease.release()
                 return False
 
             import copy
@@ -318,13 +325,18 @@ class MemoryFlushManager:
             _ctx = contextvars.copy_context()
             thread = threading.Thread(
                 target=lambda: _ctx.run(
+                    lease.run,
                     self._flush_worker,
                     snapshot, user_id, reason, max_messages, context_summary_callback, claimed,
                     daily_content_hash,
                 ),
                 daemon=True,
             )
-            thread.start()
+            try:
+                thread.start()
+            except BaseException:
+                lease.release()
+                raise
             logger.info(f"[MemoryFlush] Async flush dispatched (reason={reason}, msgs={len(snapshot)})")
             self._last_flush_thread = thread
             return True
@@ -332,6 +344,8 @@ class MemoryFlushManager:
         except Exception as e:
             logger.warning(f"[MemoryFlush] Failed to dispatch flush (reason={reason}): {e}")
             self._settle_flush_hashes(claimed, committed=False)
+            self._settle_daily_hash(daily_content_hash, committed=False)
+            lease.release()
             return False
 
     def _settle_flush_hashes(self, hashes: List[str], committed: bool):
@@ -398,6 +412,7 @@ class MemoryFlushManager:
             self._settle_flush_hashes(claimed_hashes, committed=False)
             self._settle_daily_hash(daily_content_hash, committed=False)
 
+    @runtime_drain.tracked("memory_flush")
     def write_daily_summary(
         self,
         summary: str,
@@ -457,6 +472,7 @@ class MemoryFlushManager:
 
         return raw
 
+    @runtime_drain.tracked("memory_flush")
     def create_daily_summary(
         self,
         messages: List[Dict],
@@ -508,6 +524,7 @@ class MemoryFlushManager:
 
     # ---- Deep Dream (memory distillation) ----
 
+    @runtime_drain.tracked("memory_deep_dream")
     def deep_dream(self, user_id: Optional[str] = None, lookback_days: int = 1, force: bool = False) -> bool:
         """
         Distill recent daily memories into MEMORY.md and generate a dream diary.

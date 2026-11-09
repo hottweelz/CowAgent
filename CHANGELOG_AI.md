@@ -1,5 +1,63 @@
 # AI handoff ledger
 
+## 2026-11-09 16:09 EST — Codex — BullGod admission/drain source gate
+
+- Scope: prepare safe admission/drain and controlled transition in disposable
+  environments. Maintainer approved a new branch and draft PR based on PR #4;
+  live checkout/PID 28093, ownership, approvals and merges remain unchanged.
+- Team: lead integrates startup, effects and process rehearsal; two Luna/high
+  maps; Terra 6.1/high coordinator, channels and background integrations for
+  cross-thread admission/completion races; Luna/high storage/execution hooks;
+  Sol 6.1/high independent review for cross-cutting false-quiescence risk.
+- Changes: common/runtime_drain.py and service_lifecycle.py; authenticated app
+  startup installs the coordinator before producers and binds the genuine owner.
+  Covered web/chat queues, WSGI response completion, direct/parallel agents,
+  scheduler/manual callbacks, recovery and verification, evolution, memory/
+  migration/knowledge writes. Unsupported ingress/extensions/external effects
+  fail closed. No HTTP/chat drain route or old-process retrofit was introduced.
+- Files: app.py; common lifecycle modules; bridge execution/initializer; channel
+  chat/web files; agent protocol/chat/subagent/guest/external/recovery/evolution/
+  memory/knowledge/scheduler/tool-manager modules; shell/browser and legacy-model
+  boundaries; plugin manager; five runtime-drain test files; startup observer
+  tests; implementation plan, maintenance packet, project MEMORY and this ledger.
+- Checks: integrated focused 71 passed before the two final review corrections;
+  core correction 12 passed; provider correction and compatibility 20 passed.
+  Worker focused selections passed (channel 19, background 34, storage 74 and
+  execution 37; these overlap and must not be summed). Project F-class lint on
+  41 changed Python files and diff checks passed. Full regression/hosted CI and
+  actual process rehearsal remain required on this executable source.
+- Review: two concrete P1 findings corrected and targeted verification cleared:
+  probes now sample only after closed/empty barrier with generation fencing;
+  detached legacy-provider work sets unsupported coverage before dispatch.
+  No open findings in this bounded review. No recursive review was requested.
+- Decisions: only authenticated fresh startup enables lifecycle control; ordinary
+  startup retains its no-coordinator behavior. Close is monotonic and does not
+  cancel admitted work. Unknown coverage, active work, pending durable recovery,
+  invalid owner, stale probes and incomplete HTTP startup cannot certify drain.
+  Maintainer's closed finding is recorded in MEMORY.md and is not a prerequisite.
+- Lessons Learned:
+  - Mistake: an empty final counter could validate probes sampled before work ended.
+  - Root Cause: probe data and activity observation lacked a common settlement barrier.
+  - Future Trigger: aggregating asynchronous state into a shutdown/transition receipt.
+  - Required Behavior Change: establish closed zero-work barrier before probes and
+    reject results across lease-generation changes; enumerate detached producers.
+  - Verification Step: deterministic stale-probe regression and provider-blocker tests,
+    followed by independent targeted verification; process/full regression pending.
+  - Durable Memory Update: accepted-risk operating instruction recorded; final
+    lifecycle contract will be updated after end-to-end qualification.
+- Known issues: one worker's combined focused invocation exposed two test-order
+  failures involving a pre-existing web.application SimpleNamespace fixture;
+  affected file passed 8/8 alone. Do not dismiss without integrated directory-mode
+  regression. Unsupported features remain blockers, not inferred idle.
+- Next: freeze source, run protected full regression and hosted matrix; exercise
+  genuine owned-process startup, held work, closed admission, settled receipt and
+  rollback on disposable port 19884. Finalize startup-effects review and concrete
+  transition limits before any request for live authorization.
+- Notes: isolated worktree bullgod-service-drain, branch codex/bullgod-service-drain,
+  base a507a400. Primary live checkout remains untouched. Preserve its original
+  seven untracked files and recovery artifacts. Parent owns all Git/PR publication;
+  no prune/GC/force operations. No live service/model/adapter or approval actions.
+
 ## 2026-11-09 14:51 EST — Codex — DISCOVERY-002S preparation complete; live maintenance blocked
 
 - Scope/result: inactive startup observer, private one-use launch authentication,

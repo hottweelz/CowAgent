@@ -1,3 +1,4 @@
+from common.runtime_drain import tracked
 import importlib
 import importlib.util
 import threading
@@ -349,6 +350,7 @@ class ToolManager:
         from agent.tools.mcp.service import mcp_is_disabled
         return [cfg for cfg in _normalize_mcp_configs(raw) if not mcp_is_disabled(cfg)]
 
+    @tracked("mcp")
     def _load_mcp_tools(self):
         """
         Trigger MCP tool loading in a background thread (idempotent).
@@ -377,6 +379,9 @@ class ToolManager:
                 self._mcp_loaded = True
                 return
 
+            from common.runtime_drain import mark_unsupported
+            mark_unsupported("mcp_runtime_untracked")
+
             # Mark pending immediately so list_mcp_status() callers see
             # the in-progress state instead of an empty dict.
             for cfg in mcp_servers_config:
@@ -397,6 +402,7 @@ class ToolManager:
                 f"({len(mcp_servers_config)} server(s) configured)"
             )
 
+    @tracked("mcp")
     def refresh_mcp_if_changed(self):
         """
         Cheap check whether ~/cow/mcp.json has changed since last load.
@@ -442,6 +448,8 @@ class ToolManager:
             )
 
             # Tear down removed + changed servers (changed ones get restarted below)
+            from common.runtime_drain import mark_unsupported
+            mark_unsupported("mcp_runtime_untracked")
             for name in removed + changed:
                 self._teardown_mcp_server(name)
 
@@ -602,6 +610,7 @@ class ToolManager:
         except Exception as e:
             logger.warning(f"[ToolManager] MCP background loader crashed: {e}")
 
+    @tracked("mcp")
     def reload_mcp_server(self, server_name: str) -> None:
         """Re-initialize a single MCP server (e.g. after OAuth authorization).
 
@@ -614,6 +623,8 @@ class ToolManager:
         if not cfg:
             logger.warning(f"[MCP] reload requested for unknown server '{server_name}'")
             return
+        from common.runtime_drain import mark_unsupported
+        mark_unsupported("mcp_runtime_untracked")
         logger.info(f"[MCP] Reloading server '{server_name}' after authorization")
         self._teardown_mcp_server(server_name)
         self._mcp_status[server_name] = "pending"

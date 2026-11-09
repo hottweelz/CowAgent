@@ -7,6 +7,8 @@ from models.chatgpt.chat_gpt_session import ChatGPTSession
 from bridge.context import ContextType, Context
 from bridge.reply import Reply, ReplyType
 from common.log import logger
+from common import runtime_drain
+from common.runtime_drain import tracked as tracked_runtime_work
 from config import conf
 from common import const
 import time
@@ -53,8 +55,12 @@ class XunFeiBot(Bot):
         # 和wenxin使用相同的session机制
         self.sessions = SessionManager(ChatGPTSession, model=const.XUNFEI)
 
+    @tracked_runtime_work("legacy_provider")
     def reply(self, query, context: Context = None) -> Reply:
         if context.type == ContextType.TEXT:
+            # The websocket worker is detached from this synchronous reply and
+            # can outlive it. Direct provider calls also need this blocker.
+            runtime_drain.mark_unsupported("legacy_provider_untracked")
             logger.info("[XunFei] query={}".format(query))
             session_id = context["session_id"]
             request_id = self.gen_request_id(session_id)

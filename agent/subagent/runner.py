@@ -432,13 +432,26 @@ def run_tasks(
             # counter into the worker thread; without it the sub agent would
             # run at depth 0 under the default Agent.
             ctx = contextvars.copy_context()
-            futures.append(
-                pool.submit(
-                    ctx.run, _run_one, parent, template, task, index,
+            from common import runtime_drain
+            from common.runtime_identity import current_agent_id
+
+            lease = runtime_drain.reserve(
+                "subagent", current_agent_id() or ""
+            )
+            try:
+                future = pool.submit(
+                    ctx.run, lease.run, _run_one, parent, template, task, index,
                     cancel_events[index], on_state, on_event, steer_inboxes[index],
                     prepared[index],
                 )
-            )
+                future.add_done_callback(
+                    lambda done, reserved=lease: reserved.release()
+                    if done.cancelled() else None
+                )
+            except BaseException:
+                lease.release()
+                raise
+            futures.append(future)
 
         deadline = time.time() + settings.timeout_seconds
         wrap_up_at = deadline - min(_WRAP_UP_MAX_SECONDS,

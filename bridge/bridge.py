@@ -3,6 +3,8 @@ from bridge.context import Context
 from bridge.reply import Reply
 from common import const
 from common.log import logger
+from common import runtime_drain
+from common.runtime_drain import tracked as tracked_runtime_work
 from common.singleton import singleton
 from config import conf
 from translate.factory import create_translator
@@ -148,7 +150,12 @@ class Bridge(object):
     def get_bot_type(self, typename):
         return self.btype[typename]
 
+    @tracked_runtime_work("legacy_provider")
     def fetch_reply_content(self, query, context: Context) -> Reply:
+        # Legacy providers can create work outside the tracked Agent/runtime
+        # paths. Keep the receipt fail-closed for every dispatch through this
+        # compatibility boundary.
+        runtime_drain.mark_unsupported("legacy_provider_untracked")
         return self.get_bot("chat").reply(query, context)
 
     def fetch_voice_to_text(self, voiceFile) -> Reply:

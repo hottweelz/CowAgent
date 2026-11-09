@@ -20,6 +20,7 @@ from agent.memory.vector_backend import (
     VectorBackend,
     VectorRecord,
 )
+from common import runtime_drain
 
 try:
     import numpy as np
@@ -208,17 +209,27 @@ class MemoryStorage:
         Set ``memory_integrity_check: true`` in config.json for the full
         ``integrity_check`` instead of ``quick_check``.
         """
+        lease = runtime_drain.reserve("memory_storage_maintenance")
         key = str(self.db_path)
         with _maintenance_lock:
             scan = key not in _maintenance_started
             if key in _maintenance_running or not (scan or repair_pending):
+                lease.release()
                 return
             _maintenance_started.add(key)
             _maintenance_running.add(key)
-        threading.Thread(
-            target=self._run_maintenance, args=(key, scan),
-            daemon=True, name="memory-db-maintenance",
-        ).start()
+        try:
+            threading.Thread(
+                target=lease.run, args=(self._run_maintenance, key, scan),
+                daemon=True, name="memory-db-maintenance",
+            ).start()
+        except BaseException:
+            lease.release()
+            with _maintenance_lock:
+                _maintenance_running.discard(key)
+                if scan:
+                    _maintenance_started.discard(key)
+            raise
 
     def _run_maintenance(self, key: str, scan: bool):
         from common.log import logger
@@ -359,6 +370,7 @@ class MemoryStorage:
                 )
             last = end
 
+    @runtime_drain.tracked("memory_storage")
     def _init_db(self):
         """Initialize database with schema.
 
@@ -706,6 +718,7 @@ class MemoryStorage:
             END
         """)
 
+    @runtime_drain.tracked("memory_storage")
     def reset_fts5(self):
         """Drop and recreate chunks_fts + triggers in one transaction.
 
@@ -739,6 +752,7 @@ class MemoryStorage:
             # state-inconsistent path; treat as healthy here.
             return False
 
+    @runtime_drain.tracked("memory_storage")
     def save_chunk(self, chunk: MemoryChunk):
         """Save a memory chunk (insert or update by id).
 
@@ -793,6 +807,7 @@ class MemoryStorage:
                 self.conn.rollback()
                 raise
 
+    @runtime_drain.tracked("memory_storage")
     def save_chunks_batch(self, chunks: List[MemoryChunk]):
         """Save multiple chunks in a batch (insert or update by id).
 
@@ -856,6 +871,7 @@ class MemoryStorage:
         
         return self._row_to_chunk(row)
 
+    @runtime_drain.tracked("memory_storage")
     def record_hits(self, keys: List[Tuple[str, int, int]]):
         """Count one retrieval hit per chunk key (path, start_line, end_line).
 
@@ -1121,6 +1137,7 @@ class MemoryStorage:
             logger.warning("[MemoryStorage] _search_like failed, returning empty", exc_info=True)
             return []
 
+    @runtime_drain.tracked("memory_storage")
     def delete_by_path(self, path: str):
         """Delete all chunks and file metadata for a path."""
         with self._lock:
@@ -1144,6 +1161,7 @@ class MemoryStorage:
             return None
         return row["value"] if row else None
 
+    @runtime_drain.tracked("memory_storage")
     def set_meta(self, key: str, value: str) -> None:
         """Write a persistent flag to the _meta table."""
         with self._lock:
@@ -1167,6 +1185,7 @@ class MemoryStorage:
         ).fetchall()
         return [row['path'] for row in rows]
 
+    @runtime_drain.tracked("memory_storage")
     def update_file_metadata(self, path: str, source: str, file_hash: str, mtime: int, size: int):
         """Update file metadata"""
         with self._lock:

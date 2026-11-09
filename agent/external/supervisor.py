@@ -4,6 +4,8 @@ import time
 from .contract import ProtocolError, authorize, digest, identifier, normalize_spec, validate_discovery
 from .transport import RemoteRejected, TransportUnavailable
 from .journal import ExternalBusy
+from common import runtime_drain
+from common.runtime_drain import tracked as tracked_runtime_work
 
 
 def outcomes(row):
@@ -33,6 +35,8 @@ class ExternalSupervisor:
             raise ProtocolError('Invalid supervisor caller identity')
         self.journal, self.transport, self.verifier = journal, transport, verifier
         self.owner_id, self.source_id, self.conversation_id = owner_id, source_id, conversation_id
+        if runtime_drain.current() is not None:
+            runtime_drain.mark_unsupported('external_runtime_unattested')
 
     def _owned(self, task_id):
         row = self.journal.get(task_id)
@@ -47,9 +51,11 @@ class ExternalSupervisor:
                 or spec['runtime_id'] != self.transport.credential.runtime_id):
             raise ProtocolError('Task is outside enrolled caller identity')
 
+    @tracked_runtime_work('external_supervisor')
     def discover(self):
         return validate_discovery(self.transport.discover(), self.transport.credential)
 
+    @tracked_runtime_work('external_supervisor')
     def prepare(self, spec):
         spec = normalize_spec(spec)
         self._identity(spec)
@@ -59,6 +65,7 @@ class ExternalSupervisor:
                 raise ProtocolError('Analysis requires an approval journal')
         return self.journal.create(self.transport.credential.supervisor_id, spec)
 
+    @tracked_runtime_work('external_supervisor')
     def approve(self, task_id, *, approved_by, expires_at):
         row = self._owned(task_id)
         if row['spec']['task']['operation'] == 'analyze_records':
@@ -69,10 +76,12 @@ class ExternalSupervisor:
             self.journal.approve(task_id, approval)
         return outcomes(self._owned(task_id))
 
+    @tracked_runtime_work('external_supervisor')
     def delegate(self, spec):
         row = self.prepare(spec)
         return self.submit(row['task_id'])
 
+    @tracked_runtime_work('external_supervisor')
     def submit(self, task_id):
         self._owned(task_id)
         try:
@@ -99,6 +108,7 @@ class ExternalSupervisor:
         except ExternalBusy:
             return outcomes(self._owned(task_id))
 
+    @tracked_runtime_work('external_supervisor')
     def _query(self, task_id, action):
         self._owned(task_id)
         with self.journal.lock(task_id) as row:
@@ -119,15 +129,19 @@ class ExternalSupervisor:
                 self.journal.event(task_id, action + '_unavailable', {'error': 'authenticated_observation_unavailable'}, transport_status='unreachable')
                 return outcomes(self._owned(task_id))
 
+    @tracked_runtime_work('external_supervisor')
     def status(self, task_id):
         return self._query(task_id, 'status')
 
+    @tracked_runtime_work('external_supervisor')
     def cancel(self, task_id):
         return self._query(task_id, 'cancel')
 
+    @tracked_runtime_work('external_supervisor')
     def result(self, task_id):
         return self._query(task_id, 'result')
 
+    @tracked_runtime_work('external_supervisor')
     def flush_pending_cancellations(self):
         """Claim once before IPC; a lost reply requires an explicit retry."""
         if not hasattr(self.journal, 'pending_cancellations'):

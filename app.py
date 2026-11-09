@@ -6,10 +6,12 @@ import os
 import signal
 import sys
 import time
+from contextlib import ExitStack
 
 from channel import channel_factory
 from common import const
 from common.log import logger
+from common.runtime_drain import tracked
 from common.ssl_certs import ensure_ca_bundle
 from config import load_config, conf
 from plugins import *
@@ -198,6 +200,7 @@ class ChannelManager:
             )
         return (entry, entry, {})
 
+    @tracked("channel_control")
     def start(self, channel_names: list, first_start: bool = False):
         """
         Create and start one or more channels in sub-threads.
@@ -206,6 +209,9 @@ class ChannelManager:
         Each entry may be a legacy channel-type string or a ChannelInstance.
         """
         entries = [self._normalize_entry(e) for e in channel_names]
+        from common.runtime_drain import mark_unsupported
+        if any(channel_type != "web" for _, channel_type, _ in entries):
+            mark_unsupported("non_web_ingress")
 
         # A concurrent path may have started this channel already (saving its
         # config restarts it, connecting it starts it). Overwriting the registry
@@ -259,6 +265,7 @@ class ChannelManager:
                 if conf().get("use_linkai") and (
                     os.environ.get("CLOUD_DEPLOYMENT_ID") or conf().get("cloud_deployment_id")
                 ):
+                    mark_unsupported("cloud_runtime_untracked")
                     try:
                         from common import cloud_client
                         threading.Thread(
@@ -799,7 +806,14 @@ def run():
         startup_observation = observation_module.begin_startup(__file__) if observation_module else None
     except Exception:
         raise SystemExit('Authenticated startup observation rejected') from None
+    lifecycle = None
+    startup_scope = ExitStack()
     try:
+        if startup_observation is not None:
+            from common import service_lifecycle
+            from common.runtime_drain import work
+            lifecycle = service_lifecycle.prepare()
+            startup_scope.enter_context(work("startup"))
         # Before any TLS connection: a packaged build has no OpenSSL CA store.
         bundle = ensure_ca_bundle()
         if bundle:
@@ -853,6 +867,7 @@ def run():
             owner = _warmup_scheduler()
             if startup_observation is not None:
                 try:
+                    service_lifecycle.bind_initialized(lifecycle, owner, channel_names)
                     observation_module.observe_and_publish(startup_observation, owner)
                 except Exception:
                     raise SystemExit('Authenticated startup observation failed') from None
@@ -862,6 +877,7 @@ def run():
         channel_mgr = ChannelManager()
         set_channel_manager(channel_mgr)
         channel_mgr.start(channel_names, first_start=True)
+        startup_scope.close()
 
         while True:
             time.sleep(1)
@@ -878,6 +894,8 @@ def run():
         if DESKTOP_MODE:
             logging.shutdown()
             os._exit(1)
+    finally:
+        startup_scope.close()
 
 
 if __name__ == "__main__":

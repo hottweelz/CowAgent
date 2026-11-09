@@ -219,3 +219,78 @@ def build_app():
     assembling one.
     """
     return web.application(URLS, globals(), autoreload=False)
+
+
+def drain_wsgi(app):
+    """Hold admission until the complete WSGI response is consumed or closed."""
+    from common import runtime_drain
+
+    def guarded(environ, start_response):
+        if environ.get("REQUEST_METHOD") == "GET" and environ.get("PATH_INFO") == "/api/health":
+            return app(environ, start_response)
+        try:
+            lease = runtime_drain.reserve("http")
+        except runtime_drain.AdmissionClosed:
+            start_response("503 Service Unavailable", [("Content-Type", "text/plain"), ("Content-Length", "20")])
+            return [b"Service unavailable\n"]
+        try:
+            method, path = environ.get("REQUEST_METHOD"), environ.get("PATH_INFO")
+            # These handlers can hand work to an external process or runtime
+            # whose lifetime is not covered by the HTTP lease. Mark before
+            # dispatch, including requests that the handler later rejects.
+            if method == "POST" and path in {
+                "/api/file/reveal", "/api/update/start", "/api/mcp/servers/test",
+            }:
+                runtime_drain.mark_unsupported("web_external_work")
+            elif path == "/mcp/oauth/callback" and method == "GET":
+                runtime_drain.mark_unsupported("web_mcp_oauth")
+            elif path == "/api/mcp/servers" and method != "GET":
+                runtime_drain.mark_unsupported("web_mcp_reconfigure")
+            with lease.activate():
+                response = app(environ, start_response)
+        except BaseException:
+            lease.release()
+            raise
+
+        class Response:
+            def __init__(self):
+                self.iterator = iter(response)
+                self.closed = False
+                self.exhausted = False
+
+            def __iter__(self):
+                return self
+
+            def __next__(self):
+                if self.closed:
+                    raise StopIteration
+                try:
+                    with lease.activate():
+                        return next(self.iterator)
+                except StopIteration:
+                    self.exhausted = True
+                    self.close()
+                    raise
+                except BaseException:
+                    self.close()
+                    raise
+
+            def close(self):
+                if self.closed:
+                    return
+                self.closed = True
+                try:
+                    close = getattr(response, "close", None)
+                    if close is not None:
+                        with lease.activate():
+                            close()
+                    elif not self.exhausted:
+                        runtime_drain.mark_unsupported("wsgi_uncloseable_response")
+                finally:
+                    lease.release()
+        try:
+            return Response()
+        except BaseException:
+            lease.release()
+            raise
+    return guarded

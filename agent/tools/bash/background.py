@@ -29,6 +29,7 @@ import uuid
 from typing import Dict, List, Optional, Tuple
 
 from agent.tools.bash.decode import decode_output
+from common.runtime_drain import mark_unsupported, tracked
 
 _IS_WIN = sys.platform == "win32"
 
@@ -145,12 +146,14 @@ def _cleanup(job: _Job) -> None:
         job.temp_script = None
 
 
+@tracked("background_shell")
 def start(command: str, cwd: str, env: dict, temp_script: Optional[str] = None) -> str:
     """Launch *command* in the background and return its job id.
 
     The job belongs to the ambient identity for its whole life: only calls made
     under the same identity can read or kill it.
     """
+    mark_unsupported("shell_descendants_unattested")
     owner = _owner_key()
     process = subprocess.Popen(
         command,

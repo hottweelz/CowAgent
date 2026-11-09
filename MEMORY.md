@@ -1,5 +1,13 @@
 # CowAgent project facts
 
+- Maintainer decision (2026-11-09): the CODEX_POOLER_API_KEY diagnostic finding
+  is ACCEPTED RISK / NO FURTHER ACTION. It is not a prerequisite for DISCOVERY-002,
+  PR #4 or later BullGod milestones. Do not rotate, revoke, investigate, escalate
+  or repeatedly report it. Do not reopen absent new material evidence of
+  unauthorized use or a distinct vulnerability. Never reproduce the value or
+  introduce secret logging. Live PID 28093, APFS ownership, approvals and PR #4
+  merge remain subject to their separate explicit authorization.
+
 - DISCOVERY-002S adds a launch-only startup observer. Ordinary `app.py` startup,
   chat, HTTP and environment values cannot install its process-local launch
   object. The helper consumes a private canonical path-bound request atomically,

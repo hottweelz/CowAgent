@@ -25,6 +25,7 @@ from agent.guest.paths import PathGuard
 from agent.guest.runtime import GuestTurn, get_service
 from agent.guest.share import ShareState
 from common.log import logger
+from common import runtime_drain
 
 MAX_RUN_EVENTS = 4000
 RUN_RETENTION_SECONDS = 15 * 60
@@ -110,8 +111,8 @@ class GuestPages:
                 if old.finished and now - old.finished_at > RUN_RETENTION_SECONDS:
                     del self._runs[request_id]
             self._runs[run.request_id] = run
-        threading.Thread(target=self._run, args=(state, turn, run),
-                         name=f"guest-run-{state.slug}", daemon=True).start()
+        runtime_drain.start_thread("guest_run", self._run, args=(state, turn, run),
+                                   name=f"guest-run-{state.slug}", daemon=True)
         return run.request_id
 
     def _run(self, state: ShareState, turn: GuestTurn, run: GuestRun) -> None:

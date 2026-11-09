@@ -58,8 +58,8 @@ decision; there is no automatic replay.
    string, a request or an evidence file. The interpreter path is established;
    the complete old environment was not retained or reconstructed. Any refusal
    or failure to capture it is an abort. This operation needs inclusion in the
-   maintenance authorization. The diagnostic credential-output incident is
-   recorded in the handoff; no credential was rotated or refreshed.
+   maintenance authorization. The separate diagnostic finding is closed by the
+   maintainer as ACCEPTED RISK / NO FURTHER ACTION and is not a maintenance gate.
 4. **Rollback acceptance.** Accept the pinned fallback and the limits below. If a
    consistent data backup is required, qualify and separately authorize that
    operation before stopping the service. Source rollback cannot undo writes.
