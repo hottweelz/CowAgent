@@ -5,8 +5,12 @@ Internal capability discovery, deterministic eligibility and selection. Baseline
 `codex/bullgod-discovery-001`. This milestone does not activate BullGod or dispatch
 work. Publication is a draft PR; integration requires separate authorization.
 
-Focused validation and independent review pass. Full hosted CI is pending. The
-final receipts below will identify the exact tested source and hosted run.
+**PASSED** for this development milestone. Focused validation, independent review
+and all five hosted CI jobs pass on source
+`ff09850d089622bd9dca30508b0ce03d21cbcdb4`.
+The [hosted receipt](hosted-validation.json) reconciles logs, JUnit cases, skips
+and the exact checked-out source tree.
+[Draft PR #3](https://github.com/hottweelz/CowAgent/pull/3) publishes the work.
 
 ## Architecture and authoritative state
 
@@ -178,12 +182,31 @@ mandatory. This module provides no dispatch method or public network endpoint.
 ```python
 from agent.discovery import DiscoveryService, SelectionPolicy
 
+# Illustrative validated metadata. The host supplies the real frozen task hash
+# and an absolute current deadline; these values come from the fictional fixture.
+requirements = {
+    "protocol": "cow.discovery.task/1",
+    "task_id": "cb4a1ff8-6401-4ce7-8f81-c1fcbd4cf9c6",
+    "policy_id": "safe-default",
+    "category": "analyze_records",
+    "input_contract": "fictional_records.v1",
+    "output_contract": "analysis_report.v1",
+    "persistent_memory": "required",
+    "persistent_context": "required",
+    "required_tools": [], "max_authority": ["analyze_records"],
+    "approval": "required", "verification": "independent_analysis",
+    "recovery": "intent_fenced", "cancellation": "cooperative",
+    "deadline": 400.0, "timeout_seconds": 200.0, "concurrency": 1,
+    "permitted_mechanisms": ["persistent_named"],
+    "prohibited_mechanisms": [], "task_spec_hash": "0" * 64,
+    "requested_agent_id": "testpilot",
+}
 service = DiscoveryService(policy=SelectionPolicy(
     preferred_targets=("testpilot", "testpilot2"),
-))
+), clock=lambda: 110.0)  # Synthetic clock only.
 # With no native-context or enrolled-external host sources, current registered
 # identities (including default) are visible but cannot become eligible.
-decision = service.select(validated_requirements)
+decision = service.select(requirements)
 assert decision["dispatch_permitted"] is False
 ```
 
@@ -229,9 +252,20 @@ Existing adapter tests are retained unchanged.
 - [Preservation](preservation.json): original service process and runtime metadata,
   config/profile/provider hashes, memory/database stat metadata, untracked files,
   recovery refs/artifacts and existing detached worktree are preserved.
-- Hosted receipt is pending. The existing Tests workflow requires macOS/Python 3.13,
-  Linux/Python 3.11 and 3.13, JavaScript, strict TypeScript/build and changed-file
-  Ruff checks.
+- [Hosted run 42546970682](https://github.com/hottweelz/CowAgent/actions/runs/42546970682):
+  all five jobs passed on the source commit above. macOS/Python 3.13, Linux/Python
+  3.11 and 3.13, JavaScript, strict TypeScript/build and changed-file Ruff are
+  covered. [Receipt](hosted-validation.json): macOS **5,969 passed / 39 skipped**;
+  each Linux version **5,962 passed / 46 skipped**; 93 passing subtests per job.
+  Each job has 6,008 named cases, including all 52 new discovery cases. No baseline
+  case was removed and the exact skip sets are unchanged. JavaScript passed
+  39 web and 5 desktop cases. Zero Python failures or errors.
+- The hosted synthetic merge tree equals the feature-head tree. The final
+  documentation/receipt closeout uses `[skip ci]` and preserves every other
+  tracked path, including the seven reviewed source/test hashes. See
+  [source equivalence](source-equivalence.json). The closeout does not claim a
+  separate CI run. Windows and opt-in native browser exclusions remain outside
+  this ordinary macOS/Linux gate; existing build warnings remain recorded.
 
 Synthetic acceptance proves the contract and integration with real temporary
 registry/operator/journal APIs. It certifies no current live target capability.
@@ -246,3 +280,16 @@ the existing external adapters, continuous probes, cost/quality prediction, slot
 reservation, provider-parallelism guarantees, hard termination and exactly-once
 effects. No production activation, service restart, profile/memory/provider
 change or merge is part of this milestone.
+
+## Completion questions
+
+| Question | Answer within this milestone |
+| --- | --- |
+| Discover existing identities without duplicates? | Yes. Derived native registry and explicitly supplied enrolled-supervisor views; no second roster. |
+| Separate verified capability from unsupported declarations? | Yes. Current bound proof is required; unknown or stale proof is ineligible. |
+| Distinguish the three mechanisms? | Yes. Isolated, persistent named and external runtime contracts remain separate. |
+| Exclude unauthorized, unavailable or incompatible targets? | Yes. Deterministic gates cover authority, approvals, health, context and contract compatibility. |
+| Select deterministically and explain? | Yes. Versioned preferences, known load and stable tie-breaks; public reasons and fingerprints. |
+| Invalidate on authority/configuration changes? | Yes. Revalidation reconstructs current state, including revisions, proof/task/policy bindings and expiry. |
+| Allow future Luna integration without bypass? | Yes. Luna can supply requirements and consume results; trusted evidence and existing execution admission remain host-controlled. |
+| Preserve execution and memory behavior? | Yes. Discovery has no execution route or memory initialization. Existing execution methods are unchanged; the only existing-source addition is a read-only approval preview. |

@@ -1,0 +1,27 @@
+{
+  "captured_at": "2026-11-09T01:56:18.285747+00:00",
+  "tested_head_sha": "ff09850d089622bd9dca30508b0ce03d21cbcdb4",
+  "tested_tree_sha": "f96e56aada72fabd536c7b30e3aaea77e8388751",
+  "tested_synthetic_merge_sha": "e022f215f9aa6f2f1295e3dd2fe14f05e3dcca21",
+  "hosted_run": "https://github.com/hottweelz/CowAgent/actions/runs/42546970682",
+  "all_five_retained_job_log_hashes_match": true,
+  "all_three_retained_junit_xml_hashes_match": true,
+  "reviewed_source_and_test_sha256": {
+    "agent/discovery/__init__.py": "eb4448854a7f6ee179f73f1be179bd0360f2c106a086a7301bfa3aa6aa180dad",
+    "agent/discovery/contracts.py": "95a082edac8fe443eb2f150da88519e667630497ce7810f8b3bc00bddfcb890c",
+    "agent/discovery/service.py": "79aec9efbfc46c17a3603a2642bf33aedb4b0ba5f8436962dfec6d44b3b69b24",
+    "agent/discovery/sources.py": "d045cf3e6deb54dc087f3a0cf23601bc582910cc5653b1fab4414fdaec1cf7fe",
+    "agent/external/approved_dispatch.py": "3e92c92a8596ac96bfdb9d6199939d5c59ca792a57e2dbf32caab5592d088088",
+    "tests/test_discovery_contracts.py": "24f5a25554521992af8da39c2798461dcc3cf45412be2d96ac733ff4ae398fd1",
+    "tests/test_bullgod_discovery.py": "ac6d053f203c535271178d06dbdbdc0d85e259a84557038949b03bb2163517aa"
+  },
+  "reviewed_source_and_test_hashes_unchanged": true,
+  "closeout_allowed_paths": [
+    "CHANGELOG_AI.md",
+    "docs/bullgod-discovery-001/"
+  ],
+  "all_other_tracked_content_matches_tested_head": true,
+  "closeout_policy": "Documentation/receipts only with [skip ci]; reuse successful source-bound matrix. No separate closeout CI claim.",
+  "master_unchanged": "0805c82ef55342b105c835cee77c21d6e385c434",
+  "publication": "Draft PR #3 remains unmerged; branch synchronization checked after final push."
+}

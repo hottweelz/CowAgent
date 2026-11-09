@@ -32,4 +32,5 @@ cooperative cancellation limits and absence of production providers.
 The reviewer inspected source and tests without rerunning them or accessing live
 runtime/model state. The lead's separately recorded focused and hosted tests own
 the execution evidence. The final corrective review reported no remaining
-actionable finding; hosted CI remains a separate publication gate.
+actionable finding. The separate hosted gate subsequently passed; its exact
+source and results are recorded in hosted-validation.json.
