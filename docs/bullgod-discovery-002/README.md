@@ -11,14 +11,20 @@ jobs. The documentation-only integration closeout is
 Gate B implementation and independent source review are complete, but the
 required trusted live selection gate is **BLOCKED**. The actual config and retained
 public proof files are below a group-writable volume ancestor (mode `0775`).
+The APFS volume also has ownership enforcement disabled. A mode-only change
+cannot establish trusted ownership; the proposed permission request was withdrawn.
 `ReadOnlyNativeConfiguration` rejected that path as `untrusted_record_path`
-before registry loading or selection. This is a preserved trust boundary, not a
+before registry loading or selection. The final source reports
+`filesystem_ownership_ignored`. This is a preserved trust boundary, not a
 passing live acceptance run. No permission, config, credential or approval was
-changed to make the check pass. Hosted regression is pending.
+changed to make the check pass. The ownership safeguard now rejects that mount explicitly. All 356 focused tests
+and the corrective independent review pass; fresh hosted validation is pending.
 
 The separately readable private enrollment records are expired. These observations
 cannot supply missing native configuration or proof provenance. No production
 activation is part of this work.
+
+Implementation and evidence are published in [draft PR #4](https://github.com/hottweelz/CowAgent/pull/4). DISCOVERY-002 is not merged.
 
 ## Architecture and authoritative sources
 
@@ -50,7 +56,13 @@ registry or live in-memory attestation.
 ## Proof lifecycle and trust boundary
 
 Operator records are authenticated through the existing private local account,
-trusted ancestors, ownership/mode/schema checks and state/audit consistency. This
+trusted ancestors, ownership/mode/schema checks and state/audit consistency.
+On Darwin, `statfs64`/`fstatfs64` must also show ownership enforcement. The
+`MNT_IGNORE_OWNERSHIP` flag is not present in Python `statvfs` output. The reader
+fails closed if the authoritative API is missing or fails. Linux retains the
+existing checks. [Mount evidence](mount-ownership.json) confirms the actual
+workspace is rejected and private temporary storage is accepted. No host
+permission or mount setting was changed. This
 is not a signed or tamper-proof audit log, proof of human presence or protection
 from same-UID/root code. Review packets and content hashes alone do not establish
 provenance. Luna has no path or proof field in task requirements with which to
@@ -150,10 +162,13 @@ authorization gates. There is no dispatch method or execution grant in this API.
 
 **Trusted integrated run: BLOCKED at `read_actual_config`.** No live selection
 scenario ran. The runner preserved its sanitized failure receipt. The group-write
-permission is on an ancestor of both config and public probe sources. The guard
+permission is on an ancestor of both config and public probe sources. The [final ownership rejection](live-ownership-rejection.json) repeats the safe
+stop on repaired source with all before/after metadata unchanged. The guard
 must not be bypassed with a copied config, unchecked registry callback or API
 metadata. A separate read-only private authority inventory and before/after
-service records are reported independently below when available.
+service records are available in the [authority receipt](retained-authority.json)
+and [preservation receipt](runtime-preservation.json). The
+[blocked-run receipt](live-acceptance-blocked.json) records the exact stop stage.
 
 The following table defines required scenario coverage; it does not assert that
 the blocked live run completed it.
@@ -167,18 +182,32 @@ The exact historical probe receipts remain unchanged:
 - Named: `docs/agent-routing-003/merge-final-regression.json`.
 - Codex: `docs/external-002b/authority-probes.json`.
 
-| Scenario | Required evidence and treatment |
+| Scenario | Actual result |
 | --- | --- |
-| 1: actual registry | Strict identities, enabled state and configured routes cross-checked with existing service metadata |
-| 2: named analysis | Exact real enrollment/task/probe state; expired approval or changed source is ineligible |
-| 3: isolated stateless | Actual policy declarations with persistent context excluded; missing live turn/proof/admission stays unknown |
-| 4: external Codex | Actual `acceptance-runtime` analysis contract; coding request rejected |
-| 5: stale/missing proof | Ineligibility, no promotion of historical success |
-| 6: approval state | Live historical approval versus current validity distinguished; positive current enrollment/task and missing approval covered separately in disposable fixtures |
-| 7: unavailable | Explicit controlled synthetic unavailable observation against actual identity metadata, clearly labeled; no live service termination |
-| 8: drift/revocation | Disposable authority/evidence changes; actual approvals untouched |
-| 9: revalidation | Disposable selected-then-drift cases; never claim a live selection existed when it did not |
-| 10: zero dispatch | Instrumented calls and before/after operator intents, service/profile/config metadata and aggregate conversation counts |
+| 1: actual registry | Public service metadata reports all three expected IDs; trusted file registry loading blocked |
+| 2: named analysis | Real private enrollments, tasks and credentials all expired; integrated capability selection not reached |
+| 3: isolated stateless | Deterministic fixtures pass; actual attached caller context and trusted native policy evaluation unavailable |
+| 4: external Codex | Real private identity is `acceptance-runtime`, operation `analyze_records`; unsupported coding rejection passes in fixtures |
+| 5: stale/missing proof | Strict path rejection prevents proof use; proof lifecycle and stale evidence denial pass in fixtures |
+| 6: approval state | Actual enrollment and exact-task state are separately observed as expired; valid/missing/revoked cases pass in disposable stores |
+| 7: unavailable | Synthetic observation against actual metadata not reached; unavailable and expiration fixtures pass |
+| 8: drift/revocation | Disposable authority/evidence tests pass; actual approvals untouched |
+| 9: revalidation | Disposable selected-then-drift tests pass; no positive actual selection claimed |
+| 10: zero dispatch | Failed-run window and independent authority read preserve records/counts; full integrated live instrumentation not reached |
+
+The real private authority receipt reports one prior submit/native/publication
+intent for each named runtime and five/three/one for Codex, unchanged after the
+read. All three retained task IDs already started submission historically and
+must not be replayed. Credentials, enrollment and task approval are expired.
+
+The original process remains PID `28093` with the same start time and health.
+Config/profile hashes and public model declarations match before/after.
+The observed default route is `nvidia/nemotron-3.5-super-vl:free` via `custom`;
+this public declaration is not current authenticated model admission proof.
+Aggregate sessions/messages/runs remain `4/7/6` for default, `8/30/11` for
+TestPilot and `1/2/1` for TestPilot2. Database inode, size and modification time
+are unchanged. The provider environment file's presence was checked; private
+contents and usage extras were not read by the metadata snapshots.
 
 Aggregate conversation checks use a read-only SQLite connection with an authorizer
 that permits only `COUNT(agent_id)` grouped by `agent_id` on sessions, messages and
@@ -197,9 +226,11 @@ One independent high-reasoning review identified four concrete issues, all now
 corrected: disabled-candidate isolation, expiration of negative observations,
 running full-enrollment binding, and complete tested-source proof binding.
 The corrective review reported **PASS**, with no remaining actionable finding.
-The [focused receipt](focused-validation.json) records **350 passed**, including
-48 new reader/acceptance cases. [Review findings](review.md) distinguish source
-review from the blocked live gate. Hosted CI is pending.
+The [focused receipt](focused-validation.json) records **356 passed**, including
+54 new reader/acceptance cases. [Review findings](review.md) distinguish source
+review from the blocked live gate. The first hosted run passed all five jobs (6,017 macOS and 6,010 per Linux job).
+[That receipt](hosted-before-ownership-fix.json) is retained for its source.
+The ownership correction adds six cases and requires a fresh hosted gate.
 
 The supported operation remains `analyze_records`. No general coding, arbitrary
 file/network effects, autonomous selection-driven execution, background probe
@@ -208,7 +239,7 @@ exactly-once guarantee or provider-parallelism claim is added.
 
 Before Luna can request an authorized dispatch, the maintainer must first
 establish trusted config and proof-source ancestry through an explicitly approved
-storage/permission change, or authorize a separately reviewed trusted in-process
+storage/ownership change, or authorize a separately reviewed trusted in-process
 integration. Rerun read-only live selection after that trust issue is resolved.
 This milestone does not authorize either host change.
 

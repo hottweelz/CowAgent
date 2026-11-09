@@ -7,6 +7,11 @@
   ancestor rejects config/proof provenance. Do not bypass this with public API
   metadata, unchecked native readers or copied files. Private authority inventory
   can remain available independently, but does not repair blocked live selection.
+  On Darwin, also require statfs64/fstatfs64 ownership enforcement. Python statvfs
+  omits MNT_IGNORE_OWNERSHIP; mode bits alone are insufficient. Missing native
+  API or ownership-ignored mounts fail closed, including operator initialization
+  before writes. The current external APFS workspace ignores ownership; this
+  milestone does not change mount settings or volume permissions.
   Full tested-source proof and the running adapter's entire frozen enrollment
   must match current authority. Historical focused receipts are insufficient.
   Native proof/global free capacity and safe Codex executable attestation remain

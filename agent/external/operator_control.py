@@ -13,6 +13,7 @@ import time
 
 from .contract import MAX_MESSAGE_BYTES, ProtocolError, canonical, digest, finite, identifier, task_id
 from .operator_review import _enrollment_packet, build_task_review
+from .filesystem_trust import require_filesystem_ownership
 
 VERSION = 'cow.external.operator-command/1'
 _SCOPE = frozenset({'supervisor_id', 'owner_id', 'source_id', 'conversation_id', 'runtime_id'})
@@ -106,6 +107,7 @@ class OperatorControl:
         # Root/account-owned sticky shared ancestors (such as /private/tmp)
         # protect the next root/account-owned path component from other users.
         for parent in self.directory.parents:
+            require_filesystem_ownership(parent)
             value = parent.lstat()
             if (not stat.S_ISDIR(value.st_mode) or value.st_uid not in (0, self.uid)
                     or value.st_mode & 0o022 and not value.st_mode & stat.S_ISVTX):
@@ -119,6 +121,7 @@ class OperatorControl:
             directory = self.directory.lstat()
         except FileNotFoundError as exc:
             raise ProtocolError('Operator state directory is not initialized') from exc
+        require_filesystem_ownership(self.directory)
         if (self.directory.resolve() != self.directory or not stat.S_ISDIR(directory.st_mode)
                 or directory.st_uid != self.uid or directory.st_mode & 0o077):
             raise ProtocolError('Operator state directory is not private and owned')

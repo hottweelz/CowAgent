@@ -1,0 +1,279 @@
+{
+  "all_connections_mode_ro_query_only": true,
+  "all_operator_external_counts_unchanged": true,
+  "bindings": {
+    "codex": {
+      "available": true,
+      "config_read": false,
+      "credential_expired": true,
+      "credential_expires_at": 1794112216.324484,
+      "credential_operations": [
+        "analyze_records"
+      ],
+      "credential_state": "expired",
+      "enrollment_current": false,
+      "enrollment_expires_at": 1794112156.324484,
+      "enrollment_status": "expired",
+      "operation": "analyze_records",
+      "operator_provenance_checked": true,
+      "private_content_returned": false,
+      "probe_read": false,
+      "runtime_id": "acceptance-runtime",
+      "socket_contacted": false,
+      "task_approval_current": false,
+      "task_approval_status": "expired",
+      "task_binding_reasons": [
+        "submission_already_started"
+      ],
+      "task_expires_at": 1794112156.324484
+    },
+    "testpilot": {
+      "available": true,
+      "config_read": false,
+      "credential_expired": true,
+      "credential_expires_at": 1794170414.4918761,
+      "credential_operations": [
+        "analyze_records"
+      ],
+      "credential_state": "expired",
+      "enrollment_current": false,
+      "enrollment_expires_at": 1794170414.4918761,
+      "enrollment_status": "expired",
+      "operation": "analyze_records",
+      "operator_provenance_checked": true,
+      "private_content_returned": false,
+      "probe_read": false,
+      "runtime_id": "cowagent.testpilot",
+      "socket_contacted": false,
+      "task_approval_current": false,
+      "task_approval_status": "expired",
+      "task_binding_reasons": [
+        "submission_already_started"
+      ],
+      "task_expires_at": 1794170414.4918761
+    },
+    "testpilot2": {
+      "available": true,
+      "config_read": false,
+      "credential_expired": true,
+      "credential_expires_at": 1794170414.961323,
+      "credential_operations": [
+        "analyze_records"
+      ],
+      "credential_state": "expired",
+      "enrollment_current": false,
+      "enrollment_expires_at": 1794170414.961323,
+      "enrollment_status": "expired",
+      "operation": "analyze_records",
+      "operator_provenance_checked": true,
+      "private_content_returned": false,
+      "probe_read": false,
+      "runtime_id": "cowagent.testpilot2",
+      "socket_contacted": false,
+      "task_approval_current": false,
+      "task_approval_status": "expired",
+      "task_binding_reasons": [
+        "submission_already_started"
+      ],
+      "task_expires_at": 1794170414.961323
+    }
+  },
+  "captured_at_utc": "2026-11-09T03:26:52Z",
+  "no_config_or_probe_read": true,
+  "no_runtime_socket_contact": true,
+  "no_selection_or_live_host_acceptance_claim": true,
+  "no_task_submission_or_native_or_publication_intent_created": true,
+  "operator_external_metadata": {
+    "codex": {
+      "after": {
+        "available": true,
+        "counts": {
+          "approval_binding_rows": 5,
+          "external_task_rows": 6,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 3,
+          "operator_decision_rows": 11,
+          "operator_state_rows": 7,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 5
+        },
+        "db_stat_after": {
+          "available": true,
+          "inode": 91797387,
+          "mtime_ns": 1794110743306783444,
+          "size": 282624
+        },
+        "db_stat_before": {
+          "available": true,
+          "inode": 91797387,
+          "mtime_ns": 1794110743306783444,
+          "size": 282624
+        },
+        "intent_event_counts": {
+          "native_intent": 3,
+          "publication_intent": 1,
+          "submit_intent": 5
+        }
+      },
+      "before": {
+        "available": true,
+        "counts": {
+          "approval_binding_rows": 5,
+          "external_task_rows": 6,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 3,
+          "operator_decision_rows": 11,
+          "operator_state_rows": 7,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 5
+        },
+        "db_stat_after": {
+          "available": true,
+          "inode": 91797387,
+          "mtime_ns": 1794110743306783444,
+          "size": 282624
+        },
+        "db_stat_before": {
+          "available": true,
+          "inode": 91797387,
+          "mtime_ns": 1794110743306783444,
+          "size": 282624
+        },
+        "intent_event_counts": {
+          "native_intent": 3,
+          "publication_intent": 1,
+          "submit_intent": 5
+        }
+      },
+      "counts_and_intents_unchanged": true
+    },
+    "testpilot": {
+      "after": {
+        "available": true,
+        "counts": {
+          "approval_binding_rows": 1,
+          "external_task_rows": 1,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 1,
+          "operator_decision_rows": 2,
+          "operator_state_rows": 2,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 1
+        },
+        "db_stat_after": {
+          "available": true,
+          "inode": 92242819,
+          "mtime_ns": 1794170206775299891,
+          "size": 147456
+        },
+        "db_stat_before": {
+          "available": true,
+          "inode": 92242819,
+          "mtime_ns": 1794170206775299891,
+          "size": 147456
+        },
+        "intent_event_counts": {
+          "native_intent": 1,
+          "publication_intent": 1,
+          "submit_intent": 1
+        }
+      },
+      "before": {
+        "available": true,
+        "counts": {
+          "approval_binding_rows": 1,
+          "external_task_rows": 1,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 1,
+          "operator_decision_rows": 2,
+          "operator_state_rows": 2,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 1
+        },
+        "db_stat_after": {
+          "available": true,
+          "inode": 92242819,
+          "mtime_ns": 1794170206775299891,
+          "size": 147456
+        },
+        "db_stat_before": {
+          "available": true,
+          "inode": 92242819,
+          "mtime_ns": 1794170206775299891,
+          "size": 147456
+        },
+        "intent_event_counts": {
+          "native_intent": 1,
+          "publication_intent": 1,
+          "submit_intent": 1
+        }
+      },
+      "counts_and_intents_unchanged": true
+    },
+    "testpilot2": {
+      "after": {
+        "available": true,
+        "counts": {
+          "approval_binding_rows": 1,
+          "external_task_rows": 1,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 1,
+          "operator_decision_rows": 2,
+          "operator_state_rows": 2,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 1
+        },
+        "db_stat_after": {
+          "available": true,
+          "inode": 92242863,
+          "mtime_ns": 1794170206782142731,
+          "size": 73728
+        },
+        "db_stat_before": {
+          "available": true,
+          "inode": 92242863,
+          "mtime_ns": 1794170206782142731,
+          "size": 73728
+        },
+        "intent_event_counts": {
+          "native_intent": 1,
+          "publication_intent": 1,
+          "submit_intent": 1
+        }
+      },
+      "before": {
+        "available": true,
+        "counts": {
+          "approval_binding_rows": 1,
+          "external_task_rows": 1,
+          "external_verification_rows": 1,
+          "native_intent_binding_rows": 1,
+          "operator_decision_rows": 2,
+          "operator_state_rows": 2,
+          "publication_intent_binding_rows": 1,
+          "submitted_task_rows": 1
+        },
+        "db_stat_after": {
+          "available": true,
+          "inode": 92242863,
+          "mtime_ns": 1794170206782142731,
+          "size": 73728
+        },
+        "db_stat_before": {
+          "available": true,
+          "inode": 92242863,
+          "mtime_ns": 1794170206782142731,
+          "size": 73728
+        },
+        "intent_event_counts": {
+          "native_intent": 1,
+          "publication_intent": 1,
+          "submit_intent": 1
+        }
+      },
+      "counts_and_intents_unchanged": true
+    }
+  },
+  "schema": "bullgod-discovery-002-retained-authority-observation/1",
+  "scope": "existing private launch/task/operator inputs through ExistingRuntimeBinding and read-only _authority; no config/probe/selection/inspection"
+}

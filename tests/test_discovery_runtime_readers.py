@@ -3,6 +3,7 @@ from dataclasses import replace
 import hashlib
 import json
 from pathlib import Path
+import os
 import sqlite3
 import tempfile
 import threading
@@ -434,3 +435,80 @@ def test_file_route_matches_existing_runtime_precedence(monkeypatch, settings, p
     view = AgentLLMModel.__new__(AgentLLMModel)
     view.set_agent_default(pin, model)
     assert NativeSource._route(profiles[1], registry, settings) == (view.model, view._primary_provider_id(view.model))
+
+
+def test_ownership_ignored_mount_rejects_0755_config_and_operator_state(trusted, monkeypatch):
+    from agent.external import filesystem_trust
+    from agent.discovery.runtime_readers import _owned_bytes
+    f = trusted
+    f.tmp_path.chmod(0o755)
+    assert f.tmp_path.stat().st_mode & 0o777 == 0o755
+    monkeypatch.setattr(filesystem_trust, 'sys', SimpleNamespace(platform='darwin'))
+    monkeypatch.setattr(filesystem_trust, '_darwin_mount_flags', lambda *a, **kw: filesystem_trust.MNT_IGNORE_OWNERSHIP)
+    with pytest.raises(contract.ProtocolError, match='Filesystem ignores ownership'):
+        _owned_bytes(f.config_path)
+    with pytest.raises(contract.ProtocolError, match='Filesystem ignores ownership'):
+        ApprovalJournal.open_read_only(f.control.directory)
+    # Old writable initialization must fail before making any directory/file.
+    proposed = f.tmp_path / 'new-operator'
+    with pytest.raises(contract.ProtocolError, match='Filesystem ignores ownership'):
+        OperatorControl(proposed, initialize=True)
+    assert not proposed.exists()
+
+
+def test_ownership_ignored_recovery_mount_stays_unknown(tmp_path, monkeypatch):
+    from agent.external import filesystem_trust
+    from agent.discovery.runtime_readers import _ObservedNativeSource
+    from agent.discovery.contracts import Candidate
+    from agent.recovery.service import RecoveryService
+    path = tmp_path.resolve() / 'tasks.db'
+    path.write_bytes(b'not opened')
+    path.chmod(0o600)
+    service = RecoveryService.__new__(RecoveryService)
+    service._thread = SimpleNamespace(is_alive=lambda: True)
+    service._stop = threading.Event()
+    service.last_error = None
+    service.store = SimpleNamespace(path=path)
+    tool = SimpleNamespace(current_context=SimpleNamespace(kwargs={'agent_id': 'default', 'session_id': 'session-1'}),
+                           _session_id=lambda *a: 'receiver-1')
+    source = _ObservedNativeSource(tool, service)
+    candidate = Candidate('testpilot', 'registered', 'native_isolated', 'a' * 64, 'b' * 64, 'c' * 64)
+    monkeypatch.setattr(filesystem_trust, 'sys', SimpleNamespace(platform='darwin'))
+    monkeypatch.setattr(filesystem_trust, '_darwin_mount_flags', lambda *a, **kw: filesystem_trust.MNT_IGNORE_OWNERSHIP)
+    source._observe_admission(candidate, time.time())
+    assert candidate.admission is None
+
+
+@pytest.mark.parametrize('failure', ['library_missing', 'symbol_missing', 'syscall_failed'])
+def test_darwin_missing_ownership_api_fails_closed(tmp_path, monkeypatch, failure):
+    from agent.external import filesystem_trust
+    monkeypatch.setattr(filesystem_trust, 'sys', SimpleNamespace(platform='darwin'))
+    if failure == 'library_missing':
+        def unavailable(*a, **kw):
+            raise OSError('Unavailable')
+        monkeypatch.setattr(filesystem_trust.ctypes, 'CDLL', unavailable)
+    elif failure == 'symbol_missing':
+        monkeypatch.setattr(filesystem_trust.ctypes, 'CDLL', lambda *a, **kw: SimpleNamespace())
+    else:
+        def failed(*a):
+            return -1
+        monkeypatch.setattr(filesystem_trust.ctypes, 'CDLL', lambda *a, **kw: SimpleNamespace(statfs64=failed))
+    with pytest.raises(contract.ProtocolError, match='Filesystem ownership status unavailable'):
+        filesystem_trust.require_filesystem_ownership(tmp_path)
+
+
+def test_ownership_guard_preserves_linux_and_owner_enforced_mounts(tmp_path, monkeypatch):
+    from agent.external import filesystem_trust
+    monkeypatch.setattr(filesystem_trust, 'sys', SimpleNamespace(platform='linux'))
+    monkeypatch.setattr(filesystem_trust, '_darwin_mount_flags', lambda *a, **kw: pytest.fail('Darwin API used on Linux'))
+    filesystem_trust.require_filesystem_ownership(tmp_path)
+    monkeypatch.setattr(filesystem_trust, 'sys', SimpleNamespace(platform='darwin'))
+    observed = []
+    monkeypatch.setattr(filesystem_trust, '_darwin_mount_flags', lambda path=None, **kw: observed.append((path, kw.get('fd'))) or 0)
+    filesystem_trust.require_filesystem_ownership(tmp_path)
+    fd = os.open(tmp_path, os.O_RDONLY)
+    try:
+        filesystem_trust.require_filesystem_ownership(fd=fd)
+    finally:
+        os.close(fd)
+    assert observed == [(tmp_path, None), (None, fd)]

@@ -1,27 +1,70 @@
 # AI handoff ledger
 
+## 2026-11-08 22:47 EST — Codex — DISCOVERY-002 ownership enforcement correction
+
+- Task/result: actual APFS workspace ignores ownership. A mode-only change cannot
+  establish trusted provenance. The pending 0775-to-0755 permission question was
+  withdrawn; no host permission, mount setting, config or live authority changed.
+  Gate A remains PASSED; Gate B trusted live selection remains BLOCKED.
+- Team: same Sol 6.1/high production worker and independent reviewer for the
+  security-sensitive Darwin ABI/authority correction; Luna retained first hosted
+  CI evidence. Lead owns integration, actual read-only replay, docs and Git.
+- Changes/files: new agent/external/filesystem_trust.py uses Apple's explicit
+  statfs64/fstatfs64 ABI and MNT_IGNORE_OWNERSHIP. Trusted reader, operator and
+  recovery guards reject ignored/unknown ownership. Old writable operator setup
+  rejects before creating state. Linux keeps existing checks. Six targeted cases
+  added to test_discovery_runtime_readers; acceptance runner sanitizes the new
+  stop code. Updated 002 reports/receipts and project MEMORY.md.
+- Verification: worker 107 tests passed; independent corrective review PASS with
+  separate actual path/FD mount observations and no remaining finding. Lead's
+  integrated 356 tests passed in 46.02s; Ruff F passed. Actual read-only retry
+  stopped before registry/binding/selection with filesystem_ownership_ignored;
+  all process/config/profile/model/aggregate-conversation metadata unchanged.
+- Hosted: prior head b82117e9 passed all five jobs in run42556509225 (macOS6017,
+  Linux6010 each; 6056 named cases/93 subtests; 48 new cases, no removed cases,
+  unchanged skip sets). Receipt retained explicitly for that source. This
+  corrective source requires a new hosted run before final publication.
+- Decisions: ownership enforcement is separate from permission mode; statvfs
+  masks the required Darwin flag. No unsafe fallback or synthetic live proof.
+  MEMORY.md updated; no global memory update.
+- Lessons Learned:
+  - Mistake: mode bits were initially treated as sufficient owner-trust evidence.
+  - Root Cause: macOS can ignore ownership, and Python statvfs masks that flag.
+  - Future Trigger: owner-based authorization on a macOS mount.
+  - Required Behavior Change: query the authoritative native mount flag; reject
+    ignored ownership or unavailable API before trusted reads or state creation.
+  - Verification Step: 0755/0600 paths on simulated ignored mounts reject; real
+    workspace rejects and private temporary storage accepts; Linux bypasses API.
+  - Durable Memory Update: project filesystem trust constraint now records this.
+- Known issues/next: finish fresh hosted CI and final sanitized closeout. Actual
+  integrated selection needs a separately authorized storage/ownership remedy;
+  a mode-only chmod is insufficient. Retained credentials/approvals remain expired.
+- Notes: draft PR #4 remains unmerged. Preserve original PID28093, seven original
+  untracked files, recovery references/artifacts and detached worktree. No paid
+  model, live task replay or new enrollment/approval is authorized by this fix.
+
 ## 2026-11-08 22:27 EST — Codex — DISCOVERY-002 draft publication and live trust blockage
 
 - Task/result: Gate A PASSED; PR #3 integrated as 40958f39 and automatic master
   CI passed. Gate B source is implemented/reviewed, but trusted live selection
-  is BLOCKED at config ancestry (non-sticky group-writable volume, mode0775).
+  is BLOCKED at config ancestry (non-sticky group-writable volume, mode 0775).
   No guard bypass, filesystem permission change, new approval or runtime launch.
-- Team: Sol6.1/high production and independent review for cross-component
+- Team: Sol 6.1/high production and independent review for cross-component
   provenance/authority/IPC reasoning; Luna/high independent fixtures, live
   metadata/preservation and hosted evidence. Lead owns integration/docs/Git.
 - Changes/files: agent/discovery trusted readers and diagnostics; narrow
   agent/external read-only journal/inspect hooks; two new test files; 002 plan,
   report, runner, focused/review/preservation receipts; project MEMORY.md.
-- Checks/results: 350 focused tests passed, including48 new cases; Ruff F and
+- Checks/results: 350 focused tests passed, including 48 new cases; Ruff F and
   runner syntax passed; independent review PASS after four corrective findings.
-  git fsck --full passed,40 unchanged dangling objects/no other diagnostics.
+  git fsck --full passed, 40 unchanged dangling objects/no other diagnostics.
   Seven original untracked files, five recovery artifacts, both recovery refs
-  and clean detached worktree preserved. Hosted002 matrix pending publication.
+  and clean detached worktree preserved. Hosted 002 matrix pending publication.
 - Live evidence: actual strict config read stopped before registry loading or
   selection. Separate service metadata/counts remain unchanged. Safe private
   authority inventory is separate evidence, not a replacement trusted registry.
   Missing native/Codex proof or admission remains unknown; no model call made.
-- Decisions: retain guard; publish a draft with explicit blocker; no002 merge.
+- Decisions: retain guard; publish a draft with explicit blocker; no 002 merge.
   MEMORY.md updated with trusted-source, full-proof and frozen-enrollment rules.
 - Lessons Learned:
   - Mistake: live source ancestry was checked only after implementation fixtures.
@@ -36,8 +79,8 @@
 - Known issues/next: complete hosted matrix and sanitized evidence publication,
   then obtain maintainer direction for the storage trust boundary. Credentials
   and retained approvals remain expired. No positive live selection is claimed.
-- Notes: source commit7985be47 is based on verified masterf6593497. Preserve
-  original service PID28093 and all unrelated files. Do not merge002 or refresh
+- Notes: source commit 7985be47 is based on verified master f6593497. Preserve
+  original service PID 28093 and all unrelated files. Do not merge 002 or refresh
   live authority to convert this blocked result into a pass.
 
 ## 2026-11-08 22:04 EST — Codex — DISCOVERY-002 trusted readers; Gate B in progress

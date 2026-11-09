@@ -1,0 +1,27 @@
+{
+  "failure": {
+    "authorized_file_read_counts": {},
+    "captured_at_utc": "2026-11-09T03:44:59Z",
+    "error_class": "ProtocolError",
+    "error_code": "filesystem_ownership_ignored",
+    "schema": "bullgod-discovery-002-readonly-live-acceptance/1",
+    "stage": "read_actual_config",
+    "status": "BLOCKED"
+  },
+  "before_after_checks": {
+    "agent_declarations": true,
+    "agents_http_status": true,
+    "config_sha256": true,
+    "config_size": true,
+    "health": true,
+    "model_config": true,
+    "process": true,
+    "profile_sha256": true,
+    "provider_env_exists": true,
+    "registered_agent_ids": true,
+    "conversation_counts": true
+  },
+  "all_metadata_unchanged": true,
+  "no_selection_reached": true,
+  "host_permissions_changed": false
+}

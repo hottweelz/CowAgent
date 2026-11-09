@@ -18,8 +18,8 @@ attestation. One review and bounded corrective follow-ups were used.
 | Current native state did not establish the running adapter's full approved enrollment | Compare the current snapshot and the authenticated fingerprint of the entire frozen enrollment, including its probe digest; a new approval cannot update an old process binding |
 | An authentic historical focused receipt could overstate its source coverage | Require a complete tested-source fingerprint that matches the approved and current source; partial source maps remain insufficient |
 
-The final integrated focused run passed 350 tests, including 27 trusted-reader
-cases and 21 independent acceptance cases. See [the receipt](focused-validation.json).
+The initial integrated focused run passed 350 tests, including 27 trusted-reader
+cases and 21 independent acceptance cases. See [that receipt](focused-before-ownership-fix.json).
 Positive fixtures use disposable authority and an actual authenticated temporary
 adapter inspection; they are not evidence of current live target eligibility.
 
@@ -38,3 +38,23 @@ Known limits remain explicit: native isolated proof and coherent free capacity
 have no authoritative current source; safe Codex executable attestation is
 unavailable; retained real enrollment and task approvals are expired. These
 conditions must not be promoted into verified eligibility.
+
+## Ownership-enforcement correction
+
+Further actual filesystem inspection found APFS ownership enforcement disabled.
+Changing mode bits alone would not establish owner trust, so the pending
+mode-only permission request was withdrawn without changing the host.
+
+The same independent reviewer checked the bounded correction and returned
+**PASS, no remaining actionable finding**. The Darwin structure matches Apple's
+installed SDK (2,168 bytes, flags offset 64, mask `0x00200000`). Independent
+metadata-only `statfs64` and `fstatfs64` calls agreed: the workspace volume is
+rejected and ownership-enforced private temporary storage is accepted. Python
+`statvfs` masks the needed flag and is not used as authority.
+
+The helper retains existing mode/owner/symlink checks, rejects ignored ownership
+or unavailable Darwin APIs, blocks operator initialization before writes, and
+leaves recovery admission unknown. Linux does not load the Darwin API. No
+subprocess, network, mount or permission change was added. The worker passed 107
+targeted tests; the lead then passed 356 integrated tests (33 reader cases and
+21 independent acceptance cases). Fresh hosted validation is recorded separately.

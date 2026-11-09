@@ -17,6 +17,7 @@ import time
 from agent.external import contract
 from agent.external.approved_dispatch import ApprovalJournal
 from agent.external.inspection import INSPECTION_VERSION, native_snapshot
+from agent.external.filesystem_trust import require_filesystem_ownership
 from agent.external.operator_control import _scope
 from agent.external.operator_review import _enrollment_packet, _snapshot
 from agent.external.supervisor import ExternalSupervisor
@@ -35,12 +36,14 @@ def _owned_bytes(path, *, private=False):
     if os.geteuid() != uid or not path.is_absolute() or path.resolve(strict=True) != path:
         raise DiscoveryError('untrusted_record_path')
     for parent in path.parents:
+        require_filesystem_ownership(parent)
         info = parent.lstat()
         if (not stat.S_ISDIR(info.st_mode) or info.st_uid not in (0, uid)
                 or info.st_mode & 0o022 and not info.st_mode & stat.S_ISVTX):
             raise DiscoveryError('untrusted_record_path')
     fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
     try:
+        require_filesystem_ownership(fd=fd)
         info = os.fstat(fd)
         if (not stat.S_ISREG(info.st_mode) or info.st_uid != uid or info.st_nlink != 1
                 or info.st_mode & (0o077 if private else 0o022)
@@ -537,6 +540,7 @@ class _ObservedNativeSource(NativeSource):
             if path.resolve(strict=True) != path:
                 return
             for parent in path.parents:
+                require_filesystem_ownership(parent)
                 info = parent.lstat()
                 if (not stat.S_ISDIR(info.st_mode) or info.st_uid not in (0, os.getuid())
                         or info.st_mode & 0o022 and not info.st_mode & stat.S_ISVTX):

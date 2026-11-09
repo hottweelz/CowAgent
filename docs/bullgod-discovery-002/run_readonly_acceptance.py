@@ -598,10 +598,16 @@ if __name__ == '__main__':
         raise
     except Exception as exc:
         # Never print exception text or path-bearing stack traces.
+        known_errors = {
+            'Filesystem ignores ownership': 'filesystem_ownership_ignored',
+            'Filesystem ownership status unavailable': 'filesystem_ownership_unknown',
+        }
         failure = {'schema': 'bullgod-discovery-002-readonly-live-acceptance/1',
                    'status': 'BLOCKED', 'stage': STAGE, 'error_class': type(exc).__name__,
+                   'captured_at_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
                    'authorized_file_read_counts': GUARDS.get('authorized_file_reads', {}),
-                   'error_code': str(exc) if re.fullmatch(r'[a-z0-9_]{1,64}', str(exc)) else 'acceptance_setup_failed'}
+                   'error_code': known_errors.get(str(exc), str(exc) if re.fullmatch(
+                       r'[a-z0-9_]{1,64}', str(exc)) else 'acceptance_setup_failed')}
         target = EVIDENCE / 'readonly-live-acceptance-failure.json'
         target.write_text(json.dumps(failure, indent=2, sort_keys=True) + '\n', encoding='utf-8')
         os.chmod(target, 0o600)
