@@ -1,5 +1,30 @@
 # AI handoff ledger
 
+## 2026-11-09 11:34 EST — Codex — DISCOVERY-002R trust decision before implementation
+
+- Scope: maintainer authorizes an internal runtime bridge and controlled read-only
+  tests on draft PR #4. No host changes, restart, dispatch, new authority or merge.
+- Team: Sol 6.1/high production boundary and later independent review for interacting
+  instance/caller/private-proof trust; Luna/high preservation and independent tests.
+  Lead owns lifecycle, documents, integration and Git. No external pools.
+- Changes/files: in-process-remediation.md publishes architecture, constraints and
+  ordered plan before source edits; in-process-baseline.json records fresh evidence.
+- Checks/results: PR/branch/master/worktrees rechecked; upstream 0/0; fsck succeeds
+  with 40 retained dangling objects. Seven originals, two refs, five artifacts,
+  manifest and detached worktree preserved. PID28093/health/config/profiles stable;
+  aggregate conversation/operator counts unchanged; recovery has two completed
+  tasks, zero effects. pCloud UI confirms no active coverage; window restored closed.
+- Decision: derive native evidence only from actual initialized server objects;
+  retain all private-file guards. Current source has no safe existing-process
+  ingress and reload is disabled. Source tests cannot certify that PID's live bridge.
+- Lessons Learned: none; existing filesystem-provenance lesson remains applied.
+  MEMORY.md update: not needed at design publication; review after implementation.
+- Known issue/next: implement bounded bridge and independent adversarial tests,
+  review before live testing, run full hosted CI, publish honest A–J results.
+  Actual live integration may remain blocked without a permitted loading path.
+- Notes: 002R supersedes the prior no-live-retry hold only within its explicit scope.
+  All ownership/restart/activation prohibitions persist. No implementation yet.
+
 2026-11-09 - Codex - trivial: maintainer chose to keep DISCOVERY-002 live acceptance blocked; ownership enablement is not authorized, and no live-gate retry or merge should proceed without new explicit direction - CHANGELOG_AI.md
 
 ## 2026-11-08 23:22 EST — Codex — Goal blocked after third ownership audit
