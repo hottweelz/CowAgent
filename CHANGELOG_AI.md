@@ -1,5 +1,58 @@
 # AI handoff ledger
 
+## 2026-11-08 20:32 EST — Codex — BULLGOD-DISCOVERY-001 implementation/review in progress
+
+- Task: implement internal derived capability discovery, deterministic eligibility
+  and selection; no dispatch or production activation. Baseline master 0805c82e;
+  working branch codex/bullgod-discovery-001. No merge authorized.
+- Team: two Luna/high workers audited native and external source contracts; the
+  native auditor now owns independent acceptance tests. Sol 6.1/high core worker
+  owns the discovery package and read-only approval preview because identity,
+  proof, approval freshness and permissions require consequential cross-component
+  reasoning. A separate Sol 6.1/high reviewer performs the one required authority
+  review. Lead owns integration/docs/validation/Git. STE design/planning/review used.
+- Changes: agent/discovery contracts/sources/service/API; additive read-only
+  ApprovalJournal.preview_admission; focused contracts tests. Architecture and
+  source-of-truth decision at docs/bullgod-discovery-001/architecture.md.
+- Verification: clean tracked baseline, exact master/upstream 0805c82e at 0/0,
+  existing linked worktree clean, original seven untracked/five recovery artifacts
+  hash-preserved. Current pCloud UI has six nonoverlapping Backup rows and zero
+  Sync rows; window restored closed. Original runtime metadata captured privately.
+  Final focused checks: 224 pass, including 26 core +26 acceptance and existing
+  adapter/native/operator checks; Ruff, compile and diff checks pass. One
+  independent review PASS after both P2 fixes. Full hosted matrix pending.
+- Decisions: derived view over AgentRegistry and enrolled ExternalSupervisor
+  bindings; no second identity or approval database. Explicit trusted-host proof,
+  signed observation and admission readers; missing evidence remains ineligible.
+  Current adapters support analyze_records only, so arbitrary Codex coding is
+  denied. Selection always dispatch_permitted=false, requires execution admission
+  revalidation, and creates no tasks/approvals/intents. Timeout/deadline cannot
+  promise a budget tighter than the actual policy/authority fence.
+- Lessons Learned:
+  - Mistake: full external task hash initially included the candidate runtime ID.
+  - Root Cause: target-bound approval identity differs from target-independent
+    requirements used to compare candidates.
+  - Future Trigger: selecting between separately enrolled runtimes for one task.
+  - Required Behavior Change: selection hash omits only runtime_id from the fully
+    normalized spec; every candidate still checks exact full spec and approval.
+  - Verification Step: two-target real temporary operator journals and task-change
+    adversarial tests; signed envelopes and no-intent assertions.
+  - Durable Memory Update: project MEMORY.md records the discovery contract; no
+    global memory update.
+- Review fixes: require explicit source ID; compare actual execution budget to
+  caller/deadline/proof ceiling. Common disabled-identity check is explicit.
+  Original runtime and all preservation checks pass. Host evidence/admission
+  callbacks are trusted integration dependencies, absent by default; no live
+  eligibility claim. Admission is bounded observation without slot reservation.
+- Next: publish implementation/acceptance commits and draft PR, run full hosted
+  matrix, publish source-bound receipts/final report and required final
+  handoff and verify feature upstream 0/0. Do not merge or run live models.
+- Notes: preserve original runtime PID 28093, agent profiles/memories/providers,
+  credentials, recovery refs and untracked files. Raw evidence/cache root:
+  /var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/cow-bullgod-discovery-001-flohoqs6.
+  Core owns agent/discovery + test_discovery_contracts; Luna owns
+  tests/test_bullgod_discovery.py and tests/discovery_fixture.py. No shared edits.
+
 ## 2026-11-08 19:36 EST — Codex — INFRA-RELIABILITY-001B integrated and verified
 
 - Task/result: owner removal of Projects from pCloud is verified. The known

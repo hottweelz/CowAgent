@@ -1,0 +1,23 @@
+{
+  "captured_at": "2026-11-09T01:08:36.103254+00:00",
+  "baseline": "0805c82ef55342b105c835cee77c21d6e385c434",
+  "original_untracked_hashes_match": true,
+  "five_recovery_artifact_hashes_match": true,
+  "tracked_worktree_clean": true,
+  "pcloud_backup": {
+    "rows": 6,
+    "active": 1,
+    "all_paths_canonicalized_no_checkout_git_overlap": true
+  },
+  "pcloud_sync_rows": 0,
+  "head_master_origin_master": "0805c82ef55342b105c835cee77c21d6e385c434",
+  "upstream_counts": [
+    0,
+    0
+  ],
+  "detached_worktree_clean": true,
+  "recovery_refs": {
+    "codex/routing-closeout-ref-recovery": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+    "codex/routing-closeout-verified": "2b6df30a66f79b37577112517add8e56c7b22288"
+  }
+}
