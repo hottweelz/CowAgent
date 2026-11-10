@@ -9,6 +9,9 @@ FIRST-BOOTSTRAP-001 and 002 are completed investigations. Their Class C findings
 remain deployment concerns; resolving them is not a prerequisite for PERSONAL-001.
 The running CowAgent at `127.0.0.1:9899` is outside this development baseline.
 
+Published for review in [draft PR #8](https://github.com/hottweelz/CowAgent/pull/8).
+Implementation commit: `4595d81a9efac649034f1d7f4b35d92376442e83`.
+
 ## Clean integration
 
 Branch `codex/bullgod-reset-001` starts directly at verified master

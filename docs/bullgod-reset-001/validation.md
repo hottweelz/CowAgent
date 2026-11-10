@@ -85,7 +85,9 @@ their histories/reports remain preserved and unchanged.
 
 ## Publication scope
 
-The proposed consolidation targets master on `codex/bullgod-reset-001`. It does
+The proposed consolidation is [draft PR #8](https://github.com/hottweelz/CowAgent/pull/8),
+implementation commit `4595d81a9efac649034f1d7f4b35d92376442e83`, targeting master
+on `codex/bullgod-reset-001`. Push/fetch confirmed upstream counts `0 0`. It does
 not merge, close, rebase, force-push or delete any existing branch or PR. The
 original untracked workspace `AGENTS.md` remains outside the commit. The draft
 PR is for review of this independent baseline; integration is a separate decision.

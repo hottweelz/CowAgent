@@ -6,6 +6,10 @@
   codex/bullgod-reset-001 starts directly from stable master f6593497, without
   the PR #4–7 dependency chain. FIRST-BOOTSTRAP-001/002 are completed investigations;
   their unresolved deployment concerns do not gate personal-agent development.
+- Publication: implementation 4595d81a pushed; draft PR #8 opened against master
+  and attached to this chat. No-prune fetch confirmed upstream 0/0. Tracked tree
+  clean, with the original untracked AGENTS.md preserved. This documentation-only
+  closeout records the result without changing the validated implementation.
 - Team: Luna/high mapped PR components and native personal-agent capabilities,
   added the bounded lock regression and ran the one full suite. Terra 6.1/high
   implemented the isolated launcher because source/runtime/process/sandbox
@@ -53,8 +57,8 @@
   APIs. Deliver the documented goal → restart → context → scoped approval → one
   bounded workspace action → result explanation scenario before adding autonomy.
 - Notes: do not resume legacy maintenance or close old PRs without an explicit
-  decision. Preserve original untracked AGENTS.md. Push this named branch, verify
-  0/0 upstream synchronization with no-prune fetch, and attach the replacement PR.
+  decision. Preserve original untracked AGENTS.md. Continue from draft PR #8;
+  normal integration still requires the maintainer's explicit decision.
 
 ## 2026-11-08 21:30 EST — Codex — DISCOVERY-002 Gate A integration passed
 
