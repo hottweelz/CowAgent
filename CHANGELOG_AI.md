@@ -2,6 +2,9 @@
 
 ## 2026-11-09 23:06 EST — Codex — PR #8 merged; PERSONAL-001 complete for review
 
+- Publication: implementation 6011ddbc pushed to the same named origin branch;
+  draft PR #9 opened against master and attached to this chat. No-prune fetch
+  confirmed upstream 0/0. This docs-only closeout preserves tested source.
 - Task/result: PR #8 merged normally as 1cc6ef1e after retained-source/evidence
   qualification. PERSONAL-001 implemented and its complete owner experience
   passed on codex/bullgod-personal-001, based directly on that merge. No hosted
@@ -55,7 +58,8 @@
 - Known limits: hosted/Linux/Windows/power-cut checks not run for this candidate.
   Early helper failures and ambiguous answer remain documented, not erased.
   Original untracked AGENTS.md preserved. Isolated temporary storage is not a
-  production deployment. Publication/sync follows this entry in a docs closeout.
+  production deployment. Tracked worktree clean after publication; original
+  untracked AGENTS.md remains outside the commit.
 - Next: review the PERSONAL-001 draft PR; then add PERSONAL-002 multiple goals,
   priorities and pending decisions using the existing storage/permission boundary.
   Do not resume legacy deployment work as a development prerequisite.

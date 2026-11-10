@@ -5,6 +5,9 @@ process restarts and model changes. The existing chat now has a continuity card
 for the goal, progress, pending decision, next step, memory sources and action
 results. Specialist agents are not required.
 
+Published for review in [draft PR #9](https://github.com/hottweelz/CowAgent/pull/9),
+implementation commit `6011ddbc`. No merge or production activation is included.
+
 This work starts from PR #8's normal merge, `1cc6ef1e`. The integration check
 confirmed an identical tree to reviewed head `a2994b1a`, matching regression and
 development evidence hashes, no unresolved review threads and no CI/dependency
