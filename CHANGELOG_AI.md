@@ -1,6 +1,6 @@
 # AI handoff ledger
 
-## 2026-11-10 09:23 EST — Codex — PERSONAL-002 implemented and locally validated for draft review
+## 2026-11-10 09:23 EST — Codex — PERSONAL-002 published as draft PR #10; local and native gates passed
 
 - Task/result: persistent personal commitments and approved online news reads on
   codex/bullgod-personal-002, based exactly on reviewed PR #9 head adbe2105. PR #9
@@ -19,7 +19,8 @@
   36 skipped, 93 subtests, zero failures/errors, 208.88s. All 29 executable/test
   hashes matched before/after. Both personal UI checks, changed-Python Ruff F and
   diff checks passed. Independent source review has no open finding. Final native
-  evidence reconciliation uses read-only DB/source/model metadata and 22-row matrix.
+  evidence reconciliation passed with documented limits using read-only DB/source/
+  model metadata and the exact 22-row matrix.
 - Native: actual GPT-6 Luna Pooler conversation, owner commitment, actual HTTPS
   briefing with 4 attributed stories, saved follow-up, restart/GPT-5.6 Luna recall,
   multiple commitments plus separate PERSONAL-001 goal/memory, durable priority 5,
@@ -34,9 +35,12 @@
   unchanged. Original untracked AGENTS.md remains excluded.
 - Decisions: explicit endpoint/pins and standing read grant only; fixed loopback
   relay accommodates actual macOS sandbox rule support without broad egress.
-  Current GitHub Actions enabled status observed read-only; no setting changed.
-  Publication follows this commit to same named origin branch and draft PR against
-  codex/bullgod-personal-001; hosted run result recorded separately.
+  Read-only GitHub metadata reported Actions enabled/workflow active, but one
+  dispatch returned HTTP 422: Actions disabled. No hosted run/pass, setting change,
+  retry or runner investigation. Receipt preserves the contradiction.
+  Implementation 7be4f139 published to same named origin branch as draft PR #10 against
+  codex/bullgod-personal-001 and attached. Fetch without prune confirmed 0/0.
+  This docs-only closeout preserves all tested executable hashes.
 - Lessons Learned:
   - Mistake: blank feed URLs, long-body updates and earlier draft sources exposed
     gaps not covered by initial fixtures; initial model summary mixed run types.
@@ -53,8 +57,8 @@
   failures, pins may age, native scheduler single-process contract, 36 platform/
   opt-in skips, inherited nonfatal Xunfei thread warning. Earlier raw API snapshot
   predates later native selected IDs. No production, power-cut or publication claim.
-- Next: publish and inspect existing hosted workflow; review PERSONAL-002 draft
-  after PERSONAL-001 baseline decision. Then PERSONAL-003 natural review of pending
+- Next: review draft PR #10 after the PR #9 baseline decision; run the existing
+  hosted Tests workflow when execution is available. Then PERSONAL-003 review of pending
   decisions/missed commitments. Do not make legacy deployment a product gate.
 - Notes: docs/personal-002 contains source/API/native/test/review/audit receipts.
   Owned root bullgod-dev-evrleesw retained under system temp; private full logs at

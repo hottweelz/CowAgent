@@ -9,6 +9,7 @@ This branch starts at PR #9's reviewed head `adbe2105`, which was still open and
 draft when checked. Its 22 final source/test hashes matched the retained receipt.
 PERSONAL-002 does not merge or modify that branch. Its draft targets
 `codex/bullgod-personal-001`; PRs #4–7 remain independent historical work.
+Published for review as [draft PR #10](https://github.com/hottweelz/CowAgent/pull/10).
 
 ## API observations
 
@@ -230,6 +231,14 @@ changed executable/test hashes matched before and after. Both PERSONAL-001 and
 PERSONAL-002 Node UI checks passed, as did changed-Python Ruff F checks and
 whitespace checks. The exact skips and nonfatal Xunfei websocket thread warning
 are retained in the receipt; they are not presented as executed passing cases.
+
+Hosted CI is **unavailable**, not passed. GitHub's read-only metadata reported
+Actions enabled and the Tests workflow active, but the execution endpoint rejected
+one dispatch on implementation commit `7be4f139` with HTTP 422: “Actions has been
+disabled for this repository.” No run or check was created. No setting was changed,
+and no retry or runner investigation followed. The remaining hosted integration
+requirement is to run the existing Tests workflow when the maintainer makes
+execution available. The later publication update changes documentation only.
 
 ## Next capability
 
