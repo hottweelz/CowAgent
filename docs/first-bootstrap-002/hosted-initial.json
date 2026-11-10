@@ -1,0 +1,96 @@
+{
+  "schema": "cowagent.hosted-ci-reconciliation.v1",
+  "kind": "retained-initial-hosted-evidence",
+  "run": {
+    "repository": "hottweelz/CowAgent",
+    "workflow": "Tests",
+    "run_id": 42725122390,
+    "attempt": 1,
+    "pull_request": 7,
+    "event": "pull_request",
+    "url": "https://github.com/hottweelz/CowAgent/actions/runs/42725122390",
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "f59a6e91152900d709cad1775b2756cf25b316c0",
+    "head_tree": "988926c42ab9638f129b6b0ea1970c99db0d447a",
+    "base_sha": "fcbc0d25cbf86d9ff94d4dd9f7fd067a6b2d183b",
+    "synthetic_merge_sha": "9f29e6f28cc703324b319ccf4750569a9d835d32",
+    "synthetic_merge_tree": "988926c42ab9638f129b6b0ea1970c99db0d447a",
+    "merge_tree_matches_head": true
+  },
+  "jobs": [
+    {
+      "id": 129528659679,
+      "name": "javascript",
+      "conclusion": "success",
+      "web_tests_passed": 39,
+      "desktop_scroll_tests_passed": 5,
+      "renderer_typecheck": "passed",
+      "production_build": "passed",
+      "main_typescript_compile": "passed"
+    },
+    {
+      "id": 129528659402,
+      "name": "ruff (changed Python files)",
+      "conclusion": "success"
+    },
+    {
+      "id": 129528659516,
+      "name": "pytest (ubuntu-latest, Python 3.13)",
+      "conclusion": "success",
+      "named_tests": 6217,
+      "passed": 6171,
+      "failed": 0,
+      "skipped": 46,
+      "passing_subtests": 93
+    },
+    {
+      "id": 129528659485,
+      "name": "pytest (macos-latest, Python 3.13)",
+      "conclusion": "success",
+      "named_tests": 6217,
+      "passed": 6178,
+      "failed": 0,
+      "skipped": 39,
+      "passing_subtests": 93
+    },
+    {
+      "id": 129528659091,
+      "name": "pytest (ubuntu-latest, Python 3.11)",
+      "conclusion": "failure",
+      "named_tests": 6217,
+      "passed": 6170,
+      "failed": 1,
+      "skipped": 46,
+      "passing_subtests": 93,
+      "failure": {
+        "test": "tests.test_audio_convert.TestGetPcmFromWav::test_closes_the_wave_handle",
+        "expected_close_count": 1,
+        "observed_close_count": 2
+      }
+    }
+  ],
+  "comparison_to_accepted_source": {
+    "head_sha": "005c1e4805c75017467b817baa2a8bbbe3f7511d",
+    "receipt": "docs/bullgod-discovery-002/service-drain-hosted.json",
+    "baseline_named_cases_each_platform": 6160,
+    "current_named_cases_each_platform": 6217,
+    "added_ids": 58,
+    "removed_ids": 1,
+    "removed_id": "tests.test_discovery_startup_observer::test_source_startup_runs_observer_after_owner_before_channels",
+    "replacement_ids": [
+      "tests.test_discovery_startup_observer::test_source_startup_runs_observer_after_owner_before_channels[False]",
+      "tests.test_discovery_startup_observer::test_source_startup_runs_observer_after_owner_before_channels[True]"
+    ],
+    "all_platform_identity_sets_match": true,
+    "skip_sets_match_baseline_exactly": true,
+    "passing_subtests_per_platform": 93
+  },
+  "runtime_comparison": {
+    "next_head": "2394bb3201b26b49ccd30131fd46d902bf0f837c",
+    "only_changed_file": "tests/test_audio_convert.py",
+    "runtime_source_changed": false
+  },
+  "raw_logs_and_junit": "Retained privately under /private/tmp/cow-first-bootstrap-002-hosted-f59a6e91; this receipt has no raw logs or XML.",
+  "hosted_full_matrix": "FAIL"
+}

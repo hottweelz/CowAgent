@@ -1,0 +1,47 @@
+{
+  "schema": "cow.first-bootstrap.recovery-result/2",
+  "status": "passed",
+  "scope": "fictional fixture only; no private live data was opened or copied",
+  "verification": {
+    "command": "TIKTOKEN_CACHE_DIR=/private/tmp/cow-infra-tiktoken-cache '/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python' scripts/ci_test.py tests/test_bootstrap_recovery_manifest.py -q",
+    "result": "6 passed"
+  },
+  "database_fixture": {
+    "count": 4,
+    "native_classes": ["ConversationStore", "MemoryStorage", "TaskStore"],
+    "integrity_checks": "All four seeded databases passed PRAGMA integrity_check; snapshot and isolated restore each verify all four.",
+    "fresh_ids": true,
+    "conversation_schema": "Current CowAgent global schema plus supported legacy per-agent sessions/messages schema for migration input.",
+    "recovery_schema": "Native tasks, attempts, effects, and verifications tables; one current attempt completed and verified."
+  },
+  "migration": {
+    "implementation": "agent.memory.conversation_store.migrate_conversations_to_global",
+    "registry": "Fictional default, testpilot, and testpilot2 profiles installed only for each isolated invocation.",
+    "baseline_markers": ["merged_agent:testpilot"],
+    "candidate_markers": ["merged_agent:testpilot", "merged_agent:testpilot2"],
+    "fallback_markers": ["merged_agent:testpilot", "merged_agent:testpilot2"],
+    "testpilot2_message_count_after_candidate_and_fallback_retry": 1,
+    "source_conversation_tables_archived": true
+  },
+  "restore": {
+    "target": "new isolated fallback directory",
+    "existing_failed_candidate_target": "restore refused; exact metadata inventory remained unchanged",
+    "later_user_file": "created on the failed candidate before restore; explicitly reconciled into fallback",
+    "later_memory_row": "created on the failed candidate before restore; explicitly reconciled into fallback",
+    "unknown_file_preserved": true,
+    "symlink_preserved": true,
+    "mode_preserved": true,
+    "missing_entry_rejected": true,
+    "corrupt_entry_rejected": true
+  },
+  "effects": {
+    "history_rows": {"tasks": 1, "attempts": 1, "effects": 1, "verifications": 1},
+    "replay": "Snapshot and restore preserve the fictional effect row as inert data. These functions contain no effect executor or provider/client invocation path.",
+    "actual_external_effects": "None executed."
+  },
+  "limits": [
+    "Candidate and fallback are fixture directories; this is not a CowAgent process-startup receipt.",
+    "No live private-data snapshot or restoration was made.",
+    "No live service action or actual provider/client operation was performed."
+  ]
+}

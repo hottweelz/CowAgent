@@ -34,7 +34,9 @@ def _digest(value):
 
 def source_manifest():
     """Measure source files; deliberately do not waive private-file guards."""
-    paths = [ROOT / name for name in ('app.py', 'config.py', 'scripts/discovery_startup.py')]
+    paths = [ROOT / name for name in (
+        'app.py', 'config.py', 'scripts/discovery_startup.py', 'scripts/maintenance_drain.py',
+    )]
     for name in ('agent', 'bridge', 'common', 'models', 'channel', 'plugins'):
         paths.extend(sorted((ROOT / name).rglob('*.py')))
     result = {}
@@ -155,6 +157,9 @@ class _Launch:
     uid: int
     created_monotonic: float
     phase: str = 'prepared'
+    # Optional private operator control, prepared only after launch authentication.
+    # It is not populated from a model, HTTP request or environment setting.
+    maintenance_control: object = None
 
     def validate(self, phase):
         if (self is not _pending or self.phase != phase or self.pid != os.getpid()

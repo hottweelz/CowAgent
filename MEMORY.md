@@ -1,12 +1,22 @@
 # CowAgent project facts
 
 - First-bootstrap qualification must account for source-mode plugin state in the
-  process CWD (`plugins/plugins.json`), not only COW_DATA_DIR. Plugin activation
-  makes the new coordinator fail closed with `plugin_runtime_untracked`; healthy
-  startup and a disabled-plugin fixture do not qualify enabled plugin lifetimes.
-  A legacy client-exclusion policy and consistent private recovery remain separate
-  from the new coordinator's positive drain contract. See
-  [FIRST-BOOTSTRAP-001](docs/first-bootstrap-001/README.md).
+  process CWD (`plugins/plugins.json`), not only COW_DATA_DIR. FIRST-BOOTSTRAP-002
+  qualifies seven exact known plugin classes/handlers and instrumented children;
+  failed/unknown/reloaded imports, changed handlers, extensible commands, plugin
+  management and surviving remote image jobs retain sticky blockers. Enabled
+  startup alone never proves all command/provider lifetimes. Candidate coverage
+  does not instrument the legacy PID. Enforced external exclusion and consistent
+  private recovery remain separate from positive drain. See
+  [FIRST-BOOTSTRAP-002](docs/first-bootstrap-002/README.md).
+- The optional launch-only private operator control binds the genuine initialized
+  service owner, PID and runtime/coordinator epochs. It uses the existing private
+  OS-account boundary, not human-presence authentication. One-shot close-and-observe
+  requests close admission monotonically; timeout cannot cancel, signal or reopen.
+  Claims/receipts remain durable per-launch audit state. File readers and writers
+  use separate I/O-lock descriptors through unlink/directory fsync so intermediate
+  hardlink states and non-durable publication cannot pass. Each launch needs a
+  new empty trusted directory; unsupported coverage remains refusal.
 - For a reviewed same-directory runtime source selection from an older Git index,
   worktree-only restore can leave newly added Python files untracked on fallback.
   Require a clean initial index/worktree, scope both `--staged --worktree` restores

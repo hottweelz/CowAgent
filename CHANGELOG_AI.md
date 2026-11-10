@@ -1,5 +1,206 @@
 # AI handoff ledger
 
+2026-11-09 - Codex - trivial: recorded maintainer decision to preserve Actions settings and publish the blocked Class C result, with no further CI attempts; hosted validation remains incomplete and live maintenance unauthorized - docs/first-bootstrap-002/README.md; draft PR #7 description.
+
+## 2026-11-09 19:39 EST — Codex — external validation blocker confirmed
+
+- Summary/result: third consecutive goal turn with the same GitHub execution
+  blocker. Goal is blocked, not complete; **CLASS C — NO-GO** remains unchanged.
+- Team: lead-only read-only continuation audit; no additional delegation needed.
+- Changes/files: latest observation in docs/first-bootstrap-002/hosted.json,
+  completion-audit.md publication/status clarification and this handoff. No source,
+  test, dependency, workflow or service changes. MEMORY.md update: not needed.
+- Checks: GitHub connector confirms existing run 42726508145 queued, zero jobs,
+  zero artifacts; no run for current c65cf2bf head. Local tracked state clean,
+  original untracked AGENTS.md preserved. JSON/diff checks and named-upstream
+  synchronization checked for this evidence publication; no test reruns required.
+- Decisions: no further dispatches or settings toggles against contradictory
+  metadata. All feasible authorized local work and current-source interruption
+  evidence are complete. Hosted Python validation remains an explicit unmet gate.
+- Lessons Learned: none.
+- Known issues/next: restore a usable GitHub Actions execution state through the
+  maintainer/platform, then resume the existing exact-source hosted gate. The
+  earlier 422 disabled response conflicts with enabled/active API metadata; do
+  not claim a cause or replace hosted evidence with local results. Separate
+  legacy ingress/private recovery authorization and qualification remain required.
+- Notes: retain original queued run and failed/cancelled receipts, draft PR chain,
+  live PID/source, recovery refs/files and no-prune rule. Goal can resume after
+  the external condition changes; no maintenance or merge was authorized.
+
+## 2026-11-09 19:37 EST — Codex — completion audit and current startup interruption
+
+- Summary: audited every FIRST-BOOTSTRAP-002 phase against current evidence.
+  Goal remains incomplete because exact-source hosted Python validation is blocked;
+  **CLASS C — NO-GO** remains the maintenance decision.
+- Team: reused Luna/high for read-only CI status and Terra 6.1/high for one bounded
+  cross-process startup/authority/recovery check. Lead owns audit, receipt review,
+  documentation and Git sync. No new source reviewer or external pool.
+- Changes/files: docs/first-bootstrap-002/completion-audit.md; interrupted-startup
+  driver/rehearsal/receipt; README/recovery/review links and this handoff. Runtime,
+  tests, dependencies and workflows remain unchanged. MEMORY.md update: not needed.
+- Evidence/results: current f59 process paused after genuine private-control
+  publication but before observer/listener; owned SIGTERM exit 0 retained consumed
+  claim without a success receipt. Replacement with fresh request/control reached
+  health, rejected old control and returned a nine-component positive drain receipt.
+  Four fictional DB integrity/selected record digests, team and memory-file digests
+  match. Both owned processes exited 0; port 19890 released. No mid-transaction,
+  actual private restoration or external exactly-once claim.
+- Checks: fixture/source hashes recomputed and matched; JSON/AST/relative links,
+  F-class Ruff and git diff --check passed. Lead read supplemental fixture/receipt.
+  Original PID/start and 9899 health rechecked after owned-process work.
+- CI: authoritative run 42726508145 still queued, attempt 1, zero jobs/artifacts;
+  no second attempt or newer run on 2394/d9abc. No retry/settings action this turn.
+  This is the second consecutive goal turn with the same external blocker.
+- Lessons Learned:
+  - Mistake: published interruption evidence predated the new startup control.
+  - Root Cause: an older valid process receipt covered a different startup path.
+  - Future Trigger: changing startup binding/publication or recovery ordering.
+  - Required Behavior Change: match fault evidence to the changed boundary;
+    retain old evidence only for its exact scope.
+  - Verification Step: interrupt the exact new candidate at that boundary and
+    prove fresh-authority restart, stale-control refusal and state continuity.
+  - Durable Memory Update: none; existing source/evidence scope rule applies.
+- Known issues/next: resolve the contradictory GitHub dispatch state before a
+  current hosted Python matrix can pass. Keep the same run handle for read-only
+  checks; do not repeatedly dispatch or toggle settings. Separate live ingress
+  and actual private recovery authorizations/qualification remain required.
+- Notes: preserve draft PR chain, live source and no-prune recovery policy.
+  Publish this supplemental audit only; do not reinterpret Class C as full goal
+  completion or repeat already valid normal transition interactions.
+
+## 2026-11-09 19:30 EST — Codex — FIRST-BOOTSTRAP-002 qualification, Class C
+
+- Result: **CLASS C — NO-GO**. Candidate plugin coverage and private operator
+  drain are implemented and independently reviewed. Legacy ingress/producer
+  limits and actual private recovery remain unqualified. Corrected-source hosted
+  Python validation is incomplete. No live service, source, network, APFS,
+  authority, activation or merge action occurred.
+- Team: Luna/high for inventory, ingress/recovery and regression evidence; Terra
+  6.1/high for plugin/process integration; Sol 6.1/high for authority/durability
+  control and one independent review. Specialist work involved cross-component
+  lifetimes, replay and data integrity. Lead owns integration, validation,
+  decision, handoff and Git publication.
+- Changes: executable f59a6e91 adds known plugin source/class/handler coverage,
+  child accounting and sticky unknown/external blockers; launch-only private
+  PID/epoch-bound one-shot control; durable sanitized claims/receipts. Commit
+  2394bb32 changes only the audio test spy after a demonstrated finalizer race.
+- Files: runtime/tests in the preceding candidate entry; tests/test_audio_convert.py;
+  docs/first-bootstrap-002 reports, receipts and standalone fictional fixtures;
+  project MEMORY.md and this ledger. Dependencies/workflows/live checkout unchanged.
+- Local checks: guarded scripts/ci_test.py tests/ -q on f59 completed once in
+  234.90 seconds: 6,181 passed, 36 skipped, 93 passing subtests, no failures/errors.
+  Named IDs: +58/-1, net +57; old observer case replaced by two variants. Skips
+  unchanged. Six focused audio tests pass after 2394. Fixture AST, JSON, links,
+  F-class Ruff and diff checks pass. Runtime source remains identical to f59.
+- Hosted: f59 run 42725122390 passed four jobs; Linux 3.11 failed only the close
+  spy, then corrected in 2394. All platforms had 6,217 matching named IDs,
+  unchanged skip identities and 93 subtests. Corrected run 42726508145 passed
+  JavaScript (39 web + five desktop), strict TypeScript/build and Ruff. Three
+  Python jobs were cancelled without retrievable JUnit or established cause.
+  One targeted retry stayed queued with zero jobs/no second attempt for ten
+  minutes. Manual dispatch returned HTTP 422 claiming Actions disabled, while
+  read-only APIs say enabled, workflow active, repo not disabled or archived.
+  Cause remains unresolved. No settings changed; no corrected Python pass claimed.
+- Process: real f59 service with seven enabled plugins and shipped CLI reports a
+  held Keyword callback, rejects new HTTP 503, retains health 200, then drains
+  with nine components after completion. Unknown handler denies. Supplemental
+  seven real neutral voice callbacks enter under lease and reject after close.
+  All owned processes exit 0. Candidate/restored-master four-DB digests match;
+  unknown sentinel survives. These are fictional configurations and safe stand-ins.
+- Recovery: six native-schema fixture tests cover actual merge/idempotence,
+  isolated restore, missing/corrupt entries, modes/symlinks, and explicit later
+  file/row reconciliation. Actual inventory covers three selected roots. No
+  actual private backup/restore or model/provider/adapter execution occurred.
+- Review: one independent review cleared three source findings (missing plugin
+  registration, wrapped replacement methods, premature hardlink publication),
+  the audio correction and final evidence/narratives. No open findings; final
+  hosted review confirms BLOCKED/INCOMPLETE rather than a green matrix.
+- Preservation: original PID 28093/start 1794162129.482237 remains healthy on
+  9899. Primary HEAD a507a400/tracked clean; seven original files, five recovery
+  artifacts and two recovery refs match. Disposable 19888–19890 free. pCloud
+  six Backup roots have no overlap, zero Sync pairs. fsck exit 0, 44 dangling/
+  unreachable lines, no errors; no prune/GC. Untracked AGENTS.md retained.
+- Decisions: operator trust is OS-account provenance, not human presence. Old PID
+  has no new control. Gateway bypass, unknown legacy effects and private recovery
+  prevent Class B. Metadata membership is not a backup qualification. Policy
+  specifies scoped OS-fence tests, private copy/reconcile, startup effects and aborts.
+- Lessons Learned:
+  - Mistake: the audio test counted finalizer-driven closes as function behavior.
+  - Root Cause: an instance spy retained its reader/bound method in a cycle;
+    garbage collection invoked Wave_read.__del__ through the patched method.
+  - Future Trigger: a lifecycle test spies on an object with a finalizer.
+  - Required Behavior Change: retain the real object through assertions and
+    inspect resource state; keep finalization outside the function call counter.
+  - Verification Step: deterministic gc.collect reproduction and six focused
+    proxy/state tests. Hosted completion remains blocked, not silently waived.
+  - Durable Memory Update: project MEMORY records qualified plugin boundaries
+    and private operator publication/timeout contracts; no global memory change.
+- Next: resolve contradictory GitHub dispatch/permissions state without blindly
+  toggling settings, then finish the exact 2394 Python matrix. Separately qualify
+  the scoped OS fence and approved actual private recovery before accepting a
+  bounded legacy interruption. Reuse valid process evidence; no broad re-audit.
+- Notes: draft PR #7 targets PR #6 branch codex/first-bootstrap-001 at fcbc0d25.
+  PRs #4–7 remain open/draft/unmerged. Publication branch is codex/first-bootstrap-002;
+  final push/fetch 0/0 is checked after this entry. Preserve no-prune recovery policy.
+
+
+## 2026-11-09 18:59 EST — Codex — FIRST-BOOTSTRAP-002 executable candidate
+
+- Scope: implement candidate plugin lifecycle coverage and private authenticated
+  operator drain; qualify legacy external exclusion and actual-state recovery
+  design through disposable fixtures. No live source/process/network/ownership/
+  approval/credential/production or merge actions are authorized.
+- Team: selected Luna/high ingress and recovery units, Terra 6.1/high plugin
+  integration and real-process rehearsal, Sol 6.1/high operator control and one
+  independent security/data-integrity review. Lead owns startup integration,
+  final-source validation, decision and Git publication. Engineering models cover
+  cross-thread/process lifetimes, authority/replay and durability beyond routine
+  evidence work. Workers do not own global Git or handoff.
+- Changes: exact-source/class/handler qualification for seven plugins; tracked
+  event/direct/child work; unknown imports/methods, failures, remote image jobs,
+  extensible command delegation and plugin management retain sticky blockers.
+  Launch-only control uses a private OS-account directory and process/epoch-bound
+  one-shot requests. Separate I/O locks order publication, unlink and fsync before
+  reads. Close is atomic/monotonic; no signals, cancellations or reopening.
+- Files: common maintenance_control/plugin_lifecycle; plugin manager/cow_cli/
+  midjourney; startup observer/app/helper; maintenance CLI; startup/control/plugin/
+  recovery tests; fictional native-schema recovery fixture and milestone plan.
+- Checks: focused integration selection 133 passed before the final extra control
+  concurrency test; latest worker control selection 36 passed, plugin selection
+  24 passed, native recovery manifest selection 6 passed. New/changed F-class lint
+  and diff checks pass. Full local, hosted exact-source CI and real-process
+  integration remain mandatory before qualification/publication closeout.
+- Review: three concrete findings corrected and independently reproduced as fixed:
+  missing plugin imports/registration, broad unwrap accepting replacement methods,
+  and hardlink publication exposing non-durable files. No open source finding;
+  final process/CI evidence review is pending. Do not claim a final gate yet.
+- Established boundary: a disposable gateway rejected submissions but direct
+  listener access bypassed it. PF inspection is denied and no rule was applied.
+  A separately approved scoped OS-boundary test remains necessary for Class B.
+  Four actual SQLite DBs and related paths are inventoried by metadata only;
+  actual private data was not backed up/restored. Current legacy PID/start and
+  9899 health, pCloud exclusion, seven original files and five recovery artifacts
+  remain preserved. git fsck passed with 44 dangling/unreachable lines, no errors.
+- Lessons Learned:
+  - Mistake: file publication made a final name readable before unlink/fsync.
+  - Root Cause: no-replace hardlink publication has an intermediate two-link state
+    and visibility alone is not a durable commit.
+  - Future Trigger: publishing an operator request/receipt across processes.
+  - Required Behavior Change: serialize readers/writers through committed directory
+    sync; readers verify durability; reject external hardlinks and failed sync.
+  - Verification Step: deterministic paused-link/fsync cross-process and thread
+    tests plus independent reproductions; final integrated suite remains required.
+  - Durable Memory Update: defer final project MEMORY contract until integration
+    qualifies the implementation. No global memory changes.
+- Next: freeze this executable candidate; run the real enabled-plugin service and
+  supported CLI on owned port19890; full local directory regression and hosted
+  matrix on exact source; finish actual-state manifest, final review and one
+  Class B/C decision. Publish draft against codex/first-bootstrap-001; no merge.
+- Notes: parent owns named branch codex/first-bootstrap-002 from PR #6 fcbc0d25;
+  primary checkout stays a507a400. The new source does not retrofit PID28093.
+  Preserve no-prune recovery refs and untracked AGENTS.md. Never substitute old
+  CI for changed executable code; retain each prior source's evidence separately.
+
 
 ## 2026-11-09 17:10 EST — Codex — FIRST-BOOTSTRAP-001 qualification
 

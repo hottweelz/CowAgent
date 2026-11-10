@@ -1,0 +1,130 @@
+{
+  "schema": "cowagent.hosted-ci-reconciliation.v1",
+  "kind": "current-source-hosted-attempt",
+  "run": {
+    "repository": "hottweelz/CowAgent",
+    "workflow": "Tests",
+    "run_id": 42726508145,
+    "attempt": 1,
+    "pull_request": 7,
+    "event": "pull_request",
+    "url": "https://github.com/hottweelz/CowAgent/actions/runs/42726508145",
+    "head_sha": "2394bb3201b26b49ccd30131fd46d902bf0f837c",
+    "head_tree": "a8166b83c13274f09e45b43ee3fddf5f7fa75126",
+    "base_sha": "fcbc0d25cbf86d9ff94d4dd9f7fd067a6b2d183b",
+    "synthetic_merge_sha": "e5fd2ed8757e4868a8d3a9e5fef3667e78b9741a",
+    "synthetic_merge_tree": "a8166b83c13274f09e45b43ee3fddf5f7fa75126",
+    "merge_tree_matches_head": true,
+    "status": "completed",
+    "conclusion": "cancelled"
+  },
+  "jobs": [
+    {
+      "id": 129533395907,
+      "name": "javascript",
+      "conclusion": "success",
+      "web_tests_passed": 39,
+      "desktop_scroll_tests_passed": 5,
+      "renderer_typecheck": "passed",
+      "production_build": "passed",
+      "main_typescript_compile": "passed",
+      "log_sha256": "37debc325d0f091361f615247de7ee2fed32b5a50be08f3667e12ba48955b90c"
+    },
+    {
+      "id": 129533395882,
+      "name": "ruff (changed Python files)",
+      "conclusion": "success",
+      "log_sha256": "188a4d3a0617bd2f623bdf7c8b7fc68014b8ab3cf888deedf11d121fbc481243"
+    },
+    {
+      "id": 129533395892,
+      "name": "pytest (ubuntu-latest, Python 3.11)",
+      "conclusion": "cancelled",
+      "runner_assigned": true,
+      "backend_suite_started": true,
+      "junit_available": false,
+      "log_available": false
+    },
+    {
+      "id": 129533395820,
+      "name": "pytest (ubuntu-latest, Python 3.13)",
+      "conclusion": "cancelled",
+      "runner_assigned": true,
+      "backend_suite_reached_cleanup": true,
+      "junit_available": false,
+      "log_available": false
+    },
+    {
+      "id": 129533395745,
+      "name": "pytest (macos-latest, Python 3.13)",
+      "conclusion": "cancelled",
+      "runner_assigned": true,
+      "backend_suite_started": true,
+      "junit_available": false,
+      "log_available": false
+    }
+  ],
+  "cancellation": {
+    "completed_at_utc": "2026-11-10T00:14:14Z",
+    "cause": "unknown; the later manual-dispatch rejection does not establish the earlier cancellation cause.",
+    "superseding_run_found": false,
+    "pr_head_or_base_changed_during_run": false,
+    "workflow_concurrency": "tests-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }} with cancel-in-progress true",
+    "diagnostics": "GitHub check diagnostics returned HTTP 502; job-log API returned 404 BlobNotFound; gh run view --log reported log not found. No cancellation reason or annotation was available."
+  },
+  "targeted_retry_request": {
+    "action": "rerun_failed_workflow_run_jobs",
+    "requested_by_parent": true,
+    "tool_succeeded": true,
+    "observed_run_state": "queued",
+    "observed_run_attempt": 1,
+    "observed_job_count": 0,
+    "updated_at_utc": "2026-11-10T00:16:14Z",
+    "retry_job_ids": [],
+    "retry_execution_confirmed": false,
+    "latest_observation_utc": "2026-11-10T00:26Z",
+    "latest_observation": "Run remains queued with run_attempt 1 and zero job records; no retry job IDs or execution."
+  },
+  "comparison": "No JUnit artifacts were published for the canceled Python jobs. Do not claim test counts, case-ID delta, or skip comparison for source 2394bb32.",
+  "previous_source_receipt": "docs/first-bootstrap-002/hosted-initial.json",
+  "private_evidence": "JavaScript and Ruff logs retained under /private/tmp/cow-first-bootstrap-002-hosted-2394bb32. No Python log or JUnit was retrievable.",
+  "hosted_full_matrix": "BLOCKED",
+  "retry_dispatch": {
+    "workflow": "Tests",
+    "requested_ref": "codex/first-bootstrap-002",
+    "head_sha": "2394bb3201b26b49ccd30131fd46d902bf0f837c",
+    "base_sha": "fcbc0d25cbf86d9ff94d4dd9f7fd067a6b2d183b",
+    "result": "rejected",
+    "http_status": 422,
+    "error": "Actions has been disabled for this repository.",
+    "run_created": false,
+    "attempt2_execution_confirmed": false,
+    "separate_retry_workflow_run_id": null
+  },
+  "read_only_actions_status": {
+    "repository_disabled": false,
+    "repository_archived": false,
+    "repository_visibility": "public",
+    "actions_permissions_endpoint": {
+      "enabled": true,
+      "allowed_actions": "all",
+      "sha_pinning_required": false
+    },
+    "workflow_state": "active",
+    "source": "Read-only GitHub API/CLI metadata queried after dispatch rejection.",
+    "reconciliation": "These exposed status fields do not explain the 422 rejection. No setting was changed; effective dispatch remains blocked."
+  },
+  "gate_reason": "Attempt 1 Python matrix cancelled before test evidence. The targeted failed-jobs retry request remained queued with zero jobs. A separate exact-head workflow_dispatch was rejected with HTTP 422. No fresh Python matrix execution exists.",
+  "blocked_audit": {
+    "observed_at_utc": "2026-11-10T00:38:25Z",
+    "consecutive_goal_turns": 3,
+    "run_id": 42726508145,
+    "status": "queued",
+    "jobs": 0,
+    "artifacts": 0,
+    "latest_published_head": "c65cf2bf60aba7389e6a777159c13311b7322ea5",
+    "latest_head_workflow_runs": 0,
+    "source": "GitHub connector workflow-runs, jobs and artifacts endpoints",
+    "action": "No rerun, dispatch or settings change; external GitHub execution state must be resolved before hosted Python validation can complete."
+  }
+}

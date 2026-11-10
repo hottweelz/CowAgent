@@ -1,0 +1,20 @@
+{
+  "scope": "disposable focused plugin lifecycle tests",
+  "result": "partial qualification; external delegated paths remain unsupported",
+  "command": "python3 -m pytest tests/test_plugin_lifecycle_bootstrap.py tests/test_cow_cli_install_timeout.py tests/test_plugin_activate_no_duplicate_listeners.py tests/test_plugin_scan_new_detection.py tests/test_reload_plugin_keeps_config.py -q",
+  "passed": 24,
+  "actual_plugin_constructors": 7,
+  "real_network_calls": false,
+  "real_model_calls": false,
+  "private_process_startup_or_shutdown": "not tested here",
+  "legacy_process_instrumented": false,
+  "known_limits": [
+    "compiled checks do not verify all imported helpers",
+    "remote image jobs",
+    "extensible CLI delegation",
+    "plugin management",
+    "rescan",
+    "unknown imported source",
+    "primary configuration flags are file observations, not legacy loaded state"
+  ]
+}

@@ -352,17 +352,24 @@ def test_invalid_owner_is_rejected_before_private_binding_reader(tmp_path, monke
         observer.observe_and_publish(launch, object())
 
 
-def test_source_startup_runs_observer_after_owner_before_channels(monkeypatch):
+@pytest.mark.parametrize('with_control', [False, True])
+def test_source_startup_runs_observer_after_owner_before_channels(monkeypatch, with_control):
     import app
-    from common import service_lifecycle
+    from common import maintenance_control, service_lifecycle
 
     order = []
-    launch = object()
+    prepared = types.SimpleNamespace(close=lambda: order.append('prepared_closed'))
+    launch = types.SimpleNamespace(maintenance_control=prepared if with_control else None)
     owner = object()
     # This test isolates orchestration order. Genuine-owner validation is
     # exercised separately below and in the disposable service rehearsal.
     monkeypatch.setattr(service_lifecycle, "bind_initialized",
                         lambda coordinator, got_owner, channels: order.append("lifecycle"))
+    def bind_control(got_prepared, coordinator, got_owner):
+        assert got_prepared is prepared and got_owner is owner
+        order.append('control')
+        return types.SimpleNamespace(close=lambda: order.append('control_closed'))
+    monkeypatch.setattr(maintenance_control, 'bind_initialized', bind_control)
     monkeypatch.setattr(observer, "begin_startup", lambda _path: launch)
     monkeypatch.setattr(observer, "observe_and_publish", lambda got_launch, got_owner: (
         order.append("observe") if got_launch is launch and got_owner is owner else None
@@ -393,6 +400,11 @@ def test_source_startup_runs_observer_after_owner_before_channels(monkeypatch):
     app.run()
 
     assert order.index("owner") < order.index("lifecycle") < order.index("observe") < order.index("channels")
+    if with_control:
+        assert order.index('lifecycle') < order.index('control') < order.index('observe')
+        assert order[-2:] == ['control_closed', 'prepared_closed']
+    else:
+        assert 'control' not in order
 
 
 def test_real_runtime_owner_tracks_two_agents_until_last_completion(initialized_owner):
@@ -567,6 +579,41 @@ def test_helper_rejects_invalid_request_before_app_execution(tmp_path, monkeypat
     assert exc.value.code
     assert path.exists()
     assert observer._pending is None
+
+
+def test_helper_authenticates_before_preparing_control(tmp_path, monkeypatch):
+    import scripts.discovery_startup as launcher
+    from common import maintenance_control
+
+    request, _ = _write_request(tmp_path / 'private')
+    monkeypatch.setattr(launcher.sys, 'argv', list(sys.argv))
+    monkeypatch.setattr(launcher.sys, 'path', list(sys.path))
+    monkeypatch.setenv('COW_DATA_DIR', str(request.parent))
+    prepared = object()
+    calls = []
+    def prepare(path):
+        assert observer._pending is not None and not request.exists()
+        calls.append(('prepare', path))
+        return prepared
+    def run_app(*_args, **_kwargs):
+        assert observer._pending.maintenance_control is prepared
+        calls.append(('app', None))
+    monkeypatch.setattr(maintenance_control, 'prepare', prepare)
+    monkeypatch.setattr(launcher.runpy, 'run_path', run_app)
+    launcher.main(['--request', str(request), '--control-dir', str(tmp_path / 'control')])
+    assert [item[0] for item in calls] == ['prepare', 'app']
+
+
+def test_invalid_launch_cannot_prepare_control(tmp_path, monkeypatch):
+    import scripts.discovery_startup as launcher
+    from common import maintenance_control
+
+    monkeypatch.setattr(maintenance_control, 'prepare',
+                        lambda *_a: pytest.fail('control prepared before authentication'))
+    monkeypatch.setattr(launcher.runpy, 'run_path', lambda *_a, **_k: pytest.fail('app executed'))
+    with pytest.raises(SystemExit, match='Authenticated startup observation rejected'):
+        launcher.main(['--request', str(tmp_path / 'missing'),
+                       '--control-dir', str(tmp_path / 'control')])
 
 
 @pytest.mark.parametrize("invalid_case", ["missing", "schema", "expiry"])

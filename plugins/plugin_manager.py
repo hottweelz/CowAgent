@@ -44,6 +44,8 @@ class PluginManager:
         self.pconf = {}
         self.current_plugin_path = None
         self.loaded = {}
+        self._covered_classes = {}
+        self._has_scanned = False
 
     def register(self, name: str, desire_priority: int = 0, **kwargs):
         def wrapper(plugincls):
@@ -179,7 +181,12 @@ class PluginManager:
         except Exception as e:
             logger.error(e)
 
+    @tracked("plugins")
     def scan_plugins(self):
+        if self._has_scanned:
+            from common.runtime_drain import mark_unsupported
+            mark_unsupported("plugin_rescan_untracked")
+        self._has_scanned = True
         logger.debug("Scanning plugins ...")
         plugins_dir = _plugins_resource_dir()
         raws = {name: self.plugins[name] for name in self.plugins}
@@ -189,6 +196,13 @@ class PluginManager:
                 # 判断插件是否包含同名__init__.py文件
                 main_module_path = os.path.join(plugin_path, "__init__.py")
                 if os.path.isfile(main_module_path):
+                    # Imports execute even for disabled plugins. Unknown source
+                    # can create work before activation, so record it first.
+                    from common.runtime_drain import current, mark_unsupported
+                    if current() is not None:
+                        from common.plugin_lifecycle import known_import
+                        if not known_import(plugin_name, plugin_path):
+                            mark_unsupported("plugin_import_untracked")
                     # 导入插件
                     import_path = "plugins.{}".format(plugin_name)
                     try:
@@ -205,8 +219,11 @@ class PluginManager:
                             self.loaded[plugin_path] = importlib.import_module(import_path)
                         self.current_plugin_path = None
                     except Exception as e:
+                        mark_unsupported("plugin_import_failed")
                         logger.warn("Failed to import plugin %s: %s" % (plugin_name, e))
                         continue
+                    finally:
+                        self.current_plugin_path = None
         pconf = self.pconf
         # Compare by registry key: a reload registers a new class object.
         new_plugins = [self.plugins[name] for name in self.plugins
@@ -238,18 +255,30 @@ class PluginManager:
         failed_plugins = []
         for name, plugincls in self.plugins.items():
             if plugincls.enabled:
-                from common.runtime_drain import mark_unsupported
-                mark_unsupported("plugin_runtime_untracked")
+                from common.runtime_drain import current, mark_unsupported
+                from common.plugin_lifecycle import known_class
+                if current() is not None:
+                    previous = self._covered_classes.get(name)
+                    if not known_class(name, plugincls) or (previous is not None and previous is not plugincls):
+                        mark_unsupported("plugin_runtime_untracked")
+                    else:
+                        self._covered_classes[name] = plugincls
                 if 'GODCMD' in self.instances and name == 'GODCMD':
                     continue
                 # if name not in self.instances:
                 try:
                     instance = plugincls()
                 except Exception as e:
+                    mark_unsupported("plugin_initialization_failed")
                     logger.warn("Failed to init %s, diabled. %s" % (name, e))
                     self.disable_plugin(name)
                     failed_plugins.append(name)
                     continue
+                from common.runtime_drain import current, mark_unsupported
+                if current() is not None:
+                    from common.plugin_lifecycle import known_handlers
+                    if not known_handlers(name, instance):
+                        mark_unsupported("plugin_runtime_untracked")
                 if name in self.instances:
                     self.instances[name].handlers.clear()
                 self.instances[name] = instance
@@ -307,22 +336,34 @@ class PluginManager:
         logger.debug("plugins.json config={}".format(pconf))
         for name, plugin in pconf["plugins"].items():
             if name.upper() not in self.plugins:
+                if plugin.get("enabled"):
+                    from common.runtime_drain import mark_unsupported
+                    mark_unsupported("plugin_enabled_missing")
                 logger.error("Plugin %s not found, but found in plugins.json" % name)
         self._apply_desktop_plugin_denylist()
         self.activate_plugins()
 
+    @tracked("plugins")
     def emit_event(self, e_context: EventContext, *args, **kwargs):
         if e_context.event in self.listening_plugins:
             for name in self.listening_plugins[e_context.event]:
                 if self.plugins[name].enabled and e_context.action == EventAction.CONTINUE:
                     logger.debug("Plugin %s triggered by event %s" % (name, e_context.event))
                     instance = self.instances[name]
+                    from common.runtime_drain import current, mark_unsupported
+                    if current() is not None:
+                        from common.plugin_lifecycle import known_class, known_handlers
+                        if (self._covered_classes.get(name) is not type(instance)
+                                or not known_class(name, type(instance))
+                                or not known_handlers(name, instance)):
+                            mark_unsupported("plugin_runtime_untracked")
                     instance.handlers[e_context.event](e_context, *args, **kwargs)
                     if e_context.is_break():
                         e_context["breaked_by"] = name
                         logger.debug("Plugin %s breaked event %s" % (name, e_context.event))
         return e_context
 
+    @tracked("plugins")
     def set_plugin_priority(self, name: str, priority: int):
         name = name.upper()
         if name not in self.plugins:
@@ -338,6 +379,7 @@ class PluginManager:
         self.refresh_order()
         return True
 
+    @tracked("plugins")
     def enable_plugin(self, name: str):
         name = name.upper()
         if name not in self.plugins:
@@ -353,6 +395,7 @@ class PluginManager:
             return True, "插件已开启"
         return True, "插件已开启"
 
+    @tracked("plugins")
     def disable_plugin(self, name: str):
         name = name.upper()
         if name not in self.plugins:
@@ -368,7 +411,10 @@ class PluginManager:
     def list_plugins(self):
         return self.plugins
 
+    @tracked("plugins")
     def install_plugin(self, repo: str):
+        from common.runtime_drain import mark_unsupported
+        mark_unsupported("plugin_external_management_untracked")
         try:
             import common.package_manager as pkgmgr
 
@@ -409,7 +455,10 @@ class PluginManager:
             logger.error("Failed to install plugin, {}".format(e))
             return False, "安装插件失败，" + str(e)
 
+    @tracked("plugins")
     def update_plugin(self, name: str):
+        from common.runtime_drain import mark_unsupported
+        mark_unsupported("plugin_external_management_untracked")
         try:
             import common.package_manager as pkgmgr
 
@@ -444,7 +493,10 @@ class PluginManager:
             logger.error("Failed to update plugin, {}".format(e))
             return False, "更新插件失败，" + str(e)
 
+    @tracked("plugins")
     def uninstall_plugin(self, name: str):
+        from common.runtime_drain import mark_unsupported
+        mark_unsupported("plugin_external_management_untracked")
         name = name.upper()
         if name not in self.plugins:
             return False, "插件不存在"

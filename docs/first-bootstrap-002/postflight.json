@@ -1,0 +1,45 @@
+{
+  "captured_at": "2026-11-10T00:18:45.367917+00:00",
+  "live": {
+    "pid": 28093,
+    "start_epoch": 1794162129.482237,
+    "uid_matches_operator": true,
+    "cwd": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent",
+    "listeners": [
+      {
+        "host": "127.0.0.1",
+        "port": 9899
+      }
+    ],
+    "health": "200/ok",
+    "children_count": 0,
+    "signal_or_restart": false,
+    "loaded_source": "unattested"
+  },
+  "primary_head": "a507a400985512683c870ef4fe059fa5982ad13e",
+  "primary_tracked_clean": true,
+  "original_untracked_files_match": {
+    ".cow [conflicted 2].pid": true,
+    ".cow [conflicted 3].pid": true,
+    ".cow [conflicted 4].pid": true,
+    ".cow [conflicted].pid": true,
+    "AGENTS.md": true,
+    "tests/test_parallel_tool_calls [conflicted 2].py": true,
+    "tests/test_parallel_tool_calls [conflicted].py": true
+  },
+  "recovery_manifest_matches": true,
+  "preserved_recovery_artifacts": 5,
+  "preserved_refs": {
+    "codex/routing-closeout-ref-recovery": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+    "codex/routing-closeout-verified": "2b6df30a66f79b37577112517add8e56c7b22288",
+    "master": "f659349785acf98905901a5cc53921436a109dbc"
+  },
+  "owned_fixture_ports_free": [
+    19888,
+    19889,
+    19890
+  ],
+  "runtime_unchanged_since": "f59a6e91152900d709cad1775b2756cf25b316c0",
+  "post_f59_change": "tests/test_audio_convert.py only; supporting documents/fixtures uncommitted at capture",
+  "limits": "Point-in-time preservation observation; no legacy quiescence, private recovery, ownership, approval or activation claim."
+}

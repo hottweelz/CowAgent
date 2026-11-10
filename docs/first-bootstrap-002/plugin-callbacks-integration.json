@@ -1,0 +1,125 @@
+{
+  "schema": "cow.bootstrap.plugin-neutral-cases/1",
+  "candidate": "f59a6e91152900d709cad1775b2756cf25b316c0",
+  "port": 19890,
+  "scope": "Actual manager and registered callbacks; neutral VOICE input reaches each selected callback guard, no commands or provider execution. Fixture temporarily selects one registered listener at a time.",
+  "limits": [
+    "VOICE callbacks cover neutral guard paths only, not text commands, child workers, network actions, or every plugin event.",
+    "BROWSER=true; network outbound and identified live data paths denied.",
+    "Same-UID control does not prove human authorization or legacy quiescence."
+  ],
+  "pid": 52384,
+  "admitted_cases": {
+    "COW_CLI": {
+      "callback_entered": true,
+      "lease_observed": true
+    },
+    "GODCMD": {
+      "callback_entered": true,
+      "lease_observed": true
+    },
+    "KEYWORD": {
+      "callback_entered": true,
+      "lease_observed": true
+    },
+    "BANWORDS": {
+      "callback_entered": true,
+      "lease_observed": true
+    },
+    "LINKAI": {
+      "callback_entered": true,
+      "lease_observed": true
+    },
+    "ROLE": {
+      "callback_entered": true,
+      "lease_observed": true
+    },
+    "FINISH": {
+      "callback_entered": true,
+      "lease_observed": true
+    }
+  },
+  "drain_receipt": {
+    "active": {},
+    "agents": {},
+    "binding": {
+      "coordinator_epoch": "567b8eeb987349d3becbb7934696a207",
+      "pid": 52384,
+      "runtime_epoch": "4835fa2feb284a598eb4956b7c14b18a",
+      "service_id": "9258d96df1194be4b0fbfa0b619ae5d1",
+      "uid": 501
+    },
+    "blockers": [],
+    "closed": true,
+    "drained": true,
+    "finished_at": 1794269434.769139,
+    "protocol": "cow.maintenance.drain/1",
+    "registered_components": [
+      "agent",
+      "chat",
+      "evolution",
+      "extensions",
+      "http",
+      "memory",
+      "recovery",
+      "scheduler",
+      "startup"
+    ],
+    "request_digest": "4c71cd03e6c8d4cbdf5a66612504a606ff97d50daf4b352418a602dc194a693a",
+    "request_id": "bb691ebe3aba43a7a9474ab22d95c9d9",
+    "required_components": [
+      "agent",
+      "chat",
+      "evolution",
+      "extensions",
+      "http",
+      "memory",
+      "recovery",
+      "scheduler",
+      "startup"
+    ],
+    "status": "drained"
+  },
+  "closed_cases": {
+    "COW_CLI": {
+      "callback_entered": false,
+      "admission_closed": true
+    },
+    "GODCMD": {
+      "callback_entered": false,
+      "admission_closed": true
+    },
+    "KEYWORD": {
+      "callback_entered": false,
+      "admission_closed": true
+    },
+    "BANWORDS": {
+      "callback_entered": false,
+      "admission_closed": true
+    },
+    "LINKAI": {
+      "callback_entered": false,
+      "admission_closed": true
+    },
+    "ROLE": {
+      "callback_entered": false,
+      "admission_closed": true
+    },
+    "FINISH": {
+      "callback_entered": false,
+      "admission_closed": true
+    }
+  },
+  "status": "passed",
+  "exit_code": 0,
+  "fixture_sha256": {
+    "docs/first-bootstrap-002/plugin_cases_integration_fixture.py": "8cc8e1acb9392b685cdb1d63158a607028a88df7ba68fc5dafab8794d36f42b3",
+    "docs/first-bootstrap-002/plugin_cases_integration_rehearsal.py": "ab3e74a31ed51daad6ff324a65ce428c9a3bdfa767da749fa1f8cd1d4fe6154b",
+    "docs/first-bootstrap-001/request_fixture.py": "e73c68caf96209f34326bf6723e4f8895bb521a5dfc0d7191958a1646c66e4d8"
+  },
+  "executed_fixture_sha256": {
+    "docs/first-bootstrap-002/plugin_cases_integration_fixture.py": "8cc8e1acb9392b685cdb1d63158a607028a88df7ba68fc5dafab8794d36f42b3",
+    "docs/first-bootstrap-002/plugin_cases_integration_rehearsal.py": "ab3e74a31ed51daad6ff324a65ce428c9a3bdfa767da749fa1f8cd1d4fe6154b",
+    "docs/first-bootstrap-001/request_fixture.py": "e73c68caf96209f34326bf6723e4f8895bb521a5dfc0d7191958a1646c66e4d8"
+  }
+}
