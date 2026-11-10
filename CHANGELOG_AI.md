@@ -1,5 +1,29 @@
 # AI handoff ledger
 
+## 2026-11-10 14:37 EST — Codex — UPSTREAM-SELECTIVE-001 published as draft PRs #13 and #14
+
+- Result: candidates1–8 published in backend PR13; desktop9–10 in stacked PR14.
+  No candidate was already fixed locally. Dedup11 and Feishu retry12 deferred;
+  unsafe global TLS downgrade rejected. No upstream wholesale merge/deployment.
+- Team: unchanged lead/Luna/Terra6.1 MCP/Sol6.1 review assignments from prior entry.
+- Changes/files: final publication.md, README and this ledger only; executable
+  source/tests unchanged from combined-validation.json. MEMORY.md update: not
+  needed at publication; durable facts were updated in the implementation entry.
+- Verification: full6360pass/36skip/93subtests; web39,desktop16,commitmentsUI,
+  strict tsc/build/Ruff and source hashes pass. Independent review has zero open
+  findings. Both initial published heads show empty hosted checks/statuses/jobs;
+  hosted validation remains unverified. No CI investigation resumed.
+- Decisions: keep both draft/unmerged. Review backend13 before desktop14.
+  Final docs-only push and fetch/upstream0/0 check complete publication; no
+  accepted live-model interaction repeated for bookkeeping.
+- Lessons Learned: none beyond the prior concrete-fix entry.
+- Known issues: qualified full-suite/build warnings and runtime limits remain in
+  regression.md/publication.md. No failing local test or open source-review finding.
+- Next: maintainer reviews PR13 then PR14; any deployment is a separate decision.
+- Notes: preserve original seven untracked files and history. Task worktrees retain
+  untracked AGENTS.md only. Original PID28093 still listens on9899. No credentials,
+  production data, approvals, mount ownership or routing settings changed.
+
 ## 2026-11-10 14:35 EST — Codex — UPSTREAM-SELECTIVE-001 qualified for draft publication
 
 - Scope/result: imported candidates 1–8 on codex/upstream-selective-001 and 9–10
