@@ -1,5 +1,17 @@
 # CowAgent project facts
 
+- UX-001 keeps personal management in compact browser controls with native editor
+  dialogs. Open/closed preferences are local to the browser and agent; restore
+  only after authentication/config readiness. Preserve existing event/API paths,
+  request fencing, approvals and scoped source state. Validate normal and 200%
+  layouts with history/Files visible and focus return after Escape.
+- The console uses the existing default_agent_name for its instance identity,
+  escaping it in HTML and new-chat markup. Unnamed deployments retain CowAgent.
+- The authenticated Files browser and restricted model file broker have separate
+  access paths. Read-only mode permits ordinary workspace text reads, but the
+  broker excludes internal knowledge/memory/configuration paths. Do not infer
+  model read authority from a visible Files entry or a model's broad denial.
+
 - LIVE-001 provides a separate persistent macOS BullGod on loopback port 18991,
   using an internal-APFS application root outside Git worktrees. Native launchd
   jobs are explicitly bootstrapped outside LaunchAgents, with KeepAlive=false;

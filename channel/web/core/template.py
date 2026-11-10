@@ -13,6 +13,7 @@ split is invisible to the frontend.
 
 import os
 import re
+from html import escape
 from typing import Dict, Tuple
 
 # ``<!--#include templates/views/chat.html-->``. Whitespace around the path is
@@ -106,7 +107,15 @@ def asset_version(asset_path: str) -> str:
         return ''
 
 
-def render(rel_path: str) -> str:
+def console_title(settings) -> str:
+    """Use the instance's existing display name without changing agent routing."""
+    if not settings.get('agent', True):
+        return 'AI Assistant'
+    name = settings.get('default_agent_name')
+    return name.strip() if isinstance(name, str) and name.strip() else 'CowAgent'
+
+
+def render(rel_path: str, title: str = 'CowAgent') -> str:
     """Assemble ``rel_path`` and stamp a version onto its first-party assets.
 
     The stamp guards against a browser running an upgraded console's markup
@@ -127,4 +136,4 @@ def render(rel_path: str) -> str:
             return match.group(0)
         return 'assets/%s?v=%s' % (match.group(1), version)
 
-    return _ASSET_RE.sub(stamp, html)
+    return _ASSET_RE.sub(stamp, html).replace('{{CONSOLE_NAME}}', escape(title, quote=True))

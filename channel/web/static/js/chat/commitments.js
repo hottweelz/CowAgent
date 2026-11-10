@@ -4,6 +4,12 @@ let _commitmentsPersistedTurn = false;
 let _commitmentsBusy = false;
 let _commitmentsSnapshot = null;
 let _commitmentsShownSession = '';
+let _commitmentsPanelDialog = null;
+let _commitmentsPanelToggle = null;
+let _commitmentsPanelSummary = null;
+let _commitmentsPanelAgent = '';
+let _commitmentsPanelReady = false;
+let _commitmentsPanelRestoredAgent = null;
 
 function commitmentsOwnerId() {
     return activeAgentId || defaultAgentId || '';
@@ -11,6 +17,140 @@ function commitmentsOwnerId() {
 
 function commitmentsOwnerAuthReady() {
     return !!(appConfig && appConfig.web_password_masked);
+}
+
+function commitmentsPanelPreferenceKey(agentId = commitmentsOwnerId()) {
+    return `cowagent:owner-panel:commitments:${encodeURIComponent(agentId || 'default')}`;
+}
+
+function commitmentsSavePanelOpen(open, agentId = _commitmentsPanelAgent) {
+    try { localStorage.setItem(commitmentsPanelPreferenceKey(agentId), open ? 'open' : 'closed'); } catch (_) { /* Storage can be disabled. */ }
+}
+
+function commitmentsSetPanelOpen(open, persist = true) {
+    if (!_commitmentsPanelDialog || !_commitmentsPanelToggle) return;
+    const wasOpen = _commitmentsPanelDialog.open;
+    if (open) {
+        const current = window.__cowOwnerDialog;
+        if (current && current.panel !== 'commitments') current.close();
+        window.__cowOwnerDialog = { panel: 'commitments', close: () => commitmentsSetPanelOpen(false) };
+        if (!_commitmentsPanelDialog.open) _commitmentsPanelDialog.showModal();
+    } else if (_commitmentsPanelDialog.open) {
+        _commitmentsPanelDialog.close();
+    }
+    _commitmentsPanelToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (persist) commitmentsSavePanelOpen(open);
+    if (!open) {
+        if (window.__cowOwnerDialog && window.__cowOwnerDialog.panel === 'commitments') window.__cowOwnerDialog = null;
+        if (wasOpen) _commitmentsPanelToggle.focus();
+    }
+}
+
+function commitmentsRestorePanelState() {
+    const agentId = commitmentsOwnerId();
+    if (!_commitmentsPanelReady || !commitmentsOwnerAuthReady()) return;
+    const view = document.getElementById('view-chat');
+    if (view && view.classList && !view.classList.contains('active')) return;
+    if (_commitmentsPanelRestoredAgent === agentId) return;
+    if (agentId !== _commitmentsPanelAgent) {
+        if (_commitmentsPanelDialog && _commitmentsPanelDialog.open) commitmentsSetPanelOpen(false, false);
+        _commitmentsPanelAgent = agentId;
+    }
+    commitmentsApplyPanelPreference(agentId);
+}
+
+function commitmentsApplyPanelPreference(agentId = commitmentsOwnerId()) {
+    const view = document.getElementById('view-chat');
+    if (!_commitmentsPanelReady || !commitmentsOwnerAuthReady() || (view && view.classList && !view.classList.contains('active'))) return;
+    _commitmentsPanelAgent = agentId;
+    let open = false;
+    try { open = localStorage.getItem(commitmentsPanelPreferenceKey(agentId)) === 'open'; } catch (_) { /* Default closed. */ }
+    commitmentsSetPanelOpen(open, false);
+    _commitmentsPanelRestoredAgent = agentId;
+}
+
+function commitmentsSetupPanel() {
+    const card = document.getElementById('commitments-card');
+    if (!card || typeof document.createElement !== 'function' || !card.appendChild) return;
+    const editor = card.querySelector('details');
+    if (!editor) return;
+    const dialog = document.createElement('dialog');
+    dialog.id = 'commitments-dialog';
+    dialog.className = 'commitments-dialog';
+    dialog.setAttribute('aria-labelledby', 'commitments-title');
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'commitments-panel-toggle';
+    toggle.setAttribute('aria-controls', dialog.id);
+    toggle.setAttribute('aria-expanded', 'false');
+    const title = document.createElement('span');
+    title.className = 'commitments-panel-title';
+    title.textContent = 'Personal commitments';
+    const summary = document.createElement('span');
+    summary.className = 'commitments-panel-summary';
+    summary.textContent = 'Waiting for saved commitments';
+    toggle.append(title, summary);
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'commitments-refresh commitments-dialog-close';
+    close.textContent = 'Close';
+    close.setAttribute('aria-label', 'Close personal commitments');
+    close.addEventListener('click', () => commitmentsSetPanelOpen(false));
+    dialog.appendChild(close);
+    editor.open = true;
+    while (card.firstChild && card.firstChild !== editor) card.removeChild(card.firstChild);
+    dialog.appendChild(editor);
+    card.append(toggle, dialog);
+    toggle.addEventListener('click', () => commitmentsSetPanelOpen(!dialog.open));
+    dialog.addEventListener('close', () => {
+        if (dialog.open) return;
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.focus();
+    });
+    dialog.addEventListener('cancel', event => {
+        event.preventDefault();
+        commitmentsSetPanelOpen(false);
+    });
+    _commitmentsPanelDialog = dialog;
+    _commitmentsPanelToggle = toggle;
+    _commitmentsPanelSummary = summary;
+    _commitmentsPanelAgent = commitmentsOwnerId();
+    commitmentsSetPanelOpen(false, false);
+}
+
+function commitmentsUpdatePanelSummary() {
+    if (!_commitmentsPanelSummary) return;
+    const snapshot = _commitmentsSnapshot;
+    if (!snapshot) {
+        _commitmentsPanelSummary.textContent = 'Waiting for saved commitments';
+        return;
+    }
+    const attention = Array.isArray(snapshot.attention) ? snapshot.attention
+        : Array.isArray(snapshot.attention_history) ? snapshot.attention_history : [];
+    const actionableAttention = attention.filter(item => item && !item.stale && !item.dismissed_at
+        && ['pending', 'unread', 'blocked', 'uncertain'].includes(item.status));
+    const research = Array.isArray(snapshot.research_requests) ? snapshot.research_requests
+        : Array.isArray(snapshot.research) ? snapshot.research : [];
+    const pendingResearch = research.filter(item => item && item.can_mutate !== false
+        && ['pending', 'approved', 'executing'].includes(item.status)).length;
+    const commitments = Array.isArray(snapshot.commitments) ? snapshot.commitments : [];
+    const now = Date.now();
+    const due = commitments.filter(item => {
+        if (!item || item.status !== 'active' || item.schedule_status !== 'scheduled') return false;
+        const nextRun = item.scheduler_next_run || item.next_run_at;
+        if (!nextRun) return false;
+        const timestamp = typeof nextRun === 'number' ? nextRun * 1000 : new Date(nextRun).getTime();
+        return Number.isFinite(timestamp) && timestamp <= now;
+    }).length;
+    const parts = [];
+    if (actionableAttention.length) parts.push(`${actionableAttention.length} need attention`);
+    if (pendingResearch) parts.push(`${pendingResearch} research request${pendingResearch === 1 ? '' : 's'} open`);
+    if (due) parts.push(`${due} check${due === 1 ? '' : 's'} due`);
+    if (!parts.length) {
+        const active = commitments.filter(item => item && item.status === 'active').length;
+        parts.push(`${active} active commitment${active === 1 ? '' : 's'}`);
+    }
+    _commitmentsPanelSummary.textContent = parts.join(' · ');
 }
 
 function commitmentsEscape(value) {
@@ -89,12 +229,19 @@ function commitmentsStatus(message, error = false) {
     if (!el) return;
     el.textContent = message;
     el.classList.toggle('is-error', !!error);
+    if (_commitmentsPanelSummary && (error || !_commitmentsSnapshot)) {
+        _commitmentsPanelSummary.textContent = error ? 'Commitments unavailable'
+            : /loading/i.test(message) ? 'Loading commitments…'
+                : /sign in|authenticated/i.test(message) ? 'Sign in to review commitments'
+                    : 'Waiting for saved commitments';
+    }
 }
 
 function commitmentsBusy(disabled) {
     const card = document.getElementById('commitments-card');
     if (!card) return;
     card.querySelectorAll('button').forEach(button => {
+        if (button.classList.contains('commitments-panel-toggle') || button.classList.contains('commitments-dialog-close')) return;
         if (disabled) {
             button.dataset.commitmentsDisabledBeforeBusy = button.disabled ? 'true' : 'false';
             button.disabled = true;
@@ -306,6 +453,7 @@ function commitmentsRender(snapshot) {
     const identity = document.getElementById('commitments-identity');
     if (!content || !identity) return;
     _commitmentsSnapshot = snapshot;
+    commitmentsUpdatePanelSummary();
     const identityInfo = snapshot.identity || {};
     identity.textContent = `${identityInfo.name || 'Owner'} · this agent`;
     const commitments = Array.isArray(snapshot.commitments) ? snapshot.commitments : [];
@@ -473,6 +621,7 @@ async function refreshCommitments() {
         commitmentsStatus('Commitments need an authenticated console. Sign in; no request was sent.');
         return;
     }
+    if (_commitmentsPanelReady) commitmentsRestorePanelState();
     if (!_commitmentsPersistedTurn || !currentSession || !currentAgent) {
         commitmentsStatus('Send a message in this conversation to enable commitment changes.');
         return;
@@ -500,6 +649,7 @@ function commitmentsSwitchSession() {
     const content = document.getElementById('commitments-content');
     if (identity) identity.textContent = '';
     if (content) content.innerHTML = '<p class="commitments-muted">Start or reopen a conversation to review its owner commitments.</p>';
+    commitmentsUpdatePanelSummary();
     commitmentsStatus('Send a message in this conversation to enable commitment changes.');
 }
 
@@ -719,5 +869,10 @@ if (_commitmentsCard) {
     _commitmentsCard.addEventListener('submit', commitmentsHandleSubmit);
     _commitmentsCard.addEventListener('click', commitmentsHandleClick);
 }
-window.addEventListener('load', () => requestAuthGatedStart(() => refreshCommitments()));
+commitmentsSetupPanel();
+window.addEventListener('load', () => requestAuthGatedStart(() => {
+    _commitmentsPanelReady = true;
+    commitmentsRestorePanelState();
+    refreshCommitments();
+}));
 setInterval(commitmentsPollVisibleSnapshot, 30000);

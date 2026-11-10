@@ -4,6 +4,12 @@ let _personalGeneration = 0;
 let _personalHasPersistedTurn = false;
 let _personalSnapshot = null;
 let _personalBusy = false;
+let _personalPanelDialog = null;
+let _personalPanelToggle = null;
+let _personalPanelSummary = null;
+let _personalPanelAgent = '';
+let _personalPanelReady = false;
+let _personalPanelRestoredAgent = null;
 
 function personalOwnerId() {
     return activeAgentId || defaultAgentId || '';
@@ -11,6 +17,121 @@ function personalOwnerId() {
 
 function personalOwnerAuthReady() {
     return !!(appConfig && appConfig.web_password_masked);
+}
+
+function personalPanelPreferenceKey(agentId = personalOwnerId()) {
+    return `cowagent:owner-panel:personal:${encodeURIComponent(agentId || 'default')}`;
+}
+
+function personalSavePanelOpen(open, agentId = _personalPanelAgent) {
+    try {
+        localStorage.setItem(personalPanelPreferenceKey(agentId), open ? 'open' : 'closed');
+    } catch (_) { /* Storage can be disabled; the panel still works in memory. */ }
+}
+
+function personalSetPanelOpen(open, persist = true) {
+    if (!_personalPanelDialog || !_personalPanelToggle) return;
+    const wasOpen = _personalPanelDialog.open;
+    if (open) {
+        const current = window.__cowOwnerDialog;
+        if (current && current.panel !== 'personal') current.close();
+        window.__cowOwnerDialog = { panel: 'personal', close: () => personalSetPanelOpen(false) };
+        if (!_personalPanelDialog.open) _personalPanelDialog.showModal();
+    } else if (_personalPanelDialog.open) {
+        _personalPanelDialog.close();
+    }
+    _personalPanelToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (persist) personalSavePanelOpen(open);
+    if (!open) {
+        if (window.__cowOwnerDialog && window.__cowOwnerDialog.panel === 'personal') window.__cowOwnerDialog = null;
+        if (wasOpen) _personalPanelToggle.focus();
+    }
+}
+
+function personalRestorePanelState() {
+    const agentId = personalOwnerId();
+    if (!_personalPanelReady || !personalOwnerAuthReady()) return;
+    const view = document.getElementById('view-chat');
+    if (view && view.classList && !view.classList.contains('active')) return;
+    if (_personalPanelRestoredAgent === agentId) return;
+    if (agentId !== _personalPanelAgent) {
+        if (_personalPanelDialog && _personalPanelDialog.open) personalSetPanelOpen(false, false);
+        _personalPanelAgent = agentId;
+    }
+    personalApplyPanelPreference(agentId);
+}
+
+function personalApplyPanelPreference(agentId = personalOwnerId()) {
+    const view = document.getElementById('view-chat');
+    if (!_personalPanelReady || !personalOwnerAuthReady() || (view && view.classList && !view.classList.contains('active'))) return;
+    _personalPanelAgent = agentId;
+    let open = false;
+    try { open = localStorage.getItem(personalPanelPreferenceKey(agentId)) === 'open'; } catch (_) { /* Use the default closed state. */ }
+    personalSetPanelOpen(open, false);
+    _personalPanelRestoredAgent = agentId;
+}
+
+function personalSetupPanel() {
+    const card = document.getElementById('personal-card');
+    if (!card || typeof document.createElement !== 'function' || !card.appendChild) return;
+    const dialog = document.createElement('dialog');
+    dialog.id = 'personal-dialog';
+    dialog.className = 'personal-dialog';
+    dialog.setAttribute('aria-labelledby', 'personal-card-title');
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'personal-panel-toggle';
+    toggle.setAttribute('aria-controls', dialog.id);
+    toggle.setAttribute('aria-expanded', 'false');
+    const title = document.createElement('span');
+    title.className = 'personal-panel-title';
+    title.textContent = 'Owner continuity';
+    const summary = document.createElement('span');
+    summary.className = 'personal-panel-summary';
+    summary.textContent = 'Waiting for saved owner context';
+    toggle.append(title, summary);
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'personal-button personal-dialog-close';
+    close.textContent = 'Close';
+    close.setAttribute('aria-label', 'Close owner continuity');
+    close.addEventListener('click', () => personalSetPanelOpen(false));
+    dialog.appendChild(close);
+    while (card.firstChild) dialog.appendChild(card.firstChild);
+    card.append(toggle, dialog);
+    toggle.addEventListener('click', () => personalSetPanelOpen(!dialog.open));
+    dialog.addEventListener('close', () => {
+        if (dialog.open) return;
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.focus();
+    });
+    dialog.addEventListener('cancel', event => {
+        event.preventDefault();
+        personalSetPanelOpen(false);
+    });
+    _personalPanelDialog = dialog;
+    _personalPanelToggle = toggle;
+    _personalPanelSummary = summary;
+    _personalPanelAgent = personalOwnerId();
+    personalSetPanelOpen(false, false);
+}
+
+function personalUpdatePanelSummary() {
+    if (!_personalPanelSummary) return;
+    const snapshot = _personalSnapshot;
+    if (!snapshot) {
+        _personalPanelSummary.textContent = 'Waiting for saved owner context';
+        return;
+    }
+    const actions = Array.isArray(snapshot.actions) ? snapshot.actions : [];
+    const pending = actions.filter(item => ['pending', 'proposed', 'approved', 'executing'].includes(item && item.status)).length;
+    const failed = actions.filter(item => item && ['failed', 'uncertain'].includes(item.status)).length;
+    const hasGoal = !!(snapshot.continuity && snapshot.continuity.goal);
+    const parts = [];
+    if (pending) parts.push(`${pending} open action${pending === 1 ? '' : 's'}`);
+    if (failed) parts.push(`${failed} failed/uncertain action${failed === 1 ? '' : 's'}`);
+    if (!pending && !failed) parts.push(hasGoal ? 'Goal saved' : 'No goal in this chat');
+    _personalPanelSummary.textContent = parts.join(' · ');
 }
 
 function personalEscape(value) {
@@ -49,12 +170,19 @@ function personalSetStatus(message, error = false) {
     if (!el) return;
     el.textContent = message;
     el.classList.toggle('is-error', !!error);
+    if (_personalPanelSummary && (error || !_personalSnapshot)) {
+        _personalPanelSummary.textContent = error ? 'Owner context unavailable'
+            : /loading/i.test(message) ? 'Loading owner context…'
+                : /sign in|authenticated/i.test(message) ? 'Sign in to review owner continuity'
+                    : 'Waiting for saved owner context';
+    }
 }
 
 function personalSetBusy(disabled) {
     const card = document.getElementById('personal-card');
     if (!card) return;
     card.querySelectorAll('button').forEach(button => {
+        if (button.classList.contains('personal-panel-toggle') || button.classList.contains('personal-dialog-close')) return;
         if (disabled) {
             button.dataset.personalDisabledBeforeBusy = button.disabled ? 'true' : 'false';
             button.disabled = true;
@@ -78,6 +206,7 @@ function personalRender(snapshot) {
     const identity = document.getElementById('personal-identity');
     if (!content || !identity) return;
     _personalSnapshot = snapshot;
+    personalUpdatePanelSummary();
     const name = snapshot.identity && snapshot.identity.name || 'Owner';
     identity.textContent = `${name} · this agent and conversation`;
     const continuity = snapshot.continuity || {};
@@ -152,6 +281,7 @@ async function refreshPersonalContinuity(force = false) {
         personalSetStatus('Owner continuity needs an authenticated console. Set a console password and sign in; no personal request was sent.');
         return;
     }
+    if (_personalPanelReady) personalRestorePanelState();
     if (!_personalHasPersistedTurn || !currentSession || !currentAgent) {
         personalSetStatus('This conversation has no saved owner turn yet. Send a message to enable continuity.');
         return;
@@ -179,6 +309,7 @@ function personalSwitchSession() {
     const content = document.getElementById('personal-content');
     if (identity) identity.textContent = '';
     if (content) content.innerHTML = '<p class="personal-muted">Start or reopen a conversation to see its saved goal, memory, and action results.</p>';
+    personalUpdatePanelSummary();
     personalSetStatus('This conversation has no saved owner turn yet. Send a message to enable continuity.');
 }
 
@@ -276,6 +407,7 @@ function personalHandleClick(event) {
 
 let _personalShownSession = '';
 function personalBeginSession(sid) {
+    personalRestorePanelState();
     const ownerKey = `${personalOwnerId()}::${sid}`;
     if (_personalShownSession === ownerKey) return;
     _personalShownSession = ownerKey;
@@ -294,4 +426,9 @@ if (_personalCard) {
     _personalCard.addEventListener('submit', personalHandleSubmit);
     _personalCard.addEventListener('click', personalHandleClick);
 }
-window.addEventListener('load', () => requestAuthGatedStart(() => refreshPersonalContinuity()));
+personalSetupPanel();
+window.addEventListener('load', () => requestAuthGatedStart(() => {
+    _personalPanelReady = true;
+    personalRestorePanelState();
+    refreshPersonalContinuity();
+}));

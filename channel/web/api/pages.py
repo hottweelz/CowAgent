@@ -16,6 +16,7 @@ from channel.web.core import template
 from channel.web.core._common import _is_within_directory
 from common import i18n
 from common.log import logger
+from config import conf
 
 
 class RootHandler:
@@ -52,7 +53,7 @@ class ChatHandler:
         # render() assembles them and stamps every first-party asset with its
         # own mtime, so an upgraded console never runs against cached old
         # scripts while unchanged ones stay cacheable.
-        html = template.render('chat.html')
+        html = template.render('chat.html', title=template.console_title(conf()))
         # Inject the backend-resolved default language for first-load fallback.
         html = html.replace("{{COW_DEFAULT_LANG}}", i18n.get_language())
         return html

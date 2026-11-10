@@ -27,6 +27,7 @@ from channel.web.core.providers import (
     legacy_custom_in_use,
     mask_key,
 )
+from channel.web.core.template import console_title
 from common import i18n
 from common.log import logger
 from config import conf, get_data_root
@@ -68,7 +69,7 @@ class ConfigHandler:
 
             local_config = conf()
             use_agent = local_config.get("agent", True)
-            title = "CowAgent" if use_agent else "AI Assistant"
+            title = console_title(local_config)
 
             api_bases = {}
             api_keys_masked = {}

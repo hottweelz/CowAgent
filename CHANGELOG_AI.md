@@ -1,5 +1,55 @@
 # AI handoff ledger
 
+## 2026-11-10 17:07 EST — Codex — BULLGOD-UX-001 compact controls deployed
+
+- Task/result: replace the large inline owner panels with compact controls and
+  on-demand native dialogs; use BullGod's configured name throughout the console.
+  Applied to the independent 18991 runtime. Legacy 9899 remains unchanged.
+- Team: lead branding, integration, deployment, native QA and Git; Luna/high UI
+  implementation and focused checks; Luna/high read-only permission diagnosis and
+  bounded branding review. No external worker pool or HomeBoss.
+- Changes/files: personal/commitments JS and CSS, chat template wrapper, console
+  template/name helper and page/config handlers, login/sidebar/welcome/new-chat
+  identity, two existing UI checkers, tests/test_web_console_identity.py,
+  docs/bullgod-ux-001/README.md, MEMORY.md and this ledger.
+- Validation: 17 focused Python tests; 39 web tests; both UI checkers; JavaScript
+  syntax, Ruff F and diff checks passed. Browser open/close, reload, navigation,
+  login restoration, Enter/Escape, focus containment/return and normal/200% views
+  passed with no page errors. Existing forms and action paths remain available.
+  Controls use 38.8 px versus approximately 493 px previously; the 592 px-wide
+  chat with Files/history visible retains a 770.2 px message region at 1000 px height.
+- Deployment: backed up and replaced 12 runtime files; source bytes match branch.
+  One idle, explicit restart loaded backend branding. Fourteen captured state
+  tables and config digest unchanged; SQLite integrity and both health checks pass.
+  Preserved the legacy listener PID 51488 and config digest. No model/action replay.
+- Investigation: ordinary workspace reads are permitted in read-only mode, but
+  internal knowledge paths are excluded. Knowledge is disabled and absent here.
+  The Files browser uses a different authenticated access path. No specific file
+  denial for the screenshot question was recorded. Permission policy is unchanged.
+- Review: independent branding review found no actionable defect; parent source
+  and native review caught the restore-readiness race and clarified the current-
+  chat goal label. No open in-scope finding.
+- Lessons Learned:
+  - Mistake: bounding inline panel height still left management dominant in chat.
+  - Root Cause: both full editors lived in the conversation layout; saved UI state
+    could also be read before authentication configuration finished loading.
+  - Future Trigger: management surfaces beside chat, or persisted UI open state.
+  - Required Behavior Change: use compact triggers and on-demand editors; gate and
+    retry preference restoration after auth/config readiness without stealing focus.
+  - Verification Step: native sign-in/reload/navigation and 200% layout/focus checks.
+  - Durable Memory Update: project MEMORY.md records the UI and access distinctions.
+- Known limits: browser-local panel preferences; native dialog support required;
+  knowledge permissions unchanged. Full LIVE-001/desktop results are retained
+  historical evidence; focused checks cover this correction. Hosted remains unverified.
+- Git/handoff: update existing draft PR #15 on codex/bullgod-live-001; no merge.
+  Final push/fetch must confirm upstream 0/0. Untracked AGENTS.md and ignored desktop
+  dependencies/build outputs are preserved. Private QA/rollback/state evidence is
+  outside Git in the application's BullGod-UX-001-Evidence directory.
+- Next recommended steps: refresh BullGod's tab and use the compact controls;
+  review the draft PR. Treat knowledge enablement/access as a separate policy task.
+- Notes for next agent: do not repeat accepted scheduled/model interactions for
+  bookkeeping or broaden read grants to explain the screenshot. No global memory edit.
+
 ## 2026-11-10 16:22 EST — Codex — BULLGOD-LIVE-001 published as draft PR #15
 
 - Result: minimum operational acceptance passed on a separate persistent macOS

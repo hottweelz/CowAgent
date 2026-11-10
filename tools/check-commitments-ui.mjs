@@ -6,6 +6,7 @@ const source = await readFile(new URL('../channel/web/static/js/chat/commitments
 const styles = await readFile(new URL('../channel/web/static/css/commitments.css', import.meta.url), 'utf8');
 const personalStyles = await readFile(new URL('../channel/web/static/css/personal.css', import.meta.url), 'utf8');
 const handlers = {};
+const panelStorage = new Map();
 const card = {
   addEventListener(name, handler) { handlers[name] = handler; },
   querySelectorAll() { return []; },
@@ -74,6 +75,7 @@ const context = {
   activeAgentId: 'agent-a', defaultAgentId: 'default', sessionId: 'session-a',
   appConfig: { web_password_masked: '********' }, messagesDiv: { querySelectorAll: () => messages },
   window: { location: { href: 'https://console.example/' }, addEventListener: (name, fn) => { if (name === 'load') loadHandlers.push(fn); } },
+  localStorage: { getItem: key => panelStorage.get(key) ?? null, setItem: (key, value) => panelStorage.set(key, value) },
   FormData: class { constructor(form) { this.values = form.values || {}; } entries() { return Object.entries(this.values); } },
   document: { getElementById: id => elements.get(id) || null, querySelectorAll: () => [], visibilityState: 'visible', activeElement: null },
   escapeHtml: value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;'),
@@ -81,6 +83,7 @@ const context = {
 };
 vm.createContext(context);
 vm.runInContext(source, context, { filename: 'commitments.js' });
+vm.runInContext(`globalThis.setPanelHarness = (dialog, toggle, summary) => { _commitmentsPanelDialog = dialog; _commitmentsPanelToggle = toggle; _commitmentsPanelSummary = summary; _commitmentsPanelAgent = commitmentsOwnerId(); }; globalThis.updatePanelSummary = snapshot => { _commitmentsSnapshot = snapshot; commitmentsUpdatePanelSummary(); }; globalThis.setPanelOpen = commitmentsSetPanelOpen; globalThis.restorePanelState = commitmentsRestorePanelState; globalThis.setPanelReady = value => { _commitmentsPanelReady = value; }; globalThis.panelPreferenceKey = commitmentsPanelPreferenceKey;`, context);
 
 context.commitmentsBeginSession('session-a');
 context.commitmentsMarkPersistedTurn('session-a');
@@ -283,12 +286,43 @@ await context.commitmentsSubmit('prepare_research', { commitmentId: 'c1', extra:
 assert.match(status.textContent, /No eligible registered specialist is available/);
 assert.match(status.textContent, /BullGod can continue its own analysis/);
 
-// At a short, narrow viewport, expanded commitments and continuity stay bounded
-// and scrollable so the chat and composer retain viewport space.
-assert.match(styles, /\.chat-main:has\(#commitments-card > details\[open\]\) #commitments-card \{ max-height: 24vh; \}/);
-assert.match(styles, /\.chat-main:has\(#commitments-card > details\[open\]\) #personal-card \{ max-height: 18vh; \}/);
-assert.match(styles, /\.commitments-card\s*\{[^}]*overflow:\s*auto;/);
-assert.match(personalStyles, /\.personal-card\s*\{[^}]*overflow:\s*auto;/);
+// Compact controls stay content-sized; editor dialogs own scrolling.
+assert.match(styles, /\.commitments-panel-toggle\s*\{[^}]*max-width:\s*100%/);
+assert.match(styles, /\.commitments-dialog\s*\{[^}]*max-height:\s*calc\(100dvh - 1rem\);[^}]*overflow:\s*auto;/);
+assert.match(personalStyles, /\.owner-controls\s*\{[^}]*flex-wrap:\s*wrap/);
+assert.match(personalStyles, /\.personal-dialog\s*\{[^}]*max-height:\s*calc\(100dvh - 1rem\);[^}]*overflow:\s*auto;/);
+
+// Status labels use current owner data and a due label only when the scheduler
+// supplies a valid schedule pointer and its next run has passed.
+const panelSummary = { textContent: '' };
+let dialogOpen = false;
+let focusCount = 0;
+const panelDialog = { get open() { return dialogOpen; }, showModal() { dialogOpen = true; }, close() { dialogOpen = false; } };
+const panelToggle = { attrs: {}, setAttribute(name, value) { this.attrs[name] = value; }, focus() { focusCount++; } };
+context.setPanelHarness(panelDialog, panelToggle, panelSummary);
+context.updatePanelSummary({
+  source_seq: 0,
+  attention: [{ status: 'unread' }, { status: 'pending', stale: true }],
+  research_requests: [{ status: 'pending' }, { status: 'pending', can_mutate: false }],
+  commitments: [{ status: 'active', schedule_status: 'scheduled', next_run_at: '2000-01-01T00:00:00+00:00' }]
+});
+assert.equal(panelSummary.textContent, '1 need attention · 1 research request open · 1 check due');
+context.updatePanelSummary({ source_seq: 0, commitments: [{ status: 'active', schedule_status: 'unavailable', next_run_at: '2000-01-01T00:00:00+00:00' }] });
+assert.equal(panelSummary.textContent, '1 active commitment', 'an unavailable scheduler pointer must not be reported as due');
+assert.notEqual(context.panelPreferenceKey('agent-a'), context.panelPreferenceKey('agent-b'), 'panel preference keys must be agent scoped');
+panelStorage.set(context.panelPreferenceKey('agent-a'), 'open');
+context.restorePanelState();
+assert.equal(dialogOpen, false, 'saved state must not open before authenticated panel readiness');
+context.setPanelReady(true);
+context.restorePanelState();
+assert.equal(dialogOpen, true);
+assert.equal(panelToggle.attrs['aria-expanded'], 'true');
+assert.equal(panelStorage.get(context.panelPreferenceKey('agent-a')), 'open');
+context.setPanelOpen(false);
+assert.equal(dialogOpen, false);
+assert.equal(panelToggle.attrs['aria-expanded'], 'false');
+assert.equal(panelStorage.get(context.panelPreferenceKey('agent-a')), 'closed');
+assert.equal(focusCount, 1, 'closing an open editor returns focus to its header');
 
 // Snapshot source_seq remains usable when the conversation DOM has no messages.
 messages = [];
