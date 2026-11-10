@@ -5,6 +5,12 @@ qualified execution of the seven known plugins. A live transition remains blocke
 by unproven external admission exclusion, unbounded legacy background effects and
 unqualified restoration of the actual private state.
 
+**Maintainer decision, 2026-11-09:** keep Actions settings unchanged and publish
+the blocked Class C result. No further CI attempts or settings changes are
+authorized by this decision. The published blocked report is the requested
+closeout; hosted Python validation remains incomplete and live maintenance
+remains unauthorized. This does not certify a passing release gate.
+
 Published as [draft PR #7](https://github.com/hottweelz/CowAgent/pull/7), based on
 the actual PR #6 head `fcbc0d25`. PRs #4–7 remain dependent and unmerged. Live PID
 28093 continues at `127.0.0.1:9899`; its loaded modules are not inferred from Git.

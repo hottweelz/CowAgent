@@ -1,5 +1,7 @@
 # AI handoff ledger
 
+2026-11-09 - Codex - trivial: recorded maintainer decision to preserve Actions settings and publish the blocked Class C result, with no further CI attempts; hosted validation remains incomplete and live maintenance unauthorized - docs/first-bootstrap-002/README.md; draft PR #7 description.
+
 ## 2026-11-09 19:39 EST — Codex — external validation blocker confirmed
 
 - Summary/result: third consecutive goal turn with the same GitHub execution
