@@ -90,10 +90,11 @@ Hosted checks must be reported from observed status, never inferred from absence
 
 ## Publication and next step
 
-[Draft PR #13: backend repairs](https://github.com/hottweelz/CowAgent/pull/13), then
-[draft PR #14: desktop fixes](https://github.com/hottweelz/CowAgent/pull/14). Both
-remain unmerged. See [publication and hosted status](publication.md). Hosted
-checks/statuses are empty, so hosted validation remains unverified. Source/test
-hashes are unchanged; both tracked branches are synchronized after final push.
-The worktrees retain only untracked AGENTS.md copies. Review13 before14;
-deployment remains separate.
+[PR #13: backend repairs](https://github.com/hottweelz/CowAgent/pull/13) and
+[PR #14: desktop fixes](https://github.com/hottweelz/CowAgent/pull/14) were merged
+normally into master, in that order, after maintainer authorization and final
+review of the exact heads. Master is `4f6d5a5f41161aff044cc73fc09f82c5cb187930`;
+its tree equals the reviewed combined head. See [merge closeout](merge-closeout.md)
+for exact heads, merge commits, evidence reuse and hosted-validation limits.
+The [initial publication receipt](publication.md) remains historical evidence.
+Deployment remains separate; the live service was not changed.

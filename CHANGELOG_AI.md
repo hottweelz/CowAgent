@@ -1,5 +1,39 @@
 # AI handoff ledger
 
+## 2026-11-10 14:51 EST — Codex — PR #13 then PR #14 merged after final review
+
+- Scope/result: maintainer-authorized normal merges completed in dependency order.
+  PR13 head ff2f4cf0 merged as388d312d; PR14 head da8b0e21 retargeted to that master
+  and merged as4f6d5a5f. Both merge trees exactly equal their reviewed head trees.
+- Team: lead exact-head/remote-state review and Git lifecycle; existing Luna
+  evidence worker independently reconciled manifests and raw results. Existing
+  Sol6.1 engineering review reused; no new review chain or external pool.
+- Changes/files: this ledger, docs/upstream-selective-001/README.md,
+  publication.md and new merge-closeout.md only. No application/test edits.
+  MEMORY.md update: not needed; merge chronology belongs in this ledger.
+- Checks/results: fresh fetch, exact PR heads/ancestry/diff and predicted trees;
+  21 backend and31 combined source/test hashes, raw log/JUnit digests and totals;
+  review threads/submissions, rulesets and master branch protection metadata;
+  expected-head guarded normal merges; post-merge fetch and exact tree equality.
+  Retained full regression6360passed/36skipped/93subtests and focused/JS/build/lint
+  receipts remain valid. No accepted case was rerun only for bookkeeping.
+- Hosted: both exact heads had empty checks/statuses/jobs, not a passing hosted
+  result. No unresolved review thread or open independent engineering finding.
+  Rulesets empty; master branch metadata unprotected with enforcement off.
+  Detailed protection endpoint403 is a connector limitation; no bypass used.
+- Decisions: merge13 before14; preserve all feature/history branches and original
+  recovery files. Closeout is published on the existing desktop task branch so
+  master remains exactly the reviewed source tree. No production deployment,
+  restart, model/provider call, data, credential, approval or mount change.
+- Lessons Learned: none; existing exact-source evidence supported safe reuse.
+- Known issues: existing hosted/runtime limits and suite/build warnings remain;
+  see merge-closeout.md. No source review blocker or local test failure remains.
+- Next: none for the authorized merge task. Deployment and deferred candidates
+  require separate scope; keep live9899 unchanged.
+- Notes: final master4f6d5a5f41161aff044cc73fc09f82c5cb187930. Both merges use the
+  reviewed head as second parent. Preserve untracked AGENTS.md. Push closeout,
+  fetch --prune, and verify task branch upstream0/0 before final response.
+
 ## 2026-11-10 14:37 EST — Codex — UPSTREAM-SELECTIVE-001 published as draft PRs #13 and #14
 
 - Result: candidates1–8 published in backend PR13; desktop9–10 in stacked PR14.

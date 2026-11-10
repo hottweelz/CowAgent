@@ -1,4 +1,8 @@
-# Publication and final state
+# Initial publication and final merge status
+
+PRs #13 and #14 were subsequently merged in order under maintainer authorization.
+See [merge closeout](merge-closeout.md). The initial observations below are retained
+as historical evidence and do not describe the current PR state.
 
 Observed 2026-11-10 14:37 EST.
 
