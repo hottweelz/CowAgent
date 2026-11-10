@@ -1,0 +1,162 @@
+{
+  "scope": "PERSONAL-001 guarded full local regression, one run",
+  "source": {
+    "branch": "codex/bullgod-personal-001",
+    "base_commit": "1cc6ef1ee65cf8691b12a93b47ce5a02f3d5c348",
+    "head_commit": "1cc6ef1ee65cf8691b12a93b47ce5a02f3d5c348",
+    "working_tree_dirty_before_run": true,
+    "product_and_test_source_sha256_before": {
+      "agent/memory/personal.py": "64de3ed9c9488959e69a6ea7dd34d89ff79807353cea7c1c84bfaef4ef347177",
+      "agent/memory/personal_context.py": "4276227394e5c24292702df26f206432ddff56ded5abde93798ec2f36923f913",
+      "agent/personal/__init__.py": "cab7e6efa4a8d86c5a3a153810d4c06447a684ffcbee3c3f0002887ea1f8a50c",
+      "agent/personal/service.py": "843bfdc0e25180e927930dc47f16fdf7379512de1f1425dc902954bfb4c01cf6",
+      "agent/protocol/agent.py": "d8413e31581ff5dcac136f811c90dfdfd262b0552950403b7ea9eb9826273d82",
+      "bridge/agent_bridge.py": "ed44bb5b7d9ae90673eed0130b993d928be36ee7c7a5ac876a62684ba755613d",
+      "channel/web/api/personal.py": "c39eaaa25dc9e8fb4d8617f46bd3f8c27c5062924db0841f98a2295b2e6c1816",
+      "channel/web/chat.html": "7cf936db71e3cea98458cd513c96b3ef7ccfacd04f4282daca63116360fa4122",
+      "channel/web/static/css/personal.css": "695f37466c797ca130eee69ea5c73ae16c02e027e523dc2f96f6a79585c62e1a",
+      "channel/web/static/js/chat/new-chat.js": "78e7a2d7b54c72ea8f1e6efe63e963fee4547caf12e7c4438da11e28162d9202",
+      "channel/web/static/js/chat/personal.js": "6b32edc20460c35c541983afeb6fe0dec022fdcb11100c5b3872866690633d20",
+      "channel/web/static/js/chat/render.js": "d9aced13c67a6d0f7a719217ed0f2d3bd8fff4f25e160684ee3c14bc1c001dca",
+      "channel/web/static/js/chat/send.js": "ff55da20d92f2b524409646c617c94c39aea3837cd9da118cfc77b8252296f5d",
+      "channel/web/templates/views/chat.html": "6bcf4507de381705b8120f24ba5ff2162b00d6dbe5380ad476a54c9df528113e",
+      "channel/web/tools/check-personal-ui.mjs": "8ebd4fbc07cbace407b61e0fa407ddc106773e3db567eebe99954ad37b960b53",
+      "channel/web/web_channel.py": "ff3ad35739c002c345875f5ddbd4261381b25c70119beb4a8d434ee6ad53c8ef",
+      "scripts/bullgod_dev.py": "f5b4616cff0a00a4ed55babd4c59491d7b3117771a1fc8284a911aa8a33924fd",
+      "tests/test_bullgod_dev.py": "5ccd1e7126c56edd2cac1c7fd8c9e1fb81fb9265f3552d421ef6a1746989ffb7",
+      "tests/test_personal_actions.py": "7843c974a0e45a7e06c730b57294b4baae38a8c85cd8d6badf316cb114fa7a4b",
+      "tests/test_personal_api.py": "468ea1f0ba4f3ff422779c285e1c4af4166dcc908e8a3a20976c60e0eb22aa04",
+      "tests/test_personal_context.py": "65c33ddb8928b2f474e5fb94ff85ee06bd51be93b8ea7e79e6e1428a7a115399",
+      "tests/test_personal_storage.py": "21f3a1f8fafefe5c8d1f4ab590e8de90f119f133b62e72f38b69adad1d197e9d"
+    },
+    "product_and_test_source_sha256_after": {
+      "agent/memory/personal.py": "64de3ed9c9488959e69a6ea7dd34d89ff79807353cea7c1c84bfaef4ef347177",
+      "agent/memory/personal_context.py": "4276227394e5c24292702df26f206432ddff56ded5abde93798ec2f36923f913",
+      "agent/personal/__init__.py": "cab7e6efa4a8d86c5a3a153810d4c06447a684ffcbee3c3f0002887ea1f8a50c",
+      "agent/personal/service.py": "843bfdc0e25180e927930dc47f16fdf7379512de1f1425dc902954bfb4c01cf6",
+      "agent/protocol/agent.py": "d8413e31581ff5dcac136f811c90dfdfd262b0552950403b7ea9eb9826273d82",
+      "bridge/agent_bridge.py": "ed44bb5b7d9ae90673eed0130b993d928be36ee7c7a5ac876a62684ba755613d",
+      "channel/web/api/personal.py": "c39eaaa25dc9e8fb4d8617f46bd3f8c27c5062924db0841f98a2295b2e6c1816",
+      "channel/web/chat.html": "7cf936db71e3cea98458cd513c96b3ef7ccfacd04f4282daca63116360fa4122",
+      "channel/web/static/css/personal.css": "695f37466c797ca130eee69ea5c73ae16c02e027e523dc2f96f6a79585c62e1a",
+      "channel/web/static/js/chat/new-chat.js": "78e7a2d7b54c72ea8f1e6efe63e963fee4547caf12e7c4438da11e28162d9202",
+      "channel/web/static/js/chat/personal.js": "6b32edc20460c35c541983afeb6fe0dec022fdcb11100c5b3872866690633d20",
+      "channel/web/static/js/chat/render.js": "d9aced13c67a6d0f7a719217ed0f2d3bd8fff4f25e160684ee3c14bc1c001dca",
+      "channel/web/static/js/chat/send.js": "ff55da20d92f2b524409646c617c94c39aea3837cd9da118cfc77b8252296f5d",
+      "channel/web/templates/views/chat.html": "6bcf4507de381705b8120f24ba5ff2162b00d6dbe5380ad476a54c9df528113e",
+      "channel/web/tools/check-personal-ui.mjs": "8ebd4fbc07cbace407b61e0fa407ddc106773e3db567eebe99954ad37b960b53",
+      "channel/web/web_channel.py": "ff3ad35739c002c345875f5ddbd4261381b25c70119beb4a8d434ee6ad53c8ef",
+      "scripts/bullgod_dev.py": "f5b4616cff0a00a4ed55babd4c59491d7b3117771a1fc8284a911aa8a33924fd",
+      "tests/test_bullgod_dev.py": "5ccd1e7126c56edd2cac1c7fd8c9e1fb81fb9265f3552d421ef6a1746989ffb7",
+      "tests/test_personal_actions.py": "7843c974a0e45a7e06c730b57294b4baae38a8c85cd8d6badf316cb114fa7a4b",
+      "tests/test_personal_api.py": "468ea1f0ba4f3ff422779c285e1c4af4166dcc908e8a3a20976c60e0eb22aa04",
+      "tests/test_personal_context.py": "65c33ddb8928b2f474e5fb94ff85ee06bd51be93b8ea7e79e6e1428a7a115399",
+      "tests/test_personal_storage.py": "21f3a1f8fafefe5c8d1f4ab590e8de90f119f133b62e72f38b69adad1d197e9d"
+    },
+    "all_hashes_unchanged": true
+  },
+  "command": {
+    "argv": [
+      "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+      "scripts/ci_test.py",
+      "tests/",
+      "-q",
+      "--junitxml=<private>/full.xml"
+    ],
+    "environment": {
+      "TIKTOKEN_CACHE_DIR": "/private/tmp/cow-infra-tiktoken-cache"
+    },
+    "python": "3.13.1",
+    "runtime": "local macOS"
+  },
+  "result": {
+    "exit_code": 0,
+    "pytest": {
+      "passed": 6027,
+      "skipped": 36,
+      "failures": 0,
+      "errors": 0,
+      "warnings": 35,
+      "subtests_passed": 93,
+      "duration_seconds": 208.2
+    },
+    "junit": {
+      "testcase_records": 6063,
+      "tests": 6156,
+      "skipped": 36,
+      "failure_ids": [],
+      "error_ids": [],
+      "skipped_ids": [
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[lf]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[crlf]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[block]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[quoted]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[nested-quotes]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[inline-namespace]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[local-import]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[arguments]",
+        "tests.test_bash_multiline_python.test_windows_background_multiline_python_retains_all_output",
+        "tests.test_bash_streaming.test_windows_timeout_kills_process_tree",
+        "tests.test_bash_streaming.test_windows_long_running_command_streams_progress",
+        "tests.test_bash_streaming.test_windows_background_process_holding_pipe_does_not_hang",
+        "tests.test_bash_streaming.test_windows_full_output_log_keeps_the_commands_line_breaks",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[-selector-success]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[-ref-success]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[new-selector-success]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[None-selector-error]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[1-selector-error]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[click-button-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[click-button-True]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[fill-input-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[fill-input-True]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[fill-div-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[select-select-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[select-select-True]",
+        "tests.test_memory_path_marks_dirty.TestMemoryPathMarksDirty.test_write_backslash_separated_memory_path_marks_dirty",
+        "tests.test_memory_path_marks_dirty.TestConsoleEditsMarkMemoryDirty.test_console_save_with_backslash_separator_marks_dirty",
+        "tests.test_read_long_line_windows.test_windows_command_returns_the_line_through_the_bash_tool",
+        "tests.test_search_files_powershell_quoting.test_search_root_with_an_apostrophe_still_finds_its_matches",
+        "tests.test_search_files_powershell_quoting.test_empty_result_for_an_apostrophe_root_is_not_a_hidden_failure",
+        "tests.test_search_files_powershell_quoting.test_file_glob_with_an_apostrophe_reaches_the_backend_intact",
+        "tests.test_search_files_powershell_quoting.test_ps_quote_doubles_apostrophes_and_wraps_once",
+        "tests.test_search_files_powershell_quoting.test_powershell_backend_reports_a_non_zero_exit_instead_of_swallowing_it",
+        "tests.test_search_files_powershell_quoting.test_failed_powershell_run_does_not_report_a_successful_empty_search",
+        "tests.test_uploads_path_containment.TestUploadsHandlerPathContainment.test_a_case_differed_name_inside_the_upload_dir_is_still_served",
+        "tests.test_uploads_path_containment.TestUploadsHandlerPathContainment.test_a_drive_qualified_tail_escapes_without_any_dotdot"
+      ]
+    },
+    "limits": [
+      "One local macOS run only; hosted CI was not queried.",
+      "No model/provider calls or live service actions were made.",
+      "The command wrapper is scripts/ci_test.py; provider credential environment was not inspected."
+    ]
+  },
+  "private_evidence": {
+    "directory_mode": "0700",
+    "file_mode": "0600",
+    "directory": "<reported privately to parent>",
+    "full_log_sha256": "c54a719fb016c7b4bad8a0e3b38c9f3ba26a7aecddc0548abc9e380628dc8dd7",
+    "junit_sha256": "3d3b402714afbd81cbcb4ae46f26b82448b3d96392676cc968536cafbbbb63d4"
+  },
+  "post_regression_ui_fix": {
+    "reason": "Encode quote characters for attributes after the shared text-node HTML helper. Correct the Node fixture to match the real helper.",
+    "files": {
+      "channel/web/static/js/chat/personal.js": {
+        "tested_sha256": "6b32edc20460c35c541983afeb6fe0dec022fdcb11100c5b3872866690633d20",
+        "final_sha256": "947ea300b6cd66762985ea8fbacea31625023d84b378d840280c0614ce9556c7"
+      },
+      "channel/web/tools/check-personal-ui.mjs": {
+        "tested_sha256": "8ebd4fbc07cbace407b61e0fa407ddc106773e3db567eebe99954ad37b960b53",
+        "final_sha256": "873d128feaf8861c010c46aadd0e1fd214a360c5e359d4daaaadaf7e0d52a657"
+      }
+    },
+    "python_source_unchanged": true,
+    "checks": [
+      "node --check personal.js",
+      "node check-personal-ui.mjs passed",
+      "test_web_console_assets.py 12 passed",
+      "independent targeted source review passed"
+    ],
+    "full_suite_repeated": false
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "scope": "New isolated instance only; no historical credential diagnostics",
+  "gateway_value_present_in_instance_files": false,
+  "gateway_value_present_in_own_service_logs": false,
+  "checked_service_log_files": 2,
+  "oauth_files_copied": false
+}

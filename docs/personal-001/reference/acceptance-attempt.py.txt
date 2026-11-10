@@ -1,0 +1,868 @@
+#!/usr/bin/env python3
+"""Run the PERSONAL-001 native UI and HTTP acceptance on one private instance.
+
+The script uses the instance's disposable web password only for browser login.
+It does not inspect provider credentials, service logs, or any other instance.
+The selected instance is stopped and restarted only through its own launcher
+record. A fresh headless Chrome profile is created below that instance root.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+import tempfile
+import time
+from urllib.error import URLError
+from urllib.request import urlopen
+
+
+REPO = Path(__file__).resolve().parents[2]
+CHROME = Path('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
+EXPECTED_AGENT = 'bullgod'
+INITIAL_MODEL = 'gpt-6-luna'
+SWITCH_MODEL = 'gpt-5.6-luna'
+ACTION_PATH = 'projects/cedar/checklist.md'
+WAIT_SECONDS = 180
+
+
+class AcceptanceError(RuntimeError):
+    pass
+
+
+def require(condition: bool, message: str) -> None:
+    if not condition:
+        raise AcceptanceError(message)
+
+
+def read_instance(root_arg: str) -> tuple[Path, dict, dict, str]:
+    root = Path(root_arg).resolve(strict=True)
+    temp_root = Path(tempfile.gettempdir()).resolve()
+    info_path = root / 'instance.json'
+    config_path = root / 'data' / 'config.json'
+    require(root.parent == temp_root and root.name.startswith('bullgod-dev-'),
+            'Instance must be a task-owned bullgod-dev root in the system temporary directory')
+    require(root.stat().st_uid == os.getuid() and root.stat().st_mode & 0o077 == 0,
+            'Instance root must be private to the current user')
+    info = json.loads(info_path.read_text(encoding='utf-8'))
+    require(info.get('version') == 1 and info.get('root') == str(root),
+            'Instance marker does not match the selected root')
+    require(info.get('port') == 19892, 'Acceptance is limited to loopback port 19892')
+    require(info.get('model') == INITIAL_MODEL, 'Instance model is not the selected GPT-6 Luna model')
+    base = str(info.get('model_base') or '')
+    require(base.startswith('http://127.0.0.1:') and ':9899' not in base,
+            'Instance does not name the approved loopback model gateway')
+    config = json.loads(config_path.read_text(encoding='utf-8'))
+    require(config.get('web_port') == 19892 and config.get('web_host') == '127.0.0.1',
+            'Instance console bind does not match the approved target')
+    require(config.get('open_ai_api_type') == 'responses',
+            'Instance must use the Responses API')
+    require(config.get('default_agent_id') == EXPECTED_AGENT,
+            'Instance does not use the BullGod identity')
+    password = config.get('web_password')
+    require(isinstance(password, str) and password, 'Disposable console password is missing')
+    return root, info, config, password
+
+
+def service_env(root: Path, info: dict) -> dict[str, str]:
+    env = {
+        'HOME': str(root / 'home'),
+        # bullgod_dev.load() validates the instance under the OS temp root.
+        # Its start() path gives the service child the private instance TMPDIR.
+        'TMPDIR': str(Path(tempfile.gettempdir()).resolve()),
+        'PATH': '/usr/bin:/bin:/usr/sbin:/sbin',
+        'LANG': 'en_US.UTF-8',
+        'PYTHONDONTWRITEBYTECODE': '1',
+    }
+    key_name = info.get('model_key_env')
+    require(isinstance(key_name, str) and re.fullmatch(r'[A-Z0-9_]+', key_name) is not None,
+            'Instance model credential variable name is invalid')
+    key = os.environ.get(key_name, '')
+    require(bool(key), 'The selected loopback gateway credential is not available to the launcher')
+    env[key_name] = key
+    return env
+
+
+def launcher(root: Path, command: str, env: dict[str, str]) -> None:
+    script = REPO / 'scripts' / 'bullgod_dev.py'
+    result = subprocess.run(
+        [sys.executable, str(script), command, str(root)],
+        cwd=str(REPO), env=env, stdin=subprocess.DEVNULL,
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+        timeout=45, check=False,
+    )
+    if result.returncode:
+        # Do not include launcher output: a failure must not echo environment data.
+        raise AcceptanceError(f'Owned instance launcher {command} failed with exit code {result.returncode}')
+
+
+def health(url: str, expected: bool, timeout: float = 20) -> None:
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        try:
+            with urlopen(url + '/api/health', timeout=1) as response:
+                if expected and response.status == 200:
+                    return
+                if not expected:
+                    time.sleep(0.25)
+                    continue
+        except (OSError, URLError):
+            if not expected:
+                return
+        time.sleep(0.25)
+    raise AcceptanceError('Owned instance health did not reach the expected state')
+
+
+def write_receipt(path: Path, receipt: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp = path.with_suffix(path.suffix + '.tmp')
+    temp.write_text(json.dumps(receipt, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+    os.replace(temp, path)
+
+
+def install_personal_script_overlay(context, root: Path, receipt: dict) -> dict:
+    """Serve only the current personal.js to the task-owned browser context."""
+    instance_asset = root / 'source' / 'channel' / 'web' / 'static' / 'js' / 'chat' / 'personal.js'
+    current_asset = REPO / 'channel' / 'web' / 'static' / 'js' / 'chat' / 'personal.js'
+    old_hash = hashlib.sha256(instance_asset.read_bytes()).hexdigest()
+    body = current_asset.read_bytes()
+    current_hash = hashlib.sha256(body).hexdigest()
+    state = {'requests': 0}
+
+    def serve_current_personal_js(route):
+        state['requests'] += 1
+        route.fulfill(status=200, content_type='application/javascript; charset=utf-8', body=body)
+
+    context.route('**/assets/js/chat/personal.js', serve_current_personal_js)
+    overlay = receipt.setdefault('ui_script_overlay', {
+        'instance_asset_sha256': old_hash,
+        'served_current_sha256': current_hash,
+        'phases_after_patch': [],
+    })
+    require(overlay.get('instance_asset_sha256') == old_hash
+            and overlay.get('served_current_sha256') == current_hash,
+            'UI overlay hashes changed during this acceptance run')
+    return state
+
+
+def record_ui_phase(receipt: dict, overlay_state: dict, phase: str) -> None:
+    require(overlay_state.get('requests', 0) > 0,
+            'The current UI script overlay was not requested by the native page')
+    phases = receipt['ui_script_overlay']['phases_after_patch']
+    if phase not in phases:
+        phases.append(phase)
+
+
+def visible_text(locator) -> str:
+    try:
+        return locator.inner_text(timeout=3000)
+    except Exception:
+        return ''
+
+
+def login_if_needed(page, base_url: str, password: str) -> None:
+    page.goto(base_url + '/', wait_until='domcontentloaded', timeout=30000)
+    overlay = page.locator('#login-overlay')
+    if overlay.is_visible():
+        page.locator('#login-password').fill(password)
+        page.locator('#login-btn').click()
+        overlay.wait_for(state='hidden', timeout=20000)
+    page.locator('#app').wait_for(state='visible', timeout=20000)
+
+
+def assistant_text(page, user_text: str, expected_model: str) -> tuple[str, dict]:
+    """Wait for this real chat turn to finish, then read it through HTTP."""
+    sid = page.evaluate('sessionId')
+    deadline = time.monotonic() + WAIT_SECONDS
+    latest = None
+    while time.monotonic() < deadline:
+        history = api_json(page, 'GET', f'/api/history?session_id={sid}&page=1&page_size=50&agent_id={EXPECTED_AGENT}')
+        messages = history.get('messages') or []
+        owner = next((m for m in reversed(messages)
+                      if m.get('role') == 'user' and user_text in str(m.get('content') or '')), None)
+        if owner is not None:
+            owner_seq = owner.get('_seq')
+            assistant = [m for m in messages if m.get('role') == 'assistant'
+                         and m.get('content') and (owner_seq is None or m.get('_seq', -1) > owner_seq)]
+            if assistant:
+                latest = assistant[-1]
+                if not latest.get('run_state'):
+                    break
+        time.sleep(1)
+    require(latest is not None and not latest.get('run_state'),
+            'The real assistant turn did not finish within the bounded wait')
+    require(isinstance(latest.get('content'), str), 'The assistant answer is not text')
+    require(latest.get('usage') is not None, 'The persisted assistant answer has no provider usage receipt')
+    requests = latest['usage'].get('requests') if isinstance(latest['usage'], dict) else None
+    require(isinstance(requests, list) and bool(requests),
+            'The persisted usage receipt has no per-request model metadata')
+    matching = [item for item in requests if isinstance(item, dict)
+                and (item.get('requested_model') == expected_model or item.get('model') == expected_model)]
+    require(bool(matching) and all(isinstance(item.get('model'), str) and item.get('model')
+                                   for item in matching),
+            f'Provider usage metadata does not show the selected model {expected_model}')
+    return latest['content'], latest
+
+
+def api_json(page, method: str, path: str, body: dict | None = None) -> dict:
+    result = page.request.fetch(
+        'http://127.0.0.1:19892' + path,
+        method=method,
+        data=body if body is not None else None,
+        headers={'Content-Type': 'application/json'} if body is not None else None,
+        timeout=15000,
+    )
+    try:
+        data = result.json()
+    except Exception as exc:
+        raise AcceptanceError(f'{method} {path.split("?", 1)[0]} returned non-JSON') from exc
+    if not result.ok or not isinstance(data, dict) or data.get('status') != 'success':
+        raise AcceptanceError(f'{method} {path.split("?", 1)[0]} failed with HTTP {result.status}')
+    return data
+
+
+def personal(page, sid: str) -> dict:
+    return api_json(page, 'GET', f'/api/personal/{sid}?agent_id={EXPECTED_AGENT}')
+
+
+def input_chat(page, text: str) -> tuple[str, dict]:
+    sid = page.evaluate('sessionId')
+    settings = api_json(page, 'GET', f'/api/sessions/{sid}/settings?agent_id={EXPECTED_AGENT}')
+    expected_model = settings.get('model', {}).get('model')
+    require(isinstance(expected_model, str) and expected_model,
+            'The active session model is not available for usage verification')
+    editor = page.locator('#chat-input')
+    editor.fill(text)
+    page.locator('#send-btn').click()
+    answer = assistant_text(page, text, expected_model)
+    # Wait for the native UI's completion event to attach the persisted owner seq.
+    seq = history_user_seq(page, page.evaluate('sessionId'), text)
+    page.wait_for_function(
+        """seq => [...document.querySelectorAll('#chat-messages .user-message-group[data-seq]')]
+          .some(el => el.dataset.seq === String(seq))""",
+        arg=seq,
+        timeout=30000,
+    )
+    answer[1]['_acceptance_expected_model'] = expected_model
+    return answer
+
+
+def usage_receipt(message: dict, phase: str) -> dict:
+    usage = message.get('usage') or {}
+    requests = usage.get('requests') if isinstance(usage, dict) else []
+    return {
+        'phase': phase,
+        'expected_model': message.get('_acceptance_expected_model'),
+        'requests': [
+            {key: item.get(key) for key in ('model', 'requested_model', 'provider') if item.get(key)}
+            for item in (requests or []) if isinstance(item, dict)
+        ],
+    }
+
+
+def wait_personal(page, sid: str, predicate, message: str, timeout: float = 15) -> dict:
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        snapshot = personal(page, sid)
+        if predicate(snapshot):
+            return snapshot
+        time.sleep(0.25)
+    raise AcceptanceError(message)
+
+
+def history_user_seq(page, sid: str, content: str) -> int:
+    history = api_json(page, 'GET', f'/api/history?session_id={sid}&page=1&page_size=50&agent_id={EXPECTED_AGENT}')
+    for message in history.get('messages') or []:
+        if message.get('role') == 'user' and content in str(message.get('content') or ''):
+            seq = message.get('_seq')
+            if isinstance(seq, int):
+                return seq
+    raise AcceptanceError('The submitted owner turn was not found in persisted history')
+
+
+def stored_assistant(page, sid: str, prompt: str, expected_model: str) -> tuple[str, dict]:
+    """Read a completed acceptance turn without sending it again."""
+    history = api_json(page, 'GET', f'/api/history?session_id={sid}&page=1&page_size=50&agent_id={EXPECTED_AGENT}')
+    messages = history.get('messages') or []
+    owner = next((m for m in messages if m.get('role') == 'user'
+                  and prompt in str(m.get('content') or '')), None)
+    require(owner is not None, 'Completed acceptance owner turn is missing from history')
+    seq = owner.get('_seq')
+    answer = next((m for m in messages if m.get('role') == 'assistant'
+                   and m.get('_seq', -1) > (seq if isinstance(seq, int) else -1)
+                   and isinstance(m.get('content'), str) and m.get('usage')), None)
+    require(answer is not None, 'Completed acceptance answer is missing from history')
+    usage = answer['usage']
+    requests = usage.get('requests') if isinstance(usage, dict) else None
+    require(isinstance(requests, list) and any(
+        isinstance(item, dict) and (item.get('requested_model') == expected_model
+                                    or item.get('model') == expected_model)
+        for item in requests),
+        'Stored answer usage does not match its selected model')
+    return answer['content'], answer
+
+
+def save_goal_ui(page, fields: dict) -> None:
+    form = page.locator('#personal-card form[data-personal-form="save_goal"]')
+    for name, value in fields.items():
+        form.locator(f'[name="{name}"]').fill(value)
+    form.locator('button[type="submit"]').click()
+
+
+def remember_ui(page, text: str) -> None:
+    form = page.locator('#personal-card form[data-personal-form="remember"]')
+    form.locator('[name="text"]').fill(text)
+    form.locator('button[type="submit"]').click()
+
+
+def model_switch_ui(page, model: str) -> None:
+    page.locator('#model-selector-btn').click()
+    option = page.locator('#model-selector-menu button.composer-menu-item').filter(has_text=model)
+    option.wait_for(state='visible', timeout=15000)
+    option.click()
+    state = api_json(page, 'GET', f'/api/sessions/{page.evaluate("sessionId")}/settings?agent_id={EXPECTED_AGENT}')
+    require(state.get('model', {}).get('provider') == 'openai'
+            and state.get('model', {}).get('model') == model,
+            f'The session did not switch to {model}')
+
+
+def fenced_checklist(answer: str) -> str:
+    blocks = re.findall(r'```(?:markdown|md|text)?\s*\n(.*?)```', answer, flags=re.IGNORECASE | re.DOTALL)
+    for block in blocks:
+        cleaned = block.strip() + '\n'
+        if 'cedar' in cleaned.casefold() and re.search(r'(?m)^\s*- \[ \]', cleaned):
+            return cleaned
+    raise AcceptanceError('The model did not propose an exact fenced Cedar checklist with checklist items')
+
+
+def submit_action_ui(page, content: str) -> str:
+    details = page.locator('#personal-card details.personal-propose')
+    if not details.evaluate('(el) => el.open'):
+        details.locator('summary').click()
+    form = page.locator('#personal-card form[data-personal-form="propose_write"]')
+    form.locator('[name="path"]').fill(ACTION_PATH)
+    form.locator('[name="content"]').fill(content)
+    form.locator('button[type="submit"]').click()
+    page.wait_for_function(
+        """() => [...document.querySelectorAll('#personal-card [data-personal-approve]')]
+          .some(el => el.isConnected)""",
+        timeout=15000,
+    )
+    snapshot = personal(page, page.evaluate('sessionId'))
+    action = next((a for a in snapshot.get('actions', []) if a.get('path') == ACTION_PATH), None)
+    require(action is not None and action.get('status') == 'pending',
+            'The owner card did not create a pending proposal')
+    require(action.get('content') == content, 'Proposed file content differs from the model draft')
+    return action['action_id']
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('root', help='exact private root of the parent-approved instance')
+    parser.add_argument('--receipt', type=Path, default=Path(__file__).with_name('native-validation.json'))
+    parser.add_argument('--screenshot', type=Path, default=Path(__file__).with_name('native-validation.png'))
+    parser.add_argument('--resume', action='store_true',
+                        help='continue this receipt from the same saved session and browser profile')
+    args = parser.parse_args()
+
+    root, info, _config, password = read_instance(args.root)
+    base_url = 'http://127.0.0.1:19892'
+    require(CHROME.is_file(), 'Approved Google Chrome executable is unavailable')
+    launcher_env = service_env(root, info)
+    if args.resume:
+        require(args.receipt.is_file(), 'Resume receipt does not exist')
+        receipt = json.loads(args.receipt.read_text(encoding='utf-8'))
+        require(receipt.get('status') != 'passed'
+                and all(receipt.get('steps', {}).get(key, {}).get('passed')
+                        for key in ('1_identity_model_permission', '2_natural_conversation_and_owner_save')),
+                'Resume requires the completed identity, conversation, goal, and memory phases')
+        require(receipt.get('instance', {}).get('agent_id') == EXPECTED_AGENT
+                and receipt.get('instance', {}).get('port') == 19892,
+                'Resume receipt does not match the approved instance')
+        profile = Path(receipt.get('browser_profile', '')).resolve(strict=True)
+        require(profile.parent == root and profile.name.startswith('personal-001-chrome-profile-')
+                and profile.stat().st_uid == os.getuid() and profile.stat().st_mode & 0o077 == 0,
+                'Resume browser profile is not the private profile created by this acceptance')
+        receipt['status'] = 'running'
+        receipt.pop('failed_at_step', None)
+        receipt.pop('finished_at', None)
+        receipt['resumed_at'] = int(time.time())
+        receipt.setdefault('helper_failures', [
+            {'phase': 'launcher_environment', 'result': 'stopped before interaction; task-local TMPDIR broke launcher root validation'},
+            {'phase': 'browser_restart', 'result': 'steps 1-2 passed; nested Playwright Sync API context rejected; no second model turn'},
+        ])
+    else:
+        profile = root / f'personal-001-chrome-profile-{time.time_ns()}'
+        profile.mkdir(mode=0o700)
+        receipt = {
+            'status': 'running',
+            'started_at': int(time.time()),
+            'instance': {'port': 19892, 'agent_id': EXPECTED_AGENT, 'initial_model': INITIAL_MODEL,
+                         'api_type': 'responses'},
+            'steps': {},
+            'provider_usage': [],
+        }
+        receipt.pop('helper_failures', None)
+    try:
+        health(base_url, expected=True)
+    except AcceptanceError:
+        if not args.resume:
+            raise
+        launcher(root, 'start', launcher_env)
+        health(base_url, expected=True, timeout=30)
+    browser_env = {
+        'HOME': str(root / 'home'),
+        'TMPDIR': str(root / 'tmp'),
+        'PATH': '/usr/bin:/bin:/usr/sbin:/sbin',
+        'LANG': 'en_US.UTF-8',
+    }
+    write_receipt(args.receipt, receipt)
+    context = None
+    session_id = ''
+    action_id = ''
+    try:
+        from playwright.sync_api import sync_playwright
+
+        with sync_playwright() as playwright:
+            context = playwright.chromium.launch_persistent_context(
+                str(profile), executable_path=str(CHROME), headless=True, env=browser_env,
+                locale='en-US', viewport={'width': 1440, 'height': 1100},
+                args=['--no-first-run', '--no-default-browser-check', '--disable-extensions',
+                      '--disable-sync', '--password-store=basic'],
+            )
+            overlay_state = install_personal_script_overlay(context, root, receipt)
+            page = context.new_page()
+            login_if_needed(page, base_url, password)
+            record_ui_phase(receipt, overlay_state, 'resume_startup')
+            password = ''
+            page.wait_for_function("typeof sessionId !== 'undefined' && typeof defaultAgentId !== 'undefined'")
+            session_id = page.evaluate('sessionId')
+            owner_id = page.evaluate('personalOwnerId()')
+            require(owner_id == EXPECTED_AGENT, 'The native chat is not using the BullGod owner identity')
+            first_prompt = (
+                'Help me prepare the Cedar workshop. Keep the plan brief. I need a draft '
+                'checklist before Friday. Ask me which venue capacity I expect before '
+                'drafting. Also, remember that I prefer brief workshop plans.'
+            )
+            if args.resume:
+                saved_step = receipt['steps']['1_identity_model_permission']
+                session_id = saved_step['session_id']
+                require(page.evaluate('sessionId') == session_id,
+                        'Saved browser profile no longer points to the accepted session')
+                seq = receipt['steps']['2_natural_conversation_and_owner_save']['source_seq']
+                history = api_json(page, 'GET', f'/api/history?session_id={session_id}&page=1&page_size=50&agent_id={EXPECTED_AGENT}')
+                messages = history.get('messages') or []
+                owner_turn = next((m for m in messages if m.get('role') == 'user'
+                                   and first_prompt in str(m.get('content') or '')), None)
+                require(owner_turn is not None and owner_turn.get('_seq') == seq,
+                        'Accepted owner turn is missing from the saved session')
+                first_message = next((m for m in messages if m.get('role') == 'assistant'
+                                      and m.get('_seq', -1) > seq and m.get('usage')), None)
+                require(first_message is not None, 'Accepted real-model response is missing from history')
+                first_usage = first_message.get('usage') or {}
+                requests = first_usage.get('requests') if isinstance(first_usage, dict) else None
+                require(isinstance(requests, list) and any(
+                    isinstance(item, dict) and (item.get('requested_model') == INITIAL_MODEL
+                                                or item.get('model') == INITIAL_MODEL)
+                    for item in requests),
+                    'Accepted turn usage metadata does not confirm GPT-6 Luna')
+                receipt['provider_usage'] = [
+                    usage_receipt({**first_message, '_acceptance_expected_model': INITIAL_MODEL}, 'initial')
+                ] + [item for item in receipt.get('provider_usage', []) if item.get('phase') != 'initial']
+                snapshot = personal(page, session_id)
+                require(snapshot.get('continuity', {}).get('goal', '').startswith('Prepare a brief Cedar')
+                        and snapshot.get('continuity', {}).get('source_seq') == seq,
+                        'Saved owner goal or its source changed before resume')
+                require(any('brief workshop plans' in m.get('text', '')
+                            for m in snapshot.get('memories', [])),
+                        'Saved owner memory is missing before resume')
+                first_settings = api_json(page, 'GET', f'/api/sessions/{session_id}/settings?agent_id={EXPECTED_AGENT}')
+                require(first_settings.get('model', {}).get('model') == INITIAL_MODEL
+                        and first_settings.get('permission', {}).get('mode') == 'read-only',
+                        'The accepted session model or broad permission mode changed before resume')
+                write_receipt(args.receipt, receipt)
+            else:
+                first_settings = api_json(page, 'GET', f'/api/sessions/{session_id}/settings?agent_id={EXPECTED_AGENT}')
+                require(first_settings.get('model', {}).get('model') == INITIAL_MODEL
+                        and first_settings.get('model', {}).get('provider') == 'openai',
+                        'The initial native session model is not GPT-6 Luna')
+                require(first_settings.get('permission', {}).get('mode') == 'read-only',
+                        'The scenario must start with read-only permission')
+                receipt['steps']['1_identity_model_permission'] = {
+                    'passed': True, 'agent_id': owner_id, 'session_id': session_id,
+                    'model': INITIAL_MODEL, 'permission': 'read-only',
+                }
+                write_receipt(args.receipt, receipt)
+
+                first_answer, first_message = input_chat(page, first_prompt)
+                require('cedar' in first_answer.casefold(), 'The model did not recognize the Cedar workshop')
+                require('venue' in first_answer.casefold() or 'capacity' in first_answer.casefold(),
+                        'The model did not ask about venue capacity')
+                seq = history_user_seq(page, session_id, first_prompt)
+                page.wait_for_function("""() => document.querySelector('#personal-card #personal-content')""")
+                save_goal_ui(page, {
+                    'goal': 'Prepare a brief Cedar workshop plan and draft checklist before Friday.',
+                    'progress': 'Planning started; venue capacity is not yet known.',
+                    'pending_decision': 'What is the venue capacity?',
+                    'next_step': 'Confirm venue capacity, then draft the checklist.',
+                })
+                wait_personal(page, session_id,
+                              lambda data: data.get('continuity', {}).get('goal', '').startswith('Prepare a brief Cedar'),
+                              'Owner goal submission did not finish')
+                remember_ui(page, 'The owner prefers brief workshop plans.')
+                snapshot = wait_personal(page, session_id,
+                                         lambda data: any('brief workshop plans' in m.get('text', '')
+                                                          for m in data.get('memories', [])),
+                                         'Owner memory submission did not finish')
+                require(snapshot.get('continuity', {}).get('goal', '').startswith('Prepare a brief Cedar'),
+                        'Owner-confirmed goal was not saved')
+                require(snapshot['continuity'].get('source_seq') == seq,
+                        'Goal source does not point to the actual owner message')
+                require(any('brief workshop plans' in m.get('text', '') for m in snapshot.get('memories', [])),
+                        'Explicit owner memory was not saved')
+                receipt['provider_usage'].append(usage_receipt(first_message, 'initial'))
+                receipt['steps']['2_natural_conversation_and_owner_save'] = {
+                    'passed': True, 'source_seq': seq, 'goal_saved': True,
+                    'pending_decision_saved': True, 'memory_saved': True,
+                }
+                write_receipt(args.receipt, receipt)
+
+            # Close the first browser before restarting. Its only profile is task-owned.
+            page.close()
+            context.close()
+            context = None
+            launcher(root, 'stop', launcher_env)
+            health(base_url, expected=False, timeout=20)
+            launcher(root, 'start', launcher_env)
+            health(base_url, expected=True, timeout=30)
+
+            context = playwright.chromium.launch_persistent_context(
+                str(profile), executable_path=str(CHROME), headless=True, env=browser_env,
+                locale='en-US', viewport={'width': 1440, 'height': 1100},
+                args=['--no-first-run', '--no-default-browser-check', '--disable-extensions',
+                      '--disable-sync', '--password-store=basic'],
+            )
+            overlay_state = install_personal_script_overlay(context, root, receipt)
+            page = context.new_page()
+            login_if_needed(page, base_url, _config['web_password'])
+            record_ui_phase(receipt, overlay_state, 'continuity_card_after_restart')
+            page.wait_for_function("typeof sessionId !== 'undefined' && typeof defaultAgentId !== 'undefined'")
+            resumed_session = page.evaluate('sessionId')
+            require(resumed_session == session_id, 'Restart did not reopen the same native conversation')
+            page.wait_for_function("""() => document.querySelectorAll('#chat-messages .user-message-group[data-seq]').length > 0""", timeout=20000)
+            resumed = wait_personal(page, session_id,
+                                    lambda data: data.get('continuity', {}).get('goal', '').startswith('Prepare a brief Cedar'),
+                                    'Owner goal did not load after restart')
+            require(resumed.get('continuity', {}).get('pending_decision') == 'What is the venue capacity?',
+                    'Pending decision did not survive restart')
+            memory_text = ' '.join(m.get('text', '') for m in resumed.get('memories', []))
+            require('brief workshop plans' in memory_text, 'Owner memory did not survive restart')
+            resume_prompt = (
+                'We are continuing the Cedar workshop. What is my goal, what decision is '
+                'pending, what is the next step, and when is the checklist due? Keep it brief.'
+            )
+            if args.resume and receipt.get('steps', {}).get('4_resume_context', {}).get('passed'):
+                resume_answer, resume_message = stored_assistant(page, session_id, resume_prompt, INITIAL_MODEL)
+            else:
+                resume_answer, resume_message = input_chat(page, resume_prompt)
+            resume_lower = resume_answer.casefold()
+            require(all(word in resume_lower for word in ('cedar', 'venue', 'friday')),
+                    'The real model did not use the saved goal, pending decision, and due date after restart')
+            if not any(item.get('phase') == 'restart_resume' for item in receipt.get('provider_usage', [])):
+                receipt['provider_usage'].append(usage_receipt(resume_message, 'restart_resume'))
+            receipt['steps']['3_restart_and_context_refresh'] = {'passed': True, 'same_session': True}
+            receipt['steps']['4_resume_context'] = {'passed': True, 'model': INITIAL_MODEL}
+            write_receipt(args.receipt, receipt)
+
+            # The model's current tool list and permission limits are visible in the card.
+            caps = personal(page, session_id).get('capabilities') or {}
+            require(caps.get('status') == 'loaded', 'Runtime capability inventory was not loaded')
+            tool_names = {item.get('name') for item in caps.get('tools', [])}
+            require({'read', 'write'} <= tool_names, 'Read/write tool availability was not shown')
+            require(all(isinstance(item.get('allowed'), bool) for item in caps.get('tools', [])),
+                    'Tool permissions were not reported as current allow/deny values')
+            page.locator('#personal-card').get_by_text('Available tools and skills').wait_for(state='visible')
+            receipt['steps']['5_tools_skills_and_limits'] = {
+                'passed': True, 'tools': sorted(str(t) for t in tool_names),
+                'skills_count': len(caps.get('skills') or []),
+                'permission_mode': caps.get('permission_mode'),
+            }
+            write_receipt(args.receipt, receipt)
+
+            # Change only this session's model through the visible native model picker.
+            changed_prompt = (
+                'Without relying on an older answer, what workshop am I preparing, what '
+                'plan style do I prefer, and what is the pending venue question?'
+            )
+            if args.resume and receipt.get('steps', {}).get('6_supported_model_change', {}).get('passed'):
+                settings = api_json(page, 'GET', f'/api/sessions/{session_id}/settings?agent_id={EXPECTED_AGENT}')
+                require(settings.get('model', {}).get('model') == SWITCH_MODEL,
+                        'Saved model-change state is no longer active')
+                changed_answer, changed_message = stored_assistant(page, session_id, changed_prompt, SWITCH_MODEL)
+            else:
+                model_switch_ui(page, SWITCH_MODEL)
+                changed_answer, changed_message = input_chat(page, changed_prompt)
+            changed_lower = changed_answer.casefold()
+            require(all(word in changed_lower for word in ('cedar', 'brief', 'venue')),
+                    'The switched model did not receive the durable identity and memory context')
+            require(personal(page, session_id).get('identity', {}).get('agent_id') == EXPECTED_AGENT,
+                    'Model change altered the owner identity')
+            if not any(item.get('phase') == 'model_change' for item in receipt.get('provider_usage', [])):
+                receipt['provider_usage'].append(usage_receipt(changed_message, 'model_change'))
+            receipt['steps']['6_supported_model_change'] = {'passed': True, 'model': SWITCH_MODEL}
+            write_receipt(args.receipt, receipt)
+
+            # Correct the accepted fact in the owner card, then verify live retrieval.
+            if (args.resume and receipt.get('observed_model_evidence')
+                    and not receipt.get('steps', {}).get('7_memory_correction_and_retrieval', {}).get('passed')):
+                raise AcceptanceError(
+                    'Corrected memory has an unresolved model-context probe; resume only after parent review'
+                )
+            before_correction = personal(page, session_id)
+            memory = next((m for m in before_correction.get('memories', [])
+                           if 'brief workshop plans' in m.get('text', '')), None)
+            require(memory is not None, 'The saved preference is missing before correction')
+            memory_form = page.locator('#personal-card form[data-personal-form="correct_memory"]').filter(
+                has=page.locator(f'input[name="memory_id"][value="{memory["memory_id"]}"]'))
+            memory_form.locator('[name="text"]').fill('The owner prefers detailed workshop plans.')
+            memory_form.get_by_role('button', name='Correct').click()
+            corrected = wait_personal(page, session_id,
+                                      lambda data: any('detailed workshop plans' in m.get('text', '')
+                                                       for m in data.get('memories', [])),
+                                      'Memory correction did not finish')
+            active_text = ' '.join(m.get('text', '') for m in corrected.get('memories', []))
+            require('detailed workshop plans' in active_text and 'brief workshop plans' not in active_text,
+                    'Corrected memory retrieval still contains the stale value')
+            correction_answer, correction_message = input_chat(
+                page, 'What plan style should you use for my workshop? Use my current saved preference.'
+            )
+            require('detailed' in correction_answer.casefold() and 'brief' not in correction_answer.casefold(),
+                    'The real model did not use the corrected memory value')
+            receipt['provider_usage'].append(usage_receipt(correction_message, 'memory_correction'))
+            receipt['steps']['7_memory_correction_and_retrieval'] = {'passed': True}
+            write_receipt(args.receipt, receipt)
+
+            # Ask the real model for an exact proposed file draft; no file is written here.
+            draft_answer, draft_message = input_chat(
+                page,
+                'Propose one bounded workspace action. Draft a concise markdown checklist '
+                'for the Cedar workshop and put the exact proposed file content in one '
+                'markdown fenced code block. The target is projects/cedar/checklist.md. '
+                'Include at least three unchecked checklist items. Do not claim you created '
+                'the file and do not try to write it before I approve it.',
+            )
+            draft = fenced_checklist(draft_answer)
+            receipt['provider_usage'].append(usage_receipt(draft_message, 'action_proposal'))
+            action_id = submit_action_ui(page, draft)
+            record_ui_phase(receipt, overlay_state, 'action_proposal_and_approval')
+            receipt['steps']['8_model_proposed_exact_action'] = {
+                'passed': True, 'target': ACTION_PATH, 'action_id': action_id,
+                'draft_sha256': hashlib.sha256(draft.encode('utf-8')).hexdigest(),
+            }
+            proposed = personal(page, session_id)
+            action = next(a for a in proposed.get('actions', []) if a.get('action_id') == action_id)
+            require(action.get('status') == 'pending' and action.get('content') == draft,
+                    'Action was not pending owner review with immutable exact content')
+            require(api_json(page, 'GET', f'/api/sessions/{session_id}/settings?agent_id={EXPECTED_AGENT}')
+                    .get('permission', {}).get('mode') == 'read-only',
+                    'The one-action flow changed the broad session permission mode')
+            receipt['steps']['9_owner_review_and_scoped_approval'] = {'passed': True}
+            write_receipt(args.receipt, receipt)
+
+            approve_button = page.locator(f'#personal-card button[data-personal-approve="{action_id}"]')
+            approve_button.click()
+            page.wait_for_function(
+                """id => {
+                  const card = document.querySelector('#personal-card');
+                  return card && card.textContent.includes('completed')
+                    && !card.querySelector(`[data-personal-approve="${id}"]`);
+                }""",
+                arg=action_id,
+                timeout=30000,
+            )
+            completed_snapshot = personal(page, session_id)
+            completed = next(a for a in completed_snapshot.get('actions', []) if a.get('action_id') == action_id)
+            require(completed.get('status') == 'completed', 'Approved action did not complete')
+            result = completed.get('result') or {}
+            require(result.get('readback') == 'verified' and result.get('path') == ACTION_PATH,
+                    'Native write/readback result was not verified')
+            workspace_root = Path(root / 'workspace')
+            target = workspace_root / ACTION_PATH
+            require(target.is_file() and target.read_text(encoding='utf-8') == draft,
+                    'Brokered action file content does not match the approved content')
+            target_state = {'sha256': hashlib.sha256(target.read_bytes()).hexdigest(),
+                            'mtime_ns': target.stat().st_mtime_ns, 'size': target.stat().st_size}
+            receipt['steps']['10_bounded_write_and_readback'] = {
+                'passed': True, 'target': ACTION_PATH, **target_state,
+                'readback': result.get('readback'),
+            }
+            write_receipt(args.receipt, receipt)
+
+            # Natural explanation must report the observed result and pending decision.
+            final_answer, final_message = input_chat(
+                page,
+                'Explain what you actually completed, the exact workspace path, whether '
+                'the readback was verified, what remains, and the pending venue decision. '
+                'Do not infer a completed action from my request alone.',
+            )
+            final_lower = final_answer.casefold()
+            require('checklist.md' in final_lower and ('verified' in final_lower or 'readback' in final_lower),
+                    'The real model did not explain the verified file result')
+            require('venue' in final_lower or 'capacity' in final_lower,
+                    'The real model did not report the pending venue decision')
+            receipt['provider_usage'].append(usage_receipt(final_message, 'result_explanation'))
+            receipt['steps']['11_result_summary_and_pending_decision'] = {'passed': True}
+            write_receipt(args.receipt, receipt)
+
+            # Forget the corrected memory; active context must no longer contain either value.
+            after_correct = personal(page, session_id)
+            corrected_memory = next((m for m in after_correct.get('memories', [])
+                                      if 'detailed workshop plans' in m.get('text', '')), None)
+            require(corrected_memory is not None, 'Corrected owner memory is missing before forget')
+            forget = page.locator(
+                f'#personal-card button[data-personal-forget="{corrected_memory["memory_id"]}"]'
+            )
+            forget.click()
+            forget.wait_for(state='detached', timeout=15000)
+            record_ui_phase(receipt, overlay_state, 'memory_forget')
+            forgotten = personal(page, session_id)
+            active_text = ' '.join(m.get('text', '') for m in forgotten.get('memories', []))
+            require('brief workshop plans' not in active_text and 'detailed workshop plans' not in active_text,
+                    'Forgotten memory remains in effective personal retrieval')
+            require('retained separately' in forgotten.get('memory_retention_note', '').casefold(),
+                    'The owner was not told that transcript retention is separate')
+            receipt['steps']['12_owner_forget_and_history_boundary'] = {'passed': True}
+            write_receipt(args.receipt, receipt)
+
+            # A fresh conversation has no transcript with the old values.
+            old_session = session_id
+            page.locator('#new-chat-btn').click()
+            page.wait_for_function('old => sessionId !== old', arg=old_session, timeout=10000)
+            new_session = page.evaluate('sessionId')
+            new_answer, new_message = input_chat(
+                page,
+                'What plan style do I prefer? Use only a currently saved owner memory. '
+                'If none is saved, say that you do not have the preference stored.',
+            )
+            new_lower = new_answer.casefold()
+            require('brief' not in new_lower and 'detailed' not in new_lower,
+                    'The real model used a forgotten preference in a fresh conversation')
+            require(any(term in new_lower for term in ('not stored', 'not have', 'do not know',
+                                                       "don't know", 'no saved', 'not saved')),
+                    'The real model did not acknowledge the absence of a current saved preference')
+            new_snapshot = personal(page, new_session)
+            new_memories = ' '.join(m.get('text', '') for m in new_snapshot.get('memories', []))
+            require('brief workshop plans' not in new_memories and 'detailed workshop plans' not in new_memories,
+                    'Forgotten preference appeared in a fresh session snapshot')
+            receipt['provider_usage'].append(usage_receipt(new_message, 'forget_retrieval'))
+
+            # Final restart proves completed work is persisted without replay or duplication.
+            action_before_restart = personal(page, old_session)
+            actions_before = [a for a in action_before_restart.get('actions', [])
+                              if a.get('action_id') == action_id]
+            require(len(actions_before) == 1 and actions_before[0].get('status') == 'completed',
+                    'Completed action record is missing or duplicated before final restart')
+            page.close()
+            context.close()
+            context = None
+            launcher(root, 'stop', launcher_env)
+            health(base_url, expected=False, timeout=20)
+            launcher(root, 'start', launcher_env)
+            health(base_url, expected=True, timeout=30)
+
+            context = playwright.chromium.launch_persistent_context(
+                str(profile), executable_path=str(CHROME), headless=True, env=browser_env,
+                locale='en-US', viewport={'width': 1440, 'height': 1100},
+                args=['--no-first-run', '--no-default-browser-check', '--disable-extensions',
+                      '--disable-sync', '--password-store=basic'],
+            )
+            overlay_state = install_personal_script_overlay(context, root, receipt)
+            page = context.new_page()
+            login_if_needed(page, base_url, _config['web_password'])
+            record_ui_phase(receipt, overlay_state, 'final_restart_and_result_card')
+            page.wait_for_function("typeof sessionId !== 'undefined' && typeof defaultAgentId !== 'undefined'")
+            require(page.evaluate('sessionId') == new_session,
+                    'Final restart did not retain the fresh session identity')
+            history = api_json(page, 'GET', f'/api/history?session_id={old_session}&page=1&page_size=50&agent_id={EXPECTED_AGENT}')
+            require(not any(m.get('role') == 'assistant' and m.get('run_state') == 'running'
+                            for m in history.get('messages', [])),
+                    'A completed action caused a model run to restart automatically')
+            final_snapshot = personal(page, old_session)
+            final_actions = [a for a in final_snapshot.get('actions', []) if a.get('action_id') == action_id]
+            require(len(final_actions) == 1 and final_actions[0].get('status') == 'completed',
+                    'Action record was replayed, duplicated, or changed after restart')
+            require(target.is_file() and target.read_text(encoding='utf-8') == draft,
+                    'Completed action file changed after restart')
+            final_state = {'sha256': hashlib.sha256(target.read_bytes()).hexdigest(),
+                           'mtime_ns': target.stat().st_mtime_ns, 'size': target.stat().st_size}
+            require(final_state == target_state, 'Completed action was rewritten during restart')
+            # Open the original completed conversation so the screenshot shows the goal and result.
+            page.evaluate('(sid) => switchSession(sid, "bullgod")', old_session)
+            page.wait_for_function('sid => sessionId === sid', arg=old_session, timeout=15000)
+            page.wait_for_function("""() => document.querySelector('#personal-card #personal-content')?.textContent.includes('completed')""", timeout=20000)
+            page.locator('#personal-card .personal-action').scroll_into_view_if_needed()
+            page.screenshot(path=str(args.screenshot), full_page=True, animations='disabled')
+            receipt['steps']['restart_no_replay'] = {
+                'passed': True, 'action_records': len(final_actions),
+                'file_unchanged': True, 'hash': final_state['sha256'],
+            }
+            receipt['status'] = 'passed'
+            receipt['finished_at'] = int(time.time())
+            receipt['screenshot'] = str(args.screenshot)
+            write_receipt(args.receipt, receipt)
+            context.close()
+            context = None
+    finally:
+        active_error = sys.exc_info()[1]
+        password = ''
+        _config = {}
+        if context is not None:
+            try:
+                context.close()
+            except Exception:
+                pass
+        # The acceptance owns the selected instance for its entire run and leaves it stopped.
+        try:
+            state_path = root / 'process.json'
+            if state_path.is_file():
+                launcher(root, 'stop', launcher_env)
+        except Exception as exc:
+            receipt['cleanup_error'] = type(exc).__name__
+            if active_error is not None:
+                import traceback
+                receipt['primary_error'] = {
+                    'type': type(active_error).__name__,
+                    'locations': [
+                        {'file': Path(frame.filename).name, 'line': frame.lineno}
+                        for frame in traceback.extract_tb(active_error.__traceback__)
+                    ],
+                }
+                receipt['status'] = 'failed_cleanup_pending'
+                write_receipt(args.receipt, receipt)
+            else:
+                receipt['status'] = 'cleanup_failed'
+                write_receipt(args.receipt, receipt)
+                raise AcceptanceError('Could not stop the exact task-owned instance cleanly') from exc
+        receipt['browser_profile'] = str(profile)
+        if receipt.get('status') != 'passed':
+            receipt['status'] = 'failed'
+            receipt['finished_at'] = int(time.time())
+            receipt['failed_at_step'] = next((key for key, value in receipt.get('steps', {}).items()
+                                              if not value.get('passed')), None)
+            write_receipt(args.receipt, receipt)
+    print(f"PERSONAL-001 acceptance {receipt['status']}; steps={len(receipt['steps'])}; receipt={args.receipt}")
+    return 0 if receipt['status'] == 'passed' else 1
+
+
+if __name__ == '__main__':
+    try:
+        raise SystemExit(main())
+    except AcceptanceError as exc:
+        print(f'PERSONAL-001 acceptance failed: {exc}', file=sys.stderr)
+        raise SystemExit(1)

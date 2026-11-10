@@ -3,6 +3,19 @@
                 <!-- ====================================================== -->
                 <div id="view-chat" class="view active">
                   <div id="chat-main" class="chat-main relative">
+                    <section id="personal-card" class="personal-card" aria-labelledby="personal-card-title" aria-live="polite">
+                      <div class="personal-card-heading">
+                        <div>
+                          <h2 id="personal-card-title">Owner continuity</h2>
+                          <p id="personal-identity" class="personal-muted">Loading owner context…</p>
+                        </div>
+                        <button id="personal-refresh" type="button" class="personal-button">Refresh</button>
+                      </div>
+                      <div id="personal-status" class="personal-status" role="status">Continuity is available after this conversation has a saved turn.</div>
+                      <div id="personal-content" class="personal-content">
+                        <p class="personal-muted">Start or reopen a conversation to see its saved goal, memory, and action results.</p>
+                      </div>
+                    </section>
                     <!-- Messages -->
                     <div id="chat-messages" class="flex-1 overflow-y-auto">
                         <!-- Welcome Screen -->

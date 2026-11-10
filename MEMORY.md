@@ -1,5 +1,29 @@
 # CowAgent project facts
 
+- PR #8 (BULLGOD-RESET-001) was merged normally as 1cc6ef1e on 2026-11-09.
+  Its tree matched the reviewed candidate and retained local evidence. Hosted
+  checks were absent, not passing. PRs #4–7 remain preserved; their deployment
+  concerns do not gate the personal-agent baseline.
+- PERSONAL-001 uses PersonalStore in the existing ConversationStore database
+  for explicit owner goals, current accepted facts and single-use action state.
+  Native agent/session identity owns records independently of model selection.
+  Current personal context reloads each turn; restricted workers and guest
+  speakers do not inherit it. Correction/forget affects active personal memory,
+  while original transcripts and legacy memory files remain separate history.
+- Personal API mutations require an authenticated console owner, an exact enabled
+  profile and owned source turn. File proposals bind path/content, workspace,
+  session, source and expiry. Approval and claims sample expiry after the SQLite
+  writer lock; personal writes use synchronous=FULL. Claim commits before native
+  permission-gateway/FileBroker effects. Unknown/failed/completed actions never
+  replay automatically. UI request generations prevent stale reads or mutations
+  from restoring old facts or acting in a switched conversation.
+- The isolated developer launcher can opt in to one explicit loopback model
+  gateway. Its runtime bootstrap removes the transient credential environment
+  variable and supplies authorization only to that gateway's HTTP headers; the
+  value is not in application config, command arguments or instance files. The
+  default still denies outbound traffic. BullGod's starter persona is stored in
+  its own AGENT.md. No production OAuth token or authority record is copied.
+
 - BULLGOD-RESET-001 refocuses development on BullGod as a persistent personal
   agent. Identity, inspectable/correctable memory, owner commitments and useful
   permission-aware follow-through come before optional specialist delegation.

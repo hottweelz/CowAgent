@@ -5,6 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 import tempfile
+import types
 import unittest
 from unittest.mock import patch
 
@@ -48,6 +49,35 @@ class DevBoundaryTests(unittest.TestCase):
                 with self.assertRaises(RuntimeError):
                     dev.stop(root)
                 kill.assert_not_called()
+
+    def test_model_endpoint_is_explicit_loopback_only(self):
+        self.assertEqual(dev.model_endpoint('http://127.0.0.1:4000/backend-api/codex'), 4000)
+        for value in ('https://example.com/v1', 'http://127.0.0.1:9899/v1',
+                      'http://user:pass@127.0.0.1:4000/v1', 'http://127.0.0.1:4000/v1?key=x'):
+            with self.assertRaises(ValueError):
+                dev.model_endpoint(value)
+
+    def test_runtime_key_only_enters_selected_gateway_headers(self):
+        class Client:
+            def _build_headers(self, api_key, extra_headers, url=None):
+                return {'Content-Type': 'application/json'}
+        module = types.ModuleType('models.openai.openai_http_client')
+        module.OpenAIHTTPClient = Client
+        with tempfile.TemporaryDirectory(prefix='bullgod-dev-') as directory:
+            root = Path(directory)
+            (root / 'instance.json').write_text(json.dumps({'model_base': 'http://127.0.0.1:4000/backend-api/codex'}))
+            scope = {'__file__': str(root / 'model_bootstrap.py')}
+            with patch.dict(dev.os.environ, {'BULLGOD_DEV_MODEL_KEY': 'fictional-fixture-key'}), \
+                    patch.dict('sys.modules', {'models.openai.openai_http_client': module}), \
+                    patch('runpy.run_path') as app, patch('sys.path', []):
+                exec(dev.MODEL_BOOTSTRAP, scope)
+                self.assertNotIn('BULLGOD_DEV_MODEL_KEY', dev.os.environ)
+                selected = Client()._build_headers(None, None, 'http://127.0.0.1:4000/backend-api/codex/responses')
+                self.assertEqual(selected['Authorization'], 'Bearer fictional-fixture-key')
+                other = Client()._build_headers(None, None, 'http://127.0.0.1:4001/backend-api/codex/responses')
+                self.assertNotIn('Authorization', other)
+                app.assert_called_once()
+            self.assertNotIn('fictional-fixture-key', (root / 'instance.json').read_text())
 
 
 if __name__ == '__main__':

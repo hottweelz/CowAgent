@@ -840,6 +840,7 @@ function loadHistory(page, untilSeq) {
     if (historyLoading) return Promise.resolve();
     historyLoading = true;
     const historySessionId = sessionId;
+    if (typeof personalBeginSession === 'function') personalBeginSession(historySessionId);
 
     // A shared conversation labels each bubble with its author and paints the
     // right face. That resolution needs this session's team roster (_sessCfg),
@@ -856,6 +857,10 @@ function loadHistory(page, untilSeq) {
             // into the new session's message list.
             if (historySessionId !== sessionId) return;
             if (data.status !== 'success' || data.messages.length === 0) return;
+            if (page === 1 && data.messages.some(msg => msg.role === 'user')
+                && typeof personalMarkPersistedTurn === 'function') {
+                personalMarkPersistedTurn(historySessionId);
+            }
 
             const prevScrollHeight = messagesDiv.scrollHeight;
             const prevScrollTop = messagesDiv.scrollTop;
