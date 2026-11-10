@@ -1,0 +1,35 @@
+{
+  "baseline": "74b75f97e933d36e7b1b0a80b8d20afe16cbf8b2",
+  "heads": {
+    "origin/master": "74b75f97e933d36e7b1b0a80b8d20afe16cbf8b2",
+    "upstream/master": "6b7f5a7663fe213fbeffe8075764e6f2d2d9236d"
+  },
+  "common_ancestor": "19e84350d6c5459133fc7d0c573d1b6600e55ff7",
+  "fork_only": 65,
+  "upstream_only": 33,
+  "personal": {
+    "9": {
+      "branch": "codex/bullgod-personal-001",
+      "merge_commit": "df144ab236dd68415410da4cd32bc774554abd2f",
+      "ancestor_of_baseline": true
+    },
+    "10": {
+      "branch": "codex/bullgod-personal-002",
+      "merge_commit": "96d78c428268277eefd2d9208791b855774ea5dc",
+      "ancestor_of_baseline": true
+    },
+    "11": {
+      "branch": "codex/bullgod-personal-003",
+      "merge_commit": "ab13b789e28e3efc8571e6406acda8c88e914b77",
+      "ancestor_of_baseline": true
+    },
+    "12": {
+      "branch": "codex/bullgod-personal-004",
+      "merge_commit": "74b75f97e933d36e7b1b0a80b8d20afe16cbf8b2",
+      "ancestor_of_baseline": true
+    }
+  },
+  "git_integrity": "git fsck --no-reflogs --connectivity-only exit0; dangling recovery objects retained",
+  "original_worktree": "codex/bullgod-discovery-002; seven untracked files retained",
+  "live_listener_observation": "read-only lsof: PID28093 127.0.0.1:9899; no signal or restart"
+}

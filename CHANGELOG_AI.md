@@ -1,5 +1,41 @@
 # AI handoff ledger
 
+## 2026-11-10 — Codex — UPSTREAM-SELECTIVE-001 implementation checkpoint
+
+- Scope: selectively port backend candidates1–8 from accepted master74b75f97.
+  PERSONAL001–004 are merged. Desktop9–10 use a separate stacked branch;
+  dedup11 and Feishu retry12 remain deferred after source/TLS review.
+- Team: lead integration/cloud tests/docs/Git; Luna configuration, SSRF,
+  providers, desktop, compatibility and regression; Terra6.1 MCP for interacting
+  stream/connection lifetime; Sol6.1 independent review for identity, credential
+  and concurrent-state boundaries. Requested models were selected explicitly.
+- Changes/files: cloud_client, modelsAPI, URL guard/Feishu image validator,
+  Gemini/LinkAI, three MCP modules and focused tests; docs/upstream-selective-001.
+- Checks: cloud43+three-identity33; config13; guard/Feishu47; providers21,
+  corrected LinkAI12; MCP initial142 then final26; web39 and commitmentsUI pass.
+  RuffF and diff whitespace pass. Independent backend review has no open finding.
+  Complete combined-source suite is pending; superseded early run68 stopped when
+  review found MCP defects, not claimed as final. Source hashes pending freeze.
+- Decisions: preserve live9899 PID28093 and all production data/config/authority.
+  No wholesale merge, optional platform feature, credential or routing change.
+- Lessons Learned:
+  - Mistake: upstream reconnect readiness and HTTP error reads were unsafe;
+    initial unusual-role test data did not exceed its configured budget.
+  - Root Cause: alive flag preceded handshake; unbounded diagnostic body read;
+    fixture size assumption was not asserted.
+  - Future Trigger: porting threaded reconnect or threshold-based regression.
+  - Required Behavior Change: gate readiness through handshake; close error body
+    without reading it; assert the test reaches its threshold before behavior.
+  - Verification Step: deterministic reconnect/error tests and over-budget tests
+    pass; independent reviewer confirmed the concrete fixes.
+  - Durable Memory Update: pending final project operating-facts review.
+- Known limits: third-party MCP/provider/live acceptance not replayed. Current
+  full suite and desktop review remain pending. No completion claim yet.
+- Next: stack desktop source, run complete guarded suite on stable combined tree,
+  finish independent review and documentation, publish2draft PRs; do not merge.
+- Notes: parent owns lifecycle/Git. Keep AGENTS.md untracked, recovery artifacts,
+  source checkout and historical branches. No full environment dumps.
+
 ## 2026-11-10 14:08 EST — Codex — PR #12 integration review complete
 
 - Scope: reviewed f52e89f1 against current master ab13b789; zero divergence,

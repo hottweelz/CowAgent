@@ -84,6 +84,9 @@ def _is_blocked_ip(ip: "ipaddress._BaseAddress") -> bool:
         or ip.is_reserved
         or ip.is_multicast
         or ip.is_unspecified
+        # is_private does not cover shared address space such as 100.64.0.0/10.
+        # Treat every address outside the public range as unsafe.
+        or not ip.is_global
     )
 
 

@@ -556,13 +556,51 @@ class LinkAISession(ChatGPTSession):
 
     def discard_exceeding(self, max_tokens, cur_tokens=None):
         cur_tokens = self.calc_tokens()
-        if cur_tokens > max_tokens:
-            for i in range(0, len(self.messages)):
-                if i > 0 and self.messages[i].get("role") == "assistant" and self.messages[i - 1].get("role") == "user":
-                    self.messages.pop(i)
-                    self.messages.pop(i - 1)
-                    return self.calc_tokens()
+        while cur_tokens > max_tokens:
+            # Keep the system prompt, and keep the current turn intact if it
+            # alone is larger than the configured history budget.
+            if len(self.messages) <= 1 or not self._drop_oldest_turn():
+                break
+            cur_tokens = self.calc_tokens()
         return cur_tokens
+
+    def _drop_oldest_turn(self):
+        """Drop the oldest stale turn while preserving the newest user turn."""
+        user_indices = [
+            index for index in range(1, len(self.messages))
+            if self.messages[index].get("role") == "user"
+        ]
+        newest_user = user_indices[-1] if user_indices else None
+
+        # Remove orphaned older messages before the current user turn. A tool
+        # or assistant role can appear here, so do not assume the list starts
+        # with a user/assistant pair.
+        if newest_user is not None and newest_user > 1:
+            oldest_user = user_indices[0]
+            if oldest_user > 1:
+                self.messages.pop(1)
+                return True
+            if len(user_indices) > 1:
+                next_user = user_indices[1]
+                del self.messages[oldest_user:next_user]
+                return True
+            self.messages.pop(1)
+            return True
+
+        # The newest user turn may include tool messages or may not have an
+        # assistant reply yet. Keep all of it, even when it exceeds the cap.
+        if newest_user is not None:
+            logger.warning(
+                "user message exceed max_tokens. total_tokens={}".format(
+                    self.calc_tokens())
+            )
+            return False
+
+        # Histories without user turns still need trimming. Preserve index 0.
+        if len(self.messages) > 1:
+            self.messages.pop(1)
+            return True
+        return False
 
 
 # Add call_with_tools method to LinkAIBot class

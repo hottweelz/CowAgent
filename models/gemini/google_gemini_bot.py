@@ -56,6 +56,10 @@ _THINKING_LEVELS = ("low", "medium", "high")
 _REMOTE_IMAGE_TIMEOUT = (5, 60)
 _REMOTE_IMAGE_MAX_SECONDS = 30
 
+# Bound REST SSE streams that receive only keep-alive comments. Comments reset
+# the socket read timeout, so they must not keep a cancelled turn open forever.
+STREAM_KEEPALIVE_MAX_SECONDS = 180
+
 
 def _thinking_level(model_name: str, effort) -> Optional[str]:
     """Map the resolved reasoning effort to Gemini 4's thinkingLevel, if applicable."""
@@ -786,12 +790,32 @@ class GoogleGeminiBot(Bot):
             raw_chunks = []  # Buffer raw chunks for diagnostics on empty response
             non_text_part_keys = []  # Track non-text/functionCall part keys (e.g. thoughtSignature)
             last_usage_meta = None  # Gemini reports usageMetadata (cumulative) per chunk
+            last_data_at = time.monotonic()
             
             for line in response.iter_lines():
                 if not line:
                     continue
                 
                 line = line.decode('utf-8')
+
+                # SSE comments carry no response data. Yield an empty chunk so
+                # the caller can check cancellation, and cap comment-only waits.
+                if line.startswith(':'):
+                    if time.monotonic() - last_data_at > STREAM_KEEPALIVE_MAX_SECONDS:
+                        logger.error(
+                            f"[Gemini] Stream timeout: only keep-alive received for "
+                            f"{STREAM_KEEPALIVE_MAX_SECONDS}s"
+                        )
+                        yield {
+                            "error": True,
+                            "message": f"Stream timeout: only keep-alive received for {STREAM_KEEPALIVE_MAX_SECONDS}s",
+                            "status_code": 504,
+                        }
+                        return
+                    yield {}
+                    continue
+
+                last_data_at = time.monotonic()
                 
                 # Skip SSE prefixes
                 if line.startswith('data: '):
