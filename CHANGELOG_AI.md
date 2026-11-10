@@ -1,5 +1,30 @@
 # AI handoff ledger
 
+## 2026-11-10 14:12 EST — Codex — PR #12 merged into master
+
+- Task/result: maintainer explicitly authorized merge. PR #12 was marked ready
+  and merged normally as 74b75f97e933d36e7b1b0a80b8d20afe16cbf8b2, with expected
+  head fdab99b1 pinned. Fetched origin/master has that merge and exactly the
+  reviewed head tree; parents are ab13b789 and fdab99b1. GitHub confirms merged.
+- Team: lead only for this routine merge; prior Luna evidence qualification and
+  independent source review reused. No additional tests or native runs needed.
+- Checks/results: current head/base, reviews, threads, rulesets, protection and
+  check metadata rechecked. No configured required gates or open review findings;
+  all 13 final source/test hashes unchanged. Empty hosted checks are not a pass.
+  No-prune fetch and merge-parent/tree checks passed.
+- Changes/files: post-merge receipt in CHANGELOG_AI.md and merge fact in MEMORY.md
+  only, published on the preserved source branch. This documentation receipt is
+  not another implementation change or direct master push.
+- Decisions: keep original branch/history/evidence; no squash, force push,
+  branch deletion, workflow change, deployment or live service restart.
+- Lessons Learned: none.
+- Known limits: retained hosted-CI, headline-only provenance and native runtime
+  limits remain documented in docs/personal-004/integration-review.md.
+- Next: none for the requested merge. Any deployment is a separate authorization.
+- Notes: live CowAgent/data/credentials/approvals/APFS were not accessed or changed
+  by this merge. Preserve untracked AGENTS.md. Final source-branch upstream sync
+  is checked after this documentation push. MEMORY.md updated for merge fact.
+
 ## 2026-11-10 14:08 EST — Codex — PR #12 integration review complete
 
 - Scope: reviewed f52e89f1 against current master ab13b789; zero divergence,

@@ -1,5 +1,11 @@
 # CowAgent project facts
 
+- PERSONAL-004 PR #12 was merged normally into master on 2026-11-10 as
+  74b75f97e933d36e7b1b0a80b8d20afe16cbf8b2 after explicit maintainer approval.
+  Its tree exactly matches reviewed head fdab99b1. Source/test evidence was
+  unchanged; hosted checks remain unverified. Original branch and evidence stay
+  preserved. Merge does not authorize deployment or restart of live CowAgent.
+
 - PERSONAL-001/002/003 PRs #9/#10/#11 were merged normally in dependency order
   on 2026-11-10. Master ab13b789 has the exact reviewed PR #11 tree. Original
   branches and evidence remain. Hosted checks were absent, not passing; no
