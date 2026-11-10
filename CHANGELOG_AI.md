@@ -1,6 +1,6 @@
 # AI handoff ledger
 
-## 2026-11-10 13:53 EST — Codex — PERSONAL-004 local/native gates complete; PR #9–11 integrated
+## 2026-11-10 13:53 EST — Codex — PERSONAL-004 published as draft PR #12; PR #9–11 integrated
 
 - Scope/branch: merged PR #9/#10/#11 normally in dependency order after required
   condition and retained-evidence review; each merge tree equals its reviewed
@@ -29,7 +29,8 @@
   seven-line prompt-only correction; final-source context tests then passed 5/5.
   Node UI, changed-Python syntax/Ruff F, JS syntax and whitespace checks passed.
   Late one-property CSS foreground fix passed actual 200% layout/keyboard/screen
-  checks with 11.87 badge contrast. Final 13 source/test hashes are retained.
+  checks with 11.87 badge contrast; one test trailing space was removed with
+  identical Python AST. Final 13 source/test hashes are retained.
   One independent engineering review closed five concrete findings; independent
   native evidence audit reconciles DB/observations/source with documented limits.
 - Native results: actual approved HTTPS feed read; real GPT-6 Luna BullGod
@@ -63,9 +64,12 @@
   replacement is outside metadata isolation. Hosted CI unavailable/no pass claimed.
   No required hosted/review rule applied to prior merges. Legacy deployment stays
   deferred; unavailable runners do not gate ordinary personal-agent development.
-- Publication: local gates complete; commit/push/draft PR and final upstream check
-  are the remaining parent lifecycle steps. No PERSONAL-004 merge authorized.
-- Next: publish and review the draft PERSONAL-004 PR against master. Preserve
+- Publication: implementation 797f323e pushed to the same named origin branch;
+  draft PR #12 opened against master and attached. Fetch without prune confirmed
+  upstream 0/0. Head checks/statuses/workflow runs are empty, not passing. This
+  docs-only closeout preserves all final application/test hashes. PR #12 is not
+  merged. Final upstream sync is checked after the documentation push.
+- Next: review draft PR #12 against master. Preserve
   qualified acceptance; do not replay native interactions for bookkeeping.
 - Notes: retained root bullgod-dev-rvoexrwx under system temporary storage;
   full logs /private/tmp/cow-personal-004-regression. Keep original untracked

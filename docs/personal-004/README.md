@@ -1,5 +1,8 @@
 # PERSONAL-004: optional registered specialist research
 
+Published for review as draft [PR #12](https://github.com/hottweelz/CowAgent/pull/12)
+against integrated master. Implementation commit: `797f323e`.
+
 BullGod retains the owner's identity, goals, memory and conversation. It can
 recommend a registered specialist for a concrete sourced question. The owner
 reviews the exact input, approves one request, and separately starts execution.
@@ -136,7 +139,8 @@ review. No accepted specialist interaction was replayed to regenerate evidence.
   [200% research history](research-200-percent.png).
 
 The local suite, native runtime acceptance, hosted CI and production deployment
-are separate claims. Hosted CI has no passing result for this candidate. No
+are separate claims. [Publication evidence](publication.json) records empty checks/statuses and workflow
+runs on the implementation commit, not a hosted pass. No
 production activation or live CowAgent upgrade was performed.
 
 ## Isolated development and retained limits

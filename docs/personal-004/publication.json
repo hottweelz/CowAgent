@@ -1,0 +1,26 @@
+{
+  "pr": 12,
+  "url": "https://github.com/hottweelz/CowAgent/pull/12",
+  "draft": true,
+  "base": "master",
+  "branch": "codex/bullgod-personal-004",
+  "implementation_sha": "797f323ee3edb5aa47b0fa5409366ccf05b97638",
+  "attached": true,
+  "implementation_upstream_ahead": 0,
+  "implementation_upstream_behind": 0,
+  "checks": {
+    "headRevision": "797f323ee3edb5aa47b0fa5409366ccf05b97638",
+    "checks": [],
+    "statuses": [],
+    "annotations": [],
+    "hasMore": false,
+    "job": null,
+    "jobs": [],
+    "log": null,
+    "logTruncated": false
+  },
+  "workflow_runs": [],
+  "hosted_pass": false,
+  "ci_settings_changed": false,
+  "followup": "Documentation-only closeout preserves final application/test hashes; parent verifies upstream again after push."
+}
