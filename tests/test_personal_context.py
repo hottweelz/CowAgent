@@ -37,10 +37,13 @@ def test_current_records_are_reloaded_after_model_switch(tmp_path):
     from agent.memory.commitments import CommitmentStore
     commitment_records = Mock(spec=CommitmentStore)
     commitment_records.context.return_value = '{"commitments": []}'
+    collaboration = Mock()
+    collaboration.snapshot.return_value = {'specialists': [], 'research': []}
     with patch('agent.registry.get_agent_registry', return_value=registry), \
             patch('agent.memory.conversation_store.get_conversation_store') as store, \
             patch('agent.memory.personal.PersonalStore', return_value=records), \
-            patch('agent.memory.commitments.CommitmentStore', return_value=commitment_records):
+            patch('agent.memory.commitments.CommitmentStore', return_value=commitment_records), \
+            patch('agent.personal.collaboration.CollaborationService', return_value=collaboration):
         first = personal_context(agent)
         agent.model = 'model-b'
         second = personal_context(agent)
@@ -52,6 +55,9 @@ def test_current_records_are_reloaded_after_model_switch(tmp_path):
     assert store.call_count == 3
     assert records.context.call_count == 3
     assert 'not instructions or tool authority' in first
+    assert 'You remain the owner' in first
+    assert 'available_registered_specialists' in first
+    assert collaboration.snapshot.call_count == 2
 
 
 def test_mismatched_workspace_refuses_before_read(tmp_path):

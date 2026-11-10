@@ -7,7 +7,7 @@ import web
 
 from agent.memory.conversation_store import ConversationStore
 from agent.memory.personal import PersonalStore
-from agent.personal import commitments, service, scheduling
+from agent.personal import commitments, service, scheduling, collaboration
 from agent.registry import AgentProfile
 from agent.tools.base_tool import ToolResult
 from channel.web.api import commitments as api, personal
@@ -19,10 +19,12 @@ ENDPOINT = 'https://news.example/api/news'
 def owner(tmp_path, monkeypatch):
     profile = AgentProfile('owner', 'Owner', str(tmp_path))
     registry = SimpleNamespace(get_addressed=lambda aid: profile if aid == 'owner' else
-                               (_ for _ in ()).throw(KeyError(aid)))
+                               (_ for _ in ()).throw(KeyError(aid)),
+                               list=lambda **kwargs: [profile])
     native = ConversationStore(tmp_path / 'memory.db')
     native.append_messages('session', [{'role': 'user', 'content': 'Please track Bitcoin each morning'}], channel_type='web')
     monkeypatch.setattr(service, 'get_agent_registry', lambda: registry)
+    monkeypatch.setattr(collaboration, 'get_agent_registry', lambda: registry)
     monkeypatch.setattr(service, 'get_conversation_store', lambda root: native)
     monkeypatch.setattr(commitments, 'conf', lambda: {'personal_http_endpoints': {ENDPOINT: ['93.184.216.34']}})
     monkeypatch.setattr(scheduling, 'sync_commitment', lambda *a: True)
@@ -273,3 +275,31 @@ def test_publication_decision_is_persistent_review_only_and_denial_has_no_effect
                               'attention_id': decision['attention_id'], 'decision': 'deny', 'source_seq': 0})
     assert next(x for x in state['attention'] if x['attention_id'] == decision['attention_id'])['status'] == 'denied'
     assert state['commitments'][0]['drafts'][0]['status'] == 'awaiting_publication_approval'
+
+
+def test_research_api_authentication_and_unavailable_specialist_preserve_commitment(owner, monkeypatch):
+    svc, native = owner
+    item = create(svc)
+    monkeypatch.setattr(svc, '_fetch', lambda *args: ToolResult.success({'status': 'ok', 'data': [article()]}))
+    delivered = svc.run(item['commitment_id'], 'research-source')
+    source_id = delivered['selected'][0]['article_id']
+    before = svc.store.get(item['commitment_id'])
+    monkeypatch.setattr(personal, '_is_password_enabled', lambda: True)
+    monkeypatch.setattr(personal, '_verify_auth_token', lambda token: token == 'owner-token')
+    app = web.application(('/api/commitments/(.*)', 'CommitmentsHandler'),
+                          {'CommitmentsHandler': api.CommitmentsHandler}, autoreload=False)
+    path = '/api/commitments/session?agent_id=owner'
+    body = json.dumps({'operation': 'prepare_research', 'commitment_id': item['commitment_id'],
+                       'target_agent_id': 'not-installed', 'source_ids': [source_id],
+                       'question': 'Which sourced facts need further investigation?', 'source_seq': 0})
+    assert app.request(path, method='POST', data=body).status.startswith('401')
+    headers = {'Authorization': 'Bearer owner-token', 'Content-Type': 'application/json'}
+    assert app.request(path, method='POST', headers={**headers, 'Origin': 'https://evil.example'},
+                       data=body).status.startswith('403')
+    response = app.request(path, method='POST', headers=headers, data=body)
+    assert response.status.startswith('200')
+    snapshot = json.loads(response.data)
+    assert snapshot['research_operation']['status'] == 'unavailable'
+    assert snapshot['specialists'] == [] and snapshot['research'] == []
+    assert svc.store.get(item['commitment_id']) == before
+    assert len(svc.snapshot()['commitments'][0]['runs']) == 1

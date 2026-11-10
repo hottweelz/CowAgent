@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "mode": "Effective 200% zoom: 720x550 CSS pixels at 2x device scale, rendered at 1440x1100 physical pixels",
+  "metrics": {
+    "width": 720,
+    "height": 550,
+    "scale": 2,
+    "scrollWidth": 720,
+    "clientWidth": 720,
+    "regions": {
+      "#commitments-card": {
+        "x": 6.390625,
+        "y": 62.390625,
+        "width": 707.21875,
+        "height": 132,
+        "bottom": 194.390625
+      },
+      "#personal-card": {
+        "x": 8,
+        "y": 208.78125,
+        "width": 704,
+        "height": 99,
+        "bottom": 307.78125
+      },
+      "#chat-messages": {
+        "x": 0,
+        "y": 315.78125,
+        "width": 720,
+        "height": 99.21875,
+        "bottom": 415
+      },
+      "#chat-input": {
+        "x": 27,
+        "y": 439,
+        "width": 666,
+        "height": 52,
+        "bottom": 491
+      },
+      "#send-btn": {
+        "x": 661,
+        "y": 497,
+        "width": 32,
+        "height": 32,
+        "bottom": 529
+      }
+    },
+    "keyboard_focus_inside_card": true,
+    "badge_colors": {
+      "fg": "rgb(30, 41, 59)",
+      "bg": "rgb(226, 232, 240)"
+    },
+    "panel_keyboard_scrolled": true,
+    "keyboard_origin_navigation": true,
+    "no_research_execute_control": true,
+    "badge_contrast_ratio": 11.87
+  },
+  "source_overlay": false
+}

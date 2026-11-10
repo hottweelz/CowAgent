@@ -1,0 +1,115 @@
+{
+  "task": "PERSONAL-004 final local regression",
+  "recorded_at": "2026-11-10T18:44:46.109177+00:00",
+  "branch": "codex/bullgod-personal-004",
+  "base_commit": "ab13b789",
+  "source_scope": "13 changed/new application and test files; credentials/config excluded",
+  "environment": {
+    "python": "3.13.1",
+    "node": "v26.8.2",
+    "ruff": "0.17.4",
+    "venv_python": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+    "PATH_prefix": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin",
+    "TIKTOKEN_CACHE_DIR": "/private/tmp/cow-infra-tiktoken-cache"
+  },
+  "runs": [
+    {
+      "command": "/usr/bin/time -p env PATH=\"/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin:$PATH\" TIKTOKEN_CACHE_DIR=/private/tmp/cow-infra-tiktoken-cache /Volumes/Predator\\ SSD\\ GM7\\ 1TB/Projects/CowAgent/.venv/bin/python scripts/ci_test.py tests/ -q",
+      "result": "PASS: 6210 passed, 36 skipped, 93 subtests passed; 36 warnings; pytest 212.37s; real 213.83s",
+      "log": "/private/tmp/cow-personal-004-regression/guarded-suite.log",
+      "qualification": "Parent added seven prompt instruction lines to agent/memory/personal_context.py during the full suite. The suite passed. Final-source focused context test below ran after freeze."
+    },
+    {
+      "command": "node tools/check-commitments-ui.mjs",
+      "result": "PASS: Commitments UI checks passed",
+      "log": "/private/tmp/cow-personal-004-regression/ui.log"
+    },
+    {
+      "command": "python -m py_compile <10 changed Python application/test files>",
+      "result": "PASS",
+      "log": "/private/tmp/cow-personal-004-regression/syntax.log"
+    },
+    {
+      "command": "python -m ruff check --select F <10 changed Python application/test files>",
+      "result": "PASS: All checks passed",
+      "log": "/private/tmp/cow-personal-004-regression/ruff.log"
+    },
+    {
+      "command": "env PATH=\"/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin:$PATH\" TIKTOKEN_CACHE_DIR=/private/tmp/cow-infra-tiktoken-cache /Volumes/Predator\\ SSD\\ GM7\\ 1TB/Projects/CowAgent/.venv/bin/python scripts/ci_test.py tests/test_personal_context.py -q",
+      "result": "PASS: 5 passed in 0.20s on final source",
+      "log": "/private/tmp/cow-personal-004-regression/final-context.log"
+    }
+  ],
+  "ui_checker_discovery": "tools/check-commitments-ui.mjs present and passed; no separate personal research UI checker found in tools/ or scripts/.",
+  "source_hashes_before": {
+    "agent/memory/personal_context.py": "20432aa91a5f1bac843c7d7f2bec46a4108d14fc3b9a03f2709c933ffb9af00c",
+    "agent/personal/collaboration.py": "54d699b236285d3dd9c123616b4d796660a90ee5ab3d9492394be2e21940e1bb",
+    "agent/personal/commitments.py": "5625f57ae384c8e0c3cd560e7f8838d707f5e8916372addad232c894094c58f1",
+    "agent/protocol/agent.py": "983d02032a959e952ea6176c7a2961a43cd62c9e93a1f7a297e8ec8eca090dab",
+    "channel/web/static/css/commitments.css": "0fae187bc32d6e918748b8359cae0e38063c93a4de21127598cf18a80f5231c8",
+    "channel/web/static/js/chat/commitments.js": "8b503d2a0296f6e3fd0fe1120e9f71e4f7496b2e4011c877374b9dd0d9ca8e7c",
+    "common/model_defaults.py": "910c6cd635e9284b84b2a2fff869bb4ed087d97ae0e575a8005f9c2b7c87ee0f",
+    "scripts/bullgod_dev.py": "8b67018a0846abb28937b884b951b3c2e85d079b334c0e8905a6ec06aaa032f9",
+    "tests/test_bullgod_dev.py": "246304fabc75967b8b4912c27b0ce61e472746696c030198063210dd3c22273a",
+    "tests/test_personal_collaboration.py": "77a3579561702951d359eca6ad416006d7623e1ca261d98a9c4815c6711877df",
+    "tests/test_personal_commitment_service.py": "5702bbf5ced00b884c0e97fff4f3a38ff4a1f291ff72737748740309c82331ad",
+    "tests/test_personal_context.py": "782067178c98cb1993fa3f386a4cefab638d91d5d76328a6049af7380a0cd769",
+    "tools/check-commitments-ui.mjs": "2facfc9877cf295a17d3eda258061356055c86a9a1f6927f117025742bef491c"
+  },
+  "source_hashes_after": {
+    "agent/memory/personal_context.py": "d273eee1d654ea7cbd25adbcb55fee938d0951f38807e279b9fb6c64a215a5f5",
+    "agent/personal/collaboration.py": "54d699b236285d3dd9c123616b4d796660a90ee5ab3d9492394be2e21940e1bb",
+    "agent/personal/commitments.py": "5625f57ae384c8e0c3cd560e7f8838d707f5e8916372addad232c894094c58f1",
+    "agent/protocol/agent.py": "983d02032a959e952ea6176c7a2961a43cd62c9e93a1f7a297e8ec8eca090dab",
+    "channel/web/static/css/commitments.css": "0fae187bc32d6e918748b8359cae0e38063c93a4de21127598cf18a80f5231c8",
+    "channel/web/static/js/chat/commitments.js": "8b503d2a0296f6e3fd0fe1120e9f71e4f7496b2e4011c877374b9dd0d9ca8e7c",
+    "common/model_defaults.py": "910c6cd635e9284b84b2a2fff869bb4ed087d97ae0e575a8005f9c2b7c87ee0f",
+    "scripts/bullgod_dev.py": "8b67018a0846abb28937b884b951b3c2e85d079b334c0e8905a6ec06aaa032f9",
+    "tests/test_bullgod_dev.py": "246304fabc75967b8b4912c27b0ce61e472746696c030198063210dd3c22273a",
+    "tests/test_personal_collaboration.py": "77a3579561702951d359eca6ad416006d7623e1ca261d98a9c4815c6711877df",
+    "tests/test_personal_commitment_service.py": "5702bbf5ced00b884c0e97fff4f3a38ff4a1f291ff72737748740309c82331ad",
+    "tests/test_personal_context.py": "782067178c98cb1993fa3f386a4cefab638d91d5d76328a6049af7380a0cd769",
+    "tools/check-commitments-ui.mjs": "2facfc9877cf295a17d3eda258061356055c86a9a1f6927f117025742bef491c"
+  },
+  "hash_deltas_during_full_suite": {
+    "agent/memory/personal_context.py": {
+      "before": "20432aa91a5f1bac843c7d7f2bec46a4108d14fc3b9a03f2709c933ffb9af00c",
+      "after": "d273eee1d654ea7cbd25adbcb55fee938d0951f38807e279b9fb6c64a215a5f5"
+    }
+  },
+  "final_source_qualification": "Only agent/memory/personal_context.py changed during the full suite; parent reports seven added prompt lines and no executable control-flow change. Final-source context test, py_compile, Ruff F, and commitments UI checker passed after the update.",
+  "residual_risks": [
+    "Full suite emitted 36 warnings, including inherited deprecation and thread warnings; no failures/errors.",
+    "No separate personal UI checker exists; visual 200% layout is not established by this regression worker.",
+    "No live APIs, model calls, production process, or credentials were used."
+  ],
+  "private_log_directory": "/private/tmp/cow-personal-004-regression",
+  "qualified_css_delta": {
+    "file": "channel/web/static/css/commitments.css",
+    "before": "0fae187bc32d6e918748b8359cae0e38063c93a4de21127598cf18a80f5231c8",
+    "after": "2f88a318312856ee2a7d0a08ded1d80637f491dd7d359c5d4d72d56181eae0b7",
+    "change": "One explicit text color on existing pale priority/research status badge, after visual finding. No executable behavior change.",
+    "verification": "Final CSS actual 200% viewport/keyboard/screenshot/computed contrast check in ui-validation.json. Full Python source remains unchanged."
+  },
+  "final_source_hashes": {
+    "agent/memory/personal_context.py": "d273eee1d654ea7cbd25adbcb55fee938d0951f38807e279b9fb6c64a215a5f5",
+    "agent/personal/collaboration.py": "54d699b236285d3dd9c123616b4d796660a90ee5ab3d9492394be2e21940e1bb",
+    "agent/personal/commitments.py": "5625f57ae384c8e0c3cd560e7f8838d707f5e8916372addad232c894094c58f1",
+    "agent/protocol/agent.py": "983d02032a959e952ea6176c7a2961a43cd62c9e93a1f7a297e8ec8eca090dab",
+    "channel/web/static/css/commitments.css": "2f88a318312856ee2a7d0a08ded1d80637f491dd7d359c5d4d72d56181eae0b7",
+    "channel/web/static/js/chat/commitments.js": "8b503d2a0296f6e3fd0fe1120e9f71e4f7496b2e4011c877374b9dd0d9ca8e7c",
+    "common/model_defaults.py": "910c6cd635e9284b84b2a2fff869bb4ed087d97ae0e575a8005f9c2b7c87ee0f",
+    "scripts/bullgod_dev.py": "8b67018a0846abb28937b884b951b3c2e85d079b334c0e8905a6ec06aaa032f9",
+    "tests/test_bullgod_dev.py": "246304fabc75967b8b4912c27b0ce61e472746696c030198063210dd3c22273a",
+    "tests/test_personal_collaboration.py": "361d5330905c33fa00a18af9438ce65764e0cd465817ae1005f52504011e9617",
+    "tests/test_personal_commitment_service.py": "5702bbf5ced00b884c0e97fff4f3a38ff4a1f291ff72737748740309c82331ad",
+    "tests/test_personal_context.py": "782067178c98cb1993fa3f386a4cefab638d91d5d76328a6049af7380a0cd769",
+    "tools/check-commitments-ui.mjs": "2facfc9877cf295a17d3eda258061356055c86a9a1f6927f117025742bef491c"
+  },
+  "format_only_qualification": {
+    "file": "tests/test_personal_collaboration.py",
+    "before": "77a3579561702951d359eca6ad416006d7623e1ca261d98a9c4815c6711877df",
+    "after": "361d5330905c33fa00a18af9438ce65764e0cd465817ae1005f52504011e9617",
+    "change": "Remove one trailing space discovered when new file was staged. Python AST equality verified; no test behavior change."
+  }
+}

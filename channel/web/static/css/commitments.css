@@ -47,13 +47,15 @@
 .commitments-details { margin-top: .45rem; }
 .commitments-details > summary { cursor: pointer; color: rgb(var(--cw-primary-600)); font-size: .74rem; font-weight: 600; }
 .commitments-details[open] > summary { margin-bottom: .4rem; }
-.commitments-priority { flex: 0 0 auto; border-radius: 999px; padding: .15rem .4rem; background: rgb(var(--cw-slate-200)); font-size: .65rem; }
+.commitments-priority { flex: 0 0 auto; border-radius: 999px; padding: .15rem .4rem; background: rgb(var(--cw-slate-200)); color: rgb(var(--cw-slate-800)); font-size: .65rem; }
 .commitments-record > p { margin: .35rem 0; font-size: .72rem; overflow-wrap: anywhere; }
 .commitments-record-list, .commitments-source-list { display: grid; gap: .38rem; margin: .35rem 0; padding-left: 1rem; font-size: .7rem; overflow-wrap: anywhere; }
 .commitments-record-list { padding: 0; list-style: none; }
 .commitments-record-list > li { min-width: 0; padding: .45rem; border: 1px solid rgb(var(--cw-slate-200)); border-radius: .5rem; }
 .dark .commitments-record-list > li { border-color: rgb(255 255 255 / .1); }
 .commitments-briefing-text { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .72rem; }
+.commitments-research-material > ul { max-height: 24rem; overflow: auto; padding-right: .25rem; }
+.commitments-research-material > ul > li > p { margin: .35rem 0; overflow-wrap: anywhere; }
 .commitments-record h4, .commitments-record h5 { margin: .45rem 0 .2rem; font-size: .74rem; }
 .commitments-source-list a { color: rgb(var(--cw-primary-600)); text-decoration: underline; }
 @media (max-width: 760px) {

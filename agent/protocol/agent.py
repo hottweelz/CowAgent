@@ -314,7 +314,7 @@ class Agent:
             logger.warning(f"Failed to build skills prompt: {e}")
             return ""
     
-    def get_full_system_prompt(self, skill_filter=None) -> str:
+    def get_full_system_prompt(self, skill_filter=None, tools_override=None) -> str:
         """
         Build the complete system prompt from scratch every time.
 
@@ -349,7 +349,7 @@ class Agent:
                 # Same list the model is offered this turn: describing a tool
                 # in the prompt that is not in the schema invites it to call
                 # something that is not there.
-                tools=[tool for tool in self.tools if is_tool_available(tool)],
+                tools=[tool for tool in (self.tools if tools_override is None else tools_override) if is_tool_available(tool)],
                 context_files=context_files,
                 skill_manager=self.skill_manager,
                 memory_manager=self.memory_manager,

@@ -1,0 +1,135 @@
+{
+  "date": "2026-11-10T18:09:49.971Z",
+  "repository": "hottweelz/CowAgent",
+  "authorization": "Maintainer goal authorizes integration in dependency order after required review and merge conditions.",
+  "policy": {
+    "rulesets": [],
+    "master_protection": {
+      "http_status": 404,
+      "message": "Branch not protected"
+    },
+    "settings_changed": false,
+    "required_hosted_checks_configured": false,
+    "hosted_pass_claimed": false
+  },
+  "independent_evidence": "Luna verified ancestry and all per-PR final source manifests; PR9 later UI hashes explicitly supersede earlier hashes. Existing independent engineering reviews retained; late PR11 zoom CSS independently reviewed PASS with native metrics/screenshot.",
+  "merges": [
+    {
+      "pr": {
+        "number": 9,
+        "url": "https://github.com/hottweelz/CowAgent/pull/9",
+        "state": "open",
+        "draft": true,
+        "merged": false,
+        "base": "master",
+        "base_sha": "1cc6ef1ee65cf8691b12a93b47ce5a02f3d5c348",
+        "head": "codex/bullgod-personal-001",
+        "head_sha": "adbe2105b0f45ab521429ba1427ac2887f7a2f97",
+        "mergeable": true
+      },
+      "merge": {
+        "sha": "df144ab236dd68415410da4cd32bc774554abd2f",
+        "merged": true,
+        "message": "Pull Request successfully merged"
+      },
+      "reviews": {
+        "reviews": []
+      },
+      "review_threads": {
+        "review_threads": []
+      },
+      "checks": {
+        "headRevision": "adbe2105b0f45ab521429ba1427ac2887f7a2f97",
+        "checks": [],
+        "statuses": [],
+        "annotations": [],
+        "hasMore": false,
+        "job": null,
+        "jobs": [],
+        "log": null,
+        "logTruncated": false
+      }
+    },
+    {
+      "pr": {
+        "number": 10,
+        "url": "https://github.com/hottweelz/CowAgent/pull/10",
+        "state": "open",
+        "draft": true,
+        "merged": false,
+        "base": "codex/bullgod-personal-001",
+        "base_sha": "adbe2105b0f45ab521429ba1427ac2887f7a2f97",
+        "head": "codex/bullgod-personal-002",
+        "head_sha": "6aa1b07d49a7ffa2ad69a7f60ec73d5ad669160d",
+        "mergeable": true
+      },
+      "merge": {
+        "sha": "96d78c428268277eefd2d9208791b855774ea5dc",
+        "merged": true,
+        "message": "Pull Request successfully merged"
+      },
+      "reviews": {
+        "reviews": []
+      },
+      "review_threads": {
+        "review_threads": []
+      },
+      "checks": {
+        "headRevision": "6aa1b07d49a7ffa2ad69a7f60ec73d5ad669160d",
+        "checks": [],
+        "statuses": [],
+        "annotations": [],
+        "hasMore": false,
+        "job": null,
+        "jobs": [],
+        "log": null,
+        "logTruncated": false
+      }
+    },
+    {
+      "pr": {
+        "number": 11,
+        "url": "https://github.com/hottweelz/CowAgent/pull/11",
+        "state": "open",
+        "draft": true,
+        "merged": false,
+        "base": "codex/bullgod-personal-002",
+        "base_sha": "6aa1b07d49a7ffa2ad69a7f60ec73d5ad669160d",
+        "head": "codex/bullgod-personal-003",
+        "head_sha": "47f72fad39f7a0a591c1186ed0ccb31c826823be",
+        "mergeable": true
+      },
+      "merge": {
+        "sha": "ab13b789e28e3efc8571e6406acda8c88e914b77",
+        "merged": true,
+        "message": "Pull Request successfully merged"
+      },
+      "reviews": {
+        "reviews": []
+      },
+      "review_threads": {
+        "review_threads": []
+      },
+      "checks": {
+        "headRevision": "47f72fad39f7a0a591c1186ed0ccb31c826823be",
+        "checks": [],
+        "statuses": [],
+        "annotations": [],
+        "hasMore": false,
+        "job": null,
+        "jobs": [],
+        "log": null,
+        "logTruncated": false
+      }
+    }
+  ],
+  "method": "normal merge, expected head SHA pinned; retarget #10/#11 to master after dependency merged",
+  "preservation": {
+    "branches_deleted": false,
+    "history_rewritten": false,
+    "live_service_changed": false
+  },
+  "integrated_master": "ab13b789e28e3efc8571e6406acda8c88e914b77",
+  "verification": "Each fetched merge tree equals its reviewed PR head; final master tree equals47f72fad and all17 final-regression source/test hashes.",
+  "next_branch": "codex/bullgod-personal-004"
+}

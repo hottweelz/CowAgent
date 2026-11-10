@@ -57,6 +57,44 @@ class DevBoundaryTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 dev.model_endpoint(value)
 
+    def test_model_defaults_use_newest_supported_version_not_catalog_order(self):
+        supported = ['gpt-5.6-luna', 'gpt-6-luna']
+        self.assertEqual(dev.newest_supported_model('luna', supported), 'gpt-6-luna')
+        self.assertEqual(dev.newest_supported_model(
+            'luna', ['gpt-6.10-luna', 'gpt-6.9-luna', 'gpt-5.6-luna']), 'gpt-6.10-luna')
+        self.assertEqual(dev.newest_supported_model('terra', ['gpt-5.6-terra', 'gpt-6.1-terra']),
+                         'gpt-6.1-terra')
+        with self.assertRaises(ValueError):
+            dev.newest_supported_model('luna', ['gpt-5.6-luna'])
+        self.assertEqual(dev.newest_supported_model('luna'), 'gpt-6-luna')
+
+    def test_model_family_defaults_and_explicit_pins(self):
+        self.assertEqual(dev.configured_model('http://127.0.0.1:4000/v1', None), 'gpt-6-luna')
+        self.assertEqual(dev.configured_model('http://127.0.0.1:4000/v1', None, 'terra'), 'gpt-6.1-terra')
+        self.assertEqual(dev.configured_model('http://127.0.0.1:4000/v1', None, 'sol'), 'gpt-6.1-sol')
+        self.assertEqual(dev.configured_model('http://127.0.0.1:4000/v1', 'custom-provider/model'),
+                         'custom-provider/model')
+        self.assertEqual(dev.configured_model('http://127.0.0.1:4000/v1', 'gpt-5.6-luna'),
+                         'gpt-5.6-luna')
+        self.assertIsNone(dev.configured_model(None, None))
+        with self.assertRaises(ValueError):
+            dev.configured_model(None, 'gpt-6-luna')
+
+    def test_generated_model_config_disables_fallback(self):
+        with tempfile.TemporaryDirectory(prefix='bullgod-dev-') as directory:
+            root = Path(directory)
+            with patch.object(dev.sys, 'platform', 'darwin'), \
+                    patch.object(Path, 'exists', return_value=True), \
+                    patch.object(dev, 'resolve_python', return_value=(
+                        '/tmp/python', Path('/tmp/venv'), Path('/Library/Frameworks/Python.framework'))), \
+                    patch.object(dev.tempfile, 'mkdtemp', return_value=directory):
+                with contextlib.redirect_stdout(io.StringIO()):
+                    dev.init(19892, '/unused', 'http://127.0.0.1:4000/v1')
+
+            config = json.loads((root / 'data/config.json').read_text())
+            self.assertEqual(config['model'], 'gpt-6-luna')
+            self.assertEqual(config['chat_fallback'], {'enabled': False, 'chain': []})
+
     def test_approved_https_endpoint_rejects_private_resolution_and_credentials(self):
         with patch.object(dev.socket, 'getaddrinfo', return_value=[(2, 1, 6, '', ('93.184.216.34', 443))]):
             self.assertEqual(dev.approved_endpoint('https://news.example/api/news'), ['93.184.216.34'])

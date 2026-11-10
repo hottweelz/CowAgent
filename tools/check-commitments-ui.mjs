@@ -11,7 +11,7 @@ const card = {
   querySelectorAll() { return []; },
   contains() { return false; }
 };
-const status = { textContent: '', classList: { toggle() {} } };
+const status = { textContent: '', isError: false, classList: { toggle(name, value) { if (name === 'is-error') status.isError = !!value; } } };
 const identity = { textContent: '' };
 const content = { innerHTML: 'initial' };
 let messages = [{ dataset: { seq: '0' } }];
@@ -38,6 +38,7 @@ let fetchImpl = async (url, init = {}) => {
       runs: [{ run_id: 'b', status: 'delivered', selected: [{ id: 'story-b', title: 'Story B', source_url: 'https://news.example/b' }], articles: [{ id: 'unreported', title: 'Not reported', source_url: 'https://news.example/unreported' }] },
         { run_id: 'a', status: 'delivered', selected: [{ id: 'story-a', title: 'Story A', source_url: 'https://news.example/a' }] }] }
   ], attention: [
+    { attention_id: 'specialist-tip', commitment_id: 'c"1', kind: 'finding', status: 'unread', created_at: 9, payload: { action: 'ask_specialist', reason: 'Compare the reported change across the two supplied sources.', source_ids: ['0'] } },
     { attention_id: 'finding-1', commitment_id: 'c"1', kind: 'finding', status: 'unread', created_at: 3, payload: { action: '<img src=x>', reason: 'New story', sources: [{ title: 'safe source', url: 'https://news.example/new' }, { title: 'bad', url: 'javascript:alert(1)' }] } },
     { attention_id: 'decision-1', commitment_id: 'c"1', kind: 'decision', status: 'pending', created_at: 1, payload: { action: 'Review social draft', reason: 'Needs owner approval', scope: 'Prepare a post only', sources: [{ title: 'Decision source', url: 'https://news.example/decision' }] } },
     { attention_id: 'failed-1', commitment_id: 'c2', kind: 'failure', status: 'blocked', created_at: 2, payload: { action: 'News check', reason: 'The check was blocked.' } },
@@ -46,6 +47,15 @@ let fetchImpl = async (url, init = {}) => {
     { attention_id: 'denied-1', commitment_id: 'c2', kind: 'decision', status: 'denied', created_at: 6, payload: { action: 'Denied request' } },
     { attention_id: 'resolved-1', commitment_id: 'c2', kind: 'finding', status: 'resolved', created_at: 7, payload: { action: 'Resolved finding' } },
     { attention_id: 'stale-1', commitment_id: 'c2', kind: 'decision', status: 'pending', stale: true, created_at: 8, payload: { action: 'Earlier draft approval' } }
+  ], specialists: [{ agent_id: 'specialist-1', name: 'Source Analyst', description: 'Registered public profile', provider: 'OpenAI', model: 'gpt-6.1-luna' }], research: [
+    { research_id: 'research-pending', commitment_id: 'c"1', revision: 2, status: 'pending', target: { agent_id: 'specialist-1', name: 'Source Analyst', description: 'Registered public profile', provider: 'OpenAI', model: 'gpt-6.1-luna' }, question: 'Compare the source reports.', sources: [{ source_id: '0', headline: 'Story "zero"', publisher: 'Wire A', source_url: 'https://news.example/story/0', description: 'Delivered <script>metadata</script>', content: 'Exact useful excerpt & source text.' }], source_ids: ['0'], expires_at: 1799999999 },
+    { research_id: 'research-approved', commitment_id: 'c"1', revision: 2, status: 'approved', target: { agent_id: 'specialist-1', name: 'Source Analyst', provider: 'OpenAI', model: 'gpt-6.1-luna' }, question: 'Approved question.', sources: [{ id: 0, title: 'Story "zero"', url: 'https://news.example/story/0' }], source_ids: ['0'] },
+    { research_id: 'research-completed', commitment_id: 'c"1', revision: 2, status: 'completed', target: { agent_id: 'specialist-1', name: 'Source Analyst', provider: 'OpenAI', model: 'gpt-6.1-luna' }, question: 'Completed question.', sources: [{ id: 0, title: 'Story "zero"', url: 'https://news.example/story/0' }], source_ids: ['0'], result: { findings: [{ source_id: '0', excerpt: 'The source reports a verified change.', classification: 'material_update', priority: 4, publisher: 'Wire A', source_url: 'https://wire-a.example/article/1' }], verification: 'source references validated' }, receipt: { status: 'completed', target: { agent_id: 'specialist-1', name: 'Source Analyst' }, session_id: 'private-session', run_id: 'private-run', tool_count: 0 } },
+    { research_id: 'research-history', commitment_id: 'c"1', revision: 2, status: 'pending', can_mutate: false, source_session_id: 'origin-session', target: { agent_id: 'specialist-1', name: 'Source Analyst' }, question: 'History question.', sources: [], source_ids: [] },
+    { research_id: 'research-denied', commitment_id: 'c"1', revision: 2, status: 'denied', target: { agent_id: 'specialist-1', name: 'Source Analyst' }, question: 'Denied question.', sources: [], source_ids: [] },
+    { research_id: 'research-failed', commitment_id: 'c"1', revision: 2, status: 'failed', target: { agent_id: 'specialist-1', name: 'Source Analyst' }, question: 'Failed question.', sources: [], source_ids: [] },
+    { research_id: 'research-uncertain', commitment_id: 'c"1', revision: 2, status: 'uncertain', target: { agent_id: 'specialist-1', name: 'Source Analyst' }, question: 'Uncertain question.', sources: [], source_ids: [] },
+    { research_id: 'research-expired', commitment_id: 'c"1', revision: 2, status: 'expired', target: { agent_id: 'specialist-1', name: 'Source Analyst' }, question: 'Expired question.', sources: [], source_ids: [] }
   ], attention_history: [
     { attention_id: 'finding-1', commitment_id: 'c"1', kind: 'finding', status: 'unread', created_at: 3, payload: { action: '<img src=x>', reason: 'New story', sources: [{ title: 'safe source', url: 'https://news.example/new' }, { title: 'bad', url: 'javascript:alert(1)' }] } },
     { attention_id: 'decision-1', commitment_id: 'c"1', kind: 'decision', status: 'pending', created_at: 1, payload: { action: 'Review social draft', reason: 'Needs owner approval', scope: 'Prepare a post only', sources: [{ title: 'Decision source', url: 'https://news.example/decision' }] } },
@@ -64,7 +74,8 @@ const context = {
   activeAgentId: 'agent-a', defaultAgentId: 'default', sessionId: 'session-a',
   appConfig: { web_password_masked: '********' }, messagesDiv: { querySelectorAll: () => messages },
   window: { location: { href: 'https://console.example/' }, addEventListener: (name, fn) => { if (name === 'load') loadHandlers.push(fn); } },
-  document: { getElementById: id => elements.get(id) || null, visibilityState: 'visible', activeElement: null },
+  FormData: class { constructor(form) { this.values = form.values || {}; } entries() { return Object.entries(this.values); } },
+  document: { getElementById: id => elements.get(id) || null, querySelectorAll: () => [], visibilityState: 'visible', activeElement: null },
   escapeHtml: value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;'),
   requestAuthGatedStart: fn => fn(), fetch: (...args) => fetchImpl(...args)
 };
@@ -133,6 +144,33 @@ assert.match(content.innerHTML, /data-commitments-propose="draft-1"/); // Store 
 assert.match(content.innerHTML, /does not publish the post/);
 assert.match(content.innerHTML, /Approve request/);
 assert.match(content.innerHTML, /Approval records the decision\. It does not publish/);
+assert.match(content.innerHTML, /Registered specialist/);
+assert.match(content.innerHTML, /Source Analyst — OpenAI \/ gpt-6\.1-luna/);
+assert.match(content.innerHTML, /Prepare request for owner review/);
+assert.match(content.innerHTML, /Only verified source excerpts and classifications return/);
+assert.match(content.innerHTML, /Exact sources shared/);
+assert.match(content.innerHTML, /Exact useful excerpt &amp; source text\./);
+assert.match(content.innerHTML, /Delivered &lt;script&gt;metadata&lt;\/script&gt;/);
+assert.doesNotMatch(content.innerHTML, /<script>metadata/);
+assert.match(content.innerHTML, /Draft request for owner review/);
+assert.match(content.innerHTML, /This suggestion only fills a draft\. It does not approve or execute research/);
+assert.match(content.innerHTML, /Source-backed findings/);
+assert.match(content.innerHTML, /The source reports a verified change\./);
+assert.match(content.innerHTML, /Classification: material_update · Priority: 4/);
+assert.match(content.innerHTML, /href="https:\/\/wire-a\.example\/article\/1"[^>]*>Open cited source<\/a>/);
+assert.doesNotMatch(content.innerHTML, /private-session|private-run/);
+assert.match(content.innerHTML, /data-research-decision="approve" data-research-id="research-pending"/);
+assert.match(content.innerHTML, /data-research-decision="deny" data-research-id="research-pending"/);
+assert.equal((content.innerHTML.match(/data-research-execute=/g) || []).length, 1);
+assert.match(content.innerHTML, /data-research-execute="research-approved"/);
+assert.match(content.innerHTML, /This request belongs to another conversation/);
+assert.match(content.innerHTML, /data-research-open-session="origin-session" data-agent="agent-a">Open original conversation/);
+assert.doesNotMatch(content.innerHTML, /data-research-decision="approve" data-research-id="research-history"/);
+assert.doesNotMatch(content.innerHTML, /data-research-execute="research-history"/);
+assert.match(content.innerHTML, /Denied\. The specialist was not asked to run this request/);
+assert.match(content.innerHTML, /The research request failed\. It was not retried/);
+assert.match(content.innerHTML, /The execution outcome is uncertain\. It was not retried/);
+assert.match(content.innerHTML, /This request expired without further execution/);
 const pendingDecisionCard = content.innerHTML.slice(content.innerHTML.indexOf('Review social draft'), content.innerHTML.indexOf('News check'));
 assert.match(pendingDecisionCard, /Waiting for approval/);
 assert.doesNotMatch(pendingDecisionCard, /Approved for review/);
@@ -152,6 +190,98 @@ const editedFields = context.commitmentsFormFields({
 assert.equal(editedFields.read_authorized, false); // Owner can revoke the read grant in update.
 assert.equal(editedFields.initiative_enabled, false); // Initiative is an explicit owner choice.
 assert.deepEqual(JSON.parse(JSON.stringify(editedFields.read_grant)), { expires_at: null, min_interval_seconds: 60 });
+
+// An ask_specialist attention item only prefills a draft. It does not choose a target or execute.
+const formValues = { commitment_id: 'c"1', target_agent_id: 'specialist-1', question: '', attention_id: '' };
+const questionField = { get value() { return formValues.question; }, set value(value) { formValues.question = value; }, focus() { this.focused = true; } };
+const attentionField = { get value() { return formValues.attention_id; }, set value(value) { formValues.attention_id = value; } };
+const sourceOption = { value: '0', selected: false };
+const sourceSelect = { options: [sourceOption], get selectedOptions() { return this.options.filter(option => option.selected); } };
+const researchDetails = { open: false };
+const researchForm = {
+  values: formValues,
+  dataset: { commitmentsForm: 'prepare_research' },
+  closest: selector => selector === 'form[data-commitments-form]' ? researchForm : selector === 'details' ? researchDetails : null,
+  querySelector(selector) {
+    if (selector === '[name="commitment_id"]') return { value: formValues.commitment_id };
+    if (selector === '[name="question"]') return questionField;
+    if (selector === '[name="attention_id"]') return attentionField;
+    if (selector === '[name="source_ids"]') return sourceSelect;
+    return null;
+  }
+};
+context.document.querySelectorAll = () => [researchForm];
+handlers.click({ target: { closest: () => ({ dataset: { researchSuggestion: 'specialist-tip', commitmentsId: 'c"1' } }) } });
+assert.equal(formValues.question, 'Compare the reported change across the two supplied sources.');
+assert.equal(formValues.attention_id, 'specialist-tip');
+assert.equal(sourceOption.selected, true);
+assert.equal(researchDetails.open, true);
+assert.equal(questionField.focused, true);
+
+const beforeResearchPrepare = requests.length;
+context.commitmentsHandleSubmit({ target: { closest: () => researchForm }, preventDefault() {} });
+await new Promise(resolve => setTimeout(resolve, 0));
+const prepareRequest = requests.slice(beforeResearchPrepare).find(item => item.init.method === 'POST');
+assert.ok(prepareRequest);
+const prepareBody = JSON.parse(prepareRequest.init.body);
+assert.equal(prepareBody.operation, 'prepare_research');
+assert.equal(prepareBody.commitment_id, 'c"1');
+assert.equal(prepareBody.source_seq, 0);
+assert.equal(prepareBody.target_agent_id, 'specialist-1');
+assert.deepEqual(prepareBody.source_ids, ['0']);
+assert.equal(prepareBody.question, 'Compare the reported change across the two supplied sources.');
+assert.equal(prepareBody.attention_id, 'specialist-tip');
+assert.deepEqual(Object.keys(prepareBody).sort(), ['attention_id', 'commitment_id', 'operation', 'question', 'source_ids', 'source_seq', 'target_agent_id']);
+
+// Approval and execution are distinct owner operations; terminal records expose no execute control.
+const researchAction = async (operation, extra) => {
+  const before = requests.length;
+  await context.commitmentsSubmit(operation, { extra });
+  const request = requests.slice(before).find(item => item.init.method === 'POST');
+  assert.ok(request);
+  return JSON.parse(request.init.body);
+};
+const approveResearchBody = await researchAction('decide_research', { research_id: 'research-pending', decision: 'approve' });
+assert.deepEqual(approveResearchBody, { operation: 'decide_research', source_seq: 0, research_id: 'research-pending', decision: 'approve' });
+const denyResearchBody = await researchAction('decide_research', { research_id: 'research-pending', decision: 'deny' });
+assert.deepEqual(denyResearchBody, { operation: 'decide_research', source_seq: 0, research_id: 'research-pending', decision: 'deny' });
+const executeResearchBody = await researchAction('execute_research', { research_id: 'research-approved' });
+assert.deepEqual(executeResearchBody, { operation: 'execute_research', source_seq: 0, research_id: 'research-approved' });
+
+// An uncertain execution result must not claim completion and must use error status.
+fetchImpl = async (url, init = {}) => {
+  requests.push({ url, init });
+  return { ok: true, status: 200, json: async () => ({ status: 'success', research_operation: { status: 'uncertain' }, identity: { name: 'Owner' }, commitments: [], attention: [], specialists: [], research: [] }) };
+};
+await context.commitmentsSubmit('execute_research', { extra: { research_id: 'research-uncertain' } });
+assert.equal(status.textContent, 'Research outcome is uncertain. No automatic retry was made.');
+assert.equal(status.isError, true);
+assert.doesNotMatch(status.textContent, /completed|Verified findings are shown/);
+
+// An approval request that returns expired must not claim it was approved.
+fetchImpl = async (url, init = {}) => {
+  requests.push({ url, init });
+  return { ok: true, status: 200, json: async () => ({ status: 'success', research_operation: { status: 'expired' }, identity: { name: 'Owner' }, commitments: [], attention: [], specialists: [], research: [] }) };
+};
+await context.commitmentsSubmit('decide_research', { extra: { research_id: 'research-pending', decision: 'approve' } });
+assert.equal(status.textContent, 'Research request expired. No execution was performed.');
+assert.equal(status.isError, false);
+assert.doesNotMatch(status.textContent, /approved|Execution remains a separate action/);
+let openedResearchSession = null;
+context.switchSession = (sid, agent) => { openedResearchSession = { sid, agent }; };
+handlers.click({ target: { closest: () => ({ dataset: { researchOpenSession: 'origin-session', agent: 'agent-a' } }) } });
+assert.deepEqual(openedResearchSession, { sid: 'origin-session', agent: 'agent-a' });
+
+// An unavailable registered target is a visible non-error outcome; it leaves owner analysis available.
+fetchImpl = async (url, init = {}) => {
+  requests.push({ url, init });
+  return { ok: true, status: 200, json: async () => ({ status: 'success', source_seq: 0,
+    research_operation: { status: 'unavailable', reason: 'No eligible registered specialist is available.' },
+    identity: { name: 'Owner' }, commitments: [], attention: [], specialists: [], research: [] }) };
+};
+await context.commitmentsSubmit('prepare_research', { commitmentId: 'c1', extra: { target_agent_id: 'missing', source_ids: ['0'], question: 'Question' } });
+assert.match(status.textContent, /No eligible registered specialist is available/);
+assert.match(status.textContent, /BullGod can continue its own analysis/);
 
 // At a short, narrow viewport, expanded commitments and continuity stay bounded
 // and scrollable so the chat and composer retain viewport space.
@@ -264,5 +394,33 @@ context.document.visibilityState = 'hidden';
 context.pollHandler();
 await new Promise(resolve => setTimeout(resolve, 0));
 assert.equal(requests.length, beforePoll);
+
+// A late research response from an old conversation cannot replace the switched view.
+context.document.visibilityState = 'visible';
+context.sessionId = 'session-a';
+context.commitmentsBeginSession('session-a');
+fetchImpl = async (url, init = {}) => {
+  requests.push({ url, init });
+  if (init.method === 'POST') return new Promise(resolve => { releaseResearchPost = resolve; });
+  return { ok: true, status: 200, json: async () => ({ status: 'success', source_seq: 0, identity: { name: 'Owner' }, commitments: [], attention: [], specialists: [], research: [] }) };
+};
+let releaseResearchPost;
+context.commitmentsMarkPersistedTurn('session-a');
+await new Promise(resolve => setTimeout(resolve, 0));
+const staleResearch = context.commitmentsSubmit('execute_research', { extra: { research_id: 'research-old' } });
+await new Promise(resolve => setTimeout(resolve, 0));
+context.sessionId = 'session-b';
+context.commitmentsBeginSession('session-b');
+const switchedResearchContent = content.innerHTML;
+releaseResearchPost({ ok: true, status: 200, json: async () => ({ status: 'success', identity: { name: 'Old owner' }, commitments: [] }) });
+await staleResearch;
+assert.equal(content.innerHTML, switchedResearchContent);
+assert.match(status.textContent, /Send a message in this conversation/);
+
+// With no registered target or delivered source, the form is unavailable and the commitment stays intact.
+context.commitmentsRender({ identity: { name: 'Owner' }, commitments: [{ commitment_id: 'c-active', objective: 'Continue research', status: 'active', revision: 1 }], specialists: [], research: [], attention: [] });
+assert.match(content.innerHTML, /No eligible registered specialist or delivered source is available/);
+assert.match(content.innerHTML, /BullGod can continue its own analysis; your commitment remains active/);
+assert.doesNotMatch(content.innerHTML, /data-research-execute=/);
 
 console.log('Commitments UI checks passed.');
