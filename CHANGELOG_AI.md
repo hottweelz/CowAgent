@@ -1,5 +1,53 @@
 # AI handoff ledger
 
+## 2026-11-10 14:35 EST — Codex — UPSTREAM-SELECTIVE-001 qualified for draft publication
+
+- Scope/result: imported candidates 1–8 on codex/upstream-selective-001 and 9–10
+  on stacked codex/upstream-selective-001-desktop. Accepted baseline is merged
+  PERSONAL-004 master74b75f97. None already fixed locally. Dedup11 and Feishu12
+  deferred; broad process-wide TLS downgrade rejected. No wholesale merge.
+- Team: lead integration/cloud/docs/Git; Luna config/security/providers/desktop/
+  compatibility/full regression; Terra6.1 MCP for interacting connection lifetime;
+  Sol6.1 independent review for cross-module identity/credentials/concurrency.
+- Changes/files: cloud callbacks, models config lock, shared/Feishu URL guards,
+  Gemini/LinkAI providers, MCP transport/service/tool manager, desktop streaming
+  and window recovery, focused tests and docs/upstream-selective-001 receipts.
+  Project MEMORY.md updated with durable failure/lock/network boundaries.
+- Verification: final combined source2ed12245: 6,360 passed, 36 skipped,
+  93 subtests passed, zero failures/errors in220.85s. All31 changed source/test
+  hashes unchanged. Web39, desktop16, commitmentsUI, strict renderer tsc,
+  renderer/main builds, project RuffF and diff checks pass. Focused per-candidate
+  outcomes recorded. Independent engineering review has no open source finding.
+- Review corrections: fence MCP reconnect handshake; do not read unbounded HTTP
+  error bodies; assert LinkAI test budget; fold mixed desktop events into one
+  store update; preserve valid larger-secondary window bounds.
+- Decisions: preserve identity/memory/goals/grants/revocation/news/scheduler/
+  initiative/durable state/duplicates/decisions/social safety/specialist behavior
+  through full regressions and retained native evidence. Personal modules and
+  model routing unchanged. No accepted provider/news/native interaction replay.
+- Lessons Learned:
+  - Mistake: copying a safe-looking upstream patch and threshold fixtures would
+    have retained concurrency/read-budget and desktop behavior defects.
+  - Root Cause: transport alive was confused with ready; diagnostic reads lacked
+    bounds; per-frame queueing was confused with one store update; primary-only
+    geometry and below-threshold test data missed normal supported conditions.
+  - Future Trigger: selective ports affecting streams, identity or thresholds.
+  - Required Behavior Change: inspect actual execution boundaries, use deterministic
+    concurrent/actual-store tests, and assert threshold preconditions.
+  - Verification Step: exact reproductions now pass and reviewer confirms fixes;
+    final complete source hashes and suite establish integrated regression.
+  - Durable Memory Update: project MEMORY.md updated; global memory untouched.
+- Known limits: live provider/third-party MCP/physical display events unverified.
+  Full suite36 warnings include an unraisable Xunfei TTS websocket-thread error;
+  no failing test. Existing build warnings retained. No new TLS/retry design.
+  Hosted status pending draft publication; no pass inferred from empty checks.
+- Next: publish the two draft PRs, verify hosted status and both upstream0/0;
+  maintainer reviews backend before desktop. No merge or deployment authorized.
+- Notes: raw evidence /private/tmp/cow-upstream-selective-001-final-suite.LmbxD5;
+  source/test hashes and log/JUnit digests retained in combined-validation.json.
+  Original checkout/seven untracked files, historical branches and live9899
+  PID28093 preserved. Each task worktree retains untracked AGENTS.md intentionally.
+
 ## 2026-11-10 — Codex — UPSTREAM-SELECTIVE-001 implementation checkpoint
 
 - Scope: selectively port backend candidates1–8 from accepted master74b75f97.

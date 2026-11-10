@@ -11,7 +11,7 @@ The tested starting point is fork `master` at `74b75f97e933d36e7b1b0a80b8d20afe1
 | #11 | `ab13b789e28e3efc8571e6406acda8c88e914b77` | `docs/personal-003/` |
 | #12 | `74b75f97e933d36e7b1b0a80b8d20afe16cbf8b2` | `docs/personal-004/` |
 
-These are local regression tests and retained acceptance records from the accepted baseline. They are not results from the pending upstream-selective branch's full suite. Its complete suite is still pending lead validation.
+These are local regression tests and retained acceptance records from the accepted baseline. The final combined upstream-selective source passed the complete directory suite: 6,360 passed, 36 skipped, 93 subtests passed. See regression.md and combined-validation.json. Retained native acceptance remains a separate historical evidence source.
 
 ## Required gates and existing coverage
 
@@ -30,9 +30,9 @@ These are local regression tests and retained acceptance records from the accept
 
 ## Evidence limits
 
-- The retained native records describe isolated, historical acceptance runs. They do not establish that the currently pending code diff has passed a full regression suite.
+- The retained native records describe isolated, historical acceptance runs. Current local regression is established separately by regression.md.
 - Fixture tests establish deterministic parsing, storage and boundary behavior; they do not prove current news freshness or publisher truth.
 - The retained live news reads and GPT-6 Luna conversations are separate evidence from local tests. No provider call, news fetch, approval, scheduler replay, or live service interaction was run for this compatibility map.
 - PERSONAL-004 used headline-only snapshots for specialist work. Its acceptance audit says provenance/excerpt matching was checked, not the truth of publisher claims or specialist judgment.
 - The retained Pooler model metadata is usage evidence, not independent provider attestation.
-- Hosted CI has not been established as passing by this map. The lead's pending full-suite result must be reported separately when available.
+- Hosted CI is reported separately in publication.md; absence of checks is not a pass.
