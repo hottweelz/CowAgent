@@ -13,6 +13,7 @@ import time
 
 from .contract import MAX_MESSAGE_BYTES, ProtocolError, canonical, digest, finite, identifier, task_id
 from .operator_review import _enrollment_packet, build_task_review
+from .filesystem_trust import require_filesystem_ownership
 
 VERSION = 'cow.external.operator-command/1'
 _SCOPE = frozenset({'supervisor_id', 'owner_id', 'source_id', 'conversation_id', 'runtime_id'})
@@ -52,7 +53,10 @@ def _disabled(value):
 class OperatorControl:
     """Explicit private local journal; construction never enables an adapter."""
 
-    def __init__(self, state_dir, *, initialize=False):
+    def __init__(self, state_dir, *, initialize=False, read_only=False):
+        if initialize and read_only:
+            raise ProtocolError('Read-only control cannot initialize state')
+        self.read_only = read_only
         if not hasattr(os, 'geteuid') or os.getuid() != os.geteuid():
             raise ProtocolError('Operator control requires an ordinary POSIX account')
         self.uid = os.getuid()
@@ -103,6 +107,7 @@ class OperatorControl:
         # Root/account-owned sticky shared ancestors (such as /private/tmp)
         # protect the next root/account-owned path component from other users.
         for parent in self.directory.parents:
+            require_filesystem_ownership(parent)
             value = parent.lstat()
             if (not stat.S_ISDIR(value.st_mode) or value.st_uid not in (0, self.uid)
                     or value.st_mode & 0o022 and not value.st_mode & stat.S_ISVTX):
@@ -116,6 +121,7 @@ class OperatorControl:
             directory = self.directory.lstat()
         except FileNotFoundError as exc:
             raise ProtocolError('Operator state directory is not initialized') from exc
+        require_filesystem_ownership(self.directory)
         if (self.directory.resolve() != self.directory or not stat.S_ISDIR(directory.st_mode)
                 or directory.st_uid != self.uid or directory.st_mode & 0o077):
             raise ProtocolError('Operator state directory is not private and owned')
@@ -142,11 +148,20 @@ class OperatorControl:
     @contextmanager
     def _connect(self):
         self._guard()
-        db = sqlite3.connect(str(self.path), timeout=30)
+        db = sqlite3.connect(self.path.as_uri() + '?mode=ro', uri=True, timeout=5) if self.read_only else sqlite3.connect(str(self.path), timeout=30)
         try:
             db.row_factory = sqlite3.Row
-            db.execute('PRAGMA foreign_keys=ON')
-            db.execute('PRAGMA synchronous=FULL')
+            if self.read_only:
+                # Deny writes even if a future caller reaches a mutation method.
+                db.set_authorizer(lambda action, *args: sqlite3.SQLITE_OK if action in {
+                    sqlite3.SQLITE_SELECT, sqlite3.SQLITE_READ, sqlite3.SQLITE_FUNCTION,
+                    sqlite3.SQLITE_TRANSACTION, sqlite3.SQLITE_RECURSIVE,
+                } or action == sqlite3.SQLITE_PRAGMA and (
+                    args[0] == 'table_info' or args[0] == 'journal_mode' and args[1] is None
+                ) else sqlite3.SQLITE_DENY)
+            else:
+                db.execute('PRAGMA foreign_keys=ON')
+                db.execute('PRAGMA synchronous=FULL')
             with db:
                 yield db
         finally:

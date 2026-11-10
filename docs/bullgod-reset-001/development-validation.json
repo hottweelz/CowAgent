@@ -1,0 +1,52 @@
+{
+  "scope": "Local disposable macOS CowAgent development instance",
+  "revised_launcher": {
+    "init_command": "python3 scripts/bullgod_dev.py init --python '/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python'",
+    "start_command": "python3 scripts/bullgod_dev.py start <printed-root>",
+    "stop_command": "python3 scripts/bullgod_dev.py stop <printed-root>",
+    "results": [
+      "health and console shell passed",
+      "generated-password login passed",
+      "agent, session and workspace tree endpoints passed",
+      "agent permission mode read-only",
+      "config mode 0600",
+      "password absent from marker and service log",
+      "instance stopped",
+      "synthetic ConversationStore message appeared in service session list and survived restart",
+      "second running instance had a separate workspace, profile binding and database, with no synthetic session",
+      "both test instances stopped"
+    ],
+    "focused_tests": "python3 tests/test_bullgod_dev.py -v: six passed",
+    "synthetic_store_method": "Inside the first instance sandbox, use MemoryConfig(workspace_root=<root>/workspace).get_db_path() and ConversationStore; append a fictional user message, then verify /api/sessions on each authenticated service after restarting the first. No model request was made."
+  },
+  "prior_launcher_evidence": {
+    "results": [
+      "workspace edit persisted across stop and restart",
+      "new instance did not contain the prior marker",
+      "sandbox denied an outside-root test canary read",
+      "sandbox denied an outbound loopback connection"
+    ],
+    "note": "The revised interpreter selection resolved to the same Python runtime paths. These previous observations were not replayed."
+  },
+  "limits": [
+    "Natural conversation creation and model quality were not tested",
+    "Outbound provider network is denied",
+    "Temporary roots may be cleared by macOS",
+    "Same-account processes, operating system and selected Python dependencies are trusted"
+  ],
+  "default_deny_smoke": {
+    "results": [
+      "fresh init/start, health, shell, authentication, agent, sessions and workspace endpoints passed",
+      "ConversationStore opened the instance database and read an empty synthetic session",
+      "outside-root fictional file canary read denied",
+      "outbound connection to a controlled loopback listener denied",
+      "unfiltered sandbox_check denied mach-lookup, appleevent-send and mach-priv-task-port",
+      "test instance stopped"
+    ],
+    "allowances": "process-exec, process-fork, sysctl-read, explicit runtime and instance filesystem paths, selected loopback inbound/bind; no Mach service allowlist",
+    "limits": "Policy checks do not prove every possible IPC operation; no Keychain, clipboard, or private user data was probed."
+  },
+  "receipt_recorded_at_utc": "2026-11-10T01:13:49.787889+00:00",
+  "launcher_sha256": "778975317868169c29721c6f06debda1817fc7c5ebb5a4b44867077f201168dd",
+  "tests_sha256": "22d3fa8d16fca620e5e95aa815d533ef7ae3276188b8357c152faf400b9eaf84"
+}

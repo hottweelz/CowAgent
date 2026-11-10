@@ -1,0 +1,32 @@
+{
+  "captured_at_utc": "2026-11-10T01:11:53.305065+00:00",
+  "live": {
+    "pid": 28093,
+    "start_epoch": 1794162129.482237,
+    "health": "200/ok",
+    "port": 9899,
+    "primary_head": "a507a400985512683c870ef4fe059fa5982ad13e",
+    "primary_tracked_clean": true,
+    "signal_or_restart": false
+  },
+  "preserved_original_untracked_files": 7,
+  "preserved_recovery_artifacts": 5,
+  "recovery_manifest_matches": true,
+  "refs": {
+    "master": "f659349785acf98905901a5cc53921436a109dbc",
+    "origin/master": "f659349785acf98905901a5cc53921436a109dbc",
+    "origin/codex/bullgod-discovery-002": "a507a400985512683c870ef4fe059fa5982ad13e",
+    "origin/codex/bullgod-service-drain": "8d182026be2380fc574eeecd13edcffa5ed1dcb1",
+    "origin/codex/first-bootstrap-001": "fcbc0d25cbf86d9ff94d4dd9f7fd067a6b2d183b",
+    "origin/codex/first-bootstrap-002": "d6c09a257909da49fdf3e200624d98fa372b4bb6",
+    "codex/routing-closeout-ref-recovery": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+    "codex/routing-closeout-verified": "2b6df30a66f79b37577112517add8e56c7b22288"
+  },
+  "development_ports_free": [
+    19892,
+    19893
+  ],
+  "actions_settings_changed": false,
+  "live_data_or_private_memory_read": false,
+  "scope": "Identity/health and known recovery-file preservation only; no repeated ownership, pCloud or legacy-lifecycle audit."
+}

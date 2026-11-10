@@ -1,0 +1,122 @@
+{
+  "scope": "Guarded full local regression for BULLGOD-RESET-001; one run only",
+  "source": {
+    "branch": "codex/bullgod-reset-001",
+    "base_commit": "f659349785acf98905901a5cc53921436a109dbc",
+    "head_commit": "f659349785acf98905901a5cc53921436a109dbc",
+    "pretest_sha256": {
+      "agent/discovery/contracts.py": "7a49b2f56523a888553cb4c22cbe77895d9945ec48b465e27d4df9dabaf64751",
+      "agent/discovery/sources.py": "cf2218b308e251340d54bc7beda86da8e204dbf7e92e63ab904b0a8b44fb267c",
+      "agent/external/approved_dispatch.py": "2ddcb964fcbb58361c8cb5439110a2d335408f55d109ebc6d355859e123bb611",
+      "agent/external/filesystem_trust.py": "7c2110c8b048615afcc21337349ad6850df2897c787b87ddfa4e88978b5bdaee",
+      "agent/external/operator_control.py": "3f10a4a80d5f8ac639bf61ba8e3f63c1c6f65fb5b5d730b67bd82f64a787635f",
+      "scripts/bullgod_dev.py": "778975317868169c29721c6f06debda1817fc7c5ebb5a4b44867077f201168dd",
+      "tests/test_audio_convert.py": "52c335774ea622c35ea9da09cbbaecd7c7fd18eaee333a590ed35660e0c2a20e",
+      "tests/test_bullgod_dev.py": "22d3fa8d16fca620e5e95aa815d533ef7ae3276188b8357c152faf400b9eaf84",
+      "tests/test_bullgod_foundation.py": "12108123d445fd4147336db0f09e9b709b16c07f92f7a9ea92d2825be765d3ec"
+    },
+    "posttest_sha256": {
+      "agent/discovery/contracts.py": "7a49b2f56523a888553cb4c22cbe77895d9945ec48b465e27d4df9dabaf64751",
+      "agent/discovery/sources.py": "cf2218b308e251340d54bc7beda86da8e204dbf7e92e63ab904b0a8b44fb267c",
+      "agent/external/approved_dispatch.py": "2ddcb964fcbb58361c8cb5439110a2d335408f55d109ebc6d355859e123bb611",
+      "agent/external/filesystem_trust.py": "7c2110c8b048615afcc21337349ad6850df2897c787b87ddfa4e88978b5bdaee",
+      "agent/external/operator_control.py": "3f10a4a80d5f8ac639bf61ba8e3f63c1c6f65fb5b5d730b67bd82f64a787635f",
+      "scripts/bullgod_dev.py": "778975317868169c29721c6f06debda1817fc7c5ebb5a4b44867077f201168dd",
+      "tests/test_audio_convert.py": "52c335774ea622c35ea9da09cbbaecd7c7fd18eaee333a590ed35660e0c2a20e",
+      "tests/test_bullgod_dev.py": "22d3fa8d16fca620e5e95aa815d533ef7ae3276188b8357c152faf400b9eaf84",
+      "tests/test_bullgod_foundation.py": "12108123d445fd4147336db0f09e9b709b16c07f92f7a9ea92d2825be765d3ec"
+    },
+    "source_hashes_unchanged_during_run": true,
+    "worktree_was_dirty_before_run": true
+  },
+  "command": {
+    "argv": [
+      "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+      "scripts/ci_test.py",
+      "tests/",
+      "-q",
+      "--junitxml=<private>/full.xml"
+    ],
+    "environment": {
+      "TIKTOKEN_CACHE_DIR": "/private/tmp/cow-infra-tiktoken-cache"
+    },
+    "python": "3.13.1",
+    "runtime": "macOS local runner"
+  },
+  "result": {
+    "exit_code": 0,
+    "pytest_summary": {
+      "passed": 5999,
+      "skipped": 36,
+      "failed": 0,
+      "errors": 0,
+      "subtests_passed": 93,
+      "warnings": 35,
+      "duration_seconds": 208.65
+    },
+    "junit": {
+      "testcase_records": 6128,
+      "skipped": 36,
+      "failure_ids": [],
+      "error_ids": [],
+      "skipped_ids": [
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[lf]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[crlf]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[block]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[quoted]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[nested-quotes]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[inline-namespace]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[local-import]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[arguments]",
+        "tests.test_bash_multiline_python.test_windows_background_multiline_python_retains_all_output",
+        "tests.test_bash_streaming.test_windows_timeout_kills_process_tree",
+        "tests.test_bash_streaming.test_windows_long_running_command_streams_progress",
+        "tests.test_bash_streaming.test_windows_background_process_holding_pipe_does_not_hang",
+        "tests.test_bash_streaming.test_windows_full_output_log_keeps_the_commands_line_breaks",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[-selector-success]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[-ref-success]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[new-selector-success]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[None-selector-error]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[1-selector-error]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[click-button-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[click-button-True]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[fill-input-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[fill-input-True]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[fill-div-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[select-select-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[select-select-True]",
+        "tests.test_memory_path_marks_dirty.TestMemoryPathMarksDirty.test_write_backslash_separated_memory_path_marks_dirty",
+        "tests.test_memory_path_marks_dirty.TestConsoleEditsMarkMemoryDirty.test_console_save_with_backslash_separator_marks_dirty",
+        "tests.test_read_long_line_windows.test_windows_command_returns_the_line_through_the_bash_tool",
+        "tests.test_search_files_powershell_quoting.test_search_root_with_an_apostrophe_still_finds_its_matches",
+        "tests.test_search_files_powershell_quoting.test_empty_result_for_an_apostrophe_root_is_not_a_hidden_failure",
+        "tests.test_search_files_powershell_quoting.test_file_glob_with_an_apostrophe_reaches_the_backend_intact",
+        "tests.test_search_files_powershell_quoting.test_ps_quote_doubles_apostrophes_and_wraps_once",
+        "tests.test_search_files_powershell_quoting.test_powershell_backend_reports_a_non_zero_exit_instead_of_swallowing_it",
+        "tests.test_search_files_powershell_quoting.test_failed_powershell_run_does_not_report_a_successful_empty_search",
+        "tests.test_uploads_path_containment.TestUploadsHandlerPathContainment.test_a_case_differed_name_inside_the_upload_dir_is_still_served",
+        "tests.test_uploads_path_containment.TestUploadsHandlerPathContainment.test_a_drive_qualified_tail_escapes_without_any_dotdot"
+      ]
+    },
+    "limits": [
+      "Local macOS run only; hosted CI was not queried.",
+      "Skipped cases are platform-dependent or otherwise marked skip; exact identifiers are listed.",
+      "No provider availability or credentials were queried."
+    ]
+  },
+  "private_evidence": {
+    "directory_mode": "0700",
+    "directory_handle": "<reported privately to parent>",
+    "full_log_sha256": "768c06260ce315e95a3f0c979ece1bf224102a7a3a30d01ca9364d64f8beb6d7",
+    "junit_sha256": "16a5c99f34500b0f42492212eb6ff50a1c81b463009efc9aa2aa07649fc705b0",
+    "files_mode": "0600"
+  },
+  "post_validation_formatting": {
+    "file": "tests/test_bullgod_foundation.py",
+    "change": "Remove one extra blank line at EOF reported by git diff --cached --check after staging the new file.",
+    "tested_sha256": "12108123d445fd4147336db0f09e9b709b16c07f92f7a9ea92d2825be765d3ec",
+    "published_sha256": "798209b66a86f36b5f6113fd35fdc36b3093aaf2370e01cd0b6c25fa00680065",
+    "ast_unchanged": true,
+    "tests_repeated": false
+  }
+}
