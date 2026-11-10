@@ -1,0 +1,27 @@
+{
+  "recorded_at": "2026-11-10T18:50:50.386743+00:00",
+  "root": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-rvoexrwx",
+  "native_runtime_files_match_final": {
+    "agent/memory/personal_context.py": "d273eee1d654ea7cbd25adbcb55fee938d0951f38807e279b9fb6c64a215a5f5",
+    "agent/personal/collaboration.py": "54d699b236285d3dd9c123616b4d796660a90ee5ab3d9492394be2e21940e1bb",
+    "agent/personal/commitments.py": "5625f57ae384c8e0c3cd560e7f8838d707f5e8916372addad232c894094c58f1",
+    "agent/protocol/agent.py": "983d02032a959e952ea6176c7a2961a43cd62c9e93a1f7a297e8ec8eca090dab",
+    "channel/web/static/css/commitments.css": "2f88a318312856ee2a7d0a08ded1d80637f491dd7d359c5d4d72d56181eae0b7",
+    "channel/web/static/js/chat/commitments.js": "8b503d2a0296f6e3fd0fe1120e9f71e4f7496b2e4011c877374b9dd0d9ca8e7c",
+    "common/model_defaults.py": "910c6cd635e9284b84b2a2fff869bb4ed087d97ae0e575a8005f9c2b7c87ee0f"
+  },
+  "owned_app_stopped": true,
+  "owned_console_no_listener": 19894,
+  "owned_process_records_absent": true,
+  "browser_contexts_closed_by_helpers": true,
+  "original_model_bootstrap_restored": true,
+  "acceptance_helpers_retained": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-rvoexrwx/acceptance-scripts",
+  "fixtures_databases_and_public_feed_preserved": true,
+  "production_listener": {
+    "pid": 28093,
+    "address": "127.0.0.1:9899",
+    "action": "read-only lsof observation; no request or signal"
+  },
+  "production_data_credentials_approvals_apfs_unchanged": true,
+  "historical_branches_reports_preserved": true
+}

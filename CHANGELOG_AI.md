@@ -1,5 +1,108 @@
 # AI handoff ledger
 
+## 2026-11-10 14:08 EST — Codex — PR #12 integration review complete
+
+- Scope: reviewed f52e89f1 against current master ab13b789; zero divergence,
+  two PR-only commits, GitHub mergeable. PR #12 remains draft/unmerged.
+- Team: lead source/compatibility review plus GPT-6 Luna/high read-only evidence
+  qualification. Used STE code-review/efficient-evidence guidance; retained prior
+  independent engineering review. No recursive review or new native execution.
+- Changes/files: docs/personal-004/integration-review.md and README.md; this
+  handoff only. Application and test bytes unchanged. MEMORY.md update: not needed.
+- Checks: no-prune fetch, exact SHA/ancestry/diff review, current PR reviews/
+  threads/checks, read-only GitHub rulesets/master protection, 13 final source/test
+  and seven runtime hashes, retained suite/context log qualification, native/UI/
+  preservation receipt consistency, Markdown links and Git whitespace review.
+- Results: no blocking source/compatibility finding. Evidence supports normal
+  integration after the maintainer's explicit decision. Reused 6,210 passed,
+  36 skipped, 93 subtests; final context 5/5 and documented CSS/AST qualifications.
+  Empty hosted checks are not a pass. No required review/status gate configured.
+- Decisions: no merge, ready-state transition, CI setting change, provider call,
+  accepted-case replay, live service/data/credential/approval/APFS change or
+  legacy-maintenance expansion. Same-branch documentation publication only.
+- Lessons Learned: none; this review confirmed existing qualified evidence.
+- Known limits: hosted CI unverified; headline-only provenance, single-process
+  recovery and same-user filesystem assumptions remain as documented.
+- Next: maintainer integration decision for PR #12. If head/base or repository
+  rules change, review the delta before merging. Deployment stays separate.
+- Notes: parent owns publication and final upstream0/0 check. Preserve untracked
+  AGENTS.md, task-owned acceptance artifacts and all historical branches/reports.
+
+## 2026-11-10 13:53 EST — Codex — PERSONAL-004 published as draft PR #12; PR #9–11 integrated
+
+- Scope/branch: merged PR #9/#10/#11 normally in dependency order after required
+  condition and retained-evidence review; each merge tree equals its reviewed
+  head. PERSONAL-004 starts from integrated master ab13b789 on
+  codex/bullgod-personal-004. Original branches/reports and deferred PRs #4–7 stay.
+- Team: Luna merge-evidence/native-path/default-model/UI/regression/acceptance
+  workers; Terra 6.1 core ledger/native executor because persistence, identity and
+  session integration interact; Sol 6.1 bounded architecture/engineering review
+  because native private-context and authority boundaries require joint reasoning.
+  Lead owns service/context integration, native checks, docs, lifecycle and Git.
+  STE planning/review guidance applied. Routine final audit/regression used Luna6.
+- Changes/files: new agent/personal/collaboration.py and common/model_defaults.py;
+  commitments service/context, native prompt tool override, developer launcher,
+  commitments JS/CSS, four Python test files and tools/check-commitments-ui.mjs.
+  docs/personal-004 records plan, integration, review, native/source/UI/regression/
+  preservation evidence. Project MEMORY.md updated; no global memory edits.
+- Behavior: concrete owner-approved request to a registered native specialist,
+  fresh target session and own persona/memory/model, zero-tool source-only call,
+  exact excerpt/ID verification, atomic durable result, no automatic replay.
+  History remains available in new owner chats with origin-only mutation.
+  BullGod keeps its goal and continues without specialists. New unpinned developer
+  instances choose newest supported model within family; GPT-6 Luna accepted,
+  GPT-5.6 explicit last resort only, automatic fallback disabled.
+- Verification: focused integration 44 passed; guarded complete directory suite
+  6,210 passed, 36 skipped, 93 subtests passed in 212.37s. The run overlapped a
+  seven-line prompt-only correction; final-source context tests then passed 5/5.
+  Node UI, changed-Python syntax/Ruff F, JS syntax and whitespace checks passed.
+  Late one-property CSS foreground fix passed actual 200% layout/keyboard/screen
+  checks with 11.87 badge contrast; one test trailing space was removed with
+  identical Python AST. Final 13 source/test hashes are retained.
+  One independent engineering review closed five concrete findings; independent
+  native evidence audit reconciles DB/observations/source with documented limits.
+- Native results: actual approved HTTPS feed read; real GPT-6 Luna BullGod
+  conversation and one registered NewsAnalyst request via existing local Pooler.
+  Pending/denied requests made zero specialist calls. Completed request used own
+  synthetic native context, no owner marker and zero tools; exact headline-only
+  excerpt verified. Repeat/restart reused result/message; new chat recalls history.
+  Unavailable specialist leaves goal/memory intact and BullGod continues directly.
+- Preservation: owned app/relay/browser on19894 stopped, original startup bootstrap
+  restored, task-owned scripts/data/receipts retained. Seven runtime files match
+  final source. Read-only lsof confirms original PID28093 on127.0.0.1:9899.
+  No production restart/data/APFS/credential/approval change, social publication,
+  local model download, branch deletion, history rewrite or CI setting change.
+- Lessons Learned:
+  - Mistake: initial owner prose suggested a nonexistent full-article card;
+    a reused status badge had poor contrast. Fixture helpers used an invalid
+    knowledge value and waited on a closed panel; another invocation mistyped root.
+  - Root Cause: prompt omitted capability limits; badge inherited theme text;
+    helper assumptions did not match native API/render/path contracts.
+  - Future Trigger: owner follow-up recommendations, reused theme components,
+    and native acceptance setup/resumption.
+  - Required Behavior Change: state exact implemented scope, distinguish proposed
+    work from saved actions, measure final colors, inspect state and resume the
+    same pending request after helper errors.
+  - Verification Step: corrected same/new-chat real-model explanations, actual
+    200% keyboard/contrast check, DB/probe count confirms only one specialist call.
+  - Durable Memory Update: project MEMORY.md updated with those operating facts.
+- Known limits: headline-only provenance is not publisher truth or model judgment;
+  no full-article fetch/import or publishing in this action. Native single-writer
+  contract; transport timeout is not universal hard cancellation; same-user path
+  replacement is outside metadata isolation. Hosted CI unavailable/no pass claimed.
+  No required hosted/review rule applied to prior merges. Legacy deployment stays
+  deferred; unavailable runners do not gate ordinary personal-agent development.
+- Publication: implementation 797f323e pushed to the same named origin branch;
+  draft PR #12 opened against master and attached. Fetch without prune confirmed
+  upstream 0/0. Head checks/statuses/workflow runs are empty, not passing. This
+  docs-only closeout preserves all final application/test hashes. PR #12 is not
+  merged. Final upstream sync is checked after the documentation push.
+- Next: review draft PR #12 against master. Preserve
+  qualified acceptance; do not replay native interactions for bookkeeping.
+- Notes: retained root bullgod-dev-rvoexrwx under system temporary storage;
+  full logs /private/tmp/cow-personal-004-regression. Keep original untracked
+  AGENTS.md excluded. Fetch without pruning; no Git GC or force-push.
+
 ## 2026-11-10 12:17 EST — Codex — PERSONAL-003 complete for review as draft PR #11
 
 - Scope/branch: proactive owner commitments on codex/bullgod-personal-003,

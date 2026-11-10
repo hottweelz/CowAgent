@@ -18,6 +18,11 @@ import urllib.request
 from urllib.parse import urlsplit
 
 REPO = Path(__file__).resolve().parent.parent
+if str(REPO) not in sys.path:
+    # The launcher is also used by absolute path from outside the checkout.
+    sys.path.insert(0, str(REPO))
+
+from common.model_defaults import newest_supported_model
 
 
 def model_endpoint(base):
@@ -112,13 +117,21 @@ def load(root):
     return root, info
 
 
-def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_API_KEY', read_endpoints=()):
+def configured_model(model_base, model, model_family='luna'):
+    """Keep explicit model pins; select a catalog default for a chosen family."""
+    if model and not model_base:
+        raise ValueError('Select --model-base when using --model')
+    if model or not model_base:
+        return model
+    return newest_supported_model(model_family)
+
+
+def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_API_KEY', read_endpoints=(), model_family='luna'):
     if sys.platform != 'darwin' or not Path('/usr/bin/sandbox-exec').exists():
         raise RuntimeError('macOS sandbox-exec is required')
     if port == 9899 or not 1024 <= port <= 65535:
         raise ValueError('Use a non-privileged port other than 9899')
-    if bool(model_base) != bool(model):
-        raise ValueError('Select both --model-base and --model')
+    model = configured_model(model_base, model, model_family)
     model_port = model_endpoint(model_base) if model_base else None
     if model_port == port:
         raise ValueError('The model gateway and console must use different ports')
@@ -167,7 +180,8 @@ def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_A
               'web_password': password, 'agent': True, 'agent_workspace': str(root / 'workspace'),
               'default_agent_id': 'bullgod', 'default_agent_name': 'BullGod',
               'agent_permission_mode': 'read-only', 'self_evolution_enabled': False,
-              'knowledge': False, 'subagent': {'enabled': False}, 'external_api_enabled': False}
+              'knowledge': False, 'subagent': {'enabled': False}, 'external_api_enabled': False,
+              'chat_fallback': {'enabled': False, 'chain': []}}
     if model_base:
         config.update({'model': model, 'bot_type': 'openai', 'open_ai_api_base': model_base,
                        'open_ai_api_key': '', 'open_ai_api_type': 'responses',
@@ -359,6 +373,8 @@ def main():
     create.add_argument('--python', required=True, help='absolute path to a compatible CowAgent virtual environment interpreter')
     create.add_argument('--model-base', help='explicit loopback model gateway base URL; outbound remains denied otherwise')
     create.add_argument('--model', help='model ID served by the selected gateway')
+    create.add_argument('--model-family', choices=('luna', 'terra', 'sol'), default='luna',
+                        help='default GPT model family when --model is omitted (default: luna)')
     create.add_argument('--model-key-env', default='CODEX_POOLER_API_KEY', help='name only; credential is required at start and is never saved')
     create.add_argument('--read-endpoint', action='append', default=[],
                         help='explicit HTTPS endpoint; pin public addresses and permit only their port 443')
@@ -367,7 +383,8 @@ def main():
     args = parser.parse_args()
     try:
         if args.command == 'init':
-            init(args.port, args.python, args.model_base, args.model, args.model_key_env, args.read_endpoint)
+            init(args.port, args.python, args.model_base, args.model, args.model_key_env,
+                 args.read_endpoint, args.model_family)
         else:
             root, info = load(args.root)
             (start(root, info) if args.command == 'start' else stop(root))

@@ -68,6 +68,8 @@ class CommitmentService(PersonalService):
             record['runs'] = [{k: v for k, v in run.items() if k not in ('articles',)}
                               for run in record['runs']]
         personal = PersonalStore.snapshot(self.store, self.session_id)
+        from agent.personal.collaboration import CollaborationService
+        collaboration = CollaborationService(self.profile.id, self.session_id).snapshot()
         return {'status': 'success', 'identity': {'agent_id': self.profile.id, 'name': self.profile.name},
                 'source_seq': personal['latest_source_seq'],
                 'commitments': records, 'approved_endpoints': list(self._endpoints()),
@@ -75,12 +77,14 @@ class CommitmentService(PersonalService):
                 'attention_history': self.store.attention_snapshot(include_dismissed=True),
                 'approved_actions': [action for action in personal.get('action_summaries', [])
                                      if action.get('status') in ('approved', 'executing', 'completed', 'failed', 'uncertain')],
+                **collaboration,
                 'publication': 'Draft only. External publication requires separate approval and a supported connector.'}
 
     def mutate(self, body):
         op, cid = body.get('operation'), body.get('commitment_id')
         source = body.get('source_seq')
         result = None
+        research_result = None
         if op in ('create', 'update'):
             fields = body.get('fields')
             self._validate_fields(fields)
@@ -108,11 +112,24 @@ class CommitmentService(PersonalService):
         elif op == 'propose_publication':
             self.store.propose_publication(self.session_id, cid, body.get('draft_id'),
                                            source, body.get('expires_at'))
+        elif op in ('prepare_research', 'decide_research', 'execute_research'):
+            from agent.personal.collaboration import CollaborationService
+            collaboration = CollaborationService(self.profile.id, self.session_id)
+            if op == 'prepare_research':
+                research_result = collaboration.prepare(
+                    cid, body.get('target_agent_id'), body.get('source_ids'),
+                    body.get('question'), source, body.get('attention_id'))
+            elif op == 'decide_research':
+                research_result = collaboration.decide(body.get('research_id'), body.get('decision'), source)
+            else:
+                research_result = collaboration.execute(body.get('research_id'), source)
         else:
             raise ValueError('Unknown owner operation')
         response = self.snapshot()
         if result is not None:
             response['execution'] = {k: v for k, v in result.items() if k != 'articles'}
+        if research_result is not None:
+            response['research_operation'] = research_result
         return response
 
     def _fetch(self, record, cache):

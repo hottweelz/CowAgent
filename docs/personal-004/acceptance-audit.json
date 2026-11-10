@@ -1,0 +1,169 @@
+{
+  "task": "PERSONAL-004 native acceptance evidence audit",
+  "reviewer_role": "delegated read-only evidence auditor",
+  "status": "PASS_WITH_PARENT_LIFECYCLE_SCOPE",
+  "audit_scope": "Reconciled the PERSONAL-004 acceptance records with the isolated runtime source, native owner/specialist SQLite rows, observation JSONL, fetched headline record, local regression record, and UI evidence. No source implementation was reviewed or changed.",
+  "evidence_root": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-rvoexrwx",
+  "readonly_database": {
+    "path": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-rvoexrwx/workspace/memory/long-term/index.db",
+    "access": "SQLite URI mode=ro",
+    "research_rows": 2,
+    "denied_research_id": "58840822472d4e5f9f051168bb1bce9f",
+    "completed_research_id": "2c62e1a378a7434393e6efe228b013e5",
+    "owner_commitment_id": "cdb73976adc44b71b54cf2f29baf5013",
+    "native_target_session_id": "research_c33912f7121a490ebc2adad8454a8c8b",
+    "native_target_run_id": "9606a5624c274c7396ea05a6bd275f6d",
+    "native_run_status": "done",
+    "native_task_source": "personal_research",
+    "target_session_message_roles": {
+      "user": 1,
+      "assistant": 1
+    }
+  },
+  "acceptance_rows": [
+    {
+      "id": 1,
+      "status": "PASS_WITH_LIMIT",
+      "evidence": [
+        "Isolated root and registered NewsAnalyst workspace are separate from the production instance.",
+        "Current default is gpt-6-luna with model selection omitted and automatic fallback disabled.",
+        "The target-owned native run uses NewsAnalyst, gpt-6-luna, and zero tools.",
+        "The specialist observation has one record: native persona present, own synthetic memory present, owner synthetic memory absent."
+      ],
+      "limit": "Runtime records attest no production data or credentials were used. This audit did not open configuration, environment, or credential files, so it does not independently inspect their contents."
+    },
+    {
+      "id": 2,
+      "status": "PASS",
+      "evidence": [
+        "The owner commitment authorizes the read-only endpoint https://tyl.ee/api/news.",
+        "The persisted live-read record is delivered and selects the Mercado Bitcoin record from the fetched source.",
+        "The fetched record has source identifier 200366, headline 'Mercado Bitcoin to resume cash withdrawals after $49M hack', publisher COINTELEGRAPH, and URL https://cointelegraph.com/news/pix-withdrawals-resume-mercado-bitcoin-hack.",
+        "The selected record has empty description and content; selection evidence is headline-only."
+      ],
+      "limit": "The endpoint read is recorded as a live approved read. It does not establish that the publisher's reported claims are true."
+    },
+    {
+      "id": 3,
+      "status": "PASS",
+      "evidence": [
+        "A denied research row persists as denied with no result or receipt.",
+        "A separate approved input is bound to commitment revision 1, the exact headline-only source snapshot, a bounded JSON output contract, and the registered NewsAnalyst target.",
+        "The completed action remains separate from the public-news read grant and publication permission."
+      ],
+      "limit": "The native evidence records the denial and the distinct approved action. No publication action is recorded."
+    },
+    {
+      "id": 4,
+      "status": "PASS_WITH_LIMIT",
+      "evidence": [
+        "SQLite records one completed personal_research action and one native runs row with task_source personal_research and status done.",
+        "Native receipt identifies agent news-analyst, model gpt-6-luna, native session research_c33912f7121a490ebc2adad8454a8c8b, run 9606a5624c274c7396ea05a6bd275f6d, and tool_count 0.",
+        "Specialist observation reports native persona and own synthetic memory present and owner synthetic memory absent.",
+        "The result quotes exactly 'Mercado Bitcoin to resume cash withdrawals after $49M hack', uses source ID e6dfaeed9fc7571824995cd7, and resolves to the exact Cointelegraph URL."
+      ],
+      "limit": "The source snapshot is headline-only. Exact quote and source identity checks establish provenance, not article truth or correctness of the relevant/high judgment."
+    },
+    {
+      "id": 5,
+      "status": "PASS_WITH_LIMIT",
+      "evidence": [
+        "The persisted action has one native run, one target user message and one target assistant message.",
+        "The no-replay receipt records calls_before=1, calls_after=1, same_message_seq=true, and same_receipt=true after repeat/reopen.",
+        "The restart receipt records the same result, receipt, and owner message sequence; current read-only SQLite state retains the completed action and native run."
+      ],
+      "limit": "This verifies the recorded acceptance sequence and persistent rows; it is not a power-loss or multi-host durability test."
+    },
+    {
+      "id": 6,
+      "status": "PASS_WITH_LIMIT",
+      "evidence": [
+        "The unavailable-specialist record reports no eligible registered specialist, keeps the commitment active, and reports specialist_calls=1.",
+        "The owner direct-continuation response uses existing source evidence, states its limits, proposes manual source review, and preserves the goal.",
+        "The new owner conversation is persisted read-only against the original commitment/research IDs; origin_button_visible=true.",
+        "Read-only SQLite predicates confirm the exact synthetic Cedar goal and concise-preference memory remain present; the target-owned native session also remains present."
+      ],
+      "limit": "The cross-conversation origin/read-only interaction is supported by the retained native-validation receipt; this audit did not rerun UI interactions."
+    },
+    {
+      "id": 7,
+      "status": "PASS",
+      "evidence": [
+        "Final local regression record reports 6210 passed, 36 skipped, and 93 subtests passed; final-source personal-context tests report 5 passed.",
+        "Final-source syntax, Ruff, and commitments UI checks are recorded as passing.",
+        "All seven native runtime hashes match runtime-source.json and current files; all 13 changed application/test hashes match local-regression.json final_source_hashes and current files.",
+        "The final 200% UI receipt records effective layout, keyboard focus and scroll, origin navigation, and no research execute control. Computed badge colors are rgb(30, 41, 59) on rgb(226, 232, 240), with contrast 11.87.",
+        "The retained research-200-percent.png was visually inspected; the pale status badge text is readable in the displayed dark interface."
+      ],
+      "limit": "None for the scoped native/UI acceptance rows. The final CSS-only correction does not require a specialist replay."
+    },
+    {
+      "id": 8,
+      "status": "PARENT_OWNED_LIFECYCLE_OUT_OF_AUDIT_SCOPE",
+      "evidence": [
+        "The parent owns process shutdown, final preservation receipt, README/draft PR lifecycle, and upstream synchronization.",
+        "preservation.json records the owned app stopped, port 19894 without a listener, owned pidfiles absent, original bootstrap restored, retained acceptance artifacts, and read-only observation of the unchanged production PID 28093 on 127.0.0.1:9899.",
+        "The preservation record states production data, credentials, approvals, and APFS were unchanged."
+      ],
+      "limit": "This delegated native acceptance audit does not claim draft PR publication or upstream 0/0 sync. The active parent owns those lifecycle checks."
+    }
+  ],
+  "source_binding": {
+    "runtime_source_recorded_sha256": {
+      "agent/memory/personal_context.py": "d273eee1d654ea7cbd25adbcb55fee938d0951f38807e279b9fb6c64a215a5f5",
+      "agent/personal/collaboration.py": "54d699b236285d3dd9c123616b4d796660a90ee5ab3d9492394be2e21940e1bb",
+      "agent/personal/commitments.py": "5625f57ae384c8e0c3cd560e7f8838d707f5e8916372addad232c894094c58f1",
+      "agent/protocol/agent.py": "983d02032a959e952ea6176c7a2961a43cd62c9e93a1f7a297e8ec8eca090dab",
+      "channel/web/static/js/chat/commitments.js": "8b503d2a0296f6e3fd0fe1120e9f71e4f7496b2e4011c877374b9dd0d9ca8e7c",
+      "common/model_defaults.py": "910c6cd635e9284b84b2a2fff869bb4ed087d97ae0e575a8005f9c2b7c87ee0f",
+      "channel/web/static/css/commitments.css": "2f88a318312856ee2a7d0a08ded1d80637f491dd7d359c5d4d72d56181eae0b7"
+    },
+    "current_css_sha256": "2f88a318312856ee2a7d0a08ded1d80637f491dd7d359c5d4d72d56181eae0b7",
+    "css_delta_review": "The explicit slate-800 foreground keeps the existing pale slate-200 status badge readable in dark mode. Final computed colors and 11.87 contrast ratio are recorded in the refreshed 200% UI receipt; no behavior or model replay was required."
+  },
+  "known_failed_or_non_acceptance_attempts": [
+    "The initial helper knowledge=false case was rejected before a model call.",
+    "A collapsed panel wait timed out; the same pending proposal was reopened.",
+    "A typo path failed before connection."
+  ],
+  "replay_decision": "Do not replay the native specialist. The final personal-context change is prompt guidance only, and the later visual fix changes CSS only. Neither changes native specialist execution source.",
+  "unread_sensitive_artifacts": [
+    "configuration and environment files",
+    "credentials",
+    "service and application logs",
+    "private owner memory contents"
+  ],
+  "commands_and_checks": [
+    "Read only SQLite queries against the isolated ConversationStore.",
+    "Parsed only allowed boolean/identity fields from specialist-observation.jsonl and news-observation.jsonl.",
+    "Compared current source SHA-256 values with runtime-source.json and local-regression.json.",
+    "Reconciled native-validation.json, local-regression.json, and ui-validation.json with the SQLite and observation receipts.",
+    "Confirmed final preservation receipt fields for owned process shutdown and protected production listener preservation.",
+    "Visually inspected docs/personal-004/research-200-percent.png after the final CSS fix."
+  ],
+  "explanation_accuracy": {
+    "basis": "Read the preserved native-validation.json response records; no model call or replay was performed for this audit.",
+    "initial_owner_explanation": {
+      "status": "INACCURATE_AND_PRESERVED_AS_FAILURE",
+      "finding": "It suggested that the owner could approve a full-article research task in the card, although current research controls analyze only supplied snapshots and cannot fetch or import the article."
+    },
+    "corrected_explanation_after_restart": {
+      "status": "ACCURATE",
+      "finding": "It explicitly states that controls cannot fetch/import the full article, the specialist analyzes only the supplied headline snapshot, claims and assessment were not independently verified, and the next step is manual review/share of a passage."
+    },
+    "new_conversation_explanation": {
+      "status": "ACCURATE_WITH_EXPLICIT_LIMITATION",
+      "finding": "It says the shared source contained only the headline and that the specialist did not verify the report or establish incident details. It does not repeat the control-level no-fetch/import statement, but it does not imply the card can perform that work."
+    },
+    "direct_continuation": {
+      "status": "ACCURATE",
+      "finding": "It limits the assessment to the saved headline, states that incident details and report accuracy remain unknown, and recommends manual review of the original report."
+    }
+  },
+  "parent_post_audit_format_qualification": {
+    "file": "tests/test_personal_collaboration.py",
+    "before": "77a3579561702951d359eca6ad416006d7623e1ca261d98a9c4815c6711877df",
+    "after": "361d5330905c33fa00a18af9438ce65764e0cd465817ae1005f52504011e9617",
+    "verification": "One trailing space removed after audit; Python AST identical. All final hashes reconciled again by parent. Native/source behavior unchanged."
+  }
+}

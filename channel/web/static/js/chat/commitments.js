@@ -23,6 +23,33 @@ function commitmentsText(value) {
     return value == null ? '' : String(value);
 }
 
+function commitmentsPublicReason(value) {
+    if (typeof value !== 'string' || value.length > 240 || /^[\s]*[\[{]/.test(value)
+        || /(?:traceback|stack|exception|\bat\s+\S+\s*\(|(?:^|\s)[A-Za-z]:\\|(?:^|\s)\/(?:[^\s:]+\/)+)/i.test(value)) return '';
+    return value;
+}
+
+function commitmentsResearchStatus(status, operation) {
+    const messages = {
+        pending: operation === 'prepare_research'
+            ? 'Research request prepared. Review the target, question, and exact sources before approving or denying it.'
+            : 'Research is waiting for owner approval. No execution occurred.',
+        approved: 'Research approved. Execution remains a separate action.',
+        denied: 'Research denied. The specialist was not asked to run it.',
+        expired: 'Research request expired. No execution was performed.',
+        executing: 'Research is in progress. No second execution was started.',
+        completed: 'Approved research completed. Verified findings are shown in the commitment and owner conversation.',
+        failed: 'Research failed. No automatic retry was made.',
+        uncertain: 'Research outcome is uncertain. No automatic retry was made.'
+    };
+    return {
+        message: messages[status] || (operation === 'execute_research'
+            ? 'Research status is unknown. Completion was not confirmed.'
+            : 'Research status is unknown. Review the current request.'),
+        error: status === 'failed' || status === 'uncertain'
+    };
+}
+
 function commitmentsDate(value) {
     if (value == null || value === '') return 'Not recorded';
     const date = typeof value === 'number' ? new Date(value * 1000) : new Date(value);
@@ -43,7 +70,8 @@ function commitmentsStatusLabel(value) {
         waiting_approval: 'Waiting for approval', pending_decision: 'Waiting for approval',
         pending: 'Waiting for approval', scheduled: 'Scheduled', paused: 'Paused',
         failed: 'Failed', uncertain: 'Uncertain', blocked: 'Blocked', active: 'Active', unread: 'Unread',
-        approved: 'Approved for review', denied: 'Denied', resolved: 'Resolved', dismissed: 'Dismissed', expired: 'Expired'
+        approved: 'Approved for review', denied: 'Denied', resolved: 'Resolved', dismissed: 'Dismissed', expired: 'Expired',
+        executing: 'In progress', completed: 'Completed'
     };
     return labels[value] || (value ? String(value).replaceAll('_', ' ') : 'Unknown');
 }
@@ -186,6 +214,59 @@ function commitmentsAttentionText(value) {
     return value == null ? '' : JSON.stringify(value);
 }
 
+function commitmentsResearchResult(record) {
+    const result = record && record.result;
+    if (!result || typeof result !== 'object' || Array.isArray(result)) return '';
+    const findings = Array.isArray(result.findings) ? result.findings : [];
+    if (!findings.length) return '<p class="commitments-muted">The specialist completed the review and found no source-backed findings.</p>';
+    return `<h5>Source-backed findings</h5><ul class="commitments-record-list">${findings.map(finding => {
+        if (!finding || typeof finding !== 'object') return '';
+        const sourceId = finding.source_id == null ? '' : String(finding.source_id);
+        const sourceUrl = finding.source_url || '';
+        const publisher = finding.publisher || `Source ${sourceId || 'unavailable'}`;
+        return `<li><strong>${commitmentsEscape(publisher)}</strong>${sourceId ? `<span class="commitments-muted"> · Source ID ${commitmentsEscape(sourceId)}</span>` : ''}<p class="commitments-briefing-text">${commitmentsEscape(finding.excerpt || '')}</p><p class="commitments-muted">Classification: ${commitmentsEscape(finding.classification || 'Not provided')} · Priority: ${commitmentsEscape(finding.priority ?? 'Not provided')}</p>${sourceUrl ? commitmentsLink(sourceUrl, 'Open cited source') : '<p class="commitments-muted">Source link unavailable.</p>'}</li>`;
+    }).join('')}</ul>`;
+}
+
+function commitmentsResearchSources(items) {
+    if (!Array.isArray(items) || !items.length) return '<p class="commitments-muted">No source material is available.</p>';
+    return `<ul class="commitments-record-list">${items.map(source => {
+        if (!source || typeof source !== 'object') return '';
+        const sourceId = source.source_id == null ? '' : String(source.source_id);
+        const title = source.headline || `Source ${sourceId || 'unavailable'}`;
+        const url = source.source_url || '';
+        return `<li><strong>${commitmentsEscape(title)}</strong>${sourceId ? `<span class="commitments-muted"> · Source ID ${commitmentsEscape(sourceId)}</span>` : ''}${source.publisher ? `<p class="commitments-muted">Publisher: ${commitmentsEscape(source.publisher)}</p>` : ''}${url ? `<p>${commitmentsLink(url, 'Open delivered source')}</p>` : ''}${source.description ? `<p class="commitments-briefing-text">${commitmentsEscape(source.description)}</p>` : ''}${source.content ? `<p class="commitments-briefing-text">${commitmentsEscape(source.content)}</p>` : ''}</li>`;
+    }).join('')}</ul>`;
+}
+
+function commitmentsResearchCard(record, canEdit) {
+    const target = record.target && typeof record.target === 'object' ? record.target : {};
+    const targetLabel = target.name || target.agent_id || 'Registered specialist';
+    const sources = Array.isArray(record.sources) ? record.sources : [];
+    const sourceList = commitmentsResearchSources(sources);
+    const recordCanMutate = record.can_mutate !== false;
+    const openOrigin = !recordCanMutate && record.source_session_id
+        ? `<button type="button" data-research-open-session="${commitmentsEscape(record.source_session_id)}" data-agent="${commitmentsEscape(commitmentsOwnerId())}">Open original conversation</button>`
+        : '';
+    const buttons = !recordCanMutate
+        ? `<p class="commitments-muted">This request belongs to another conversation. Review or act on it in the original conversation.</p>${openOrigin}`
+        : record.status === 'pending'
+        ? `<div class="commitments-actions" aria-label="Review specialist request"><button type="button" data-research-decision="approve" data-research-id="${commitmentsEscape(record.research_id || '')}" ${canEdit ? '' : 'disabled'}>Approve request</button><button type="button" data-research-decision="deny" data-research-id="${commitmentsEscape(record.research_id || '')}" ${canEdit ? '' : 'disabled'}>Deny request</button></div><p class="commitments-muted">Approval allows one separate execution. It does not publish or authorize external actions.</p>`
+        : record.status === 'approved'
+            ? `<div class="commitments-actions"><button type="button" data-research-execute="${commitmentsEscape(record.research_id || '')}" ${canEdit ? '' : 'disabled'}>Run approved research once</button></div><p class="commitments-muted">This is a one-shot request. Failed or uncertain work is not retried automatically.</p>`
+            : record.status === 'uncertain' ? '<p class="commitments-error">The execution outcome is uncertain. It was not retried.</p>'
+                : record.status === 'failed' ? '<p class="commitments-error">The research request failed. It was not retried.</p>'
+                    : record.status === 'expired' ? '<p class="commitments-muted">This request expired without further execution.</p>'
+                        : record.status === 'denied' ? '<p class="commitments-muted">Denied. The specialist was not asked to run this request.</p>'
+                            : record.status === 'executing' ? '<p class="commitments-muted">The approved research is in progress. Do not submit it again.</p>'
+                                : '';
+    const outcome = record.status === 'completed' ? commitmentsResearchResult(record) : '';
+    return `<li><div class="commitments-record-heading"><strong>${commitmentsEscape(targetLabel)}</strong><span class="commitments-priority">${commitmentsEscape(commitmentsStatusLabel(record.status))}</span></div>
+      <p><strong>Question</strong><br>${commitmentsEscape(record.question || '')}</p>
+      <p class="commitments-muted">Registered target: ${commitmentsEscape(target.agent_id || 'Unavailable ID')}${target.description ? ` · ${commitmentsEscape(target.description)}` : ''} · Target model: ${commitmentsEscape(target.provider || 'Unspecified provider')} / ${commitmentsEscape(target.model || 'Unspecified model')}${record.expires_at ? ` · Expires ${commitmentsDate(record.expires_at)}` : ''}</p>
+      <details class="commitments-details commitments-research-material" open><summary>Exact sources shared</summary>${sourceList}</details><p class="commitments-muted"><strong>Allowed result:</strong> exact excerpts from these sources, with a relevance classification and priority. No tools or external actions.</p>${outcome}${buttons}</li>`;
+}
+
 function commitmentsAttentionCard(item, canEdit) {
     const payload = item.payload && typeof item.payload === 'object' ? item.payload : {};
     const commitmentId = item.commitment_id || '';
@@ -202,6 +283,8 @@ function commitmentsAttentionCard(item, canEdit) {
           </div>${item.stale ? '<p class="commitments-muted">Earlier scope — superseded by commitment changes. Review the current commitment before approving new work.</p>' : '<p class="commitments-muted">Approval records the decision. It does not publish or perform an external action.</p>'}`
         : !item.dismissed_at && (item.status === 'unread' || item.status === 'pending' || item.status === 'blocked')
             ? `<button type="button" data-commitments-attention="dismiss" data-commitments-id="${commitmentsEscape(commitmentId)}" data-attention-id="${commitmentsEscape(item.attention_id || '')}" ${canEdit ? '' : 'disabled'}>Dismiss notification</button>` : '';
+    const specialistSuggestion = !item.stale && !item.dismissed_at && ['unread', 'pending', 'blocked'].includes(item.status) && payload.action === 'ask_specialist'
+        ? `<button type="button" data-research-suggestion="${commitmentsEscape(item.attention_id || '')}" data-commitments-id="${commitmentsEscape(commitmentId)}">Draft request for owner review</button><p class="commitments-muted">This suggestion only fills a draft. It does not approve or execute research.</p>` : '';
     const decisionOutcome = item.kind !== 'decision' ? ''
         : item.status === 'approved' ? '<p class="commitments-muted">Approved for review. No post was published.</p>'
             : item.status === 'denied' ? '<p class="commitments-muted">Denied. No external action was performed.</p>'
@@ -214,7 +297,7 @@ function commitmentsAttentionCard(item, canEdit) {
       <p class="commitments-muted">${commitmentsEscape(item.kind || 'attention')}${item.created_at ? ` · ${commitmentsDate(item.created_at)}` : ''}${item.expires_at ? ` · Expires ${commitmentsDate(item.expires_at)}` : ''}${runRef ? ` · Run ${commitmentsEscape(runRef)}` : ''}</p>
       ${reason ? `<p><strong>Why it needs attention</strong><br>${commitmentsEscape(reason)}</p>` : ''}
       ${scope ? `<p><strong>Requested scope</strong><br>${commitmentsEscape(scope)}</p>` : ''}
-      ${brief ? `<p class="commitments-briefing-text">${commitmentsEscape(brief)}</p>` : ''}${sources}${decisionOutcome}${executionBlock}${decisionButtons}
+      ${brief ? `<p class="commitments-briefing-text">${commitmentsEscape(brief)}</p>` : ''}${sources}${decisionOutcome}${executionBlock}${decisionButtons}${specialistSuggestion}
     </li>`;
 }
 
@@ -230,6 +313,8 @@ function commitmentsRender(snapshot) {
     const historyRecords = Array.isArray(snapshot.attention_history) ? snapshot.attention_history : attention;
     const attentionHistory = [...new Map(historyRecords.filter(Boolean).map(item => [item.attention_id || `${item.commitment_id}:${item.kind}:${item.created_at}`, item])).values()];
     const approvedEndpoints = commitmentsApprovedEndpointList(snapshot.approved_endpoints);
+    const specialists = Array.isArray(snapshot.specialists) ? snapshot.specialists.filter(item => item && typeof item === 'object' && typeof item.agent_id === 'string' && item.agent_id) : [];
+    const researchRecords = Array.isArray(snapshot.research) ? snapshot.research : [];
     const canEdit = commitmentsCanMutate();
     const visibleAttention = attention.filter(item => item && !item.stale && !item.dismissed_at && ['unread', 'pending', 'blocked'].includes(item.status));
     const dismissedAttention = attentionHistory.filter(item => item && (item.stale || item.dismissed_at || ['approved', 'denied', 'resolved', 'dismissed', 'expired'].includes(item.status)));
@@ -299,6 +384,29 @@ function commitmentsRender(snapshot) {
         const previousPickerArticles = [...pickerById.values()].filter(entry => !latestArticleIds.has(entry.id));
         const sourceOptions = `${latestPickerArticles.length ? `<optgroup label="Latest report">${renderPickerOptions(latestPickerArticles)}</optgroup>` : ''}${previousPickerArticles.length ? `<optgroup label="Previously reported sources">${renderPickerOptions(previousPickerArticles)}</optgroup>` : ''}`;
         const pickerLabel = 'Latest and previously reported sources';
+        const deliveredArticles = [
+            ...(Array.isArray(item.runs) ? item.runs.filter(run => run && run.status === 'delivered').flatMap(run => Array.isArray(run.selected) ? run.selected : []) : []),
+            ...(item.last_status === 'delivered' && Array.isArray(item.last_selected) ? item.last_selected : [])
+        ];
+        const researchSources = new Map();
+        for (const article of deliveredArticles) {
+            const id = commitmentsArticleId(article);
+            const url = article && (article.url || article.link || article.source_url);
+            if (id && commitmentsSafeUrl(url) && !researchSources.has(id)) researchSources.set(id, article);
+        }
+        const researchSourceOptions = [...researchSources.entries()].map(([id, article]) =>
+            `<option value="${commitmentsEscape(id)}">${commitmentsEscape(article.headline || article.title || `Article ${id}`)}${article.publisher ? ` — ${commitmentsEscape(article.publisher)}` : ''}</option>`
+        ).join('');
+        const commitmentResearch = researchRecords.filter(record => record && record.commitment_id === cid);
+        const researchHistory = commitmentResearch.length
+            ? `<ul class="commitments-record-list">${commitmentResearch.map(record => commitmentsResearchCard(record, canEdit)).join('')}</ul>`
+            : '<p class="commitments-muted">No specialist research requests for this commitment.</p>';
+        const specialistOptions = specialists.map(target =>
+            `<option value="${commitmentsEscape(target.agent_id)}">${commitmentsEscape(target.name || target.agent_id)}${target.provider || target.model ? ` — ${commitmentsEscape([target.provider, target.model].filter(Boolean).join(' / '))}` : ''}</option>`
+        ).join('');
+        const researchForm = specialists.length && researchSourceOptions
+            ? `<form id="commitments-research-form-${index}" data-commitments-form="prepare_research" class="commitments-form"><input type="hidden" name="commitment_id" value="${commitmentsEscape(cid)}"><input type="hidden" name="attention_id" value=""><label>Registered specialist<select name="target_agent_id" required>${specialistOptions}</select></label><label>Research question<textarea name="question" rows="3" maxlength="2000" required placeholder="Ask one concrete question about the selected sources"></textarea></label><label>Delivered sources to share<select name="source_ids" multiple size="4" required>${researchSourceOptions}</select></label><p class="commitments-muted">Review the named target, question, and exact source selection before submission. Only verified source excerpts and classifications return. The receiver uses its own registered identity, memory and model, with no tools or external actions. BullGod remains your owner agent and can continue its own analysis at any time.</p><button type="submit" ${canEdit ? '' : 'disabled'}>Prepare request for owner review</button></form>`
+            : '<p class="commitments-muted">No eligible registered specialist or delivered source is available. BullGod can continue its own analysis; your commitment remains active.</p>';
         return `<article class="commitments-record" aria-labelledby="commitment-title-${index}">
           <div class="commitments-record-heading"><h3 id="commitment-title-${index}">${commitmentsEscape(item.objective || 'Commitment')}</h3><span class="commitments-priority">Priority ${commitmentsEscape(item.priority ?? '—')}</span></div>
           <p class="commitments-muted">${commitmentsEscape(commitmentsStatusLabel(item.status))}${item.commitment_id ? ` · ID ${commitmentsEscape(item.commitment_id)}` : ''} · Revision ${commitmentsEscape(item.revision ?? '—')}</p>
@@ -329,6 +437,7 @@ function commitmentsRender(snapshot) {
           <div class="commitments-actions"><button type="button" data-commitments-run="${commitmentsEscape(cid)}" ${canEdit && item.status === 'active' && item.read_authorized ? '' : 'disabled'}>Check now</button></div>
           <details class="commitments-details"><summary>Latest briefing and run history</summary>${lastRun ? `<p class="commitments-muted">Latest run: ${commitmentsEscape(commitmentsStatusLabel(lastRun.status))}${lastRun.error ? ` · ${commitmentsEscape(lastRun.error)}` : ''}</p>` : ''}${commitmentsBriefing(lastRun)}${runList}</details>
           <details class="commitments-details"><summary>Follow-ups and drafts</summary><h4>Follow-ups</h4>${followups}<h4>Saved drafts</h4>${drafts}</details>
+          <details class="commitments-details"><summary>Optional specialist research</summary><p class="commitments-muted">Specialist help is optional. Request, approval and execution are separate owner actions.</p>${researchHistory}${researchForm}</details>
           <details class="commitments-details"><summary>Add a follow-up or save a draft</summary>
             <form data-commitments-form="followup" class="commitments-form"><input type="hidden" name="commitment_id" value="${commitmentsEscape(cid)}"><label>Follow-up request<textarea name="text" rows="2" maxlength="2000" required></textarea></label><label>Article IDs, comma separated (optional)<input name="article_ids" maxlength="2000" placeholder="0, article-id"></label><button type="submit" ${canEdit ? '' : 'disabled'}>Save follow-up</button></form>
             <form data-commitments-form="save_draft" class="commitments-form"><input type="hidden" name="commitment_id" value="${commitmentsEscape(cid)}"><label>Draft text<textarea name="text" rows="4" maxlength="4000" required></textarea></label><label>${commitmentsEscape(pickerLabel)}<select name="source_ids" multiple size="3">${sourceOptions || '<option disabled>No reported sources available</option>'}</select></label><label>Claims, one per line<textarea name="claims" rows="2" maxlength="2000"></textarea></label><p class="commitments-muted">Draft only — publication requires separate approval.</p><button type="submit" ${canEdit && sourceOptions ? '' : 'disabled'}>Save draft only</button></form>
@@ -453,7 +562,14 @@ async function commitmentsSubmit(operation, { commitmentId = '', revision, field
         commitmentsStatus('No persisted owner turn is available for this change.', true);
         return false;
     }
-    const payload = { operation, commitment_id: commitmentId, source_seq: sourceSeq, ...extra };
+    let payload;
+    if (operation === 'prepare_research') {
+        payload = { operation, commitment_id: commitmentId, source_seq: sourceSeq, ...extra };
+    } else if (operation === 'decide_research' || operation === 'execute_research') {
+        payload = { operation, source_seq: sourceSeq, ...extra };
+    } else {
+        payload = { operation, commitment_id: commitmentId, source_seq: sourceSeq, ...extra };
+    }
     if (operation === 'run') payload.request_id = crypto.randomUUID();
     if (revision !== undefined) payload.revision = revision;
     if (fields !== undefined) payload.fields = fields;
@@ -468,21 +584,34 @@ async function commitmentsSubmit(operation, { commitmentId = '', revision, field
         const data = await response.json();
         if (!response.ok || data.status !== 'success') throw new Error(data.message || data.error || `Request failed (${response.status})`);
         if (generation !== _commitmentsGeneration || currentSession !== sessionId || currentAgent !== commitmentsOwnerId()) return false;
-        const statusText = operation === 'run' ? 'Check started. Refresh to see its current status.'
-            : operation === 'decide_attention' ? 'Decision saved. No external action was performed.'
-                : operation === 'propose_publication' ? 'Publication request saved for review. Nothing was published.'
-                    : 'Owner commitment change saved.';
-        commitmentsStatus(statusText);
+        _commitmentsBusy = false;
+        commitmentsBusy(false);
+        commitmentsRender(data);
+        const researchOperation = data.research_operation && typeof data.research_operation === 'object' ? data.research_operation : null;
+        const researchStatus = researchOperation && typeof researchOperation.status === 'string' ? researchOperation.status : '';
+        const researchResult = operation === 'prepare_research' || operation === 'decide_research' || operation === 'execute_research'
+            ? researchStatus === 'unavailable'
+                ? { message: `Specialist research is unavailable: ${commitmentsPublicReason(researchOperation.reason) || 'No eligible registered specialist is available.'} BullGod can continue its own analysis; the commitment remains active.`, error: false }
+                : commitmentsResearchStatus(researchStatus, operation)
+            : null;
+        const statusText = researchResult ? researchResult.message
+            : operation === 'run' ? 'Check started. Refresh to see its current status.'
+                : operation === 'decide_attention' ? 'Decision saved. No external action was performed.'
+                    : operation === 'propose_publication' ? 'Publication request saved for review. Nothing was published.'
+                        : 'Owner commitment change saved.';
+        commitmentsStatus(statusText, !!(researchResult && researchResult.error));
+        if (operation === 'execute_research' && typeof reloadHistoryView === 'function'
+            && generation === _commitmentsGeneration && currentSession === sessionId && currentAgent === commitmentsOwnerId()) reloadHistoryView();
         return true;
     } catch (error) {
         if (generation !== _commitmentsGeneration || currentSession !== sessionId || currentAgent !== commitmentsOwnerId()) return false;
-        commitmentsStatus(error.message || 'Could not save the owner change.', true);
+        const isResearch = operation === 'prepare_research' || operation === 'decide_research' || operation === 'execute_research';
+        commitmentsStatus(isResearch ? (commitmentsPublicReason(error.message) || 'Could not complete the specialist research action. No automatic retry was made.')
+            : (error.message || 'Could not save the owner change.'), true);
         return false;
     } finally {
         _commitmentsBusy = false;
-        const current = generation === _commitmentsGeneration && currentSession === sessionId && currentAgent === commitmentsOwnerId();
         commitmentsBusy(false);
-        if (current && _commitmentsPersistedTurn && commitmentsOwnerAuthReady()) refreshCommitments();
     }
 }
 
@@ -502,6 +631,15 @@ function commitmentsHandleSubmit(event) {
     } else if (action === 'save_draft') {
         const sourceIds = [...form.querySelector('[name="source_ids"]')?.selectedOptions || []].map(option => option.value).filter(value => value !== '');
         commitmentsSubmit('save_draft', { commitmentId: values.commitment_id, extra: { text: values.text, source_ids: sourceIds, claims: commitmentsLineList(values.claims) } });
+    } else if (action === 'prepare_research') {
+        const sourceIds = [...form.querySelector('[name="source_ids"]')?.selectedOptions || []].map(option => option.value).filter(value => value !== '');
+        if (!sourceIds.length || !values.target_agent_id || !String(values.question || '').trim()) {
+            commitmentsStatus('Choose a registered target, at least one delivered source, and a question.', true);
+            return;
+        }
+        const extra = { target_agent_id: values.target_agent_id, source_ids: sourceIds, question: String(values.question).trim() };
+        if (values.attention_id) extra.attention_id = values.attention_id;
+        commitmentsSubmit('prepare_research', { commitmentId: values.commitment_id, extra });
     }
 }
 
@@ -524,6 +662,38 @@ function commitmentsHandleClick(event) {
             commitmentId: button.dataset.commitmentsId,
             extra: { attention_id: button.dataset.attentionId, decision: button.dataset.commitmentsAttention }
         });
+        return;
+    }
+    if (button.dataset.researchDecision) {
+        commitmentsSubmit('decide_research', { extra: { research_id: button.dataset.researchId, decision: button.dataset.researchDecision } });
+        return;
+    }
+    if (button.dataset.researchSuggestion) {
+        const attention = (_commitmentsSnapshot && Array.isArray(_commitmentsSnapshot.attention) ? _commitmentsSnapshot.attention : [])
+            .find(item => item && item.attention_id === button.dataset.researchSuggestion && item.commitment_id === button.dataset.commitmentsId);
+        const form = [...document.querySelectorAll('form[data-commitments-form="prepare_research"]')]
+            .find(entry => entry.querySelector('[name="commitment_id"]')?.value === button.dataset.commitmentsId);
+        if (!attention || !form) {
+            commitmentsStatus('Open the commitment research form to review this suggestion.', true);
+            return;
+        }
+        const payload = attention.payload && typeof attention.payload === 'object' ? attention.payload : {};
+        form.querySelector('[name="question"]').value = typeof payload.reason === 'string' ? payload.reason.slice(0, 2000) : '';
+        form.querySelector('[name="attention_id"]').value = attention.attention_id;
+        const selected = new Set(Array.isArray(payload.source_ids) ? payload.source_ids.map(String) : []);
+        [...form.querySelector('[name="source_ids"]').options].forEach(option => { option.selected = selected.has(option.value); });
+        const details = form.closest('details');
+        if (details) details.open = true;
+        form.querySelector('[name="question"]').focus();
+        commitmentsStatus('Suggestion copied into a draft. Choose the registered target and review all fields before submitting.');
+        return;
+    }
+    if (button.dataset.researchExecute) {
+        commitmentsSubmit('execute_research', { extra: { research_id: button.dataset.researchExecute } });
+        return;
+    }
+    if (button.dataset.researchOpenSession && typeof switchSession === 'function') {
+        switchSession(button.dataset.researchOpenSession, button.dataset.agent || commitmentsOwnerId());
         return;
     }
     if (button.dataset.commitmentsPropose) {

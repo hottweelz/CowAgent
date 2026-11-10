@@ -1,5 +1,36 @@
 # CowAgent project facts
 
+- PERSONAL-001/002/003 PRs #9/#10/#11 were merged normally in dependency order
+  on 2026-11-10. Master ab13b789 has the exact reviewed PR #11 tree. Original
+  branches and evidence remain. Hosted checks were absent, not passing; no
+  required status/review rules or unresolved review threads applied.
+- PERSONAL-004 adds optional owner-reviewed registered specialist research to
+  existing commitments. BullGod remains the personal agent. The concrete target,
+  exact delivered source snapshots, question and output scope need separate
+  approval and execution; read grants and generic suggestions do not authorize it.
+  Native AgentBridge supplies the specialist's own persona/memory/model and fresh
+  target session. This action has no tools or fetch/import capability. It exports
+  only exact source excerpts and fixed relevance/priority values, not private
+  context or arbitrary prose. Provenance verification is not truth verification.
+- Research claims are durable and single use. Repeated/concurrent execution
+  returns existing state; failed/uncertain work never replays automatically.
+  Restart exposes abandoned claims as uncertain under the native single-process
+  contract. Agent-scoped history survives owner-chat changes, with mutation only
+  from the original conversation. Metadata checks precede native initialization
+  and reject overlapping roots, escaped private context and hard-linked files.
+  Same-user concurrent filesystem replacement is outside this metadata boundary.
+- New unpinned isolated developer instances select the newest numeric model
+  version in the supported catalog within the selected family: Luna is default.
+  GPT-6 Luna is acceptable; Terra/Sol use 6.1 in the current catalog. Explicit
+  profile/model pins remain explicit. GPT-5.6 is a manually selected last-resort
+  fallback only; generated development configs disable automatic fallback.
+  Catalog selection does not claim discovery of newer upstream-only model IDs.
+- Owner explanations must describe implemented controls. Research cannot fetch
+  full articles, and a proposed future task is not an existing saved proposal.
+  The real headline-only acceptance exposed this error; explicit capability
+  guidance and same/new-chat native checks corrected it. Status badges need an
+  explicit contrasting foreground when reused in dark mode.
+
 - PERSONAL-003 extends native commitments with explicit semantic initiative,
   standing-read expiry/frequency limits and durable attention. Registered agent
   identity labels grants; the native default DB namespace remains unchanged.
