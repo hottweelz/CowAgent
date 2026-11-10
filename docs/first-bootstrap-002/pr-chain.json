@@ -1,0 +1,45 @@
+{
+  "observed_at_utc": "2026-11-10 00:20:02 UTC",
+  "pull_requests": [
+    {
+      "number": 4,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "base": "master",
+      "base_sha": "f659349785acf98905901a5cc53921436a109dbc",
+      "head": "codex/bullgod-discovery-002",
+      "head_sha": "a507a400985512683c870ef4fe059fa5982ad13e"
+    },
+    {
+      "number": 5,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "base": "codex/bullgod-discovery-002",
+      "base_sha": "a507a400985512683c870ef4fe059fa5982ad13e",
+      "head": "codex/bullgod-service-drain",
+      "head_sha": "8d182026be2380fc574eeecd13edcffa5ed1dcb1"
+    },
+    {
+      "number": 6,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "base": "codex/bullgod-service-drain",
+      "base_sha": "8d182026be2380fc574eeecd13edcffa5ed1dcb1",
+      "head": "codex/first-bootstrap-001",
+      "head_sha": "fcbc0d25cbf86d9ff94d4dd9f7fd067a6b2d183b"
+    },
+    {
+      "number": 7,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "base": "codex/first-bootstrap-001",
+      "base_sha": "fcbc0d25cbf86d9ff94d4dd9f7fd067a6b2d183b",
+      "head": "codex/first-bootstrap-002",
+      "head_sha": "2394bb3201b26b49ccd30131fd46d902bf0f837c"
+    }
+  ]
+}

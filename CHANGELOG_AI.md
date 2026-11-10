@@ -1,5 +1,80 @@
 # AI handoff ledger
 
+## 2026-11-09 19:30 EST — Codex — FIRST-BOOTSTRAP-002 qualification, Class C
+
+- Result: **CLASS C — NO-GO**. Candidate plugin coverage and private operator
+  drain are implemented and independently reviewed. Legacy ingress/producer
+  limits and actual private recovery remain unqualified. Corrected-source hosted
+  Python validation is incomplete. No live service, source, network, APFS,
+  authority, activation or merge action occurred.
+- Team: Luna/high for inventory, ingress/recovery and regression evidence; Terra
+  6.1/high for plugin/process integration; Sol 6.1/high for authority/durability
+  control and one independent review. Specialist work involved cross-component
+  lifetimes, replay and data integrity. Lead owns integration, validation,
+  decision, handoff and Git publication.
+- Changes: executable f59a6e91 adds known plugin source/class/handler coverage,
+  child accounting and sticky unknown/external blockers; launch-only private
+  PID/epoch-bound one-shot control; durable sanitized claims/receipts. Commit
+  2394bb32 changes only the audio test spy after a demonstrated finalizer race.
+- Files: runtime/tests in the preceding candidate entry; tests/test_audio_convert.py;
+  docs/first-bootstrap-002 reports, receipts and standalone fictional fixtures;
+  project MEMORY.md and this ledger. Dependencies/workflows/live checkout unchanged.
+- Local checks: guarded scripts/ci_test.py tests/ -q on f59 completed once in
+  234.90 seconds: 6,181 passed, 36 skipped, 93 passing subtests, no failures/errors.
+  Named IDs: +58/-1, net +57; old observer case replaced by two variants. Skips
+  unchanged. Six focused audio tests pass after 2394. Fixture AST, JSON, links,
+  F-class Ruff and diff checks pass. Runtime source remains identical to f59.
+- Hosted: f59 run 42725122390 passed four jobs; Linux 3.11 failed only the close
+  spy, then corrected in 2394. All platforms had 6,217 matching named IDs,
+  unchanged skip identities and 93 subtests. Corrected run 42726508145 passed
+  JavaScript (39 web + five desktop), strict TypeScript/build and Ruff. Three
+  Python jobs were cancelled without retrievable JUnit or established cause.
+  One targeted retry stayed queued with zero jobs/no second attempt for ten
+  minutes. Manual dispatch returned HTTP 422 claiming Actions disabled, while
+  read-only APIs say enabled, workflow active, repo not disabled or archived.
+  Cause remains unresolved. No settings changed; no corrected Python pass claimed.
+- Process: real f59 service with seven enabled plugins and shipped CLI reports a
+  held Keyword callback, rejects new HTTP 503, retains health 200, then drains
+  with nine components after completion. Unknown handler denies. Supplemental
+  seven real neutral voice callbacks enter under lease and reject after close.
+  All owned processes exit 0. Candidate/restored-master four-DB digests match;
+  unknown sentinel survives. These are fictional configurations and safe stand-ins.
+- Recovery: six native-schema fixture tests cover actual merge/idempotence,
+  isolated restore, missing/corrupt entries, modes/symlinks, and explicit later
+  file/row reconciliation. Actual inventory covers three selected roots. No
+  actual private backup/restore or model/provider/adapter execution occurred.
+- Review: one independent review cleared three source findings (missing plugin
+  registration, wrapped replacement methods, premature hardlink publication),
+  the audio correction and final evidence/narratives. No open findings; final
+  hosted review confirms BLOCKED/INCOMPLETE rather than a green matrix.
+- Preservation: original PID 28093/start 1794162129.482237 remains healthy on
+  9899. Primary HEAD a507a400/tracked clean; seven original files, five recovery
+  artifacts and two recovery refs match. Disposable 19888–19890 free. pCloud
+  six Backup roots have no overlap, zero Sync pairs. fsck exit 0, 44 dangling/
+  unreachable lines, no errors; no prune/GC. Untracked AGENTS.md retained.
+- Decisions: operator trust is OS-account provenance, not human presence. Old PID
+  has no new control. Gateway bypass, unknown legacy effects and private recovery
+  prevent Class B. Metadata membership is not a backup qualification. Policy
+  specifies scoped OS-fence tests, private copy/reconcile, startup effects and aborts.
+- Lessons Learned:
+  - Mistake: the audio test counted finalizer-driven closes as function behavior.
+  - Root Cause: an instance spy retained its reader/bound method in a cycle;
+    garbage collection invoked Wave_read.__del__ through the patched method.
+  - Future Trigger: a lifecycle test spies on an object with a finalizer.
+  - Required Behavior Change: retain the real object through assertions and
+    inspect resource state; keep finalization outside the function call counter.
+  - Verification Step: deterministic gc.collect reproduction and six focused
+    proxy/state tests. Hosted completion remains blocked, not silently waived.
+  - Durable Memory Update: project MEMORY records qualified plugin boundaries
+    and private operator publication/timeout contracts; no global memory change.
+- Next: resolve contradictory GitHub dispatch/permissions state without blindly
+  toggling settings, then finish the exact 2394 Python matrix. Separately qualify
+  the scoped OS fence and approved actual private recovery before accepting a
+  bounded legacy interruption. Reuse valid process evidence; no broad re-audit.
+- Notes: draft PR #7 targets PR #6 branch codex/first-bootstrap-001 at fcbc0d25.
+  PRs #4–7 remain open/draft/unmerged. Publication branch is codex/first-bootstrap-002;
+  final push/fetch 0/0 is checked after this entry. Preserve no-prune recovery policy.
+
 
 ## 2026-11-09 18:59 EST — Codex — FIRST-BOOTSTRAP-002 executable candidate
 

@@ -1,0 +1,67 @@
+{
+  "schema": "cowagent.first-bootstrap-002.local-regression.v1",
+  "captured_at_utc": "2026-11-10T00:05:41Z",
+  "source": {
+    "commit": "f59a6e91152900d709cad1775b2756cf25b316c0",
+    "tree": "988926c42ab9638f129b6b0ea1970c99db0d447a",
+    "branch": "codex/first-bootstrap-002"
+  },
+  "command": "TIKTOKEN_CACHE_DIR=/private/tmp/cow-infra-tiktoken-cache '/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python' scripts/ci_test.py tests/ -q --junitxml=<private>/full.xml",
+  "execution": {
+    "exit_code": 0,
+    "duration_seconds": 234.9,
+    "python": "primary checkout .venv Python 3.13",
+    "runner": "scripts/ci_test.py guarded directory-mode regression",
+    "warnings": 38
+  },
+  "result": {
+    "passed": 6181,
+    "skipped": 36,
+    "failures": 0,
+    "errors": 0,
+    "passing_subtests": 93,
+    "pytest_reported_testcases": 6310,
+    "named_test_ids": 6217
+  },
+  "junit": {
+    "private_path": "/private/tmp/first-bootstrap-002-full.IxFUG7/full.xml",
+    "sha256": "1f1011e8236f5dfab8c444e163b65bd76d6aca60cd58699c1d03289abc099eee",
+    "stdout_log_private_path": "/private/tmp/first-bootstrap-002-full.IxFUG7/full.log",
+    "stdout_log_sha256": "b22a3142fd9055bb4861af57db6de05d463853f9c89fd3307bcaf1f7ded8d4a1",
+    "failure_ids": []
+  },
+  "baseline_comparison": {
+    "source_commit": "005c1e4805c75017467b817baa2a8bbbe3f7511d",
+    "source_receipt": "docs/bullgod-discovery-002/service-drain-local.json",
+    "source_junit_private_path": "/private/tmp/cowagent-full-regression.JTCdRk/full.xml",
+    "source_junit_sha256": "8e628dbd9de39319f01ec91b7f8f4b8aa53d6e1dffaee6ea6a608c1e7bede105",
+    "source_named_test_ids": 6160,
+    "source_passed": 6124,
+    "source_skipped": 36,
+    "source_passing_subtests": 93,
+    "new_named_test_ids": 58,
+    "removed_named_test_ids": 1,
+    "net_named_test_ids": 57,
+    "added_ids_sha256": "0b282f309522c81bd984cbd02e37b8b9e676984e214bdbe6fc760d2fde3d84de",
+    "added_by_test_module": {
+      "tests.test_bootstrap_recovery_manifest": 6,
+      "tests.test_discovery_startup_observer": 4,
+      "tests.test_maintenance_control": 36,
+      "tests.test_plugin_lifecycle_bootstrap": 12
+    },
+    "removed_ids": [
+      "tests.test_discovery_startup_observer::test_source_startup_runs_observer_after_owner_before_channels"
+    ],
+    "removed_id_explanation": "The former non-parameterized startup-observer case is now represented by two explicit [False] and [True] cases; both are among the added IDs.",
+    "common_case_status_changes": 0,
+    "skip_identities_unchanged": true,
+    "all_named_ids_sha256": "7534222ab302baf0519bb3951ac61c3736bccd85fc0a1d3f5f871ec2bda99458",
+    "skip_ids_sha256": "75ffbdae6a0f4e9dc5a0a27f24a43078ce07eaa9b77c125d5c742aded1d90eb8"
+  },
+  "scope_limits": [
+    "No source or test files were edited.",
+    "No service, model, provider, adapter, live data, or credential action was performed.",
+    "Full stdout and JUnit remain in the private temporary directory; this repository receipt contains no raw failure payload."
+  ],
+  "validation": "Run completed once on the frozen exact HEAD. No rerun was needed."
+}

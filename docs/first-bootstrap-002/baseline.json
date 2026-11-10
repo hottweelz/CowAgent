@@ -1,0 +1,46 @@
+{
+  "captured_at": "2026-11-09T23:40:48.759748+00:00",
+  "pid": 28093,
+  "start_epoch": 1794162129.482237,
+  "uid_matches_operator": true,
+  "cwd": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent",
+  "executable": "/Library/Frameworks/Python.framework/Versions/3.13/Resources/Python.app/Contents/MacOS/Python",
+  "selected_environment_matches": {
+    "COW_DATA_DIR": true,
+    "VIRTUAL_ENV": true,
+    "__PYVENV_LAUNCHER__": true
+  },
+  "loaded_source": "unattested",
+  "children_count": 0,
+  "listeners": [
+    {
+      "host": "127.0.0.1",
+      "port": 9899
+    }
+  ],
+  "health": {
+    "http": 200,
+    "status": "ok"
+  },
+  "preservation": {
+    "original_untracked_hashes": 7,
+    "recovery_artifacts": 5,
+    "recovery_manifest_matches": true,
+    "primary_head": "a507a400985512683c870ef4fe059fa5982ad13e"
+  },
+  "refs": {
+    "master": "f659349785acf98905901a5cc53921436a109dbc",
+    "origin/master": "f659349785acf98905901a5cc53921436a109dbc",
+    "origin/codex/bullgod-discovery-002": "a507a400985512683c870ef4fe059fa5982ad13e",
+    "origin/codex/bullgod-service-drain": "8d182026be2380fc574eeecd13edcffa5ed1dcb1",
+    "origin/codex/first-bootstrap-001": "fcbc0d25cbf86d9ff94d4dd9f7fd067a6b2d183b",
+    "codex/routing-closeout-ref-recovery": "1e5e15bd175d1f020e30768b792497d1f1d051be",
+    "codex/routing-closeout-verified": "2b6df30a66f79b37577112517add8e56c7b22288"
+  },
+  "git_fsck": {
+    "exit_code": 0,
+    "dangling_or_unreachable_lines": 44,
+    "other_lines": [],
+    "prune_gc": false
+  }
+}

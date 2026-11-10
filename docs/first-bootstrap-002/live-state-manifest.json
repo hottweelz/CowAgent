@@ -1,0 +1,2936 @@
+{
+  "schema": "cow.first-bootstrap.live-state-manifest/1",
+  "captured_date": "2026-11-09",
+  "scope": "Read-only file metadata, selected path settings, identity IDs, plugin IDs/enabled flags, SQLite schema, aggregate counts, and open-handle metadata",
+  "private_payload_values_inspected_or_emitted": false,
+  "config_parse_note": "The JSON configuration was parsed in-process to extract only agent_workspace and appdata_dir. No other configuration values were inspected, emitted, or hashed.",
+  "backup_created": false,
+  "roots": {
+    "primary_data": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData",
+    "workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace",
+    "source_mode_plugin_state": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/plugins"
+  },
+  "sqlite": {
+    "backup_api": "SQLite online backup is qualified only in fictional fixtures; it was not run against private live databases.",
+    "cross_database_consistency": "Requires one application-level closed interval across all four databases and related files; independent online backups do not provide a cross-database transaction.",
+    "databases": [
+      {
+        "path": "memory/long-term/index.db",
+        "role": "shared default conversation and shared memory index",
+        "bytes": 188416,
+        "journal_mode": "wal",
+        "schema_version": 64,
+        "user_version": 0,
+        "wal_bytes": 267832,
+        "shm_bytes": 32768,
+        "schema_tables": [
+          "_meta",
+          "_migration_meta",
+          "artifacts",
+          "chunks",
+          "files",
+          "messages",
+          "runs",
+          "sessions",
+          "sqlite_sequence",
+          "chunks_fts virtual tables"
+        ],
+        "aggregate_counts": {
+          "sessions": 13,
+          "messages": 39,
+          "runs": 18,
+          "runs_by_status": {
+            "done": 11,
+            "failed": 7
+          },
+          "files": 1,
+          "chunks": 1
+        },
+        "migration_marker_keys": [
+          "merged_agent:testpilot"
+        ],
+        "marker_merged_agent_testpilot2": false
+      },
+      {
+        "path": "agents/testpilot/memory/long-term/index.db",
+        "role": "testpilot per-agent memory index",
+        "bytes": 114688,
+        "journal_mode": "wal",
+        "schema_version": 141,
+        "user_version": 0,
+        "wal_bytes": 346112,
+        "shm_bytes": 32768,
+        "schema_tables": [
+          "_meta",
+          "chunks",
+          "files",
+          "chunks_fts virtual tables"
+        ],
+        "aggregate_counts": {
+          "files": 1,
+          "chunks": 1
+        }
+      },
+      {
+        "path": "agents/testpilot2/memory/long-term/index.db",
+        "role": "testpilot2 per-agent memory index",
+        "bytes": 4096,
+        "journal_mode": "wal",
+        "schema_version": 57,
+        "user_version": 0,
+        "wal_bytes": 519152,
+        "shm_bytes": 32768,
+        "schema_tables": [
+          "_meta",
+          "chunks",
+          "files",
+          "chunks_fts virtual tables"
+        ],
+        "aggregate_counts": {
+          "files": 1,
+          "chunks": 1
+        }
+      },
+      {
+        "path": "memory/recovery/tasks.db",
+        "role": "recovery, attempts, effects, and verification history",
+        "bytes": 73728,
+        "journal_mode": "wal",
+        "schema_version": 7,
+        "user_version": 0,
+        "wal_bytes": 0,
+        "shm_bytes": 32768,
+        "schema_tables": [
+          "recovery_attempts",
+          "recovery_effects",
+          "recovery_tasks",
+          "recovery_verifications"
+        ],
+        "aggregate_counts": {
+          "tasks": 2,
+          "tasks_by_state": {
+            "completed": 2
+          },
+          "attempts": 2,
+          "attempts_by_state": {
+            "completed": 2
+          },
+          "effects": 0,
+          "verifications": 2,
+          "completed_without_current_verification": 0
+        }
+      }
+    ],
+    "open_handle_observations": [
+      {
+        "observed": "2026-11-09 during read-only inventory",
+        "result": "lsof showed PID 28093 open handles for the global conversation/memory database and testpilot2 memory database, including WAL/SHM files."
+      },
+      {
+        "observed": "later in the same read-only inventory",
+        "result": "lsof on the workspace tree showed no database handles. PID 28093 still existed with the previously recorded start time."
+      }
+    ],
+    "interpretation": "Membership changed between observations. This does not establish that all connections are closed or that the service is idle."
+  },
+  "filesystem": [
+    {
+      "root": "primary_data",
+      "observed_entries": [
+        "config.json",
+        "user_datas.pkl",
+        "workspace/",
+        "sqlite-sync-repro-porl4k_2/"
+      ],
+      "metadata": "Paths, entry types, modes, sizes, ownership IDs, and timestamps were inspected. No file contents or hashes were read.",
+      "backup_method": "Include only identified application-owned paths in a closed-interval filesystem snapshot. Preserve POSIX modes and symlinks. Do not include run.log or OS metadata unless separately justified."
+    },
+    {
+      "root": "workspace",
+      "observed_entries": [
+        "AGENT.md",
+        "BOOTSTRAP.md",
+        "MEMORY.md",
+        "RULE.md",
+        "USER.md",
+        "agents/team.json",
+        "agents/{testpilot,testpilot2}/",
+        "knowledge/",
+        "memory/",
+        "scheduler/",
+        "session_prefs.json",
+        "skills/",
+        "system/",
+        "tmp/",
+        "websites/"
+      ],
+      "metadata": "Names, types, modes, sizes, and timestamps only. File contents were not read.",
+      "backup_method": "Include application-owned profile, identity, workspace, memory, scheduler, knowledge, skills/assets, and settings files in the same closed interval as the four database snapshots. Preserve symlinks, modes, and later user data during recovery."
+    },
+    {
+      "root": "source_mode_plugin_state",
+      "observed_entries": [
+        "plugins.json",
+        "cow_cli/",
+        "godcmd/",
+        "keyword/",
+        "banwords/",
+        "linkai/",
+        "role/",
+        "finish/",
+        "tool/",
+        "hello/",
+        "dungeon/"
+      ],
+      "mutable_path_classes": [
+        "plugins.json",
+        "plugin-local config.json files",
+        "plugin-local data files"
+      ],
+      "metadata": "Membership, entry types, modes, sizes, and timestamps only. Configuration values and credential-bearing files were not read or hashed.",
+      "backup_method": "Capture the exact active CWD plugin state with the application-owned source/runtime state in the same closed interval. Do not assume the COW_DATA_DIR copy contains it."
+    }
+  ],
+  "identity_and_profiles": {
+    "registered_identity_count": 3,
+    "identity_ids": [
+      "default",
+      "testpilot",
+      "testpilot2"
+    ],
+    "authority": "workspace/agents/team.json plus each identity's workspace subtree",
+    "contents_read": false,
+    "backup_method": "Closed-interval filesystem snapshot with mode and symlink preservation."
+  },
+  "configuration_and_launch": {
+    "runtime_configuration": "config.json exists in primary_data; values not read. Backup method: protected application configuration copy in the closed interval; credential-specific approval and handling are required before copying private bytes.",
+    "user_data": "user_datas.pkl exists in primary_data; contents not read. Include only after explicit private-data copy approval.",
+    "scheduler": "workspace/scheduler and per-agent scheduler directories exist; entry contents not read. Runtime queue/state semantics remain unknown.",
+    "profiles_and_assets": "workspace profiles, Markdown files, knowledge, skills, system assets, and websites are present by path metadata; content-derived dependencies remain unknown.",
+    "environment_and_dependencies": "Current complete inherited environment, launch executable resolution, and dependency inventory were not read in this phase. Use fresh parent-owned live metadata; do not infer from prior receipts."
+  },
+  "recovery_boundary": {
+    "private_data_snapshot": "Not performed; this task authorizes only design qualification.",
+    "actual_restore": "Not performed or tested against live private data.",
+    "source_rollback": "Returns code to a tested checkout only; it does not roll back database or file writes.",
+    "data_restore": "Restore only to an isolated target after matching the closed-interval manifest. Before any replacement, reconcile post-snapshot user data and interrupted effects. Never overwrite newer legitimate state automatically.",
+    "external_effects": "Recovery history is evidence to inspect, not a replay queue. No prior external effect may be replayed by this fixture or restore procedure.",
+    "approval_scope_for_private_copy": "Requires separate explicit approval naming the source roots, private data classes, destination, access boundary, retention/deletion rule, operator, and restore rehearsal."
+  },
+  "unknowns": [
+    "Whether all current directories and files are represented by the observed path inventory.",
+    "Whether pending external or durable work exists outside the aggregate rows inspected.",
+    "Whether startup or shutdown changes these paths during a transition.",
+    "Whether the four live databases and files can be captured as one atomic snapshot while preserving later writes.",
+    "Whether candidate migrations and fallback behavior are safe for actual private live data."
+  ],
+  "path_resolution": {
+    "selected_config_file": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData/config.json",
+    "selected_saved_path_keys": {
+      "agent_workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace",
+      "appdata_dir": null
+    },
+    "saved_appdata_dir_resolution": "appdata_dir is absent; config.py default is empty string. get_appdata_dir() resolves to get_data_root(); COW_DATA_DIR process binding is owned and freshly checked by parent.",
+    "profiles_file": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/team.json",
+    "profiles_source_values": [
+      {
+        "id": "default",
+        "workspace_explicit": null
+      },
+      {
+        "id": "testpilot",
+        "workspace_explicit": null
+      },
+      {
+        "id": "testpilot2",
+        "workspace_explicit": null
+      }
+    ],
+    "effective_profiles": [
+      {
+        "id": "default",
+        "explicit_workspace_present": false,
+        "effective_workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace",
+        "workspace_exists": true
+      },
+      {
+        "id": "testpilot",
+        "explicit_workspace_present": false,
+        "effective_workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot",
+        "workspace_exists": true
+      },
+      {
+        "id": "testpilot2",
+        "explicit_workspace_present": false,
+        "effective_workspace": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2",
+        "workspace_exists": true
+      }
+    ],
+    "plugin_activation_metadata": {
+      "configured_names": [
+        "Banwords",
+        "Dungeon",
+        "Finish",
+        "Godcmd",
+        "Hello",
+        "Keyword",
+        "Role",
+        "cow_cli",
+        "linkai"
+      ],
+      "enabled_names": [
+        "Banwords",
+        "Finish",
+        "Godcmd",
+        "Keyword",
+        "Role",
+        "cow_cli",
+        "linkai"
+      ]
+    },
+    "named_runtime_path_status": {
+      "appdata_config": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData/config.json",
+        "exists": true,
+        "kind": "file",
+        "mode": "0644",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 2195
+      },
+      "primary_data_workspace_copy": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData/workspace",
+        "exists": true,
+        "kind": "directory",
+        "mode": "0755",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 480
+      },
+      "scheduler_tasks_primary": {
+        "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/scheduler/tasks.json",
+        "exists": false
+      },
+      "scheduler_tasks_backup": {
+        "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/scheduler/tasks.json.bak",
+        "exists": false
+      },
+      "scheduler_recipients": {
+        "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/scheduler/recipients.json",
+        "exists": false
+      },
+      "scheduler_legacy_default": {
+        "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/scheduler/tasks.json",
+        "exists": false
+      },
+      "scheduler_legacy_testpilot": {
+        "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/scheduler/tasks.json",
+        "exists": false
+      },
+      "scheduler_legacy_testpilot2": {
+        "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/scheduler/tasks.json",
+        "exists": false
+      },
+      "temp_download_dir": {
+        "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/tmp",
+        "exists": true,
+        "kind": "directory",
+        "mode": "0755",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 64
+      },
+      "shared_skills": {
+        "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/skills",
+        "exists": true,
+        "kind": "directory",
+        "mode": "0755",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 192
+      },
+      "testpilot_private_skills": {
+        "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot/skills",
+        "exists": false
+      },
+      "testpilot2_private_skills": {
+        "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/agents/testpilot2/skills",
+        "exists": false
+      },
+      "plugin_role_roles": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/plugins/role/roles.json",
+        "exists": true,
+        "kind": "file",
+        "mode": "0644",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 37411
+      },
+      "plugin_role_custom_dir": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/plugins/role/roles",
+        "exists": false
+      },
+      "plugin_banwords_list": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/plugins/banwords/banwords.txt",
+        "exists": false
+      },
+      "plugin_banwords_config": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/plugins/banwords/config.json",
+        "exists": true,
+        "kind": "file",
+        "mode": "0644",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 26
+      },
+      "plugin_godcmd_config": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/plugins/godcmd/config.json",
+        "exists": false
+      },
+      "plugin_godcmd_template": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/plugins/godcmd/config.json.template",
+        "exists": true,
+        "kind": "file",
+        "mode": "0644",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 42
+      },
+      "plugin_linkai_config": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/plugins/linkai/config.json",
+        "exists": false
+      },
+      "plugin_keyword_config": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/plugins/keyword/config.json",
+        "exists": true,
+        "kind": "file",
+        "mode": "0644",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 21
+      },
+      "plugin_manager_config": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/plugins/plugins.json",
+        "exists": true,
+        "kind": "file",
+        "mode": "0644",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 817
+      },
+      "workspace_dotenv": {
+        "path": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace/.env",
+        "exists": false
+      },
+      "data_dotenv": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData/.env",
+        "exists": false
+      },
+      "source_dotenv": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.env",
+        "exists": false
+      }
+    },
+    "startup_helper_file_metadata": [
+      {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.env",
+        "exists": false
+      },
+      {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.env.local",
+        "exists": false
+      },
+      {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/requirements.txt",
+        "exists": true,
+        "kind": "file",
+        "mode": "0644",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 1357
+      },
+      {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/requirements-optional.txt",
+        "exists": true,
+        "kind": "file",
+        "mode": "0644",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 662
+      },
+      {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/pyproject.toml",
+        "exists": true,
+        "kind": "file",
+        "mode": "0644",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 1785
+      },
+      {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/config-template.json",
+        "exists": true,
+        "kind": "file",
+        "mode": "0644",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 1488
+      },
+      {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/app.py",
+        "exists": true,
+        "kind": "file",
+        "mode": "0644",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 36977
+      },
+      {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+        "exists": true,
+        "kind": "symlink",
+        "mode": "0755",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 10,
+        "target": "python3.13"
+      },
+      {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/scripts/ci_test.py",
+        "exists": true,
+        "kind": "file",
+        "mode": "0644",
+        "uid": 501,
+        "gid": 20,
+        "bytes": 3227
+      }
+    ],
+    "current_service_environment_values_read": false,
+    "selected_saved_path_keys_present": {
+      "agent_workspace": true,
+      "appdata_dir": true
+    },
+    "appdata_dir_default_value": "",
+    "appdata_dir_effective_path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData",
+    "effective_profiles_source": "AgentRegistry.from_config derives absent workspace fields: default profile inherits agent_workspace; secondary profiles use <agent_workspace>/agents/<id>.",
+    "parent_environment_evidence": "Parent harness freshly verified the process COW_DATA_DIR binding; this path inventory did not read the service environment."
+  },
+  "managed_filesystem_inventory": {
+    "primary_data": {
+      "root": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent-TestData",
+      "entry_count": 64,
+      "entries": [
+        {
+          "path": ".",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 256,
+          "mtime_ns": 1794004620015464493
+        },
+        {
+          "path": ".DS_Store",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 6148,
+          "mtime_ns": 1794004010257176513
+        },
+        {
+          "path": "config.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 2195,
+          "mtime_ns": 1794004620015338660
+        },
+        {
+          "path": "run.log",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 229339,
+          "mtime_ns": 1794199968327908832
+        },
+        {
+          "path": "sqlite-sync-repro-porl4k_2",
+          "kind": "directory",
+          "mode": "0700",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 160,
+          "mtime_ns": 1794249477608077435
+        },
+        {
+          "path": "sqlite-sync-repro-porl4k_2/index.db",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 106496,
+          "mtime_ns": 1794004791040460615
+        },
+        {
+          "path": "sqlite-sync-repro-porl4k_2/index.db-shm",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 32768,
+          "mtime_ns": 1794249651361449743
+        },
+        {
+          "path": "sqlite-sync-repro-porl4k_2/index.db-wal",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794249477608016893
+        },
+        {
+          "path": "user_datas.pkl",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 555,
+          "mtime_ns": 1794005368307569036
+        },
+        {
+          "path": "workspace",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 480,
+          "mtime_ns": 1794000658798244563
+        },
+        {
+          "path": "workspace/AGENT.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 1561,
+          "mtime_ns": 1794000658796633767
+        },
+        {
+          "path": "workspace/BOOTSTRAP.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 2037,
+          "mtime_ns": 1794000658798353022
+        },
+        {
+          "path": "workspace/MEMORY.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 145,
+          "mtime_ns": 1794000658798057229
+        },
+        {
+          "path": "workspace/RULE.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 4655,
+          "mtime_ns": 1794000658797757020
+        },
+        {
+          "path": "workspace/USER.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 508,
+          "mtime_ns": 1794000658797005393
+        },
+        {
+          "path": "workspace/agents",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793999506481627956
+        },
+        {
+          "path": "workspace/agents/team.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 472,
+          "mtime_ns": 1793999506481393206
+        },
+        {
+          "path": "workspace/agents/testpilot",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 320,
+          "mtime_ns": 1794002419719828945
+        },
+        {
+          "path": "workspace/agents/testpilot/AGENT.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 1496,
+          "mtime_ns": 1793999506477508486
+        },
+        {
+          "path": "workspace/agents/testpilot/MEMORY.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 547,
+          "mtime_ns": 1794002419719105319
+        },
+        {
+          "path": "workspace/agents/testpilot/RULE.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 4655,
+          "mtime_ns": 1793999506475982523
+        },
+        {
+          "path": "workspace/agents/testpilot/USER.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 508,
+          "mtime_ns": 1793999506475286896
+        },
+        {
+          "path": "workspace/agents/testpilot/knowledge",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1794000572328440451
+        },
+        {
+          "path": "workspace/agents/testpilot/knowledge/index.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 18,
+          "mtime_ns": 1793999506477828362
+        },
+        {
+          "path": "workspace/agents/testpilot/knowledge/log.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794000572328433326
+        },
+        {
+          "path": "workspace/agents/testpilot/memory",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 96,
+          "mtime_ns": 1794000572328660701
+        },
+        {
+          "path": "workspace/agents/testpilot/memory/long-term",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 288,
+          "mtime_ns": 1794249477608912605
+        },
+        {
+          "path": "workspace/agents/testpilot/memory/long-term/index [conflicted 2].db-shm",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 32768,
+          "mtime_ns": 1794003529016821493
+        },
+        {
+          "path": "workspace/agents/testpilot/memory/long-term/index [conflicted 3].db-wal",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 57712,
+          "mtime_ns": 1794003529018911746
+        },
+        {
+          "path": "workspace/agents/testpilot/memory/long-term/index [conflicted 4].db-wal",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794003554859587665
+        },
+        {
+          "path": "workspace/agents/testpilot/memory/long-term/index [conflicted 5].db-wal",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794003678606790351
+        },
+        {
+          "path": "workspace/agents/testpilot/memory/long-term/index.db",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 102400,
+          "mtime_ns": 1794003388967375301
+        },
+        {
+          "path": "workspace/agents/testpilot/memory/long-term/index.db-shm",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 32768,
+          "mtime_ns": 1794249651362991915
+        },
+        {
+          "path": "workspace/agents/testpilot/memory/long-term/index.db-wal",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794249477608869271
+        },
+        {
+          "path": "workspace/agents/testpilot/scheduler",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1793999506476810567
+        },
+        {
+          "path": "workspace/agents/testpilot/websites",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1793999506474261643
+        },
+        {
+          "path": "workspace/knowledge",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793999506476447108
+        },
+        {
+          "path": "workspace/knowledge/index.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1793999506476336566
+        },
+        {
+          "path": "workspace/knowledge/log.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1793999506476442399
+        },
+        {
+          "path": "workspace/memory",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 96,
+          "mtime_ns": 1793999195023247122
+        },
+        {
+          "path": "workspace/memory/long-term",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 160,
+          "mtime_ns": 1794249477609601816
+        },
+        {
+          "path": "workspace/memory/long-term/index.db",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 180224,
+          "mtime_ns": 1794003684534352596
+        },
+        {
+          "path": "workspace/memory/long-term/index.db-shm",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 32768,
+          "mtime_ns": 1794249651364098711
+        },
+        {
+          "path": "workspace/memory/long-term/index.db-wal",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794249477609564482
+        },
+        {
+          "path": "workspace/scheduler",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1793999196423977995
+        },
+        {
+          "path": "workspace/skills",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 192,
+          "mtime_ns": 1794003421688022425
+        },
+        {
+          "path": "workspace/skills/image-generation",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793998754593398470
+        },
+        {
+          "path": "workspace/skills/image-generation/SKILL.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 5084,
+          "mtime_ns": 1793998754593369470
+        },
+        {
+          "path": "workspace/skills/image-generation/scripts",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 96,
+          "mtime_ns": 1793998754593425762
+        },
+        {
+          "path": "workspace/skills/image-generation/scripts/generate.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 50587,
+          "mtime_ns": 1793998754593524929
+        },
+        {
+          "path": "workspace/skills/knowledge-wiki",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 96,
+          "mtime_ns": 1793998754593587304
+        },
+        {
+          "path": "workspace/skills/knowledge-wiki/SKILL.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 3715,
+          "mtime_ns": 1793998754593619221
+        },
+        {
+          "path": "workspace/skills/skill-creator",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793998754593758638
+        },
+        {
+          "path": "workspace/skills/skill-creator/SKILL.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 18784,
+          "mtime_ns": 1793998754593728596
+        },
+        {
+          "path": "workspace/skills/skill-creator/scripts",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 160,
+          "mtime_ns": 1793998754593908096
+        },
+        {
+          "path": "workspace/skills/skill-creator/scripts/init_skill.py",
+          "kind": "file",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 10939,
+          "mtime_ns": 1793998754593825721
+        },
+        {
+          "path": "workspace/skills/skill-creator/scripts/package_skill.py",
+          "kind": "file",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 3414,
+          "mtime_ns": 1793998754593881513
+        },
+        {
+          "path": "workspace/skills/skill-creator/scripts/quick_validate.py",
+          "kind": "file",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 3533,
+          "mtime_ns": 1793998754593935930
+        },
+        {
+          "path": "workspace/skills/skills_config.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 1302,
+          "mtime_ns": 1794000572339551940
+        },
+        {
+          "path": "workspace/system",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1794001511680538643
+        },
+        {
+          "path": "workspace/system/models.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 75831,
+          "mtime_ns": 1794001511679862850
+        },
+        {
+          "path": "workspace/system/themes",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1793999197995610715
+        },
+        {
+          "path": "workspace/tmp",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1793999196557039848
+        },
+        {
+          "path": "workspace/websites",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1794000658796114390
+        }
+      ]
+    },
+    "workspace": {
+      "root": "/Volumes/Predator SSD GM7 1TB/CowAgent-Runtime/workspace",
+      "entry_count": 78,
+      "entries": [
+        {
+          "path": ".",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 512,
+          "mtime_ns": 1794162903903221011
+        },
+        {
+          "path": "AGENT.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 1561,
+          "mtime_ns": 1794000658796633767
+        },
+        {
+          "path": "BOOTSTRAP.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 2037,
+          "mtime_ns": 1794000658798353022
+        },
+        {
+          "path": "MEMORY.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 145,
+          "mtime_ns": 1794000658798057229
+        },
+        {
+          "path": "RULE.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 4655,
+          "mtime_ns": 1794000658797757020
+        },
+        {
+          "path": "USER.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 508,
+          "mtime_ns": 1794000658797005393
+        },
+        {
+          "path": "agents",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 160,
+          "mtime_ns": 1794162244172366481
+        },
+        {
+          "path": "agents/team.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 776,
+          "mtime_ns": 1794162244171833980
+        },
+        {
+          "path": "agents/testpilot",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 320,
+          "mtime_ns": 1794002419719828945
+        },
+        {
+          "path": "agents/testpilot/AGENT.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 1496,
+          "mtime_ns": 1793999506477508486
+        },
+        {
+          "path": "agents/testpilot/MEMORY.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 547,
+          "mtime_ns": 1794002419719105319
+        },
+        {
+          "path": "agents/testpilot/RULE.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 4655,
+          "mtime_ns": 1793999506475982523
+        },
+        {
+          "path": "agents/testpilot/USER.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 508,
+          "mtime_ns": 1793999506475286896
+        },
+        {
+          "path": "agents/testpilot/knowledge",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1794000572328440451
+        },
+        {
+          "path": "agents/testpilot/knowledge/index.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 18,
+          "mtime_ns": 1793999506477828362
+        },
+        {
+          "path": "agents/testpilot/knowledge/log.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794000572328433326
+        },
+        {
+          "path": "agents/testpilot/memory",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 96,
+          "mtime_ns": 1794000572328660701
+        },
+        {
+          "path": "agents/testpilot/memory/long-term",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 288,
+          "mtime_ns": 1794004712205104342
+        },
+        {
+          "path": "agents/testpilot/memory/long-term/index [conflicted 2].db-shm",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 32768,
+          "mtime_ns": 1794003529016821493
+        },
+        {
+          "path": "agents/testpilot/memory/long-term/index [conflicted 3].db-wal",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 57712,
+          "mtime_ns": 1794003529018911746
+        },
+        {
+          "path": "agents/testpilot/memory/long-term/index [conflicted 4].db-wal",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794003554859587665
+        },
+        {
+          "path": "agents/testpilot/memory/long-term/index [conflicted 5].db-wal",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794003678606790351
+        },
+        {
+          "path": "agents/testpilot/memory/long-term/index.db",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 114688,
+          "mtime_ns": 1794004660420935588
+        },
+        {
+          "path": "agents/testpilot/memory/long-term/index.db-shm",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 32768,
+          "mtime_ns": 1794267403108549535
+        },
+        {
+          "path": "agents/testpilot/memory/long-term/index.db-wal",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 346112,
+          "mtime_ns": 1794170115382862864
+        },
+        {
+          "path": "agents/testpilot/scheduler",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1793999506476810567
+        },
+        {
+          "path": "agents/testpilot/websites",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1793999506474261643
+        },
+        {
+          "path": "agents/testpilot2",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 320,
+          "mtime_ns": 1794162332441035294
+        },
+        {
+          "path": "agents/testpilot2/AGENT.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 1497,
+          "mtime_ns": 1794162190065619975
+        },
+        {
+          "path": "agents/testpilot2/MEMORY.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 145,
+          "mtime_ns": 1794162190062079173
+        },
+        {
+          "path": "agents/testpilot2/RULE.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 4655,
+          "mtime_ns": 1793999506475982523
+        },
+        {
+          "path": "agents/testpilot2/USER.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 508,
+          "mtime_ns": 1793999506475286896
+        },
+        {
+          "path": "agents/testpilot2/knowledge",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1794162332424172786
+        },
+        {
+          "path": "agents/testpilot2/knowledge/index.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 18,
+          "mtime_ns": 1794162242344659496
+        },
+        {
+          "path": "agents/testpilot2/knowledge/log.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794162332424163287
+        },
+        {
+          "path": "agents/testpilot2/memory",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 96,
+          "mtime_ns": 1794162332424429079
+        },
+        {
+          "path": "agents/testpilot2/memory/long-term",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 160,
+          "mtime_ns": 1794162332425485207
+        },
+        {
+          "path": "agents/testpilot2/memory/long-term/index.db",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 4096,
+          "mtime_ns": 1794162332425154914
+        },
+        {
+          "path": "agents/testpilot2/memory/long-term/index.db-shm",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 32768,
+          "mtime_ns": 1794162332425607082
+        },
+        {
+          "path": "agents/testpilot2/memory/long-term/index.db-wal",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 519152,
+          "mtime_ns": 1794170115382469615
+        },
+        {
+          "path": "agents/testpilot2/scheduler",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1794162190062521175
+        },
+        {
+          "path": "agents/testpilot2/websites",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1794162190060223459
+        },
+        {
+          "path": "knowledge",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793999506476447108
+        },
+        {
+          "path": "knowledge/index.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1793999506476336566
+        },
+        {
+          "path": "knowledge/log.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1793999506476442399
+        },
+        {
+          "path": "memory",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1794156455919562728
+        },
+        {
+          "path": "memory/long-term",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 160,
+          "mtime_ns": 1794162904048434770
+        },
+        {
+          "path": "memory/long-term/index.db",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 188416,
+          "mtime_ns": 1794162334301723043
+        },
+        {
+          "path": "memory/long-term/index.db-shm",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 32768,
+          "mtime_ns": 1794162904048770396
+        },
+        {
+          "path": "memory/long-term/index.db-wal",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 267832,
+          "mtime_ns": 1794162953472118317
+        },
+        {
+          "path": "memory/recovery",
+          "kind": "directory",
+          "mode": "0700",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1794268702437414623
+        },
+        {
+          "path": "memory/recovery/tasks.db",
+          "kind": "file",
+          "mode": "0600",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 73728,
+          "mtime_ns": 1794162946014931777
+        },
+        {
+          "path": "memory/recovery/tasks.db.locks",
+          "kind": "directory",
+          "mode": "0700",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 192,
+          "mtime_ns": 1794162936616809379
+        },
+        {
+          "path": "memory/recovery/tasks.db.locks/5d027a42-3314-4424-8ea4-be99c00f5e22",
+          "kind": "file",
+          "mode": "0600",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794162928199655691
+        },
+        {
+          "path": "memory/recovery/tasks.db.locks/998f52a9-f68d-49ea-a182-2c880f04c4bf",
+          "kind": "file",
+          "mode": "0600",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794162936616296419
+        },
+        {
+          "path": "memory/recovery/tasks.db.locks/resource-392e2d0a8ec9102cc88209755494a8f2887ba48fe30cc651fae7a17b613c1ca4",
+          "kind": "file",
+          "mode": "0600",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794162936616807004
+        },
+        {
+          "path": "memory/recovery/tasks.db.locks/resource-e2e2e14a844d05af97b848f24e52e2dec59402702d344733e30cfac5c716e553",
+          "kind": "file",
+          "mode": "0600",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 0,
+          "mtime_ns": 1794162928199932733
+        },
+        {
+          "path": "scheduler",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1793999196423977995
+        },
+        {
+          "path": "session_prefs.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 198,
+          "mtime_ns": 1794162903902959094
+        },
+        {
+          "path": "skills",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 192,
+          "mtime_ns": 1794162129842992989
+        },
+        {
+          "path": "skills/image-generation",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793998754593398470
+        },
+        {
+          "path": "skills/image-generation/SKILL.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 5084,
+          "mtime_ns": 1793998754593369470
+        },
+        {
+          "path": "skills/image-generation/scripts",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 96,
+          "mtime_ns": 1793998754593425762
+        },
+        {
+          "path": "skills/image-generation/scripts/generate.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 50587,
+          "mtime_ns": 1793998754593524929
+        },
+        {
+          "path": "skills/knowledge-wiki",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 96,
+          "mtime_ns": 1793998754593587304
+        },
+        {
+          "path": "skills/knowledge-wiki/SKILL.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 3715,
+          "mtime_ns": 1793998754593619221
+        },
+        {
+          "path": "skills/skill-creator",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793998754593758638
+        },
+        {
+          "path": "skills/skill-creator/SKILL.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 18784,
+          "mtime_ns": 1793998754593728596
+        },
+        {
+          "path": "skills/skill-creator/scripts",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 160,
+          "mtime_ns": 1793998754593908096
+        },
+        {
+          "path": "skills/skill-creator/scripts/init_skill.py",
+          "kind": "file",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 10939,
+          "mtime_ns": 1793998754593825721
+        },
+        {
+          "path": "skills/skill-creator/scripts/package_skill.py",
+          "kind": "file",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 3414,
+          "mtime_ns": 1793998754593881513
+        },
+        {
+          "path": "skills/skill-creator/scripts/quick_validate.py",
+          "kind": "file",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 3533,
+          "mtime_ns": 1793998754593935930
+        },
+        {
+          "path": "skills/skills_config.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 1302,
+          "mtime_ns": 1794000572339551940
+        },
+        {
+          "path": "system",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1794001511680538643
+        },
+        {
+          "path": "system/models.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 75831,
+          "mtime_ns": 1794001511679862850
+        },
+        {
+          "path": "system/themes",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1793999197995610715
+        },
+        {
+          "path": "tmp",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1793999196557039848
+        },
+        {
+          "path": "websites",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 64,
+          "mtime_ns": 1794000658796114390
+        }
+      ]
+    },
+    "source_mode_plugins": {
+      "root": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/plugins",
+      "entry_count": 100,
+      "entries": [
+        {
+          "path": ".",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 672,
+          "mtime_ns": 1794169380078742319
+        },
+        {
+          "path": "README.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 12797,
+          "mtime_ns": 1793998754588863586
+        },
+        {
+          "path": "__init__.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 249,
+          "mtime_ns": 1793998754588906794
+        },
+        {
+          "path": "__pycache__",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 192,
+          "mtime_ns": 1793999193996983381
+        },
+        {
+          "path": "__pycache__/__init__.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 341,
+          "mtime_ns": 1793999193978940970
+        },
+        {
+          "path": "__pycache__/event.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 2371,
+          "mtime_ns": 1793999193979354804
+        },
+        {
+          "path": "__pycache__/plugin.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 2870,
+          "mtime_ns": 1793999193979850638
+        },
+        {
+          "path": "__pycache__/plugin_manager.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 27480,
+          "mtime_ns": 1793999193996916964
+        },
+        {
+          "path": "banwords",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 352,
+          "mtime_ns": 1793999196556425346
+        },
+        {
+          "path": "banwords/.gitignore",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 12,
+          "mtime_ns": 1793998754588972003
+        },
+        {
+          "path": "banwords/README.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 907,
+          "mtime_ns": 1793998754589016961
+        },
+        {
+          "path": "banwords/__init__.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 24,
+          "mtime_ns": 1793998754589056961
+        },
+        {
+          "path": "banwords/__pycache__",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793999196553532382
+        },
+        {
+          "path": "banwords/__pycache__/__init__.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 203,
+          "mtime_ns": 1793999196552929381
+        },
+        {
+          "path": "banwords/__pycache__/banwords.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 6416,
+          "mtime_ns": 1793999196553495882
+        },
+        {
+          "path": "banwords/banwords.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 5176,
+          "mtime_ns": 1793998754589113712
+        },
+        {
+          "path": "banwords/banwords.txt.template",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 15,
+          "mtime_ns": 1793998754589155087
+        },
+        {
+          "path": "banwords/config.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 26,
+          "mtime_ns": 1793999196556363596
+        },
+        {
+          "path": "banwords/config.json.template",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 78,
+          "mtime_ns": 1793998754589199003
+        },
+        {
+          "path": "banwords/lib",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793999196554465634
+        },
+        {
+          "path": "banwords/lib/WordsSearch.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 8090,
+          "mtime_ns": 1793998754589277920
+        },
+        {
+          "path": "banwords/lib/__pycache__",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 96,
+          "mtime_ns": 1793999196554563009
+        },
+        {
+          "path": "banwords/lib/__pycache__/WordsSearch.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 10379,
+          "mtime_ns": 1793999196554524092
+        },
+        {
+          "path": "config.json.template",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 1429,
+          "mtime_ns": 1793998754589329837
+        },
+        {
+          "path": "cow_cli",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 160,
+          "mtime_ns": 1793999196540995649
+        },
+        {
+          "path": "cow_cli/__init__.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 34,
+          "mtime_ns": 1793998754589403462
+        },
+        {
+          "path": "cow_cli/__pycache__",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793999196549397041
+        },
+        {
+          "path": "cow_cli/__pycache__/__init__.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 219,
+          "mtime_ns": 1793999196541049107
+        },
+        {
+          "path": "cow_cli/__pycache__/cow_cli.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 110905,
+          "mtime_ns": 1793999196549343915
+        },
+        {
+          "path": "cow_cli/cow_cli.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 91768,
+          "mtime_ns": 1793998754589555337
+        },
+        {
+          "path": "dungeon",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 192,
+          "mtime_ns": 1793999196539412979
+        },
+        {
+          "path": "dungeon/README.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 308,
+          "mtime_ns": 1793998754589648296
+        },
+        {
+          "path": "dungeon/__init__.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 23,
+          "mtime_ns": 1793998754589693421
+        },
+        {
+          "path": "dungeon/__pycache__",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793999196540130397
+        },
+        {
+          "path": "dungeon/__pycache__/__init__.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 201,
+          "mtime_ns": 1793999196539467979
+        },
+        {
+          "path": "dungeon/__pycache__/dungeon.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 7066,
+          "mtime_ns": 1793999196540085313
+        },
+        {
+          "path": "dungeon/dungeon.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 5052,
+          "mtime_ns": 1793998754589751255
+        },
+        {
+          "path": "event.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 1728,
+          "mtime_ns": 1793998754589799379
+        },
+        {
+          "path": "finish",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 160,
+          "mtime_ns": 1793999196540349314
+        },
+        {
+          "path": "finish/__init__.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 22,
+          "mtime_ns": 1793998754589871296
+        },
+        {
+          "path": "finish/__pycache__",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793999196540807106
+        },
+        {
+          "path": "finish/__pycache__/__init__.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 199,
+          "mtime_ns": 1793999196540407147
+        },
+        {
+          "path": "finish/__pycache__/finish.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 2433,
+          "mtime_ns": 1793999196540764856
+        },
+        {
+          "path": "finish/finish.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 1297,
+          "mtime_ns": 1793998754589941463
+        },
+        {
+          "path": "godcmd",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 224,
+          "mtime_ns": 1794167450628306125
+        },
+        {
+          "path": "godcmd/README.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 696,
+          "mtime_ns": 1793998754590018297
+        },
+        {
+          "path": "godcmd/__init__.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 22,
+          "mtime_ns": 1793998754590069505
+        },
+        {
+          "path": "godcmd/__pycache__",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793999196551724254
+        },
+        {
+          "path": "godcmd/__pycache__/__init__.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 199,
+          "mtime_ns": 1793999196549715541
+        },
+        {
+          "path": "godcmd/__pycache__/godcmd.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 24261,
+          "mtime_ns": 1793999196551684170
+        },
+        {
+          "path": "godcmd/config.json.template",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 42,
+          "mtime_ns": 1793998754590116755
+        },
+        {
+          "path": "godcmd/godcmd.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 23162,
+          "mtime_ns": 1793998754590182755
+        },
+        {
+          "path": "hello",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 224,
+          "mtime_ns": 1793999196551946129
+        },
+        {
+          "path": "hello/README.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 2322,
+          "mtime_ns": 1793998754590274797
+        },
+        {
+          "path": "hello/__init__.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 21,
+          "mtime_ns": 1793998754590329672
+        },
+        {
+          "path": "hello/__pycache__",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793999196552697839
+        },
+        {
+          "path": "hello/__pycache__/__init__.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 197,
+          "mtime_ns": 1793999196551995254
+        },
+        {
+          "path": "hello/__pycache__/hello.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 7647,
+          "mtime_ns": 1793999196552659130
+        },
+        {
+          "path": "hello/config.json.template",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 533,
+          "mtime_ns": 1793998754590385714
+        },
+        {
+          "path": "hello/hello.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 5933,
+          "mtime_ns": 1793998754590434506
+        },
+        {
+          "path": "keyword",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 288,
+          "mtime_ns": 1793999196556257763
+        },
+        {
+          "path": "keyword/README.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 294,
+          "mtime_ns": 1793998754590524673
+        },
+        {
+          "path": "keyword/__init__.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 23,
+          "mtime_ns": 1793998754590573673
+        },
+        {
+          "path": "keyword/__pycache__",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793999196555481720
+        },
+        {
+          "path": "keyword/__pycache__/__init__.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 201,
+          "mtime_ns": 1793999196554824968
+        },
+        {
+          "path": "keyword/__pycache__/keyword.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 6416,
+          "mtime_ns": 1793999196555440303
+        },
+        {
+          "path": "keyword/config.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 21,
+          "mtime_ns": 1793999196556285638
+        },
+        {
+          "path": "keyword/config.json.template",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 61,
+          "mtime_ns": 1793998754590623256
+        },
+        {
+          "path": "keyword/keyword.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 6386,
+          "mtime_ns": 1793998754590687840
+        },
+        {
+          "path": "keyword/test-keyword.png",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 12350,
+          "mtime_ns": 1793998754590856048
+        },
+        {
+          "path": "linkai",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 320,
+          "mtime_ns": 1793999196534342260
+        },
+        {
+          "path": "linkai/README.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 6754,
+          "mtime_ns": 1793998754590953507
+        },
+        {
+          "path": "linkai/__init__.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 22,
+          "mtime_ns": 1793998754591006840
+        },
+        {
+          "path": "linkai/__pycache__",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 224,
+          "mtime_ns": 1793999196539179728
+        },
+        {
+          "path": "linkai/__pycache__/__init__.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 199,
+          "mtime_ns": 1793999196534391052
+        },
+        {
+          "path": "linkai/__pycache__/linkai.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 19548,
+          "mtime_ns": 1793999196535774888
+        },
+        {
+          "path": "linkai/__pycache__/midjourney.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 27179,
+          "mtime_ns": 1793999196537651642
+        },
+        {
+          "path": "linkai/__pycache__/summary.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 6302,
+          "mtime_ns": 1793999196539136728
+        },
+        {
+          "path": "linkai/__pycache__/utils.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 3872,
+          "mtime_ns": 1793999196538102309
+        },
+        {
+          "path": "linkai/config.json.template",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 460,
+          "mtime_ns": 1793998754591058340
+        },
+        {
+          "path": "linkai/linkai.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 14930,
+          "mtime_ns": 1793998754591129257
+        },
+        {
+          "path": "linkai/midjourney.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 19096,
+          "mtime_ns": 1793998754591237049
+        },
+        {
+          "path": "linkai/summary.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 4440,
+          "mtime_ns": 1793998754591415508
+        },
+        {
+          "path": "linkai/utils.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 2537,
+          "mtime_ns": 1793998754591480758
+        },
+        {
+          "path": "plugin.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 1752,
+          "mtime_ns": 1793998754591636800
+        },
+        {
+          "path": "plugin_manager.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 21296,
+          "mtime_ns": 1793998754591732133
+        },
+        {
+          "path": "plugins.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 817,
+          "mtime_ns": 1793999196555869470
+        },
+        {
+          "path": "role",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 224,
+          "mtime_ns": 1793999196532595923
+        },
+        {
+          "path": "role/README.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 2162,
+          "mtime_ns": 1793998754591887384
+        },
+        {
+          "path": "role/__init__.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 20,
+          "mtime_ns": 1793998754591937592
+        },
+        {
+          "path": "role/__pycache__",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 128,
+          "mtime_ns": 1793999196534081426
+        },
+        {
+          "path": "role/__pycache__/__init__.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 195,
+          "mtime_ns": 1793999196532656257
+        },
+        {
+          "path": "role/__pycache__/role.cpython-313.pyc",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 16516,
+          "mtime_ns": 1793999196534042760
+        },
+        {
+          "path": "role/role.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 11505,
+          "mtime_ns": 1793998754592011301
+        },
+        {
+          "path": "role/roles.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 37411,
+          "mtime_ns": 1793998754592111801
+        },
+        {
+          "path": "source.json",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 1846,
+          "mtime_ns": 1793998754592176801
+        },
+        {
+          "path": "tool",
+          "kind": "directory",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 160,
+          "mtime_ns": 1793998754592348385
+        },
+        {
+          "path": "tool/README.md",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 7466,
+          "mtime_ns": 1793998754592269593
+        },
+        {
+          "path": "tool/config.json.template",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 146,
+          "mtime_ns": 1793998754592323051
+        },
+        {
+          "path": "tool/tool.py",
+          "kind": "file",
+          "mode": "0644",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 13751,
+          "mtime_ns": 1793998754592390968
+        }
+      ]
+    }
+  },
+  "storage_classes": {
+    "primary_data_root": {
+      "config_json": {
+        "status": "present",
+        "classification": "runtime configuration; only agent_workspace and appdata_dir were selected; other values were not inspected or emitted; back up only under approved private-data copy scope",
+        "method": "capture file and required metadata in the closed-interval snapshot, protected destination"
+      },
+      "user_datas_pkl": {
+        "status": "present",
+        "classification": "user data; bytes not read",
+        "method": "approved protected file snapshot in the closed interval"
+      },
+      "workspace_copy": {
+        "status": "present but not the selected agent_workspace",
+        "classification": "unselected workspace tree with durable files and databases; retain as a separate source until owner reconciliation; never merge over the active workspace",
+        "method": "capture as its own metadata-preserving tree under approved private-data scope"
+      },
+      "sqlite_sync_repro": {
+        "status": "present",
+        "classification": "unclassified reproduction directory with index.db plus WAL/SHM sidecars; not selected by config; preserve separately until owner classifies",
+        "method": "do not raw-copy SQLite; if retained, use an approved isolated online-backup copy and sidecar-independent snapshot"
+      },
+      "run_log": {
+        "status": "present",
+        "classification": "mutable operational log; contents not read",
+        "method": "exclude from data restore by default; preserve separately only if explicitly needed"
+      },
+      "ds_store": {
+        "status": "present",
+        "classification": "OS directory metadata, not CowAgent durable state",
+        "method": "exclude"
+      }
+    },
+    "active_workspace": {
+      "profiles_and_identity": {
+        "paths": [
+          "agents/team.json",
+          "AGENT.md",
+          "USER.md",
+          "RULE.md",
+          "BOOTSTRAP.md",
+          "agents/testpilot/",
+          "agents/testpilot2/"
+        ],
+        "method": "closed-interval filesystem capture with modes and symlinks; do not read or export contents outside explicit private-data approval"
+      },
+      "shared_skills": {
+        "path": "skills/",
+        "status": "present; complete file metadata is in managed_filesystem_inventory.workspace",
+        "method": "capture all files and symlinks; include in protected private-data copy"
+      },
+      "private_skill_overrides": {
+        "paths": [
+          "agents/testpilot/skills/",
+          "agents/testpilot2/skills/"
+        ],
+        "status": "absent; fallback to shared skills applies",
+        "method": "none for absent roots; recheck before any capture"
+      },
+      "scheduler": {
+        "primary": "scheduler/tasks.json",
+        "backup": "scheduler/tasks.json.bak",
+        "recipients": "scheduler/recipients.json",
+        "status": "all three paths absent at inventory; legacy per-agent task paths also absent",
+        "method": "include paths if present at capture time; preserve primary and .bak as a coordinated pair; preserve recipient store separately but in same closed interval"
+      },
+      "transient_downloads": {
+        "path": "tmp/",
+        "status": "directory present with no contained files at inventory",
+        "method": "exclude transient items from durable snapshot by default; check for interrupted downloads within the known directory before transition"
+      },
+      "profile_prompt_and_identity_files": {
+        "paths": [
+          "AGENT.md",
+          "USER.md",
+          "RULE.md",
+          "BOOTSTRAP.md",
+          "agents/<id>/{AGENT.md,USER.md,RULE.md,MEMORY.md}",
+          "agents/team.json"
+        ],
+        "status": "all entries and metadata are in the path inventory; contents not read",
+        "method": "capture selected workspace identity/profile files in the protected closed-interval filesystem snapshot"
+      },
+      "conversation_and_memory_files": {
+        "paths": [
+          "memory/long-term/index.db",
+          "agents/testpilot/memory/long-term/index.db",
+          "agents/testpilot2/memory/long-term/index.db",
+          "memory/recovery/tasks.db",
+          "MEMORY.md files and memory subdirectories"
+        ],
+        "method": "online-backup each active DB under one closed interval; include memory files and lock metadata only if present; do not copy DB sidecars raw"
+      },
+      "knowledge_files": {
+        "paths": [
+          "knowledge/",
+          "agents/testpilot/knowledge/",
+          "agents/testpilot2/knowledge/"
+        ],
+        "status": "all present entries and metadata are in the path inventory",
+        "method": "include as durable workspace files in the protected snapshot"
+      },
+      "system_assets": {
+        "paths": [
+          "system/models.json",
+          "system/themes/",
+          "session_prefs.json"
+        ],
+        "status": "present files/directories are enumerated; contents not read",
+        "method": "include application-managed system and UI state with original modes/symlinks"
+      },
+      "published_outputs": {
+        "paths": [
+          "websites/",
+          "agents/testpilot/websites/",
+          "agents/testpilot2/websites/"
+        ],
+        "status": "directories exist; contained files are enumerated",
+        "method": "include generated user-owned outputs with the workspace snapshot"
+      }
+    },
+    "source_mode_plugins": {
+      "root": "plugins/ under the service CWD; distinct from COW_DATA_DIR",
+      "plugin_manager_state": {
+        "path": "plugins.json",
+        "status": "present; parsed only plugin IDs/enabled flags",
+        "method": "preserve current activation state with source selection; do not assume data-root backup covers it"
+      },
+      "role_catalog": {
+        "path": "role/roles.json",
+        "status": "present; file contents not read",
+        "method": "preserve if mutable local state; otherwise restore from exact tested source revision; source version provenance not checked here"
+      },
+      "custom_role_directory": {
+        "path": "role/roles/",
+        "status": "absent",
+        "method": "recheck before capture; if created, preserve its JSON files as operator-managed plugin data"
+      },
+      "banwords_list": {
+        "path": "banwords/banwords.txt",
+        "status": "absent; runtime treats missing list as empty",
+        "method": "recheck before capture; if present, preserve as operator-managed plugin data"
+      },
+      "banwords_config": {
+        "path": "banwords/config.json",
+        "status": "present",
+        "method": "preserve with plugin state; contents and credential values not read"
+      },
+      "godcmd_config": {
+        "path": "godcmd/config.json",
+        "status": "absent; only template exists",
+        "method": "recheck before capture; persisted admin state is in runtime config, not the plugin-local config"
+      },
+      "linkai_config": {
+        "path": "linkai/config.json",
+        "status": "absent; template exists",
+        "method": "recheck before capture; no credential values read"
+      },
+      "temporary_password": {
+        "status": "process-memory only per source; no filesystem item identified",
+        "method": "not a durable backup item"
+      },
+      "download_locations": {
+        "status": "plugins do not define a plugin-owned download directory; channel attachment/media staging resolves through active workspace tmp/; LinkAI may delete summarized input after use",
+        "method": "workspace tmp is transient; no temp files present at inventory"
+      },
+      "all_root_files": {
+        "method": "inventory metadata captured; preserve exact plugin state separately from user data when selecting source rollback"
+      },
+      "code_vs_mutable_data": {
+        "classification": "The inventory covers both plugin source files and local state files. It does not establish which files differ from the tested Git source revision.",
+        "method": "Use the exact tested source checkout for tracked code; preserve local mutable plugin files/config separately. Do not delete or overwrite ambiguous local files during source rollback."
+      }
+    },
+    "startup_and_dependencies": {
+      "dotenv": {
+        "paths": [
+          "workspace/.env",
+          "primary-data/.env",
+          "source/.env",
+          "source/.env.local"
+        ],
+        "status": "All four named .env paths are absent by lstat."
+      },
+      "dependency_helpers": {
+        "paths": [
+          "requirements.txt",
+          "requirements-optional.txt",
+          "pyproject.toml",
+          "config-template.json",
+          "app.py",
+          ".venv/bin/python",
+          "scripts/ci_test.py"
+        ],
+        "status": "The manifest records each named source helper/dependency path as present or absent, with mode/owner/size. No dependency file contents or installed package versions were read."
+      },
+      "python_runtime": {
+        "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+        "status": {
+          "path": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+          "exists": true,
+          "kind": "symlink",
+          "mode": "0755",
+          "uid": 501,
+          "gid": 20,
+          "bytes": 10,
+          "target": "python3.13"
+        },
+        "method": "re-establish exact resolved invocation and dependencies on candidate; keep external toolchain/dependencies outside these roots as separate prerequisites"
+      },
+      "environment_injected_secrets": {
+        "status": "process environment was not read by this inventory; parent owns fresh process identity",
+        "method": "not a filesystem backup item; credentials require separate authority and must remain external"
+      }
+    },
+    "external_authority": {
+      "cloud_provider_services_and_channel_accounts": "outside the three filesystem roots; credentials/session state are not read or copied; account-side effects require separate recovery/reconciliation",
+      "OS_scheduler_keychain_and_network_settings": "outside the three roots; no bindings or copies identified by this path inventory; preserve in place, require separate owner authority if change is proposed"
+    }
+  }
+}

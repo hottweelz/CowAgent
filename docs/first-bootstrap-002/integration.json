@@ -1,0 +1,250 @@
+{
+  "schema": "cow.bootstrap.integration/1",
+  "candidate": "f59a6e91152900d709cad1775b2756cf25b316c0",
+  "legacy": "90c3cd8f72ffe7a47cb20925fa538eda479317c6",
+  "fallback": "f659349785acf98905901a5cc53921436a109dbc",
+  "port": 19890,
+  "steps": [
+    {
+      "name": "legacy",
+      "health": "200/ok",
+      "pid": 50248,
+      "exit_code": 0
+    },
+    {
+      "name": "candidate",
+      "health": "200/ok",
+      "pid": 50254,
+      "observer": {
+        "ids": [
+          "default",
+          "testpilot",
+          "testpilot2"
+        ],
+        "denied": true,
+        "dispatch_permitted": false,
+        "adapter_contact": false,
+        "runtime_epoch": "5aae27bacc054b26ada148a7bf33676a",
+        "manifest_sha256": "11e67da08cc9b5efa7b1f8220dbbe4ba26fe208c3b992a6bcae64f17e47a1279"
+      },
+      "while_held": {
+        "active": {
+          "plugins": 1
+        },
+        "agents": {},
+        "binding": {
+          "coordinator_epoch": "45cc9c3a89ca4e2b9ddec303e8cacf85",
+          "pid": 50254,
+          "runtime_epoch": "5aae27bacc054b26ada148a7bf33676a",
+          "service_id": "4632d05e74dd469bb423692370da13f7",
+          "uid": 501
+        },
+        "blockers": [
+          "probe_stale"
+        ],
+        "closed": true,
+        "drained": false,
+        "finished_at": 1794268787.8660018,
+        "protocol": "cow.maintenance.drain/1",
+        "registered_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "request_digest": "a1aeb4bfd14175e08544880d281b63a1703348e604e35b268c7101a04903b48c",
+        "request_id": "138e176521f74205af6e78741026d838",
+        "required_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "status": "closed_not_drained"
+      },
+      "closed_http_status": 503,
+      "health_after_close": "200/ok",
+      "after_completion": {
+        "active": {},
+        "agents": {},
+        "binding": {
+          "coordinator_epoch": "45cc9c3a89ca4e2b9ddec303e8cacf85",
+          "pid": 50254,
+          "runtime_epoch": "5aae27bacc054b26ada148a7bf33676a",
+          "service_id": "4632d05e74dd469bb423692370da13f7",
+          "uid": 501
+        },
+        "blockers": [],
+        "closed": true,
+        "drained": true,
+        "finished_at": 1794268787.996278,
+        "protocol": "cow.maintenance.drain/1",
+        "registered_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "request_digest": "38037bb11c6fb9283b8435d55bff64962fb21a64ef9174cd15ca8a97967c9a69",
+        "request_id": "80b230d165f140d180882854f471f1cb",
+        "required_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "status": "drained"
+      },
+      "exit_code": 0
+    },
+    {
+      "name": "unsupported",
+      "health": "200/ok",
+      "pid": 50262,
+      "observer": {
+        "ids": [
+          "default",
+          "testpilot",
+          "testpilot2"
+        ],
+        "denied": true,
+        "dispatch_permitted": false,
+        "adapter_contact": false,
+        "runtime_epoch": "a03a5750101e44d089d9f789966ea39b",
+        "manifest_sha256": "11e67da08cc9b5efa7b1f8220dbbe4ba26fe208c3b992a6bcae64f17e47a1279"
+      },
+      "unsupported": {
+        "active": {},
+        "agents": {},
+        "binding": {
+          "coordinator_epoch": "ec8a7804e5a84ac3babd5b009fbef650",
+          "pid": 50262,
+          "runtime_epoch": "a03a5750101e44d089d9f789966ea39b",
+          "service_id": "b2d5c5d3b2d04e4c95cc679395f09bee",
+          "uid": 501
+        },
+        "blockers": [
+          "plugin_runtime_untracked"
+        ],
+        "closed": true,
+        "drained": false,
+        "finished_at": 1794268789.411273,
+        "protocol": "cow.maintenance.drain/1",
+        "registered_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "request_digest": "eb3c6262e63bfefb6741ccc1ffc5e3e590bb3b8284b9b23bf4a7a80c4143a1fe",
+        "request_id": "958f7507a56742968cd4ad25eaf463a6",
+        "required_components": [
+          "agent",
+          "chat",
+          "evolution",
+          "extensions",
+          "http",
+          "memory",
+          "recovery",
+          "scheduler",
+          "startup"
+        ],
+        "status": "closed_not_drained"
+      },
+      "exit_code": 0
+    },
+    {
+      "name": "fallback",
+      "health": "200/ok",
+      "pid": 50268,
+      "exit_code": 0
+    }
+  ],
+  "limits": [
+    "Fictional state only; legacy commit is modeled and does not attest live loaded modules.",
+    "BROWSER=true; no actual browser launch.",
+    "Real Keyword callback invokes a fixture requests.get stand-in; no real model, network request or provider effect.",
+    "Private same-UID control is not a human-presence check.",
+    "Snapshot restore would discard later changes and cannot undo external effects."
+  ],
+  "candidate_database_digests": {
+    "agents/testpilot/memory/long-term/index.db": "bf074bd0caee8231c037b7a8531d7a90638216c7cfa1b4cbdfddb9d80d87ff2e",
+    "agents/testpilot2/memory/long-term/index.db": "f27bc17fb75b06580094e92b554ce75c3510327561ce2706b13b469726ed23fd",
+    "memory/long-term/index.db": "96f5f693e78d3fee733f3becf8f686957f78da883f83db1b28d6dc792628eef1",
+    "memory/recovery/tasks.db": "98c93f1aae3f69cb64cb88e9925415417a0f954377ffe647bc2a652f3bb2ed59"
+  },
+  "snapshot": {
+    "agents/testpilot/memory/long-term/index.db": "bf074bd0caee8231c037b7a8531d7a90638216c7cfa1b4cbdfddb9d80d87ff2e",
+    "agents/testpilot2/memory/long-term/index.db": "f27bc17fb75b06580094e92b554ce75c3510327561ce2706b13b469726ed23fd",
+    "memory/long-term/index.db": "96f5f693e78d3fee733f3becf8f686957f78da883f83db1b28d6dc792628eef1",
+    "memory/recovery/tasks.db": "98c93f1aae3f69cb64cb88e9925415417a0f954377ffe647bc2a652f3bb2ed59"
+  },
+  "fallback_snapshot": {
+    "agents/testpilot/memory/long-term/index.db": "bf074bd0caee8231c037b7a8531d7a90638216c7cfa1b4cbdfddb9d80d87ff2e",
+    "agents/testpilot2/memory/long-term/index.db": "f27bc17fb75b06580094e92b554ce75c3510327561ce2706b13b469726ed23fd",
+    "memory/long-term/index.db": "96f5f693e78d3fee733f3becf8f686957f78da883f83db1b28d6dc792628eef1",
+    "memory/recovery/tasks.db": "98c93f1aae3f69cb64cb88e9925415417a0f954377ffe647bc2a652f3bb2ed59"
+  },
+  "unknown_file_preserved": true,
+  "status": "passed",
+  "seven_enabled_plugins": [
+    "cow_cli",
+    "Godcmd",
+    "Keyword",
+    "Banwords",
+    "linkai",
+    "Role",
+    "Finish"
+  ],
+  "execution_details": {
+    "operator": "scripts/maintenance_drain.py invoked as separate sandboxed process",
+    "callback": "real Keyword handler through real PluginManager.emit_event, held at fictional requests.get stub, returning simulated HTTP 503",
+    "fixture_priority": "Keyword priority 100 selects the fictional test callback before other handlers",
+    "unknown_handler": "separate candidate process replaces Keyword instance handler to exercise known_handlers fail-closed detection",
+    "control_directory": "fresh private owned 0700 directory for each candidate process",
+    "receipt_durability": "CLI returned only after service receipt existed; no separate crash-durability fault injected by this process fixture",
+    "backup": "four sqlite online backups after modeled legacy exited, plus fixture data and workspace files",
+    "restoration": "snapshot restored only into private fixture before master fallback",
+    "component_scope": "normal candidate startup registered all nine components; this integration does not separately create scheduler/recovery work",
+    "startup_request": "one-shot request consumed; final isolated launch retained one claim"
+  },
+  "owned_process_cleanup": "all four fixture processes exited code 0; port 19890 had no listening socket after completion",
+  "fixture_sha256": {
+    "docs/first-bootstrap-002/integration_rehearsal.py": "d91af651c7a7d996564a149725d634c1f18cf7a79aa2e59a49fc61545915d7a7",
+    "docs/first-bootstrap-002/controller_integration_fixture.py": "26055ae4d111c7d135c0937a70bd4548d6cf96a0c9453dd7247e662d48303891",
+    "docs/first-bootstrap-001/seed_fixture.py": "9ece1b152621c5418d23f58de4e53dfac891e71a3969e2fbc370e887150c7e52",
+    "docs/first-bootstrap-001/request_fixture.py": "e73c68caf96209f34326bf6723e4f8895bb521a5dfc0d7191958a1646c66e4d8"
+  },
+  "executed_fixture_sha256": {
+    "docs/first-bootstrap-002/integration_rehearsal.py": "d91af651c7a7d996564a149725d634c1f18cf7a79aa2e59a49fc61545915d7a7",
+    "docs/first-bootstrap-002/controller_integration_fixture.py": "26055ae4d111c7d135c0937a70bd4548d6cf96a0c9453dd7247e662d48303891",
+    "docs/first-bootstrap-001/seed_fixture.py": "9ece1b152621c5418d23f58de4e53dfac891e71a3969e2fbc370e887150c7e52",
+    "docs/first-bootstrap-001/request_fixture.py": "e73c68caf96209f34326bf6723e4f8895bb521a5dfc0d7191958a1646c66e4d8"
+  },
+  "startup_manifest_files": 371
+}

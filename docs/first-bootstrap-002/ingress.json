@@ -1,0 +1,75 @@
+{
+  "classification": "failed_gate_class_c",
+  "live_service": {
+    "pid": 28093,
+    "listener": "127.0.0.1:9899",
+    "listener_source": "lsof_and_netstat",
+    "health": "HTTP 200 status ok",
+    "process_control": "none"
+  },
+  "routes": {
+    "chat": ["POST /message", "POST /v1/chat/completions", "POST /share/{token}/api/message"],
+    "stream": ["GET /stream", "GET /share/{token}/api/stream"],
+    "queued_or_future_work": ["POST /api/scheduler/run", "scheduler create/update/toggle routes"],
+    "observation": ["GET /api/health"]
+  },
+  "exposure": {
+    "loopback_bind_limits_remote_interface_access": true,
+    "local_process_bypass_possible": true,
+    "tailscale_serve": "no serve config reported",
+    "ssh_process": "present; forwarding destination not established",
+    "ssh_forwarding_argv_check": {
+      "recognized_forwarding_option_present": true,
+      "explicit_target_9899": false,
+      "argument_values_emitted": false,
+      "inherited_ssh_config_checked": false,
+      "other_forwarder_configuration_excluded": false
+    },
+    "pf_read": "denied: /dev/pf permission denied",
+    "os_rule_tested": false
+  },
+  "fixture": {
+    "file": "ingress_fixture.py",
+    "service_port": 19888,
+    "gateway_port": 19889,
+    "normal_chat_stream_queue": "accepted",
+    "gateway_closed_chat_stream_queue": "rejected 503",
+    "health_during_exclusion": "200",
+    "inflight_request": "completed after exclusion began",
+    "direct_listener_bypass": "accepted 202",
+    "restore": "accepted",
+    "persistent_configuration": "none",
+    "fixture_ports_available_after_exit": true,
+    "evidence_scope": "HTTP transport/gateway behavior only; no CowAgent handler dispatch or PF rule proof",
+    "unrelated_application": "fixture sent no requests to CowAgent; live health baseline 200 was recorded before fixture; no post-fixture live HTTP probe was made"
+  },
+  "pf_proposal": {
+    "mode": "unapplied proposal only",
+    "scope": "private anchor under an existing approved root hook",
+    "dry_run": "pfctl -n -a codex/first-bootstrap-002 -f /path/to/disposable-anchor.conf",
+    "disposable_test_rule": "block drop quick on lo0 inet proto tcp from any to 127.0.0.1 port = 19888",
+    "proposed_apply": "pfctl -a codex/first-bootstrap-002 -f /path/to/approved-rule.conf",
+    "proposed_anchor_inspection": "pfctl -a codex/first-bootstrap-002 -sr",
+    "proposed_scoped_rollback": "pfctl -a codex/first-bootstrap-002 -F rules",
+    "never_run": ["unscoped pfctl -f", "pfctl -F all", "pfctl -F states", "pfctl -d", "pfctl -e"],
+    "preconditions": ["read global rules and anchor hooks", "confirm no set skip on lo0", "test existing keep-alive state", "use out-of-band health observation", "disposable-host approval"],
+    "health": "PF is path-blind; a full port block also blocks /api/health",
+    "live_host_rule_applied": false
+  },
+  "decision": "Do not claim enforceable admission exclusion. Seek approval for a narrowly scoped OS enforcement mechanism and qualify it on a disposable host first.",
+  "residual_uncertainty": [
+    "local client inventory is not exhaustive",
+    "an ssh process exists but forwarding targets were not inspected",
+    "accepted in-flight work and scheduler/plugin activity are not drained",
+    "loopback binding is not local-process admission control"
+  ],
+  "commands": [
+    "lsof -nP -iTCP:9899 -sTCP:LISTEN",
+    "ps -p 28093 -o pid,ppid,user,lstart,comm",
+    "curl --max-time 3 -sS -o /tmp/cowagent-health.json -w 'health_http=%{http_code}\\n' http://127.0.0.1:9899/api/health",
+    "/Applications/Tailscale.app/Contents/MacOS/Tailscale serve status",
+    "pfctl -s info",
+    "pfctl -s rules",
+    "python3 docs/first-bootstrap-002/ingress_fixture.py"
+  ]
+}
