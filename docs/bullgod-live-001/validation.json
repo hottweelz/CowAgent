@@ -97,7 +97,14 @@
       "keyboard_focus": "commitments-refresh"
     },
     "independent_review": "no open actionable findings",
-    "hosted": "pending publication status query"
+    "hosted": {
+      "status": "unverified",
+      "checked_commit": "0e201428346e213cabeb4f773319eab43c28c6c2",
+      "check_runs": 0,
+      "commit_statuses": 0,
+      "pr_workflow_runs": 0,
+      "investigation_resumed": false
+    }
   },
   "limitations": [
     "one observed scheduled occurrence only",
@@ -107,5 +114,10 @@
     "inspection restore does not prove restored application startup",
     "no cross-platform or off-device backup certification",
     "model historical-schedule explanation and title-generation limitations documented"
-  ]
+  ],
+  "publication": {
+    "draft_pr": "https://github.com/hottweelz/CowAgent/pull/15",
+    "implementation_commit": "0e201428346e213cabeb4f773319eab43c28c6c2",
+    "merged": false
+  }
 }

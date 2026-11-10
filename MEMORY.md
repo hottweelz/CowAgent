@@ -1,11 +1,11 @@
 # CowAgent project facts
 
-- LIVE-001 provides a separate persistent macOS BullGod on loopback port18991,
+- LIVE-001 provides a separate persistent macOS BullGod on loopback port 18991,
   using an internal-APFS application root outside Git worktrees. Native launchd
   jobs are explicitly bootstrapped outside LaunchAgents, with KeepAlive=false;
   no login startup or automatic crash retry is installed. Its copied release,
   native data/workspace, configuration, private sibling credentials and backups
-  remain separate. Preserve the original9899 service and its state.
+  remain separate. Preserve the original 9899 service and its state.
 - The LIVE service reuses the existing sandbox, HTTPS relay/reader, scheduler,
   Pooler route and newest-supported Luna selector. Startup phase/exit reporting
   is sanitized; COW_LOG_MAX_BYTES/COW_LOG_BACKUPS opt into rotating logs.
@@ -19,7 +19,7 @@
   retain a disabled inspection configuration. Restore authentication and approved
   deployment settings separately; never restore over an active instance.
 - Specialist result contracts must state existing verifier limits: at most one
-  finding per source, ten findings total and1000 characters per exact excerpt.
+  finding per source, ten findings total and 1000 characters per exact excerpt.
   A real long-source response exposed the missing uniqueness instruction;
   failed one-shot actions remain failed and require a new reviewed request.
 - Both owner panels must leave room for chat at all viewport widths, not just

@@ -1,43 +1,47 @@
 # AI handoff ledger
 
-## 2026-11-10 16:18 EST — Codex — BULLGOD-LIVE-001 operational acceptance
+## 2026-11-10 16:22 EST — Codex — BULLGOD-LIVE-001 published as draft PR #15
 
 - Result: minimum operational acceptance passed on a separate persistent macOS
-  instance at127.0.0.1:18991. Real GPT6 Luna, authenticated owner state, approved
-  HTTPS and a genuine15:54 EST scheduled occurrence passed. Daily08:00 Eastern
-  restored; next2026-11-11 13:00UTC. Original9899 unchanged. Draft publication
-  pending; no merge. Sustained reliability remains unverified.
+  instance at 127.0.0.1:18991. Real GPT-6 Luna, authenticated owner state, approved
+  HTTPS and a genuine 15:54 EST scheduled occurrence passed. Daily 08:00 Eastern
+  restored; next 2026-11-11 13:00 UTC. Original 9899 unchanged. Published as
+  draft PR #15; no merge. Sustained reliability remains unverified.
 - Team: lead integration/native UI/operational acceptance/docs/Git; Luna/high
   deployment and product scouts, backup and independent test execution;
-  Terra6.1/high lifecycle because launchd, credential handoff and sandbox interact;
-  Sol6.1/high one bounded engineering review for security/data integrity, with
+  Terra 6.1/high lifecycle because launchd, credential handoff and sandbox interact;
+  Sol 6.1/high one bounded engineering review for security/data integrity, with
   concrete correction checks. Requested model selections are not runtime attestation.
 - Changes/files: new scripts/bullgod_service.py and bullgod_backup.py plus tests;
   bounded bullgod_dev.py reuse, common/log.py rotation, plugin_manager data root,
   personal/collaboration.py contract limits, commitments.css panel-height fix;
   four focused test files; docs/bullgod-live-001; MEMORY.md and this ledger.
-- Validation: final full Python6376pass/36skip/93subtests,219.42s;1366 source/test
-  hashes unchanged. RuffF pass with project exclusions. Web39,desktop16, bothUI
-  checks, strictTS/build pass. FinalCSS web/UI checks and1440x1000/720x500 native
-  geometry/screenshots pass. Independent review: no open actionable finding.
-- Native evidence: first manual feed100items/2selected; natural scheduler100/1new
-  with UI/browser closed and launchd parent1; no prior-source duplicate. Later
-  manual read0selected (manual acknowledgement, not silent scheduled proof).
-  Read revocation givesHTTP400/no fetch/run; pause/resume, explicit5.6 Luna
-  continuity and return to6 Luna pass. One specialistfailed, one new approved
-  requestcompleted, one denied/no run; repeated completed/failed requests do not
-  replay. Scoped ownidentity/model, zero tools, source excerpts verified.
-- Recovery/storage: internalAPFS ownership on; WAL/FULL writer-lock/reopen probe
-  passes. Graceful restart and one idleSIGKILL/explicit recovery preserve all
+- Validation: final full Python 6,376 passed / 36 skipped / 93 subtests, 219.42 s;
+  1,366 source/test hashes unchanged. Ruff F pass with project exclusions, including
+  scripts/ci_lint.py against committed implementation 0e201428. Web 39, desktop 16,
+  both UI checks, strict TypeScript/build pass. Final CSS web/UI checks and native
+  1440x1000/720x500 geometry/screenshots pass. Independent review has no open finding.
+  At implementation commit 0e201428, hosted checks/statuses/PR workflow runs are
+  empty; hosted validation is unverified. No Actions investigation resumed.
+- Native evidence: first manual feed 100 items / 2 selected; natural scheduler
+  100 / 1 new with UI/browser closed and launchd parent 1; no prior-source duplicate.
+  Later manual read selected zero (manual acknowledgement, not silent schedule proof).
+  Read revocation gives HTTP 400 with no fetch/run; pause/resume, explicit GPT-5.6
+  Luna continuity and return to GPT-6 Luna pass. One specialist failed, one new
+  approved request completed, one denied with no run; repeated completed/failed
+  requests do not replay. Own identity/model, zero tools, source excerpts verified.
+- Recovery/storage: internal APFS ownership enabled; WAL/FULL writer-lock/reopen
+  probe passes. Graceful restart and one idle SIGKILL/explicit recovery preserve
   captured personal/conversation/run hashes and integrity. Two backups/restores;
-  final26files/3SQLiteDB integrity/counts match. No secrets in general snapshot;
-  no restored app starts. Live sandbox denies outside/source/secret/network probes.
-  Final600 runtime files and three launcher files match reviewed branch contents.
-- Decisions: manually bootstrapped launchd jobs outsideLaunchAgents; KeepAlive=false;
+  final 26 state files / 3 SQLite databases have matching integrity/table counts.
+  Final secret-value scans found no credentials in staged files or general backup.
+  No restored app starts. Live sandbox denies outside/source/secret/network probes.
+  Final 600 runtime files and three launcher files match reviewed branch contents.
+- Decisions: manually bootstrapped launchd jobs outside LaunchAgents; KeepAlive=false;
   no login startup/crash loop, local model installation, public exposure, legacy
   migration, new agent framework or dashboard. Backup quiescence is asserted by
-  operator after stopping only this instance. Private receipts/screenshots/state
-  remain outsideGit; source/worktree never holds persistent application data.
+  the operator after stopping only this instance. Private receipts/screenshots/state
+  remain outside Git; source/worktree never holds persistent application data.
 - Lessons Learned:
   - Mistake: first persistent start wrote plugin settings into source; first
     specialist output repeated a source ID; wide owner panels hid the composer.
@@ -46,8 +50,8 @@
   - Future Trigger: immutable-source deployment, long-source specialist review,
     or multiple expanded owner panels at any viewport width.
   - Required Behavior Change: honor explicit data root; state exact output limits;
-    inspect both wide and200% layouts with composer/message bounds.
-  - Verification Step: plugin13 focused, collaboration14, full6376; actual new
+    inspect both wide and 200% layouts with composer/message bounds.
+  - Verification Step: plugin 13 focused, collaboration 14, full 6,376; actual new
     specialist success and wide/narrow screenshots with keyboard focus.
   - Durable Memory Update: project MEMORY.md records lifecycle/storage boundaries,
     backup limits, contract and layout requirements. Global memory untouched.
@@ -55,14 +59,17 @@
   fixture coverage. Automatic recovery/login, in-flight effects, restored-app
   startup, off-device backup and cross-platform execution unverified. Existing
   test/build warnings retained. Model reply misread historical schedule presence;
-  durable ledger is authoritative. Native title callHTTP400 used text fallback.
-  Default nested specialist workspaces require explicit separate native API path.
-- Next recommended steps: publish/review the draft PR without merging; retain the
-  running service for normal daily use and build sustained operational evidence.
-- Notes for next agent: operational commands and all evidence distinctions are in
+  durable ledger is authoritative. Native title HTTP 400 used text fallback.
+  Default nested specialist workspaces require an explicit separate native API path.
+- Git: implementation 0e201428 pushed to origin/codex/bullgod-live-001, with upstream
+  established as authorized. Publication closeout changes documentation only.
+  Final push/fetch/upstream comparison is required before the completion response.
+- Next recommended steps: review draft PR #15 without an automatic merge; retain
+  the running service for normal daily use and build sustained operational evidence.
+- Notes for next agent: operational commands and evidence distinctions are in
   docs/bullgod-live-001/README.md. Preserve original checkout/untracked conflicts
-  and existing service. Active task worktree retains untrackedAGENTS.md and ignored
-  desktop dependency/build outputs. Never rerun accepted native interactions for
+  and existing service. Active task worktree retains untracked AGENTS.md and ignored
+  desktop dependency/build outputs. Do not rerun accepted native interactions for
   bookkeeping or change current grants without owner instruction.
 
 ## 2026-11-10 14:37 EST — Codex — UPSTREAM-SELECTIVE-001 published as draft PRs #13 and #14

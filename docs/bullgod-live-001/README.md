@@ -3,7 +3,7 @@
 Status: the minimum operational acceptance passed on macOS on 2026-11-10.
 One genuine scheduled occurrence was observed. Sustained reliability is unverified.
 The service is running independently on port 18991; the original 9899 service
-was preserved. Publication is a draft PR, with no merge.
+was preserved. Published as [draft PR #15](https://github.com/hottweelz/CowAgent/pull/15), with no merge.
 
 Baseline: `4f6d5a5f41161aff044cc73fc09f82c5cb187930` (`master`).
 This contains PERSONAL-001 through PERSONAL-004 (PRs #9–12), backend PR #13
@@ -198,8 +198,10 @@ runtime font paths, old browser-data metadata, mixed imports and bundle size.
 Local tooling was Python 3.13.1 and Node 26.8.2; no cross-platform claim is made.
 
 [Independent engineering review](review.md) has no open actionable source finding.
-Hosted validation status is recorded at publication; empty checks are not passes.
-No GitHub Actions availability investigation or workflow change was performed.
+At publication, implementation commit `0e201428346e213cabeb4f773319eab43c28c6c2`
+returned no GitHub check runs, commit statuses, or PR workflow runs. Hosted
+validation is **unverified**; empty checks are not passes. No GitHub Actions
+availability investigation or workflow change was performed.
 
 Known operational limits:
 
