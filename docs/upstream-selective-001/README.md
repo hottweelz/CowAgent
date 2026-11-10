@@ -90,5 +90,10 @@ Hosted checks must be reported from observed status, never inferred from absence
 
 ## Publication and next step
 
-Pending final review, combined regression, branch publication and draft PR links.
-Do not merge or deploy from this report while those fields are pending.
+[Draft PR #13: backend repairs](https://github.com/hottweelz/CowAgent/pull/13), then
+[draft PR #14: desktop fixes](https://github.com/hottweelz/CowAgent/pull/14). Both
+remain unmerged. See [publication and hosted status](publication.md). Hosted
+checks/statuses are empty, so hosted validation remains unverified. Source/test
+hashes are unchanged; both tracked branches are synchronized after final push.
+The worktrees retain only untracked AGENTS.md copies. Review13 before14;
+deployment remains separate.
