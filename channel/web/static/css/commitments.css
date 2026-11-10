@@ -58,14 +58,13 @@
 .commitments-research-material > ul > li > p { margin: .35rem 0; overflow-wrap: anywhere; }
 .commitments-record h4, .commitments-record h5 { margin: .45rem 0 .2rem; font-size: .74rem; }
 .commitments-source-list a { color: rgb(var(--cw-primary-600)); text-decoration: underline; }
+/* Both panels must leave room for chat and its composer at every width,
+   including a short wide window and the effective viewport at 200% zoom. */
+.chat-main:has(#commitments-card > details[open]) #commitments-card { max-height: 24vh; }
+.chat-main:has(#commitments-card > details[open]) #personal-card { max-height: 18vh; }
 @media (max-width: 760px) {
     .commitments-card { max-height: 70vh; margin: .4rem; padding: .65rem; }
     .commitments-content { grid-template-columns: minmax(0, 1fr); }
     .commitments-record-heading, .commitments-actions { align-items: flex-start; flex-wrap: wrap; }
     .commitments-section, .commitments-record { overflow-wrap: anywhere; }
-
-    /* At 200% zoom the narrow CSS viewport can be short. Keep both owner
-       panels scrollable, but leave room for chat and its composer. */
-    .chat-main:has(#commitments-card > details[open]) #commitments-card { max-height: 24vh; }
-    .chat-main:has(#commitments-card > details[open]) #personal-card { max-height: 18vh; }
 }

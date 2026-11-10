@@ -126,7 +126,7 @@ def configured_model(model_base, model, model_family='luna'):
     return newest_supported_model(model_family)
 
 
-def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_API_KEY', read_endpoints=(), model_family='luna'):
+def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_API_KEY', read_endpoints=(), model_family='luna', root=None):
     if sys.platform != 'darwin' or not Path('/usr/bin/sandbox-exec').exists():
         raise RuntimeError('macOS sandbox-exec is required')
     if port == 9899 or not 1024 <= port <= 65535:
@@ -146,11 +146,19 @@ def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_A
             sock = socket.socket()
             sock.bind(('127.0.0.1', 0))
             reserved.append(sock)
-            relays[url] = sock.getsockname()[1]
+            relay_port = sock.getsockname()[1]
+            if relay_port in (port, model_port, 9899):
+                raise RuntimeError('Relay port conflicts with an existing service')
+            relays[url] = relay_port
     finally:
         for sock in reserved:
             sock.close()
-    root = Path(tempfile.mkdtemp(prefix='bullgod-dev-')).resolve()
+    persistent = root is not None
+    if root is None:
+        root = Path(tempfile.mkdtemp(prefix='bullgod-dev-')).resolve()
+    else:
+        root = Path(root).resolve()
+        root.mkdir(mode=0o700)
     source = root / 'source'
     source.mkdir()
     tracked = subprocess.check_output(['git', 'ls-files', '-z'], cwd=REPO).split(b'\0')
@@ -189,7 +197,12 @@ def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_A
     if endpoints:
         config['personal_http_endpoints'] = endpoints
         config['personal_http_relays'] = relays
-    fd = os.open(root / 'data/config.json', os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    config_path = root / 'data/config.json'
+    if persistent:
+        (root / 'config').mkdir(mode=0o700)
+        config_path = root / 'config/config.json'
+        (root / 'data/config.json').symlink_to(config_path)
+    fd = os.open(config_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
     with os.fdopen(fd, 'w') as config_file:
         json.dump(config, config_file, indent=2)
     info = {'version': 1, 'root': str(root), 'port': port, 'python': python}
@@ -210,7 +223,12 @@ def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_A
         profile += f'(allow file-read* (subpath {quoted(path)}))\n'
     for parent in {p for path in (root, prefix) for p in (path, *path.parents)}:
         profile += f'(allow file-read* (literal {quoted(parent)}))\n'
-    profile += f'(allow file-write* (subpath {quoted(root)}))\n'
+    if persistent:
+        for name in ('data', 'workspace', 'home', 'tmp', 'config'):
+            profile += f'(allow file-write* (subpath {quoted(root / name)}))\n'
+        profile += f'(allow file-write* (literal {quoted(root / "source/.cow.pid")}))\n'
+    else:
+        profile += f'(allow file-write* (subpath {quoted(root)}))\n'
     profile += '(allow file-write* (literal "/dev/null") (literal "/dev/dtracehelper"))\n(deny network*)\n'
     profile += f'(allow network-bind (local ip "localhost:{port}"))\n(allow network-inbound (local ip "localhost:{port}"))\n'
     if model_port:

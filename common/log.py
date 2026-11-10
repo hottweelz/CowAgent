@@ -1,4 +1,5 @@
 import logging
+from logging.handlers import RotatingFileHandler
 import os
 import sys
 
@@ -52,7 +53,16 @@ def _reset_logger(log):
     # an unwritable CWD), fall back to console-only instead of crashing the
     # whole process at import time.
     try:
-        file_handle = logging.FileHandler(_log_path(), encoding="utf-8")
+        # Persistent deployments can bound disk use without changing the
+        # historical logging policy of existing instances.
+        max_bytes = int(os.environ.get("COW_LOG_MAX_BYTES", "0"))
+        backups = int(os.environ.get("COW_LOG_BACKUPS", "3"))
+        if max_bytes > 0 and backups > 0:
+            file_handle = RotatingFileHandler(
+                _log_path(), maxBytes=max_bytes, backupCount=backups, encoding="utf-8"
+            )
+        else:
+            file_handle = logging.FileHandler(_log_path(), encoding="utf-8")
         file_handle.setFormatter(
             logging.Formatter(
                 "[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d] - %(message)s",
@@ -60,7 +70,7 @@ def _reset_logger(log):
             )
         )
         log.addHandler(file_handle)
-    except OSError as exc:
+    except (OSError, ValueError) as exc:
         console_handle.handle(
             logging.LogRecord(
                 "log", logging.WARNING, __file__, 0,

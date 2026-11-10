@@ -1,0 +1,111 @@
+{
+  "milestone": "BULLGOD-LIVE-001",
+  "baseline": "4f6d5a5f41161aff044cc73fc09f82c5cb187930",
+  "result": "minimum operational acceptance passed; sustained reliability unverified",
+  "platform": "macOS; internal APFS; ownership enforced",
+  "runtime": {
+    "port": 18991,
+    "binding": "127.0.0.1",
+    "source_files": 600,
+    "source_manifest_sha256": "a89e0bd2744b68e746d23a720dccdc650736d1d687479c004466dadd257d67ae",
+    "source_mismatches": [],
+    "scheduler": "native",
+    "supervisor": "launchd",
+    "automatic_restart": false,
+    "login_startup": false
+  },
+  "models": {
+    "primary": "gpt-6-luna",
+    "explicit_continuity_check": "gpt-5.6-luna",
+    "restored": "gpt-6-luna",
+    "automatic_fallback": false
+  },
+  "natural_occurrence": {
+    "timezone": "America/New_York",
+    "scheduled_utc": "2026-11-10T20:54:00Z",
+    "started_utc": "2026-11-10T20:54:08Z",
+    "finished_utc": "2026-11-10T20:54:14Z",
+    "ui_closed": true,
+    "service_parent_pid": 1,
+    "manual_callback_or_clock_change": false,
+    "articles": 100,
+    "selected_new": 1,
+    "prior_selected_repeated": 0,
+    "delivery": "native owner conversation",
+    "http": "real approved endpoint request; changed ETag and checked timestamp"
+  },
+  "next_occurrence": {
+    "cron": "0 8 * * *",
+    "timezone": "America/New_York",
+    "utc": "2026-11-11T13:00:00Z"
+  },
+  "recovery": {
+    "normal_restart": "personal and conversation hashes unchanged; integrity ok",
+    "idle_unexpected_termination": "one SIGKILL of new instance; explicit restart; hashes unchanged; integrity ok",
+    "in_flight_effect_interruption": "unverified"
+  },
+  "specialist": {
+    "completed": 1,
+    "failed_retained": 1,
+    "denied_without_execution": 1,
+    "native_model_runs": 2,
+    "tools_per_run": 0,
+    "replay_requests_created_new_runs": false,
+    "registered_identity": "news-analyst-live"
+  },
+  "backup": {
+    "snapshots": 2,
+    "final_files": 26,
+    "final_databases": 3,
+    "integrity": "ok",
+    "restore_table_counts": "match",
+    "credentials_present": false,
+    "restore_starts_application": false
+  },
+  "validation": {
+    "python": {
+      "passed": 6376,
+      "skipped": 36,
+      "subtests_passed": 93,
+      "warnings": 36,
+      "seconds": 219.42,
+      "source_test_files_unchanged": 1366
+    },
+    "web": 39,
+    "desktop": 16,
+    "ui_checks": "both passed",
+    "strict_typescript": "passed",
+    "desktop_build": "passed",
+    "ruff_F": "passed with repository F403/F405 exclusions",
+    "wide": {
+      "viewport": [
+        1440,
+        1000
+      ],
+      "horizontal_overflow": false,
+      "composer_bottom": 941,
+      "message_height": 357.8125
+    },
+    "zoom_equivalent_200_percent": {
+      "viewport": [
+        720,
+        500
+      ],
+      "horizontal_overflow": false,
+      "composer_bottom": 441,
+      "message_height": 70.21875,
+      "keyboard_focus": "commitments-refresh"
+    },
+    "independent_review": "no open actionable findings",
+    "hosted": "pending publication status query"
+  },
+  "limitations": [
+    "one observed scheduled occurrence only",
+    "silent scheduled no-change and injected failure cases use retained fixture coverage",
+    "no automatic crash restart or login startup",
+    "idle recovery does not prove in-flight external-effect recovery",
+    "inspection restore does not prove restored application startup",
+    "no cross-platform or off-device backup certification",
+    "model historical-schedule explanation and title-generation limitations documented"
+  ]
+}

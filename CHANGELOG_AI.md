@@ -1,5 +1,70 @@
 # AI handoff ledger
 
+## 2026-11-10 16:18 EST — Codex — BULLGOD-LIVE-001 operational acceptance
+
+- Result: minimum operational acceptance passed on a separate persistent macOS
+  instance at127.0.0.1:18991. Real GPT6 Luna, authenticated owner state, approved
+  HTTPS and a genuine15:54 EST scheduled occurrence passed. Daily08:00 Eastern
+  restored; next2026-11-11 13:00UTC. Original9899 unchanged. Draft publication
+  pending; no merge. Sustained reliability remains unverified.
+- Team: lead integration/native UI/operational acceptance/docs/Git; Luna/high
+  deployment and product scouts, backup and independent test execution;
+  Terra6.1/high lifecycle because launchd, credential handoff and sandbox interact;
+  Sol6.1/high one bounded engineering review for security/data integrity, with
+  concrete correction checks. Requested model selections are not runtime attestation.
+- Changes/files: new scripts/bullgod_service.py and bullgod_backup.py plus tests;
+  bounded bullgod_dev.py reuse, common/log.py rotation, plugin_manager data root,
+  personal/collaboration.py contract limits, commitments.css panel-height fix;
+  four focused test files; docs/bullgod-live-001; MEMORY.md and this ledger.
+- Validation: final full Python6376pass/36skip/93subtests,219.42s;1366 source/test
+  hashes unchanged. RuffF pass with project exclusions. Web39,desktop16, bothUI
+  checks, strictTS/build pass. FinalCSS web/UI checks and1440x1000/720x500 native
+  geometry/screenshots pass. Independent review: no open actionable finding.
+- Native evidence: first manual feed100items/2selected; natural scheduler100/1new
+  with UI/browser closed and launchd parent1; no prior-source duplicate. Later
+  manual read0selected (manual acknowledgement, not silent scheduled proof).
+  Read revocation givesHTTP400/no fetch/run; pause/resume, explicit5.6 Luna
+  continuity and return to6 Luna pass. One specialistfailed, one new approved
+  requestcompleted, one denied/no run; repeated completed/failed requests do not
+  replay. Scoped ownidentity/model, zero tools, source excerpts verified.
+- Recovery/storage: internalAPFS ownership on; WAL/FULL writer-lock/reopen probe
+  passes. Graceful restart and one idleSIGKILL/explicit recovery preserve all
+  captured personal/conversation/run hashes and integrity. Two backups/restores;
+  final26files/3SQLiteDB integrity/counts match. No secrets in general snapshot;
+  no restored app starts. Live sandbox denies outside/source/secret/network probes.
+  Final600 runtime files and three launcher files match reviewed branch contents.
+- Decisions: manually bootstrapped launchd jobs outsideLaunchAgents; KeepAlive=false;
+  no login startup/crash loop, local model installation, public exposure, legacy
+  migration, new agent framework or dashboard. Backup quiescence is asserted by
+  operator after stopping only this instance. Private receipts/screenshots/state
+  remain outsideGit; source/worktree never holds persistent application data.
+- Lessons Learned:
+  - Mistake: first persistent start wrote plugin settings into source; first
+    specialist output repeated a source ID; wide owner panels hid the composer.
+  - Root Cause: source-mode plugin path ignored data override; prompt omitted
+    verifier limits; viewport limits applied only at narrow widths.
+  - Future Trigger: immutable-source deployment, long-source specialist review,
+    or multiple expanded owner panels at any viewport width.
+  - Required Behavior Change: honor explicit data root; state exact output limits;
+    inspect both wide and200% layouts with composer/message bounds.
+  - Verification Step: plugin13 focused, collaboration14, full6376; actual new
+    specialist success and wide/narrow screenshots with keyboard focus.
+  - Durable Memory Update: project MEMORY.md records lifecycle/storage boundaries,
+    backup limits, contract and layout requirements. Global memory untouched.
+- Known issues: one observed schedule only; silent scheduled/failure paths have
+  fixture coverage. Automatic recovery/login, in-flight effects, restored-app
+  startup, off-device backup and cross-platform execution unverified. Existing
+  test/build warnings retained. Model reply misread historical schedule presence;
+  durable ledger is authoritative. Native title callHTTP400 used text fallback.
+  Default nested specialist workspaces require explicit separate native API path.
+- Next recommended steps: publish/review the draft PR without merging; retain the
+  running service for normal daily use and build sustained operational evidence.
+- Notes for next agent: operational commands and all evidence distinctions are in
+  docs/bullgod-live-001/README.md. Preserve original checkout/untracked conflicts
+  and existing service. Active task worktree retains untrackedAGENTS.md and ignored
+  desktop dependency/build outputs. Never rerun accepted native interactions for
+  bookkeeping or change current grants without owner instruction.
+
 ## 2026-11-10 14:37 EST — Codex — UPSTREAM-SELECTIVE-001 published as draft PRs #13 and #14
 
 - Result: candidates1–8 published in backend PR13; desktop9–10 in stacked PR14.
