@@ -1,0 +1,146 @@
+{
+  "schema": "cow.bootstrap.interrupted-startup/1",
+  "candidate": "f59a6e91152900d709cad1775b2756cf25b316c0",
+  "port": 19890,
+  "limitations": [
+    "Fictional data only; BROWSER=true and network-outbound denied.",
+    "Interruption occurs between control publication and observer execution, not mid-transaction.",
+    "Same-UID control does not prove human presence; no external exactly-once claim.",
+    "Live private restoration and old-service state are not tested."
+  ],
+  "first_process": {
+    "pid": 54302,
+    "service_published": true,
+    "startup_claim_retained": true,
+    "startup_receipt_absent": true,
+    "control_receipt_absent": true,
+    "listener_absent_at_boundary": true
+  },
+  "first_process_exit": 0,
+  "replacement": {
+    "pid": 54319,
+    "health": "200/ok",
+    "startup_ids": [
+      "default",
+      "testpilot",
+      "testpilot2"
+    ],
+    "startup_dispatch_permitted": false,
+    "old_control_result": {
+      "status": "unavailable",
+      "drained": false,
+      "reason": "maintenance_control_unavailable"
+    },
+    "new_control_receipt": {
+      "active": {},
+      "agents": {},
+      "binding": {
+        "coordinator_epoch": "822039cd24ed463b97240d85c90777af",
+        "pid": 54319,
+        "runtime_epoch": "a991bfc6d2ab43e1bcd5dbe817317408",
+        "service_id": "11d0dcfb08964b1a905a17165a3dcca9",
+        "uid": 501
+      },
+      "blockers": [],
+      "closed": true,
+      "drained": true,
+      "finished_at": 1794270941.332845,
+      "protocol": "cow.maintenance.drain/1",
+      "registered_components": [
+        "agent",
+        "chat",
+        "evolution",
+        "extensions",
+        "http",
+        "memory",
+        "recovery",
+        "scheduler",
+        "startup"
+      ],
+      "request_digest": "8c2ba8d981500f3e6ff7cf596d3b79536f17e02828460ec834a65db585e1c8bd",
+      "request_id": "8ef51ccdfea944d18ca13e5fd8f3f20f",
+      "required_components": [
+        "agent",
+        "chat",
+        "evolution",
+        "extensions",
+        "http",
+        "memory",
+        "recovery",
+        "scheduler",
+        "startup"
+      ],
+      "status": "drained"
+    },
+    "fresh_request_distinct": true,
+    "fresh_service_distinct": true,
+    "seven_plugins_enabled": [
+      "cow_cli",
+      "Godcmd",
+      "Keyword",
+      "Banwords",
+      "linkai",
+      "Role",
+      "Finish"
+    ],
+    "old_control_did_not_submit_to_replacement": true
+  },
+  "replacement_exit": 0,
+  "port_released": true,
+  "durable_metadata_digest_before": {
+    "memory/long-term/index.db:sessions": "2a393dd23c9d7868d62fa40f1bb5cf978757bc3813a4d88ca48b51747427de34",
+    "memory/long-term/index.db:messages": "76fbf33164def0e45565738b1682b59cbcfd538b60a19d9432fa26180078104f",
+    "memory/long-term/index.db:files": "8e89f2626d4c4a6296c05d5a41dafb42a58b1ae9ba68a2a3e56b23b044715b74",
+    "memory/long-term/index.db:chunks": "c3407d012de34496783699842dc0bac6566a5f9208863498bd15f6bc01825edb",
+    "memory/recovery/tasks.db:recovery_tasks": "af60c6ec04c9c4029c3b57b6fca5443e3dbc5bff6896b84486c653bf26113fad",
+    "memory/recovery/tasks.db:recovery_attempts": "9d2d71ef0fa3721edd056218b9c10fba0b48b00debf4b2175ecba77be9cb3d38",
+    "memory/recovery/tasks.db:recovery_effects": "8ae62d7779469acad54d4cc0a4d82a6ea9739803499bcbc39c899f29458f51d2",
+    "memory/recovery/tasks.db:recovery_verifications": "945bc442496b9bc323a98159defde028b050266a5757195c3d87cf084fccba83",
+    "agents/testpilot/memory/long-term/index.db:files": "edda1dd2c30e950d375d282f1a1ddf837c3d69b409f36d54bbee09f930e6da0a",
+    "agents/testpilot/memory/long-term/index.db:chunks": "3002122d0a19efcef091b00d6fce07c3f0c73a88aea79794a917cb5c617e6777",
+    "agents/testpilot2/memory/long-term/index.db:files": "547fb3ef7cce6db2697427ce7914b7ba36614a9c5fb4631525379060a5dd425f",
+    "agents/testpilot2/memory/long-term/index.db:chunks": "df68bb22e2cfdceee82e819997cfbf346aff07442365d4dc9237e8d25acd66b3",
+    "team.json": "48da8d4e9b70cf10a318d1f6a5ccb1af69145447e6948c11c28e560ea1ebbba9",
+    "memory.md": "3a28ee0e0d4d62291aba39f78a0f93d44faba4fa9b71a64d55288919f888d3ec"
+  },
+  "durable_metadata_digest_after": {
+    "memory/long-term/index.db:sessions": "2a393dd23c9d7868d62fa40f1bb5cf978757bc3813a4d88ca48b51747427de34",
+    "memory/long-term/index.db:messages": "76fbf33164def0e45565738b1682b59cbcfd538b60a19d9432fa26180078104f",
+    "memory/long-term/index.db:files": "8e89f2626d4c4a6296c05d5a41dafb42a58b1ae9ba68a2a3e56b23b044715b74",
+    "memory/long-term/index.db:chunks": "c3407d012de34496783699842dc0bac6566a5f9208863498bd15f6bc01825edb",
+    "memory/recovery/tasks.db:recovery_tasks": "af60c6ec04c9c4029c3b57b6fca5443e3dbc5bff6896b84486c653bf26113fad",
+    "memory/recovery/tasks.db:recovery_attempts": "9d2d71ef0fa3721edd056218b9c10fba0b48b00debf4b2175ecba77be9cb3d38",
+    "memory/recovery/tasks.db:recovery_effects": "8ae62d7779469acad54d4cc0a4d82a6ea9739803499bcbc39c899f29458f51d2",
+    "memory/recovery/tasks.db:recovery_verifications": "945bc442496b9bc323a98159defde028b050266a5757195c3d87cf084fccba83",
+    "agents/testpilot/memory/long-term/index.db:files": "edda1dd2c30e950d375d282f1a1ddf837c3d69b409f36d54bbee09f930e6da0a",
+    "agents/testpilot/memory/long-term/index.db:chunks": "3002122d0a19efcef091b00d6fce07c3f0c73a88aea79794a917cb5c617e6777",
+    "agents/testpilot2/memory/long-term/index.db:files": "547fb3ef7cce6db2697427ce7914b7ba36614a9c5fb4631525379060a5dd425f",
+    "agents/testpilot2/memory/long-term/index.db:chunks": "df68bb22e2cfdceee82e819997cfbf346aff07442365d4dc9237e8d25acd66b3",
+    "team.json": "48da8d4e9b70cf10a318d1f6a5ccb1af69145447e6948c11c28e560ea1ebbba9",
+    "memory.md": "3a28ee0e0d4d62291aba39f78a0f93d44faba4fa9b71a64d55288919f888d3ec"
+  },
+  "integrity_and_four_db_metadata_match": true,
+  "status": "passed",
+  "fixture_sha256": {
+    "docs/first-bootstrap-002/interrupted-startup-rehearsal.py": "4a20aaa6f80363b2b711709cbcf77af7cdbc9dbc6bc825021b3db6db37f8cc8d",
+    "docs/first-bootstrap-002/interrupted-startup-driver.py": "793cba623cc7e065135196449b79961f35cfe0ab3055f03871e5c00c3726aae0",
+    "docs/first-bootstrap-001/request_fixture.py": "e73c68caf96209f34326bf6723e4f8895bb521a5dfc0d7191958a1646c66e4d8",
+    "docs/first-bootstrap-001/seed_fixture.py": "9ece1b152621c5418d23f58de4e53dfac891e71a3969e2fbc370e887150c7e52"
+  },
+  "executed_fixture_sha256": {
+    "docs/first-bootstrap-002/interrupted-startup-rehearsal.py": "4a20aaa6f80363b2b711709cbcf77af7cdbc9dbc6bc825021b3db6db37f8cc8d",
+    "docs/first-bootstrap-002/interrupted-startup-driver.py": "793cba623cc7e065135196449b79961f35cfe0ab3055f03871e5c00c3726aae0",
+    "docs/first-bootstrap-001/request_fixture.py": "e73c68caf96209f34326bf6723e4f8895bb521a5dfc0d7191958a1646c66e4d8",
+    "docs/first-bootstrap-001/seed_fixture.py": "9ece1b152621c5418d23f58de4e53dfac891e71a3969e2fbc370e887150c7e52"
+  },
+  "candidate_source_sha256": {
+    "app.py": "8e796831af6b0d0805ee1aa945d7c896859bc1f1064a24c748d8abbff782b985",
+    "scripts/discovery_startup.py": "de24683f1ce780df0d09b14f95bb5a38438aed9bad1982acbb1a79ef69061580",
+    "scripts/maintenance_drain.py": "ba479dcfc636ae92ab6c21fff235653084b2fed231e9fa6df433f7dd1a8145ad",
+    "agent/discovery/startup_observer.py": "e00e909d1162f728d1eeda24a74d1420846237c9b34fa99c1beef2327371ff1f",
+    "common/maintenance_control.py": "b2c6937a5ea9f6edd61c4c0a97e684807edcaf82d591a71dede93e198218dfa1",
+    "common/plugin_lifecycle.py": "d7aa068bbcd38f09f03adb5e48d00c618caddbbf06d52bc1dfe0aee18bc38532",
+    "plugins/plugin_manager.py": "6168446b411df1f8bdebcf9743fccf8d00e6959047f54e92af3d7fc763c775c5"
+  },
+  "boundary": "After genuine process-bound control service.json publication, at entry to observe_and_publish, before receipt or listener; fixture tracing pauses the owned process."
+}

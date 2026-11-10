@@ -1,5 +1,46 @@
 # AI handoff ledger
 
+## 2026-11-09 19:37 EST — Codex — completion audit and current startup interruption
+
+- Summary: audited every FIRST-BOOTSTRAP-002 phase against current evidence.
+  Goal remains incomplete because exact-source hosted Python validation is blocked;
+  **CLASS C — NO-GO** remains the maintenance decision.
+- Team: reused Luna/high for read-only CI status and Terra 6.1/high for one bounded
+  cross-process startup/authority/recovery check. Lead owns audit, receipt review,
+  documentation and Git sync. No new source reviewer or external pool.
+- Changes/files: docs/first-bootstrap-002/completion-audit.md; interrupted-startup
+  driver/rehearsal/receipt; README/recovery/review links and this handoff. Runtime,
+  tests, dependencies and workflows remain unchanged. MEMORY.md update: not needed.
+- Evidence/results: current f59 process paused after genuine private-control
+  publication but before observer/listener; owned SIGTERM exit 0 retained consumed
+  claim without a success receipt. Replacement with fresh request/control reached
+  health, rejected old control and returned a nine-component positive drain receipt.
+  Four fictional DB integrity/selected record digests, team and memory-file digests
+  match. Both owned processes exited 0; port 19890 released. No mid-transaction,
+  actual private restoration or external exactly-once claim.
+- Checks: fixture/source hashes recomputed and matched; JSON/AST/relative links,
+  F-class Ruff and git diff --check passed. Lead read supplemental fixture/receipt.
+  Original PID/start and 9899 health rechecked after owned-process work.
+- CI: authoritative run 42726508145 still queued, attempt 1, zero jobs/artifacts;
+  no second attempt or newer run on 2394/d9abc. No retry/settings action this turn.
+  This is the second consecutive goal turn with the same external blocker.
+- Lessons Learned:
+  - Mistake: published interruption evidence predated the new startup control.
+  - Root Cause: an older valid process receipt covered a different startup path.
+  - Future Trigger: changing startup binding/publication or recovery ordering.
+  - Required Behavior Change: match fault evidence to the changed boundary;
+    retain old evidence only for its exact scope.
+  - Verification Step: interrupt the exact new candidate at that boundary and
+    prove fresh-authority restart, stale-control refusal and state continuity.
+  - Durable Memory Update: none; existing source/evidence scope rule applies.
+- Known issues/next: resolve the contradictory GitHub dispatch state before a
+  current hosted Python matrix can pass. Keep the same run handle for read-only
+  checks; do not repeatedly dispatch or toggle settings. Separate live ingress
+  and actual private recovery authorizations/qualification remain required.
+- Notes: preserve draft PR chain, live source and no-prune recovery policy.
+  Publish this supplemental audit only; do not reinterpret Class C as full goal
+  completion or repeat already valid normal transition interactions.
+
 ## 2026-11-09 19:30 EST — Codex — FIRST-BOOTSTRAP-002 qualification, Class C
 
 - Result: **CLASS C — NO-GO**. Candidate plugin coverage and private operator

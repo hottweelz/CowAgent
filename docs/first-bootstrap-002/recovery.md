@@ -153,6 +153,16 @@ That fixture does not create later legitimate user data; the focused recovery
 fixture supplies the separate refusal/reconciliation evidence. Neither authorizes
 replacing an actual live tree.
 
+The [current startup-interruption receipt](interrupted-startup.json) covers the
+new f59 control path: an owned process pauses after genuine service binding and
+publication, before the startup observer and listener, then exits on SIGTERM.
+Its startup claim remains consumed without a success receipt. A new process uses
+fresh request/control directories, rejects the old control and returns a settled
+drain receipt. All four fictional DBs pass integrity and retain the selected
+conversation/memory/recovery/verification records; team and memory-file digests
+match. This is a between-stage interruption, not a mid-transaction crash or a
+live private restore. Both owned processes exit 0 and port 19890 is released.
+
 ## Limits
 
 - The active service's database-handle observations differed. Exact timestamps

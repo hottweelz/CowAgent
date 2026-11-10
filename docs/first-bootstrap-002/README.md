@@ -35,9 +35,12 @@ private recovery scope, startup effects, abort conditions and remaining decision
 - [Recovery design](recovery.md) and [native four-database fixture](recovery.json):
   SQLite online backup, isolated restore, real merge migration/idempotence,
   identity/history continuity, unknown-file/mode/symlink preservation, corrupt or
-  missing-entry rejection and explicit later-user-data reconciliation. A previous
-  fictional interrupted-startup/fault-retry receipt remains scoped to its source;
-  the new process receipt proves candidate/restored fallback startup.
+  missing-entry rejection and explicit later-user-data reconciliation. The
+  [current interrupted-startup check](interrupted-startup.json) stops f59 after
+  private control publication but before observation/listener, then verifies a
+  fresh replacement, stale-control rejection and four-database continuity. It
+  does not claim a crash inside a transaction. The normal process receipt also
+  proves candidate/restored fallback startup.
 - [Legacy ingress](ingress.md): disposable gateway closure works but direct
   listener access bypasses it. PF inspection was denied; no OS rule was applied.
   A concrete private-anchor proposal includes loopback, keep-alive, forwarding,
@@ -109,3 +112,7 @@ then the exact-source Python matrix. The remaining live-transition work is the
 narrowly scoped OS-fence qualification and approved private recovery rehearsal
 described in the policy. Do not repeat the broad legacy audit or treat new
 candidate instrumentation as evidence about the old process.
+
+The [requirement completion audit](completion-audit.md) maps all nine phases to
+current evidence. The hosted Python gate remains incomplete; a valid Class C
+decision is not a claim that every requested validation gate passed.
