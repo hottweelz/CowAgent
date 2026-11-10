@@ -1,0 +1,86 @@
+{
+  "verified_at": 1794283537,
+  "native_source_hashes": {
+    "agent/memory/personal.py": {
+      "candidate": "64de3ed9c9488959e69a6ea7dd34d89ff79807353cea7c1c84bfaef4ef347177",
+      "instance": "64de3ed9c9488959e69a6ea7dd34d89ff79807353cea7c1c84bfaef4ef347177"
+    },
+    "agent/memory/personal_context.py": {
+      "candidate": "4276227394e5c24292702df26f206432ddff56ded5abde93798ec2f36923f913",
+      "instance": "4276227394e5c24292702df26f206432ddff56ded5abde93798ec2f36923f913"
+    },
+    "agent/personal/__init__.py": {
+      "candidate": "cab7e6efa4a8d86c5a3a153810d4c06447a684ffcbee3c3f0002887ea1f8a50c",
+      "instance": "cab7e6efa4a8d86c5a3a153810d4c06447a684ffcbee3c3f0002887ea1f8a50c"
+    },
+    "agent/personal/service.py": {
+      "candidate": "843bfdc0e25180e927930dc47f16fdf7379512de1f1425dc902954bfb4c01cf6",
+      "instance": "843bfdc0e25180e927930dc47f16fdf7379512de1f1425dc902954bfb4c01cf6"
+    },
+    "agent/protocol/agent.py": {
+      "candidate": "d8413e31581ff5dcac136f811c90dfdfd262b0552950403b7ea9eb9826273d82",
+      "instance": "d8413e31581ff5dcac136f811c90dfdfd262b0552950403b7ea9eb9826273d82"
+    },
+    "bridge/agent_bridge.py": {
+      "candidate": "ed44bb5b7d9ae90673eed0130b993d928be36ee7c7a5ac876a62684ba755613d",
+      "instance": "ed44bb5b7d9ae90673eed0130b993d928be36ee7c7a5ac876a62684ba755613d"
+    },
+    "channel/web/api/personal.py": {
+      "candidate": "c39eaaa25dc9e8fb4d8617f46bd3f8c27c5062924db0841f98a2295b2e6c1816",
+      "instance": "c39eaaa25dc9e8fb4d8617f46bd3f8c27c5062924db0841f98a2295b2e6c1816"
+    },
+    "channel/web/chat.html": {
+      "candidate": "7cf936db71e3cea98458cd513c96b3ef7ccfacd04f4282daca63116360fa4122",
+      "instance": "7cf936db71e3cea98458cd513c96b3ef7ccfacd04f4282daca63116360fa4122"
+    },
+    "channel/web/static/css/personal.css": {
+      "candidate": "695f37466c797ca130eee69ea5c73ae16c02e027e523dc2f96f6a79585c62e1a",
+      "instance": "695f37466c797ca130eee69ea5c73ae16c02e027e523dc2f96f6a79585c62e1a"
+    },
+    "channel/web/static/js/chat/new-chat.js": {
+      "candidate": "78e7a2d7b54c72ea8f1e6efe63e963fee4547caf12e7c4438da11e28162d9202",
+      "instance": "78e7a2d7b54c72ea8f1e6efe63e963fee4547caf12e7c4438da11e28162d9202"
+    },
+    "channel/web/static/js/chat/personal.js": {
+      "candidate": "947ea300b6cd66762985ea8fbacea31625023d84b378d840280c0614ce9556c7",
+      "instance": "6b32edc20460c35c541983afeb6fe0dec022fdcb11100c5b3872866690633d20"
+    },
+    "channel/web/static/js/chat/render.js": {
+      "candidate": "d9aced13c67a6d0f7a719217ed0f2d3bd8fff4f25e160684ee3c14bc1c001dca",
+      "instance": "d9aced13c67a6d0f7a719217ed0f2d3bd8fff4f25e160684ee3c14bc1c001dca"
+    },
+    "channel/web/static/js/chat/send.js": {
+      "candidate": "ff55da20d92f2b524409646c617c94c39aea3837cd9da118cfc77b8252296f5d",
+      "instance": "ff55da20d92f2b524409646c617c94c39aea3837cd9da118cfc77b8252296f5d"
+    },
+    "channel/web/templates/views/chat.html": {
+      "candidate": "6bcf4507de381705b8120f24ba5ff2162b00d6dbe5380ad476a54c9df528113e",
+      "instance": "6bcf4507de381705b8120f24ba5ff2162b00d6dbe5380ad476a54c9df528113e"
+    },
+    "channel/web/tools/check-personal-ui.mjs": {
+      "candidate": "873d128feaf8861c010c46aadd0e1fd214a360c5e359d4daaaadaf7e0d52a657",
+      "instance": "8ebd4fbc07cbace407b61e0fa407ddc106773e3db567eebe99954ad37b960b53"
+    },
+    "channel/web/web_channel.py": {
+      "candidate": "ff3ad35739c002c345875f5ddbd4261381b25c70119beb4a8d434ee6ad53c8ef",
+      "instance": "ff3ad35739c002c345875f5ddbd4261381b25c70119beb4a8d434ee6ad53c8ef"
+    }
+  },
+  "different_instance_files": [
+    "channel/web/static/js/chat/personal.js",
+    "channel/web/tools/check-personal-ui.mjs"
+  ],
+  "difference_scope": "Final personal.js is served through the documented browser overlay; check-personal-ui.mjs is a non-runtime test file. All other listed native source hashes match.",
+  "overlay_evidence": "native-validation.json",
+  "independent_evidence_review": "PASS: 20 original source/test hashes plus two documented final UI hashes, full log/JUnit hashes, one completed fictional action, revision 2, zero active facts and expected native model routing reconciled by Luna worker. No interactions replayed.",
+  "live_preservation": {
+    "pid_and_start": "28093 Sun Nov  8 13:22:09 2026",
+    "health": {
+      "http_status": 200,
+      "status": "ok"
+    },
+    "primary_checkout_head": "a507a400985512683c870ef4fe059fa5982ad13e",
+    "scope": "Read-only process, health and checkout-head checks only; no live source/config/data action."
+  },
+  "owned_service_process_marker_present": false
+}

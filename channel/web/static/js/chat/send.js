@@ -824,6 +824,9 @@ function startSSE(requestId, loadingEl, timestamp, replayItems, resume) {
                 if (isActive() && typeof refreshTimeline === 'function') {
                     refreshTimeline();
                 }
+                if (item.user_seq != null && typeof personalMarkPersistedTurn === 'function') {
+                    personalMarkPersistedTurn(ownerSession);
+                }
                 renderBotSpeakerButton(botEl, finalText);
                 scrollChatToBottom();
 

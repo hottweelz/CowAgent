@@ -55,6 +55,7 @@ from channel.web.api.models import ModelsHandler  # noqa: F401
 from channel.web.api.openai_compat import (  # noqa: F401
     OpenAIChatCompletionsHandler, OpenAIModelsHandler,
 )
+from channel.web.api.personal import PersonalHandler  # noqa: F401
 from channel.web.api.pages import (  # noqa: F401
     AssetsHandler, ChatHandler, HealthHandler, RootHandler,
 )
@@ -176,6 +177,7 @@ URLS = (
     '/api/agents', 'AgentsHandler',
     '/api/agents/([^/]+)/avatar', 'AgentAvatarHandler',
     '/api/agents/([^/]+)/files/([^/]+)', 'AgentCoreFileHandler',
+    '/api/personal/(.*)', 'PersonalHandler',
     '/api/sessions', 'SessionsHandler',
     '/api/sessions/(.*)/generate_title', 'SessionTitleHandler',
     '/api/prompt/optimize', 'PromptOptimizeHandler',

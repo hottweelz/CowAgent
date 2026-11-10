@@ -1,0 +1,264 @@
+{
+  "status": "passed",
+  "started_at": 1794281604,
+  "instance": {
+    "port": 19892,
+    "agent_id": "bullgod",
+    "initial_model": "gpt-6-luna",
+    "api_type": "responses"
+  },
+  "steps": {
+    "1_identity_model_permission": {
+      "passed": true,
+      "agent_id": "bullgod",
+      "session_id": "session_8e754bfa-b353-473f-aa63-06d442d58a17",
+      "model": "gpt-6-luna",
+      "permission": "read-only"
+    },
+    "2_natural_conversation_and_owner_save": {
+      "passed": true,
+      "source_seq": 0,
+      "goal_saved": true,
+      "pending_decision_saved": true,
+      "memory_saved": true
+    },
+    "3_restart_and_context_refresh": {
+      "passed": true,
+      "same_session": true
+    },
+    "4_resume_context": {
+      "passed": true,
+      "model": "gpt-6-luna"
+    },
+    "5_tools_skills_and_limits": {
+      "passed": true,
+      "tools": [
+        "bash",
+        "browser",
+        "edit",
+        "env_config",
+        "ls",
+        "memory_get",
+        "memory_search",
+        "read",
+        "scheduler",
+        "search_files",
+        "send",
+        "subagent",
+        "time",
+        "vision",
+        "web_fetch",
+        "write"
+      ],
+      "skills_count": 3,
+      "permission_mode": "read-only"
+    },
+    "6_supported_model_change": {
+      "passed": true,
+      "model": "gpt-5.6-luna"
+    },
+    "7_memory_correction_and_retrieval": {
+      "passed": true,
+      "evidence": "docs/personal-001/context-delivery-probe.json",
+      "current_memory_in_prompt": true,
+      "old_memory_in_prompt": false,
+      "context_unavailable_notice": false,
+      "model": "gpt-5.6-luna",
+      "answer": "The stored preference is: **“The owner prefers detailed workshop plans.”**\n\nIt does **not** conflict with the saved goal to prepare a **brief Cedar workshop plan**—the goal specifies this workshop’s required format, while the preference is a broader default.",
+      "usage_models": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ],
+      "notes": "A parent-directed prompt payload probe confirmed current corrected memory and no stale value. The earlier ambiguous answer remains in observed_model_evidence."
+    },
+    "7_corrected_memory_retrieval": {
+      "passed": true,
+      "current_fact": "The owner prefers detailed workshop plans.",
+      "evidence": "context-delivery-probe.json",
+      "original_ambiguous_answer_retained": true
+    },
+    "8_proposal_and_preapproval_denial": {
+      "passed": true,
+      "action_id": "2f60ba43e9334ac19204ace19bd63dd9",
+      "path": "projects/cedar/checklist.md",
+      "pending": "pending",
+      "denied_http": 400
+    },
+    "9_approved_native_write_and_readback": {
+      "passed": true,
+      "action_id": "2f60ba43e9334ac19204ace19bd63dd9",
+      "result": {
+        "path": "projects/cedar/checklist.md",
+        "sha256": "55257ff6c2d586ae0270e12820761d90ede16e0b330cbec0381a0ae4b6332187",
+        "bytes": 536,
+        "readback": "verified"
+      },
+      "independent_file_matches": true
+    },
+    "10_result_and_progress": {
+      "passed": true,
+      "action_records": 1,
+      "goal_revision": 2,
+      "progress": "Draft checklist created and readback verified at projects/cedar/checklist.md."
+    },
+    "11_result_explanation": {
+      "passed": true,
+      "answer": "- **Completed:** The draft Cedar checklist was created.\n- **File:** `projects/cedar/checklist.md`\n- **Readback:** Verified successfully.\n- **Pending decision:** Confirm the expected venue capacity."
+    },
+    "12_forget_and_new_session": {
+      "passed": true,
+      "answer": "No plan-style preference is saved.",
+      "active_memories": 0,
+      "new_session_id": "session_67b87d99-e00f-4483-9267-564b96b1c17e",
+      "semantic_review": "Passed: actual response explicitly states that no plan-style preference is saved."
+    },
+    "final_ui_quote_boundary": {
+      "passed": true,
+      "literal_value_preserved": true,
+      "injected_attributes": false,
+      "final_source_sha256": "947ea300b6cd66762985ea8fbacea31625023d84b378d840280c0614ce9556c7",
+      "asset_route_observed": true
+    },
+    "restart_no_replay": {
+      "passed": true,
+      "single_completed_record": true,
+      "file_unchanged": true,
+      "progress_revision_unchanged": true,
+      "duplicate_execution_http": 400,
+      "file": {
+        "sha256": "55257ff6c2d586ae0270e12820761d90ede16e0b330cbec0381a0ae4b6332187",
+        "mtime_ns": 1794283023293014632,
+        "size": 536
+      }
+    }
+  },
+  "provider_usage": [
+    {
+      "phase": "initial",
+      "expected_model": "gpt-6-luna",
+      "requests": [
+        {
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        }
+      ]
+    },
+    {
+      "phase": "restart_resume",
+      "expected_model": "gpt-6-luna",
+      "requests": [
+        {
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        }
+      ]
+    },
+    {
+      "phase": "model_change",
+      "expected_model": "gpt-5.6-luna",
+      "requests": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    {
+      "phase": "memory_correction_context_probe",
+      "expected_model": "gpt-5.6-luna",
+      "requests": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    {
+      "phase": "file_proposal",
+      "requests": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    {
+      "phase": "result_explanation",
+      "requests": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    {
+      "phase": "forgotten_fact_new_session",
+      "requests": [
+        {
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        }
+      ]
+    }
+  ],
+  "browser_profile": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-b493bwor/personal-001-chrome-profile-1794281604637645000",
+  "resumed_at": 1794282060,
+  "helper_failures": [
+    {
+      "phase": "launcher_environment",
+      "result": "stopped before interaction; task-local TMPDIR broke launcher root validation"
+    },
+    {
+      "phase": "browser_restart",
+      "result": "steps 1-2 passed; nested Playwright Sync API context rejected; no second model turn"
+    },
+    {
+      "phase": "correction_resume",
+      "result": "Text-node assertions did not read form values and an ambiguous prompt retained the old goal wording; explicit current-memory probe and payload-presence check resolved the evidence gap without rewriting the goal."
+    },
+    {
+      "phase": "continuation_cleanup",
+      "result": "Valid action, progress and forgetting stages completed; browser cleanup ran after Playwright lifetime ended. Parent stopped the owned service and completed cleanup in the final check."
+    },
+    {
+      "phase": "quoted_input_fixture",
+      "result": "First asset interception omitted the native cache-busting query. Final interception included the query, confirmed an actual route hit, and verified the literal quoted value without injected attributes."
+    }
+  ],
+  "finished_at": 1794282098,
+  "failed_at_step": null,
+  "observed_model_evidence": {
+    "phase": "memory_correction_probe",
+    "session_id": "session_8e754bfa-b353-473f-aa63-06d442d58a17",
+    "model": "gpt-5.6-luna",
+    "request": "What plan style should you use for my workshop? Use my current saved preference.",
+    "answer": "Use a brief plan for your workshop.",
+    "current_accepted_memory": "The owner prefers detailed workshop plans.",
+    "current_goal": "Prepare a brief Cedar workshop plan and draft checklist before Friday.",
+    "usage_models": [
+      {
+        "model": "gpt-5.6-luna",
+        "requested_model": "gpt-5.6-luna"
+      }
+    ],
+    "interpretation": "The ambiguous answer follows the unchanged brief workshop goal and does not isolate retrieval of the corrected general preference. Retained as observed model evidence. The later explicit query and boolean prompt-presence probe confirmed retrieval; see context-delivery-probe.json."
+  },
+  "frontend_overlay": {
+    "file": "channel/web/static/js/chat/personal.js",
+    "sha256": "947ea300b6cd66762985ea8fbacea31625023d84b378d840280c0614ce9556c7",
+    "scope": "Final quoted-input DOM check and restored-history render use candidate JS through an explicit asset response overlay, including the native cache-busting query. Earlier ordinary-content workflow used the preceding UI revision; backend source is unchanged."
+  },
+  "last_phase": "12_forget_and_new_session",
+  "screenshot": "native-validation.png",
+  "completion": {
+    "verified_at": 1794283482,
+    "owned_service_stopped": true,
+    "owned_browser_closed": true,
+    "reference_helper": "docs/personal-001/reference/acceptance-attempt.py.txt",
+    "reference_helper_sha256": "94de51531f09625bca083fd76c01e9d9c10df4565775ad05cd21d7c8e297ca0a",
+    "procedure": "acceptance.md",
+    "replay_limit": "The historical helper failed in stages; parent continued the same fictional sessions. Published acceptance is the reconciled result, not a claim of one uninterrupted helper run."
+  }
+}

@@ -1,5 +1,69 @@
 # AI handoff ledger
 
+## 2026-11-09 23:06 EST — Codex — PR #8 merged; PERSONAL-001 complete for review
+
+- Task/result: PR #8 merged normally as 1cc6ef1e after retained-source/evidence
+  qualification. PERSONAL-001 implemented and its complete owner experience
+  passed on codex/bullgod-personal-001, based directly on that merge. No hosted
+  result was inferred from the empty check list. PRs #4–7 remain preserved.
+- Team: Luna evidence/model-route, storage, UI, acceptance and regression workers;
+  Terra 6.1/high API/action integration for cross-module authority engineering;
+  Sol 6.1/high independent review for consequential security/data-integrity
+  reasoning. Lead owned prompt/launcher integration, continuation, docs and Git.
+- Changes/files: PersonalStore in the native conversation DB, authenticated owner
+  API, refreshed native prompt context, continuity card, immutable approved file
+  action through native permission/FileBroker, BullGod starter persona and opt-in
+  loopback model gateway. Files: agent/memory/personal*, agent/personal,
+  channel/web personal API/UI/assets/hooks, bridge/agent_bridge.py,
+  agent/protocol/agent.py, scripts/bullgod_dev.py, focused tests,
+  docs/personal-001 and reset README. Project MEMORY.md updated.
+- Verification: independent source review PASS; no open findings. Focused Python
+  integration 54 passed plus Node UI check. One full guarded local run: 6,027
+  passed, 36 skipped, 93 subtests; zero failures/errors. All 22 source/test hashes
+  matched before/after. A later UI-only quote fix passed Node behavior/syntax,
+  12 asset tests, targeted review and real browser DOM checks. Python source
+  stayed unchanged; no full rerun. Ruff F and diff checks passed.
+- Runtime: real GPT-6 Luna through the existing Pooler, saved goal/provenance,
+  restart retrieval, GPT-5.6 Luna change, corrected fact retrieval, tools/skills,
+  denial before approval, one approved write/readback, progress revision 2 and
+  natural result explanation. Forgetting plus a fresh GPT-6 Luna conversation
+  produced “No plan-style preference is saved.” Final restart retained one
+  completed action and denied duplicate execution, with unchanged file/revision.
+  Independent evidence reconciliation PASS; final screenshot inspected.
+- Evidence: docs/personal-001 local/native receipts, context probe, completion
+  verification and screenshot. Historical partial helper preserved as reference;
+  acceptance.md supplies the supported manual replay procedure. The final browser
+  used candidate personal.js via an observed asset overlay for quote/restored-UI
+  checks; earlier ordinary content used the preceding UI. Backend hashes match.
+- Decisions: existing Pooler/GPT-6 Luna selected; no local model installation.
+  Credentials remain runtime-only; no upstream OAuth token handling or credential
+  change. No legacy maintenance activation, production approvals or permissions
+  changed. Owned instances/browser stopped. Original PID 28093 healthy on 9899,
+  primary checkout unchanged. No PERSONAL-001 merge authorization inferred.
+- Lessons Learned:
+  - Mistake: the acceptance helper assumed launcher/browser lifetimes and treated
+    a text-only HTML escape helper as safe for quoted attributes.
+  - Root Cause: fixture boundaries and real helper behavior were not represented
+    by the initial checks; an ambiguous model query also mixed a goal and a fact.
+  - Future Trigger: multi-process browser acceptance or interpolated form values.
+  - Required Behavior Change: prove startup/restart once; keep browser cleanup
+    within its runtime; use actual shared escaping behavior; separate goal wording
+    from explicit fact-retrieval assertions. Preserve accepted phases on failure.
+  - Verification Step: final restart/duplicate/quote DOM checks and Node regression
+    pass; explicit fact query plus boolean prompt probe confirms corrected context.
+  - Durable Memory Update: project MEMORY.md updated; no global memory update.
+- Known limits: hosted/Linux/Windows/power-cut checks not run for this candidate.
+  Early helper failures and ambiguous answer remain documented, not erased.
+  Original untracked AGENTS.md preserved. Isolated temporary storage is not a
+  production deployment. Publication/sync follows this entry in a docs closeout.
+- Next: review the PERSONAL-001 draft PR; then add PERSONAL-002 multiple goals,
+  priorities and pending decisions using the existing storage/permission boundary.
+  Do not resume legacy deployment work as a development prerequisite.
+- Notes: fixture root bullgod-dev-b493bwor is retained under the system temp
+  directory, console 19892 stopped. Private regression log/JUnit retained at
+  /private/tmp/cow-bullgod-personal-001-WOcVFN. New branch publication to the same
+  origin name is authorized by project MEMORY.md; fetch without prune/GC.
+
 ## 2026-11-09 20:17 EST — Codex — BULLGOD-RESET-001 clean personal-agent baseline
 
 - Task/result: strategic reset complete for review. Branch

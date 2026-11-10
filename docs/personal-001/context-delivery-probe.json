@@ -1,0 +1,19 @@
+{
+  "prompt_presence": [
+    {
+      "model": "gpt-5.6-luna",
+      "system_messages": 1,
+      "personal_marker_present": true,
+      "corrected_fact_present": true,
+      "old_fact_present": false,
+      "context_unavailable_notice": false
+    }
+  ],
+  "answer": "The stored preference is: **\u201cThe owner prefers detailed workshop plans.\u201d**\n\nIt does **not** conflict with the saved goal to prepare a **brief Cedar workshop plan**\u2014the goal specifies this workshop\u2019s required format, while the preference is a broader default.",
+  "usage_models": [
+    {
+      "model": "gpt-5.6-luna",
+      "requested_model": "gpt-5.6-luna"
+    }
+  ]
+}

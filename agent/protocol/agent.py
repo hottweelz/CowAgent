@@ -359,6 +359,16 @@ class Agent:
             )
             if self.extra_system_suffix:
                 full = f"{full}\n\n{self.extra_system_suffix}"
+            from agent.memory.personal_context import personal_context
+            try:
+                continuity = personal_context(self)
+            except Exception:
+                # Keep current persona/tool permissions if optional personal
+                # storage is unavailable; never pretend prior state was loaded.
+                continuity = ('Owner continuity is currently unavailable. '
+                              'Do not claim to have retrieved saved goals or memories.')
+            if continuity:
+                full = f"{full}\n\n{continuity}"
             try:
                 self._remember_system_accounting(full)
             except Exception as exc:
