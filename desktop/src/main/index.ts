@@ -1,4 +1,4 @@
-import { app, BrowserWindow, session, shell, ipcMain, dialog, nativeImage, Notification, systemPreferences, crashReporter, Menu, clipboard, net } from 'electron'
+import { app, BrowserWindow, screen, session, shell, ipcMain, dialog, nativeImage, Notification, systemPreferences, crashReporter, Menu, clipboard, net } from 'electron'
 import path from 'path'
 import fs from 'fs'
 import os from 'os'
@@ -9,6 +9,7 @@ import { createTray, destroyTray, getTray } from './tray'
 import { initUpdater, checkForUpdates, startDownload, quitAndInstall, setUpdateLanguage, setUpdateFeedQuery } from './updater'
 import { setupThemeIPC, loadAppConfig } from './themes'
 import { setupHttpRelayIPC } from './http-relay'
+import { centeredVisibleBounds, isOnSomeDisplay, sanitizeWindowState, type WindowBounds } from './windowBounds'
 import {
   setupAppIconIPC,
   applyCachedAppIcon,
@@ -234,11 +235,11 @@ const isWin = process.platform === 'win32'
 // Persisted window bounds
 const windowStateFile = () => path.join(app.getPath('userData'), 'window-state.json')
 
-function loadWindowState(): { width: number; height: number; x?: number; y?: number } {
+function loadWindowState(): WindowBounds {
   try {
     const raw = fs.readFileSync(windowStateFile(), 'utf-8')
     const s = JSON.parse(raw)
-    if (typeof s.width === 'number' && typeof s.height === 'number') return s
+    if (typeof s.width === 'number' && typeof s.height === 'number') return sanitizeWindowState(s, screen)
   } catch {
     /* first run or unreadable */
   }
@@ -248,12 +249,20 @@ function loadWindowState(): { width: number; height: number; x?: number; y?: num
 function saveWindowState() {
   if (!mainWindow || mainWindow.isDestroyed()) return
   if (mainWindow.isMinimized() || mainWindow.isFullScreen()) return
-  const b = mainWindow.getBounds()
+  const b = mainWindow.isMaximized() ? mainWindow.getNormalBounds() : mainWindow.getBounds()
+  if (!isOnSomeDisplay(b, screen)) return
   try {
     fs.writeFileSync(windowStateFile(), JSON.stringify(b))
   } catch {
     /* ignore */
   }
+}
+
+function ensureWindowOnScreen(win: BrowserWindow) {
+  if (win.isDestroyed() || win.isMinimized() || win.isFullScreen()) return
+  const bounds = win.getBounds()
+  if (isOnSomeDisplay(bounds, screen)) return
+  win.setBounds(centeredVisibleBounds(bounds, screen))
 }
 
 function isZhLocale(): boolean {
@@ -389,6 +398,16 @@ function createWindow() {
   mainWindow.on('move', persist)
   mainWindow.on('maximize', emitMaximizeState)
   mainWindow.on('unmaximize', emitMaximizeState)
+  mainWindow.on('show', () => mainWindow && ensureWindowOnScreen(mainWindow))
+  const recheck = () => {
+    if (mainWindow?.isVisible()) ensureWindowOnScreen(mainWindow)
+  }
+  screen.on('display-removed', recheck)
+  screen.on('display-metrics-changed', recheck)
+  mainWindow.on('closed', () => {
+    screen.removeListener('display-removed', recheck)
+    screen.removeListener('display-metrics-changed', recheck)
+  })
 
   const rendererHtml = path.join(__dirname, '../renderer/index.html')
 
