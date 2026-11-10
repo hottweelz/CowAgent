@@ -1,0 +1,22 @@
+{
+  "checked_at": "2026-11-10T17:23:03.841Z",
+  "repository": "hottweelz/CowAgent",
+  "pull_request": "https://github.com/hottweelz/CowAgent/pull/11",
+  "implementation_commit": "95109781d0c1b177aea8b85eb989251f04296838",
+  "status": "unavailable_no_hosted_result",
+  "method": "Read-only PR check diagnostics",
+  "checks": [],
+  "statuses": [],
+  "has_more": false,
+  "prior_unavailability": {
+    "receipt": "../personal-002/hosted-validation.json",
+    "execution_response": 422,
+    "reason": "Actions has been disabled for this repository.",
+    "metadata_contradiction": "Earlier permissions/workflow metadata reported enabled/active."
+  },
+  "dispatch_attempts_this_milestone": 0,
+  "settings_changed": false,
+  "control_plane_reinvestigated": false,
+  "interpretation": "No hosted pass is claimed. Final closeout changes documentation only and retains the tested executable hashes.",
+  "remaining_integration_requirement": "Run the existing Tests workflow when the maintainer makes hosted execution available."
+}

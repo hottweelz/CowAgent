@@ -23,14 +23,27 @@
 .commitments-section > h3 { margin: 0 0 .5rem; font-size: .84rem; }
 .commitments-form { display: grid; gap: .42rem; margin: .45rem 0; }
 .commitments-form label { display: grid; gap: .2rem; font-size: .7rem; font-weight: 600; }
+.commitments-form fieldset { min-width: 0; }
+.commitments-grant { display: grid; gap: .4rem; min-width: 0; margin: .2rem 0; padding: .55rem; border: 1px solid rgb(var(--cw-slate-300)); border-radius: .45rem; }
+.dark .commitments-grant { border-color: rgb(255 255 255 / .16); }
+.commitments-grant legend { padding: 0 .2rem; font-size: .72rem; font-weight: 700; }
+.commitments-grant-contract { display: grid; gap: .2rem; margin: .2rem 0; padding-left: 1rem; font-size: .68rem; line-height: 1.45; overflow-wrap: anywhere; }
 .commitments-form input, .commitments-form textarea, .commitments-form select { width: 100%; min-width: 0; padding: .4rem .5rem; border: 1px solid rgb(var(--cw-slate-300)); border-radius: .42rem; background: white; color: inherit; font: inherit; font-weight: 400; }
 .dark .commitments-form input, .dark .commitments-form textarea, .dark .commitments-form select { border-color: rgb(255 255 255 / .16); background: rgb(15 23 42); }
 .commitments-form textarea { resize: vertical; }
 .commitments-form .commitments-check { display: flex; align-items: flex-start; gap: .4rem; }
 .commitments-form .commitments-check input { width: auto; margin-top: .1rem; }
 .commitments-form button, .commitments-actions button, .commitments-refresh { border: 1px solid rgb(var(--cw-slate-300)); border-radius: .42rem; padding: .36rem .55rem; background: white; color: inherit; font: inherit; font-size: .7rem; cursor: pointer; }
+.commitments-card button:not(.commitments-refresh) { border: 1px solid rgb(var(--cw-slate-300)); border-radius: .42rem; padding: .36rem .55rem; background: white; color: inherit; font: inherit; font-size: .7rem; cursor: pointer; }
 .dark .commitments-form button, .dark .commitments-actions button, .dark .commitments-refresh { border-color: rgb(255 255 255 / .16); background: rgb(30 41 59); }
+.dark .commitments-card button:not(.commitments-refresh) { border-color: rgb(255 255 255 / .16); background: rgb(30 41 59); }
 .commitments-form button:disabled, .commitments-actions button:disabled, .commitments-refresh:disabled { opacity: .5; cursor: not-allowed; }
+.commitments-card button:focus-visible, .commitments-card summary:focus-visible, .commitments-card input:focus-visible, .commitments-card textarea:focus-visible, .commitments-card select:focus-visible { outline: 3px solid rgb(var(--cw-primary-600)); outline-offset: 2px; }
+.commitments-card button { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.commitments-count { display: inline-grid; min-width: 1.35rem; min-height: 1.35rem; place-items: center; border-radius: 999px; background: rgb(var(--cw-slate-200)); font-size: .68rem; }
+.commitments-attention { grid-column: 1 / -1; }
+.commitments-attention-item { display: grid; gap: .25rem; min-width: 0; }
+.commitments-attention-item > p { margin: .2rem 0; overflow-wrap: anywhere; }
 .commitments-details { margin-top: .45rem; }
 .commitments-details > summary { cursor: pointer; color: rgb(var(--cw-primary-600)); font-size: .74rem; font-weight: 600; }
 .commitments-details[open] > summary { margin-bottom: .4rem; }
@@ -43,4 +56,14 @@
 .commitments-briefing-text { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .72rem; }
 .commitments-record h4, .commitments-record h5 { margin: .45rem 0 .2rem; font-size: .74rem; }
 .commitments-source-list a { color: rgb(var(--cw-primary-600)); text-decoration: underline; }
-@media (max-width: 760px) { .commitments-card { max-height: 48vh; margin: .4rem; padding: .65rem; } .commitments-content { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+    .commitments-card { max-height: 70vh; margin: .4rem; padding: .65rem; }
+    .commitments-content { grid-template-columns: minmax(0, 1fr); }
+    .commitments-record-heading, .commitments-actions { align-items: flex-start; flex-wrap: wrap; }
+    .commitments-section, .commitments-record { overflow-wrap: anywhere; }
+
+    /* At 200% zoom the narrow CSS viewport can be short. Keep both owner
+       panels scrollable, but leave room for chat and its composer. */
+    .chat-main:has(#commitments-card > details[open]) #commitments-card { max-height: 24vh; }
+    .chat-main:has(#commitments-card > details[open]) #personal-card { max-height: 18vh; }
+}

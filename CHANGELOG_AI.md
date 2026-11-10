@@ -1,5 +1,66 @@
 # AI handoff ledger
 
+## 2026-11-10 12:17 EST — Codex — PERSONAL-003 complete for review as draft PR #11
+
+- Scope/branch: proactive owner commitments on codex/bullgod-personal-003,
+  based on validated PERSONAL-002 6aa1b07d. PR #9/#10 remain draft/unmerged;
+  PRs #4–7 remain deferred. No production deployment or external publication.
+- Team: Luna baseline/model-route/UI/zoom/regression/evidence workers; Terra 6.1
+  store and semantic-adapter integration because atomic persistence and native
+  provider routing span interacting components; Sol 6.1 independent review for
+  authority and durable-state boundaries. Lead owns integration/native checks,
+  documents, lifecycle and Git. STE planning/review guidance applied.
+- Changes/files: native commitment grant limits/evaluation/attention/context;
+  tool-free native streaming interpretation; optional transport timeout; quiet
+  scheduler completion; owner attention/review/grant UI; focused Python/Node tests.
+  Files: agent/memory/commitments.py, personal_context.py, agent/personal/
+  commitments.py, interpretation.py, scheduling.py, agent/protocol/models.py,
+  agent/tools/scheduler/integration.py, bridge/agent_bridge.py,
+  models/openai_compatible_bot.py, commitments JS/CSS, six test files and
+  tools/check-commitments-ui.mjs. docs/personal-003 and project MEMORY.md updated.
+- Verification: focused checks and independent source review passed. Final
+  complete guarded suite passed: 6,192 tests, 36 skipped, 93 subtests, zero
+  failures/errors in 209.60s. All 17 changed source/test hashes match. Both Node
+  UI checks passed. Actual 200% reflow/keyboard check now passes. Publication
+  is recorded below; final independent evidence reconciliation passed.
+- Native evidence: unattended actual HTTPS feed read with real GPT-6 Luna,
+  sourced briefing/decision, restart/GPT-5.6 continuity, saved unpublished draft,
+  persistent publication denial, labeled overlap quiet check and material update,
+  revoked-grant no-fetch, controlled conversation timeout with preserved state,
+  and a correct final chronological explanation. Independent exact 28-row audit
+  passed with live/fixture and no-packet-capture qualifications.
+- Preservation: owned port 19893 app/relay stopped, original bootstrap restored,
+  synthetic data/fixtures/initial failures retained. All 11 native source files
+  match candidate. Original PID 28093 still listens on 127.0.0.1:9899.
+- Decisions: native stream fixes actual nonstream compatibility failure; use a
+  fresh occurrence without replay. No model download, grant refresh, production
+  credentials/APFS/data change or legacy service-maintenance work.
+- Lessons Learned:
+  - Mistake: native nonstream interpretation failed; early model summaries mixed
+    live/fixture reports and error types; expanded cards hid the zoomed composer.
+  - Root Cause: provider route mismatch, insufficient recent-run context plus
+    ambiguous summary wording, and independent panel height limits.
+  - Future Trigger: native model integration, multi-run status, short viewports.
+  - Required Behavior Change: use verified native stream behavior, retain scoped
+    per-run context, compare prose with ledger, and measure total viewport layout.
+  - Verification Step: native stream delivery, final chronological explanation
+    with request-presence probe, focused tests and actual keyboard/reflow metrics.
+  - Durable Memory Update: project MEMORY.md updated; no global memory changes.
+- Known limits: inherited unused typing.Any Ruff F401 also exists at base;
+  provider idle timeout is not universal hard cancellation; lexical relevance;
+  model prose can err. Hosted execution remains unavailable from prior evidence;
+  candidate 95109781 PR checks/statuses are empty, not passing. No CI changes.
+- Publication: implementation 95109781 pushed to the same named tracked branch;
+  draft PR #11 opened against codex/bullgod-personal-002 and attached. Fetch
+  without prune confirmed 0/0. This documentation-only closeout preserves all
+  final executable/test hashes. Earlier PRs remain unchanged.
+- Next: review the PR #9→#10→#11 chain and run the existing hosted Tests workflow
+  when execution is available. Then PERSONAL-004 can add one optional registered
+  specialist research request from a saved decision; no new orchestrator.
+- Notes: native root bullgod-dev-livf2hu4 retained under system temporary storage;
+  regression logs /private/tmp/cow-bullgod-personal-003-3Iouyz. Preserve original
+  untracked AGENTS.md; no pruning, force-pushing or historical evidence deletion.
+
 ## 2026-11-10 09:23 EST — Codex — PERSONAL-002 published as draft PR #10; local and native gates passed
 
 - Task/result: persistent personal commitments and approved online news reads on

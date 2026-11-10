@@ -1,0 +1,36 @@
+{
+  "checked_at": "2026-11-10T17:16:31.442Z",
+  "branch": "codex/bullgod-personal-003",
+  "base_commit": "6aa1b07d49a7ffa2ad69a7f60ec73d5ad669160d",
+  "source_evidence": {
+    "regression_hashes_matched": 29,
+    "native_hashes_matched": 18,
+    "reference": "../personal-002/local-validation.json and runtime-source.json",
+    "verified_by": "independent Luna baseline worker"
+  },
+  "pull_requests": [
+    {
+      "number": 9,
+      "url": "https://github.com/hottweelz/CowAgent/pull/9",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "base": "master",
+      "head": "codex/bullgod-personal-001",
+      "head_sha": "adbe2105b0f45ab521429ba1427ac2887f7a2f97"
+    },
+    {
+      "url": "https://github.com/hottweelz/CowAgent/pull/10",
+      "number": 10,
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "base": "codex/bullgod-personal-001",
+      "base_sha": "adbe2105b0f45ab521429ba1427ac2887f7a2f97",
+      "head": "codex/bullgod-personal-002",
+      "head_sha": "6aa1b07d49a7ffa2ad69a7f60ec73d5ad669160d"
+    }
+  ],
+  "target": "codex/bullgod-personal-002",
+  "prior_pr_changes": false
+}

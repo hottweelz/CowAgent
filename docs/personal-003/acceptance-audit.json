@@ -1,0 +1,376 @@
+{
+  "scope": "Read-only PERSONAL-003 Phase 9 evidence reconciliation; no interactions or tests rerun.",
+  "audit_date": "2026-11-10",
+  "result": "steps_1_to_28_pass_with_limits",
+  "runtime_root": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-livf2hu4",
+  "source_consistency": {
+    "receipt": "docs/personal-003/runtime-source.json",
+    "base_commit": "6aa1b07d49a7ffa2ad69a7f60ec73d5ad669160d",
+    "native_files": 11,
+    "repo_and_runtime_hashes_match": 11,
+    "asset_overlay": false,
+    "final_regression_receipt": "docs/personal-003/local-validation.json",
+    "final_regression_files_match": 17,
+    "result": {
+      "passed": 6192,
+      "skipped": 36,
+      "subtests_passed": 93,
+      "failures": 0,
+      "errors": 0
+    }
+  },
+  "persisted_state": {
+    "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+    "owner_session": "session_5529de2f-6d8c-4643-b5b7-98e8a2620bbd",
+    "current_revision": 2,
+    "current_status": "active",
+    "read_authorized": false,
+    "schedule": "0 8 * * * America/New_York",
+    "scheduled_pointer_enabled": false,
+    "run_counts": {
+      "failed": 1,
+      "delivered": 2,
+      "completed": 1
+    },
+    "occurrence_keys_unique": true,
+    "actual_live_source": {
+      "id": 200217,
+      "publisher": "BITCOINNEWS",
+      "url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+      "matched_actual_news_file": true
+    },
+    "draft": {
+      "item_id": "04ed7e9de101479b89a1f7d68f8dad05",
+      "status": "awaiting_publication_approval"
+    },
+    "publication_decision": "denied",
+    "controlled_timeout_run": {
+      "id": "6c74024cb71e4f409b9d5c9550cfaeac",
+      "status": "failed"
+    },
+    "final_answer_db_match": true
+  },
+  "acceptance": [
+    {
+      "step": 1,
+      "requirement": "Start BullGod in the isolated environment.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/instance"
+      ],
+      "note": "Port 19893; GPT-6 Luna."
+    },
+    {
+      "step": 2,
+      "requirement": "Establish a standing news-monitoring commitment.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/standing_commitment",
+        "runtime DB:personal_commitments"
+      ],
+      "note": "Owner source turn 0; stable commitment ID."
+    },
+    {
+      "step": 3,
+      "requirement": "Save preferences and an explicit morning schedule.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/standing_commitment",
+        "runtime DB:personal_commitments.fields"
+      ],
+      "note": "08:00 America/New_York."
+    },
+    {
+      "step": 4,
+      "requirement": "Grant read-only access to the approved endpoint.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/owner_reopened/grant"
+      ],
+      "note": "Exact tyl.ee endpoint; public_news_read; read-only; bounded 60-second interval."
+    },
+    {
+      "step": 5,
+      "requirement": "End the owner conversation before the scheduled check.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/owner_left",
+        "native-validation.json#/phases/due_window"
+      ],
+      "note": "Browser closed before due time."
+    },
+    {
+      "step": 6,
+      "requirement": "Trigger the existing scheduler in a controlled due-time window.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/due_window",
+        "native-validation.json#/phases/unattended_live_run"
+      ],
+      "note": "Native TaskStore due time; no owner prompt."
+    },
+    {
+      "step": 7,
+      "requirement": "Verify BullGod fetches current news without another manual prompt.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "native-validation.json#/phases/unattended_live_run",
+        "runtime-root/actual-news.json#id=200217"
+      ],
+      "note": "Live unattended delivery after a preserved model-unavailable attempt; source ID/title/link match the captured live response."
+    },
+    {
+      "step": 8,
+      "requirement": "Verify relevant articles are deduplicated against prior coverage.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "native-validation.json#/phases/scheduled_overlap",
+        "runtime DB:personal_commitment_runs,personal_attention"
+      ],
+      "note": "Labeled overlap fixture; zero selected items, no message, no new attention."
+    },
+    {
+      "step": 9,
+      "requirement": "Persist the successful result.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/unattended_live_run",
+        "runtime DB:personal_commitment_runs,messages"
+      ],
+      "note": "Delivered live run links source ID 200217 to message seq 2."
+    },
+    {
+      "step": 10,
+      "requirement": "Reopen the conversation.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/owner_reopened",
+        "runtime DB:sessions"
+      ],
+      "note": "Same owner session."
+    },
+    {
+      "step": 11,
+      "requirement": "Ask \u201cWhat needs my attention?\u201d.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/attention_conversation",
+        "runtime DB:messages"
+      ],
+      "note": "Owner prompt at seq 3."
+    },
+    {
+      "step": 12,
+      "requirement": "Explain developments and pending decisions using actual state.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/attention_conversation",
+        "runtime DB:personal_attention"
+      ],
+      "note": "Source-backed finding and pending track-story decision."
+    },
+    {
+      "step": 13,
+      "requirement": "Request a sourced social post draft.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/social_draft_conversation"
+      ],
+      "note": "Owner request at seq 5."
+    },
+    {
+      "step": 14,
+      "requirement": "Prepare the post but do not publish it.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/saved_draft",
+        "runtime DB:personal_commitment_items"
+      ],
+      "note": "Draft remains awaiting_publication_approval."
+    },
+    {
+      "step": 15,
+      "requirement": "Save publication as an approval-required decision.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/publication_decision",
+        "runtime DB:personal_attention"
+      ],
+      "note": "Durable pending decision with source provenance."
+    },
+    {
+      "step": 16,
+      "requirement": "Restart the isolated instance.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/pre_restart",
+        "native-validation.json#/phases/restart_model_continuity"
+      ],
+      "note": "Same commitment, decision and run IDs."
+    },
+    {
+      "step": 17,
+      "requirement": "Switch the underlying model.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-003/native-validation.json#/phases/restart_model_continuity/model",
+        "docs/personal-003/native-validation.json#/phases/restored_attention_conversation/usage"
+      ],
+      "note": "GPT-5.6 Luna is recorded in per-turn restart/answer usage; this claim is bound to those records. The lifecycle owner subsequently populated the top-level model summary from that evidence."
+    },
+    {
+      "step": 18,
+      "requirement": "Verify decisions, sources, commitments and grants survive restart/model change.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/restart_model_continuity",
+        "context-probe.json",
+        "runtime DB:personal_commitments,personal_attention,personal_commitment_items"
+      ],
+      "note": "Saved records were present after restart; later denial/revocation are distinct owner actions."
+    },
+    {
+      "step": 19,
+      "requirement": "Deny publication and verify no post occurs.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "docs/personal-003/native-validation.json#/phases/publication_denied",
+        "runtime DB:personal_attention,personal_commitment_items",
+        "agent/personal/commitments.py:108-110",
+        "agent/memory/commitments.py:620-625",
+        "scripts/bullgod_dev.py:200-205"
+      ],
+      "note": "The owner decision is denied. The publication request path only calls the native proposal recorder; that recorder stores execution_status=blocked because the connector is unsupported. The sandbox allows outbound only to the selected model gateway and fixed news relay. No packet capture was performed, so there is no wire-level claim."
+    },
+    {
+      "step": 20,
+      "requirement": "Run another scheduled check with overlapping articles.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "native-validation.json#/phases/scheduled_overlap"
+      ],
+      "note": "Controlled replay; no live-access claim."
+    },
+    {
+      "step": 21,
+      "requirement": "Verify no duplicate briefing or repeated decision.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "native-validation.json#/phases/before_overlap",
+        "native-validation.json#/phases/scheduled_overlap",
+        "runtime DB:personal_commitment_runs,personal_attention"
+      ],
+      "note": "Unique occurrence key; no selected story, message, or new attention."
+    },
+    {
+      "step": 22,
+      "requirement": "Present a material update using a clearly labeled fixture.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "native-validation.json#/phases/material_update_fixture",
+        "native-validation.json#/phases/scheduled_material_update"
+      ],
+      "note": "Fixture is labeled simulated, not verified news."
+    },
+    {
+      "step": 23,
+      "requirement": "Verify the update can create a new relevant notification.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "native-validation.json#/phases/material_update_notification",
+        "runtime DB:personal_attention"
+      ],
+      "note": "GPT-5.6 Luna produced a new finding and pending decision from fixture data."
+    },
+    {
+      "step": 24,
+      "requirement": "Revoke the standing read grant.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/grant_revoked",
+        "runtime DB:personal_commitments.fields"
+      ],
+      "note": "Revision 2; read_authorized=false."
+    },
+    {
+      "step": 25,
+      "requirement": "Verify a later scheduled callback does not fetch.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/revoked_due_callback_no_fetch",
+        "runtime-root/workspace/scheduler/tasks.json",
+        "runtime DB:personal_commitments"
+      ],
+      "note": "Fetch count and commitment run IDs unchanged; pointer disabled."
+    },
+    {
+      "step": 26,
+      "requirement": "Simulate a failed or timed-out model response.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "native-validation.json#/phases/controlled_model_timeout",
+        "runtime DB:runs"
+      ],
+      "note": "Controlled pre-provider timeout; native conversation run is failed."
+    },
+    {
+      "step": 27,
+      "requirement": "Verify no false success, duplicate delivery, or lost commitment.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/timeout_state_preserved",
+        "context-probe.json",
+        "runtime DB:personal_commitments,personal_attention,personal_commitment_runs,runs"
+      ],
+      "note": "No new delivery; prior state remains; grant stays revoked."
+    },
+    {
+      "step": 28,
+      "requirement": "Resume and obtain a natural-language explanation of current state.",
+      "result": "pass",
+      "evidence": [
+        "native-validation.json#/phases/final_owner_explanation",
+        "runtime DB:messages:seq15-16"
+      ],
+      "note": "GPT-5.6 Luna receipt text exactly matches assistant seq 16; covers four checks, live/fixture boundary, denial, revocation, timeout and next authorization."
+    }
+  ],
+  "supplemental_ui": {
+    "result": "pass",
+    "evidence": [
+      "docs/personal-003/ui-validation.json",
+      "docs/personal-003/attention-200-percent.png",
+      "docs/personal-003/final-acceptance.png"
+    ],
+    "metrics": {
+      "viewport_css": "720x550",
+      "device_scale": 2,
+      "scroll_width": 720,
+      "client_width": 720,
+      "keyboard_focus_inside_card": true,
+      "panel_keyboard_scrolled": true,
+      "grant_toggle_labeled": true,
+      "source_overlay": false
+    },
+    "note": "Latest native recheck passed after the CSS source update; earlier failed attempt remains historical."
+  },
+  "cleanup": {
+    "result": "pass",
+    "evidence": "docs/personal-003/cleanup.json",
+    "app_19893_stopped": true,
+    "relay_52925_stopped": true,
+    "bootstrap_restored": true,
+    "active_native_runs": 0,
+    "runtime_preserved": true,
+    "original_9899_listener_preserved": true,
+    "live_changes": false
+  },
+  "limits": [
+    "The first unattended scheduler attempt failed because the model was unavailable; it is preserved before the successful live delivery.",
+    "Overlap and material-update behaviors use labeled fixtures, not a second live fetch.",
+    "The model-timeout case is injected before a provider call.",
+    "Hosted CI was not established by this audit.",
+    "No packet capture was made; the no-publication conclusion is supported by the denied persisted decision, blocked mutation path, and sandbox egress allow-list."
+  ],
+  "lifecycle_closeout_note": "After independent reconciliation, the parent finalized the native receipt status and model summary; execution records and audited answer text were unchanged."
+}

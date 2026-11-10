@@ -3,6 +3,7 @@
 import sys
 import threading
 import types
+import pytest
 from datetime import datetime, timedelta, timezone
 from types import SimpleNamespace
 
@@ -177,7 +178,7 @@ def test_reconciliation_reads_enabled_profiles_and_syncs_commitments(monkeypatch
     monkeypatch.setitem(
         sys.modules,
         "agent.memory.commitments",
-        types.SimpleNamespace(CommitmentStore=lambda conversation: fake_store),
+        types.SimpleNamespace(CommitmentStore=lambda conversation, **kwargs: fake_store),
     )
     monkeypatch.setattr("agent.memory.get_conversation_store", lambda workspace: workspace)
     registry = SimpleNamespace(list=lambda include_disabled: [profile])
@@ -195,7 +196,8 @@ def test_typed_callback_uses_stable_occurrence_and_advances_only_delivery(monkey
         def __init__(self, agent_id, session_id):
             assert (agent_id, session_id) == ("bullgod", "owner-session")
 
-        def run(self, commitment_id, *, occurrence_key, expected_revision):
+        def run(self, commitment_id, *, occurrence_key, expected_revision, trigger):
+            assert trigger == 'scheduled'
             calls.append((commitment_id, occurrence_key, expected_revision))
             # The service reports an already-delivered duplicate for a retry.
             return {"status": "delivered", "duplicate": True}
@@ -284,7 +286,11 @@ def test_scheduling_status_reads_existing_pointer_without_claiming_inactive_slot
     assert inactive["schedule_status"] == "inactive"
 
 
-def test_failed_commitment_advances_slot_but_native_run_is_error(monkeypatch):
+@pytest.mark.parametrize('outcome, native_status, error', [
+    ('failed', 'error', 'personal commitment failed'),
+    ('completed', 'done', ''),
+])
+def test_commitment_advances_slot_and_preserves_native_outcome(monkeypatch, outcome, native_status, error):
     finished = []
 
     class RunStore:
@@ -303,7 +309,7 @@ def test_failed_commitment_advances_slot_but_native_run_is_error(monkeypatch):
     )
     monkeypatch.setattr(
         "agent.personal.scheduling.execute_scheduled_commitment",
-        lambda *args, **kwargs: {"status": "failed", "error": "network error"},
+        lambda *args, **kwargs: {"status": outcome, "error": "network error" if outcome == 'failed' else ''},
     )
 
     task = {
@@ -317,7 +323,7 @@ def test_failed_commitment_advances_slot_but_native_run_is_error(monkeypatch):
     handled = integration._run_scheduled_task(task, object(), "bullgod")
 
     assert handled is True  # SchedulerService advances to the next cron slot.
-    assert finished == [("native-run-1", "error", "personal commitment failed")]
+    assert finished == [("native-run-1", native_status, error)]
 
 
 def test_daily_eastern_task_catches_up_within_native_ten_minute_window(tmp_path):

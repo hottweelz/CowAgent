@@ -1,0 +1,1116 @@
+{
+  "status": "completed_with_documented_limits",
+  "phases": {
+    "instance": {
+      "root": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-livf2hu4",
+      "web_port": 19893,
+      "model": "gpt-6-luna",
+      "source": "fresh candidate snapshot; no asset overlay"
+    },
+    "owner_instruction": {
+      "prompt": "Keep me informed about significant developments in digital assets, institutional adoption, cryptocurrency regulation and financial technology. Check each morning at 08:00 America/New_York. Prioritize Bitcoin, Ethereum, institutional adoption, regulation and financial infrastructure. Only bring me stories that are new, substantially updated or worth my attention. I will explicitly confirm the schedule, proactive follow-through and read-only grant in the card. Preserve a separate Cedar checklist goal and my preference for concise briefings. Acknowledge this scope without using tools; I am about to leave this conversation.",
+      "answer": "Understood. The proposed briefing scope is digital assets, institutional adoption, crypto regulation and financial technology, with priority on Bitcoin, Ethereum, regulation and financial infrastructure. It should surface only new, substantially updated or especially noteworthy stories, on a proposed 08:00 America/New_York schedule.\n\nI’ll keep the Cedar checklist goal separate and preserve your preference for concise briefings. I won’t set anything up or take follow-up action until you confirm the schedule, proactive follow-through and read-only grant in the card.",
+      "source_seq": 0,
+      "usage": [
+        {
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        }
+      ]
+    },
+    "session": {
+      "session_id": "session_5529de2f-6d8c-4643-b5b7-98e8a2620bbd"
+    },
+    "standing_commitment": {
+      "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+      "source_session_id": "session_5529de2f-6d8c-4643-b5b7-98e8a2620bbd",
+      "source_seq": 0,
+      "source_time": 1794328304,
+      "revision": 1,
+      "created_at": 1794328308,
+      "updated_at": 1794328308,
+      "last_attempt": null,
+      "last_success": null,
+      "last_report": "",
+      "objective": "Keep me informed about significant digital asset and financial technology developments",
+      "preferences": [
+        "Bitcoin",
+        "Ethereum",
+        "institutional digital asset adoption",
+        "digital asset regulation",
+        "financial infrastructure and tokenization",
+        "material market developments"
+      ],
+      "priority": 3,
+      "status": "active",
+      "endpoint": "https://tyl.ee/api/news",
+      "read_authorized": true,
+      "schedule": {
+        "cron": "0 8 * * *",
+        "timezone": "America/New_York"
+      },
+      "pending_decisions": "",
+      "next_action": "Check the approved source without another prompt; report meaningful findings and propose actions for review",
+      "initiative_enabled": true,
+      "read_grant": {
+        "expires_at": null,
+        "min_interval_seconds": 60
+      },
+      "agent_id": "",
+      "grant": {
+        "grant_id": "read:38827b8896b041adb802cd5d94ba7931",
+        "agent_id": "",
+        "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+        "operation": "public_news_read",
+        "resource": "https://tyl.ee/api/news",
+        "revision": 1,
+        "status": "active",
+        "authorized": true,
+        "conditions": {
+          "commitment_status": "active",
+          "revision": 1
+        },
+        "expires_at": null,
+        "min_interval_seconds": 60,
+        "read_only": true,
+        "individual_approval_required": false,
+        "internal_writes": [
+          "commitment",
+          "cache",
+          "history"
+        ]
+      },
+      "runs": [],
+      "last_attempt_at": null,
+      "last_success_at": null,
+      "last_briefing": "",
+      "last_error": "",
+      "last_selected": [],
+      "last_story_briefing": "",
+      "last_story_report_at": null,
+      "followups": [],
+      "drafts": [],
+      "next_run_at": "2026-11-11T13:00:00+00:00",
+      "schedule_status": "scheduled",
+      "catch_up_policy": "Runs up to 10 minutes late; older missed daily runs are skipped and rescheduled."
+    },
+    "owner_left": {
+      "time": 1794328309.312364,
+      "browser_closed": true,
+      "note": "No further owner message or manual run precedes the native scheduled check."
+    },
+    "due_window": {
+      "time": 1794328799.3270211,
+      "mechanism": "Only task-owned native TaskStore due instant adjusted; no owner prompt or manual execution"
+    },
+    "initial_unattended_failure": {
+      "run_id": "70c31a01e19943edad10da07135ef856",
+      "status": "failed",
+      "error": "model unavailable",
+      "briefing": "",
+      "selected": [],
+      "evaluation": {
+        "initiative_id": "70c31a01e19943edad10da07135ef856",
+        "trigger": "scheduled",
+        "classification": "blocked_or_uncertain",
+        "observed": {
+          "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+          "revision": 1,
+          "grant": {
+            "grant_id": "read:38827b8896b041adb802cd5d94ba7931",
+            "agent_id": "",
+            "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+            "operation": "public_news_read",
+            "resource": "https://tyl.ee/api/news",
+            "revision": 1,
+            "status": "active",
+            "authorized": true,
+            "conditions": {
+              "commitment_status": "active",
+              "revision": 1
+            },
+            "expires_at": null,
+            "min_interval_seconds": 60,
+            "read_only": true,
+            "individual_approval_required": false,
+            "internal_writes": [
+              "commitment",
+              "cache",
+              "history"
+            ]
+          },
+          "status": "active"
+        },
+        "executed": [
+          "approved_read_or_validated_cache"
+        ],
+        "verified": false,
+        "error": "model unavailable"
+      },
+      "message_seq": null,
+      "occurrence_key": "38827b8896b041adb802cd5d94ba7931:1:2026-11-10T16:31:49.521799+00:00"
+    },
+    "unattended_live_run": {
+      "run_id": "e1f413c5b4aa4bf8b5f73051a536cf72",
+      "status": "delivered",
+      "error": "",
+      "briefing": "## News briefing\n\nFor: Keep me informed about significant digital asset and financial technology developments\n\nChecked: 2026-11-10T16:40:28Z\n\n### Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI\n\n2026-11-10T16:28:49Z · new\n\nSources: [BITCOINNEWS](<https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/>) (2026-11-10T16:28:49Z)\n\nBitcoin fell below $73,000 on Tuesday after hotter-than-expected October inflation data showed consumer prices rising 0.4%. Bitcoin Slides as Inflation Data Sparks Market Volatility Bitcoin price fell below $73,000 on Tuesday following the release of Octobers consumer price index \\(CPI\\) data, which s...\n\nRelevant to: Bitcoin (matched: bitcoin)\n\nBullGod’s assessment (source-based interpretation):\n- Bitcoin’s sharp fall after hotter-than-expected US inflation is a material market move with potential implications for interest rates and digital assets.\n\nProposed next steps and their current review status are saved in Personal commitments. No new permission or external action was taken.",
+      "selected": [
+        {
+          "article_id": "52f196297d57ada6106c207e",
+          "source_id": "200217",
+          "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+          "publisher": "BITCOINNEWS",
+          "headline": "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI",
+          "description": "Bitcoin fell below $73,000 on Tuesday after hotter-than-expected October inflation data showed consumer prices rising 0.4%. Bitcoin Slides as Inflation Data Sparks Market Volatility Bitcoin price fell below $73,000 on Tuesday following the release of Octobers consumer price index (CPI) data, which s...",
+          "content": "Bitcoin fell below $73,000 on Tuesday after hotter-than-expected October inflation data showed consumer prices rising 0.4%. Bitcoin Slides as Inflation Data Sparks Market Volatility Bitcoin price fell below $73,000 on Tuesday following the release of October’s consumer price index (CPI) data, which showed a 0.4% monthly increase in inflation. According to Bitstamp data, the cryptocurrency […]",
+          "pub_date": "2026-11-10T16:28:49Z",
+          "original_pub_date": "2026-11-10T16:28:49Z",
+          "fetched_at": "2026-11-10T16:33:15Z",
+          "updated_at": null,
+          "category": "General",
+          "region": "Global",
+          "sentiment": "neutral",
+          "is_top_ranked": false,
+          "topics": [],
+          "was_updated": false,
+          "alias_ids": [
+            "src:3480afe240a8dfe6ac43174a",
+            "src:98e6a03bdfa9b54cdaf40447",
+            "url:dec81a697db33efd0c010a15"
+          ],
+          "provenance": {
+            "source_fields": [
+              "category",
+              "content",
+              "description",
+              "feedId",
+              "fetchedAt",
+              "guid",
+              "id",
+              "isTopRanked",
+              "link",
+              "originalPubDate",
+              "provider",
+              "pubDate",
+              "region",
+              "sentiment",
+              "title",
+              "topics",
+              "updatedAt",
+              "wasUpdated"
+            ],
+            "source_identifiers": {
+              "id": "200217",
+              "guid": "https://news.bitcoin.com/?p=\"862513",
+              "feedId": "34"
+            }
+          },
+          "issues": [],
+          "matched_preferences": [
+            "Bitcoin"
+          ],
+          "matched_preference_tokens": [
+            "bitcoin"
+          ],
+          "preference_evidence": [
+            {
+              "preference": "Bitcoin",
+              "matched_tokens": [
+                "bitcoin"
+              ],
+              "evidence_fields": [
+                "content",
+                "description",
+                "headline"
+              ]
+            }
+          ],
+          "follow_up": false,
+          "status": "new",
+          "cluster_id": "78be1f6c0bd624f91cb5d4b7",
+          "sources": [
+            {
+              "publisher": "BITCOINNEWS",
+              "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+              "source_id": "200217",
+              "pub_date": "2026-11-10T16:28:49Z"
+            }
+          ]
+        }
+      ],
+      "evaluation": {
+        "initiative_id": "e1f413c5b4aa4bf8b5f73051a536cf72",
+        "trigger": "scheduled",
+        "classification": "new_approval_required",
+        "observed": {
+          "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+          "revision": 1,
+          "grant": {
+            "grant_id": "read:38827b8896b041adb802cd5d94ba7931",
+            "agent_id": "bullgod",
+            "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+            "operation": "public_news_read",
+            "resource": "https://tyl.ee/api/news",
+            "revision": 1,
+            "status": "active",
+            "authorized": true,
+            "conditions": {
+              "commitment_status": "active",
+              "revision": 1
+            },
+            "expires_at": null,
+            "min_interval_seconds": 60,
+            "read_only": true,
+            "individual_approval_required": false,
+            "internal_writes": [
+              "commitment",
+              "cache",
+              "history"
+            ]
+          },
+          "status": "active"
+        },
+        "executed": [
+          "approved_read_or_validated_cache",
+          "record_own_commitment_state"
+        ],
+        "verified": true,
+        "model": {
+          "model": "gpt-6-luna",
+          "requested_provider": null,
+          "usage": {
+            "input_tokens": 884,
+            "output_tokens": 188,
+            "total_tokens": 1072,
+            "prompt_tokens": 884,
+            "completion_tokens": 188
+          }
+        },
+        "interpretation": {
+          "52f196297d57ada6106c207e": "Bitcoin’s sharp fall after hotter-than-expected US inflation is a material market move with potential implications for interest rates and digital assets."
+        },
+        "proposed_actions": [
+          {
+            "action": "track_story",
+            "reason": "Follow whether rate expectations and inflation data continue to weigh on Bitcoin and broader digital asset markets.",
+            "source_ids": [
+              "52f196297d57ada6106c207e"
+            ]
+          }
+        ],
+        "notification": "meaningful_finding"
+      },
+      "message_seq": 2,
+      "occurrence_key": "38827b8896b041adb802cd5d94ba7931:1:2026-11-10T16:39:59.310874+00:00"
+    },
+    "phase1_complete": {
+      "passed": true
+    },
+    "owner_reopened": {
+      "time": 1794329001.829854,
+      "grant": {
+        "grant_id": "read:38827b8896b041adb802cd5d94ba7931",
+        "agent_id": "bullgod",
+        "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+        "operation": "public_news_read",
+        "resource": "https://tyl.ee/api/news",
+        "revision": 1,
+        "status": "active",
+        "authorized": true,
+        "conditions": {
+          "commitment_status": "active",
+          "revision": 1
+        },
+        "expires_at": null,
+        "min_interval_seconds": 60,
+        "read_only": true,
+        "individual_approval_required": false,
+        "internal_writes": [
+          "commitment",
+          "cache",
+          "history"
+        ]
+      },
+      "attention": [
+        {
+          "attention_id": "a47c95fcae006a5b957967a2be76d788de82df81e098681afeec3e3dd709e535",
+          "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+          "event_key": "proposal:track_story:1:403c6c89c36e5a61f41cc7528323ab799dbeb2b940398738d17ca0b346937daa",
+          "kind": "decision",
+          "status": "pending",
+          "payload": {
+            "action": "track_story",
+            "reason": "Follow whether rate expectations and inflation data continue to weigh on Bitcoin and broader digital asset markets.",
+            "source_ids": [
+              "52f196297d57ada6106c207e"
+            ],
+            "sources": [
+              {
+                "article_id": "52f196297d57ada6106c207e",
+                "headline": "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI",
+                "publisher": "BITCOINNEWS",
+                "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+                "pub_date": "2026-11-10T16:28:49Z"
+              }
+            ],
+            "scope": {
+              "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+              "action": "track_story"
+            }
+          },
+          "revision": 1,
+          "run_id": "e1f413c5b4aa4bf8b5f73051a536cf72",
+          "source_session_id": "session_5529de2f-6d8c-4643-b5b7-98e8a2620bbd",
+          "source_seq": 0,
+          "created_at": 1794328835,
+          "updated_at": 1794328835,
+          "expires_at": null,
+          "decision_session_id": null,
+          "decision_seq": null,
+          "decision_time": null,
+          "dismissed_at": null,
+          "dismissed_session_id": null,
+          "dismissed_seq": null,
+          "stale": false
+        },
+        {
+          "attention_id": "79a3ed38508e9887cb7ae1f159bab80cbdfb3020587d18060d691e55e8c8a3a2",
+          "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+          "event_key": "finding:efaf1187b642b3f47100a589b9f50a1fe3fbbe18972eeddc6f0cc130f1d1703f",
+          "kind": "finding",
+          "status": "unread",
+          "payload": {
+            "reason": "Bitcoin’s sharp fall after hotter-than-expected US inflation is a material market move with potential implications for interest rates and digital assets.",
+            "sources": [
+              {
+                "article_id": "52f196297d57ada6106c207e",
+                "source_id": "200217",
+                "headline": "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI",
+                "publisher": "BITCOINNEWS",
+                "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+                "pub_date": "2026-11-10T16:28:49Z",
+                "description": "Bitcoin fell below $73,000 on Tuesday after hotter-than-expected October inflation data showed consumer prices rising 0.4%. Bitcoin Slides as Inflation Data Sparks Market Volatility Bitcoin price fell below $73,000 on Tuesday following the release of Octobers consumer price index (CPI) data, which s..."
+              },
+              {
+                "article_id": "",
+                "source_id": "200217",
+                "headline": "",
+                "publisher": "BITCOINNEWS",
+                "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+                "pub_date": "2026-11-10T16:28:49Z"
+              }
+            ],
+            "scope": {
+              "commitment_id": "38827b8896b041adb802cd5d94ba7931"
+            }
+          },
+          "revision": 1,
+          "run_id": "e1f413c5b4aa4bf8b5f73051a536cf72",
+          "source_session_id": "session_5529de2f-6d8c-4643-b5b7-98e8a2620bbd",
+          "source_seq": 0,
+          "created_at": 1794328835,
+          "updated_at": 1794328835,
+          "expires_at": null,
+          "decision_session_id": null,
+          "decision_seq": null,
+          "decision_time": null,
+          "dismissed_at": null,
+          "dismissed_session_id": null,
+          "dismissed_seq": null,
+          "stale": false
+        },
+        {
+          "attention_id": "6f95836293ca57e504d4931fbec1a6cec10388b0206b6ef2985e58fea03e09dd",
+          "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+          "event_key": "failure:model unavailable:initial",
+          "kind": "failure",
+          "status": "resolved",
+          "payload": {
+            "reason": "model unavailable",
+            "scope": {
+              "commitment_id": "38827b8896b041adb802cd5d94ba7931"
+            }
+          },
+          "revision": 1,
+          "run_id": "70c31a01e19943edad10da07135ef856",
+          "source_session_id": "session_5529de2f-6d8c-4643-b5b7-98e8a2620bbd",
+          "source_seq": 0,
+          "created_at": 1794328326,
+          "updated_at": 1794328835,
+          "expires_at": null,
+          "decision_session_id": null,
+          "decision_seq": null,
+          "decision_time": null,
+          "dismissed_at": null,
+          "dismissed_session_id": null,
+          "dismissed_seq": null,
+          "stale": false
+        }
+      ],
+      "next_run_at": "2026-11-11T13:00:00+00:00"
+    },
+    "attention_conversation": {
+      "prompt": "What needs my attention? Explain what you checked while I was away, the important source-backed development, any proposed decision, and the next scheduled check. Use persisted records; do not fetch again or use tools.",
+      "answer": "One item needs your attention:\n\n- **New development:** Bitcoin fell below **$73,000** after hotter-than-expected October CPI data, reported as a **0.4% rise in consumer prices**. The source is [Bitcoin.com](https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/). The report describes a sharp market move; it does not establish what happens next.\n- **What was checked while you were away:** The saved record says the scheduled, read-only news check ran at **2026-11-10 16:40:28 UTC** and delivered this finding. It also records an earlier failed attempt as resolved.\n- **Proposed decision:** There’s a pending proposal to **track this story**, specifically to follow whether inflation data and rate expectations continue to weigh on Bitcoin and broader digital-asset markets. It has not been approved or acted on.\n- **Next scheduled check:** **08:00 America/New_York on November 11, 2026**.",
+      "source_seq": 3,
+      "usage": [
+        {
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        }
+      ]
+    },
+    "social_draft_conversation": {
+      "prompt": "Prepare a concise LinkedIn post based on the saved story \"Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI\". Attribute every factual claim to the original publisher, include its source URL, and do not invent updates or give investment advice. Return one fenced text block. This is a draft only; do not publish or use tools.",
+      "answer": "```text\nBitcoin fell below $73,000 after hotter-than-expected October inflation data, according to Bitcoin.com. The publisher reports that consumer prices rose 0.4%.\n\nSource: https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/\n```",
+      "source_seq": 5,
+      "usage": [
+        {
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        }
+      ]
+    },
+    "saved_draft": {
+      "item_id": "04ed7e9de101479b89a1f7d68f8dad05",
+      "source_session_id": "session_5529de2f-6d8c-4643-b5b7-98e8a2620bbd",
+      "source_seq": 5,
+      "source_time": 1794329008,
+      "created_at": 1794329013,
+      "text": "Bitcoin fell below $73,000 after hotter-than-expected October inflation data, according to Bitcoin.com. The publisher reports that consumer prices rose 0.4%.\n\nSource: https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+      "source_ids": [
+        "52f196297d57ada6106c207e"
+      ],
+      "sources": [
+        {
+          "article_id": "52f196297d57ada6106c207e",
+          "headline": "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI",
+          "publisher": "BITCOINNEWS",
+          "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+          "pub_date": "2026-11-10T16:28:49Z"
+        }
+      ],
+      "claims": [
+        "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI"
+      ],
+      "status": "awaiting_publication_approval"
+    },
+    "publication_decision": {
+      "attention_id": "327c2707fe933e51da37f0c7f1fa4ce2557259215064a32b56521dd836fd6407",
+      "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+      "event_key": "publication:04ed7e9de101479b89a1f7d68f8dad05:1",
+      "kind": "decision",
+      "status": "pending",
+      "payload": {
+        "action": "publish_linkedin",
+        "reason": "Owner requested publication approval",
+        "draft_id": "04ed7e9de101479b89a1f7d68f8dad05",
+        "text": "Bitcoin fell below $73,000 after hotter-than-expected October inflation data, according to Bitcoin.com. The publisher reports that consumer prices rose 0.4%.\n\nSource: https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+        "claims": [
+          "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI"
+        ],
+        "source_ids": [
+          "52f196297d57ada6106c207e"
+        ],
+        "sources": [
+          {
+            "article_id": "52f196297d57ada6106c207e",
+            "headline": "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI",
+            "publisher": "BITCOINNEWS",
+            "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+            "pub_date": "2026-11-10T16:28:49Z"
+          }
+        ],
+        "scope": {
+          "platform": "linkedin",
+          "operation": "publish",
+          "draft_id": "04ed7e9de101479b89a1f7d68f8dad05"
+        },
+        "execution_status": "blocked",
+        "execution_reason": "unsupported connector"
+      },
+      "revision": 1,
+      "run_id": null,
+      "source_session_id": "session_5529de2f-6d8c-4643-b5b7-98e8a2620bbd",
+      "source_seq": 0,
+      "created_at": 1794329013,
+      "updated_at": 1794329013,
+      "expires_at": null,
+      "decision_session_id": null,
+      "decision_seq": null,
+      "decision_time": null,
+      "dismissed_at": null,
+      "dismissed_session_id": null,
+      "dismissed_seq": null,
+      "stale": false
+    },
+    "pre_restart": {
+      "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+      "revision": 1,
+      "grant": {
+        "grant_id": "read:38827b8896b041adb802cd5d94ba7931",
+        "agent_id": "bullgod",
+        "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+        "operation": "public_news_read",
+        "resource": "https://tyl.ee/api/news",
+        "revision": 1,
+        "status": "active",
+        "authorized": true,
+        "conditions": {
+          "commitment_status": "active",
+          "revision": 1
+        },
+        "expires_at": null,
+        "min_interval_seconds": 60,
+        "read_only": true,
+        "individual_approval_required": false,
+        "internal_writes": [
+          "commitment",
+          "cache",
+          "history"
+        ]
+      },
+      "decision_id": "327c2707fe933e51da37f0c7f1fa4ce2557259215064a32b56521dd836fd6407",
+      "source_ids": [
+        "52f196297d57ada6106c207e"
+      ],
+      "run_ids": [
+        "e1f413c5b4aa4bf8b5f73051a536cf72",
+        "70c31a01e19943edad10da07135ef856"
+      ]
+    },
+    "phase2_complete": {
+      "passed": true
+    },
+    "restart_model_continuity": {
+      "model": "gpt-5.6-luna",
+      "grant": {
+        "grant_id": "read:38827b8896b041adb802cd5d94ba7931",
+        "agent_id": "bullgod",
+        "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+        "operation": "public_news_read",
+        "resource": "https://tyl.ee/api/news",
+        "revision": 1,
+        "status": "active",
+        "authorized": true,
+        "conditions": {
+          "commitment_status": "active",
+          "revision": 1
+        },
+        "expires_at": null,
+        "min_interval_seconds": 60,
+        "read_only": true,
+        "individual_approval_required": false,
+        "internal_writes": [
+          "commitment",
+          "cache",
+          "history"
+        ]
+      },
+      "decision": {
+        "attention_id": "327c2707fe933e51da37f0c7f1fa4ce2557259215064a32b56521dd836fd6407",
+        "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+        "event_key": "publication:04ed7e9de101479b89a1f7d68f8dad05:1",
+        "kind": "decision",
+        "status": "pending",
+        "payload": {
+          "action": "publish_linkedin",
+          "reason": "Owner requested publication approval",
+          "draft_id": "04ed7e9de101479b89a1f7d68f8dad05",
+          "text": "Bitcoin fell below $73,000 after hotter-than-expected October inflation data, according to Bitcoin.com. The publisher reports that consumer prices rose 0.4%.\n\nSource: https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+          "claims": [
+            "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI"
+          ],
+          "source_ids": [
+            "52f196297d57ada6106c207e"
+          ],
+          "sources": [
+            {
+              "article_id": "52f196297d57ada6106c207e",
+              "headline": "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI",
+              "publisher": "BITCOINNEWS",
+              "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+              "pub_date": "2026-11-10T16:28:49Z"
+            }
+          ],
+          "scope": {
+            "platform": "linkedin",
+            "operation": "publish",
+            "draft_id": "04ed7e9de101479b89a1f7d68f8dad05"
+          },
+          "execution_status": "blocked",
+          "execution_reason": "unsupported connector"
+        },
+        "revision": 1,
+        "run_id": null,
+        "source_session_id": "session_5529de2f-6d8c-4643-b5b7-98e8a2620bbd",
+        "source_seq": 0,
+        "created_at": 1794329013,
+        "updated_at": 1794329013,
+        "expires_at": null,
+        "decision_session_id": null,
+        "decision_seq": null,
+        "decision_time": null,
+        "dismissed_at": null,
+        "dismissed_session_id": null,
+        "dismissed_seq": null,
+        "stale": false
+      },
+      "run_ids": [
+        "e1f413c5b4aa4bf8b5f73051a536cf72",
+        "70c31a01e19943edad10da07135ef856"
+      ]
+    },
+    "restored_attention_conversation": {
+      "prompt": "After the restart and model change, tell me which publication decision remains pending, its source, and what my standing read grant permits. Do not fetch, publish or use tools.",
+      "answer": "The pending publication decision is whether to publish the drafted LinkedIn post about **“Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI.”**\n\n- **Source:** Bitcoin.com — https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/\n- **Status:** Awaiting your publication approval. The connector is currently unsupported, so it has **not** been published.\n- **Standing read grant:** It permits BullGod to perform **read-only public-news checks** against the approved news source for your active briefing commitment, without requesting individual approval each time, subject to the commitment remaining active and the minimum interval between checks. It does **not** authorize publishing, posting, or other external actions.",
+      "source_seq": 7,
+      "usage": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    "publication_denied": {
+      "attention_id": "327c2707fe933e51da37f0c7f1fa4ce2557259215064a32b56521dd836fd6407",
+      "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+      "event_key": "publication:04ed7e9de101479b89a1f7d68f8dad05:1",
+      "kind": "decision",
+      "status": "denied",
+      "payload": {
+        "action": "publish_linkedin",
+        "reason": "Owner requested publication approval",
+        "draft_id": "04ed7e9de101479b89a1f7d68f8dad05",
+        "text": "Bitcoin fell below $73,000 after hotter-than-expected October inflation data, according to Bitcoin.com. The publisher reports that consumer prices rose 0.4%.\n\nSource: https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+        "claims": [
+          "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI"
+        ],
+        "source_ids": [
+          "52f196297d57ada6106c207e"
+        ],
+        "sources": [
+          {
+            "article_id": "52f196297d57ada6106c207e",
+            "headline": "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI",
+            "publisher": "BITCOINNEWS",
+            "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+            "pub_date": "2026-11-10T16:28:49Z"
+          }
+        ],
+        "scope": {
+          "platform": "linkedin",
+          "operation": "publish",
+          "draft_id": "04ed7e9de101479b89a1f7d68f8dad05"
+        },
+        "execution_status": "blocked",
+        "execution_reason": "unsupported connector"
+      },
+      "revision": 1,
+      "run_id": null,
+      "source_session_id": "session_5529de2f-6d8c-4643-b5b7-98e8a2620bbd",
+      "source_seq": 0,
+      "created_at": 1794329013,
+      "updated_at": 1794329200,
+      "expires_at": null,
+      "decision_session_id": "session_5529de2f-6d8c-4643-b5b7-98e8a2620bbd",
+      "decision_seq": 7,
+      "decision_time": 1794329191,
+      "dismissed_at": null,
+      "dismissed_session_id": null,
+      "dismissed_seq": null,
+      "stale": false
+    },
+    "before_overlap": {
+      "run_ids": [
+        "e1f413c5b4aa4bf8b5f73051a536cf72",
+        "70c31a01e19943edad10da07135ef856"
+      ],
+      "attention_ids": [
+        "327c2707fe933e51da37f0c7f1fa4ce2557259215064a32b56521dd836fd6407",
+        "a47c95fcae006a5b957967a2be76d788de82df81e098681afeec3e3dd709e535",
+        "79a3ed38508e9887cb7ae1f159bab80cbdfb3020587d18060d691e55e8c8a3a2",
+        "6f95836293ca57e504d4931fbec1a6cec10388b0206b6ef2985e58fea03e09dd"
+      ],
+      "grant": {
+        "grant_id": "read:38827b8896b041adb802cd5d94ba7931",
+        "agent_id": "bullgod",
+        "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+        "operation": "public_news_read",
+        "resource": "https://tyl.ee/api/news",
+        "revision": 1,
+        "status": "active",
+        "authorized": true,
+        "conditions": {
+          "commitment_status": "active",
+          "revision": 1
+        },
+        "expires_at": null,
+        "min_interval_seconds": 60,
+        "read_only": true,
+        "individual_approval_required": false,
+        "internal_writes": [
+          "commitment",
+          "cache",
+          "history"
+        ]
+      }
+    },
+    "scheduled_overlap": {
+      "run_id": "52ba43fb9ddc494b9c4090cce002992d",
+      "status": "completed",
+      "error": "",
+      "briefing": "CONTROLLED ACCEPTANCE FIXTURE — simulated news data, not a verified real-world development.\n\n## News briefing\n\nFor: Keep me informed about significant digital asset and financial technology developments\n\nChecked: 2026-11-10T16:46:59Z\n\nNo relevant new or materially updated stories were found.",
+      "selected": [],
+      "evaluation": {
+        "initiative_id": "52ba43fb9ddc494b9c4090cce002992d",
+        "trigger": "scheduled",
+        "classification": "no_action_necessary",
+        "observed": {
+          "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+          "revision": 1,
+          "grant": {
+            "grant_id": "read:38827b8896b041adb802cd5d94ba7931",
+            "agent_id": "bullgod",
+            "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+            "operation": "public_news_read",
+            "resource": "https://tyl.ee/api/news",
+            "revision": 1,
+            "status": "active",
+            "authorized": true,
+            "conditions": {
+              "commitment_status": "active",
+              "revision": 1
+            },
+            "expires_at": null,
+            "min_interval_seconds": 60,
+            "read_only": true,
+            "individual_approval_required": false,
+            "internal_writes": [
+              "commitment",
+              "cache",
+              "history"
+            ]
+          },
+          "status": "active"
+        },
+        "executed": [
+          "approved_read_or_validated_cache",
+          "record_own_commitment_state"
+        ],
+        "verified": true,
+        "proposed_actions": [],
+        "notification": "quiet_check"
+      },
+      "message_seq": null,
+      "occurrence_key": "38827b8896b041adb802cd5d94ba7931:1:2026-11-10T16:46:40.786286+00:00"
+    },
+    "phase3_complete": {
+      "passed": true,
+      "fixture": "Previously delivered actual source replayed as labeled controlled data; no live-access claim."
+    },
+    "material_update_fixture": {
+      "label": "CONTROLLED ACCEPTANCE FIXTURE",
+      "fictional_addition": "A subsequent institutional settlement report announced that twelve regulated banks completed an audited tokenized settlement pilot, increasing processed value from one billion dollars to four billion dollars and covering more than six hundred thousand transfers. The banks expanded the custody programme to twenty additional jurisdictions and published measured settlement results.",
+      "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+      "note": "The native render prefixes the fixture label. These added claims are fictional and are not attributed as actual publisher developments."
+    },
+    "scheduled_material_update": {
+      "run_id": "ef4f9affd8914c8bb6f98b59fd287a81",
+      "status": "delivered",
+      "error": "",
+      "briefing": "CONTROLLED ACCEPTANCE FIXTURE — simulated news data, not a verified real-world development.\n\n## News briefing\n\nFor: Keep me informed about significant digital asset and financial technology developments\n\nChecked: 2026-11-10T16:49:29Z\n\n### Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI\n\n2026-11-10T16:28:49Z · updated\n\nSources: [BITCOINNEWS](<https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/>) (2026-11-10T16:28:49Z)\n\nBitcoin fell below $73,000 on Tuesday after hotter-than-expected October inflation data showed consumer prices rising 0.4%. Bitcoin Slides as Inflation Data Sparks Market Volatility Bitcoin price fell below $73,000 on Tuesday following the release of Octobers consumer price index \\(CPI\\) data, which s... A subsequent institutional settlement report announced that twelve regulated banks completed an audited tokenized settlement pilot, increasing processed value from one billion dollars to four billion dollars and covering more than six hundred thousand transfers. The banks expanded the custody programme to twenty additional jurisdictions and published measured settlement results.\n\nRelevant to: Bitcoin (matched: bitcoin)\n\nBullGod’s assessment (source-based interpretation):\n- Reports a material Bitcoin move tied to inflation data and significant institutional tokenized-settlement expansion by regulated banks.\n\nProposed next steps and their current review status are saved in Personal commitments. No new permission or external action was taken.",
+      "selected": [
+        {
+          "article_id": "52f196297d57ada6106c207e",
+          "source_id": "200217",
+          "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+          "publisher": "BITCOINNEWS",
+          "headline": "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI",
+          "description": "Bitcoin fell below $73,000 on Tuesday after hotter-than-expected October inflation data showed consumer prices rising 0.4%. Bitcoin Slides as Inflation Data Sparks Market Volatility Bitcoin price fell below $73,000 on Tuesday following the release of Octobers consumer price index (CPI) data, which s... A subsequent institutional settlement report announced that twelve regulated banks completed an audited tokenized settlement pilot, increasing processed value from one billion dollars to four billion dollars and covering more than six hundred thousand transfers. The banks expanded the custody programme to twenty additional jurisdictions and published measured settlement results.",
+          "content": "Bitcoin fell below $73,000 on Tuesday after hotter-than-expected October inflation data showed consumer prices rising 0.4%. Bitcoin Slides as Inflation Data Sparks Market Volatility Bitcoin price fell below $73,000 on Tuesday following the release of October’s consumer price index (CPI) data, which showed a 0.4% monthly increase in inflation. According to Bitstamp data, the cryptocurrency […] A subsequent institutional settlement report announced that twelve regulated banks completed an audited tokenized settlement pilot, increasing processed value from one billion dollars to four billion dollars and covering more than six hundred thousand transfers. The banks expanded the custody programme to twenty additional jurisdictions and published measured settlement results.",
+          "pub_date": "2026-11-10T16:28:49Z",
+          "original_pub_date": "2026-11-10T16:28:49Z",
+          "fetched_at": "2026-11-10T16:33:15Z",
+          "updated_at": "2026-11-10T17:00:00Z",
+          "category": "General",
+          "region": "Global",
+          "sentiment": "neutral",
+          "is_top_ranked": false,
+          "topics": [],
+          "was_updated": true,
+          "alias_ids": [
+            "src:3480afe240a8dfe6ac43174a",
+            "src:98e6a03bdfa9b54cdaf40447",
+            "url:dec81a697db33efd0c010a15"
+          ],
+          "provenance": {
+            "source_fields": [
+              "_acceptance_fixture",
+              "category",
+              "content",
+              "description",
+              "feedId",
+              "fetchedAt",
+              "guid",
+              "id",
+              "isTopRanked",
+              "link",
+              "originalPubDate",
+              "provider",
+              "pubDate",
+              "region",
+              "sentiment",
+              "title",
+              "topics",
+              "updatedAt",
+              "wasUpdated"
+            ],
+            "source_identifiers": {
+              "id": "200217",
+              "guid": "https://news.bitcoin.com/?p=\"862513",
+              "feedId": "34"
+            }
+          },
+          "issues": [],
+          "matched_preferences": [
+            "Bitcoin"
+          ],
+          "matched_preference_tokens": [
+            "bitcoin"
+          ],
+          "preference_evidence": [
+            {
+              "preference": "Bitcoin",
+              "matched_tokens": [
+                "bitcoin"
+              ],
+              "evidence_fields": [
+                "content",
+                "description",
+                "headline"
+              ]
+            }
+          ],
+          "follow_up": false,
+          "status": "updated",
+          "cluster_id": "78be1f6c0bd624f91cb5d4b7",
+          "sources": [
+            {
+              "publisher": "BITCOINNEWS",
+              "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+              "source_id": "200217",
+              "pub_date": "2026-11-10T16:28:49Z"
+            }
+          ]
+        }
+      ],
+      "evaluation": {
+        "initiative_id": "ef4f9affd8914c8bb6f98b59fd287a81",
+        "trigger": "scheduled",
+        "classification": "new_approval_required",
+        "observed": {
+          "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+          "revision": 1,
+          "grant": {
+            "grant_id": "read:38827b8896b041adb802cd5d94ba7931",
+            "agent_id": "bullgod",
+            "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+            "operation": "public_news_read",
+            "resource": "https://tyl.ee/api/news",
+            "revision": 1,
+            "status": "active",
+            "authorized": true,
+            "conditions": {
+              "commitment_status": "active",
+              "revision": 1
+            },
+            "expires_at": null,
+            "min_interval_seconds": 60,
+            "read_only": true,
+            "individual_approval_required": false,
+            "internal_writes": [
+              "commitment",
+              "cache",
+              "history"
+            ]
+          },
+          "status": "active"
+        },
+        "executed": [
+          "approved_read_or_validated_cache",
+          "record_own_commitment_state"
+        ],
+        "verified": true,
+        "model": {
+          "model": "gpt-5.6-luna",
+          "requested_provider": "openai",
+          "usage": {
+            "input_tokens": 548,
+            "output_tokens": 118,
+            "total_tokens": 666,
+            "prompt_tokens": 548,
+            "completion_tokens": 118
+          }
+        },
+        "interpretation": {
+          "52f196297d57ada6106c207e": "Reports a material Bitcoin move tied to inflation data and significant institutional tokenized-settlement expansion by regulated banks."
+        },
+        "proposed_actions": [
+          {
+            "action": "deeper_analysis",
+            "reason": "Assess the tokenized-settlement pilot’s scale, participating institutions, custody expansion, and implications for financial infrastructure and institutional digital-asset adoption.",
+            "source_ids": [
+              "52f196297d57ada6106c207e"
+            ]
+          }
+        ],
+        "notification": "meaningful_finding"
+      },
+      "message_seq": 9,
+      "occurrence_key": "38827b8896b041adb802cd5d94ba7931:1:2026-11-10T16:49:24.996081+00:00"
+    },
+    "phase4_update_complete": {
+      "passed": true
+    },
+    "material_update_notification": {
+      "run_id": "ef4f9affd8914c8bb6f98b59fd287a81",
+      "finding_ids": [
+        "bd300d7e14d54e48b53dc976e2b2dd5bc08c75b3a3783a6aed83d858622f8b48",
+        "79a3ed38508e9887cb7ae1f159bab80cbdfb3020587d18060d691e55e8c8a3a2"
+      ],
+      "model": {
+        "model": "gpt-5.6-luna",
+        "requested_provider": "openai",
+        "usage": {
+          "input_tokens": 548,
+          "output_tokens": 118,
+          "total_tokens": 666,
+          "prompt_tokens": 548,
+          "completion_tokens": 118
+        }
+      },
+      "label": "CONTROLLED ACCEPTANCE FIXTURE — simulated news data, not a verified real-world development."
+    },
+    "notification_dismissed_history_retained": {
+      "attention_id": "79a3ed38508e9887cb7ae1f159bab80cbdfb3020587d18060d691e55e8c8a3a2",
+      "run_id": "e1f413c5b4aa4bf8b5f73051a536cf72"
+    },
+    "grant_revoked": {
+      "grant": {
+        "grant_id": "read:38827b8896b041adb802cd5d94ba7931",
+        "agent_id": "bullgod",
+        "commitment_id": "38827b8896b041adb802cd5d94ba7931",
+        "operation": "public_news_read",
+        "resource": "https://tyl.ee/api/news",
+        "revision": 2,
+        "status": "revoked",
+        "authorized": false,
+        "conditions": {
+          "commitment_status": "active",
+          "revision": 2
+        },
+        "expires_at": null,
+        "min_interval_seconds": 60,
+        "read_only": true,
+        "individual_approval_required": false,
+        "internal_writes": [
+          "commitment",
+          "cache",
+          "history"
+        ]
+      },
+      "revision": 2,
+      "next_run_at": null
+    },
+    "revoked_due_callback_no_fetch": {
+      "fetch_count_before": 4,
+      "fetch_count_after": 4,
+      "commitment_run_ids_unchanged": true,
+      "native_pointer_advanced": true,
+      "controlled_due_pointer_restored_disabled": true
+    },
+    "controlled_model_timeout": {
+      "run_id": "6c74024cb71e4f409b9d5c9550cfaeac",
+      "status": "failed",
+      "is_error": true,
+      "fixture": "AgentLLMModel stream raises a controlled TimeoutError before any provider call."
+    },
+    "timeout_state_preserved": {
+      "commitment_ids": [
+        "38827b8896b041adb802cd5d94ba7931"
+      ],
+      "decision_ids": [
+        "9e12b1c9296a3e09bb26dfe6f80971450aed7ef6fa39cd0acf5347b19f971bc2",
+        "327c2707fe933e51da37f0c7f1fa4ce2557259215064a32b56521dd836fd6407",
+        "a47c95fcae006a5b957967a2be76d788de82df81e098681afeec3e3dd709e535"
+      ],
+      "no_new_delivery": true,
+      "grant_remains_revoked": true
+    },
+    "helper_observation_limit": {
+      "phase": "after timeout-state proof",
+      "reason": "The empty composer correctly disables Send; waiting for it before filling the next prompt was a helper error. No accepted interaction is repeated."
+    },
+    "phase5_complete": {
+      "passed": true,
+      "content_review": "Chronological native GPT-5.6 Luna answer matches four durable checks, publisher report versus later fixture, denied publication, revoked grant and separate timeout; independent audit matches assistant sequence16."
+    },
+    "initial_final_explanation": {
+      "prompt": "Resume with a concise status explanation using actual saved records: what you checked while I was away, which finding was real and which was a controlled fictional update, the publication denial, my revoked grant, the last model timeout, and what can happen next. Do not fetch, publish or use tools.",
+      "answer": "## Status\n\n- **What was checked while you were away:** The saved records show a scheduled news check for your digital-asset briefing. It reported one item: *“Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI.”*\n- **What was real:** The saved record does **not** verify this as a real-world development. It identifies the briefing as a **“CONTROLLED ACCEPTANCE FIXTURE — simulated news data, not a verified real-world development.”** Therefore, no real finding is established.\n- **What was a controlled fictional update:** The entire reported story—including the claimed Bitcoin move, 0.4% CPI rise, and the additional institutional tokenized-settlement details—was controlled simulated data. It must not be treated as factual news.\n- **Publication decision:** The LinkedIn publication request was **denied**. Nothing was published; the record also notes that the connector was unsupported.\n- **Read grant:** The standing public-news read grant is **revoked** and `authorized: false`. No further source checks are permitted under it.\n- **Last model timeout:** A prior run failed because the **model was unavailable**. The saved record marks that failure as **resolved**, but it remains part of the run history.\n- **What can happen next:** No unattended news check should run under the revoked grant. You can review or dismiss the saved simulated finding, and—if you want future briefings—you would need to explicitly establish a new valid read authorization and schedule. Any publication would require separate explicit approval and a supported connector.",
+      "source_seq": 11,
+      "usage": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    "final_owner_explanation": {
+      "prompt": "Summarize all four recent scheduled checks in chronological order using the current persisted recent_checks records. Distinguish the retrieved publisher report from the later labeled acceptance fixtures; a retrieved report does not mean its claims were independently verified. Then explain my publication decision, current read permission, most recent conversation failure and what happens next. Use the records over earlier assistant summaries. Do not fetch, publish or use tools.",
+      "answer": "## Four recent scheduled checks, chronological order\n\n1. **16:32:04 UTC — failed**\n   - **Status:** Failed.\n   - **Reason:** Model unavailable.\n   - **Notification:** None.\n\n2. **16:40:28 UTC — delivered**\n   - **Status:** Delivered.\n   - **Retrieved publisher report:** *“Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI,”* attributed to BITCOINNEWS/Bitcoin.com.\n   - The record says the publisher reported Bitcoin below $73,000 and October CPI up 0.4%.\n   - **Important qualification:** Retrieval records what the publisher reported; it does **not** independently verify those claims.\n\n3. **16:46:59 UTC — completed**\n   - **Status:** Completed, not notified.\n   - **Result:** No relevant new or materially updated stories were found.\n   - This was a persisted check result, not a publisher report.\n\n4. **16:49:29 UTC — delivered**\n   - **Status:** Delivered and notified.\n   - **Label:** **“CONTROLLED ACCEPTANCE FIXTURE — simulated news data, not a verified real-world development.”**\n   - It repeated the Bitcoin/CPI report and added simulated institutional tokenized-settlement details. These are controlled fixture content, not verified developments.\n\n## Publication decision\n\nThe LinkedIn publication request was **denied**. Nothing was published. The saved execution status says publication was blocked by an **unsupported connector**.\n\n## Current read permission\n\nThe public-news read grant is **revoked** and `authorized: false`. No further source checks are permitted under that grant.\n\n## Most recent conversation failure\n\nThe latest conversation-level failure was a **conversation response timeout**. It is separate from the earlier scheduled check that failed because the model was unavailable.\n\n## What happens next\n\nThe schedule is currently **inactive**, with no next run recorded. No further unattended checks should occur under the revoked grant. Future briefings would require a newly authorized read grant and an active schedule; publication would still require separate explicit approval and a supported connector.",
+      "source_seq": 15,
+      "usage": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    "second_final_explanation": {
+      "prompt": "Use the current recent-check and conversation-failure records for a corrected concise status: what you checked while I was away, which finding was real and which was a controlled fictional update, the publication denial, my revoked grant, the last model timeout, and what can happen next. Do not fetch, publish or use tools.",
+      "answer": "## Corrected status\n\n- **Checked while you were away:** Two relevant scheduled checks are recorded:\n  - **16:46:59 UTC:** completed with **no relevant new or materially updated stories**.\n  - **16:49:29 UTC:** delivered a briefing about Bitcoin and tokenized settlement.\n- **Finding status:** The **16:46:59 check was the real completed check**, and its result was no new stories. The **16:49:29 briefing was explicitly labeled a controlled acceptance fixture—simulated data, not verified real-world news**. Thus, no real Bitcoin or institutional-settlement finding is established.\n- **Publication:** The LinkedIn publication decision was **denied**. Nothing was published; execution was blocked because the connector was unsupported.\n- **Read grant:** The public-news read grant is **revoked** and unauthorized. No further checks may rely on it.\n- **Last model timeout:** A separate conversation response failed due to **conversation response timeout**; it is distinct from the earlier scheduled model-unavailable failure.\n- **What can happen next:** No scheduled check is currently active (`schedule_status: inactive`, `next_run_at: null`). Future briefings require a newly authorized read grant and an active schedule. Any publication still requires separate explicit approval and a supported connector.",
+      "source_seq": 13,
+      "usage": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    "explanation_chronology_attempt": {
+      "completed": true,
+      "content_review_pending": true
+    },
+    "explanation_context_probe": [
+      {
+        "kind": "context_presence",
+        "time": 1794330556.656245,
+        "model": "gpt-5.6-luna",
+        "system_chars": 38269,
+        "live_run_present": true,
+        "quiet_run_present": true,
+        "fixture_run_present": true,
+        "recent_failure_present": true
+      }
+    ]
+  },
+  "models": [
+    "gpt-6-luna",
+    "gpt-5.6-luna"
+  ],
+  "updated_at": 1794330567,
+  "model_evidence": "Native conversation usage records and semantic evaluation provenance; not an independent upstream model attestation."
+}

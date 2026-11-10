@@ -31,7 +31,7 @@ def test_non_owner_runtime_never_opens_personal_storage(tmp_path, kind):
 def test_current_records_are_reloaded_after_model_switch(tmp_path):
     agent = native_agent(tmp_path)
     registry = Mock()
-    registry.get_addressed.return_value = SimpleNamespace(workspace=str(tmp_path))
+    registry.get_addressed.return_value = SimpleNamespace(id='bullgod', workspace=str(tmp_path))
     records = Mock()
     records.context.side_effect = ['current preference: brief', 'current preference: detailed', '']
     from agent.memory.commitments import CommitmentStore

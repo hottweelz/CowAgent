@@ -1,0 +1,51 @@
+{
+  "mode": "Effective 200% zoom: 720x550 CSS pixels at 2x device scale, rendered at 1440x1100 physical pixels",
+  "metrics": {
+    "width": 720,
+    "height": 550,
+    "scale": 2,
+    "scrollWidth": 720,
+    "clientWidth": 720,
+    "regions": {
+      "#commitments-card": {
+        "x": 6.390625,
+        "y": 62.390625,
+        "width": 707.21875,
+        "height": 385,
+        "bottom": 447.390625
+      },
+      "#personal-card": {
+        "x": 8,
+        "y": 461.78125,
+        "width": 704,
+        "height": 264,
+        "bottom": 725.78125
+      },
+      "#chat-messages": {
+        "x": 0,
+        "y": 733.78125,
+        "width": 720,
+        "height": 0,
+        "bottom": 733.78125
+      },
+      "#chat-input": {
+        "x": 27,
+        "y": 757.78125,
+        "width": 666,
+        "height": 52,
+        "bottom": 809.78125
+      },
+      "#send-btn": {
+        "x": 661,
+        "y": 815.78125,
+        "width": 32,
+        "height": 32,
+        "bottom": 847.78125
+      }
+    },
+    "keyboard_focus_inside_card": true,
+    "grant_display": "Grant status: revoked\nOwner agent: bullgod\nCommitment: 38827b8896b041adb802cd5d94ba7931\nOperation: public_news_read\nExact resource: https://tyl.ee/api/news\nAllowed: read this resource and update this commitment's own state only (commitment,cache,history)\nExternal publication: not allowed\nIndividual approval: not required for the granted read\nRead only: yes\nConditions: explicit read authorization; initiative enabled; scheduled checks enabled\nExpiry: Not recorded; frequency: at most once per 60 seconds",
+    "grant_toggle_has_label": false
+  },
+  "source_overlay": false
+}
