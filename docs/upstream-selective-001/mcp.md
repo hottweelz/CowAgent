@@ -1,0 +1,11 @@
+# MCP selective port
+
+Source: upstream CowAgent commit `25406f0eb356ec19d1f2d8767952bb471bd8ae5f` (9 Nov 2026), “fix: fall back to SSE for legacy MCP servers and repair the SSE transport.” Its parent is the comparison base for the upstream patch.
+
+The prior client closed the SSE GET after endpoint discovery, omitted configured headers, and expected a JSON reply in the POST body. Legacy servers normally keep the GET open and return replies on that stream after a 202 POST. The port keeps that stream open, routes replies by request ID, reconnects on the next request after a drop, falls back for streamable HTTP 400/404/405, preserves errors, and handles blank configuration. Existing tool authorization gates are unchanged.
+
+Differences from upstream: the advertised message endpoint must share the stream origin, and authenticated SSE redirects are refused to prevent forwarding configured headers to another origin. Shutdown fences later reconnect and initialization, and concurrent requests wait for the reconnect handshake. SSE event data has a size cap; POST connect and socket reads use the remaining request budget. HTTP error bodies are closed without reading them. These restrictions may reject cross-origin endpoint or redirect arrangements accepted upstream. OAuth fallback behavior is unchanged from upstream; use explicit SSE headers if needed.
+
+Validation: guarded MCP directory selection `scripts/ci_test.py -q tests/test_mcp*.py`: 142 passed (the stream event cap and reader-start fence were added during that run). Final focused selection of lifecycle, fallback, and POST budget tests: 26 passed after review corrections. The owned localhost fixture exercised actual HTTP fallback, configured headers, long-lived SSE, drop, and reconnect; no live service was used. The guard applies to Python sockets, not native/subprocess networking.
+
+Limits: shutdown closes the event stream and releases waiters, but cannot forcibly cancel an in-flight blocking POST before its socket timeout. The configured timeout is not a universal hard deadline for DNS or every Python/network operation. One SSE line can be buffered by the HTTP library before the event size check. No third-party MCP server or OAuth flow was contacted. Transport initialization and automatic reconnect remain bounded per attempt and do not create a background retry loop.

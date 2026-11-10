@@ -1,5 +1,15 @@
 # CowAgent project facts
 
+- UPSTREAM-SELECTIVE-001 cloud callbacks reserve default-service fallback for an
+  absent agent ID. Named registry/build failures must fail closed; unknown IDs
+  remain distinct. Models-tab writes use the shared settings write lock.
+- Feishu Markdown image validation uses the shared strict URL guard even when
+  global SSRF protection is disabled; shared address space is non-public.
+- Legacy MCP SSE keeps its GET reader open and fences requests through reconnect
+  initialization. Its message endpoint stays on the stream origin; configured
+  headers must not follow redirects. Shutdown releases waiters, but a blocking
+  POST/DNS operation remains bounded only by applicable transport timeouts.
+
 - PERSONAL-001/002/003 PRs #9/#10/#11 were merged normally in dependency order
   on 2026-11-10. Master ab13b789 has the exact reviewed PR #11 tree. Original
   branches and evidence remain. Hosted checks were absent, not passing; no

@@ -1,5 +1,113 @@
 # AI handoff ledger
 
+## 2026-11-10 14:37 EST — Codex — UPSTREAM-SELECTIVE-001 published as draft PRs #13 and #14
+
+- Result: candidates1–8 published in backend PR13; desktop9–10 in stacked PR14.
+  No candidate was already fixed locally. Dedup11 and Feishu retry12 deferred;
+  unsafe global TLS downgrade rejected. No upstream wholesale merge/deployment.
+- Team: unchanged lead/Luna/Terra6.1 MCP/Sol6.1 review assignments from prior entry.
+- Changes/files: final publication.md, README and this ledger only; executable
+  source/tests unchanged from combined-validation.json. MEMORY.md update: not
+  needed at publication; durable facts were updated in the implementation entry.
+- Verification: full6360pass/36skip/93subtests; web39,desktop16,commitmentsUI,
+  strict tsc/build/Ruff and source hashes pass. Independent review has zero open
+  findings. Both initial published heads show empty hosted checks/statuses/jobs;
+  hosted validation remains unverified. No CI investigation resumed.
+- Decisions: keep both draft/unmerged. Review backend13 before desktop14.
+  Final docs-only push and fetch/upstream0/0 check complete publication; no
+  accepted live-model interaction repeated for bookkeeping.
+- Lessons Learned: none beyond the prior concrete-fix entry.
+- Known issues: qualified full-suite/build warnings and runtime limits remain in
+  regression.md/publication.md. No failing local test or open source-review finding.
+- Next: maintainer reviews PR13 then PR14; any deployment is a separate decision.
+- Notes: preserve original seven untracked files and history. Task worktrees retain
+  untracked AGENTS.md only. Original PID28093 still listens on9899. No credentials,
+  production data, approvals, mount ownership or routing settings changed.
+
+## 2026-11-10 14:35 EST — Codex — UPSTREAM-SELECTIVE-001 qualified for draft publication
+
+- Scope/result: imported candidates 1–8 on codex/upstream-selective-001 and 9–10
+  on stacked codex/upstream-selective-001-desktop. Accepted baseline is merged
+  PERSONAL-004 master74b75f97. None already fixed locally. Dedup11 and Feishu12
+  deferred; broad process-wide TLS downgrade rejected. No wholesale merge.
+- Team: lead integration/cloud/docs/Git; Luna config/security/providers/desktop/
+  compatibility/full regression; Terra6.1 MCP for interacting connection lifetime;
+  Sol6.1 independent review for cross-module identity/credentials/concurrency.
+- Changes/files: cloud callbacks, models config lock, shared/Feishu URL guards,
+  Gemini/LinkAI providers, MCP transport/service/tool manager, desktop streaming
+  and window recovery, focused tests and docs/upstream-selective-001 receipts.
+  Project MEMORY.md updated with durable failure/lock/network boundaries.
+- Verification: final combined source2ed12245: 6,360 passed, 36 skipped,
+  93 subtests passed, zero failures/errors in220.85s. All31 changed source/test
+  hashes unchanged. Web39, desktop16, commitmentsUI, strict renderer tsc,
+  renderer/main builds, project RuffF and diff checks pass. Focused per-candidate
+  outcomes recorded. Independent engineering review has no open source finding.
+- Review corrections: fence MCP reconnect handshake; do not read unbounded HTTP
+  error bodies; assert LinkAI test budget; fold mixed desktop events into one
+  store update; preserve valid larger-secondary window bounds.
+- Decisions: preserve identity/memory/goals/grants/revocation/news/scheduler/
+  initiative/durable state/duplicates/decisions/social safety/specialist behavior
+  through full regressions and retained native evidence. Personal modules and
+  model routing unchanged. No accepted provider/news/native interaction replay.
+- Lessons Learned:
+  - Mistake: copying a safe-looking upstream patch and threshold fixtures would
+    have retained concurrency/read-budget and desktop behavior defects.
+  - Root Cause: transport alive was confused with ready; diagnostic reads lacked
+    bounds; per-frame queueing was confused with one store update; primary-only
+    geometry and below-threshold test data missed normal supported conditions.
+  - Future Trigger: selective ports affecting streams, identity or thresholds.
+  - Required Behavior Change: inspect actual execution boundaries, use deterministic
+    concurrent/actual-store tests, and assert threshold preconditions.
+  - Verification Step: exact reproductions now pass and reviewer confirms fixes;
+    final complete source hashes and suite establish integrated regression.
+  - Durable Memory Update: project MEMORY.md updated; global memory untouched.
+- Known limits: live provider/third-party MCP/physical display events unverified.
+  Full suite36 warnings include an unraisable Xunfei TTS websocket-thread error;
+  no failing test. Existing build warnings retained. No new TLS/retry design.
+  Hosted status pending draft publication; no pass inferred from empty checks.
+- Next: publish the two draft PRs, verify hosted status and both upstream0/0;
+  maintainer reviews backend before desktop. No merge or deployment authorized.
+- Notes: raw evidence /private/tmp/cow-upstream-selective-001-final-suite.LmbxD5;
+  source/test hashes and log/JUnit digests retained in combined-validation.json.
+  Original checkout/seven untracked files, historical branches and live9899
+  PID28093 preserved. Each task worktree retains untracked AGENTS.md intentionally.
+
+## 2026-11-10 — Codex — UPSTREAM-SELECTIVE-001 implementation checkpoint
+
+- Scope: selectively port backend candidates1–8 from accepted master74b75f97.
+  PERSONAL001–004 are merged. Desktop9–10 use a separate stacked branch;
+  dedup11 and Feishu retry12 remain deferred after source/TLS review.
+- Team: lead integration/cloud tests/docs/Git; Luna configuration, SSRF,
+  providers, desktop, compatibility and regression; Terra6.1 MCP for interacting
+  stream/connection lifetime; Sol6.1 independent review for identity, credential
+  and concurrent-state boundaries. Requested models were selected explicitly.
+- Changes/files: cloud_client, modelsAPI, URL guard/Feishu image validator,
+  Gemini/LinkAI, three MCP modules and focused tests; docs/upstream-selective-001.
+- Checks: cloud43+three-identity33; config13; guard/Feishu47; providers21,
+  corrected LinkAI12; MCP initial142 then final26; web39 and commitmentsUI pass.
+  RuffF and diff whitespace pass. Independent backend review has no open finding.
+  Complete combined-source suite is pending; superseded early run68 stopped when
+  review found MCP defects, not claimed as final. Source hashes pending freeze.
+- Decisions: preserve live9899 PID28093 and all production data/config/authority.
+  No wholesale merge, optional platform feature, credential or routing change.
+- Lessons Learned:
+  - Mistake: upstream reconnect readiness and HTTP error reads were unsafe;
+    initial unusual-role test data did not exceed its configured budget.
+  - Root Cause: alive flag preceded handshake; unbounded diagnostic body read;
+    fixture size assumption was not asserted.
+  - Future Trigger: porting threaded reconnect or threshold-based regression.
+  - Required Behavior Change: gate readiness through handshake; close error body
+    without reading it; assert the test reaches its threshold before behavior.
+  - Verification Step: deterministic reconnect/error tests and over-budget tests
+    pass; independent reviewer confirmed the concrete fixes.
+  - Durable Memory Update: pending final project operating-facts review.
+- Known limits: third-party MCP/provider/live acceptance not replayed. Current
+  full suite and desktop review remain pending. No completion claim yet.
+- Next: stack desktop source, run complete guarded suite on stable combined tree,
+  finish independent review and documentation, publish2draft PRs; do not merge.
+- Notes: parent owns lifecycle/Git. Keep AGENTS.md untracked, recovery artifacts,
+  source checkout and historical branches. No full environment dumps.
+
 ## 2026-11-10 14:08 EST — Codex — PR #12 integration review complete
 
 - Scope: reviewed f52e89f1 against current master ab13b789; zero divergence,
