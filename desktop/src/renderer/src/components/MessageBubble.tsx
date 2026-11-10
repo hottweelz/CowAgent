@@ -11,7 +11,7 @@ import FileCard from './FileCard'
 import { useLightboxStore } from './Lightbox'
 import AgentAvatar from './AgentAvatar'
 import Tooltip from './Tooltip'
-import { useAgentStore, findAgent } from '../store/agentStore'
+import { useAgentStore } from '../store/agentStore'
 import { useSessionSettingsStore, selectSharedConversation } from '../store/sessionSettingsStore'
 import { product } from '@product'
 
@@ -25,6 +25,8 @@ interface MessageBubbleProps {
   onMediaLoad?: () => void
   /** Seq of the question opening this turn, for the file cards it shows. */
   turnSeq?: number | null
+  /** `t()` reads a module global, so memoized bubbles need this invalidation prop. */
+  lang?: string
 }
 
 function fmtTime(ts: number): string {
@@ -146,7 +148,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   // is what a lone default Agent has always worn.
   const activeAgentId = useAgentStore((s) => s.activeAgentId)
   const speakerId = (message.extras?.agent_id as string) || activeAgentId
-  const speaker = speakerId ? findAgent(speakerId) : undefined
+  const speaker = useAgentStore((s) => (speakerId ? s.agents.find((a) => a.id === speakerId) : undefined))
   // In a group conversation several Agents answer, so each reply is labelled
   // with its speaker's name (as in the web console). A solo chat keeps the
   // plain bubble — the face alone says who it is.
@@ -383,4 +385,4 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   )
 }
 
-export default MessageBubble
+export default React.memo(MessageBubble)

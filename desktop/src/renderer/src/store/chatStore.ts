@@ -7,6 +7,7 @@ import { findAgent } from './agentStore'
 import { notifyRunDone } from '../lib/taskNotify'
 import { parseAttachmentMarkers } from '../lib/fileKind'
 import { handoffPayload } from '../lib/handoff'
+import { StreamBatch } from '../lib/streamBatch'
 import { t } from '../i18n'
 import type { Artifact, ChatMessage, MessageStep, Attachment, StreamEvent, HistoryMessage, AgentBadge, ContextUsage } from '../types'
 
@@ -433,22 +434,35 @@ export const useChatStore = create<ChatState>((set, get) => {
       closeStream()
     }
 
-    // Deltas may arrive in a burst (an upstream that buffers the reply and
-    // flushes it at once). Committing each one re-renders the whole answer, so
-    // they are buffered and committed at most once per frame.
-    let pendingText = ''
-    let pendingTarget = ''
-    let flushFrame: number | null = null
-    const flushDeltas = () => {
-      if (flushFrame !== null) {
-        cancelAnimationFrame(flushFrame)
-        flushFrame = null
-      }
-      if (!pendingText) return
-      const text = pendingText
-      pendingText = ''
-      updateMsg(sid, pendingTarget, (m) => ({ ...m, content: m.content + text }))
-    }
+    // High-rate stream updates are committed once per frame. Keep text event
+    // order and retain only the latest progress result for each tool card.
+    const streamBatch = new StreamBatch((items) => {
+      patchMessages(sid, (messages) => {
+        let next = messages
+        for (const item of items) {
+          if (item.type === 'reasoning' || item.type === 'delta') {
+            next = next.map((m) => {
+              if (m.id !== item.target) return m
+              return item.type === 'reasoning'
+                ? { ...m, reasoning: (m.reasoning || '') + item.content }
+                : { ...m, content: m.content + item.content }
+            })
+          } else {
+            next = next.map((m) =>
+              (m.steps || []).some((s) => s.type === 'tool' && s.id === item.toolCallId)
+                ? {
+                    ...m,
+                    steps: m.steps!.map((s) =>
+                      s.type === 'tool' && s.id === item.toolCallId ? { ...s, result: item.content } : s
+                    ),
+                  }
+                : m
+            )
+          }
+        }
+        return next
+      })
+    })
 
     es.onmessage = (event) => {
       let data: StreamEvent
@@ -458,26 +472,20 @@ export const useChatStore = create<ChatState>((set, get) => {
         return // keepalive
       }
       // Every other event may read or replace the bubble's content.
-      if (data.type !== 'delta') flushDeltas()
+      if (data.type !== 'delta' && data.type !== 'reasoning' && data.type !== 'tool_progress') streamBatch.flush()
       // Stopped: nothing more is said, but a step already running still ends.
       if (detached() && (data.type === 'delta' || data.type === 'reasoning')) return
 
       switch (data.type) {
-        case 'reasoning':
-          updateMsg(sid, speaking(), (m) => ({ ...m, reasoning: (m.reasoning || '') + (data.content || '') }))
+        case 'reasoning': {
+          const target = speaking()
+          streamBatch.reasoning(target, data.content || '')
           break
+        }
 
         case 'delta': {
           const target = speaking()
-          if (target !== pendingTarget) flushDeltas()
-          pendingTarget = target
-          pendingText += data.content || ''
-          if (flushFrame === null) {
-            flushFrame = requestAnimationFrame(() => {
-              flushFrame = null
-              flushDeltas()
-            })
-          }
+          streamBatch.delta(target, data.content || '')
           break
         }
 
@@ -550,12 +558,7 @@ export const useChatStore = create<ChatState>((set, get) => {
           break
 
         case 'tool_progress':
-          updateCard(data.tool_call_id, (m) => ({
-            ...m,
-            steps: (m.steps || []).map((s) =>
-              s.type === 'tool' && s.id === data.tool_call_id ? { ...s, result: data.content } : s
-            ),
-          }))
+          streamBatch.progress(data.tool_call_id || '', data.content)
           break
 
         case 'tool_end':
@@ -747,7 +750,7 @@ export const useChatStore = create<ChatState>((set, get) => {
     }
 
     es.onerror = () => {
-      flushDeltas()
+      streamBatch.flush()
       // Stream closed (often the normal end after `done`/tail). Finalize.
       if (ended) finishStream()
       else dropStream()
