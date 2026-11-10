@@ -4,6 +4,7 @@ Provides basic model classes needed by tools and bridge integration.
 """
 
 from typing import Any, Dict, List, Optional
+import math
 
 
 class LLMRequest:
@@ -11,13 +12,18 @@ class LLMRequest:
     
     def __init__(self, messages: List[Dict[str, str]] = None, model: Optional[str] = None,
                  temperature: float = 0.7, max_tokens: Optional[int] = None, 
-                 stream: bool = False, tools: Optional[List] = None, **kwargs):
+                 stream: bool = False, tools: Optional[List] = None,
+                 request_timeout: Optional[float] = None, **kwargs):
         self.messages = messages or []
         self.model = model
         self.temperature = temperature
         self.max_tokens = max_tokens
         self.stream = stream
         self.tools = tools
+        if request_timeout is not None:
+            if isinstance(request_timeout, bool) or not isinstance(request_timeout, (int, float)) or not math.isfinite(request_timeout) or request_timeout <= 0:
+                raise ValueError("request_timeout must be positive and finite")
+        self.request_timeout = request_timeout
         # Allow extra attributes
         for key, value in kwargs.items():
             setattr(self, key, value)

@@ -795,7 +795,7 @@ def _run_scheduled_task(
             from agent.personal.scheduling import execute_scheduled_commitment
             personal_result = execute_scheduled_commitment(task, agent_id, trigger=trigger)
             personal_status = personal_result.get("status")
-            if personal_status == "delivered":
+            if personal_status in ("delivered", "completed"):
                 ok = True
             elif personal_status == "running":
                 # Another worker owns this occurrence. Keep the pointer due and

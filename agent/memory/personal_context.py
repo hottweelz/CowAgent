@@ -21,7 +21,7 @@ def personal_context(agent):
         raise ValueError('Personal context owner binding differs')
     native = get_conversation_store(profile.workspace)
     context = PersonalStore(native).context(session_id)
-    commitments = CommitmentStore(native).context(session_id)
+    commitments = CommitmentStore(native, owner_agent_id=profile.id).context(session_id)
     import json
     from agent.personal.scheduling import scheduling_status
     payload = json.loads(commitments)
@@ -57,5 +57,18 @@ def personal_context(agent):
         'result. Drafting a social post does not publish it; publication requires '
         'separate explicit approval and a supported connector. Help the owner '
         'understand the last check, saved follow-ups, pending decisions and next '
-        'action in natural conversation. Never claim a draft was posted.\n' + commitments
+        'action in natural conversation. Never claim a draft was posted. '
+        'When asked what needs attention, use current persisted attention items, '
+        'latest run evaluations, grant state and schedule state. A completed quiet '
+        'check and earlier reported findings have separate history. Do not apply '
+        'the latest briefing label to every earlier report. Recent conversation '
+        'response failures are separate from commitment execution failures. '
+        'A completed quiet '
+        'check found nothing requiring notification; it is not a new briefing. '
+        'Unattended scheduled checks do not require another prompt within their '
+        'standing grant. Failed, blocked and uncertain work is not complete. '
+        'Pending decisions are proposals; approval is not execution. An approved '
+        'publication with a blocked connector has not been posted. Dismissal hides '
+        'attention without deleting run history. New authority, external effects '
+        'and changes to owner intent require explicit owner controls.\n' + commitments
     )

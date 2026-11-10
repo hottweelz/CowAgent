@@ -38,7 +38,7 @@ def _cache_policy(header, now):
 class CommitmentService(PersonalService):
     def __init__(self, agent_id, session_id):
         super().__init__(agent_id, session_id)
-        self.store = CommitmentStore(self.store._store)
+        self.store = CommitmentStore(self.store._store, owner_agent_id=self.profile.id)
 
     def _endpoints(self):
         endpoints = conf().get('personal_http_endpoints') or {}
@@ -67,9 +67,14 @@ class CommitmentService(PersonalService):
             # Raw fetch payloads belong in the bounded cache, not every UI refresh.
             record['runs'] = [{k: v for k, v in run.items() if k not in ('articles',)}
                               for run in record['runs']]
+        personal = PersonalStore.snapshot(self.store, self.session_id)
         return {'status': 'success', 'identity': {'agent_id': self.profile.id, 'name': self.profile.name},
-                'source_seq': PersonalStore.snapshot(self.store, self.session_id)['latest_source_seq'],
+                'source_seq': personal['latest_source_seq'],
                 'commitments': records, 'approved_endpoints': list(self._endpoints()),
+                'attention': self.store.attention_snapshot(),
+                'attention_history': self.store.attention_snapshot(include_dismissed=True),
+                'approved_actions': [action for action in personal.get('action_summaries', [])
+                                     if action.get('status') in ('approved', 'executing', 'completed', 'failed', 'uncertain')],
                 'publication': 'Draft only. External publication requires separate approval and a supported connector.'}
 
     def mutate(self, body):
@@ -97,6 +102,12 @@ class CommitmentService(PersonalService):
                                   body.get('claims'), source)
         elif op == 'acknowledge_run':
             self.store.acknowledge_uncertain(self.session_id, cid, body.get('run_id'), source)
+        elif op == 'decide_attention':
+            self.store.decide_attention(self.session_id, cid, body.get('attention_id'),
+                                        body.get('decision'), source)
+        elif op == 'propose_publication':
+            self.store.propose_publication(self.session_id, cid, body.get('draft_id'),
+                                           source, body.get('expires_at'))
         else:
             raise ValueError('Unknown owner operation')
         response = self.snapshot()
@@ -119,19 +130,31 @@ class CommitmentService(PersonalService):
                 arguments[name] = cache[name]
         return invoke(tool, arguments, context)
 
-    def run(self, commitment_id, occurrence_key, expected_revision=None):
+    def _interpret(self, record, selection):
+        from agent.personal.interpretation import interpret
+        return interpret(self.profile, self.session_id, record, selection)
+
+    def run(self, commitment_id, occurrence_key, expected_revision=None, *, trigger='manual'):
         claim = self.store.claim_run(commitment_id, occurrence_key, expected_revision)
         if not claim['claimed']:
             return claim
         run_id = claim['run_id']
+        evaluation = {'initiative_id': run_id, 'trigger': trigger,
+                      'classification': 'authorized_read_only', 'observed': {},
+                      'executed': [], 'verified': False}
+        def failed(error, cache=None):
+            evaluation.update(classification='blocked_or_uncertain', error=error)
+            return self.store.fail_run(run_id, error, cache, evaluation=evaluation)
         try:
             record = self.store.assert_active(commitment_id, claim['revision'])
+            evaluation['observed'] = {'commitment_id': commitment_id, 'revision': claim['revision'],
+                                      'grant': record['grant'], 'status': record['status']}
             cache = self.store.get_cache(commitment_id)
             if cache.get('endpoint') != record['endpoint']:
                 cache = {'endpoint': record['endpoint']}
             now = int(time.time())
             if cache.get('retry_at', 0) > now:
-                return self.store.fail_run(run_id, 'rate limited')
+                return failed('rate limited')
             fresh_cache = cache.get('fresh_until', 0) > now and 'articles' in cache
             result = (ToolResult.success({'status': 'not_modified'}) if fresh_cache else
                       self._fetch(record, cache))
@@ -139,24 +162,51 @@ class CommitmentService(PersonalService):
                 meta = result.ext_data or {}
                 if meta.get('http_status') == 429:
                     cache['retry_at'] = _retry_time(meta.get('retry_after'), now)
-                    return self.store.fail_run(run_id, 'rate limited', cache)
-                return self.store.fail_run(run_id, 'network error')
+                    return failed('rate limited', cache)
+                return failed('network error')
             response = result.result
             if response.get('status') == 'not_modified':
                 if 'articles' not in cache:
-                    return self.store.fail_run(run_id, 'invalid response')
+                    return failed('invalid response')
                 articles = cache['articles']
             else:
                 try:
                     articles = normalize_articles(response.get('data'), fetched_at=now)
                 except (ValueError, TypeError):
-                    return self.store.fail_run(run_id, 'invalid response')
+                    return failed('invalid response')
+            evaluation['executed'].append('approved_read_or_validated_cache')
             self.store.assert_active(commitment_id, claim['revision'])
             followups = next(r['followups'] for r in self.store.snapshot()
                              if r['commitment_id'] == commitment_id)
             selection = rank_and_select(articles, record['preferences'],
                                         self.store.get_coverage(commitment_id), followups=followups)
+            proposals = []
+            if record['initiative_enabled'] and selection['selected']:
+                from agent.personal.interpretation import InterpretationError
+                try:
+                    advice = self._interpret({**record, 'followups': followups}, selection)
+                except InterpretationError as exc:
+                    return failed(exc.code.replace('_', ' '))
+                selected_ids = set(advice['selected_ids'])
+                selection = {**selection, 'selected': [row for row in selection['selected']
+                                                       if row['article_id'] in selected_ids]}
+                evaluation['model'] = advice['provenance']
+                evaluation['interpretation'] = advice['reasons']
+                proposals = advice['proposals']
+            self.store.assert_active(commitment_id, claim['revision'])
+            notify = trigger != 'scheduled' or bool(selection['selected'])
+            evaluation['classification'] = ('new_approval_required' if proposals else
+                                             'authorized_bounded_write' if selection['selected'] else
+                                             'no_action_necessary')
+            evaluation['proposed_actions'] = proposals
             briefing = render_briefing(selection, record['objective'], now)
+            if evaluation.get('interpretation'):
+                from agent.personal.articles import _markdown_text
+                briefing += '\n\nBullGod’s assessment (source-based interpretation):\n' + '\n'.join(
+                    '- ' + _markdown_text(evaluation['interpretation'][row['article_id']])
+                    for row in selection['selected'])
+            if proposals:
+                briefing += '\n\nProposed next steps and their current review status are saved in Personal commitments. No new permission or external action was taken.'
             if fresh_cache:
                 briefing += '\n\nUsed the source cache within its advertised freshness period.'
             updated_cache = {'endpoint': record['endpoint'], 'articles': articles,
@@ -167,9 +217,15 @@ class CommitmentService(PersonalService):
             updated_cache['fresh_until'] = cache.get('fresh_until', 0) if fresh_cache else fresh_until
             if not retain:
                 updated_cache = {'endpoint': record['endpoint'], 'checked_at': now, 'retry_at': 0}
-            return self.store.complete_run(run_id, articles, selection['selected'], briefing, updated_cache)
+            evaluation['executed'].append('record_own_commitment_state')
+            evaluation['verified'] = True  # Persisted only with the successful atomic completion below.
+            evaluation['notification'] = 'meaningful_finding' if notify else 'quiet_check'
+            return self.store.complete_run(run_id, articles, selection['selected'], briefing, updated_cache,
+                                            evaluation=evaluation, notify=notify, proposals=proposals)
         except ValueError:
-            return self.store.fail_run(run_id, 'commitment changed')
+            evaluation['verified'] = False
+            return failed('commitment changed')
         except Exception:
             # No response body, exception text, credential or URL enters state.
-            return self.store.fail_run(run_id, 'delivery error')
+            evaluation['verified'] = False
+            return failed('delivery error')

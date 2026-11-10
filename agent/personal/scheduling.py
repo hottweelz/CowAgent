@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+import time
 from typing import Any, Optional
 
 from common.log import logger
@@ -70,6 +71,8 @@ def sync_commitment(profile: Any, commitment_dict: dict, task_store=None) -> boo
         commitment_dict.get("status") == "active"
         and commitment_dict.get("read_authorized") is True
         and native_schedule is not None
+        and (commitment_dict.get('read_grant', {}).get('expires_at') is None
+             or commitment_dict['read_grant']['expires_at'] > time.time())
     )
     if not enabled and existing is None:
         return True
@@ -130,7 +133,7 @@ def reconcile_commitments(registry, task_store) -> None:
 
     for profile in registry.list(include_disabled=False):
         try:
-            store = CommitmentStore(get_conversation_store(profile.workspace))
+            store = CommitmentStore(get_conversation_store(profile.workspace), owner_agent_id=profile.id)
             commitments = store.snapshot()
             for commitment in commitments:
                 try:
@@ -164,6 +167,10 @@ def scheduling_status(profile: Any, record: dict) -> dict:
         or record.get("read_authorized") is not True
         or not isinstance(record.get("schedule"), dict)
     ):
+        return status
+    expiry = (record.get('read_grant') or record.get('grant') or {}).get('expires_at')
+    if expiry is not None and expiry <= time.time():
+        status['schedule_status'] = 'grant_expired'
         return status
 
     try:
@@ -249,6 +256,7 @@ def execute_scheduled_commitment(task: dict, agent_id: str, trigger: str = "sche
             commitment_id,
             occurrence_key=occurrence_key,
             expected_revision=expected_revision,
+            trigger='scheduled',
         )
         return result if isinstance(result, dict) else {"status": "failed", "error": "invalid service result"}
     except ValueError:

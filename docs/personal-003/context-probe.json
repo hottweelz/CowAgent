@@ -1,0 +1,99 @@
+{
+  "context_bytes": 20754,
+  "commitments": [
+    {
+      "id": "38827b8896b041adb802cd5d94ba7931",
+      "recent_checks": [
+        {
+          "run_id": "ef4f9affd8914c8bb6f98b59fd287a81",
+          "status": "delivered",
+          "started_at": 1794329369,
+          "finished_at": 1794329377,
+          "error": "",
+          "notified": true,
+          "briefing_excerpt": "CONTROLLED ACCEPTANCE FIXTURE \u2014 simulated news data, not a verified real-world development.\n\n## News briefing\n\nFor: Keep me informed about significant digital asset and financial technology developments\n\nChecked: 2026-11-10T16:49:29Z\n\n### Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI\n\n2026-11-10T16:28:49Z \u00b7 updated\n\nSources: [BITCOINNEWS](<https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/>) (2026-11-10T16:28:49Z)\n\nBitcoin fell below $73,000 on Tuesday after hotter-than-expected October inflation data showed consumer prices rising 0.4%. Bitcoin Slides as Inflation Data Sparks Market Volatility Bitcoin price fell below $73,000 on Tuesday following the release of Octobers consumer price index \\(CPI\\) data, which s... A subsequent institutional settlement report announced that twelve regulated banks completed an audited tokenized settlement pilot, increasing processed value from one billion dollars to four billion dollars and covering more than six hundred thousand transfers. The banks expanded the custody programme to twenty additional jurisdictions and published measured settlement results.\n\nRelevant to: Bitcoin (matched: bitcoin)\n\nBullGod\u2019s assessment (source-based interpretation):\n- Reports a material Bitcoin move tied to inflation data and significant institutional tokenized-settlement expansion by regulated banks.\n",
+          "trigger": "scheduled",
+          "sources": [
+            {
+              "article_id": "52f196297d57ada6106c207e",
+              "source_id": "200217",
+              "headline": "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI",
+              "publisher": "BITCOINNEWS",
+              "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+              "pub_date": "2026-11-10T16:28:49Z",
+              "description": "Bitcoin fell below $73,000 on Tuesday after hotter-than-expected October inflation data showed consumer prices rising 0.4%. Bitcoin Slides as Inflation Data Sparks Market Volatility Bitcoin price fell below $73,000 on Tuesday following the release of Octobers consumer price index (CPI) data, which s... A subsequent institutional settlement report announced that twelve regulated banks completed an audited tokenized settlement pilot, increasing processed value from one billion dollars to four bill"
+            },
+            {
+              "article_id": "",
+              "source_id": "200217",
+              "headline": "",
+              "publisher": "BITCOINNEWS",
+              "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+              "pub_date": "2026-11-10T16:28:49Z"
+            }
+          ]
+        },
+        {
+          "run_id": "52ba43fb9ddc494b9c4090cce002992d",
+          "status": "completed",
+          "started_at": 1794329219,
+          "finished_at": 1794329219,
+          "error": "",
+          "notified": false,
+          "briefing_excerpt": "CONTROLLED ACCEPTANCE FIXTURE \u2014 simulated news data, not a verified real-world development.\n\n## News briefing\n\nFor: Keep me informed about significant digital asset and financial technology developments\n\nChecked: 2026-11-10T16:46:59Z\n\nNo relevant new or materially updated stories were found.",
+          "trigger": "scheduled",
+          "sources": []
+        },
+        {
+          "run_id": "e1f413c5b4aa4bf8b5f73051a536cf72",
+          "status": "delivered",
+          "started_at": 1794328828,
+          "finished_at": 1794328835,
+          "error": "",
+          "notified": true,
+          "briefing_excerpt": "## News briefing\n\nFor: Keep me informed about significant digital asset and financial technology developments\n\nChecked: 2026-11-10T16:40:28Z\n\n### Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI\n\n2026-11-10T16:28:49Z \u00b7 new\n\nSources: [BITCOINNEWS](<https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/>) (2026-11-10T16:28:49Z)\n\nBitcoin fell below $73,000 on Tuesday after hotter-than-expected October inflation data showed consumer prices rising 0.4%. Bitcoin Slides as Inflation Data Sparks Market Volatility Bitcoin price fell below $73,000 on Tuesday following the release of Octobers consumer price index \\(CPI\\) data, which s...\n\nRelevant to: Bitcoin (matched: bitcoin)\n\nBullGod\u2019s assessment (source-based interpretation):\n- Bitcoin\u2019s sharp fall after hotter-than-expected US inflation is a material market move with potential implications for interest rates and digital assets.\n\nProposed next steps and their current review status are saved in Personal commitments. No new permission or external action was taken.",
+          "trigger": "scheduled",
+          "sources": [
+            {
+              "article_id": "52f196297d57ada6106c207e",
+              "source_id": "200217",
+              "headline": "Bitcoin Price Crashes to $72,787 After Hotter-Than-Expected CPI",
+              "publisher": "BITCOINNEWS",
+              "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+              "pub_date": "2026-11-10T16:28:49Z",
+              "description": "Bitcoin fell below $73,000 on Tuesday after hotter-than-expected October inflation data showed consumer prices rising 0.4%. Bitcoin Slides as Inflation Data Sparks Market Volatility Bitcoin price fell below $73,000 on Tuesday following the release of Octobers consumer price index (CPI) data, which s..."
+            },
+            {
+              "article_id": "",
+              "source_id": "200217",
+              "headline": "",
+              "publisher": "BITCOINNEWS",
+              "source_url": "https://news.bitcoin.com/market-updates/bitcoin-price-crashes-72787-hotter-than-expected-cpi/",
+              "pub_date": "2026-11-10T16:28:49Z"
+            }
+          ]
+        },
+        {
+          "run_id": "70c31a01e19943edad10da07135ef856",
+          "status": "failed",
+          "started_at": 1794328324,
+          "finished_at": 1794328326,
+          "error": "model unavailable",
+          "notified": false,
+          "briefing_excerpt": "",
+          "trigger": "scheduled",
+          "sources": []
+        }
+      ]
+    }
+  ],
+  "failures": [
+    {
+      "run_id": "6c74024cb71e4f409b9d5c9550cfaeac",
+      "status": "failed",
+      "started_at": 1794329558,
+      "ended_at": 1794329570,
+      "reason": "conversation response timeout"
+    }
+  ]
+}

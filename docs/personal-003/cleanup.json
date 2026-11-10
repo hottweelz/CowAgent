@@ -1,0 +1,44 @@
+{
+  "checked_at": 1794330735,
+  "root": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-livf2hu4",
+  "owned_port": 19893,
+  "owned_listener_stopped": true,
+  "process_marker_absent": true,
+  "relay_marker_absent": true,
+  "bootstrap_restored": true,
+  "source_matches": {
+    "agent/memory/commitments.py": true,
+    "agent/memory/personal_context.py": true,
+    "agent/personal/commitments.py": true,
+    "agent/personal/interpretation.py": true,
+    "agent/personal/scheduling.py": true,
+    "agent/protocol/models.py": true,
+    "agent/tools/scheduler/integration.py": true,
+    "bridge/agent_bridge.py": true,
+    "channel/web/static/css/commitments.css": true,
+    "channel/web/static/js/chat/commitments.js": true,
+    "models/openai_compatible_bot.py": true
+  },
+  "commitment_run_counts": {
+    "completed": 1,
+    "delivered": 2,
+    "failed": 1
+  },
+  "active_native_runs": 0,
+  "live_listener_original_pid_confirmed": true,
+  "runtime_data_preserved": true,
+  "fixture_artifacts_preserved": [
+    "acceptance-news.json",
+    "actual-news.json",
+    "acceptance-events.jsonl",
+    "model_bootstrap.acceptance.py"
+  ],
+  "live_changes": false,
+  "relay_marker": "relay-processes.json",
+  "relay_ports": [
+    {
+      "port": 52925,
+      "stopped": true
+    }
+  ]
+}

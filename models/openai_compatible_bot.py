@@ -154,6 +154,11 @@ class OpenAICompatibleBot:
                 for key in ("temperature", "top_p", "frequency_penalty", "presence_penalty"):
                     request_params.pop(key, None)
             
+            # The HTTP handler removes this transport option from the payload.
+            timeout = kwargs.get("request_timeout") or kwargs.get("timeout")
+            if timeout is not None:
+                request_params["request_timeout"] = timeout
+
             # Add max_tokens if specified
             if kwargs.get("max_tokens"):
                 request_params["max_tokens"] = kwargs["max_tokens"]

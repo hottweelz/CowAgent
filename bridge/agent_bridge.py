@@ -476,6 +476,9 @@ class AgentLLMModel(LLMModel):
                 if request.max_tokens is not None:
                     kwargs['max_tokens'] = request.max_tokens
 
+                if getattr(request, 'request_timeout', None) is not None:
+                    kwargs['request_timeout'] = request.request_timeout
+
                 # Extract system prompt if present
                 system_prompt = getattr(request, 'system', None)
                 if system_prompt:
@@ -524,7 +527,10 @@ class AgentLLMModel(LLMModel):
                 raise NotImplementedError("Regular call not implemented yet")
                 
         except Exception as e:
-            logger.error(f"AgentLLMModel call error: {e}")
+            if getattr(request, "sensitive", False):
+                logger.error("AgentLLMModel call failed")
+            else:
+                logger.error(f"AgentLLMModel call error: {e}")
             raise
     
     def call_stream(self, request: LLMRequest):
@@ -548,6 +554,9 @@ class AgentLLMModel(LLMModel):
                 # Only pass max_tokens if explicitly set, let the bot use its default
                 if request.max_tokens is not None:
                     kwargs['max_tokens'] = request.max_tokens
+
+                if getattr(request, 'request_timeout', None) is not None:
+                    kwargs['request_timeout'] = request.request_timeout
 
                 # Add system prompt if present
                 if system_prompt:
@@ -590,14 +599,22 @@ class AgentLLMModel(LLMModel):
                 stream = self.bot.call_with_tools(**kwargs)
                 
                 # Convert stream format to our expected format
-                for chunk in stream:
-                    yield self._format_stream_chunk(chunk)
+                try:
+                    for chunk in stream:
+                        yield self._format_stream_chunk(chunk)
+                finally:
+                    close = getattr(stream, "close", None)
+                    if close:
+                        close()
             else:
                 bot_type = type(self.bot).__name__
                 raise NotImplementedError(f"Bot {bot_type} does not support call_with_tools. Please add the method.")
                 
         except Exception as e:
-            logger.error(f"AgentLLMModel call_stream error: {e}", exc_info=True)
+            if getattr(request, "sensitive", False):
+                logger.error("AgentLLMModel call_stream failed")
+            else:
+                logger.error(f"AgentLLMModel call_stream error: {e}", exc_info=True)
             raise
     
     def _format_response(self, response):

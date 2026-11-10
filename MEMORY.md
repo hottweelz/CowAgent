@@ -1,5 +1,21 @@
 # CowAgent project facts
 
+- PERSONAL-003 extends native commitments with explicit semantic initiative,
+  standing-read expiry/frequency limits and durable attention. Registered agent
+  identity labels grants; the native default DB namespace remains unchanged.
+  Quiet scheduled checks complete without messages. Delivery, coverage and
+  attention commit together; revocation/revision checks fence final completion.
+- One native tool-free streaming model call may narrow qualified news and propose
+  typed source-bound decisions. It cannot create authority or new commitments.
+  Proposal identity includes material event and revision; stale scope cannot be
+  approved. Publication approval is a saved decision only: no connector executes
+  it. Dismissal preserves outcome/history. Personal file actions remain separate.
+- Owner context keeps bounded recent checks and explicitly owner/session-scoped
+  conversation failures. A latest fixture or failed conversation must not be
+  attributed to earlier checks. Verify model summaries against the ledger; ask
+  for chronological outcomes when history is ambiguous. UI panels must leave the
+  chat composer accessible in a short/narrow viewport at effective 200% zoom.
+
 - PR #8 (BULLGOD-RESET-001) was merged normally as 1cc6ef1e on 2026-11-09.
   Its tree matched the reviewed candidate and retained local evidence. Hosted
   checks were absent, not passing. PRs #4–7 remain preserved; their deployment

@@ -1,0 +1,82 @@
+{
+  "root": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-livf2hu4",
+  "port": 19893,
+  "base": "6aa1b07d49a7ffa2ad69a7f60ec73d5ad669160d",
+  "source_files": {
+    "agent/memory/commitments.py": "5fd7aba061ec60a813446c747a597128e06a2e0925b286c137ce1ecd4260ca36",
+    "agent/memory/personal_context.py": "1440fb7a93dbfc7679f466630b85cbe973d55dcef64115c9b006070204b2b728",
+    "agent/personal/commitments.py": "b1f26b2f326420e50727c909e7a5832ec356e2aea99a7131239ed1a853880f16",
+    "agent/personal/interpretation.py": "05845b5ec75b23866e6b9f34ceb00b35917098a059d9e9cd5b7fd552d9a7c324",
+    "agent/personal/scheduling.py": "a7c58b951dca44a3f3aa3e7ece49a4d8319ab7bc71fc4468f1655b731ae9415c",
+    "agent/protocol/models.py": "47970beff9cfdc4348ad73abe9f1b2f89eebeef5fd79f6871132aa6632ce0b3d",
+    "agent/tools/scheduler/integration.py": "3564cc9dcf702016682dada3a964f35ebb86f0efd9fddb1de4c41bc21c781f29",
+    "bridge/agent_bridge.py": "84373d2731f452dc2297bef289ea6764b65c4b9d52e31d50e6ec428979996131",
+    "channel/web/static/css/commitments.css": "787517c2ad3b71728b667abc2eec7cffa80659870f21729831bb9ffa0ffa65d8",
+    "channel/web/static/js/chat/commitments.js": "1a2e590bb71a8376bfb4ddb26d2d45026d7f681ec87af8be097d28dab6881f6a",
+    "models/openai_compatible_bot.py": "8ae4351944ea2103fb9b6eb373183ac55a18317501c2bd79963c26e5915e2cb0"
+  },
+  "asset_overlay": false,
+  "fixture_hooks": "Task bootstrap logs fetch/model phase metadata; initial modes all live. Controlled cases are separately labeled; original bootstrap preserved.",
+  "source_updates": [
+    {
+      "reason": "Native semantic nonstream HTTP400 corrected to existing native tool-free stream. Registered owner name exposed for default DB namespace; prior failure preserved.",
+      "files": [
+        {
+          "file": "agent/memory/commitments.py",
+          "before": "612eb3147ebbb6ed554dc1a51e6563f1a1a574ac259bb5ebe003fe10633f24eb",
+          "after": "7a69c03fca113a84d3b652c1b07f860d8435344a59f45ca386d129d0870c3bf4"
+        },
+        {
+          "file": "agent/memory/personal_context.py",
+          "before": "475a32e8c1442e7daac884bdfa232e215214526f102713dcb15706ac74e02308",
+          "after": "8943090e8f3e5dd20f456c28af1336a8477930ef8e9938069814b3ceb1be1514"
+        },
+        {
+          "file": "agent/personal/commitments.py",
+          "before": "244484ce524cf4453ce378772258027853262811eb89640d9d9401496042b193",
+          "after": "b1f26b2f326420e50727c909e7a5832ec356e2aea99a7131239ed1a853880f16"
+        },
+        {
+          "file": "agent/personal/interpretation.py",
+          "before": "173cc9a26e6d7c00cc49fdf85071dae13bf0f0bac2f7b10382d807781a4205db",
+          "after": "05845b5ec75b23866e6b9f34ceb00b35917098a059d9e9cd5b7fd552d9a7c324"
+        },
+        {
+          "file": "agent/personal/scheduling.py",
+          "before": "93263bf4f3c370e5ef532be853079583ea3bca0d772b8ffaa846a1aa12c652d9",
+          "after": "a7c58b951dca44a3f3aa3e7ece49a4d8319ab7bc71fc4468f1655b731ae9415c"
+        },
+        {
+          "file": "bridge/agent_bridge.py",
+          "before": "e35c269981fc6dd565a3f27db370282e355a8f0e4295f47df8abd6b1a9efd3c4",
+          "after": "84373d2731f452dc2297bef289ea6764b65c4b9d52e31d50e6ec428979996131"
+        }
+      ]
+    },
+    {
+      "reason": "Compact recent checks and explicitly owner/session scoped conversation failures make resumed status truthful. Only final explanation is repeated; execution proofs remain retained.",
+      "files": [
+        {
+          "file": "agent/memory/commitments.py",
+          "before": "7a69c03fca113a84d3b652c1b07f860d8435344a59f45ca386d129d0870c3bf4",
+          "after": "5fd7aba061ec60a813446c747a597128e06a2e0925b286c137ce1ecd4260ca36"
+        },
+        {
+          "file": "agent/memory/personal_context.py",
+          "before": "8943090e8f3e5dd20f456c28af1336a8477930ef8e9938069814b3ceb1be1514",
+          "after": "1440fb7a93dbfc7679f466630b85cbe973d55dcef64115c9b006070204b2b728"
+        }
+      ]
+    },
+    {
+      "reason": "200% narrow-screen panel limits keep conversation and composer usable; native browser recheck follows. Static source served directly, no overlay.",
+      "files": [
+        {
+          "file": "channel/web/static/css/commitments.css",
+          "before": "d8f297f2800fd2907fb5e1198c43397f1926ccff77143bf9a6b452d50cbee0c6",
+          "after": "787517c2ad3b71728b667abc2eec7cffa80659870f21729831bb9ffa0ffa65d8"
+        }
+      ]
+    }
+  ]
+}

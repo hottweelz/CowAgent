@@ -1,0 +1,177 @@
+{
+  "scope": "PERSONAL-003 final guarded full local regression and final engineering checks",
+  "source": {
+    "branch": "codex/bullgod-personal-003",
+    "base_commit": "6aa1b07d49a7ffa2ad69a7f60ec73d5ad669160d",
+    "head_commit": "6aa1b07d49a7ffa2ad69a7f60ec73d5ad669160d",
+    "hash_scope": "Changed executable and test files relative to base, including staged additions and tools/check-commitments-ui.mjs; AGENTS.md, docs/, MEMORY.md and CHANGELOG_AI.md excluded.",
+    "pre_run_sha256": {
+      "agent/memory/commitments.py": "5fd7aba061ec60a813446c747a597128e06a2e0925b286c137ce1ecd4260ca36",
+      "agent/memory/personal_context.py": "1440fb7a93dbfc7679f466630b85cbe973d55dcef64115c9b006070204b2b728",
+      "agent/personal/commitments.py": "b1f26b2f326420e50727c909e7a5832ec356e2aea99a7131239ed1a853880f16",
+      "agent/personal/interpretation.py": "05845b5ec75b23866e6b9f34ceb00b35917098a059d9e9cd5b7fd552d9a7c324",
+      "agent/personal/scheduling.py": "a7c58b951dca44a3f3aa3e7ece49a4d8319ab7bc71fc4468f1655b731ae9415c",
+      "agent/protocol/models.py": "47970beff9cfdc4348ad73abe9f1b2f89eebeef5fd79f6871132aa6632ce0b3d",
+      "agent/tools/scheduler/integration.py": "3564cc9dcf702016682dada3a964f35ebb86f0efd9fddb1de4c41bc21c781f29",
+      "bridge/agent_bridge.py": "84373d2731f452dc2297bef289ea6764b65c4b9d52e31d50e6ec428979996131",
+      "channel/web/static/css/commitments.css": "787517c2ad3b71728b667abc2eec7cffa80659870f21729831bb9ffa0ffa65d8",
+      "channel/web/static/js/chat/commitments.js": "1a2e590bb71a8376bfb4ddb26d2d45026d7f681ec87af8be097d28dab6881f6a",
+      "models/openai_compatible_bot.py": "8ae4351944ea2103fb9b6eb373183ac55a18317501c2bd79963c26e5915e2cb0",
+      "tests/test_personal_commitment_service.py": "df995b3b0d2b1dc365a376820e4caac89a2285528bce5a865a12f5ff739cd3ea",
+      "tests/test_personal_context.py": "188fb5e5b2094d4a9afd25ec2a0197c5f6b4868641bc50757dfd07d99e86803b",
+      "tests/test_personal_initiative_store.py": "504a471a86a70336e7bb8d73a610542149fe499f388d4d8fe69113a829de45cb",
+      "tests/test_personal_interpretation.py": "646373041c6b07ff416bf5cce2b54a54d9e77b9151755e12dc2d32abfeb3b947",
+      "tests/test_personal_scheduling.py": "10b24831824dcb6df1f7510f593b387bc1834961918652949ed46c092c4552f3",
+      "tools/check-commitments-ui.mjs": "191477718eb497a543ed8095d3c0564a3fcf9376394bb2e6493d164e8f5c86ba"
+    },
+    "post_run_sha256": {
+      "agent/memory/commitments.py": "5fd7aba061ec60a813446c747a597128e06a2e0925b286c137ce1ecd4260ca36",
+      "agent/memory/personal_context.py": "1440fb7a93dbfc7679f466630b85cbe973d55dcef64115c9b006070204b2b728",
+      "agent/personal/commitments.py": "b1f26b2f326420e50727c909e7a5832ec356e2aea99a7131239ed1a853880f16",
+      "agent/personal/interpretation.py": "05845b5ec75b23866e6b9f34ceb00b35917098a059d9e9cd5b7fd552d9a7c324",
+      "agent/personal/scheduling.py": "a7c58b951dca44a3f3aa3e7ece49a4d8319ab7bc71fc4468f1655b731ae9415c",
+      "agent/protocol/models.py": "47970beff9cfdc4348ad73abe9f1b2f89eebeef5fd79f6871132aa6632ce0b3d",
+      "agent/tools/scheduler/integration.py": "3564cc9dcf702016682dada3a964f35ebb86f0efd9fddb1de4c41bc21c781f29",
+      "bridge/agent_bridge.py": "84373d2731f452dc2297bef289ea6764b65c4b9d52e31d50e6ec428979996131",
+      "channel/web/static/css/commitments.css": "787517c2ad3b71728b667abc2eec7cffa80659870f21729831bb9ffa0ffa65d8",
+      "channel/web/static/js/chat/commitments.js": "1a2e590bb71a8376bfb4ddb26d2d45026d7f681ec87af8be097d28dab6881f6a",
+      "models/openai_compatible_bot.py": "8ae4351944ea2103fb9b6eb373183ac55a18317501c2bd79963c26e5915e2cb0",
+      "tests/test_personal_commitment_service.py": "df995b3b0d2b1dc365a376820e4caac89a2285528bce5a865a12f5ff739cd3ea",
+      "tests/test_personal_context.py": "188fb5e5b2094d4a9afd25ec2a0197c5f6b4868641bc50757dfd07d99e86803b",
+      "tests/test_personal_initiative_store.py": "504a471a86a70336e7bb8d73a610542149fe499f388d4d8fe69113a829de45cb",
+      "tests/test_personal_interpretation.py": "646373041c6b07ff416bf5cce2b54a54d9e77b9151755e12dc2d32abfeb3b947",
+      "tests/test_personal_scheduling.py": "10b24831824dcb6df1f7510f593b387bc1834961918652949ed46c092c4552f3",
+      "tools/check-commitments-ui.mjs": "191477718eb497a543ed8095d3c0564a3fcf9376394bb2e6493d164e8f5c86ba"
+    },
+    "hashes_unchanged": true
+  },
+  "command": {
+    "argv": [
+      "scripts/ci_test.py",
+      "tests/",
+      "-q",
+      "--junitxml=<private>/full.xml"
+    ],
+    "python_executable": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+    "path_prefix": "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin",
+    "environment": {
+      "TIKTOKEN_CACHE_DIR": "/private/tmp/cow-infra-tiktoken-cache"
+    },
+    "python_version": "3.13.1",
+    "platform": "macOS local runner"
+  },
+  "result": {
+    "exit_code": 0,
+    "pytest_summary": {
+      "passed": 6192,
+      "skipped": 36,
+      "failed": 0,
+      "errors": 0,
+      "warnings": 36,
+      "subtests_passed": 93,
+      "duration_seconds": 209.6
+    },
+    "junit": {
+      "testcase_records": 6228,
+      "tests": 6321,
+      "skipped_count": 36,
+      "failure_ids": [],
+      "error_ids": [],
+      "skipped_ids": [
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[lf]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[crlf]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[block]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[quoted]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[nested-quotes]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[inline-namespace]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[local-import]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[arguments]",
+        "tests.test_bash_multiline_python.test_windows_background_multiline_python_retains_all_output",
+        "tests.test_bash_streaming.test_windows_timeout_kills_process_tree",
+        "tests.test_bash_streaming.test_windows_long_running_command_streams_progress",
+        "tests.test_bash_streaming.test_windows_background_process_holding_pipe_does_not_hang",
+        "tests.test_bash_streaming.test_windows_full_output_log_keeps_the_commands_line_breaks",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[-selector-success]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[-ref-success]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[new-selector-success]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[None-selector-error]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[1-selector-error]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[click-button-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[click-button-True]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[fill-input-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[fill-input-True]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[fill-div-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[select-select-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[select-select-True]",
+        "tests.test_memory_path_marks_dirty.TestMemoryPathMarksDirty.test_write_backslash_separated_memory_path_marks_dirty",
+        "tests.test_memory_path_marks_dirty.TestConsoleEditsMarkMemoryDirty.test_console_save_with_backslash_separator_marks_dirty",
+        "tests.test_read_long_line_windows.test_windows_command_returns_the_line_through_the_bash_tool",
+        "tests.test_search_files_powershell_quoting.test_search_root_with_an_apostrophe_still_finds_its_matches",
+        "tests.test_search_files_powershell_quoting.test_empty_result_for_an_apostrophe_root_is_not_a_hidden_failure",
+        "tests.test_search_files_powershell_quoting.test_file_glob_with_an_apostrophe_reaches_the_backend_intact",
+        "tests.test_search_files_powershell_quoting.test_ps_quote_doubles_apostrophes_and_wraps_once",
+        "tests.test_search_files_powershell_quoting.test_powershell_backend_reports_a_non_zero_exit_instead_of_swallowing_it",
+        "tests.test_search_files_powershell_quoting.test_failed_powershell_run_does_not_report_a_successful_empty_search",
+        "tests.test_uploads_path_containment.TestUploadsHandlerPathContainment.test_a_case_differed_name_inside_the_upload_dir_is_still_served",
+        "tests.test_uploads_path_containment.TestUploadsHandlerPathContainment.test_a_drive_qualified_tail_escapes_without_any_dotdot"
+      ]
+    },
+    "warning_note": "36 warnings. The output includes a non-fatal PytestUnraisableExceptionWarning from an Xunfei websocket thread (OSError: bad file descriptor) in tests/test_youdao_translator.py. Pytest exited 0 and JUnit reports no failed or error cases."
+  },
+  "additional_checks": {
+    "node_version": "v26.8.2",
+    "node tools/check-commitments-ui.mjs": {
+      "exit_code": 0,
+      "result": "Commitments UI checks passed.",
+      "log_sha256": "906152b41dbc73465282173ec142ce1d5a1e179fd3649f72b73417f9cf02edc6"
+    },
+    "node channel/web/tools/check-personal-ui.mjs": {
+      "exit_code": 0,
+      "result": "personal UI checks passed",
+      "log_sha256": "4a3d1d207e2970a7f897d62581fd1b2bc3684a515b21fd02bb5c85adc79bcebb"
+    },
+    "ruff_check_select_F": {
+      "exit_code": 1,
+      "files": [
+        "agent/memory/commitments.py",
+        "agent/memory/personal_context.py",
+        "agent/personal/commitments.py",
+        "agent/personal/interpretation.py",
+        "agent/personal/scheduling.py",
+        "agent/protocol/models.py",
+        "agent/tools/scheduler/integration.py",
+        "bridge/agent_bridge.py",
+        "models/openai_compatible_bot.py",
+        "tests/test_personal_commitment_service.py",
+        "tests/test_personal_context.py",
+        "tests/test_personal_initiative_store.py",
+        "tests/test_personal_interpretation.py",
+        "tests/test_personal_scheduling.py"
+      ],
+      "finding": "F401 unused typing.Any at agent/protocol/models.py:6",
+      "baseline_confirmation_exit_code": 1,
+      "baseline_confirmation": "Ruff on git show 6aa1b07d:agent/protocol/models.py reports the same F401; parent confirmed it is unchanged baseline.",
+      "log_sha256": "128565d300f42da27cfe1a766fed924ba08df93be2ec1dcdc675d60137d911f3",
+      "baseline_log_sha256": "a7ed4bc8a5da7f43732319315acf79e1baec9767acac8415edfcaa52e729063c"
+    },
+    "git_diff_check": {
+      "command": "git diff --check 6aa1b07d",
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "private_evidence": {
+    "directory": "/private/tmp/cow-bullgod-personal-003-3Iouyz",
+    "directory_mode": "0700",
+    "evidence_file_mode": "0600",
+    "full_log": "/private/tmp/cow-bullgod-personal-003-3Iouyz/full.log",
+    "full_junit": "/private/tmp/cow-bullgod-personal-003-3Iouyz/full.xml",
+    "full_log_sha256": "9524ebc0c345f92347592631d0548947aa348e5bfc1c611563056131a3652b8c",
+    "full_junit_sha256": "1cc83a28e9aba92f18d093d55ca50a04d5dc4ff553276748eed7880c22947416"
+  },
+  "limits": [
+    "One local macOS full run; hosted CI was not queried.",
+    "No native, model, live service, network or credential access was performed.",
+    "No source edits or Git operations were performed."
+  ]
+}

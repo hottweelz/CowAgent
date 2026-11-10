@@ -164,3 +164,112 @@ def test_commitment_context_model_switch_and_authorization_truth(owner, monkeypa
     assert '"read_authorized": false' in second and '"schedule_status": "inactive"' in second
     assert '"next_run_at": null' in second
     assert 'untrusted remote DATA' in second
+
+
+def _advice(selection, proposals=True):
+    ids = [row['article_id'] for row in selection['selected']]
+    return {'selected_ids': ids, 'reasons': {aid: 'A sourced custody development matches your saved Bitcoin interest.' for aid in ids},
+            'proposals': [{'action': 'draft_post', 'reason': 'Review a sourced infrastructure post.', 'source_ids': ids[:1]}] if ids and proposals else [],
+            'provenance': {'model': 'fixture-model', 'requested_provider': 'fixture', 'usage': {}}}
+
+
+def test_proactive_meaningful_delivery_then_quiet_check_and_attention_history(owner, monkeypatch):
+    svc, native = owner
+    item = create(svc, initiative_enabled=True,
+                  read_grant={'expires_at': None, 'min_interval_seconds': 0})
+    assert item['grant']['agent_id'] == 'owner'
+    monkeypatch.setattr(svc, '_fetch', lambda *args: ToolResult.success({'status': 'ok', 'data': [article()]}))
+    interpretations = []
+    def assess(record, selection):
+        interpretations.append(record['grant']['grant_id'])
+        return _advice(selection)
+    monkeypatch.setattr(svc, '_interpret', assess)
+    first = svc.run(item['commitment_id'], 'scheduled-1', trigger='scheduled')
+    assert first['status'] == 'delivered' and first['evaluation']['verified']
+    assert first['evaluation']['trigger'] == 'scheduled'
+    snapshot = svc.snapshot()
+    assert {x['kind'] for x in snapshot['attention']} == {'finding', 'decision'}
+    assert len(interpretations) == 1
+    quiet = svc.run(item['commitment_id'], 'scheduled-2', trigger='scheduled')
+    assert quiet['status'] == 'completed' and quiet['message_seq'] is None
+    assert quiet['evaluation']['notification'] == 'quiet_check'
+    assert len(interpretations) == 1 and len(svc.snapshot()['attention']) == 2
+    assert svc.run(item['commitment_id'], 'scheduled-2', trigger='scheduled')['run_id'] == quiet['run_id']
+    finding = next(x for x in snapshot['attention'] if x['kind'] == 'finding')
+    svc.mutate({'operation': 'decide_attention', 'commitment_id': item['commitment_id'],
+                'attention_id': finding['attention_id'], 'decision': 'dismiss', 'source_seq': 0})
+    after = svc.snapshot()
+    assert len(after['attention']) == 1 and len(after['attention_history']) == 2
+    assert len(after['commitments'][0]['runs']) == 2
+
+
+@pytest.mark.parametrize('code', ['model_timeout', 'model_unavailable', 'model_invalid_response'])
+def test_proactive_model_failure_preserves_intent_and_can_resume_fresh_occurrence(owner, monkeypatch, code):
+    from agent.personal.interpretation import InterpretationError
+    svc, native = owner
+    memory = PersonalStore(native)
+    memory.save_goal('session', {'goal': 'Keep my separate goal'}, 0, 0)
+    memory.remember('session', 'Concise updates please', 0)
+    item = create(svc, initiative_enabled=True)
+    monkeypatch.setattr(svc, '_fetch', lambda *args: ToolResult.success({'status': 'ok', 'data': [article()]}))
+    def fail(*args):
+        raise InterpretationError(code)
+    monkeypatch.setattr(svc, '_interpret', fail)
+    failed = svc.run(item['commitment_id'], 'model-error', trigger='scheduled')
+    assert failed['status'] == 'failed' and failed['error'] == code.replace('_', ' ')
+    assert not failed['evaluation']['verified'] and failed['message_seq'] is None
+    assert svc.store.get_coverage(item['commitment_id']) == []
+    assert memory.snapshot('session')['continuity']['goal'] == 'Keep my separate goal'
+    assert len(memory.snapshot('session')['memories']) == 1
+    monkeypatch.setattr(svc, '_interpret', lambda record, selection: _advice(selection))
+    assert svc.run(item['commitment_id'], 'model-error', trigger='scheduled')['run_id'] == failed['run_id']
+    resumed = svc.run(item['commitment_id'], 'fresh-slot', trigger='scheduled')
+    assert resumed['status'] == 'delivered'
+    assert svc.store.get(item['commitment_id'])['grant']['grant_id'] == item['grant']['grant_id']
+
+
+def test_revoke_during_semantic_evaluation_prevents_delivery_and_future_reads(owner, monkeypatch):
+    svc, _ = owner
+    item = create(svc, initiative_enabled=True)
+    reads = []
+    def fetch(*args):
+        reads.append(True)
+        return ToolResult.success({'status': 'ok', 'data': [article()]})
+    def assess(record, selection):
+        svc.mutate({'operation': 'update', 'commitment_id': item['commitment_id'],
+                    'fields': {'read_authorized': False}, 'revision': item['revision'], 'source_seq': 0})
+        return _advice(selection)
+    monkeypatch.setattr(svc, '_fetch', fetch)
+    monkeypatch.setattr(svc, '_interpret', assess)
+    result = svc.run(item['commitment_id'], 'revoke-race', trigger='scheduled')
+    assert result['status'] == 'failed' and result['message_seq'] is None
+    with pytest.raises(ValueError):
+        svc.run(item['commitment_id'], 'after-revocation', trigger='scheduled')
+    assert len(reads) == 1 and svc.store.get_coverage(item['commitment_id']) == []
+    assert not svc.snapshot()['commitments'][0]['grant']['authorized']
+
+
+def test_publication_decision_is_persistent_review_only_and_denial_has_no_effect(owner, monkeypatch):
+    svc, native = owner
+    item = create(svc, initiative_enabled=True)
+    monkeypatch.setattr(svc, '_fetch', lambda *args: ToolResult.success({'status': 'ok', 'data': [article()]}))
+    monkeypatch.setattr(svc, '_interpret', lambda record, selection: _advice(selection, proposals=False))
+    result = svc.run(item['commitment_id'], 'news', trigger='scheduled')
+    source = result['selected'][0]['article_id']
+    svc.mutate({'operation': 'save_draft', 'commitment_id': item['commitment_id'],
+                'text': 'A sourced draft, not a published post.', 'source_ids': [source],
+                'claims': ['The source describes a custody service.'], 'source_seq': 0})
+    draft = svc.snapshot()['commitments'][0]['drafts'][0]
+    body = {'operation': 'propose_publication', 'commitment_id': item['commitment_id'],
+            'draft_id': draft['item_id'], 'source_seq': 0}
+    first = svc.mutate(body)
+    decision = next(x for x in first['attention'] if x['kind'] == 'decision')
+    again = svc.mutate(body)
+    assert len([x for x in again['attention'] if x['kind'] == 'decision']) == 1
+    assert decision['payload']['execution_status'] == 'blocked'
+    restarted = commitments.CommitmentService('owner', 'session')
+    monkeypatch.setattr(restarted, '_fetch', lambda *a: pytest.fail('Decision must not trigger an online action'))
+    state = restarted.mutate({'operation': 'decide_attention', 'commitment_id': item['commitment_id'],
+                              'attention_id': decision['attention_id'], 'decision': 'deny', 'source_seq': 0})
+    assert next(x for x in state['attention'] if x['attention_id'] == decision['attention_id'])['status'] == 'denied'
+    assert state['commitments'][0]['drafts'][0]['status'] == 'awaiting_publication_approval'
