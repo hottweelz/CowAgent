@@ -1,5 +1,61 @@
 # AI handoff ledger
 
+## 2026-11-09 20:17 EST — Codex — BULLGOD-RESET-001 clean personal-agent baseline
+
+- Task/result: strategic reset complete for review. Branch
+  codex/bullgod-reset-001 starts directly from stable master f6593497, without
+  the PR #4–7 dependency chain. FIRST-BOOTSTRAP-001/002 are completed investigations;
+  their unresolved deployment concerns do not gate personal-agent development.
+- Team: Luna/high mapped PR components and native personal-agent capabilities,
+  added the bounded lock regression and ran the one full suite. Terra 6.1/high
+  implemented the isolated launcher because source/runtime/process/sandbox
+  integration required engineering beyond routine file work. One Sol 6.1/high
+  reviewer handled cross-component authority and OS isolation reasoning. Lead
+  owned extraction, integration, roadmap, evidence, handoff and Git. Requested
+  models were accepted; no independent effective-model attestation is available.
+- Changes/files: extracted PR #4 filesystem_trust and read-only journal support
+  in agent/external, with execution-lock denial; supplied-settings/custom-provider
+  routing in agent/discovery; PR #7 audio test-spy fix. Added scripts/bullgod_dev.py,
+  tests/test_bullgod_{foundation,dev}.py, docs/bullgod-reset-001 inventory/plan/
+  roadmap/procedure/receipts and project MEMORY.md. No maintenance observer,
+  aggregate drain, migration controller or plugin certification is imported.
+- Checks/results: focused 143 cases passed; post-lock-fix selection 64 passed;
+  launcher six passed. One guarded full local Python 3.13.1 run: 5,999 passed,
+  36 skipped, 93 subtests, zero failures/errors, 208.65 seconds. All nine changed
+  source/test hashes matched before/after. A later EOF-only test-file cleanup
+  preserved its Python AST; both hashes are recorded. Ruff F, compilation, JSON/diff checks
+  passed. Independent review PASS, no open findings. Exact skips/hash bindings
+  and reproducible command are in local-validation.json and validation.md.
+- Runtime/preservation: actual isolated console/auth/profile/session/workspace
+  checks passed; synthetic native-store restart and two-instance separation
+  passed. Final default-deny sandbox passed fresh service/store-read and denied
+  canary checks; earlier persistence checks were not replayed. All dev instances
+  stopped. Original PID 28093 remains healthy at 9899; primary source, seven
+  original untracked files, five recovery artifacts and historical refs preserved.
+- Decisions: publish a master-based draft PR; retain old PRs open/draft and all
+  original history/evidence. No hosted-runner investigation, settings change,
+  live restart/data change, APFS change, credential refresh or production action.
+  Project roadmap has only PERSONAL-001 through 004. No new orchestration engine.
+- Lessons Learned:
+  - Mistake: a read-only SQL view still exposed an inherited execution-lock path.
+  - Root Cause: database write protection did not cover filesystem side effects.
+  - Future Trigger: extracting observational APIs from execution components.
+  - Required Behavior Change: trace all public methods and reject side effects
+    before file/lock creation, in addition to SQL authorization.
+  - Verification Step: patch open/flock to fail if reached; assert unchanged
+    directory membership and no database mutation.
+  - Durable Memory Update: project MEMORY.md updated; no global memory update.
+- Known limits: no real-model conversation acceptance, full IPC proof, Windows
+  launcher or fresh hosted/Linux result. Temporary development roots are not
+  production persistence. Legacy deployment risks remain on their original branches.
+- Next: review the replacement draft PR. Then implement PERSONAL-001's owner
+  continuity card and inspectable/correctable memory on existing native storage/
+  APIs. Deliver the documented goal → restart → context → scoped approval → one
+  bounded workspace action → result explanation scenario before adding autonomy.
+- Notes: do not resume legacy maintenance or close old PRs without an explicit
+  decision. Preserve original untracked AGENTS.md. Push this named branch, verify
+  0/0 upstream synchronization with no-prune fetch, and attach the replacement PR.
+
 ## 2026-11-08 21:30 EST — Codex — DISCOVERY-002 Gate A integration passed
 
 - Task/result: owner authorized DISCOVERY-001 integration. PR #3 marked ready

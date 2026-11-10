@@ -1,5 +1,29 @@
 # CowAgent project facts
 
+- BULLGOD-RESET-001 refocuses development on BullGod as a persistent personal
+  agent. Identity, inspectable/correctable memory, owner commitments and useful
+  permission-aware follow-through come before optional specialist delegation.
+  Use existing registry/workspace/session/memory/tool/model mechanisms; worker
+  recovery records are not owner goals. Initial product milestones are only
+  PERSONAL-001 through PERSONAL-004 in docs/bullgod-reset-001/README.md.
+- FIRST-BOOTSTRAP-001/002 are completed investigations. Their unresolved ingress,
+  interruption and private-recovery concerns remain deployment risks, not gates
+  for personal-agent development. PRs #4–7 and their evidence are preserved;
+  startup/drain/migration/plugin-certification work is deferred. Do not resume
+  legacy PID retrofit, unavailable-runner investigation or repeated ownership
+  audits without a new concrete maintainer request.
+- The clean reset branch starts at stable master and extracts only independent
+  filesystem/read-only-journal safeguards, supplied-settings discovery routing
+  and an audio fixture correction. Read-only journal views cannot acquire
+  execution locks. No authority/approval or broader discovery execution is added.
+- scripts/bullgod_dev.py provides a separate macOS development instance with an
+  explicitly selected virtual-environment Python, private source/data/workspace,
+  synthetic BullGod identity, disposable console authentication and default-deny
+  sandbox. No production credentials/approvals/memory are copied; provider network
+  is disabled and agent permissions start read-only. Reuse a root for restart
+  continuity; create a fresh root for reset. Temporary storage is not production
+  persistence. Stage new application files before taking a tracked source copy.
+
 - BULLGOD-DISCOVERY-001 was integrated through PR #3 at merge 40958f39 after
   focused integration review and passing automatic master CI. It adds the internal `agent.discovery` derived view over
   AgentRegistry and existing enrolled ExternalSupervisor bindings. It has no
