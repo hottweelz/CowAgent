@@ -21,14 +21,19 @@ The published maintenance decision remains **CLASS C — NO-GO**.
 | Phase 7: exact-source macOS 3.13/Linux 3.11/Linux 3.13 hosted tests | [hosted-initial.json](hosted-initial.json), [hosted.json](hosted.json) | **Incomplete.** Initial f59 Linux 3.11 test defect was corrected; current Python jobs cancelled, retry has no jobs/artifacts, dispatch rejected with contradictory Actions status. Older results do not substitute for this gate. |
 | Phase 7: JavaScript, strict TypeScript/build and Ruff | [hosted.json](hosted.json) | Corrected-source jobs pass: 39 web + five desktop; renderer/main TypeScript/build and changed-Python lint. |
 | Phase 7: independent high-reasoning review and concrete findings | [review.md](review.md) | One bounded Sol 6.1/high review cleared three source findings, audio correction and final evidence/narratives. No open findings; review does not waive missing CI. |
-| Phase 8: named branch/draft PR, required supporting artifacts, no merge and synchronization | [PR #7](https://github.com/hottweelz/CowAgent/pull/7), Git HEAD/upstream; this packet and CHANGELOG_AI.md | Published on codex/first-bootstrap-002 from actual PR #6 head. PR chain retained. d9abc61a was verified 0/0, tracked clean with only original governance file untracked. New audit evidence will be synchronized separately. |
+| Phase 8: named branch/draft PR, required supporting artifacts, no merge and synchronization | [PR #7](https://github.com/hottweelz/CowAgent/pull/7), Git HEAD/upstream; this packet and CHANGELOG_AI.md | Published on codex/first-bootstrap-002 from actual PR #6 head. PR chain retained. Supplemental audit/interruption publication c65cf2bf was verified 0/0, tracked clean with only the original governance file untracked. |
 | Phase 9: one classification and all twelve answers | [README.md](README.md) | Complete decision: Class C, with exact control/recovery/legacy limits and shortest remediation. This allowed decision does not turn incomplete required validation into goal completion. |
 
 Preservation invariants remain in force: no live stop/restart/signal/source switch,
 global firewall/network change, APFS ownership change, private live-data copying or
 SQLite writes, authority refresh, production activation or merge. Only owned
-  disposable processes and fictional state were used for the added local test.
+disposable processes and fictional state were used for the added local test.
 
 The remaining hosted blocker requires an external GitHub state change or a
 maintainer-supported resolution. Do not repeatedly submit reruns, toggle settings
 on contradictory metadata, or replace hosted testing with local Linux/macOS claims.
+
+The third consecutive blocked check at 2026-11-10 00:38 UTC still found run
+42726508145 queued with zero jobs/artifacts and no newer head run. Local
+implementation and authorized disposable qualification are complete. Goal status
+is blocked pending a usable GitHub execution state; no required gate is waived.

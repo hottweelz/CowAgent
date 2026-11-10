@@ -114,5 +114,17 @@
     "source": "Read-only GitHub API/CLI metadata queried after dispatch rejection.",
     "reconciliation": "These exposed status fields do not explain the 422 rejection. No setting was changed; effective dispatch remains blocked."
   },
-  "gate_reason": "Attempt 1 Python matrix cancelled before test evidence. The targeted failed-jobs retry request remained queued with zero jobs. A separate exact-head workflow_dispatch was rejected with HTTP 422. No fresh Python matrix execution exists."
+  "gate_reason": "Attempt 1 Python matrix cancelled before test evidence. The targeted failed-jobs retry request remained queued with zero jobs. A separate exact-head workflow_dispatch was rejected with HTTP 422. No fresh Python matrix execution exists.",
+  "blocked_audit": {
+    "observed_at_utc": "2026-11-10T00:38:25Z",
+    "consecutive_goal_turns": 3,
+    "run_id": 42726508145,
+    "status": "queued",
+    "jobs": 0,
+    "artifacts": 0,
+    "latest_published_head": "c65cf2bf60aba7389e6a777159c13311b7322ea5",
+    "latest_head_workflow_runs": 0,
+    "source": "GitHub connector workflow-runs, jobs and artifacts endpoints",
+    "action": "No rerun, dispatch or settings change; external GitHub execution state must be resolved before hosted Python validation can complete."
+  }
 }

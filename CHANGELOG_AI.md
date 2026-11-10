@@ -1,5 +1,30 @@
 # AI handoff ledger
 
+## 2026-11-09 19:39 EST — Codex — external validation blocker confirmed
+
+- Summary/result: third consecutive goal turn with the same GitHub execution
+  blocker. Goal is blocked, not complete; **CLASS C — NO-GO** remains unchanged.
+- Team: lead-only read-only continuation audit; no additional delegation needed.
+- Changes/files: latest observation in docs/first-bootstrap-002/hosted.json,
+  completion-audit.md publication/status clarification and this handoff. No source,
+  test, dependency, workflow or service changes. MEMORY.md update: not needed.
+- Checks: GitHub connector confirms existing run 42726508145 queued, zero jobs,
+  zero artifacts; no run for current c65cf2bf head. Local tracked state clean,
+  original untracked AGENTS.md preserved. JSON/diff checks and named-upstream
+  synchronization checked for this evidence publication; no test reruns required.
+- Decisions: no further dispatches or settings toggles against contradictory
+  metadata. All feasible authorized local work and current-source interruption
+  evidence are complete. Hosted Python validation remains an explicit unmet gate.
+- Lessons Learned: none.
+- Known issues/next: restore a usable GitHub Actions execution state through the
+  maintainer/platform, then resume the existing exact-source hosted gate. The
+  earlier 422 disabled response conflicts with enabled/active API metadata; do
+  not claim a cause or replace hosted evidence with local results. Separate
+  legacy ingress/private recovery authorization and qualification remain required.
+- Notes: retain original queued run and failed/cancelled receipts, draft PR chain,
+  live PID/source, recovery refs/files and no-prune rule. Goal can resume after
+  the external condition changes; no maintenance or merge was authorized.
+
 ## 2026-11-09 19:37 EST — Codex — completion audit and current startup interruption
 
 - Summary: audited every FIRST-BOOTSTRAP-002 phase against current evidence.
