@@ -1,5 +1,65 @@
 # AI handoff ledger
 
+## 2026-11-10 09:23 EST — Codex — PERSONAL-002 implemented and locally validated for draft review
+
+- Task/result: persistent personal commitments and approved online news reads on
+  codex/bullgod-personal-002, based exactly on reviewed PR #9 head adbe2105. PR #9
+  remains open/draft and unchanged. No PR merge or legacy maintenance activation.
+- Team: Luna article/scheduler/UI/regression/evidence workers; Terra 6.1 storage and
+  fixed relay for atomic persistence/process integration; Sol 6.1 HTTP and bounded
+  independent review for network authority/data integrity. Lead owned integration,
+  native acceptance, documentation, handoff and Git. STE planning/review guidance.
+- Changes/files: agent/memory/commitments.py; agent/personal articles, commitments,
+  scheduling; exact approved_json tool/native policy; native scheduler projection;
+  owner API/card/context/hooks; isolated launcher/fixed TLS pass-through relay;
+  focused Python/Node tests; docs/personal-002; project MEMORY.md. No second agent
+  engine or scheduling daemon. Drafts retain delivered sources and need separate
+  publication approval; no publish operation added.
+- Verification: final guarded local Python 3.13.1/macOS full run: 6152 passed,
+  36 skipped, 93 subtests, zero failures/errors, 208.88s. All 29 executable/test
+  hashes matched before/after. Both personal UI checks, changed-Python Ruff F and
+  diff checks passed. Independent source review has no open finding. Final native
+  evidence reconciliation uses read-only DB/source/model metadata and 22-row matrix.
+- Native: actual GPT-6 Luna Pooler conversation, owner commitment, actual HTTPS
+  briefing with 4 attributed stories, saved follow-up, restart/GPT-5.6 Luna recall,
+  multiple commitments plus separate PERSONAL-001 goal/memory, durable priority 5,
+  labeled overlap/material-update fixture, native scheduled fixture delivery,
+  restart without duplicate, sourced pending social draft and error preservation.
+  The scheduled live request failed visibly; fixture success is separately scoped.
+  Model initially called a manual failure scheduled; visible correction retained.
+- Cleanup/preservation: owner paused final commitment, no next run. Owned app,
+  relay and browser stopped; original gateway bootstrap restored. All 18 bound
+  native files equal final candidate with no overlay. Original PID 28093 listens
+  on 9899. Production data, credentials, approvals, APFS and historical evidence
+  unchanged. Original untracked AGENTS.md remains excluded.
+- Decisions: explicit endpoint/pins and standing read grant only; fixed loopback
+  relay accommodates actual macOS sandbox rule support without broad egress.
+  Current GitHub Actions enabled status observed read-only; no setting changed.
+  Publication follows this commit to same named origin branch and draft PR against
+  codex/bullgod-personal-001; hosted run result recorded separately.
+- Lessons Learned:
+  - Mistake: blank feed URLs, long-body updates and earlier draft sources exposed
+    gaps not covered by initial fixtures; initial model summary mixed run types.
+  - Root Cause: synthetic cases underrepresented actual syndicated records and
+    multi-report history; prose was less precise than the durable run ledger.
+  - Future Trigger: real-feed normalization, persistent coverage and status text.
+  - Required Behavior Change: require complete source attribution, compare local
+    substantive additions, retain earlier delivered sources, verify model summaries
+    against durable state, preserve failures and rerun only affected interactions.
+  - Verification Step: focused regressions, real saved draft, corrected native
+    summary, final source-bound full suite and independent evidence reconciliation.
+  - Durable Memory Update: project MEMORY.md updated; no global memory changes.
+- Known limits: lexical event/relevance heuristics, intermittent bounded live-read
+  failures, pins may age, native scheduler single-process contract, 36 platform/
+  opt-in skips, inherited nonfatal Xunfei thread warning. Earlier raw API snapshot
+  predates later native selected IDs. No production, power-cut or publication claim.
+- Next: publish and inspect existing hosted workflow; review PERSONAL-002 draft
+  after PERSONAL-001 baseline decision. Then PERSONAL-003 natural review of pending
+  decisions/missed commitments. Do not make legacy deployment a product gate.
+- Notes: docs/personal-002 contains source/API/native/test/review/audit receipts.
+  Owned root bullgod-dev-evrleesw retained under system temp; private full logs at
+  /private/tmp/cow-bullgod-personal-002-bXbPgU. Do not replay accepted phases.
+
 ## 2026-11-09 23:06 EST — Codex — PR #8 merged; PERSONAL-001 complete for review
 
 - Publication: implementation 6011ddbc pushed to the same named origin branch;

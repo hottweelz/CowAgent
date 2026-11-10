@@ -826,6 +826,7 @@ function startSSE(requestId, loadingEl, timestamp, replayItems, resume) {
                 }
                 if (item.user_seq != null && typeof personalMarkPersistedTurn === 'function') {
                     personalMarkPersistedTurn(ownerSession);
+                    if (typeof commitmentsMarkPersistedTurn === 'function') commitmentsMarkPersistedTurn(ownerSession);
                 }
                 renderBotSpeakerButton(botEl, finalText);
                 scrollChatToBottom();

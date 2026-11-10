@@ -1,0 +1,291 @@
+{
+  "scope": "Read-only reconciliation of PERSONAL-002 native acceptance, final source receipts, and the named task-owned runtime fixture.",
+  "audit_date": "2026-11-10",
+  "result": "pass_with_limits",
+  "method": {
+    "tests_rerun": false,
+    "model_calls_made": false,
+    "processes_started_or_stopped": false,
+    "credentials_configs_oauth_or_logs_read": false,
+    "runtime_database_access": "read-only SQLite connection",
+    "runtime_root": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-evrleesw"
+  },
+  "source_binding": {
+    "runtime_receipt": "docs/personal-002/runtime-source.json",
+    "runtime_source_files": 18,
+    "runtime_source_hash_matches": 18,
+    "runtime_asset_overlay": false,
+    "final_regression_receipt": "docs/personal-002/local-validation.json",
+    "final_regression_source_files": 29,
+    "final_regression_source_hash_matches_before": 29,
+    "final_regression_source_hash_matches_after": 29,
+    "final_regression_result": {
+      "passed": 6152,
+      "skipped": 36,
+      "subtests_passed": 93,
+      "failures": 0,
+      "errors": 0
+    },
+    "note": "The current local-validation.json replaces the earlier 6151-case receipt and binds the final source. The earlier receipt remains at pre-final-source-validation.json."
+  },
+  "native_receipt_state": {
+    "file": "docs/personal-002/native-validation.json",
+    "receipt_status_observed": "in_progress",
+    "phase1_complete": true,
+    "phase2_complete": true,
+    "phase3_complete": true,
+    "phase4_complete": true,
+    "cleanup_recorded": true,
+    "status_note": "The final explanation and cleanup evidence are present although the top-level status still reads in_progress at audit time. Parent will update the lifecycle status after this audit is written."
+  },
+  "acceptance": [
+    {
+      "step": 1,
+      "requirement": "Start isolated BullGod on GPT-6 Luna.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/instance",
+        "docs/personal-002/native-validation.json#/phases/owner_instruction"
+      ],
+      "note": "The receipt records the isolated instance and gpt-6-luna usage. Cleanup records the owned app stopped."
+    },
+    {
+      "step": 2,
+      "requirement": "Owner establishes a standing briefing commitment.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/commitment_created",
+        "workspace/memory/long-term/index.db:personal_commitments"
+      ],
+      "note": "The commitment is bound to the BullGod session and owner turn 0. A later final-acceptance commitment is separate; the original remains preserved and paused."
+    },
+    {
+      "step": 3,
+      "requirement": "Remember the owner's preferred topics.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/commitment_created/preferences",
+        "workspace/memory/long-term/index.db:personal_commitments.fields"
+      ],
+      "note": "Bitcoin, Ethereum, institutional adoption, regulation, financial infrastructure/tokenization, and material market developments are persisted."
+    },
+    {
+      "step": 4,
+      "requirement": "Fetch actual news or label the controlled fixture when live access is unavailable.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "docs/personal-002/api-discovery.json#/observations",
+        "docs/personal-002/api-discovery.json#/isolated_native_gateway_probe",
+        "docs/personal-002/native-validation.json#/phases/actual_live_briefing",
+        "docs/personal-002/native-validation.json#/phases/controlled_fixture"
+      ],
+      "note": "A verified ordinary GET returned HTTP 200 and 100 records; the isolated native gateway probe returned HTTP 200 and 100 records. The later native receipt records four selected actual-source articles. Its source IDs are not in the saved api-response.json snapshot, which is an earlier 100-record response, so the exact later native response cannot be cross-bound to that file. Fixture phases are explicitly labeled."
+    },
+    {
+      "step": 5,
+      "requirement": "Generate a useful briefing with source attribution.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/actual_live_briefing",
+        "docs/personal-002/native-validation.json#/phases/briefing_explanation"
+      ],
+      "note": "Four selected stories have source URLs, publishers, headlines, preference matches, and no source-link issues. The receipt does not establish that five relevant stories were available, so the no-padding behavior is evidenced but a five-story maximum is not."
+    },
+    {
+      "step": 6,
+      "requirement": "Owner requests a follow-up.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/followup_conversation"
+      ],
+      "note": "The conversation is recorded at owner turn 7."
+    },
+    {
+      "step": 7,
+      "requirement": "Persist the follow-up with its article provenance.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/followup_saved",
+        "workspace/memory/long-term/index.db:personal_commitment_items"
+      ],
+      "note": "The database contains the matching follow-up item, source turn 7, and one retained source/article ID."
+    },
+    {
+      "step": 8,
+      "requirement": "End the session and restart the isolated instance.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/restart_and_model_change",
+        "docs/personal-002/native-validation.json#/phases/cleanup"
+      ],
+      "note": "The continuation uses the saved session and commitment; cleanup records owned processes stopped."
+    },
+    {
+      "step": 9,
+      "requirement": "Switch to another supported model.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/restart_and_model_change",
+        "docs/personal-002/native-validation.json#/models"
+      ],
+      "note": "Provider usage records gpt-5.6-luna after the initial gpt-6-luna turns."
+    },
+    {
+      "step": 10,
+      "requirement": "Recall the commitment, preferences, prior briefing, and follow-up after restart and model change.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/restart_and_model_change",
+        "docs/personal-002/native-validation.json#/phases/restored_context_conversation",
+        "workspace/memory/long-term/index.db:personal_commitments,personal_commitment_runs,personal_commitment_items"
+      ],
+      "note": "The receipt and current fixture database retain the same commitment, prior report, preferences, and follow-up under the same owner session."
+    },
+    {
+      "step": 11,
+      "requirement": "Run the briefing again with overlapping articles.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/overlap_and_material_update",
+        "docs/personal-002/native-validation.json#/phases/controlled_fixture"
+      ],
+      "note": "The native workflow ran again against the labeled overlapping fixture. This is fixture evidence, not a second live-feed replay."
+    },
+    {
+      "step": 12,
+      "requirement": "Do not repeat previously covered stories as new.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/overlap_and_material_update",
+        "docs/personal-002/native-validation.json#/phases/controlled_fixture"
+      ],
+      "note": "The controlled overlapping fixture reports that previous stories were not repeated as new."
+    },
+    {
+      "step": 13,
+      "requirement": "Distinguish a material update from a duplicate.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/overlap_and_material_update",
+        "docs/personal-002/native-validation.json#/phases/pre_localized_update_fixture",
+        "docs/personal-002/runtime-source.json#/source_updates"
+      ],
+      "note": "The final localized-update fix is bound to current runtime source and the controlled fixture classifies the retained story as updated. The earlier failed fixture attempt remains recorded as unqualified."
+    },
+    {
+      "step": 14,
+      "requirement": "Owner changes commitment priority.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/priority_request",
+        "docs/personal-002/native-validation.json#/phases/priority_saved",
+        "workspace/memory/long-term/index.db:personal_commitment_revisions"
+      ],
+      "note": "Priority 5 is saved at revision 2 from an owner conversation turn."
+    },
+    {
+      "step": 15,
+      "requirement": "Retain the new priority after restart.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/priority_after_restart",
+        "workspace/memory/long-term/index.db:personal_commitments"
+      ],
+      "note": "The post-restart receipt and persisted row both report priority 5."
+    },
+    {
+      "step": 16,
+      "requirement": "Enable one morning schedule in America/New_York.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/owner_enabled_schedule",
+        "workspace/memory/long-term/index.db:personal_commitments.fields"
+      ],
+      "note": "The saved schedule is 08:00 America/New_York and read authorization is explicit."
+    },
+    {
+      "step": 17,
+      "requirement": "Run the existing scheduler within the approved read-only scope.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/native_scheduled_delivery",
+        "workspace/scheduler/tasks.json",
+        "agent/personal/scheduling.py:execute_scheduled_commitment",
+        "agent/memory/commitments.py:claim_run,assert_active"
+      ],
+      "note": "The native scheduler invoked the personal-commitment callback under the standing read grant, but delivery used the explicitly labeled controlled fixture. A separate live scheduled read failed visibly with a network error and no delivery."
+    },
+    {
+      "step": 18,
+      "requirement": "Do not duplicate a completed scheduled delivery after restart.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/restart_no_duplicate_delivery",
+        "workspace/memory/long-term/index.db:personal_commitment_runs",
+        "workspace/scheduler/tasks.json"
+      ],
+      "note": "There is one delivered row for the recorded fixture occurrence key, no repeated occurrence keys in the run table, and restart evidence shows no duplicate. The scheduler task primary is disabled after pause. A prior enabled task pointer remains in tasks.json.bak; startup reconciles the current paused SQLite record before polling, and execution checks current status/revision before any fetch, so the stale pointer cannot authorize delivery."
+    },
+    {
+      "step": 19,
+      "requirement": "Owner requests a social post draft from a sourced story.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/social_draft_conversation"
+      ],
+      "note": "The owner request is recorded at source turn 16 under gpt-5.6-luna."
+    },
+    {
+      "step": 20,
+      "requirement": "Save a sourced draft without publishing it.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/draft_saved_not_published",
+        "workspace/memory/long-term/index.db:personal_commitment_items"
+      ],
+      "note": "The fixture database contains one draft with source and claims, status awaiting_publication_approval. No publication action is recorded."
+    },
+    {
+      "step": 21,
+      "requirement": "Preserve commitments, memories, and follow-ups after a network error.",
+      "result": "pass",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/controlled_network_failure_preserves_state",
+        "workspace/memory/long-term/index.db:personal_commitments,personal_memories,personal_commitment_items"
+      ],
+      "note": "The latest failure was a manual Check now run (manual occurrence key), not a scheduled attempt. Its receipt preserves the separate Cedar goal, one accepted memory, briefing preferences, follow-up, and prior success. An earlier genuine scheduled network failure remains separately recorded."
+    },
+    {
+      "step": 22,
+      "requirement": "BullGod naturally explains what it did, what changed, what remains pending, and what it will do next.",
+      "result": "pass_with_limit",
+      "evidence": [
+        "docs/personal-002/native-validation.json#/phases/final_owner_explanation"
+      ],
+      "note": "The corrected answer identifies saved state, real source versus fictional fixture, the unpublished draft, and no automatic run while paused. The pause is the next-action boundary; it does not propose an owner resume action."
+    }
+  ],
+  "discrepancies_and_limits": [
+    "At audit time the native receipt top-level status remained in_progress despite all four phase-complete markers and cleanup evidence; lifecycle owner will set final status after this file is written.",
+    "initial_final_summary incorrectly called the latest failed check scheduled. final_owner_explanation corrects this to a manual Check now. Both records remain so the earlier answer is not erased.",
+    "The saved standalone api-response.json is an earlier live snapshot. It does not contain the four source IDs selected by the later native live briefing, so exact response-to-run identity cannot be proven from that file alone.",
+    "The completed briefing contains four relevant selected stories. Evidence does not show whether five relevant stories were available at that request time.",
+    "The scheduled delivery acceptance uses labeled fixture data; actual scheduled live retrieval failed with a visible network error."
+  ],
+  "next_step": "Parent updates native-validation.json top-level status after recording this audit; no further interaction or test replay is needed for this reconciliation.",
+  "cleanup": {
+    "step": "cleanup",
+    "requirement": "Pause the commitment after acceptance and verify no scheduled task remains enabled.",
+    "result": "pass_with_limit",
+    "evidence": [
+      "docs/personal-002/native-validation.json#/phases/owner_paused_after_acceptance",
+      "workspace/memory/long-term/index.db:personal_commitments.fields",
+      "workspace/scheduler/tasks.json",
+      "workspace/scheduler/tasks.json.bak",
+      "agent/tools/scheduler/integration.py:reconcile_commitments before service.start",
+      "agent/personal/scheduling.py:execute_scheduled_commitment",
+      "agent/memory/commitments.py:assert_active"
+    ],
+    "note": "The SQLite commitment is paused at revision 4 and the primary scheduler pointer is disabled. The preserved backup has enabled revision 3, but startup reconciliation projects the current paused revision before polling and run admission checks current active status/revision before retrieval. No current authorization is granted by the stale pointer."
+  }
+}

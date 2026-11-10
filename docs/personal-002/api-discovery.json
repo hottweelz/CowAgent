@@ -1,0 +1,194 @@
+{
+  "observations": [
+    {
+      "url": "https://tyl.ee/api/news",
+      "client": "Python urllib ordinary GET; no auth; default user agent",
+      "at": 1794315235.381255,
+      "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1018)>",
+      "elapsed_seconds": 0.223
+    },
+    {
+      "url": "https://tyl.ee/api/news",
+      "client": "requests ordinary verified HTTPS GET; no authentication; default requests user agent",
+      "at": 1794315254.880425,
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Server": "cloudflare",
+        "etag": "W/\"1dfa5-DYgX6q91qjXI1LEZR77Zk7uDYdk\""
+      },
+      "bytes_read": 122789,
+      "bounded": true,
+      "json_type": "list",
+      "count": 100,
+      "fields": [
+        "category",
+        "content",
+        "description",
+        "feedId",
+        "fetchedAt",
+        "guid",
+        "id",
+        "isTopRanked",
+        "link",
+        "originalPubDate",
+        "provider",
+        "pubDate",
+        "region",
+        "sentiment",
+        "title",
+        "topics",
+        "updatedAt",
+        "wasUpdated"
+      ],
+      "field_types": {
+        "category": [
+          "str"
+        ],
+        "content": [
+          "str"
+        ],
+        "description": [
+          "str"
+        ],
+        "feedId": [
+          "int"
+        ],
+        "fetchedAt": [
+          "str"
+        ],
+        "guid": [
+          "dict",
+          "str"
+        ],
+        "id": [
+          "int"
+        ],
+        "isTopRanked": [
+          "bool"
+        ],
+        "link": [
+          "str"
+        ],
+        "originalPubDate": [
+          "str"
+        ],
+        "provider": [
+          "str"
+        ],
+        "pubDate": [
+          "str"
+        ],
+        "region": [
+          "str"
+        ],
+        "sentiment": [
+          "str"
+        ],
+        "title": [
+          "str"
+        ],
+        "topics": [
+          "list"
+        ],
+        "updatedAt": [
+          "NoneType",
+          "str"
+        ],
+        "wasUpdated": [
+          "bool"
+        ]
+      },
+      "html_text_records": 16,
+      "elapsed_seconds": 0.636
+    },
+    {
+      "kind": "conditional",
+      "at": 1794315304.005226,
+      "status": 304,
+      "bytes_read": 0,
+      "headers": {
+        "etag": "W/\"1dfa5-DYgX6q91qjXI1LEZR77Zk7uDYdk\""
+      }
+    },
+    {
+      "kind": "limit_probe",
+      "at": 1794315304.3630168,
+      "status": 200,
+      "bytes_read": 1453,
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "etag": "W/\"1090-+OXWM6Pb36sRsieU578pCY7X4D4\""
+      }
+    },
+    {
+      "kind": "limit_probe_decoded",
+      "status": 200,
+      "decoded_bytes": 4240,
+      "json_type": "list",
+      "count": 5,
+      "at": 1794315370.064689
+    },
+    {
+      "kind": "offset_probe",
+      "at": 1794317632.58577,
+      "status": 200,
+      "decoded_bytes": 5893,
+      "json_type": "list",
+      "count": 5,
+      "article_ids": [
+        199959,
+        199785,
+        199955,
+        199963,
+        199958
+      ]
+    },
+    {
+      "kind": "page_probe",
+      "at": 1794317633.414644,
+      "status": 200,
+      "decoded_bytes": 5566,
+      "json_type": "list",
+      "count": 5,
+      "article_ids": [
+        199968,
+        199964,
+        199957,
+        199965,
+        199966
+      ]
+    }
+  ],
+  "limits": [
+    "One ordinary successful response does not prove all responses are arrays.",
+    "No deliberate rate-limit stress performed; no advertised rate limits seen in these bounded requests.",
+    "No published pagination contract inspected; limit query observation is not a supported API guarantee.",
+    "External web tool open returned a tool-level 404; host verified requests returned HTTP 200."
+  ],
+  "dns_observation": [
+    "104.21.16.6",
+    "172.67.165.163",
+    "2606:4700:3030::ac43:a5a3",
+    "2606:4700:3033::6815:1006"
+  ],
+  "existing_isolation_probe": {
+    "scope": "owned PERSONAL-001 sandbox only, no service started",
+    "result": {
+      "connection": "denied",
+      "error_type": "PermissionError",
+      "errno": 1
+    },
+    "exit_code": 0
+  },
+  "isolated_native_gateway_probe": {
+    "source": "initial relay development snapshot",
+    "exit_code": 0,
+    "tool_status": "success",
+    "http_status": 200,
+    "response_status": "ok",
+    "count": 100,
+    "error": null
+  },
+  "sandbox_transport": "Public-IP remote rules are rejected by macOS sandbox. Application permits only localhost fixed relay; TLS verifies the approved remote hostname inside the sandbox."
+}

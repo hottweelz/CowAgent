@@ -200,6 +200,51 @@ class TaskStore:
 
             self.save_tasks(tasks)
         return True
+
+    def sync_personal_pointer(self, pointer: dict, revision: int) -> bool:
+        """Atomically apply a personal scheduler projection by revision.
+
+        A commitment can be updated more than once before its scheduler
+        projections finish. Serialize each read/compare/write with the same
+        path lock used by all TaskStore instances in this process, and never
+        let an older owner revision replace a newer pointer.
+
+        Returns False when a newer revision already exists. Non-personal task
+        rows and cross-Agent ID collisions are rejected.
+        """
+        action = pointer.get("action") if isinstance(pointer, dict) else None
+        if not isinstance(action, dict) or action.get("type") != "personal_commitment":
+            raise ValueError("personal scheduler pointer required")
+        if isinstance(revision, bool) or not isinstance(revision, int) or revision < 1:
+            raise ValueError("personal pointer revision must be positive")
+        if action.get("revision") != revision:
+            raise ValueError("pointer revision does not match compare revision")
+        task_id = pointer.get("id")
+        agent_id = pointer.get("agent_id")
+        commitment_id = action.get("commitment_id")
+        if not all(isinstance(value, str) and value for value in (task_id, agent_id, commitment_id)):
+            raise ValueError("personal pointer identity is incomplete")
+
+        with self.lock:
+            tasks = self.load_tasks(strict=True)
+            current = tasks.get(task_id)
+            if current is not None:
+                current_action = current.get("action") or {}
+                if (
+                    current.get("agent_id") != agent_id
+                    or current_action.get("type") != "personal_commitment"
+                    or current_action.get("commitment_id") != commitment_id
+                ):
+                    raise ValueError("personal scheduler pointer identity collision")
+                current_revision = current_action.get("revision", 0)
+                if isinstance(current_revision, bool) or not isinstance(current_revision, int):
+                    raise ValueError("stored personal pointer revision is invalid")
+                if current_revision > revision:
+                    return False
+
+            tasks[task_id] = pointer
+            self.save_tasks(tasks)
+            return True
     
     def finish_scheduled_run(self, task_id: str, expected: dict,
                              updates: Optional[dict], *, last_run_at: str) -> bool:

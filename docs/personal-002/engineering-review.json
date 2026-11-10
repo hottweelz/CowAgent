@@ -1,0 +1,33 @@
+{
+  "reviewer": "Independent Sol 6.1 engineering reviewer; bounded targeted follow-ups for demonstrated defects",
+  "scope": [
+    "Native HTTP authority and fixed-destination relay",
+    "Durable claim and conversation delivery",
+    "Owner intent and source provenance",
+    "Native scheduler revision, pause and restart",
+    "Model context and UI source selection"
+  ],
+  "status": "PASS",
+  "open_findings": [],
+  "corrections_verified": [
+    "Reject stale scheduler pointer revisions",
+    "Expose actual schedule state in model context",
+    "Retain secondary publisher attribution",
+    "Honor owner-selected single-word preferences",
+    "Retain old follow-up and draft source snapshots",
+    "Require usable URL/publisher/headline for selection",
+    "Detect localized material additions in long articles",
+    "Make earlier delivered sources selectable without admitting raw unreported articles"
+  ],
+  "final_delta_checks": [
+    "node tools/check-commitments-ui.mjs passed",
+    "Native saved draft retained its earlier source; no model draft regeneration"
+  ],
+  "independence_limit": "Review used delegated tool-level agents; no independent provider model attestation beyond the runtime selection",
+  "parent_self_review": {
+    "changed_python_ruff_F": "PASS",
+    "git_diff_check": "PASS",
+    "native_final_screenshot": "Inspected; corrected state summary visible"
+  },
+  "reviewed_on": "2026-11-10"
+}

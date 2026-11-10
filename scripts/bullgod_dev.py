@@ -2,9 +2,11 @@
 """Start a disposable, sandboxed CowAgent development instance on macOS."""
 import argparse
 import json
+import ipaddress
 import os
 from pathlib import Path
 import secrets
+import select
 import shutil
 import signal
 import socket
@@ -27,6 +29,21 @@ def model_endpoint(base):
             or any(c not in '/abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-' for c in url.path)):
         raise ValueError('Model base must be an explicit http://127.0.0.1:port/path gateway other than 9899')
     return url.port
+
+
+def approved_endpoint(url):
+    """Resolve an explicit HTTPS read endpoint before entering the sandbox."""
+    parsed = urlsplit(url)
+    if (parsed.scheme != 'https' or not parsed.hostname or parsed.username
+            or parsed.password or parsed.fragment or parsed.query
+            or parsed.port not in (None, 443) or not parsed.path
+            or parsed.netloc != parsed.hostname):
+        raise ValueError('Select an exact HTTPS hostname/path without credentials or query')
+    addresses = sorted({row[4][0] for row in socket.getaddrinfo(
+        parsed.hostname, 443, socket.AF_INET, socket.SOCK_STREAM)})
+    if not addresses or any(not ipaddress.ip_address(ip).is_global for ip in addresses):
+        raise ValueError('Approved endpoint must resolve only to public addresses')
+    return addresses
 
 
 MODEL_BOOTSTRAP = '''"""Task-owned model bootstrap; the credential stays only in memory."""
@@ -95,7 +112,7 @@ def load(root):
     return root, info
 
 
-def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_API_KEY'):
+def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_API_KEY', read_endpoints=()):
     if sys.platform != 'darwin' or not Path('/usr/bin/sandbox-exec').exists():
         raise RuntimeError('macOS sandbox-exec is required')
     if port == 9899 or not 1024 <= port <= 65535:
@@ -108,6 +125,18 @@ def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_A
     if not key_env or any(c not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_' for c in key_env):
         raise ValueError('Use an uppercase environment variable name for the model key')
     python, prefix, framework = resolve_python(interpreter)
+    endpoints = {url: approved_endpoint(url) for url in read_endpoints}
+    relays = {}
+    reserved = []
+    try:
+        for url in endpoints:
+            sock = socket.socket()
+            sock.bind(('127.0.0.1', 0))
+            reserved.append(sock)
+            relays[url] = sock.getsockname()[1]
+    finally:
+        for sock in reserved:
+            sock.close()
     root = Path(tempfile.mkdtemp(prefix='bullgod-dev-')).resolve()
     source = root / 'source'
     source.mkdir()
@@ -141,7 +170,11 @@ def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_A
               'knowledge': False, 'subagent': {'enabled': False}, 'external_api_enabled': False}
     if model_base:
         config.update({'model': model, 'bot_type': 'openai', 'open_ai_api_base': model_base,
-                       'open_ai_api_key': '', 'debug': False, 'language': 'en'})
+                       'open_ai_api_key': '', 'open_ai_api_type': 'responses',
+                       'debug': False, 'language': 'en'})
+    if endpoints:
+        config['personal_http_endpoints'] = endpoints
+        config['personal_http_relays'] = relays
     fd = os.open(root / 'data/config.json', os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
     with os.fdopen(fd, 'w') as config_file:
         json.dump(config, config_file, indent=2)
@@ -149,6 +182,10 @@ def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_A
     if model_base:
         info.update({'model_base': model_base, 'model': model, 'model_key_env': key_env})
         (root / 'model_bootstrap.py').write_text(MODEL_BOOTSTRAP)
+    if endpoints:
+        shutil.copyfile(REPO / 'scripts/bullgod_https_relay.py', root / 'https_relay.py')
+        info['read_relays'] = [{'url': url, 'port': relays[url], 'address': addresses[0]}
+                               for url, addresses in endpoints.items()]
     (root / 'instance.json').write_text(json.dumps(info, indent=2))
     # Default-deny filesystem and network; only the instance and runtime are visible.
     read_paths = [root, '/System', '/usr/lib', '/usr/share', '/usr/bin', '/bin', '/sbin',
@@ -164,6 +201,8 @@ def init(port, interpreter, model_base=None, model=None, key_env='CODEX_POOLER_A
     profile += f'(allow network-bind (local ip "localhost:{port}"))\n(allow network-inbound (local ip "localhost:{port}"))\n'
     if model_port:
         profile += f'(allow network-outbound (remote ip "localhost:{model_port}"))\n'
+    for relay_port in relays.values():
+        profile += f'(allow network-outbound (remote ip "localhost:{relay_port}"))\n'
     (root / 'sandbox.sb').write_text(profile)
     print(root)
 
@@ -172,7 +211,84 @@ def print_ready(root, port):
     print(f'http://127.0.0.1:{port}/\nCredentials: {root / "data/config.json"}\nRoot: {root}')
 
 
+def _stop_relays(root):
+    marker = root / 'relay-processes.json'
+    if not marker.exists():
+        return
+    records = json.loads(marker.read_text())
+    for state in records:
+        current = identity(state['pid'])
+        if current and (current != state['identity'] or str(root / 'https_relay.py') not in current):
+            raise RuntimeError('Relay process identity differs; no signal sent')
+        if current:
+            os.kill(state['pid'], signal.SIGTERM)
+    for state in records:
+        for _ in range(50):
+            if identity(state['pid']) != state['identity']:
+                break
+            time.sleep(.1)
+        else:
+            raise RuntimeError('Owned relay did not stop')
+    marker.unlink()
+
+
+def _start_relays(root, info):
+    marker = root / 'relay-processes.json'
+    if marker.exists():
+        _stop_relays(root)
+    records = []
+    try:
+        for relay in info.get('read_relays', []):
+            command = [info['python'], str(root / 'https_relay.py'),
+                       '--listen-port', str(relay['port']), '--upstream-ip', relay['address']]
+            proc = subprocess.Popen(command, env=service_environment(root), cwd=root,
+                                    stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                    stderr=subprocess.DEVNULL, start_new_session=True)
+            # Python.framework can exec its app launcher during startup. Record
+            # identity only after the relay has bound and signalled readiness.
+            ready = select.select([proc.stdout], [], [], 5)[0]
+            line = proc.stdout.readline() if ready else b''
+            proc.stdout.close()
+            if line != b'relay ready\n':
+                if proc.poll() is None:
+                    proc.terminate()
+                    proc.wait(timeout=5)
+                raise RuntimeError('Owned HTTPS relay did not become ready')
+            current = identity(proc.pid)
+            if not current or str(root / 'https_relay.py') not in current:
+                if proc.poll() is None:
+                    proc.terminate()
+                    proc.wait(timeout=5)
+                raise RuntimeError('Owned HTTPS relay failed to start')
+            records.append({'pid': proc.pid, 'identity': current})
+            marker.write_text(json.dumps(records))
+            time.sleep(.15)
+            if proc.poll() is not None:
+                raise RuntimeError('Owned HTTPS relay exited during startup')
+    except Exception:
+        _stop_relays(root)
+        raise
+
+
 def start(root, info):
+    # Refuse before disturbing relays belonging to an already running instance.
+    pidfile = root / 'process.json'
+    if pidfile.exists():
+        state = json.loads(pidfile.read_text())
+        if state['identity'] and identity(state['pid']) == state['identity']:
+            raise RuntimeError('Instance is already running')
+    _start_relays(root, info)
+    try:
+        _start_app(root, info)
+    except Exception:
+        if pidfile.exists():
+            stop(root)
+        else:
+            _stop_relays(root)
+        raise
+
+
+def _start_app(root, info):
     pidfile = root / 'process.json'
     if pidfile.exists():
         state = json.loads(pidfile.read_text())
@@ -213,7 +329,14 @@ def start(root, info):
 
 def stop(root):
     pidfile = root / 'process.json'
+    if not pidfile.exists():
+        _stop_relays(root)
+        return
     state = json.loads(pidfile.read_text())
+    if not identity(state['pid']):
+        pidfile.unlink()
+        _stop_relays(root)
+        return
     if (not state['identity'] or identity(state['pid']) != state['identity']
             or not any(str(root / name) in state['identity'] for name in ('source/app.py', 'model_bootstrap.py'))):
         raise RuntimeError('Recorded process is not the owned service; no signal sent')
@@ -221,6 +344,7 @@ def stop(root):
     for _ in range(100):
         if identity(state['pid']) != state['identity']:
             pidfile.unlink()
+            _stop_relays(root)
             print('Stopped')
             return
         time.sleep(.1)
@@ -236,12 +360,14 @@ def main():
     create.add_argument('--model-base', help='explicit loopback model gateway base URL; outbound remains denied otherwise')
     create.add_argument('--model', help='model ID served by the selected gateway')
     create.add_argument('--model-key-env', default='CODEX_POOLER_API_KEY', help='name only; credential is required at start and is never saved')
+    create.add_argument('--read-endpoint', action='append', default=[],
+                        help='explicit HTTPS endpoint; pin public addresses and permit only their port 443')
     for command in ('start', 'stop'):
         sub.add_parser(command).add_argument('root')
     args = parser.parse_args()
     try:
         if args.command == 'init':
-            init(args.port, args.python, args.model_base, args.model, args.model_key_env)
+            init(args.port, args.python, args.model_base, args.model, args.model_key_env, args.read_endpoint)
         else:
             root, info = load(args.root)
             (start(root, info) if args.command == 'start' else stop(root))

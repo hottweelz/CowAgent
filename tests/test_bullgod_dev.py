@@ -57,6 +57,17 @@ class DevBoundaryTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 dev.model_endpoint(value)
 
+    def test_approved_https_endpoint_rejects_private_resolution_and_credentials(self):
+        with patch.object(dev.socket, 'getaddrinfo', return_value=[(2, 1, 6, '', ('93.184.216.34', 443))]):
+            self.assertEqual(dev.approved_endpoint('https://news.example/api/news'), ['93.184.216.34'])
+            for value in ('http://news.example/api/news', 'https://user:secret@news.example/api/news',
+                          'https://news.example/api/news?token=secret', 'https://news.example:8443/api/news'):
+                with self.assertRaises(ValueError):
+                    dev.approved_endpoint(value)
+        with patch.object(dev.socket, 'getaddrinfo', return_value=[(2, 1, 6, '', ('127.0.0.1', 443))]):
+            with self.assertRaises(ValueError):
+                dev.approved_endpoint('https://news.example/api/news')
+
     def test_runtime_key_only_enters_selected_gateway_headers(self):
         class Client:
             def _build_headers(self, api_key, extra_headers, url=None):

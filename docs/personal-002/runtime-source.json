@@ -1,0 +1,45 @@
+{
+  "source_files": {
+    "agent/memory/commitments.py": "b28ef96676bb7d0f0f0e87179fac589cc63defe0c3cf11c95ffb6646e920a193",
+    "agent/memory/personal_context.py": "189def50dadfced69ec5610acf69b7ad5113de0a512e2d689667da8c28409fb0",
+    "agent/permission/policy.py": "596cfd685cef0a44b3b32c8836f8f67f0a6b90b993d38f152bb03a048d82abe2",
+    "agent/personal/articles.py": "01fec2ecc931b187a80e62f862ba590c6fdad28b69078c3713b9956854361bf5",
+    "agent/personal/commitments.py": "10f3af937e3f2acef4398fa1307340c757ded4f3a9695b16532f9895debd3e6a",
+    "agent/personal/scheduling.py": "1a19d5b2a5221aff729b9a91999213546aa96e1e4a47a8db6831ad98a2153652",
+    "agent/tools/scheduler/integration.py": "7f36cb8ede747205dffee5f49cf66aa5e46057aaa21580efc2128304c5cd4954",
+    "agent/tools/scheduler/task_store.py": "9ae4a6a9c466592cc3b4b6409892b54efc942072df8b3386dd6ad61e02491a31",
+    "agent/tools/web_fetch/approved_json.py": "95f6cbc88091d314845a9877f7faab6daa30a56d2135279a0a8f9850f1c6ad26",
+    "channel/web/api/commitments.py": "c8b295c9f2213be00a85eb2ba5abf1d47ef8402e7ae46dc2e49c034121713f5c",
+    "channel/web/chat.html": "50aad85078f7a182921a3781c2f81785d08da59ab5b852e8538d3e583ccc3eed",
+    "channel/web/static/css/commitments.css": "2230cf1d0c82513ec551ee024dd6b3f3fc3b0d1a4b71afff2301331dd081be6b",
+    "channel/web/static/js/chat/commitments.js": "b9350275311c15607fd26a0341b00e56545e5bf2ff5431341adde73ad1cb0e1a",
+    "channel/web/static/js/chat/new-chat.js": "e7b3ee744daee05d009c7b04850ff3d6df546897918974ecad728efb32306169",
+    "channel/web/static/js/chat/render.js": "196da02cf41e2b45cb6625903f3aa964e46976aa6c221c3f2a4972af00452570",
+    "channel/web/static/js/chat/send.js": "75603e1e7402166614d9ee7e8090f147fe794b17d9e34b0962c98c682a9da6dd",
+    "channel/web/templates/views/chat.html": "de3c9439beede464850a3c472727af853527c09d007f8837b12471cbbfa4f340",
+    "channel/web/web_channel.py": "993326deae12547c38c4eaaeab9940f44b2d214cff860552fd362c502b248416"
+  },
+  "relay_sha256": "2f825b94d08e0c95d3539bacbcd77230f83c8fbe692d85d2f59526c53d7d1604",
+  "asset_overlay": false,
+  "root": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-evrleesw",
+  "source_updates": [
+    {
+      "file": "agent/personal/articles.py",
+      "before": "6a0c95df2438f0477c24da3ab5459ffb76a533f177fa057053abe2c4fd64555c",
+      "after": "9ac29e4923be038257adf3fb1ac024a0243e58f99f0d3f5ba9abd327c830972c",
+      "reason": "Actual blank-link record required valid GUID URL fallback or exclusion before selection. Owned instance stopped before copying final candidate; prior owner/model records preserved. Affected read is repeated with a fresh run key."
+    },
+    {
+      "file": "agent/personal/articles.py",
+      "before": "9ac29e4923be038257adf3fb1ac024a0243e58f99f0d3f5ba9abd327c830972c",
+      "after": "01fec2ecc931b187a80e62f862ba590c6fdad28b69078c3713b9956854361bf5",
+      "reason": "Long-article material-update suppression corrected. Only affected fixture read repeated; owner/model continuity evidence retained."
+    },
+    {
+      "file": "channel/web/static/js/chat/commitments.js",
+      "before": "fe38ea233e5a9320ac9fe75b10e1efdee58b3f39e200f551a484ab6c8324eda3",
+      "after": "b9350275311c15607fd26a0341b00e56545e5bf2ff5431341adde73ad1cb0e1a",
+      "reason": "Earlier delivered sources are now selectable for the existing native model draft. Instance stopped before candidate copy; accepted model answer preserved."
+    }
+  ]
+}

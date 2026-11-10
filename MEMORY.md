@@ -24,6 +24,32 @@
   default still denies outbound traffic. BullGod's starter persona is stored in
   its own AGENT.md. No production OAuth token or authority record is copied.
 
+- PERSONAL-002 adds owner-confirmed commitments in the existing ConversationStore
+  DB, independent of PERSONAL-001 goals. Native owner/origin/source checks guard
+  intent changes. Exact approved HTTPS reads use an issued host context through
+  the existing permission gateway; ordinary models, guests and restricted workers
+  do not inherit it. Read grants never authorize publication. Saved drafts remain
+  awaiting publication approval and retain delivered-source provenance.
+- Commitment run claims and occurrence uniqueness are durable SQLite state.
+  Delivery, seen/selected sources and the native assistant message commit together.
+  Failed/uncertain runs are not successful deliveries; expired claims require
+  explicit owner acknowledgment before fresh execution. Typed pointers reuse the
+  native scheduler, reject stale revisions and recheck current intent. Native
+  catch-up is ten minutes; older slots skip forward. TaskStore retains its existing
+  single-process coordination contract; no multi-host scheduler is introduced.
+- Personal article coverage uses stable source/URL identity, owner-topic lexical
+  filtering and conservative event grouping. A source URL/publisher/headline are
+  required for selection. Dates alone are not updates; localized substantive
+  additions can be updates even in long bodies. Preserve source snapshots for
+  follow-ups/drafts beyond the recent-run window; expose earlier delivered stories
+  in the draft picker. Model summaries can be wrong and do not override run state.
+- Isolated approved online reads use explicit public-address pins with verified
+  HTTPS names. On macOS the app reaches only an owned fixed-destination loopback
+  relay plus its selected model gateway. The relay does no TLS termination, URL
+  routing or arbitrary CONNECT. Refresh pins only through explicit new isolated
+  configuration. Keep live-fetch evidence distinct from labeled timing/payload
+  fixtures; stop owned processes and restore fixture bootstrap after acceptance.
+
 - BULLGOD-RESET-001 refocuses development on BullGod as a persistent personal
   agent. Identity, inspectable/correctable memory, owner commitments and useful
   permission-aware follow-through come before optional specialist delegation.

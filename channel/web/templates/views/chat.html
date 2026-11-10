@@ -3,6 +3,13 @@
                 <!-- ====================================================== -->
                 <div id="view-chat" class="view active">
                   <div id="chat-main" class="chat-main relative">
+                    <section id="commitments-card" class="commitments-card" aria-labelledby="commitments-title">
+                      <details><summary id="commitments-title">Personal commitments</summary>
+                        <div class="commitments-heading"><span id="commitments-identity"></span><button type="button" id="commitments-refresh">Refresh</button></div>
+                        <p id="commitments-status" role="status" aria-live="polite">Start a conversation to establish a commitment.</p>
+                        <div id="commitments-content"></div>
+                      </details>
+                    </section>
                     <section id="personal-card" class="personal-card" aria-labelledby="personal-card-title" aria-live="polite">
                       <div class="personal-card-heading">
                         <div>

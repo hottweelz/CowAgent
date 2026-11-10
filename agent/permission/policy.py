@@ -987,6 +987,7 @@ _TOOL_DESCRIPTORS = {
     ('agent.tools.scheduler.scheduler_tool', 'SchedulerTool'): ('scheduler', 'privileged'),
     ('agent.tools.web_search.web_search', 'WebSearch'): ('web_search', 'privileged'),
     ('agent.tools.web_fetch.web_fetch', 'WebFetch'): ('web_fetch', 'privileged'),
+    ('agent.tools.web_fetch.approved_json', 'ApprovedJsonRead'): ('approved_json_read', 'approved.https.read'),
     ('agent.tools.vision.vision', 'Vision'): ('vision', 'privileged'),
     ('agent.tools.browser.browser_tool', 'BrowserTool'): ('browser', 'privileged'),
 }
@@ -1062,6 +1063,14 @@ def authorize(tool, arguments, agent):
         if event is not None and event.is_set():
             return Decision(False, 'Authorization denied: cancelled.', 'cancelled'), authority
         capability = descriptor[1]
+        if capability == 'approved.https.read':
+            # No baseline/worker capability grants this operation. Only the
+            # exact host-created context can read its bound approved endpoints.
+            from agent.tools.web_fetch.approved_json import has_host_read_grant
+            if authority.mode != READ_ONLY or not has_host_read_grant(tool, arguments, agent):
+                return Decision(False, 'Authorization denied: approved read grant unavailable.',
+                                'approved_read_denied'), authority
+            return ALLOW, authority
         if authority.restricted and capability not in authority.capabilities:
             return Decision(False, 'Authorization denied: capability unavailable.', 'capability_denied'), authority
         return ALLOW, authority
@@ -1096,7 +1105,7 @@ def invoke(tool, arguments, agent=None):
             # Commit intent before any side effect. The attempt also checks
             # current authority; use the newly attenuated grant below.
             effect_id = attempt.before_tool(
-                descriptor[0], mutating=descriptor[1] not in ('fs.read', 'time'),
+                descriptor[0], mutating=descriptor[1] not in ('fs.read', 'time', 'approved.https.read'),
                 call_id=getattr(tool, 'tool_call_id', None))
             decision, authority = authorize(tool, arguments, agent)
             if not decision.allowed:

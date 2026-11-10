@@ -1,0 +1,192 @@
+{
+  "scope": "PERSONAL-002 final guarded full regression on final frozen executable source",
+  "source": {
+    "branch": "codex/bullgod-personal-002",
+    "base_commit": "adbe2105b0f45ab521429ba1427ac2887f7a2f97",
+    "head_commit": "adbe2105b0f45ab521429ba1427ac2887f7a2f97",
+    "pre_run_sha256": {
+      "agent/memory/commitments.py": "b28ef96676bb7d0f0f0e87179fac589cc63defe0c3cf11c95ffb6646e920a193",
+      "agent/memory/personal_context.py": "189def50dadfced69ec5610acf69b7ad5113de0a512e2d689667da8c28409fb0",
+      "agent/permission/policy.py": "596cfd685cef0a44b3b32c8836f8f67f0a6b90b993d38f152bb03a048d82abe2",
+      "agent/personal/articles.py": "01fec2ecc931b187a80e62f862ba590c6fdad28b69078c3713b9956854361bf5",
+      "agent/personal/commitments.py": "10f3af937e3f2acef4398fa1307340c757ded4f3a9695b16532f9895debd3e6a",
+      "agent/personal/scheduling.py": "1a19d5b2a5221aff729b9a91999213546aa96e1e4a47a8db6831ad98a2153652",
+      "agent/tools/scheduler/integration.py": "7f36cb8ede747205dffee5f49cf66aa5e46057aaa21580efc2128304c5cd4954",
+      "agent/tools/scheduler/task_store.py": "9ae4a6a9c466592cc3b4b6409892b54efc942072df8b3386dd6ad61e02491a31",
+      "agent/tools/web_fetch/approved_json.py": "95f6cbc88091d314845a9877f7faab6daa30a56d2135279a0a8f9850f1c6ad26",
+      "channel/web/api/commitments.py": "c8b295c9f2213be00a85eb2ba5abf1d47ef8402e7ae46dc2e49c034121713f5c",
+      "channel/web/chat.html": "50aad85078f7a182921a3781c2f81785d08da59ab5b852e8538d3e583ccc3eed",
+      "channel/web/static/css/commitments.css": "2230cf1d0c82513ec551ee024dd6b3f3fc3b0d1a4b71afff2301331dd081be6b",
+      "channel/web/static/js/chat/commitments.js": "b9350275311c15607fd26a0341b00e56545e5bf2ff5431341adde73ad1cb0e1a",
+      "channel/web/static/js/chat/new-chat.js": "e7b3ee744daee05d009c7b04850ff3d6df546897918974ecad728efb32306169",
+      "channel/web/static/js/chat/render.js": "196da02cf41e2b45cb6625903f3aa964e46976aa6c221c3f2a4972af00452570",
+      "channel/web/static/js/chat/send.js": "75603e1e7402166614d9ee7e8090f147fe794b17d9e34b0962c98c682a9da6dd",
+      "channel/web/templates/views/chat.html": "de3c9439beede464850a3c472727af853527c09d007f8837b12471cbbfa4f340",
+      "channel/web/web_channel.py": "993326deae12547c38c4eaaeab9940f44b2d214cff860552fd362c502b248416",
+      "scripts/bullgod_dev.py": "0a9825a19d2e0cb028f63571f8c40fe7f9c8270e810f6d6c9ee25eea654594d5",
+      "scripts/bullgod_https_relay.py": "2f825b94d08e0c95d3539bacbcd77230f83c8fbe692d85d2f59526c53d7d1604",
+      "tests/test_bullgod_dev.py": "889a4446ad95b824fa5eda07fc92f9ef88bc6e2f863c12c3f3ab04ab29155f9c",
+      "tests/test_bullgod_https_relay.py": "b2f55f37154a6646db932edd323ce914488b760d9a21b6cedb7a0cd768568c39",
+      "tests/test_personal_articles.py": "174abfd19dfe3b5e58b83554065cc5fb08eb08de2b94f5daf3d0ebed5a72c7b8",
+      "tests/test_personal_commitment_service.py": "1146a231140c021a4c10213130bc33906b3cbefce859078ce6d647e8f5ccc3e0",
+      "tests/test_personal_commitments.py": "769875d3d06adad1d52617c5f2cd16f4ff3228eeb685381446e755a38044c328",
+      "tests/test_personal_context.py": "dc3f2cc0c6095b676a8af794b6130193c0477d4b1bec909de294a80f912d02f0",
+      "tests/test_personal_http.py": "4293c54208505f0f9aaad3017fddf3deae2bfec0c04e625991547a9543343da2",
+      "tests/test_personal_scheduling.py": "e2e156bfb38013e64a9b00ff6d0c96795fd2dc047537c56d3062dae42fa0efda",
+      "tools/check-commitments-ui.mjs": "52831382a5abac1106c230db99b131f0510bd2274390e72ec8562a1b890b28ba"
+    },
+    "post_run_sha256": {
+      "agent/memory/commitments.py": "b28ef96676bb7d0f0f0e87179fac589cc63defe0c3cf11c95ffb6646e920a193",
+      "agent/memory/personal_context.py": "189def50dadfced69ec5610acf69b7ad5113de0a512e2d689667da8c28409fb0",
+      "agent/permission/policy.py": "596cfd685cef0a44b3b32c8836f8f67f0a6b90b993d38f152bb03a048d82abe2",
+      "agent/personal/articles.py": "01fec2ecc931b187a80e62f862ba590c6fdad28b69078c3713b9956854361bf5",
+      "agent/personal/commitments.py": "10f3af937e3f2acef4398fa1307340c757ded4f3a9695b16532f9895debd3e6a",
+      "agent/personal/scheduling.py": "1a19d5b2a5221aff729b9a91999213546aa96e1e4a47a8db6831ad98a2153652",
+      "agent/tools/scheduler/integration.py": "7f36cb8ede747205dffee5f49cf66aa5e46057aaa21580efc2128304c5cd4954",
+      "agent/tools/scheduler/task_store.py": "9ae4a6a9c466592cc3b4b6409892b54efc942072df8b3386dd6ad61e02491a31",
+      "agent/tools/web_fetch/approved_json.py": "95f6cbc88091d314845a9877f7faab6daa30a56d2135279a0a8f9850f1c6ad26",
+      "channel/web/api/commitments.py": "c8b295c9f2213be00a85eb2ba5abf1d47ef8402e7ae46dc2e49c034121713f5c",
+      "channel/web/chat.html": "50aad85078f7a182921a3781c2f81785d08da59ab5b852e8538d3e583ccc3eed",
+      "channel/web/static/css/commitments.css": "2230cf1d0c82513ec551ee024dd6b3f3fc3b0d1a4b71afff2301331dd081be6b",
+      "channel/web/static/js/chat/commitments.js": "b9350275311c15607fd26a0341b00e56545e5bf2ff5431341adde73ad1cb0e1a",
+      "channel/web/static/js/chat/new-chat.js": "e7b3ee744daee05d009c7b04850ff3d6df546897918974ecad728efb32306169",
+      "channel/web/static/js/chat/render.js": "196da02cf41e2b45cb6625903f3aa964e46976aa6c221c3f2a4972af00452570",
+      "channel/web/static/js/chat/send.js": "75603e1e7402166614d9ee7e8090f147fe794b17d9e34b0962c98c682a9da6dd",
+      "channel/web/templates/views/chat.html": "de3c9439beede464850a3c472727af853527c09d007f8837b12471cbbfa4f340",
+      "channel/web/web_channel.py": "993326deae12547c38c4eaaeab9940f44b2d214cff860552fd362c502b248416",
+      "scripts/bullgod_dev.py": "0a9825a19d2e0cb028f63571f8c40fe7f9c8270e810f6d6c9ee25eea654594d5",
+      "scripts/bullgod_https_relay.py": "2f825b94d08e0c95d3539bacbcd77230f83c8fbe692d85d2f59526c53d7d1604",
+      "tests/test_bullgod_dev.py": "889a4446ad95b824fa5eda07fc92f9ef88bc6e2f863c12c3f3ab04ab29155f9c",
+      "tests/test_bullgod_https_relay.py": "b2f55f37154a6646db932edd323ce914488b760d9a21b6cedb7a0cd768568c39",
+      "tests/test_personal_articles.py": "174abfd19dfe3b5e58b83554065cc5fb08eb08de2b94f5daf3d0ebed5a72c7b8",
+      "tests/test_personal_commitment_service.py": "1146a231140c021a4c10213130bc33906b3cbefce859078ce6d647e8f5ccc3e0",
+      "tests/test_personal_commitments.py": "769875d3d06adad1d52617c5f2cd16f4ff3228eeb685381446e755a38044c328",
+      "tests/test_personal_context.py": "dc3f2cc0c6095b676a8af794b6130193c0477d4b1bec909de294a80f912d02f0",
+      "tests/test_personal_http.py": "4293c54208505f0f9aaad3017fddf3deae2bfec0c04e625991547a9543343da2",
+      "tests/test_personal_scheduling.py": "e2e156bfb38013e64a9b00ff6d0c96795fd2dc047537c56d3062dae42fa0efda",
+      "tools/check-commitments-ui.mjs": "52831382a5abac1106c230db99b131f0510bd2274390e72ec8562a1b890b28ba"
+    },
+    "hashes_unchanged": true,
+    "changed_since_previous_full_run": {
+      "agent/personal/articles.py": {
+        "previous_sha256": "9ac29e4923be038257adf3fb1ac024a0243e58f99f0d3f5ba9abd327c830972c",
+        "current_sha256": "01fec2ecc931b187a80e62f862ba590c6fdad28b69078c3713b9956854361bf5"
+      },
+      "channel/web/static/js/chat/commitments.js": {
+        "previous_sha256": "fe38ea233e5a9320ac9fe75b10e1efdee58b3f39e200f551a484ab6c8324eda3",
+        "current_sha256": "b9350275311c15607fd26a0341b00e56545e5bf2ff5431341adde73ad1cb0e1a"
+      },
+      "tests/test_personal_articles.py": {
+        "previous_sha256": "ff1e664030d98ea4f0e2cef055acfb5f5284a9c3b5795d02c93d9a7e815a3d71",
+        "current_sha256": "174abfd19dfe3b5e58b83554065cc5fb08eb08de2b94f5daf3d0ebed5a72c7b8"
+      },
+      "tools/check-commitments-ui.mjs": {
+        "previous_sha256": "4bde9d67215c354f3bc0d27ade578c614535292e74907167fe7fa0e0591fe708",
+        "current_sha256": "52831382a5abac1106c230db99b131f0510bd2274390e72ec8562a1b890b28ba"
+      }
+    }
+  },
+  "prior_receipt": {
+    "preserved_as": "docs/personal-002/pre-final-source-validation.json",
+    "pre_attribution_fix_receipt": "docs/personal-002/pre-attribution-fix-validation.json",
+    "interrupted_attempt_was_preserved_as_unqualified": true,
+    "historical_post_summary_thread_note": "The preserved prior receipt records RecoveryService SQLite-open/logging output after the pytest summary. Parent scoped this to isolated temporary cleanup, not a product-result claim. This final run output instead includes the Xunfei warning below."
+  },
+  "node_checks": {
+    "node_version": "v26.8.2",
+    "tools/check-commitments-ui.mjs": {
+      "exit_code": 0,
+      "result": "Commitments UI checks passed.",
+      "log_sha256": "906152b41dbc73465282173ec142ce1d5a1e179fd3649f72b73417f9cf02edc6"
+    },
+    "channel/web/tools/check-personal-ui.mjs": {
+      "exit_code": 0,
+      "result": "personal UI checks passed",
+      "log_sha256": "4a3d1d207e2970a7f897d62581fd1b2bc3684a515b21fd02bb5c85adc79bcebb"
+    }
+  },
+  "command": {
+    "argv": [
+      "/Volumes/Predator SSD GM7 1TB/Projects/CowAgent/.venv/bin/python",
+      "scripts/ci_test.py",
+      "tests/",
+      "-q",
+      "--junitxml=<private>/final-source-full.xml"
+    ],
+    "environment": {
+      "TIKTOKEN_CACHE_DIR": "/private/tmp/cow-infra-tiktoken-cache"
+    },
+    "python": "3.13.1",
+    "runtime": "local macOS"
+  },
+  "result": {
+    "exit_code": 0,
+    "pytest_summary": {
+      "passed": 6152,
+      "skipped": 36,
+      "failures": 0,
+      "errors": 0,
+      "warnings": 36,
+      "subtests_passed": 93,
+      "duration_seconds": 208.88
+    },
+    "junit": {
+      "testcase_records": 6188,
+      "tests": 6281,
+      "skipped_count": 36,
+      "failure_ids": [],
+      "error_ids": [],
+      "skipped_ids": [
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[lf]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[crlf]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[block]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[quoted]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[nested-quotes]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[inline-namespace]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[local-import]",
+        "tests.test_bash_multiline_python.test_windows_multiline_python_executes_every_line[arguments]",
+        "tests.test_bash_multiline_python.test_windows_background_multiline_python_retains_all_output",
+        "tests.test_bash_streaming.test_windows_timeout_kills_process_tree",
+        "tests.test_bash_streaming.test_windows_long_running_command_streams_progress",
+        "tests.test_bash_streaming.test_windows_background_process_holding_pipe_does_not_hang",
+        "tests.test_bash_streaming.test_windows_full_output_log_keeps_the_commands_line_breaks",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[-selector-success]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[-ref-success]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[new-selector-success]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[None-selector-error]",
+        "tests.test_browser_empty_option_native.test_public_browser_selection[1-selector-error]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[click-button-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[click-button-True]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[fill-input-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[fill-input-True]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[fill-div-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[select-select-False]",
+        "tests.test_browser_ref_actions_native.test_ref_actions_follow_browser_editability[select-select-True]",
+        "tests.test_memory_path_marks_dirty.TestMemoryPathMarksDirty.test_write_backslash_separated_memory_path_marks_dirty",
+        "tests.test_memory_path_marks_dirty.TestConsoleEditsMarkMemoryDirty.test_console_save_with_backslash_separator_marks_dirty",
+        "tests.test_read_long_line_windows.test_windows_command_returns_the_line_through_the_bash_tool",
+        "tests.test_search_files_powershell_quoting.test_search_root_with_an_apostrophe_still_finds_its_matches",
+        "tests.test_search_files_powershell_quoting.test_empty_result_for_an_apostrophe_root_is_not_a_hidden_failure",
+        "tests.test_search_files_powershell_quoting.test_file_glob_with_an_apostrophe_reaches_the_backend_intact",
+        "tests.test_search_files_powershell_quoting.test_ps_quote_doubles_apostrophes_and_wraps_once",
+        "tests.test_search_files_powershell_quoting.test_powershell_backend_reports_a_non_zero_exit_instead_of_swallowing_it",
+        "tests.test_search_files_powershell_quoting.test_failed_powershell_run_does_not_report_a_successful_empty_search",
+        "tests.test_uploads_path_containment.TestUploadsHandlerPathContainment.test_a_case_differed_name_inside_the_upload_dir_is_still_served",
+        "tests.test_uploads_path_containment.TestUploadsHandlerPathContainment.test_a_drive_qualified_tail_escapes_without_any_dotdot"
+      ]
+    },
+    "warning_note": "The run emitted a non-fatal PytestUnraisableExceptionWarning from an Xunfei websocket thread (OSError: bad file descriptor) in tests/test_youdao_translator.py::TestYoudaoTranslatorInit::test_init_missing_credentials_raises. Exit was 0; JUnit has no failed or error cases. Not investigated in this evidence-only task.",
+    "limits": [
+      "One final local macOS full run; hosted CI was not queried.",
+      "No model/provider calls, live service actions or credential reads.",
+      "The test wrapper scripts/ci_test.py was used as required."
+    ]
+  },
+  "private_evidence": {
+    "directory_mode": "0700",
+    "file_mode": "0600",
+    "directory": "<reported privately to parent>",
+    "final_log_sha256": "bc4466b6c24b540223134c2c41ee3afd33d1701e5b0632bf60a59cf210c5470b",
+    "final_junit_sha256": "37a02db05e55e0e798cb2d10f2eda6d29f5e770b07befcb783fc8bd6fa9a3c28"
+  }
+}

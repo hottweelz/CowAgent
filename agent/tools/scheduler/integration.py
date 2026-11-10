@@ -302,6 +302,17 @@ def init_scheduler(agent_bridge, workspace_root: str = None, agent_id: str = Non
                     return False
 
             service = SchedulerService(task_store, execute_task_callback)
+            # Reconcile commitment pointers against their native SQLite source
+            # of truth before the new polling thread can execute stale task
+            # pointers. Pass the store directly; startup must not resolve the
+            # global scheduler service recursively.
+            try:
+                from agent.registry import get_agent_registry
+                from agent.personal.scheduling import reconcile_commitments
+
+                reconcile_commitments(get_agent_registry(), task_store)
+            except Exception as e:
+                logger.error(f"[Scheduler] Commitment startup reconciliation failed: {e}")
             service.start()
             _scheduler_service = service
 
@@ -780,6 +791,27 @@ def _run_scheduled_task(
     try:
         if action_type == "agent_task":
             ok = _execute_agent_task(task, agent_bridge, agent_id, output_sink=sink)
+        elif action_type == "personal_commitment":
+            from agent.personal.scheduling import execute_scheduled_commitment
+            personal_result = execute_scheduled_commitment(task, agent_id, trigger=trigger)
+            personal_status = personal_result.get("status")
+            if personal_status == "delivered":
+                ok = True
+            elif personal_status == "running":
+                # Another worker owns this occurrence. Keep the pointer due and
+                # expose the wait in native run history.
+                ok = False
+                status = "error"
+                error = "personal commitment run is already active"
+            else:
+                # Failed/uncertain/skipped work is visible as an error in native
+                # scheduler history, but consumes this occurrence. Retrying a
+                # failed network read every 30 seconds is not useful; the next
+                # scheduled slot may try again. An uncertain commitment remains
+                # blocked by its durable CommitmentStore run record.
+                ok = True
+                status = "error"
+                error = f"personal commitment {personal_status or 'failed'}"
         elif action_type == "send_message":
             ok = _execute_send_message(task, agent_bridge, agent_id, output_sink=sink)
         elif action_type == "tool_call":
