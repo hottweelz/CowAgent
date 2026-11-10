@@ -1,5 +1,33 @@
 # AI handoff ledger
 
+## 2026-11-10 14:08 EST — Codex — PR #12 integration review complete
+
+- Scope: reviewed f52e89f1 against current master ab13b789; zero divergence,
+  two PR-only commits, GitHub mergeable. PR #12 remains draft/unmerged.
+- Team: lead source/compatibility review plus GPT-6 Luna/high read-only evidence
+  qualification. Used STE code-review/efficient-evidence guidance; retained prior
+  independent engineering review. No recursive review or new native execution.
+- Changes/files: docs/personal-004/integration-review.md and README.md; this
+  handoff only. Application and test bytes unchanged. MEMORY.md update: not needed.
+- Checks: no-prune fetch, exact SHA/ancestry/diff review, current PR reviews/
+  threads/checks, read-only GitHub rulesets/master protection, 13 final source/test
+  and seven runtime hashes, retained suite/context log qualification, native/UI/
+  preservation receipt consistency, Markdown links and Git whitespace review.
+- Results: no blocking source/compatibility finding. Evidence supports normal
+  integration after the maintainer's explicit decision. Reused 6,210 passed,
+  36 skipped, 93 subtests; final context 5/5 and documented CSS/AST qualifications.
+  Empty hosted checks are not a pass. No required review/status gate configured.
+- Decisions: no merge, ready-state transition, CI setting change, provider call,
+  accepted-case replay, live service/data/credential/approval/APFS change or
+  legacy-maintenance expansion. Same-branch documentation publication only.
+- Lessons Learned: none; this review confirmed existing qualified evidence.
+- Known limits: hosted CI unverified; headline-only provenance, single-process
+  recovery and same-user filesystem assumptions remain as documented.
+- Next: maintainer integration decision for PR #12. If head/base or repository
+  rules change, review the delta before merging. Deployment stays separate.
+- Notes: parent owns publication and final upstream0/0 check. Preserve untracked
+  AGENTS.md, task-owned acceptance artifacts and all historical branches/reports.
+
 ## 2026-11-10 13:53 EST — Codex — PERSONAL-004 published as draft PR #12; PR #9–11 integrated
 
 - Scope/branch: merged PR #9/#10/#11 normally in dependency order after required

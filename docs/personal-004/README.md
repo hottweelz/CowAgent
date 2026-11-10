@@ -3,6 +3,9 @@
 Published for review as draft [PR #12](https://github.com/hottweelz/CowAgent/pull/12)
 against integrated master. Implementation commit: `797f323e`.
 
+[Final integration review](integration-review.md): PASS on source head `f52e89f1`,
+with hosted CI unverified and production deployment separate. PR remains draft.
+
 BullGod retains the owner's identity, goals, memory and conversation. It can
 recommend a registered specialist for a concrete sourced question. The owner
 reviews the exact input, approves one request, and separately starts execution.
