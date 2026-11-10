@@ -1,5 +1,9 @@
 # PERSONAL-003: initiative and permission-aware follow-through
 
+Published for review as draft [PR #11](https://github.com/hottweelz/CowAgent/pull/11)
+against PERSONAL-002. Local and native acceptance are complete with the limits
+below. Hosted CI remains unavailable; no merge or deployment was performed.
+
 BullGod can check an owner-approved responsibility through the native scheduler,
 judge sourced developments with its selected model, retain a quiet check without
 another notification, and bring a persistent decision back to the owner. It uses

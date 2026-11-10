@@ -1,5 +1,5 @@
 {
-  "status": "in_progress",
+  "status": "completed_with_documented_limits",
   "phases": {
     "instance": {
       "root": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-livf2hu4",
@@ -1055,7 +1055,7 @@
     },
     "phase5_complete": {
       "passed": true,
-      "content_review": "Chronological native GPT-5.6 Luna answer matches four durable checks, distinguishes publisher report from later fixture, denied publication, revoked grant and separate timeout. Independent evidence audit pending."
+      "content_review": "Chronological native GPT-5.6 Luna answer matches four durable checks, publisher report versus later fixture, denied publication, revoked grant and separate timeout; independent audit matches assistant sequence16."
     },
     "initial_final_explanation": {
       "prompt": "Resume with a concise status explanation using actual saved records: what you checked while I was away, which finding was real and which was a controlled fictional update, the publication denial, my revoked grant, the last model timeout, and what can happen next. Do not fetch, publish or use tools.",
@@ -1107,6 +1107,10 @@
       }
     ]
   },
-  "models": [],
-  "updated_at": 1794330567
+  "models": [
+    "gpt-6-luna",
+    "gpt-5.6-luna"
+  ],
+  "updated_at": 1794330567,
+  "model_evidence": "Native conversation usage records and semantic evaluation provenance; not an independent upstream model attestation."
 }
