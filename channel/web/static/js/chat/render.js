@@ -841,6 +841,7 @@ function loadHistory(page, untilSeq) {
     historyLoading = true;
     const historySessionId = sessionId;
     if (typeof personalBeginSession === 'function') personalBeginSession(historySessionId);
+    if (typeof commitmentsBeginSession === 'function') commitmentsBeginSession(historySessionId);
 
     // A shared conversation labels each bubble with its author and paints the
     // right face. That resolution needs this session's team roster (_sessCfg),
@@ -860,6 +861,7 @@ function loadHistory(page, untilSeq) {
             if (page === 1 && data.messages.some(msg => msg.role === 'user')
                 && typeof personalMarkPersistedTurn === 'function') {
                 personalMarkPersistedTurn(historySessionId);
+                if (typeof commitmentsMarkPersistedTurn === 'function') commitmentsMarkPersistedTurn(historySessionId);
             }
 
             const prevScrollHeight = messagesDiv.scrollHeight;

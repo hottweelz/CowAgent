@@ -34,9 +34,13 @@ def test_current_records_are_reloaded_after_model_switch(tmp_path):
     registry.get_addressed.return_value = SimpleNamespace(workspace=str(tmp_path))
     records = Mock()
     records.context.side_effect = ['current preference: brief', 'current preference: detailed', '']
+    from agent.memory.commitments import CommitmentStore
+    commitment_records = Mock(spec=CommitmentStore)
+    commitment_records.context.return_value = '{"commitments": []}'
     with patch('agent.registry.get_agent_registry', return_value=registry), \
             patch('agent.memory.conversation_store.get_conversation_store') as store, \
-            patch('agent.memory.personal.PersonalStore', return_value=records):
+            patch('agent.memory.personal.PersonalStore', return_value=records), \
+            patch('agent.memory.commitments.CommitmentStore', return_value=commitment_records):
         first = personal_context(agent)
         agent.model = 'model-b'
         second = personal_context(agent)

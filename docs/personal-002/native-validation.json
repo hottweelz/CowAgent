@@ -1,0 +1,1321 @@
+{
+  "status": "passed_with_documented_limits",
+  "phases": {
+    "instance": {
+      "root": "/private/var/folders/nn/3yz7zzyj617029dmpfzcvk940000gn/T/bullgod-dev-evrleesw",
+      "web_port": 19892,
+      "model": "gpt-6-luna",
+      "source": "fresh final candidate snapshot; no asset overlay"
+    },
+    "owner_instruction": {
+      "prompt": "Every morning, check tyl.ee for important digital asset and financial technology developments. Prioritize Bitcoin, Ethereum, institutional adoption, regulation and significant market developments. Show me up to five relevant stories, explain why they matter, and do not repeat stories I have seen. Remember follow-ups I confirm. Use America/New_York. Also keep my separate Cedar checklist goal and my preference for concise briefings. Please acknowledge this scope; I will confirm the commitment and read authorization in the card. Do not invoke tools.",
+      "answer": "Understood. The proposed morning briefing scope is **tyl.ee**, focused on important digital-asset and fintech developments—especially Bitcoin, Ethereum, institutional adoption, regulation, and significant market moves. It would surface up to five relevant stories, explain why each matters, avoid repeating stories you’ve already seen, and remember follow-ups you confirm. Time zone: **America/New_York**. I’ll keep your Cedar checklist goal separate and make briefings concise.\n\nI won’t set up the commitment or authorize reading tyl.ee unless you confirm it in the card.",
+      "source_seq": 0,
+      "usage": [
+        {
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        }
+      ]
+    },
+    "session": {
+      "session_id": "session_8bfde31f-6294-4e6c-bd2d-52d841afb5ab"
+    },
+    "commitment_created": {
+      "commitment_id": "4e1c139bfbbe424eb869f3ab8dbcce22",
+      "source_session_id": "session_8bfde31f-6294-4e6c-bd2d-52d841afb5ab",
+      "source_seq": 0,
+      "source_time": 1794317584,
+      "revision": 1,
+      "created_at": 1794317591,
+      "updated_at": 1794317591,
+      "last_attempt": null,
+      "last_success": null,
+      "last_report": "",
+      "objective": "Morning digital asset and financial technology briefing",
+      "preferences": [
+        "Bitcoin",
+        "Ethereum",
+        "institutional digital asset adoption",
+        "digital asset regulation",
+        "financial infrastructure and tokenization",
+        "material market developments"
+      ],
+      "priority": 3,
+      "status": "active",
+      "endpoint": "https://tyl.ee/api/news",
+      "read_authorized": true,
+      "schedule": null,
+      "pending_decisions": "",
+      "next_action": "Check the approved news source and report relevant new developments",
+      "agent_id": "",
+      "runs": [],
+      "last_attempt_at": null,
+      "last_success_at": null,
+      "last_briefing": "",
+      "last_error": "",
+      "last_selected": [],
+      "last_story_briefing": "",
+      "last_story_report_at": null,
+      "followups": [],
+      "drafts": [],
+      "next_run_at": null,
+      "schedule_status": "inactive",
+      "catch_up_policy": "Runs up to 10 minutes late; older missed daily runs are skipped and rescheduled."
+    },
+    "initial_http_failure": {
+      "runs": [
+        {
+          "run_id": "f963cefa8a774816ba2db51f11a355e7",
+          "commitment_id": "4e1c139bfbbe424eb869f3ab8dbcce22",
+          "occurrence_key": "manual:a7b43dbc-157b-44be-9f30-1189ae690e54",
+          "revision": 1,
+          "status": "delivered",
+          "started_at": 1794318033,
+          "finished_at": 1794318034,
+          "error": "",
+          "briefing": "## News briefing\n\nFor: Morning digital asset and financial technology briefing\n\nChecked: 2026-11-10T13:40:33Z\n\nNo relevant new or materially updated stories were found.",
+          "selected": [],
+          "message_seq": 3
+        },
+        {
+          "run_id": "bb5c7461efca4df48c3f427606c349ac",
+          "commitment_id": "4e1c139bfbbe424eb869f3ab8dbcce22",
+          "occurrence_key": "manual:d6b3512a-524b-40be-a2a9-7e94c1215dbf",
+          "revision": 1,
+          "status": "delivered",
+          "started_at": 1794317781,
+          "finished_at": 1794317783,
+          "error": "",
+          "briefing": "## News briefing\n\nFor: Morning digital asset and financial technology briefing\n\nChecked: 2026-11-10T13:36:21Z\n\n### North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack\n\n2026-11-10T13:18:17Z · new\n\nSources: [CRYPTONEWS](<https://cryptonews.com/news/north-korea-memecoins-binance-hack/>) (2026-11-10T13:18:17Z)\n\nNorth Korea memecoins featuring Elon Musk are helping launder funds from the $6.4B Binance hack. Here's what happens. The post North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack appeared first on Cryptonews.\n\nRelevant to: Bitcoin (matched: bitcoin); financial infrastructure and tokenization (matched: financial, infrastructure)\n\n### Solana Changelog Puts Faster Web3.js Builds and Validator Work in Focus\n\n2026-11-10T13:00:00Z · new\n\nSources: [NEWSBTC](<https://www.newsbtc.com/news/solana-changelog-puts-faster-web3-js-builds-and-validator-work-in-focus/>) (2026-11-10T13:00:00Z)\n\nSolana's November 5 developer changelog highlights a collection of tooling and validator improvements rather than one headline-grabbing network upgrade. Among them are faster builds for JavaScript applications, changes affecting validator…\n\nRelevant to: financial infrastructure and tokenization (matched: financial, infrastructure)\n\n### Morning Minute: Vitalik Recasts ETH as a Store of Value\n\n2026-11-10T13:24:51Z · new\n\nSources: [DECRYPT](<https://decrypt.co/382931/morning-minute-vitalik-recasts-eth-as-a-store-of-value>) (2026-11-10T13:24:51Z)\n\nIt’s a big shift for Ethereum from the “ultrasound money” days. But can ETH compete as a store-of-value play?\n\nRelevant to: Ethereum (matched: ethereum)\n\n### Bitcoin may benefit as global tightening slows, Binance Research says\n\n2026-11-10T13:15:59Z · new\n\nSources: COINTELEGRAPH (2026-11-10T13:15:59Z)\n\nNo description was provided by the source.\n\nRelevant to: Bitcoin (matched: bitcoin)\n\n### Compass Point cuts MARA Holdings stock price target on bitcoin weakness\n\n2026-11-10T12:45:41Z · new\n\nSources: [INVESTING](<https://www.investing.com/news/analyst-ratings/compass-point-cuts-mara-holdings-stock-price-target-on-bitcoin-weakness-93CH-5015284>) (2026-11-10T12:45:41Z)\n\nNo description was provided by the source.\n\nRelevant to: Bitcoin (matched: bitcoin)",
+          "selected": [
+            {
+              "article_id": "20f9d7b0937bec71a3c8d4d7",
+              "source_id": "199938",
+              "source_url": "https://cryptonews.com/news/north-korea-memecoins-binance-hack/",
+              "publisher": "CRYPTONEWS",
+              "headline": "North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack",
+              "description": "North Korea memecoins featuring Elon Musk are helping launder funds from the $6.4B Binance hack. Here's what happens. The post North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack appeared first on Cryptonews.",
+              "content": "North Korea backed hackers have created Elon Musk themed memecoins to launder stolen crypto in the $6.4 billion Binance hack. The hackers are using fake trading activity to disguise the movement of stolen funds. One of the tokens featured Musk beneath an “Elon 2028 President” banner. Five others carried cartoon animals, crude jokes and familiar dog-coin branding. All six were created within three days and quickly abandoned. Blockchain analytics firm Elliptic identified 117,000 NEAR tokens, worth $430,000, passing through the homemade coins between November 5 and November 7. The operation offers another look at how North Korea’s crypto laundering networks are adapting their techniques to move stolen assets. Discover: The Best Token Presales North Korea Memecoins: Liquidity Pools to Laundering Tools Elliptic identified six newly created tokens on the NEAR blockchain: FUK, OLCCL, MEILI, MMLI, DABI and SINU. Each token was paired with NEAR in its own decentralized exchange liquidity pool. The hackers then used one group of wallets to purchase the tokens with stolen NEAR before another group sold them back. North Korea’s launderers are creating their own meme coins to move funds stolen from Binance. Between November 5 and 7, they launched at least six tokens on NEAR, dressed up with meme-coin logos such as a monkey in a pink bow and a duck in front of a US flag. Stolen NEAR went… &mdash; Elliptic (@elliptic) November 9, 2026 This separated the buying and selling wallets, preventing the stolen funds from moving directly between them. The transactions consequently resembled ordinary crypto trading, with the receiving wallets appearing to collect proceeds from successful memecoin trades. Blockchain investigators could still follow the money. Elliptic found that almost all trading activity came from wallets connected to the laundering operation. Outside buyers accounted for less than 1% of one token’s trading volume. The operation was also remarkably inexpensive. Creating each token cost just as low as 25 NEAR, or worth around $90. Five of the six token creators received funding from wallets that had already participated in earlier token sales. How it was done, Elliptic The tokens were effectively disposable. All six stopped trading by November 8, with the creators of four withdrawing remaining liquidity. The technique does not erase the transaction trail. Instead, it introduces additional steps that slow investigators trying to connect stolen funds with their eventual destinations. The firm previously identified a similar approach following the $1.5 billion Bybit hack in 2025. North Korean launderers moved at least $24 million through homemade tokens using the same basic mechanism. Discover: The Crypto Presales This Q4 2026 Binance Hack Leaves Billions Moving Across Crypto Networks The memecoin operation represents only a small fraction of the cryptocurrency stolen from Binance. The approximately $6.43 billion was taken from the exchange on October 29, making it the largest crypto theft ever recorded. Binance estimated its losses at $6.3 billion. The FBI subsequently attributed the attack to North Korea’s TraderTraitor group. Investigators have identified multiple laundering techniques since the breach, including cryptocurrency swaps, cross-chain transfers, and movements through decentralized finance platforms. Approximately $2.85 billion has been frozen, representing around 44% of the stolen assets. This leaves billions requiring further tracing as investigators race to identify wallets and freeze assets wherever possible. BINANCE HACK: $6.3B IMPACT, $3B FROZEN ON-CHAIN, LOSSES FULLY COVERED! Binance’s initial investigation suggests a compromised DevOps engineer’s laptop allowed an attacker to access a service container and submit unauthorized withdrawal transactions. No evidence of a wallet… pic.twitter.com/NA5taJLmv5 &mdash; Crypto Banter (@crypto_banter) October 30, 2026 The use of North Korean hackers and memecoins adds another disposable layer to this operation. Rather than relying exclusively on conventional exchanges or direct wallet transfers, hackers can manufacture trading activity around virtually worthless tokens. Meanwhile, Bitcoin’s expanding Layer 2 ecosystem is attracting developers looking to introduce faster transactions and programmable financial applications to the network. Bitcoin Hyper is among the projects pursuing this approach, combining a Solana Virtual Machine-based execution environment with Bitcoin settlement. Its proposed infrastructure targets near-instant transaction finality alongside decentralized applications and DeFi functionality. The project currently records more than $33.2 million raised in its presale, with HYPER priced at just $0.0136877 and staking rewards of 35% APY. As crypto infrastructure continues to evolve, the race between increasingly sophisticated laundering networks and blockchain investigators is unlikely to slow down. Gain Access to New Bitcoin Layer 2 Early Before the Presale Window Ends In 2 Weeks The post North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack appeared first on Cryptonews.",
+              "pub_date": "2026-11-10T13:18:17Z",
+              "original_pub_date": "2026-11-10T13:18:17Z",
+              "fetched_at": "2026-11-10T13:21:49Z",
+              "updated_at": null,
+              "category": "General",
+              "region": "Asia",
+              "sentiment": "neutral",
+              "is_top_ranked": false,
+              "topics": [],
+              "was_updated": false,
+              "alias_ids": [
+                "src:02fac34aefb758fa8caf04e8",
+                "src:70133d354c4f436f13953887",
+                "url:dd50bbcd55cd2554b9f653cc"
+              ],
+              "provenance": {
+                "source_fields": [
+                  "category",
+                  "content",
+                  "description",
+                  "feedId",
+                  "fetchedAt",
+                  "guid",
+                  "id",
+                  "isTopRanked",
+                  "link",
+                  "originalPubDate",
+                  "provider",
+                  "pubDate",
+                  "region",
+                  "sentiment",
+                  "title",
+                  "topics",
+                  "updatedAt",
+                  "wasUpdated"
+                ],
+                "source_identifiers": {
+                  "id": "199938",
+                  "guid": "https://cryptonews.com/?p=\"516923",
+                  "feedId": "32"
+                }
+              },
+              "issues": [],
+              "matched_preferences": [
+                "Bitcoin",
+                "financial infrastructure and tokenization"
+              ],
+              "matched_preference_tokens": [
+                "bitcoin",
+                "financial",
+                "infrastructure"
+              ],
+              "preference_evidence": [
+                {
+                  "preference": "Bitcoin",
+                  "matched_tokens": [
+                    "bitcoin"
+                  ],
+                  "evidence_fields": [
+                    "content"
+                  ]
+                },
+                {
+                  "preference": "financial infrastructure and tokenization",
+                  "matched_tokens": [
+                    "financial",
+                    "infrastructure"
+                  ],
+                  "evidence_fields": [
+                    "content"
+                  ]
+                }
+              ],
+              "follow_up": false,
+              "status": "new",
+              "cluster_id": "da331888d00812a43dfecd92",
+              "sources": [
+                {
+                  "publisher": "CRYPTONEWS",
+                  "source_url": "https://cryptonews.com/news/north-korea-memecoins-binance-hack/",
+                  "source_id": "199938",
+                  "pub_date": "2026-11-10T13:18:17Z"
+                }
+              ]
+            },
+            {
+              "article_id": "771d79296888faf25d514b6c",
+              "source_id": "199925",
+              "source_url": "https://www.newsbtc.com/news/solana-changelog-puts-faster-web3-js-builds-and-validator-work-in-focus/",
+              "publisher": "NEWSBTC",
+              "headline": "Solana Changelog Puts Faster Web3.js Builds and Validator Work in Focus",
+              "description": "Solana's November 5 developer changelog highlights a collection of tooling and validator improvements rather than one headline-grabbing network upgrade. Among them are faster builds for JavaScript applications, changes affecting validator…",
+              "content": "TL;DR: Solana's November 5 developer changelog highlights a collection of tooling and validator improvements rather than one headline-grabbing network upgrade. Among them are faster builds for JavaScript applications, changes affecting validator operations and further work around execution tools. Solana's November 5 developer changelog highlights a collection of tooling and validator improvements rather than one headline-grabbing network upgrade. Among them are faster builds for JavaScript applications, changes affecting validator operations and further work around execution tools. For developers, these smaller improvements can influence how quickly applications ship and how reliably infrastructure behaves. For investors, the distinction is that a published development update is not necessarily a newly activated change on mainnet. Why a build-system improvement matters One item in the changelog concerns the JavaScript SDK build process using Rolldown. The developers describe a reduction in an internal build benchmark from around two seconds to almost zero. That is a promising productivity claim, but it applies to the specified workflow and benchmark rather than every Solana app suddenly loading faster for users. Faster library builds can improve testing and release cycles, particularly for teams maintaining many packages. Its end-user effect depends on whether downstream developers adopt the updated tools and whether the gains carry over to their own projects. Validators remain part of the engineering story The update also points to work on the Agave validator client, typed interfaces and elements of Firedancer leader handover. These terms describe software and operational changes within the infrastructure that keeps the chain running. Their practical significance lies in reliability, interoperability and the conditions under which different validator implementations coordinate. However, a changelog reference should not be treated as evidence that every validator has deployed the work or that a planned network feature has passed all activation checks. Operators need specific release notes, configuration guidance and rollout schedules. The tooling ecosystem goes beyond the core client The changelog includes improvements involving Anchor, RPC-related tools and local development environments such as Surfpool. Anchor is widely used for building Solana programs, while RPC services provide the interface through which wallets, apps and analytics products query the chain. Small optimizations in account allocation or local testing can save developer time and reduce avoidable mistakes. They do not remove the need for security review, careful transaction handling or capacity planning. Because Solana applications rely on several layers, a weakness at the RPC or front-end level can still affect users even when core consensus works normally. Performance claims require context Solana has long emphasized throughput and latency, but engineering benchmarks depend on hardware, software versions and the specific task measured. An SDK build benchmark is not a transaction-per-second statistic, while validator handover work is not a promise of zero outages. Keeping those categories separate helps readers understand what the team has actually improved. Adoption may eventually show up in developer retention, easier deployment and more dependable applications, but those effects take time and should be measured rather than assumed from a release note. The signals to track next Developers can follow the linked repositories, testing results and future rollout notices for each change. The clearest evidence of impact would be adoption in major tools, reproducible performance measurements and fewer operational headaches for app builders and node operators. The November update reflects continuous ecosystem maintenance—often less dramatic than a large protocol announcement, but essential to whether Solana can support more demanding financial applications over time. Primary source: Solana developer changelog. For additional context, see NewsBTC’s recent review of Solana’s October development milestones. This article was written by the News Desk and edited by Samuel Rae.",
+              "pub_date": "2026-11-10T13:00:00Z",
+              "original_pub_date": "2026-11-10T13:00:00Z",
+              "fetched_at": "2026-11-10T13:11:58Z",
+              "updated_at": null,
+              "category": "General",
+              "region": "Global",
+              "sentiment": "neutral",
+              "is_top_ranked": false,
+              "topics": [],
+              "was_updated": false,
+              "alias_ids": [
+                "src:0fa38a8f1aab1d3f44efb90b",
+                "src:fed843e3055ba25a3c7c2abe",
+                "url:64156ac20fef0fa3288e7456"
+              ],
+              "provenance": {
+                "source_fields": [
+                  "category",
+                  "content",
+                  "description",
+                  "feedId",
+                  "fetchedAt",
+                  "guid",
+                  "id",
+                  "isTopRanked",
+                  "link",
+                  "originalPubDate",
+                  "provider",
+                  "pubDate",
+                  "region",
+                  "sentiment",
+                  "title",
+                  "topics",
+                  "updatedAt",
+                  "wasUpdated"
+                ],
+                "source_identifiers": {
+                  "id": "199925",
+                  "guid": "{\"$\": {\"ISPERMALINK\": \"false\"}}",
+                  "feedId": "33"
+                }
+              },
+              "issues": [],
+              "matched_preferences": [
+                "financial infrastructure and tokenization"
+              ],
+              "matched_preference_tokens": [
+                "financial",
+                "infrastructure"
+              ],
+              "preference_evidence": [
+                {
+                  "preference": "financial infrastructure and tokenization",
+                  "matched_tokens": [
+                    "financial",
+                    "infrastructure"
+                  ],
+                  "evidence_fields": [
+                    "content"
+                  ]
+                }
+              ],
+              "follow_up": false,
+              "status": "new",
+              "cluster_id": "773e9817f3ed5088cad5907b",
+              "sources": [
+                {
+                  "publisher": "NEWSBTC",
+                  "source_url": "https://www.newsbtc.com/news/solana-changelog-puts-faster-web3-js-builds-and-validator-work-in-focus/",
+                  "source_id": "199925",
+                  "pub_date": "2026-11-10T13:00:00Z"
+                }
+              ]
+            },
+            {
+              "article_id": "80d7f857653308f1f3c34d7b",
+              "source_id": "199955",
+              "source_url": "https://decrypt.co/382931/morning-minute-vitalik-recasts-eth-as-a-store-of-value",
+              "publisher": "DECRYPT",
+              "headline": "Morning Minute: Vitalik Recasts ETH as a Store of Value",
+              "description": "It’s a big shift for Ethereum from the “ultrasound money” days. But can ETH compete as a store-of-value play?",
+              "content": "It’s a big shift for Ethereum from the “ultrasound money” days. But can ETH compete as a store-of-value play?",
+              "pub_date": "2026-11-10T13:24:51Z",
+              "original_pub_date": "2026-11-10T13:24:51Z",
+              "fetched_at": "2026-11-10T13:26:48Z",
+              "updated_at": null,
+              "category": "General",
+              "region": "Global",
+              "sentiment": "neutral",
+              "is_top_ranked": false,
+              "topics": [],
+              "was_updated": false,
+              "alias_ids": [
+                "src:9b27d6c892097c6784d91a90",
+                "src:d5a5e6891c68efae465b692e",
+                "url:f2e2483bd4d843cc7c1eb34e"
+              ],
+              "provenance": {
+                "source_fields": [
+                  "category",
+                  "content",
+                  "description",
+                  "feedId",
+                  "fetchedAt",
+                  "guid",
+                  "id",
+                  "isTopRanked",
+                  "link",
+                  "originalPubDate",
+                  "provider",
+                  "pubDate",
+                  "region",
+                  "sentiment",
+                  "title",
+                  "topics",
+                  "updatedAt",
+                  "wasUpdated"
+                ],
+                "source_identifiers": {
+                  "id": "199955",
+                  "guid": "https://decrypt.co/?p=\"382931",
+                  "feedId": "30"
+                }
+              },
+              "issues": [],
+              "matched_preferences": [
+                "Ethereum"
+              ],
+              "matched_preference_tokens": [
+                "ethereum"
+              ],
+              "preference_evidence": [
+                {
+                  "preference": "Ethereum",
+                  "matched_tokens": [
+                    "ethereum"
+                  ],
+                  "evidence_fields": [
+                    "content",
+                    "description"
+                  ]
+                }
+              ],
+              "follow_up": false,
+              "status": "new",
+              "cluster_id": "f226126795ff114037684628",
+              "sources": [
+                {
+                  "publisher": "DECRYPT",
+                  "source_url": "https://decrypt.co/382931/morning-minute-vitalik-recasts-eth-as-a-store-of-value",
+                  "source_id": "199955",
+                  "pub_date": "2026-11-10T13:24:51Z"
+                }
+              ]
+            },
+            {
+              "article_id": "2835fc1a96070cdb7ccbcc0c",
+              "source_id": "199937",
+              "source_url": null,
+              "publisher": "COINTELEGRAPH",
+              "headline": "Bitcoin may benefit as global tightening slows, Binance Research says",
+              "description": "",
+              "content": "",
+              "pub_date": "2026-11-10T13:15:59Z",
+              "original_pub_date": "2026-11-10T13:15:59Z",
+              "fetched_at": "2026-11-10T13:21:48Z",
+              "updated_at": null,
+              "category": "General",
+              "region": "Global",
+              "sentiment": "negative",
+              "is_top_ranked": false,
+              "topics": [],
+              "was_updated": false,
+              "alias_ids": [
+                "src:7609d3fed74893c002576834",
+                "src:b7106e6a24801e5ab86a62df"
+              ],
+              "provenance": {
+                "source_fields": [
+                  "category",
+                  "content",
+                  "description",
+                  "feedId",
+                  "fetchedAt",
+                  "guid",
+                  "id",
+                  "isTopRanked",
+                  "link",
+                  "originalPubDate",
+                  "provider",
+                  "pubDate",
+                  "region",
+                  "sentiment",
+                  "title",
+                  "topics",
+                  "updatedAt",
+                  "wasUpdated"
+                ],
+                "source_identifiers": {
+                  "id": "199937",
+                  "guid": "https://cointelegraph.com/markets/bitcoin-price-global-tightening-binance-research",
+                  "feedId": "29"
+                }
+              },
+              "issues": [],
+              "matched_preferences": [
+                "Bitcoin"
+              ],
+              "matched_preference_tokens": [
+                "bitcoin"
+              ],
+              "preference_evidence": [
+                {
+                  "preference": "Bitcoin",
+                  "matched_tokens": [
+                    "bitcoin"
+                  ],
+                  "evidence_fields": [
+                    "headline"
+                  ]
+                }
+              ],
+              "follow_up": false,
+              "status": "new",
+              "cluster_id": "ea2bdabe922ee9c11aa728ed",
+              "sources": [
+                {
+                  "publisher": "COINTELEGRAPH",
+                  "source_url": null,
+                  "source_id": "199937",
+                  "pub_date": "2026-11-10T13:15:59Z"
+                }
+              ]
+            },
+            {
+              "article_id": "d1d1668d34ab4b0853cdc3b8",
+              "source_id": "199903",
+              "source_url": "https://www.investing.com/news/analyst-ratings/compass-point-cuts-mara-holdings-stock-price-target-on-bitcoin-weakness-93CH-5015284",
+              "publisher": "INVESTING",
+              "headline": "Compass Point cuts MARA Holdings stock price target on bitcoin weakness",
+              "description": "",
+              "content": "",
+              "pub_date": "2026-11-10T12:45:41Z",
+              "original_pub_date": "2026-11-10T12:45:41Z",
+              "fetched_at": "2026-11-10T12:56:49Z",
+              "updated_at": null,
+              "category": "General",
+              "region": "Global",
+              "sentiment": "neutral",
+              "is_top_ranked": false,
+              "topics": [],
+              "was_updated": false,
+              "alias_ids": [
+                "src:5e94dabbe40d34c8655924b9",
+                "src:6e499f2499b369acc2fb06a7",
+                "url:80956e61b48e7ce9ee52d94b"
+              ],
+              "provenance": {
+                "source_fields": [
+                  "category",
+                  "content",
+                  "description",
+                  "feedId",
+                  "fetchedAt",
+                  "guid",
+                  "id",
+                  "isTopRanked",
+                  "link",
+                  "originalPubDate",
+                  "provider",
+                  "pubDate",
+                  "region",
+                  "sentiment",
+                  "title",
+                  "topics",
+                  "updatedAt",
+                  "wasUpdated"
+                ],
+                "source_identifiers": {
+                  "id": "199903",
+                  "guid": "https://www.investing.com/news/analyst-ratings/compass-point-cuts-mara-holdings-stock-price-target-on-bitcoin-weakness-93CH-5015284",
+                  "feedId": "44"
+                }
+              },
+              "issues": [],
+              "matched_preferences": [
+                "Bitcoin"
+              ],
+              "matched_preference_tokens": [
+                "bitcoin"
+              ],
+              "preference_evidence": [
+                {
+                  "preference": "Bitcoin",
+                  "matched_tokens": [
+                    "bitcoin"
+                  ],
+                  "evidence_fields": [
+                    "headline"
+                  ]
+                }
+              ],
+              "follow_up": false,
+              "status": "new",
+              "cluster_id": "2e07562be62f1d554b9fdaad",
+              "sources": [
+                {
+                  "publisher": "INVESTING",
+                  "source_url": "https://www.investing.com/news/analyst-ratings/compass-point-cuts-mara-holdings-stock-price-target-on-bitcoin-weakness-93CH-5015284",
+                  "source_id": "199903",
+                  "pub_date": "2026-11-10T12:45:41Z"
+                }
+              ]
+            }
+          ],
+          "message_seq": 2
+        },
+        {
+          "run_id": "5b15d0bd41924d769c28dd666430bdfa",
+          "commitment_id": "4e1c139bfbbe424eb869f3ab8dbcce22",
+          "occurrence_key": "manual:cfd4e2a7-9118-41fb-a26b-716aa33ef3bd",
+          "revision": 1,
+          "status": "failed",
+          "started_at": 1794317591,
+          "finished_at": 1794317596,
+          "error": "network error",
+          "briefing": "",
+          "selected": [],
+          "message_seq": null
+        }
+      ],
+      "goal_and_memory": "Keep my separate Cedar checklist goal",
+      "note": "Initial live request failed. Owner state persisted. Fresh read attempt uses a new run key."
+    },
+    "pre_fix_read_evidence": {
+      "qualified": false,
+      "reason": "One API record with no usable source URL was selected. Source filter will be corrected and the affected read repeated with a fresh run key. Owner instruction, goal and memory are retained.",
+      "runs": [
+        {
+          "run_id": "5b15d0bd41924d769c28dd666430bdfa",
+          "status": "failed",
+          "error": "network error",
+          "selected_source_urls": []
+        },
+        {
+          "run_id": "bb5c7461efca4df48c3f427606c349ac",
+          "status": "delivered",
+          "error": "",
+          "selected_source_urls": [
+            "https://cryptonews.com/news/north-korea-memecoins-binance-hack/",
+            "https://www.newsbtc.com/news/solana-changelog-puts-faster-web3-js-builds-and-validator-work-in-focus/",
+            "https://decrypt.co/382931/morning-minute-vitalik-recasts-eth-as-a-store-of-value",
+            null,
+            "https://www.investing.com/news/analyst-ratings/compass-point-cuts-mara-holdings-stock-price-target-on-bitcoin-weakness-93CH-5015284"
+          ]
+        }
+      ]
+    },
+    "fresh_final_commitment_after_fix": {
+      "commitment_id": "3b248d3a8bf9425ba3bbf0609f90bc8f",
+      "preserved_old_id": "4e1c139bfbbe424eb869f3ab8dbcce22",
+      "reason": "Earlier incomplete-attribution delivery stays preserved and paused. This separate owner-confirmed validation commitment establishes a clean report history on corrected source; no prior delivery is erased or replayed."
+    },
+    "actual_live_briefing": {
+      "run_id": "112aee5d23e34704ac513b2b183ea940",
+      "selected": [
+        {
+          "article_id": "20f9d7b0937bec71a3c8d4d7",
+          "source_id": "199938",
+          "source_url": "https://cryptonews.com/news/north-korea-memecoins-binance-hack/",
+          "publisher": "CRYPTONEWS",
+          "headline": "North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack",
+          "description": "North Korea memecoins featuring Elon Musk are helping launder funds from the $6.4B Binance hack. Here's what happens. The post North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack appeared first on Cryptonews.",
+          "content": "North Korea backed hackers have created Elon Musk themed memecoins to launder stolen crypto in the $6.4 billion Binance hack. The hackers are using fake trading activity to disguise the movement of stolen funds. One of the tokens featured Musk beneath an “Elon 2028 President” banner. Five others carried cartoon animals, crude jokes and familiar dog-coin branding. All six were created within three days and quickly abandoned. Blockchain analytics firm Elliptic identified 117,000 NEAR tokens, worth $430,000, passing through the homemade coins between November 5 and November 7. The operation offers another look at how North Korea’s crypto laundering networks are adapting their techniques to move stolen assets. Discover: The Best Token Presales North Korea Memecoins: Liquidity Pools to Laundering Tools Elliptic identified six newly created tokens on the NEAR blockchain: FUK, OLCCL, MEILI, MMLI, DABI and SINU. Each token was paired with NEAR in its own decentralized exchange liquidity pool. The hackers then used one group of wallets to purchase the tokens with stolen NEAR before another group sold them back. North Korea’s launderers are creating their own meme coins to move funds stolen from Binance. Between November 5 and 7, they launched at least six tokens on NEAR, dressed up with meme-coin logos such as a monkey in a pink bow and a duck in front of a US flag. Stolen NEAR went… &mdash; Elliptic (@elliptic) November 9, 2026 This separated the buying and selling wallets, preventing the stolen funds from moving directly between them. The transactions consequently resembled ordinary crypto trading, with the receiving wallets appearing to collect proceeds from successful memecoin trades. Blockchain investigators could still follow the money. Elliptic found that almost all trading activity came from wallets connected to the laundering operation. Outside buyers accounted for less than 1% of one token’s trading volume. The operation was also remarkably inexpensive. Creating each token cost just as low as 25 NEAR, or worth around $90. Five of the six token creators received funding from wallets that had already participated in earlier token sales. How it was done, Elliptic The tokens were effectively disposable. All six stopped trading by November 8, with the creators of four withdrawing remaining liquidity. The technique does not erase the transaction trail. Instead, it introduces additional steps that slow investigators trying to connect stolen funds with their eventual destinations. The firm previously identified a similar approach following the $1.5 billion Bybit hack in 2025. North Korean launderers moved at least $24 million through homemade tokens using the same basic mechanism. Discover: The Crypto Presales This Q4 2026 Binance Hack Leaves Billions Moving Across Crypto Networks The memecoin operation represents only a small fraction of the cryptocurrency stolen from Binance. The approximately $6.43 billion was taken from the exchange on October 29, making it the largest crypto theft ever recorded. Binance estimated its losses at $6.3 billion. The FBI subsequently attributed the attack to North Korea’s TraderTraitor group. Investigators have identified multiple laundering techniques since the breach, including cryptocurrency swaps, cross-chain transfers, and movements through decentralized finance platforms. Approximately $2.85 billion has been frozen, representing around 44% of the stolen assets. This leaves billions requiring further tracing as investigators race to identify wallets and freeze assets wherever possible. BINANCE HACK: $6.3B IMPACT, $3B FROZEN ON-CHAIN, LOSSES FULLY COVERED! Binance’s initial investigation suggests a compromised DevOps engineer’s laptop allowed an attacker to access a service container and submit unauthorized withdrawal transactions. No evidence of a wallet… pic.twitter.com/NA5taJLmv5 &mdash; Crypto Banter (@crypto_banter) October 30, 2026 The use of North Korean hackers and memecoins adds another disposable layer to this operation. Rather than relying exclusively on conventional exchanges or direct wallet transfers, hackers can manufacture trading activity around virtually worthless tokens. Meanwhile, Bitcoin’s expanding Layer 2 ecosystem is attracting developers looking to introduce faster transactions and programmable financial applications to the network. Bitcoin Hyper is among the projects pursuing this approach, combining a Solana Virtual Machine-based execution environment with Bitcoin settlement. Its proposed infrastructure targets near-instant transaction finality alongside decentralized applications and DeFi functionality. The project currently records more than $33.2 million raised in its presale, with HYPER priced at just $0.0136877 and staking rewards of 35% APY. As crypto infrastructure continues to evolve, the race between increasingly sophisticated laundering networks and blockchain investigators is unlikely to slow down. Gain Access to New Bitcoin Layer 2 Early Before the Presale Window Ends In 2 Weeks The post North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack appeared first on Cryptonews.",
+          "pub_date": "2026-11-10T13:18:17Z",
+          "original_pub_date": "2026-11-10T13:18:17Z",
+          "fetched_at": "2026-11-10T13:21:49Z",
+          "updated_at": null,
+          "category": "General",
+          "region": "Asia",
+          "sentiment": "neutral",
+          "is_top_ranked": false,
+          "topics": [],
+          "was_updated": false,
+          "alias_ids": [
+            "src:02fac34aefb758fa8caf04e8",
+            "src:70133d354c4f436f13953887",
+            "url:dd50bbcd55cd2554b9f653cc"
+          ],
+          "provenance": {
+            "source_fields": [
+              "category",
+              "content",
+              "description",
+              "feedId",
+              "fetchedAt",
+              "guid",
+              "id",
+              "isTopRanked",
+              "link",
+              "originalPubDate",
+              "provider",
+              "pubDate",
+              "region",
+              "sentiment",
+              "title",
+              "topics",
+              "updatedAt",
+              "wasUpdated"
+            ],
+            "source_identifiers": {
+              "id": "199938",
+              "guid": "https://cryptonews.com/?p=\"516923",
+              "feedId": "32"
+            }
+          },
+          "issues": [],
+          "matched_preferences": [
+            "Bitcoin",
+            "financial infrastructure and tokenization"
+          ],
+          "matched_preference_tokens": [
+            "bitcoin",
+            "financial",
+            "infrastructure"
+          ],
+          "preference_evidence": [
+            {
+              "preference": "Bitcoin",
+              "matched_tokens": [
+                "bitcoin"
+              ],
+              "evidence_fields": [
+                "content"
+              ]
+            },
+            {
+              "preference": "financial infrastructure and tokenization",
+              "matched_tokens": [
+                "financial",
+                "infrastructure"
+              ],
+              "evidence_fields": [
+                "content"
+              ]
+            }
+          ],
+          "follow_up": false,
+          "status": "new",
+          "cluster_id": "da331888d00812a43dfecd92",
+          "sources": [
+            {
+              "publisher": "CRYPTONEWS",
+              "source_url": "https://cryptonews.com/news/north-korea-memecoins-binance-hack/",
+              "source_id": "199938",
+              "pub_date": "2026-11-10T13:18:17Z"
+            }
+          ]
+        },
+        {
+          "article_id": "771d79296888faf25d514b6c",
+          "source_id": "199925",
+          "source_url": "https://www.newsbtc.com/news/solana-changelog-puts-faster-web3-js-builds-and-validator-work-in-focus/",
+          "publisher": "NEWSBTC",
+          "headline": "Solana Changelog Puts Faster Web3.js Builds and Validator Work in Focus",
+          "description": "Solana's November 5 developer changelog highlights a collection of tooling and validator improvements rather than one headline-grabbing network upgrade. Among them are faster builds for JavaScript applications, changes affecting validator…",
+          "content": "TL;DR: Solana's November 5 developer changelog highlights a collection of tooling and validator improvements rather than one headline-grabbing network upgrade. Among them are faster builds for JavaScript applications, changes affecting validator operations and further work around execution tools. Solana's November 5 developer changelog highlights a collection of tooling and validator improvements rather than one headline-grabbing network upgrade. Among them are faster builds for JavaScript applications, changes affecting validator operations and further work around execution tools. For developers, these smaller improvements can influence how quickly applications ship and how reliably infrastructure behaves. For investors, the distinction is that a published development update is not necessarily a newly activated change on mainnet. Why a build-system improvement matters One item in the changelog concerns the JavaScript SDK build process using Rolldown. The developers describe a reduction in an internal build benchmark from around two seconds to almost zero. That is a promising productivity claim, but it applies to the specified workflow and benchmark rather than every Solana app suddenly loading faster for users. Faster library builds can improve testing and release cycles, particularly for teams maintaining many packages. Its end-user effect depends on whether downstream developers adopt the updated tools and whether the gains carry over to their own projects. Validators remain part of the engineering story The update also points to work on the Agave validator client, typed interfaces and elements of Firedancer leader handover. These terms describe software and operational changes within the infrastructure that keeps the chain running. Their practical significance lies in reliability, interoperability and the conditions under which different validator implementations coordinate. However, a changelog reference should not be treated as evidence that every validator has deployed the work or that a planned network feature has passed all activation checks. Operators need specific release notes, configuration guidance and rollout schedules. The tooling ecosystem goes beyond the core client The changelog includes improvements involving Anchor, RPC-related tools and local development environments such as Surfpool. Anchor is widely used for building Solana programs, while RPC services provide the interface through which wallets, apps and analytics products query the chain. Small optimizations in account allocation or local testing can save developer time and reduce avoidable mistakes. They do not remove the need for security review, careful transaction handling or capacity planning. Because Solana applications rely on several layers, a weakness at the RPC or front-end level can still affect users even when core consensus works normally. Performance claims require context Solana has long emphasized throughput and latency, but engineering benchmarks depend on hardware, software versions and the specific task measured. An SDK build benchmark is not a transaction-per-second statistic, while validator handover work is not a promise of zero outages. Keeping those categories separate helps readers understand what the team has actually improved. Adoption may eventually show up in developer retention, easier deployment and more dependable applications, but those effects take time and should be measured rather than assumed from a release note. The signals to track next Developers can follow the linked repositories, testing results and future rollout notices for each change. The clearest evidence of impact would be adoption in major tools, reproducible performance measurements and fewer operational headaches for app builders and node operators. The November update reflects continuous ecosystem maintenance—often less dramatic than a large protocol announcement, but essential to whether Solana can support more demanding financial applications over time. Primary source: Solana developer changelog. For additional context, see NewsBTC’s recent review of Solana’s October development milestones. This article was written by the News Desk and edited by Samuel Rae.",
+          "pub_date": "2026-11-10T13:00:00Z",
+          "original_pub_date": "2026-11-10T13:00:00Z",
+          "fetched_at": "2026-11-10T13:11:58Z",
+          "updated_at": null,
+          "category": "General",
+          "region": "Global",
+          "sentiment": "neutral",
+          "is_top_ranked": false,
+          "topics": [],
+          "was_updated": false,
+          "alias_ids": [
+            "src:0fa38a8f1aab1d3f44efb90b",
+            "src:fed843e3055ba25a3c7c2abe",
+            "url:64156ac20fef0fa3288e7456"
+          ],
+          "provenance": {
+            "source_fields": [
+              "category",
+              "content",
+              "description",
+              "feedId",
+              "fetchedAt",
+              "guid",
+              "id",
+              "isTopRanked",
+              "link",
+              "originalPubDate",
+              "provider",
+              "pubDate",
+              "region",
+              "sentiment",
+              "title",
+              "topics",
+              "updatedAt",
+              "wasUpdated"
+            ],
+            "source_identifiers": {
+              "id": "199925",
+              "guid": "{\"$\": {\"ISPERMALINK\": \"false\"}}",
+              "feedId": "33"
+            }
+          },
+          "issues": [],
+          "matched_preferences": [
+            "financial infrastructure and tokenization"
+          ],
+          "matched_preference_tokens": [
+            "financial",
+            "infrastructure"
+          ],
+          "preference_evidence": [
+            {
+              "preference": "financial infrastructure and tokenization",
+              "matched_tokens": [
+                "financial",
+                "infrastructure"
+              ],
+              "evidence_fields": [
+                "content"
+              ]
+            }
+          ],
+          "follow_up": false,
+          "status": "new",
+          "cluster_id": "773e9817f3ed5088cad5907b",
+          "sources": [
+            {
+              "publisher": "NEWSBTC",
+              "source_url": "https://www.newsbtc.com/news/solana-changelog-puts-faster-web3-js-builds-and-validator-work-in-focus/",
+              "source_id": "199925",
+              "pub_date": "2026-11-10T13:00:00Z"
+            }
+          ]
+        },
+        {
+          "article_id": "80d7f857653308f1f3c34d7b",
+          "source_id": "199955",
+          "source_url": "https://decrypt.co/382931/morning-minute-vitalik-recasts-eth-as-a-store-of-value",
+          "publisher": "DECRYPT",
+          "headline": "Morning Minute: Vitalik Recasts ETH as a Store of Value",
+          "description": "It’s a big shift for Ethereum from the “ultrasound money” days. But can ETH compete as a store-of-value play?",
+          "content": "It’s a big shift for Ethereum from the “ultrasound money” days. But can ETH compete as a store-of-value play?",
+          "pub_date": "2026-11-10T13:24:51Z",
+          "original_pub_date": "2026-11-10T13:24:51Z",
+          "fetched_at": "2026-11-10T13:26:48Z",
+          "updated_at": null,
+          "category": "General",
+          "region": "Global",
+          "sentiment": "neutral",
+          "is_top_ranked": false,
+          "topics": [],
+          "was_updated": false,
+          "alias_ids": [
+            "src:9b27d6c892097c6784d91a90",
+            "src:d5a5e6891c68efae465b692e",
+            "url:f2e2483bd4d843cc7c1eb34e"
+          ],
+          "provenance": {
+            "source_fields": [
+              "category",
+              "content",
+              "description",
+              "feedId",
+              "fetchedAt",
+              "guid",
+              "id",
+              "isTopRanked",
+              "link",
+              "originalPubDate",
+              "provider",
+              "pubDate",
+              "region",
+              "sentiment",
+              "title",
+              "topics",
+              "updatedAt",
+              "wasUpdated"
+            ],
+            "source_identifiers": {
+              "id": "199955",
+              "guid": "https://decrypt.co/?p=\"382931",
+              "feedId": "30"
+            }
+          },
+          "issues": [],
+          "matched_preferences": [
+            "Ethereum"
+          ],
+          "matched_preference_tokens": [
+            "ethereum"
+          ],
+          "preference_evidence": [
+            {
+              "preference": "Ethereum",
+              "matched_tokens": [
+                "ethereum"
+              ],
+              "evidence_fields": [
+                "content",
+                "description"
+              ]
+            }
+          ],
+          "follow_up": false,
+          "status": "new",
+          "cluster_id": "f226126795ff114037684628",
+          "sources": [
+            {
+              "publisher": "DECRYPT",
+              "source_url": "https://decrypt.co/382931/morning-minute-vitalik-recasts-eth-as-a-store-of-value",
+              "source_id": "199955",
+              "pub_date": "2026-11-10T13:24:51Z"
+            }
+          ]
+        },
+        {
+          "article_id": "2835fc1a96070cdb7ccbcc0c",
+          "source_id": "199937",
+          "source_url": "https://cointelegraph.com/markets/bitcoin-price-global-tightening-binance-research",
+          "publisher": "COINTELEGRAPH",
+          "headline": "Bitcoin may benefit as global tightening slows, Binance Research says",
+          "description": "",
+          "content": "",
+          "pub_date": "2026-11-10T13:15:59Z",
+          "original_pub_date": "2026-11-10T13:15:59Z",
+          "fetched_at": "2026-11-10T13:21:48Z",
+          "updated_at": null,
+          "category": "General",
+          "region": "Global",
+          "sentiment": "negative",
+          "is_top_ranked": false,
+          "topics": [],
+          "was_updated": false,
+          "alias_ids": [
+            "src:7609d3fed74893c002576834",
+            "src:b7106e6a24801e5ab86a62df",
+            "url:7609d3fed74893c002576834"
+          ],
+          "provenance": {
+            "source_fields": [
+              "category",
+              "content",
+              "description",
+              "feedId",
+              "fetchedAt",
+              "guid",
+              "id",
+              "isTopRanked",
+              "link",
+              "originalPubDate",
+              "provider",
+              "pubDate",
+              "region",
+              "sentiment",
+              "title",
+              "topics",
+              "updatedAt",
+              "wasUpdated"
+            ],
+            "source_identifiers": {
+              "id": "199937",
+              "guid": "https://cointelegraph.com/markets/bitcoin-price-global-tightening-binance-research",
+              "feedId": "29"
+            }
+          },
+          "issues": [],
+          "matched_preferences": [
+            "Bitcoin"
+          ],
+          "matched_preference_tokens": [
+            "bitcoin"
+          ],
+          "preference_evidence": [
+            {
+              "preference": "Bitcoin",
+              "matched_tokens": [
+                "bitcoin"
+              ],
+              "evidence_fields": [
+                "headline"
+              ]
+            }
+          ],
+          "follow_up": false,
+          "status": "new",
+          "cluster_id": "ea2bdabe922ee9c11aa728ed",
+          "sources": [
+            {
+              "publisher": "COINTELEGRAPH",
+              "source_url": "https://cointelegraph.com/markets/bitcoin-price-global-tightening-binance-research",
+              "source_id": "199937",
+              "pub_date": "2026-11-10T13:15:59Z"
+            }
+          ]
+        }
+      ],
+      "briefing": "## News briefing\n\nFor: Final acceptance: Morning digital asset and financial technology briefing\n\nChecked: 2026-11-10T13:43:42Z\n\n### North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack\n\n2026-11-10T13:18:17Z · new\n\nSources: [CRYPTONEWS](<https://cryptonews.com/news/north-korea-memecoins-binance-hack/>) (2026-11-10T13:18:17Z)\n\nNorth Korea memecoins featuring Elon Musk are helping launder funds from the $6.4B Binance hack. Here's what happens. The post North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack appeared first on Cryptonews.\n\nRelevant to: Bitcoin (matched: bitcoin); financial infrastructure and tokenization (matched: financial, infrastructure)\n\n### Solana Changelog Puts Faster Web3.js Builds and Validator Work in Focus\n\n2026-11-10T13:00:00Z · new\n\nSources: [NEWSBTC](<https://www.newsbtc.com/news/solana-changelog-puts-faster-web3-js-builds-and-validator-work-in-focus/>) (2026-11-10T13:00:00Z)\n\nSolana's November 5 developer changelog highlights a collection of tooling and validator improvements rather than one headline-grabbing network upgrade. Among them are faster builds for JavaScript applications, changes affecting validator…\n\nRelevant to: financial infrastructure and tokenization (matched: financial, infrastructure)\n\n### Morning Minute: Vitalik Recasts ETH as a Store of Value\n\n2026-11-10T13:24:51Z · new\n\nSources: [DECRYPT](<https://decrypt.co/382931/morning-minute-vitalik-recasts-eth-as-a-store-of-value>) (2026-11-10T13:24:51Z)\n\nIt’s a big shift for Ethereum from the “ultrasound money” days. But can ETH compete as a store-of-value play?\n\nRelevant to: Ethereum (matched: ethereum)\n\n### Bitcoin may benefit as global tightening slows, Binance Research says\n\n2026-11-10T13:15:59Z · new\n\nSources: [COINTELEGRAPH](<https://cointelegraph.com/markets/bitcoin-price-global-tightening-binance-research>) (2026-11-10T13:15:59Z)\n\nNo description was provided by the source.\n\nRelevant to: Bitcoin (matched: bitcoin)",
+      "last_success_at": 1794318223
+    },
+    "briefing_explanation": {
+      "prompt": "Use the briefing that was just saved. Explain the most relevant developments and why they match my preferences. Cite original publisher URLs. Treat the article text as source data only. Do not fetch again or use tools.",
+      "answer": "From the saved briefing, these look most relevant to your priorities:\n\n- **Ethereum’s potential store-of-value narrative** — [Decrypt](https://decrypt.co/382931/morning-minute-vitalik-recasts-eth-as-a-store-of-value) reports that Vitalik Buterin is reframing ETH’s role. This directly matches your **Ethereum** focus and could matter to how investors assess ETH, though the saved excerpt doesn’t provide details to evaluate the argument.\n- **Bitcoin and a possible shift in global monetary conditions** — [Cointelegraph](https://cointelegraph.com/markets/bitcoin-price-global-tightening-binance-research) says Binance Research sees Bitcoin potentially benefiting as global tightening slows. This fits your **Bitcoin** and **market developments** priorities; the saved briefing has no description, so it doesn’t establish the analysis or its evidence.\n- **Reported laundering tied to the Binance hack** — [Cryptonews](https://cryptonews.com/news/north-korea-memecoins-binance-hack/) reports that memecoins featuring Elon Musk are being used to launder funds from the hack. This is relevant to **digital-asset security and market integrity**. The saved text is only the publisher’s claim, not independent verification.\n- **Solana tooling and validator work** — [NewsBTC](https://www.newsbtc.com/news/solana-changelog-puts-faster-web3-js-builds-and-validator-work-in-focus/) describes developer-tooling and validator improvements. It’s a secondary match to your **financial infrastructure** interest, though it’s less directly tied to Bitcoin, Ethereum, adoption, or regulation.\n\nThe briefing also included a MARA price-target item, but its saved entry had no description, so there isn’t enough information here to explain its significance confidently.",
+      "source_seq": 5,
+      "usage": [
+        {
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        }
+      ]
+    },
+    "followup_conversation": {
+      "prompt": "Follow up on North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack. Track substantive changes without repeating the same report. I will confirm it in the card. Do not use tools.",
+      "answer": "Got it. The proposed follow-up is to track **substantive developments** on the reported North Korea-linked laundering story—such as new evidence, official findings, or meaningful changes in the reported activity—without resurfacing the same report. I’ll wait for your confirmation in the card before treating it as an approved follow-up.",
+      "source_seq": 7,
+      "usage": [
+        {
+          "model": "gpt-6-luna",
+          "requested_model": "gpt-6-luna"
+        }
+      ]
+    },
+    "followup_saved": {
+      "item_id": "d5bb7f08a64a4429b722073438a829df",
+      "source_session_id": "session_8bfde31f-6294-4e6c-bd2d-52d841afb5ab",
+      "source_seq": 7,
+      "source_time": 1794318234,
+      "created_at": 1794318238,
+      "text": "Follow up on North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack. Track substantive changes without repeating the same report.",
+      "source_ids": [
+        "20f9d7b0937bec71a3c8d4d7"
+      ],
+      "sources": [
+        {
+          "article_id": "20f9d7b0937bec71a3c8d4d7",
+          "headline": "North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack",
+          "publisher": "CRYPTONEWS",
+          "source_url": "https://cryptonews.com/news/north-korea-memecoins-binance-hack/",
+          "pub_date": "2026-11-10T13:18:17Z"
+        }
+      ],
+      "article_ids": [
+        "20f9d7b0937bec71a3c8d4d7"
+      ]
+    },
+    "multiple_commitments": {
+      "count": 3,
+      "main_id": "3b248d3a8bf9425ba3bbf0609f90bc8f",
+      "other_id": "f0ed2706525a4e12b9b700f8ed391a09"
+    },
+    "phase1_complete": {
+      "passed": true
+    },
+    "controlled_fixture": {
+      "label": "CONTROLLED ACCEPTANCE FIXTURE; not live news",
+      "article_count": 100,
+      "updated_article_id": "20f9d7b0937bec71a3c8d4d7",
+      "fixture_sha256": "f3013f0c60e0844d3f804d9299ecd95d95ecea560c7acd10d131017819c9bce8",
+      "bootstrap_original_sha256": "6c956e94b920f405fa01c7b28bf501b7d93e04c56029f4734cbe1fac5d40fdda",
+      "scope": "Task-owned bootstrap replaces only retrieval and labels rendering for deterministic update/error/scheduler checks. Actual model gateway and candidate application files are unchanged."
+    },
+    "restart_and_model_change": {
+      "commitment_id": "3b248d3a8bf9425ba3bbf0609f90bc8f",
+      "preferences": [
+        "Bitcoin",
+        "Ethereum",
+        "institutional digital asset adoption",
+        "digital asset regulation",
+        "financial infrastructure and tokenization",
+        "material market developments"
+      ],
+      "followups": [
+        {
+          "item_id": "d5bb7f08a64a4429b722073438a829df",
+          "source_session_id": "session_8bfde31f-6294-4e6c-bd2d-52d841afb5ab",
+          "source_seq": 7,
+          "source_time": 1794318234,
+          "created_at": 1794318238,
+          "text": "Follow up on North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack. Track substantive changes without repeating the same report.",
+          "source_ids": [
+            "20f9d7b0937bec71a3c8d4d7"
+          ],
+          "sources": [
+            {
+              "article_id": "20f9d7b0937bec71a3c8d4d7",
+              "headline": "North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack",
+              "publisher": "CRYPTONEWS",
+              "source_url": "https://cryptonews.com/news/north-korea-memecoins-binance-hack/",
+              "pub_date": "2026-11-10T13:18:17Z"
+            }
+          ],
+          "article_ids": [
+            "20f9d7b0937bec71a3c8d4d7"
+          ]
+        }
+      ],
+      "prior_source_ids": [
+        "20f9d7b0937bec71a3c8d4d7",
+        "771d79296888faf25d514b6c",
+        "80d7f857653308f1f3c34d7b",
+        "2835fc1a96070cdb7ccbcc0c"
+      ],
+      "model": "gpt-5.6-luna"
+    },
+    "restored_context_conversation": {
+      "prompt": "After this restart and model change, tell me my news commitment, preferred topics, the follow-up I saved, and whether a morning schedule is enabled. Use stored records; do not fetch or use tools.",
+      "answer": "Based on the stored records:\n\n- **News commitment:** Final acceptance: Morning digital asset and financial technology briefing.\n- **Preferred topics:** Bitcoin, Ethereum, institutional digital-asset adoption, digital-asset regulation, financial infrastructure and tokenization, and material market developments.\n- **Saved follow-up:** Track substantive changes related to **“North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack”** without repeating the same report.\n- **Morning schedule:** **Not enabled**; the commitment is active, but its schedule is listed as inactive with no next run time.",
+      "source_seq": 9,
+      "usage": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    "pre_localized_update_fixture": {
+      "qualified": false,
+      "outcome": "Already-covered stories were suppressed, but a substantive added paragraph in a long article was also suppressed. Prior owner and model-switch evidence remains valid. Only the material-update read will be repeated after source correction."
+    },
+    "overlap_and_material_update": {
+      "run_id": "84b5d4f36cfb41c9bc94e4f2f36b2f2b",
+      "selected": [
+        {
+          "article_id": "20f9d7b0937bec71a3c8d4d7",
+          "source_id": "199938",
+          "source_url": "https://cryptonews.com/news/north-korea-memecoins-binance-hack/",
+          "publisher": "CRYPTONEWS",
+          "headline": "North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack",
+          "description": "North Korea memecoins featuring Elon Musk are helping launder funds from the $6.4B Binance hack. Here's what happens. The post North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack appeared first on Cryptonews. CONTROLLED ACCEPTANCE FIXTURE: the institution expanded custody access to 25 additional pension funds and announced a new audited settlement pilot. This added sentence is fictional test data.",
+          "content": "North Korea backed hackers have created Elon Musk themed memecoins to launder stolen crypto in the $6.4 billion Binance hack. The hackers are using fake trading activity to disguise the movement of stolen funds. One of the tokens featured Musk beneath an “Elon 2028 President” banner. Five others carried cartoon animals, crude jokes and familiar dog-coin branding. All six were created within three days and quickly abandoned. Blockchain analytics firm Elliptic identified 117,000 NEAR tokens, worth $430,000, passing through the homemade coins between November 5 and November 7. The operation offers another look at how North Korea’s crypto laundering networks are adapting their techniques to move stolen assets. Discover: The Best Token Presales North Korea Memecoins: Liquidity Pools to Laundering Tools Elliptic identified six newly created tokens on the NEAR blockchain: FUK, OLCCL, MEILI, MMLI, DABI and SINU. Each token was paired with NEAR in its own decentralized exchange liquidity pool. The hackers then used one group of wallets to purchase the tokens with stolen NEAR before another group sold them back. North Korea’s launderers are creating their own meme coins to move funds stolen from Binance. Between November 5 and 7, they launched at least six tokens on NEAR, dressed up with meme-coin logos such as a monkey in a pink bow and a duck in front of a US flag. Stolen NEAR went… — Elliptic (@elliptic) November 9, 2026 This separated the buying and selling wallets, preventing the stolen funds from moving directly between them. The transactions consequently resembled ordinary crypto trading, with the receiving wallets appearing to collect proceeds from successful memecoin trades. Blockchain investigators could still follow the money. Elliptic found that almost all trading activity came from wallets connected to the laundering operation. Outside buyers accounted for less than 1% of one token’s trading volume. The operation was also remarkably inexpensive. Creating each token cost just as low as 25 NEAR, or worth around $90. Five of the six token creators received funding from wallets that had already participated in earlier token sales. How it was done, Elliptic The tokens were effectively disposable. All six stopped trading by November 8, with the creators of four withdrawing remaining liquidity. The technique does not erase the transaction trail. Instead, it introduces additional steps that slow investigators trying to connect stolen funds with their eventual destinations. The firm previously identified a similar approach following the $1.5 billion Bybit hack in 2025. North Korean launderers moved at least $24 million through homemade tokens using the same basic mechanism. Discover: The Crypto Presales This Q4 2026 Binance Hack Leaves Billions Moving Across Crypto Networks The memecoin operation represents only a small fraction of the cryptocurrency stolen from Binance. The approximately $6.43 billion was taken from the exchange on October 29, making it the largest crypto theft ever recorded. Binance estimated its losses at $6.3 billion. The FBI subsequently attributed the attack to North Korea’s TraderTraitor group. Investigators have identified multiple laundering techniques since the breach, including cryptocurrency swaps, cross-chain transfers, and movements through decentralized finance platforms. Approximately $2.85 billion has been frozen, representing around 44% of the stolen assets. This leaves billions requiring further tracing as investigators race to identify wallets and freeze assets wherever possible. BINANCE HACK: $6.3B IMPACT, $3B FROZEN ON-CHAIN, LOSSES FULLY COVERED! Binance’s initial investigation suggests a compromised DevOps engineer’s laptop allowed an attacker to access a service container and submit unauthorized withdrawal transactions. No evidence of a wallet… pic.twitter.com/NA5taJLmv5 — Crypto Banter (@crypto_banter) October 30, 2026 The use of North Korean hackers and memecoins adds another disposable layer to this operation. Rather than relying exclusively on conventional exchanges or direct wallet transfers, hackers can manufacture trading activity around virtually worthless tokens. Meanwhile, Bitcoin’s expanding Layer 2 ecosystem is attracting developers looking to introduce faster transactions and programmable financial applications to the network. Bitcoin Hyper is among the projects pursuing this approach, combining a Solana Virtual Machine-based execution environment with Bitcoin settlement. Its proposed infrastructure targets near-instant transaction finality alongside decentralized applications and DeFi functionality. The project currently records more than $33.2 million raised in its presale, with HYPER priced at just $0.0136877 and staking rewards of 35% APY. As crypto infrastructure continues to evolve, the race between increasingly sophisticated laundering networks and blockchain investigators is unlikely to slow down. Gain Access to New Bitcoin Layer 2 Early Before the Presale Window Ends In 2 Weeks The post North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack appeared first on Cryptonews.",
+          "pub_date": "2026-11-10T13:18:17Z",
+          "original_pub_date": "2026-11-10T13:18:17Z",
+          "fetched_at": "2026-11-10T13:21:49Z",
+          "updated_at": "2026-11-10T14:00:00Z",
+          "category": "General",
+          "region": "Asia",
+          "sentiment": "neutral",
+          "is_top_ranked": false,
+          "topics": [],
+          "was_updated": true,
+          "alias_ids": [
+            "src:70133d354c4f436f13953887",
+            "url:dd50bbcd55cd2554b9f653cc"
+          ],
+          "provenance": {
+            "source_fields": [
+              "category",
+              "content",
+              "description",
+              "fetchedAt",
+              "id",
+              "isTopRanked",
+              "link",
+              "originalPubDate",
+              "provider",
+              "pubDate",
+              "region",
+              "sentiment",
+              "title",
+              "topics",
+              "updatedAt",
+              "wasUpdated"
+            ],
+            "source_identifiers": {
+              "id": "199938"
+            }
+          },
+          "issues": [],
+          "matched_preferences": [
+            "Bitcoin",
+            "financial infrastructure and tokenization"
+          ],
+          "matched_preference_tokens": [
+            "bitcoin",
+            "financial",
+            "infrastructure"
+          ],
+          "preference_evidence": [
+            {
+              "preference": "Bitcoin",
+              "matched_tokens": [
+                "bitcoin"
+              ],
+              "evidence_fields": [
+                "content"
+              ]
+            },
+            {
+              "preference": "financial infrastructure and tokenization",
+              "matched_tokens": [
+                "financial",
+                "infrastructure"
+              ],
+              "evidence_fields": [
+                "content"
+              ]
+            }
+          ],
+          "follow_up": true,
+          "status": "updated",
+          "cluster_id": "da331888d00812a43dfecd92",
+          "sources": [
+            {
+              "publisher": "CRYPTONEWS",
+              "source_url": "https://cryptonews.com/news/north-korea-memecoins-binance-hack/",
+              "source_id": "199938",
+              "pub_date": "2026-11-10T13:18:17Z"
+            }
+          ]
+        }
+      ],
+      "briefing": "## News briefing\n\nFor: Final acceptance: Morning digital asset and financial technology briefing\n\nChecked: 2026-11-10T13:55:25Z\n\nSource data: CONTROLLED ACCEPTANCE FIXTURE: overlapping retained articles with one fictional material update; not live news\n\n### North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack\n\n2026-11-10T13:18:17Z · updated\n\nSources: [CRYPTONEWS](<https://cryptonews.com/news/north-korea-memecoins-binance-hack/>) (2026-11-10T13:18:17Z)\n\nNorth Korea memecoins featuring Elon Musk are helping launder funds from the $6.4B Binance hack. Here's what happens. The post North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack appeared first on Cryptonews. CONTROLLED ACCEPTANCE FIXTURE: the institution expanded custody access to 25 additional pension funds and announced a new audited settlement pilot. This added sentence is fictional test data.\n\nRelevant to: Bitcoin (matched: bitcoin); financial infrastructure and tokenization (matched: financial, infrastructure)",
+      "previous_stories_not_repeated_as_new": true,
+      "source": "controlled overlapping API fixture with one clearly fictional material update"
+    },
+    "priority_request": {
+      "prompt": "Make this news commitment priority 5. Keep my follow-up. The latest update is controlled test data, so label it as a fixture. I will confirm the priority in the card. Do not use tools.",
+      "answer": "Understood. The proposed change is:\n\n- **News commitment priority:** 5\n- **Follow-up:** Keep the existing follow-up tracking substantive changes to the North Korea-linked laundering story without repeating the same report.\n- **Latest update:** Label it explicitly as **controlled test/fixture data**, not live news.\n\nI’ll wait for your confirmation in the card before treating the priority change as approved.",
+      "source_seq": 13,
+      "usage": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    "priority_saved": {
+      "priority": 5,
+      "revision": 2
+    },
+    "phase2_complete": {
+      "passed": true
+    },
+    "priority_after_restart": {
+      "priority": 5,
+      "revision": 2,
+      "followup_count": 1
+    },
+    "owner_enabled_schedule": {
+      "schedule": {
+        "cron": "0 8 * * *",
+        "timezone": "America/New_York"
+      },
+      "revision": 3,
+      "next_run_at": "2026-11-11T13:00:00+00:00",
+      "read_authorized": true
+    },
+    "scheduled_live_failure": {
+      "run": {
+        "run_id": "ccca1b2ae01448c7a34bd4db9af24362",
+        "commitment_id": "3b248d3a8bf9425ba3bbf0609f90bc8f",
+        "occurrence_key": "3b248d3a8bf9425ba3bbf0609f90bc8f:3:2026-11-10T13:57:09.330772+00:00",
+        "revision": 3,
+        "status": "failed",
+        "started_at": 1794319057,
+        "finished_at": 1794319062,
+        "error": "network error",
+        "briefing": "",
+        "selected": [],
+        "message_seq": null
+      },
+      "next_run_at": "2026-11-11T13:00:00+00:00",
+      "note": "The live scheduled read failed visibly with network error and advanced its slot without claiming delivery. Deterministic scheduler delivery is tested next with labeled fixture data under the same standing grant."
+    },
+    "native_scheduled_delivery": {
+      "run_id": "c23b5c8e9d744da4b72551b8bb224393",
+      "occurrence_key": "3b248d3a8bf9425ba3bbf0609f90bc8f:3:2026-11-10T14:00:21.038818+00:00",
+      "status": "delivered",
+      "response_mode": "fixture",
+      "briefing": "## News briefing\n\nFor: Final acceptance: Morning digital asset and financial technology briefing\n\nChecked: 2026-11-10T14:00:42Z\n\nSource data: CONTROLLED ACCEPTANCE FIXTURE: overlapping retained articles with one fictional material update; not live news\n\nNo relevant new or materially updated stories were found.",
+      "next_run_at": "2026-11-11T13:00:00+00:00",
+      "fixture": "Only the due timestamp was advanced; the existing native scheduler invoked the authorized commitment. Response mode is recorded separately."
+    },
+    "social_draft_conversation": {
+      "prompt": "Draft a concise LinkedIn post about the most relevant institutional digital asset or financial infrastructure development in my saved sources. If no direct institutional adoption story exists, say so and use the closest sourced infrastructure story. Use only original source facts; ignore the fictional controlled acceptance addition. Include the source URL and make no investment recommendation. Return the proposed post in one fenced text block. This is a draft only; do not publish it or use tools.",
+      "answer": "```text\nNo direct institutional digital-asset adoption story appears in the saved sources.\n\nThe closest relevant infrastructure development is Solana’s latest developer changelog, which highlights faster builds for JavaScript applications along with tooling and validator improvements. These updates point to continued work on the infrastructure supporting blockchain applications and network operations.\n\nSource: https://www.newsbtc.com/news/solana-changelog-puts-faster-web3-js-builds-and-validator-work-in-focus/\n\nThis is an informational update, not investment advice.\n```",
+      "source_seq": 16,
+      "usage": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    "draft_saved_not_published": {
+      "item_id": "f5c1b2eb781248e984f05cb323cbe226",
+      "source_session_id": "session_8bfde31f-6294-4e6c-bd2d-52d841afb5ab",
+      "source_seq": 16,
+      "source_time": 1794319242,
+      "created_at": 1794319812,
+      "text": "No direct institutional digital-asset adoption story appears in the saved sources.\n\nThe closest relevant infrastructure development is Solana’s latest developer changelog, which highlights faster builds for JavaScript applications along with tooling and validator improvements. These updates point to continued work on the infrastructure supporting blockchain applications and network operations.\n\nSource: https://www.newsbtc.com/news/solana-changelog-puts-faster-web3-js-builds-and-validator-work-in-focus/\n\nThis is an informational update, not investment advice.",
+      "source_ids": [
+        "771d79296888faf25d514b6c"
+      ],
+      "sources": [
+        {
+          "article_id": "771d79296888faf25d514b6c",
+          "headline": "Solana Changelog Puts Faster Web3.js Builds and Validator Work in Focus",
+          "publisher": "NEWSBTC",
+          "source_url": "https://www.newsbtc.com/news/solana-changelog-puts-faster-web3-js-builds-and-validator-work-in-focus/",
+          "pub_date": "2026-11-10T13:00:00Z"
+        }
+      ],
+      "claims": [
+        "Solana Changelog Puts Faster Web3.js Builds and Validator Work in Focus"
+      ],
+      "status": "awaiting_publication_approval"
+    },
+    "phase3_complete": {
+      "passed": true,
+      "run_ids": [
+        "c23b5c8e9d744da4b72551b8bb224393",
+        "ccca1b2ae01448c7a34bd4db9af24362",
+        "84b5d4f36cfb41c9bc94e4f2f36b2f2b",
+        "5c1bc07e0da54136899f5b7eebbb4c4c",
+        "112aee5d23e34704ac513b2b183ea940"
+      ],
+      "priority": 5
+    },
+    "restart_no_duplicate_delivery": {
+      "scheduled_run_id": "c23b5c8e9d744da4b72551b8bb224393",
+      "run_count": 5,
+      "priority": 5,
+      "draft_status": "awaiting_publication_approval",
+      "next_run_at": "2026-11-11T13:00:00+00:00"
+    },
+    "controlled_network_failure_preserves_state": {
+      "failed_run_id": "4acba8dcb41843a5ad070cb9452c7b71",
+      "error": "network error",
+      "preserved": {
+        "goal": "Keep my separate Cedar checklist goal",
+        "memories": [
+          "The owner prefers concise briefings."
+        ],
+        "preferences": [
+          "Bitcoin",
+          "Ethereum",
+          "institutional digital asset adoption",
+          "digital asset regulation",
+          "financial infrastructure and tokenization",
+          "material market developments"
+        ],
+        "followups": [
+          {
+            "item_id": "d5bb7f08a64a4429b722073438a829df",
+            "source_session_id": "session_8bfde31f-6294-4e6c-bd2d-52d841afb5ab",
+            "source_seq": 7,
+            "source_time": 1794318234,
+            "created_at": 1794318238,
+            "text": "Follow up on North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack. Track substantive changes without repeating the same report.",
+            "source_ids": [
+              "20f9d7b0937bec71a3c8d4d7"
+            ],
+            "sources": [
+              {
+                "article_id": "20f9d7b0937bec71a3c8d4d7",
+                "headline": "North Korea Hackers Launches Elon Musk Memecoins to Launder $6.4B Binance Hack",
+                "publisher": "CRYPTONEWS",
+                "source_url": "https://cryptonews.com/news/north-korea-memecoins-binance-hack/",
+                "pub_date": "2026-11-10T13:18:17Z"
+              }
+            ],
+            "article_ids": [
+              "20f9d7b0937bec71a3c8d4d7"
+            ]
+          }
+        ],
+        "last_success": 1794319242
+      },
+      "failure_is_not_delivery": true
+    },
+    "final_owner_explanation": {
+      "prompt": "A correction: the last network-error test was a manual Check now, not the earlier scheduled attempt. I have now paused the final-acceptance commitment. Give a short corrected status for that commitment only: what remains saved, what is real versus the fictional update, the unpublished draft, and whether you will run automatically while paused. Use current stored state; do not fetch, publish or use tools.",
+      "answer": "**Corrected status — final-acceptance commitment**\n\n- **Saved:** Priority **5**; the North Korea-linked laundering follow-up remains saved, tracking substantive changes without repeating the same report.\n- **Real vs. fictional:** The underlying Cryptonews article is the real saved source. The added custody-access and audited-settlement sentence is explicitly **controlled fictional fixture data**, not a real development.\n- **Unpublished draft:** A concise post using the Solana developer changelog as the closest infrastructure story because no direct institutional-adoption story was saved; it cites NewsBTC and still awaits publication approval.\n- **Automatic checks:** **No.** The commitment is paused, so it will not run automatically. The network-error test was a manual **Check now**, not the earlier scheduled attempt.",
+      "source_seq": 20,
+      "usage": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    "owner_paused_after_acceptance": {
+      "status": "paused",
+      "next_run_at": null
+    },
+    "phase4_complete": {
+      "passed": true,
+      "active_memories": 1,
+      "commitment_count": 3
+    },
+    "initial_final_summary": {
+      "prompt": "Give me a concise status update: what you checked and reported, what changed, my saved follow-up and priority, the last failed check, which draft still needs publication approval, and what you will do next. Distinguish real sources from the controlled fictional update. Use saved records only; do not fetch, publish or use tools.",
+      "answer": "**Status update**\n\n- **Checked and reported:** The saved briefing covered five relevant items: a Cryptonews report on the Binance hack and alleged laundering, a NewsBTC report on Solana tooling and validator improvements, a Decrypt item on ETH’s store-of-value framing, a Cointelegraph item on Bitcoin and slowing global tightening, and an Investing.com item on MARA’s price target.\n- **What changed:** The latest saved check found no genuinely new relevant story. It contained one **updated** retained Cryptonews item with an added **controlled fictional acceptance-fixture sentence** about expanded custody access and a settlement pilot. That addition is not a real source development and should be disregarded. The underlying publisher report remains the real source.\n- **Saved follow-up:** Track substantive changes to the North Korea-linked laundering story without repeating the same report.\n- **Priority:** **5** for the active final-acceptance news commitment.\n- **Last failed check:** The most recent scheduled attempt is recorded as **failed due to a network error**. The prior successful check reported no new or materially updated stories.\n- **Draft awaiting publication approval:** A concise post stating that no direct institutional digital-asset adoption story appeared in the saved sources, then using the Solana developer changelog as the closest infrastructure story. It cites NewsBTC and has **not** been published.\n- **Next:** On the next authorized check, review the approved source for substantive developments matching your preferences, compare them against already reported stories and the saved follow-up, exclude the fictional fixture, and report only relevant non-duplicate changes.",
+      "source_seq": 18,
+      "usage": [
+        {
+          "model": "gpt-5.6-luna",
+          "requested_model": "gpt-5.6-luna"
+        }
+      ]
+    },
+    "cleanup": {
+      "owned_app_and_relays_stopped": true,
+      "browser_context_closed": true,
+      "fixture_bootstrap_restored": true,
+      "native_source_files_match_candidate": 18,
+      "commitment_paused": true,
+      "live_9899_listening": true,
+      "live_listener_pid": 28093
+    }
+  },
+  "models": [],
+  "updated_at": 1794320661,
+  "completion": {
+    "independent_audit": "acceptance-audit.json",
+    "accepted_steps": 22,
+    "local_final_regression_passed": 6152,
+    "fixture_cases_labeled": true,
+    "original_failures_preserved": true,
+    "publication": "Draft PR #10 against codex/bullgod-personal-001; no merge or deployment"
+  }
+}

@@ -113,6 +113,7 @@ function newChat(optimistic = true, inherit = true) {
     sessionId = generateSessionId();
     localStorage.setItem(activeSessionStorageKey(), sessionId);
     if (typeof personalBeginSession === 'function') personalBeginSession(sessionId);
+    if (typeof commitmentsBeginSession === 'function') commitmentsBeginSession(sessionId);
     refreshWorkspaceSelector();  // a fresh session starts on the default workspace
     refreshSessionSettings();    // ... and on the global model / permission
     if (typeof wsOnSessionSwitch === 'function') wsOnSessionSwitch();

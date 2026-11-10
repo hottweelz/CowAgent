@@ -1,0 +1,46 @@
+.commitments-card {
+    flex: 0 0 auto;
+    max-height: 44vh;
+    overflow: auto;
+    margin: .5rem .9rem .35rem;
+    padding: .85rem;
+    border: 1px solid rgb(var(--cw-slate-200));
+    border-radius: .9rem;
+    background: rgb(255 255 255 / .94);
+    color: rgb(var(--cw-slate-800));
+    box-shadow: 0 8px 24px rgb(15 23 42 / .06);
+}
+.dark .commitments-card { border-color: rgb(255 255 255 / .12); background: rgb(15 23 42 / .92); color: rgb(var(--cw-slate-100)); }
+.commitments-heading, .commitments-record-heading, .commitments-actions { display: flex; align-items: center; justify-content: space-between; gap: .65rem; }
+.commitments-heading h2, .commitments-record-heading h3 { margin: 0; font-size: .94rem; font-weight: 700; }
+.commitments-heading p, .commitments-muted { margin: .2rem 0; color: rgb(var(--cw-slate-500)); font-size: .74rem; line-height: 1.45; }
+.dark .commitments-muted { color: rgb(var(--cw-slate-400)); }
+.commitments-status { margin: .45rem 0; color: rgb(var(--cw-slate-500)); font-size: .74rem; }
+.commitments-status.is-error, .commitments-error { color: rgb(220 38 38); }
+.commitments-content { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .65rem; }
+.commitments-section, .commitments-record { min-width: 0; padding: .7rem; border: 1px solid rgb(var(--cw-slate-200)); border-radius: .7rem; background: rgb(var(--cw-slate-50) / .65); }
+.dark .commitments-section, .dark .commitments-record { border-color: rgb(255 255 255 / .09); background: rgb(2 6 23 / .24); }
+.commitments-section > h3 { margin: 0 0 .5rem; font-size: .84rem; }
+.commitments-form { display: grid; gap: .42rem; margin: .45rem 0; }
+.commitments-form label { display: grid; gap: .2rem; font-size: .7rem; font-weight: 600; }
+.commitments-form input, .commitments-form textarea, .commitments-form select { width: 100%; min-width: 0; padding: .4rem .5rem; border: 1px solid rgb(var(--cw-slate-300)); border-radius: .42rem; background: white; color: inherit; font: inherit; font-weight: 400; }
+.dark .commitments-form input, .dark .commitments-form textarea, .dark .commitments-form select { border-color: rgb(255 255 255 / .16); background: rgb(15 23 42); }
+.commitments-form textarea { resize: vertical; }
+.commitments-form .commitments-check { display: flex; align-items: flex-start; gap: .4rem; }
+.commitments-form .commitments-check input { width: auto; margin-top: .1rem; }
+.commitments-form button, .commitments-actions button, .commitments-refresh { border: 1px solid rgb(var(--cw-slate-300)); border-radius: .42rem; padding: .36rem .55rem; background: white; color: inherit; font: inherit; font-size: .7rem; cursor: pointer; }
+.dark .commitments-form button, .dark .commitments-actions button, .dark .commitments-refresh { border-color: rgb(255 255 255 / .16); background: rgb(30 41 59); }
+.commitments-form button:disabled, .commitments-actions button:disabled, .commitments-refresh:disabled { opacity: .5; cursor: not-allowed; }
+.commitments-details { margin-top: .45rem; }
+.commitments-details > summary { cursor: pointer; color: rgb(var(--cw-primary-600)); font-size: .74rem; font-weight: 600; }
+.commitments-details[open] > summary { margin-bottom: .4rem; }
+.commitments-priority { flex: 0 0 auto; border-radius: 999px; padding: .15rem .4rem; background: rgb(var(--cw-slate-200)); font-size: .65rem; }
+.commitments-record > p { margin: .35rem 0; font-size: .72rem; overflow-wrap: anywhere; }
+.commitments-record-list, .commitments-source-list { display: grid; gap: .38rem; margin: .35rem 0; padding-left: 1rem; font-size: .7rem; overflow-wrap: anywhere; }
+.commitments-record-list { padding: 0; list-style: none; }
+.commitments-record-list > li { min-width: 0; padding: .45rem; border: 1px solid rgb(var(--cw-slate-200)); border-radius: .5rem; }
+.dark .commitments-record-list > li { border-color: rgb(255 255 255 / .1); }
+.commitments-briefing-text { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .72rem; }
+.commitments-record h4, .commitments-record h5 { margin: .45rem 0 .2rem; font-size: .74rem; }
+.commitments-source-list a { color: rgb(var(--cw-primary-600)); text-decoration: underline; }
+@media (max-width: 760px) { .commitments-card { max-height: 48vh; margin: .4rem; padding: .65rem; } .commitments-content { grid-template-columns: 1fr; } }

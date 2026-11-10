@@ -1,0 +1,28 @@
+{
+  "checked_at": 1794320839,
+  "repository": "hottweelz/CowAgent",
+  "actions_enabled": true,
+  "actions_setting_changed_by_this_task": false,
+  "method": "Read-only GitHub Actions permissions API",
+  "candidate_runs": [],
+  "status": "blocked_unavailable",
+  "implementation_commit": "7be4f1395680b7ee13c46152b45fd61ebd453509",
+  "pull_request": "https://github.com/hottweelz/CowAgent/pull/10",
+  "pr_checks": [],
+  "workflow": {
+    "id": 410039630,
+    "name": "Tests",
+    "path": ".github/workflows/test.yml",
+    "state_reported_by_metadata": "active"
+  },
+  "dispatch": {
+    "attempts": 1,
+    "ref": "codex/bullgod-personal-002",
+    "base_sha": "adbe2105b0f45ab521429ba1427ac2887f7a2f97",
+    "exit_code": 1,
+    "http_status": 422,
+    "error": "Actions has been disabled for this repository."
+  },
+  "interpretation": "Read-only permissions/workflow metadata reported enabled/active, but the execution endpoint rejected the one dispatch as disabled. No hosted execution or pass is claimed. No settings change, enablement, retry, or runner investigation was performed.",
+  "remaining_integration_requirement": "Run the existing Tests workflow after the maintainer makes hosted execution available. Local product acceptance is independently evidenced."
+}
