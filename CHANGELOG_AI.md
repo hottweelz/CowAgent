@@ -1,5 +1,37 @@
 # AI handoff ledger
 
+## 2026-11-11 14:43 EST — Codex — daily unattended news run verified read-only
+
+- Task/result: inspect Personal Commitments and Tasks for the ordinary November 11
+  08:00 America/New_York occurrence. Both UIs and durable records confirm one
+  scheduled delivery: started 08:00:09 EST, completed 08:00:19 EST, no stored error.
+- Team: lead native UI inspection; one Luna/high worker checked SQLite and scheduler
+  records read-only. Parent owns this handoff and Git sync. No implementation work.
+- Evidence/checks: Personal Commitments shows Completed, last check/success and
+  two sourced findings. Tasks History shows Success / Scheduled / duration 10 s.
+  Saved run contains 100 feed items, two selected findings, a verified evaluation,
+  meaningful attention and a conversation delivery reference. Next scheduled run
+  is November 12 at 08:00 EST. Neither selected source ID nor canonical URL overlaps
+  the three previously delivered findings. Two proposed follow-ups await approval.
+- Decisions: no Check now/Run now, scheduler callback, approval, grant/schedule edit,
+  restart or model request was used. Keep the genuine unattended evidence intact.
+- Files touched: this ledger and docs/bullgod-live-001/README.md only. Private UI
+  screenshots are outside Git under the existing LIVE-001 evidence directory.
+- Validation: native browser views plus read-only SQLite/scheduler-file comparison;
+  documentation diff check. No code/build/test rerun was needed. Final push/fetch
+  and tracked-upstream 0/0 comparison complete the documentation sync.
+- Lessons Learned: none; existing evidence discipline applied.
+- Known issues/limits: the run's stored path allows approved read or validated
+  cache, so these records alone do not prove a fresh HTTP transfer. Exact-source
+  dedup is clean, but one new finding shares an upstream cluster ID with a different
+  prior story; cluster metadata is inconsistent. No semantic-dedup certification
+  or general sustained-reliability claim follows from this one daily occurrence.
+- MEMORY.md update: not needed; this is a chronological observation.
+- Next recommended steps: review the two pending follow-ups in BullGod and continue
+  ordinary daily use. Treat any cluster-metadata investigation as separate scope.
+- Notes for next agent: no manual run was created to fill an evidence gap. Preserve
+  schedule and pending decisions. Existing untracked AGENTS.md remains untouched.
+
 ## 2026-11-10 17:07 EST — Codex — BULLGOD-UX-001 compact controls deployed
 
 - Task/result: replace the large inline owner panels with compact controls and

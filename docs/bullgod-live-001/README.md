@@ -231,3 +231,24 @@ Known operational limits:
 No further implementation is required for the observed minimum. Review the draft
 PR before any merge. Continue normal daily use to build reliability evidence;
 the next configured check is listed above.
+
+
+## November 11 daily-operation follow-up
+
+A read-only inspection on November 11 confirmed the ordinary 08:00
+America/New_York occurrence in both Personal Commitments and Tasks History.
+The task is labeled **Scheduled / Success**, started at **08:00:09 EST**, and
+finished at **08:00:19 EST**. The saved occurrence contains 100 feed items, two
+selected sourced findings and one delivery reference in the owner conversation.
+Two associated follow-up proposals remain pending owner approval. The next run
+is **November 12 at 08:00 EST**.
+
+Neither selected source ID nor canonical URL repeats the three previously
+reported findings. One selected item's upstream cluster ID also appears on a
+different prior story, so the exact-identity check passes while the clustering
+metadata has an inconsistency. The stored execution path allows an approved read
+or validated cache; it does not alone establish a fresh HTTP transfer.
+
+No manual run, schedule change, approval, restart or new model conversation was
+used for this inspection. This adds one ordinary daily scheduled observation to
+the November 10 near-term test; it does not certify general long-term reliability.
