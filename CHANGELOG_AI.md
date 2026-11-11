@@ -1,5 +1,159 @@
 # AI handoff ledger
 
+## 2026-11-11 14:43 EST — Codex — daily unattended news run verified read-only
+
+- Task/result: inspect Personal Commitments and Tasks for the ordinary November 11
+  08:00 America/New_York occurrence. Both UIs and durable records confirm one
+  scheduled delivery: started 08:00:09 EST, completed 08:00:19 EST, no stored error.
+- Team: lead native UI inspection; one Luna/high worker checked SQLite and scheduler
+  records read-only. Parent owns this handoff and Git sync. No implementation work.
+- Evidence/checks: Personal Commitments shows Completed, last check/success and
+  two sourced findings. Tasks History shows Success / Scheduled / duration 10 s.
+  Saved run contains 100 feed items, two selected findings, a verified evaluation,
+  meaningful attention and a conversation delivery reference. Next scheduled run
+  is November 12 at 08:00 EST. Neither selected source ID nor canonical URL overlaps
+  the three previously delivered findings. Two proposed follow-ups await approval.
+- Decisions: no Check now/Run now, scheduler callback, approval, grant/schedule edit,
+  restart or model request was used. Keep the genuine unattended evidence intact.
+- Files touched: this ledger and docs/bullgod-live-001/README.md only. Private UI
+  screenshots are outside Git under the existing LIVE-001 evidence directory.
+- Validation: native browser views plus read-only SQLite/scheduler-file comparison;
+  documentation diff check. No code/build/test rerun was needed. Final push/fetch
+  and tracked-upstream 0/0 comparison complete the documentation sync.
+- Lessons Learned: none; existing evidence discipline applied.
+- Known issues/limits: the run's stored path allows approved read or validated
+  cache, so these records alone do not prove a fresh HTTP transfer. Exact-source
+  dedup is clean, but one new finding shares an upstream cluster ID with a different
+  prior story; cluster metadata is inconsistent. No semantic-dedup certification
+  or general sustained-reliability claim follows from this one daily occurrence.
+- MEMORY.md update: not needed; this is a chronological observation.
+- Next recommended steps: review the two pending follow-ups in BullGod and continue
+  ordinary daily use. Treat any cluster-metadata investigation as separate scope.
+- Notes for next agent: no manual run was created to fill an evidence gap. Preserve
+  schedule and pending decisions. Existing untracked AGENTS.md remains untouched.
+
+## 2026-11-10 17:07 EST — Codex — BULLGOD-UX-001 compact controls deployed
+
+- Task/result: replace the large inline owner panels with compact controls and
+  on-demand native dialogs; use BullGod's configured name throughout the console.
+  Applied to the independent 18991 runtime. Legacy 9899 remains unchanged.
+- Team: lead branding, integration, deployment, native QA and Git; Luna/high UI
+  implementation and focused checks; Luna/high read-only permission diagnosis and
+  bounded branding review. No external worker pool or HomeBoss.
+- Changes/files: personal/commitments JS and CSS, chat template wrapper, console
+  template/name helper and page/config handlers, login/sidebar/welcome/new-chat
+  identity, two existing UI checkers, tests/test_web_console_identity.py,
+  docs/bullgod-ux-001/README.md, MEMORY.md and this ledger.
+- Validation: 17 focused Python tests; 39 web tests; both UI checkers; JavaScript
+  syntax, Ruff F and diff checks passed. Browser open/close, reload, navigation,
+  login restoration, Enter/Escape, focus containment/return and normal/200% views
+  passed with no page errors. Existing forms and action paths remain available.
+  Controls use 38.8 px versus approximately 493 px previously; the 592 px-wide
+  chat with Files/history visible retains a 770.2 px message region at 1000 px height.
+- Deployment: backed up and replaced 12 runtime files; source bytes match branch.
+  One idle, explicit restart loaded backend branding. Fourteen captured state
+  tables and config digest unchanged; SQLite integrity and both health checks pass.
+  Preserved the legacy listener PID 51488 and config digest. No model/action replay.
+- Investigation: ordinary workspace reads are permitted in read-only mode, but
+  internal knowledge paths are excluded. Knowledge is disabled and absent here.
+  The Files browser uses a different authenticated access path. No specific file
+  denial for the screenshot question was recorded. Permission policy is unchanged.
+- Review: independent branding review found no actionable defect; parent source
+  and native review caught the restore-readiness race and clarified the current-
+  chat goal label. No open in-scope finding.
+- Lessons Learned:
+  - Mistake: bounding inline panel height still left management dominant in chat.
+  - Root Cause: both full editors lived in the conversation layout; saved UI state
+    could also be read before authentication configuration finished loading.
+  - Future Trigger: management surfaces beside chat, or persisted UI open state.
+  - Required Behavior Change: use compact triggers and on-demand editors; gate and
+    retry preference restoration after auth/config readiness without stealing focus.
+  - Verification Step: native sign-in/reload/navigation and 200% layout/focus checks.
+  - Durable Memory Update: project MEMORY.md records the UI and access distinctions.
+- Known limits: browser-local panel preferences; native dialog support required;
+  knowledge permissions unchanged. Full LIVE-001/desktop results are retained
+  historical evidence; focused checks cover this correction. Hosted remains unverified.
+- Git/handoff: update existing draft PR #15 on codex/bullgod-live-001; no merge.
+  Final push/fetch must confirm upstream 0/0. Untracked AGENTS.md and ignored desktop
+  dependencies/build outputs are preserved. Private QA/rollback/state evidence is
+  outside Git in the application's BullGod-UX-001-Evidence directory.
+- Next recommended steps: refresh BullGod's tab and use the compact controls;
+  review the draft PR. Treat knowledge enablement/access as a separate policy task.
+- Notes for next agent: do not repeat accepted scheduled/model interactions for
+  bookkeeping or broaden read grants to explain the screenshot. No global memory edit.
+
+## 2026-11-10 16:22 EST — Codex — BULLGOD-LIVE-001 published as draft PR #15
+
+- Result: minimum operational acceptance passed on a separate persistent macOS
+  instance at 127.0.0.1:18991. Real GPT-6 Luna, authenticated owner state, approved
+  HTTPS and a genuine 15:54 EST scheduled occurrence passed. Daily 08:00 Eastern
+  restored; next 2026-11-11 13:00 UTC. Original 9899 unchanged. Published as
+  draft PR #15; no merge. Sustained reliability remains unverified.
+- Team: lead integration/native UI/operational acceptance/docs/Git; Luna/high
+  deployment and product scouts, backup and independent test execution;
+  Terra 6.1/high lifecycle because launchd, credential handoff and sandbox interact;
+  Sol 6.1/high one bounded engineering review for security/data integrity, with
+  concrete correction checks. Requested model selections are not runtime attestation.
+- Changes/files: new scripts/bullgod_service.py and bullgod_backup.py plus tests;
+  bounded bullgod_dev.py reuse, common/log.py rotation, plugin_manager data root,
+  personal/collaboration.py contract limits, commitments.css panel-height fix;
+  four focused test files; docs/bullgod-live-001; MEMORY.md and this ledger.
+- Validation: final full Python 6,376 passed / 36 skipped / 93 subtests, 219.42 s;
+  1,366 source/test hashes unchanged. Ruff F pass with project exclusions, including
+  scripts/ci_lint.py against committed implementation 0e201428. Web 39, desktop 16,
+  both UI checks, strict TypeScript/build pass. Final CSS web/UI checks and native
+  1440x1000/720x500 geometry/screenshots pass. Independent review has no open finding.
+  At implementation commit 0e201428, hosted checks/statuses/PR workflow runs are
+  empty; hosted validation is unverified. No Actions investigation resumed.
+- Native evidence: first manual feed 100 items / 2 selected; natural scheduler
+  100 / 1 new with UI/browser closed and launchd parent 1; no prior-source duplicate.
+  Later manual read selected zero (manual acknowledgement, not silent schedule proof).
+  Read revocation gives HTTP 400 with no fetch/run; pause/resume, explicit GPT-5.6
+  Luna continuity and return to GPT-6 Luna pass. One specialist failed, one new
+  approved request completed, one denied with no run; repeated completed/failed
+  requests do not replay. Own identity/model, zero tools, source excerpts verified.
+- Recovery/storage: internal APFS ownership enabled; WAL/FULL writer-lock/reopen
+  probe passes. Graceful restart and one idle SIGKILL/explicit recovery preserve
+  captured personal/conversation/run hashes and integrity. Two backups/restores;
+  final 26 state files / 3 SQLite databases have matching integrity/table counts.
+  Final secret-value scans found no credentials in staged files or general backup.
+  No restored app starts. Live sandbox denies outside/source/secret/network probes.
+  Final 600 runtime files and three launcher files match reviewed branch contents.
+- Decisions: manually bootstrapped launchd jobs outside LaunchAgents; KeepAlive=false;
+  no login startup/crash loop, local model installation, public exposure, legacy
+  migration, new agent framework or dashboard. Backup quiescence is asserted by
+  the operator after stopping only this instance. Private receipts/screenshots/state
+  remain outside Git; source/worktree never holds persistent application data.
+- Lessons Learned:
+  - Mistake: first persistent start wrote plugin settings into source; first
+    specialist output repeated a source ID; wide owner panels hid the composer.
+  - Root Cause: source-mode plugin path ignored data override; prompt omitted
+    verifier limits; viewport limits applied only at narrow widths.
+  - Future Trigger: immutable-source deployment, long-source specialist review,
+    or multiple expanded owner panels at any viewport width.
+  - Required Behavior Change: honor explicit data root; state exact output limits;
+    inspect both wide and 200% layouts with composer/message bounds.
+  - Verification Step: plugin 13 focused, collaboration 14, full 6,376; actual new
+    specialist success and wide/narrow screenshots with keyboard focus.
+  - Durable Memory Update: project MEMORY.md records lifecycle/storage boundaries,
+    backup limits, contract and layout requirements. Global memory untouched.
+- Known issues: one observed schedule only; silent scheduled/failure paths have
+  fixture coverage. Automatic recovery/login, in-flight effects, restored-app
+  startup, off-device backup and cross-platform execution unverified. Existing
+  test/build warnings retained. Model reply misread historical schedule presence;
+  durable ledger is authoritative. Native title HTTP 400 used text fallback.
+  Default nested specialist workspaces require an explicit separate native API path.
+- Git: implementation 0e201428 pushed to origin/codex/bullgod-live-001, with upstream
+  established as authorized. Publication closeout changes documentation only.
+  Final push/fetch/upstream comparison is required before the completion response.
+- Next recommended steps: review draft PR #15 without an automatic merge; retain
+  the running service for normal daily use and build sustained operational evidence.
+- Notes for next agent: operational commands and evidence distinctions are in
+  docs/bullgod-live-001/README.md. Preserve original checkout/untracked conflicts
+  and existing service. Active task worktree retains untracked AGENTS.md and ignored
+  desktop dependency/build outputs. Do not rerun accepted native interactions for
+  bookkeeping or change current grants without owner instruction.
+
 ## 2026-11-10 14:37 EST — Codex — UPSTREAM-SELECTIVE-001 published as draft PRs #13 and #14
 
 - Result: candidates1–8 published in backend PR13; desktop9–10 in stacked PR14.

@@ -8,6 +8,7 @@ for (const id of ['personal-card', 'personal-status', 'personal-content', 'perso
   nodes.set(id, { id, innerHTML: '', textContent: '', classList: { toggle() {} }, addEventListener() {}, querySelectorAll: () => [] });
 }
 const calls = [];
+const panelStorage = new Map();
 let pendingFetch = null;
 const queuedFetches = [];
 const context = {
@@ -27,6 +28,7 @@ const context = {
   messagesDiv: { querySelectorAll: () => [] },
   document: { getElementById: id => nodes.get(id) || null },
   window: { addEventListener() {} },
+  localStorage: { getItem: key => panelStorage.get(key) ?? null, setItem: (key, value) => panelStorage.set(key, value) },
   requestAuthGatedStart() {},
   escapeHtml(value) {
     // Match core/utils.js: its text-node helper escapes markup characters,
@@ -54,7 +56,7 @@ const context = {
   }
 };
 vm.createContext(context);
-vm.runInContext(`${source}\n;globalThis.__personal = { refreshPersonalContinuity, personalSubmit, personalMarkPersistedTurn, personalBeginSession, personalLatestUserSeq, getPersisted: () => _personalHasPersistedTurn };`, context);
+vm.runInContext(`${source}\n;globalThis.__personal = { refreshPersonalContinuity, personalSubmit, personalMarkPersistedTurn, personalBeginSession, personalLatestUserSeq, personalUpdatePanelSummary, personalSetPanelOpen, personalRestorePanelState, personalPanelPreferenceKey, setPanelReady: value => { _personalPanelReady = value; }, setPanelHarness: (dialog, toggle, summary) => { _personalPanelDialog = dialog; _personalPanelToggle = toggle; _personalPanelSummary = summary; _personalPanelAgent = personalOwnerId(); }, getPersisted: () => _personalHasPersistedTurn };`, context);
 
 assert.equal(await context.__personal.refreshPersonalContinuity(), undefined);
 assert.equal(calls.length, 0, 'must not call API before a saved owner turn exists');
@@ -82,6 +84,30 @@ assert.match(nodes.get('personal-content').innerHTML, /Execute approved action o
 assert.match(nodes.get('personal-content').innerHTML, /not allowed in current mode: workspace-only/);
 assert.doesNotMatch(nodes.get('personal-content').innerHTML, /type="submit" disabled>Save goal/,
   'sequence zero must enable explicit owner save');
+
+const panelSummary = { textContent: '' };
+let dialogOpen = false;
+let focusCount = 0;
+const panelDialog = { get open() { return dialogOpen; }, showModal() { dialogOpen = true; }, close() { dialogOpen = false; } };
+const panelToggle = { attrs: {}, setAttribute(name, value) { this.attrs[name] = value; }, focus() { focusCount++; } };
+context.__personal.setPanelHarness(panelDialog, panelToggle, panelSummary);
+context.__personal.personalUpdatePanelSummary();
+assert.equal(panelSummary.textContent, '2 open actions');
+assert.notEqual(context.__personal.personalPanelPreferenceKey('owner-1'), context.__personal.personalPanelPreferenceKey('owner-2'),
+  'panel preference keys must be agent scoped');
+panelStorage.set(context.__personal.personalPanelPreferenceKey('owner-1'), 'open');
+context.__personal.personalRestorePanelState();
+assert.equal(dialogOpen, false, 'saved state must not open before authenticated panel readiness');
+context.__personal.setPanelReady(true);
+context.__personal.personalRestorePanelState();
+assert.equal(dialogOpen, true);
+assert.equal(panelToggle.attrs['aria-expanded'], 'true');
+assert.equal(panelStorage.get(context.__personal.personalPanelPreferenceKey('owner-1')), 'open');
+context.__personal.personalSetPanelOpen(false);
+assert.equal(dialogOpen, false);
+assert.equal(panelToggle.attrs['aria-expanded'], 'false');
+assert.equal(panelStorage.get(context.__personal.personalPanelPreferenceKey('owner-1')), 'closed');
+assert.equal(focusCount, 1, 'closing an open editor returns focus to its header');
 
 let finish;
 pendingFetch = new Promise(resolve => { finish = resolve; });

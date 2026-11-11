@@ -1,5 +1,43 @@
 # CowAgent project facts
 
+- UX-001 keeps personal management in compact browser controls with native editor
+  dialogs. Open/closed preferences are local to the browser and agent; restore
+  only after authentication/config readiness. Preserve existing event/API paths,
+  request fencing, approvals and scoped source state. Validate normal and 200%
+  layouts with history/Files visible and focus return after Escape.
+- The console uses the existing default_agent_name for its instance identity,
+  escaping it in HTML and new-chat markup. Unnamed deployments retain CowAgent.
+- The authenticated Files browser and restricted model file broker have separate
+  access paths. Read-only mode permits ordinary workspace text reads, but the
+  broker excludes internal knowledge/memory/configuration paths. Do not infer
+  model read authority from a visible Files entry or a model's broad denial.
+
+- LIVE-001 provides a separate persistent macOS BullGod on loopback port 18991,
+  using an internal-APFS application root outside Git worktrees. Native launchd
+  jobs are explicitly bootstrapped outside LaunchAgents, with KeepAlive=false;
+  no login startup or automatic crash retry is installed. Its copied release,
+  native data/workspace, configuration, private sibling credentials and backups
+  remain separate. Preserve the original 9899 service and its state.
+- The LIVE service reuses the existing sandbox, HTTPS relay/reader, scheduler,
+  Pooler route and newest-supported Luna selector. Startup phase/exit reporting
+  is sanitized; COW_LOG_MAX_BYTES/COW_LOG_BACKUPS opt into rotating logs.
+  Explicit COW_DATA_DIR also holds mutable plugin configuration, allowing a
+  read-only source release. Source installs without that override retain their
+  existing plugin path.
+- scripts/bullgod_backup.py uses SQLite backup API snapshots and a non-starting
+  restore drill. A full recovery point requires stopped/quiescent application
+  state; the flag is an operator assertion and snapshots are per-DB consistent,
+  not globally atomic. General snapshots omit secrets/logs/service launchers and
+  retain a disabled inspection configuration. Restore authentication and approved
+  deployment settings separately; never restore over an active instance.
+- Specialist result contracts must state existing verifier limits: at most one
+  finding per source, ten findings total and 1000 characters per exact excerpt.
+  A real long-source response exposed the missing uniqueness instruction;
+  failed one-shot actions remain failed and require a new reviewed request.
+- Both owner panels must leave room for chat at all viewport widths, not just
+  mobile/200% reflow. Current schedule/context summaries are not proof that a
+  previous schedule never existed; use durable occurrence and revision records.
+
 - UPSTREAM-SELECTIVE-001 cloud callbacks reserve default-service fallback for an
   absent agent ID. Named registry/build failures must fail closed; unknown IDs
   remain distinct. Models-tab writes use the shared settings write lock.

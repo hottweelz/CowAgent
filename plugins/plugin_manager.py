@@ -24,10 +24,11 @@ def _plugins_resource_dir():
 
 
 def _plugins_data_dir():
-    """Writable dir for plugin runtime config (plugins.json). In a frozen
-    bundle the resource dir is read-only, so redirect writes to the data root
-    (~/.cow); from source it stays the CWD-relative ./plugins."""
-    if getattr(sys, "frozen", False):
+    """Keep mutable plugin configuration in an explicitly selected data root.
+
+    Source installs without COW_DATA_DIR retain the historical ./plugins path.
+    """
+    if getattr(sys, "frozen", False) or os.environ.get("COW_DATA_DIR"):
         d = os.path.join(get_data_root(), "plugins")
         os.makedirs(d, exist_ok=True)
         return d
