@@ -2,7 +2,8 @@
 
 Scope: correct the two owner panels that dominated the live BullGod chat. Keep
 PERSONAL-001 through PERSONAL-004 state, approvals, execution and permission
-boundaries intact. This is a follow-up to LIVE-001 in draft PR #15; no merge.
+boundaries intact. This follow-up to LIVE-001 is included in PR #15, merged into
+`master` on 2026-11-11 at the maintainer's request.
 
 ## Design and acceptance
 
@@ -44,9 +45,10 @@ configuration in `scripts/bullgod_dev.py`.
 
 ## Verification
 
-Implemented and deployed on 2026-11-10. The branch remains
-`codex/bullgod-live-001`, with [draft PR #15](https://github.com/hottweelz/CowAgent/pull/15).
-No merge or new production migration is part of this correction.
+Implemented and deployed on 2026-11-10 from `codex/bullgod-live-001`.
+[PR #15](https://github.com/hottweelz/CowAgent/pull/15) was finalized and merged
+on 2026-11-11 as `d93a65e427bd56b556c5524ffaa90103a2068a7b`.
+The merge did not restart or migrate either running service.
 
 | Check | Result |
 | --- | --- |

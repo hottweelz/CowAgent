@@ -1,5 +1,46 @@
 # AI handoff ledger
 
+## 2026-11-11 14:56 EST — Codex — PR #15 finalized and merged into master
+
+- Task/result: maintainer explicitly authorized finalizing and merging PR #15.
+  Marked ready and merged normally as d93a65e427bd56b556c5524ffaa90103a2068a7b.
+  GitHub confirms closed/merged. Both parents are the expected base 4f6d5a5f
+  and accepted PR head 94535463; the merge tree is identical to that head.
+- Team: lead owns repository checks, merge, integration and closeout; one Luna/medium
+  worker independently checked retained validation coverage and source hashes.
+  Used the STE finishing-a-development-branch guidance with the existing merge
+  authorization. No new engineering review chain or external reviewer.
+- Changes/files: release status in docs/bullgod-live-001/README.md and validation.json,
+  docs/bullgod-ux-001/README.md, project MEMORY.md and this ledger. Executable source
+  and tests unchanged. PR description now includes the ordinary November 11 run
+  and removes the superseded draft/no-merge instruction.
+- Validation: reviewed live PR metadata, review submissions/threads, branch policy,
+  rulesets, checks and workflow runs; no unresolved reviews, required checks or
+  rulesets. Hosted checks remain absent/unverified. Reused accepted LIVE full
+  6,376 Python / 36 skipped / 93 subtests and UX 17 focused + 39 web + both UI
+  checks, with existing desktop/type/build evidence. All 12 UX runtime hashes match.
+  Since the UX commit, only documentation changed. No accepted test/model/scheduled
+  interaction was repeated. git diff --check and exact merge-tree comparison pass.
+- Git: fetched origin and fast-forwarded local master to the verified merge.
+  Release closeout is a documentation-only commit on master. Final push/fetch and
+  upstream 0/0 verification are required before reporting completion. Preserve the
+  feature branch, managed checkout, untracked AGENTS.md and other worktrees.
+- Runtime: no deployment, restart, schedule/permission edit, approval or model
+  action. BullGod PID 7506 and legacy PID 51488, config digests and healthy responses
+  were captured for the final preservation comparison.
+- Decisions: close the foundational release; computer use and external-agent
+  coordination remain separate future branches. No new tag/release asset created.
+- Lessons Learned: none; prior validation and source-equality rules applied.
+- Known issues: hosted validation and general sustained reliability remain
+  unverified; documented manual recovery, knowledge-access, restore and feed-cluster
+  limits remain. No scope expansion or inferred new capability authorization.
+- Durable memory: project MEMORY.md records the merged baseline and branch boundary.
+- Next recommended steps: begin each separately authorized capability on a new
+  codex/ branch from current master; retain normal daily-operation observations.
+- Notes for next agent: the old draft/no-merge instructions are superseded only for
+  PR #15 by this explicit maintainer request. Private state and evidence remain
+  outside Git; preserve the two live services and existing pending owner decisions.
+
 ## 2026-11-11 14:43 EST — Codex — daily unattended news run verified read-only
 
 - Task/result: inspect Personal Commitments and Tasks for the ordinary November 11

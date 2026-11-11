@@ -107,7 +107,7 @@
     }
   },
   "limitations": [
-    "one observed scheduled occurrence only",
+    "initial test plus one ordinary daily scheduled occurrence observed; sustained reliability unverified",
     "silent scheduled no-change and injected failure cases use retained fixture coverage",
     "no automatic crash restart or login startup",
     "idle recovery does not prove in-flight external-effect recovery",
@@ -116,8 +116,16 @@
     "model historical-schedule explanation and title-generation limitations documented"
   ],
   "publication": {
-    "draft_pr": "https://github.com/hottweelz/CowAgent/pull/15",
+    "pull_request": "https://github.com/hottweelz/CowAgent/pull/15",
     "implementation_commit": "0e201428346e213cabeb4f773319eab43c28c6c2",
-    "merged": false
-  }
+    "accepted_head": "9453546337eb64be9044c79547b6b39fa76adbad",
+    "draft": false,
+    "merged": true,
+    "merge_commit": "d93a65e427bd56b556c5524ffaa90103a2068a7b",
+    "merge_date": "2026-11-11",
+    "merge_tree_matches_accepted_head": true,
+    "hosted_checks_at_merge": 0,
+    "hosted_validation": "unverified"
+  },
+  "evidence_scope": "Initial LIVE-001 source and validation; subsequent UX validation and daily-operation evidence are recorded in their reports."
 }

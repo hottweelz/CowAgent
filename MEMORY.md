@@ -1,5 +1,11 @@
 # CowAgent project facts
 
+- LIVE-001 and UX-001 were merged in PR #15 on 2026-11-11 as
+  d93a65e427bd56b556c5524ffaa90103a2068a7b. Its tree matches the accepted PR head
+  9453546337eb64be9044c79547b6b39fa76adbad. Computer-use and external-agent work
+  starts on new branches from current master; neither capability is granted by
+  this release. Preserve both running services and their existing authority.
+
 - UX-001 keeps personal management in compact browser controls with native editor
   dialogs. Open/closed preferences are local to the browser and agent; restore
   only after authentication/config readiness. Preserve existing event/API paths,

@@ -1,9 +1,12 @@
 # BULLGOD-LIVE-001 — persistent operational acceptance
 
 Status: the minimum operational acceptance passed on macOS on 2026-11-10.
-One genuine scheduled occurrence was observed. Sustained reliability is unverified.
+A natural test occurrence and the ordinary November 11 morning run were observed.
+Sustained reliability remains unverified.
 The service is running independently on port 18991; the original 9899 service
-was preserved. Published as [draft PR #15](https://github.com/hottweelz/CowAgent/pull/15), with no merge.
+was preserved. [PR #15](https://github.com/hottweelz/CowAgent/pull/15) was finalized
+and merged into `master` on 2026-11-11 with explicit maintainer authorization.
+Merge commit: `d93a65e427bd56b556c5524ffaa90103a2068a7b`.
 
 Baseline: `4f6d5a5f41161aff044cc73fc09f82c5cb187930` (`master`).
 This contains PERSONAL-001 through PERSONAL-004 (PRs #9–12), backend PR #13
@@ -22,7 +25,7 @@ This contains PERSONAL-001 through PERSONAL-004 (PRs #9–12), backend PR #13
    Preserve genuine failures. Test restart, specialist approval, revocation,
    deduplication, backup/restore and the ordinary owner experience.
 5. Run full local validation against deployed source; obtain one independent
-   engineering review; publish a draft PR without merging.
+   engineering review; publish a draft PR, then merge after explicit maintainer authorization.
 
 ## Initial boundaries
 
@@ -205,7 +208,7 @@ availability investigation or workflow change was performed.
 
 Known operational limits:
 
-- This is one observed scheduled path, not long-term reliability certification.
+- Two scheduled occurrences were observed; this is not long-term reliability certification.
   Silent no-change scheduling and injected network/model-failure paths have
   source/fixture coverage; no genuine endpoint failure or silent scheduled
   occurrence happened in this live window.
@@ -228,9 +231,9 @@ Known operational limits:
   exactly-once external effect, hostile same-UID isolation, reboot/login startup,
   off-device backup, or restored-application startup certification is claimed.
 
-No further implementation is required for the observed minimum. Review the draft
-PR before any merge. Continue normal daily use to build reliability evidence;
-the next configured check is listed above.
+The foundational release is merged. Start computer-use and external-agent
+coordination work on new branches from current `master`. Continue normal daily
+use to build reliability evidence; the last verified next check is listed below.
 
 
 ## November 11 daily-operation follow-up
