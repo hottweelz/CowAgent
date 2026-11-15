@@ -1,5 +1,14 @@
 # CowAgent project facts
 
+- COMPUTER-USE-001 is an isolated fixture/audit branch. Native external approval,
+  supervision and artifact verification already supply the coordination contract;
+  the POC does not enable a tool, endpoint, real adapter or schedule. Actual Muse
+  and Grok Bot packages were found, but supported inbound task/auth/status/result
+  interfaces remain unverified. customBridge 0.4.0 selects declared routes and
+  records caller-reported receipts; it does not supply desktop control or verified
+  task completion. Keep provider choice and personal commitments independent.
+  See [COMPUTER-USE-001](docs/bullgod-computer-use-001/POC-RESULTS.md).
+
 - LIVE-001 and UX-001 were merged in PR #15 on 2026-11-11 as
   d93a65e427bd56b556c5524ffaa90103a2068a7b. Its tree matches the accepted PR head
   9453546337eb64be9044c79547b6b39fa76adbad. Computer-use and external-agent work
