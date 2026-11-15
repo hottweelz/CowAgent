@@ -168,8 +168,9 @@ not enable this test. No browser package or plugin was installed.
   [CUSTOMBRIDGE-ASSESSMENT.md](CUSTOMBRIDGE-ASSESSMENT.md).
 - **Activation:** no real adapter, live profile, credentials or schedule was
   installed. Existing local-account operator trust is not human-presence proof.
-- **Hosted CI:** not yet observed for this branch. Local tests do not imply hosted
-  checks executed or passed.
+- **Hosted CI:** GitHub returned no checks or status contexts for implementation
+  commit `b8070bfaff7eb61fd9f7e67934e137cc8499ff20` on draft PR #16. Hosted execution
+  is unverified; local results do not imply hosted success.
 
 ## Preservation and review
 
@@ -186,6 +187,16 @@ did not rerun accepted tests or access live services. A final self-review fixed
 fixture cancellation revision/flag consistency and added acknowledged-observation
 assertions, so retained state cannot hide a rejected response. The same reviewer
 checked that correction; the final 14-case test run and Ruff F passed.
+
+## Publication
+
+Draft PR: [hottweelz/CowAgent #16](https://github.com/hottweelz/CowAgent/pull/16),
+base `master`, head `codex/bullgod-computer-use-001`. It remains draft and
+unmerged. Implementation commit: `b8070bfaff7eb61fd9f7e67934e137cc8499ff20`.
+The branch was pushed and fetch/prune comparison returned 0 ahead / 0 behind.
+The only local untracked file in the isolated worktree is the copied `AGENTS.md`.
+Subsequent publication-note changes are documentation only; no accepted runtime
+or test interaction is rerun to regenerate bookkeeping.
 
 ## Next step
 

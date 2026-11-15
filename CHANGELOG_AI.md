@@ -11,6 +11,11 @@
   customBridge assessment and one independent engineering review. Requested
   model/effort parameters are not independent runtime attestation. STE skills:
   brainstorming, parallel dispatch, writing-plans and code-review. No HomeBoss.
+- Git/publication: draft PR #16 is open and attached, base master, requested head
+  branch; implementation b8070bfa pushed with upstream0/0 after fetch/prune.
+  GitHub returned no checks/statuses for that implementation; hosted is unverified.
+  Final publication-note commit is docs-only. Worktree has only copied untracked
+  AGENTS.md. No merge/deploy/activation.
 - Changes/files: tests/test_bullgod_computer_use.py; native browser profile test;
   docs/bullgod-computer-use-001 capability, Muse, Grok, architecture, results,
   customBridge assessment and sanitized preservation receipt; project MEMORY.md
