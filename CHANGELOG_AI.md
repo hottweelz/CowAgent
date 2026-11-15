@@ -1,5 +1,72 @@
 # AI handoff ledger
 
+## 2026-11-15 17:30 EST — Codex — COMPUTER-USE-001 isolated coordination proof
+
+- Task/result: audit native computer use and actual Muse/Grok Bot installations;
+  prove bounded external coordination with a deterministic test adapter. Real
+  Muse/Grok task interfaces remain unverified. Stop at draft PR; no merge,
+  deployment, autostart, live integration, service or daily-news change.
+- Team: lead scope/design/integration/validation/handoff/Git; Luna/high native
+  audit, local-app discovery, coordination fixture, browser fixture,
+  customBridge assessment and one independent engineering review. Requested
+  model/effort parameters are not independent runtime attestation. STE skills:
+  brainstorming, parallel dispatch, writing-plans and code-review. No HomeBoss.
+- Changes/files: tests/test_bullgod_computer_use.py; native browser profile test;
+  docs/bullgod-computer-use-001 capability, Muse, Grok, architecture, results,
+  customBridge assessment and sanitized preservation receipt; project MEMORY.md
+  and this ledger. No application/runtime source changes or package integration.
+- Verification: final coordination14 passed0.37s; native isolated profile1 passed
+  5.37s; existing external/approval/permission/personal/discovery selection238
+  passed7.17s. Capability selection218passed/1failed due to existing collection
+  web stub; full MCP console file21passed0.24s separately. Worker external subset
+  117passed17.04s before final fixture cleanup; final14 followed cancellation
+  revision/flag correction and acknowledged-observation assertions.
+  Counts overlap. customBridge7tests and syntax pass. Ruff F/diff checks pass.
+  Commands, source references and explicit failure history are in POC-RESULTS.md.
+- Results: fixture proves exact approval/revocation, stable IDs, one send intent,
+  no automatic replay/fallback, host-journal reopening, cancellation confirmation
+  and independent rejection of fabricated completion. Native file-page storage
+  survives browser restart and does not cross profiles; stale selector errors.
+- Preservation: master549086e8 includes LIVE/UX merge d93a65e4. Separate worktree
+  and requested branch; original checkout unchanged except owner-added package.
+  All28 captured BullGod/config-template files have identical final digests.
+  No listener observed on18991/9899 at start or closeout; did not start either.
+  Service health and current news execution are unverified; schedule/data hashes
+  are unchanged. No credentials, personal browser or real agent task used.
+- Decisions: reuse native OperatorControl/ApprovalJournal/ExternalSupervisor/
+  AnalysisVerifier, with test-only transport. No second registry/scheduler/memory.
+  customBridge0.4.0 can plan routes; declared availability and caller-reported
+  receipts are not backend execution, permission or outcome proof. Do not vendor
+  or install the owner's untracked package. Real adapter needs supported task,
+  auth, stable ID, status and result evidence, plus exact owner authorization.
+- Lessons Learned:
+  - Mistake: an HTTP browser fixture passed under host context but failed with
+    isolated HOME/data; same-process capability tests also shared an incomplete
+    pre-existing web module stub. Initial fixture assertions could accept retained
+    state after an invalid same-revision cancellation response.
+  - Root Cause: native HTTP failure is isolation-dependent and unresolved;
+    collection-order stub omits web.storage; weak fixture assertions omitted
+    transport acknowledgement. Browser subprocess changes did not
+    repair the HTTP failure. Do not present either as a proven production defect.
+  - Future Trigger: native app/browser acceptance or mixed web-module fixtures.
+  - Required Behavior Change: test isolated state first; separate source support,
+    fixture proof and real integration. Preserve failed evidence and narrow claims.
+  - Verification Step: isolated native file-profile test passes; HTTP authentication
+    remains unverified; MCP file passes in a fresh process. Reviewer cleanup issue
+    removed when the failing HTTP fixture was replaced by the smaller file test.
+  - Durable Memory Update: project MEMORY.md records fixture-only status and
+    customBridge's limits. Global assistant memory is unchanged.
+- Known issues: no supported Muse/Grok inbound contract; no native desktop backend;
+  isolated Chrome loopback login timeout; existing web-stub test ordering;
+  hosted CI status must be reported from actual PR checks, never inferred locally.
+- Next recommended steps: review the draft evidence and fixtures. Obtain actual
+  Muse/Grok supported integration docs or a bounded owner-visible capability view
+  before implementing one real adapter. Keep current services/config/schedule as-is.
+- Notes for next agent: task evidence outside Git at
+  /tmp/bullgod-computer-use-ig0a_gpl. Preserve original seven untracked files,
+  owner-added customBridge-main and copied untracked AGENTS.md in this worktree.
+  Publish only this branch to origin, attach draft PR and require upstream0/0.
+
 ## 2026-11-11 14:56 EST — Codex — PR #15 finalized and merged into master
 
 - Task/result: maintainer explicitly authorized finalizing and merging PR #15.
